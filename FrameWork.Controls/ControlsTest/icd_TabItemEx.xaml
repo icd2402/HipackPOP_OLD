@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="FrameWork.Controls.icd_TabItemEx"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	x:Name="UserControl"
+             Width="100" Height="100"
+	>
+    <UserControl.Resources>
+        <Style x:Key="TabItem" TargetType="{x:Type TabItem}">
+            <!--="{StaticResource {x:Type TabControl}}">-->
+            <Setter Property="Foreground" Value="#FF142c45" />
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Margin" Value="1,1,0,0" />
+            <Setter Property="FontFamily" Value="Malgun Gothic" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid >
+                            <Border  Background="SkyBlue"/>
+                            <StackPanel x:Name="stackPanel" Orientation="Horizontal" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center" Margin="10,0,10,0" >
+                                <Ellipse Fill="#FFdd00" x:Name="textBlock" VerticalAlignment="center"  Width="3.2" Height="3.2" Visibility="Collapsed" Margin="0,0,6,0"/>
+                                <ContentPresenter x:Name="Content" ContentSource="Header"   />
+                                <Button Name="Button_Close" Click="Closed_Click">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Path Data="M0,0 L8,8 M8,0 L0,8" StrokeThickness="3" VerticalAlignment="Center" Margin="5,4,0,2">
+                                                <Path.Style>
+                                                    <Style TargetType="{x:Type Path}">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="False">
+                                                                <Setter Property="Stroke" Value="LightGray" />
+                                                            </Trigger>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Stroke" Value="Black" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Path.Style>
+                                            </Path>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Tag" Value="Required">
+                                <Setter Property="Visibility" TargetName="textBlock" Value="Visible"/>
+                                <Setter Property="Margin" TargetName="textBlock" Value="0,0,4,2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <TabControl>
+            <TabItem Style="{DynamicResource TabItem}" Width="70" Height="30">
+                <TabItem.Header>
+
+                    <Button Name="Button_Close" Click="Closed_Click" Width="20"/>
+                </TabItem.Header>
+            </TabItem>
+            
+            
+        </TabControl>
+    </Grid>
+</UserControl>

@@ -1,0 +1,80 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:icd="clr-namespace:FrameWork.Controls;assembly=FrameWork.Controls" 
+    >
+    <!--icd 선선을 해줌으로서 컨트롤에서 바인딩 될수있게한다-->
+    <ResourceDictionary.MergedDictionaries>
+        <!--리소스를 추가해준다-->
+        <ResourceDictionary Source="../Color.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    <!-- Button Style-->
+    <Style  TargetType="{x:Type icd:ComboBox}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <!--
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource icd:ComboBoxItem}"/>
+        -->
+        <Setter Property="MaxDropDownHeight" Value="150"/>
+        <Setter Property="BorderBrush" Value="#668CC4"/>
+        <Setter Property="Background" Value="#D6E8FF"/>
+        <Setter Property="Foreground" Value="#FF142c45"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type icd:ComboBox}">
+                    <Grid x:Name="MainGrid" Height="21">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="17"/>
+                        </Grid.ColumnDefinitions>
+                        <Popup x:Name="PART_Popup" Margin="1" AllowsTransparency="true" IsOpen="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Grid.ColumnSpan="2">
+                            <Grid x:Name="Shdw" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{Binding Path=ActualWidth, ElementName=MainGrid}"  >
+                                <Border x:Name="DropDownBorder"  BorderBrush="{TemplateBinding BorderBrush}"   BorderThickness="1"   >
+                                    <ScrollViewer CanContentScroll="true" Style="{DynamicResource EdimsScrollViewer}" >
+                                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
+                        </Popup>
+                        <ToggleButton Style="{DynamicResource EdimsComboBoxToggleButton}" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Grid.ColumnSpan="2"/>
+                        <ContentPresenter IsHitTestVisible="false" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Content="{TemplateBinding SelectionBoxItem}" 
+						ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+						ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" VerticalAlignment="Center" Margin="5,0,5,2" HorizontalAlignment="Left" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="BorderBrush" Value="{DynamicResource EdimsControlButtonDisabledBorder}"/>
+                            <Setter Property="Background" Value="{DynamicResource EdimsControlButtonDisabledBack}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource EdimsControlDisabledForeground}"/>
+                        </Trigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource EdimsControlButtonDisabledBorder}"/>
+                            <Setter Property="Background" Value="{DynamicResource EdimsControlButtonDisabledBack}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource EdimsControlDisabledForeground}"/>
+                        </Trigger>
+                        <Trigger Property="IsGrouping" Value="true">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <!--
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsEditable" Value="true"/>
+                    <Condition Property="IsFocused" Value="true"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Template" Value="{StaticResource EdimsComboBoxEditableTemplate}"/>
+            </MultiTrigger>
+
+        </Style.Triggers>
+        -->
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,81 @@
+﻿<Window x:Class="PopProject.Detail.Win_WorkList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PopProject.Detail"
+        mc:Ignorable="d"
+        Title="Win_WorkList" Height="820" Width="550" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" >
+        
+    <Canvas>
+        <Image Source="/img/back_03-1.png"  Canvas.Left="-1" MouseDown="Win_Drag" Width="551"/>
+        <Border Width="550" Height="820" BorderBrush="Black" BorderThickness="1"/>
+        <Image Source="/img/out_02.png" Canvas.Left="483" Canvas.Top="5" MouseDown="Win_close"/>
+        <!--<Image Source="/img/back_08.png" Canvas.Left="-1" Canvas.Top="63" Width="551"/>-->
+        <Image Source="/img/back_07.png" Canvas.Top="755" Canvas.Left="-1" Width="551"/>
+            
+        <ItemsControl Width="550">
+         
+        </ItemsControl>
+        <TextBlock Text="|" Foreground="White" FontSize="24" Canvas.Left="26" Canvas.Top="11"/>
+        <TextBlock Text="최근작업" Foreground="White" FontSize="24" Canvas.Left="45" Canvas.Top="17" FontFamily="/font/#KoPubDotum Bold"/>
+            
+        <!--<TextBlock Text="생산" Foreground="White" FontSize="20" Canvas.Left="41" Canvas.Top="71" FontFamily="/font/#KoPubDotum Medium"/>
+        <TextBlock Text="계획량/생산량" Foreground="White" FontSize="20" Canvas.Left="128" Canvas.Top="70" FontFamily="/font/#KoPubDotum Medium"/>
+        <TextBlock Text="불량" Foreground="White" FontSize="20" Canvas.Left="307" Canvas.Top="70" FontFamily="/font/#KoPubDotum Medium"/>
+        <TextBlock Text="사유" Foreground="White" FontSize="20" Canvas.Left="434" Canvas.Top="70" FontFamily="/font/#KoPubDotum Medium"/>-->
+        
+        <TextBlock Text="총 생산" Foreground="White" FontSize="20" Canvas.Left="19" Canvas.Top="776" FontFamily="/font/#KoPubDotum Medium"/>
+        <TextBlock Text="|" Foreground="White" FontSize="20" Canvas.Left="91" Canvas.Top="770"/>
+        <TextBlock x:Name="tbTotalWCount" Text="14,000" Width="70" Foreground="White" TextAlignment="Right" FontSize="22" Canvas.Left="106" Canvas.Top="775" FontFamily="/font/#KoPubDotum Bold"/>
+        <TextBlock Text="총 불량" Foreground="White" FontSize="20" Canvas.Left="208" Canvas.Top="776" FontFamily="/font/#KoPubDotum Medium"/>
+        <TextBlock Text="|" Foreground="White" FontSize="20" Canvas.Left="281" Canvas.Top="770"/>
+        <TextBlock x:Name="tbTotalPCount" Text="14,000" Width="70" Foreground="Red" TextAlignment="Right" FontSize="22" Canvas.Left="295" Canvas.Top="775" FontFamily="/font/#KoPubDotum Bold"/>
+                 
+        <TextBlock Text="불량율 " Foreground="White" FontSize="20" Canvas.Left="385" Canvas.Top="776" FontFamily="/font/#KoPubDotum Medium"/>
+        <TextBlock Text="|" Foreground="White" FontSize="20" Canvas.Left="447" Canvas.Top="771"/>
+        <TextBlock x:Name="tbPercent" Text="0.12%" Width="89" Foreground="Red" TextAlignment="Right" FontSize="22" Canvas.Left="452" Canvas.Top="775" FontFamily="/font/#KoPubDotum Bold"/>
+                            
+        <ScrollViewer x:Name="sv" Width="550" Height="692"  Canvas.Top="63" VerticalScrollBarVisibility="Hidden" PreviewMouseLeftButtonDown="Sv_PreviewMouseLeftButtonDown" 
+                      PreviewMouseLeftButtonUp="Sv_PreviewMouseLeftButtonUp" PreviewMouseMove="Sv_PreviewMouseMove">
+            <ItemsControl x:Name="ic" Focusable="False">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="#2c3e50" Width="550" BorderThickness="0,0,0,1">
+                            <DockPanel>
+                                <Canvas Width="110" Height="50">
+                                    <TextBlock Canvas.Left="16" Canvas.Top="13" Text="{Binding pworkDate, StringFormat=yy.MM.dd}"  FontSize="20" FontFamily="/font/#KoPubDotum Medium"/>
+                                </Canvas>
+                                <Border Width="1" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
+                                <ItemsControl ItemsSource="{Binding errorModelOb}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="#2c3e50" BorderThickness="0,0,0,0.5">
+                                                <Canvas  Height="50">
+                                                    <!--<TextBlock Canvas.Left="20" Canvas.Top="13" Text="계획" FontSize="20" FontFamily="/font/#KoPubDotum Medium"></TextBlock>
+                                                    <TextBlock Canvas.Left="65" Canvas.Top="13" Text="4,000" FontSize="20" Width="80" TextAlignment="Right" FontFamily="/font/#KoPubDotum Medium"></TextBlock>
+                                                    <TextBlock Canvas.Left="185" Width="45"   TextAlignment="Right" Canvas.Top="13" Text="10" Foreground="Red"  FontSize="20" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                                    <TextBlock Canvas.Left="260" Canvas.Top="13" Width="170"   TextAlignment="Center" Text="원단손상원단손상" FontSize="20" FontFamily="/font/#KoPubDotum Medium"></TextBlock>-->
+                                                    <TextBlock Canvas.Left="7" Canvas.Top="13" Text="{Binding updateTime,StringFormat=HH:mm}" FontSize="20" FontFamily="/font/#KoPubDotum Medium"></TextBlock>
+                                                    <!--<TextBlock Canvas.Left="70" Width="60"  TextAlignment="Left" Canvas.Top="13" Text="시작" FontSize="20" FontFamily="/font/#KoPubDotum Medium"></TextBlock>-->
+                                                    <TextBlock Canvas.Left="90" Canvas.Top="13" Text="{Binding memo}" FontSize="20" FontFamily="/font/#KoPubDotum Medium" Foreground="{Binding fontColor}"></TextBlock>
+                                                    <TextBlock Canvas.Left="350" Canvas.Top="13" Width="80"  TextAlignment="Right" Visibility="{Binding fontVisible}" Text="{Binding perrCount}" FontSize="20" FontFamily="/font/#KoPubDotum Medium"></TextBlock>
+                                                </Canvas>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </DockPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <TextBlock x:Name="tbEmpty" Text="작업결과가 없습니다." FontSize="20" Canvas.Left="198" Canvas.Top="358"></TextBlock>
+    </Canvas>
+</Window>

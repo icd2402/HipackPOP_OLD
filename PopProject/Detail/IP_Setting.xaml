@@ -1,0 +1,38 @@
+﻿<Window x:Class="PopProject.Detail.IP_Setting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PopProject.Detail"
+        mc:Ignorable="d"
+        Title="IP_Setting" Height="153" Width="450" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Canvas Margin="0,0,-0.4,-0.4" >
+        <Image Source="/img/back_08.png" Height="34" Width="442" Canvas.Top="0" MouseDown="Image_MouseDown"/>
+        <Image Source="/img/out_02.png" Canvas.Left="397" Canvas.Top="2" MouseDown="Image_MouseDown_1" Height="27" Width="45"/>
+        <Label Content="Serial / Ethernet 인터페이스" FontSize="14" Foreground="White" Height="33" Width="190" Canvas.Top="2" Canvas.Left="13"/>
+        <Label Content="이더넷 통신" Height="28" HorizontalAlignment="Left"  VerticalAlignment="Top" Canvas.Left="20" Canvas.Top="36" FontWeight="Bold" />
+        <!--<Label Content="설비 선택" Height="28" HorizontalAlignment="Left"  VerticalAlignment="Top" Canvas.Left="86" Canvas.Top="36" FontWeight="Bold" />
+        <TextBlock x:Name="tbMercName" Text="공 정 선 택" TextAlignment="Center" Width="200" Foreground="Black"  FontSize="22" Canvas.Top="70" Canvas.Left="20"   MouseLeftButtonDown="Mer_click"></TextBlock>-->
+
+
+
+
+
+
+
+        <Label Content="PLC IP" Height="28" HorizontalAlignment="Left" x:Name="ComMode_Copy" VerticalAlignment="Top" Canvas.Left="20" Canvas.Top="66" FontWeight="Bold" />
+        <TextBox x:Name="ipaddress" Width="238" Canvas.Left="108" Canvas.Top="66" Height="24" />
+        <Label Content="포트 번호" Height="28" HorizontalAlignment="Left" x:Name="label1_Copy" VerticalAlignment="Top" Canvas.Left="20" Canvas.Top="93" FontWeight="Bold" />
+        <ComboBox Height="23" HorizontalAlignment="Left" x:Name="PortNum" VerticalAlignment="Top" Width="238"  Canvas.Left="108" Canvas.Top="95">
+            <ComboBoxItem Content="2003" />
+            <ComboBoxItem Content="2004" />
+            <ComboBoxItem Content="2005" />
+        </ComboBox>
+        <!--<Button Content="서버 열기" Visibility="Collapsed" x:Name="button3" Height="22" Canvas.Left="248" Canvas.Top="209" Width="80" Click="button3_Click"/>
+        <Button Content="서버 닫기" Visibility="Collapsed" x:Name="button4" Height="22" Canvas.Left="342" Canvas.Top="209" Width="80" Click="button4_Click"/>-->
+
+
+
+
+    </Canvas>
+</Window>

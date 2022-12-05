@@ -1,0 +1,41 @@
+﻿<Window x:Class="PopProject.UserControl_.AuthCode"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PopProject.UserControl_"
+        mc:Ignorable="d"
+        Title="AuthCode" Height="110" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" KeyDown="KeyDown_event" >
+    <Canvas MouseLeftButtonDown="Image_MouseDown">
+        <Border Background="Black"  Height="35" Width="350"  Canvas.Top="-4" />
+        <Image Source="/img/out_02.png" Canvas.Left="305" Canvas.Top="2" MouseDown="Image_MouseDown_1" Height="27" Width="45"/>
+        <Label Content="인증코드 입력" FontSize="14" Foreground="White" Height="33" Width="190" Canvas.Top="2" Canvas.Left="13"/>
+        <Label Content="인증코드" Height="28" HorizontalAlignment="Left"  VerticalAlignment="Top" Canvas.Left="20" Canvas.Top="36" FontWeight="Bold" />
+        <!--<Label Content="설비 선택" Height="28" HorizontalAlignment="Left"  VerticalAlignment="Top" Canvas.Left="86" Canvas.Top="36" FontWeight="Bold" />
+        <TextBlock x:Name="tbMercName" Text="공 정 선 택" TextAlignment="Center" Width="200" Foreground="Black"  FontSize="22" Canvas.Top="70" Canvas.Left="20"   MouseLeftButtonDown="Mer_click"></TextBlock>-->
+        <PasswordBox  x:Name="authCode" Width="238" Canvas.Left="20" Canvas.Top="66" Height="24" />
+
+        <Button  Width="50" Height="30" Canvas.Top="62" Canvas.Left="270" Margin="5,0,0,0" Content="확인" FontSize="14" FontWeight="Bold" Foreground="White" Background="DarkOrange" Click="AuthCodeSave">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+
+        </Button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </Canvas>
+</Window>

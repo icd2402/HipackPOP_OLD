@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="PopProject.Util.ClsUc_명세서_Report3"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PopProject.Util"
+            mc:Ignorable="d" Height="1056" Width="787"
+        d:DesignHeight="1056" d:DesignWidth="787">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label" >
+                <Style.Triggers >
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Foreground" Value="Black" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+        
+    <Grid x:Name="ItemPanel" x:FieldModifier="public" Background="White" >
+        <Grid.RowDefinitions >
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0,50,0,0" />
+
+    </Grid>
+
+ 
+
+</UserControl>
+    

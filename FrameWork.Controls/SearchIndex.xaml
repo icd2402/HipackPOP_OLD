@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="FrameWork.Controls.SearchIndex"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	x:Name="UserControl"
+	>
+
+    <UserControl.Resources>
+
+        <Style x:Key="arraybutton" TargetType="{x:Type RadioButton}">
+            <Setter Property="Foreground" Value="#7FFFFFFF"/>
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Grid>
+                            <!--<Border x:Name="border" Background="#7F002041" Opacity="0"/>-->
+                            <Border x:Name="border" Background="Red" Opacity="0"/>
+                            <ContentPresenter RecognizesAccessKey="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,7,2"/>
+                            <Border BorderBrush="Black" BorderThickness="0,0,1,0" Width="2" Background="White" HorizontalAlignment="Right" Opacity="0.3" Margin="0,0,-1,0" Height="6"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Foreground" Value="#FFFFFFFF"/>
+                                <Setter Property="Opacity" TargetName="border" Value="1"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Border>
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF8eadd8" Offset="0"/>
+                    <GradientStop Color="#FF245fb5" Offset="1"/>
+                    <GradientStop Color="#FE4e7ec3" Offset="0.5"/>
+                    <GradientStop Color="#FE1051ae" Offset="0.501"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <StackPanel Orientation="Horizontal" x:Name="ArrayRadio">
+                <RadioButton Content="ALL" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click" IsChecked="True"/>
+                <RadioButton Content="가" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click"/>
+                <RadioButton Content="나" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click"/>
+                <RadioButton Content="다" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click"/>
+                <RadioButton Content="라" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click" />
+                <RadioButton Content="마" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click"/>
+                <RadioButton Content="바" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click"/>
+                <RadioButton Content="사" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click"/>
+                <RadioButton Content="아" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click"/>
+                <RadioButton Content="자" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click"/>
+                <RadioButton Content="차" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click"/>
+                <RadioButton Content="카" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click"/>
+                <RadioButton Content="타" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click"/>
+                <RadioButton Content="파" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click"/>
+                <RadioButton Content="하" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click"/>
+                <RadioButton Content="A-Z" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click"/>
+                <RadioButton Content="0-9" Style="{DynamicResource arraybutton}" GroupName="array" Click="RadioButton_Click" Margin="0,0,1,0" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

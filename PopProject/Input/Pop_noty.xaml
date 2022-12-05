@@ -1,0 +1,12 @@
+﻿<Window x:Class="PopProject.Input.Pop_noty"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PopProject.Input"
+        mc:Ignorable="d"
+        Title="Pop_noty" Height="700" Width="500" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" KeyDown="Main_keydownEvent">
+    <Grid>
+        
+    </Grid>
+</Window>

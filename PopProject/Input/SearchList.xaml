@@ -1,0 +1,53 @@
+﻿<Window x:Class="PopProject.Input.SearchList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PopProject.Input"
+        mc:Ignorable="d"
+        Title="SearchList" Height="700" Width="500" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" KeyDown="Main_keydownEvent">
+    <Canvas Width="500" Height="700" >
+        <Image Source="/img/back_03.png" Canvas.Left="-1" Canvas.Right="0" Canvas.Top="-1" Width="501" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
+        <TextBlock Text="검색" FontSize="20" Foreground="White" Canvas.Top="15" Canvas.Left="20" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+        <TextBlock Text="키보드호출" FontSize="20" Foreground="White" Canvas.Top="15" Canvas.Left="350" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="Keyboard_Call"></TextBlock>
+
+        <TextBlock Text="X" Canvas.Top="7" Canvas.Left="465" Width="50" Height="60" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Background="#0000" MouseLeftButtonDown="exit"></TextBlock>
+        <TextBlock Text="거래처/품명/규격" Canvas.Top="70" Canvas.Left="15" Width="120" Height="60" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" Background="#0000" MouseLeftButtonDown="exit"></TextBlock>
+
+        <Border Width="280" Canvas.Left="160" Height="35" BorderThickness="2" BorderBrush="#EAEAEA" Canvas.Top="62" CornerRadius="3"  >
+            <TextBox Name="textbox_search" Focusable="True" VerticalAlignment="Center" FontSize="15" Margin="10,0,10,0" BorderThickness="0" TextChanged="SearchChanged_Text" ></TextBox>
+            
+        </Border>
+        <Canvas Canvas.Top="100" Width="490" Height="40" Margin="5,0,5,0" Background="WhiteSmoke" Opacity="0.5"/>
+        <TextBlock x:Name="div"  Canvas.Left="25" Canvas.Top="112" FontSize="16" Text="거래처" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+        <TextBlock   Canvas.Left="210" Canvas.Top="112" FontSize="16" Text="품명/규격" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+        <TextBlock   Canvas.Left="380" Canvas.Top="112" FontSize="16" Text="계획" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+        <TextBlock   Canvas.Left="445" Canvas.Top="112" FontSize="16" Text="결과" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+
+        <Border  Canvas.Top="140" Width="490" Height="540" Margin="5,10,5,5" BorderBrush="Black" BorderThickness="1,1,1,1" Background="WhiteSmoke" Focusable="False">
+            <ScrollViewer VerticalScrollBarVisibility="Hidden" x:Name="sv" PreviewMouseLeftButtonDown="ScrollViewer_PreviewMouseButtonDown" PreviewMouseLeftButtonUp="Sv_PreviewMouseLeftButtonUp" PreviewMouseMove="Sv_PreviewMouseMove">
+                <ItemsControl x:Name="ic" Focusable="false" AlternationCount="1000">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" Focusable="False"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:Name="dt">
+                            <Canvas Height="50" PreviewMouseLeftButtonDown="Canvas_PreviewMouseDown" Background="{Binding icback}"  Focusable="False">
+                                <TextBlock Canvas.Left="10" Canvas.Top="15"  FontSize="14" Width="100" Text="{Binding customSName}" TextAlignment="Left"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <TextBlock Canvas.Left="120" Canvas.Top="6" FontSize="14"  Width="230" Text="{Binding prodName}" Foreground="Black" TextAlignment="Left"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <TextBlock Canvas.Left="120" Canvas.Top="25"  FontSize="14" Width="100" Text="{Binding pSize}" TextAlignment="Left"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <TextBlock Canvas.Left="378" Canvas.Top="15" FontSize="14"  Width="35" Text="{Binding pplanCount}" Foreground="Black" TextAlignment="Left"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <TextBlock Canvas.Left="435" Canvas.Top="10" FontSize="14" Width="35" Text="{Binding presultCount}" Foreground="Blue" TextAlignment="Right" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <TextBlock Canvas.Left="435" Canvas.Top="28" FontSize="14" Width="35" Text="{Binding perrorCount}" Foreground="red" TextAlignment="Right" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+
+                                <Border BorderBrush="#2c3e50" BorderThickness="0,0,0,1" Width="500" Canvas.Bottom="0"></Border>
+                            </Canvas>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+    </Canvas>
+</Window>

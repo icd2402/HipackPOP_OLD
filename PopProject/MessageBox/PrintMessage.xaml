@@ -1,0 +1,63 @@
+﻿<Window x:Class="PopProject.MessageBox.PrintMessage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PopProject.MessageBox"
+        mc:Ignorable="d"
+        Title="PrintMessage" Height="350" Width="500" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
+    <Border BorderBrush="Black"
+        BorderThickness="2"
+            Height="350" Width="500"
+     >
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.5*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" >
+                <TextBlock MouseDown="Close_messagebox" Text="X" Foreground="White" VerticalAlignment="Stretch" Height="50" FontSize="30" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,5,10,0">
+                </TextBlock>
+                <StackPanel.Background>
+                    <ImageBrush Stretch="Fill" ImageSource="/img/back_06.png"/>
+                </StackPanel.Background>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Vertical" Background="White" >
+                <TextBlock  Text="제품명세서를 출력 하시겠습니까?" Foreground="Black" VerticalAlignment="Center"  FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" Margin="60,30,10,0"/>
+                <StackPanel Orientation="Horizontal" x:Name="set_count" >
+                    <TextBlock  Text="출력 매수 : " Foreground="Black" VerticalAlignment="Center"  FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" Margin="60,30,10,0"/>
+                    <TextBox x:Name="copy_count" Text="1" Focusable="False"     Margin="0,30,30,0" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="70" Canvas.Top="434" Foreground="#26414A" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="Copy_count_click" />
+                    <Image Height="40" Width="60" Source="/img/plus_01.png" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="10,0,5,0" MouseLeftButtonDown="Result_count_minus"></Image>
+                    <Image  Height="40" Width="60" Source="/img/plus_02.png" HorizontalAlignment="Right" VerticalAlignment="Bottom"  MouseLeftButtonDown="Result_count_plus"></Image>
+
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,30,0,0"  x:Name="pallet">
+                    <TextBlock  Text="파렛트 당 적재수량 : " Foreground="Black" VerticalAlignment="Center"  FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" Margin="60,0,0,0"/>
+                    <TextBox x:Name="box_count" Focusable="False"   Margin="15,0,30,0" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="70" Canvas.Top="434" Foreground="#26414A" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="pallet_count"/>
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,30,0,0" Height="50" x:Name="print_stack">
+                    <TextBlock Text="취소" Padding="0,12,0,0" TextAlignment="Center"  Width="100" FontSize="20" Foreground="White" VerticalAlignment="Bottom" Margin="100,0,0,0" Height="50" MouseDown="Messagebox_exit">
+                        <TextBlock.Background>
+                            <ImageBrush ImageSource="/img/back_06.png"/>
+                        </TextBlock.Background>
+                    </TextBlock>
+
+                    <TextBlock Text="확인" Padding="0,12,0,0" TextAlignment="Center"  Width="100" FontSize="20" Foreground="White" VerticalAlignment="Bottom" Margin="100,0,0,0" Height="50" MouseDown="Messagebox_button">
+                        <TextBlock.Background>
+                            <ImageBrush ImageSource="/img/back_06.png"/>
+                        </TextBlock.Background>
+                    </TextBlock>
+
+
+                </StackPanel>
+
+            </StackPanel>
+
+
+        </Grid>
+    </Border>
+</Window>
+

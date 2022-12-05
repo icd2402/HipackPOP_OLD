@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://sjbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MiddleWareService.Models" />
+  <xs:import schemaLocation="http://sjbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:element name="조회">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/MiddleWareService.Models" minOccurs="0" name="Handler" nillable="true" type="q1:DBHandle_Model" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="조회Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/MiddleWareService.Models" minOccurs="0" name="조회Result" nillable="true" type="q2:Return_Model" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="갱신">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/MiddleWareService.Models" minOccurs="0" name="Handler" nillable="true" type="q3:DBHandle_Model" />
+        <xs:element minOccurs="0" name="CRUD" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="갱신Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/MiddleWareService.Models" minOccurs="0" name="갱신Result" nillable="true" type="q4:Return_Model" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MobileDeviceCheck">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="기기ID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="번호" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="토큰ID" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MobileDeviceCheckResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="MobileDeviceCheckResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Mobile조회">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="접속정보" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SP명" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="파라미터" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="값" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="BroadCasting" type="xs:int" />
+        <xs:element minOccurs="0" name="BroadCastingName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Mobile조회Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Mobile조회Result" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Mobile조회2">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="접속정보" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SP명" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="파라미터" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="값" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Mobile조회2Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Mobile조회2Result" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Mobile갱신">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="접속정보" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SP명" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="파라미터" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="값" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="BroadCasting" type="xs:int" />
+        <xs:element minOccurs="0" name="BroadCastingName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="InputContent" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Mobile갱신Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Mobile갱신Result" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Mobile차량위치">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="회원ID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="차량번호" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="LocationX" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="LocationY" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Mobile차량위치Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Mobile차량위치Result" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Android용차납품확인">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="value1" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="value2" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Android용차납품확인Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Android용차납품확인Result" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Android용차납품">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="value1" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="value2" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="value3" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Android용차납품Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Android용차납품Result" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="메일수신">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="회원ID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="메일내용" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="수신메일" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="메일수신Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="메일수신Result" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="카카오톡전송">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UserID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="APIKey" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SenderKey" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="TempleteID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="TempleteName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SenderPhoneNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ReceiverPhoneNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ReceiverName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SendMassage" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SendImageLink" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="카카오톡전송Response">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="카카오톡전송_NotButton">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UserID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="APIKey" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SenderKey" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="TempleteID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="TempleteName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SenderPhoneNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ReceiverPhoneNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ReceiverName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SendMassage" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="카카오톡전송_NotButtonResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Print갱신">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="접속정보" nillable="true" type="q5:ArrayOfstring" />
+        <xs:element minOccurs="0" name="제목" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="DeviceName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PageRange" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PrintPageCount" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PrintCopyCount" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ProcessState" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Print갱신Response">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

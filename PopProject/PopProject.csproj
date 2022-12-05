@@ -1,0 +1,1245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{64D11C4B-C205-4A03-B590-BBCE2A9F44E3}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>PopProject</RootNamespace>
+    <AssemblyName>PopProject</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>ftp://114.108.146.173:61028/Setup/POP_NEW/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>true</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
+    <MinimumRequiredVersion>1.0.1.193</MinimumRequiredVersion>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>194</ApplicationRevision>
+    <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>mes_ico.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>1089484140DA231F86D3F38DB714320DCFDB7140</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>packcom_net_chain.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Hangfire.Core, Version=1.7.28.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Core.1.7.28\lib\net45\Hangfire.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="KeepDynamic.BarCode.Windows">
+      <HintPath>bin\KeepDynamic.BarCode.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.4.3\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.2.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.2.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=4.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.2.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="ReachFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\netstandard1.1\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\netstandard1.1\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Net.Json">
+      <HintPath>..\..\json-for-dotnet-1.2\System.Net.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\portable-net45+win8+wp8+wpa81\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="AsyncObject.cs" />
+    <Compile Include="Connected Services\ServiceReference_dsbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_dubox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_dybox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_hsbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_kmbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_mirae\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_hnbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_ksbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_nrbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_ojbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_real_ojbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_shbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_sjbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_swbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_wrbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_ycbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Consumer_\Consumer.xaml.cs">
+      <DependentUpon>Consumer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consumer_\ConsumerModel.cs" />
+    <Compile Include="Consumer_\Consumer_input.xaml.cs">
+      <DependentUpon>Consumer_input.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Detail\DetailModel.cs" />
+    <Compile Include="Detail\IP_Setting.xaml.cs">
+      <DependentUpon>IP_Setting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Detail\Robot_Setting.xaml.cs">
+      <DependentUpon>Robot_Setting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Detail\Win_Detail.xaml.cs">
+      <DependentUpon>Win_Detail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Detail\Win_PictureView.xaml.cs">
+      <DependentUpon>Win_PictureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Detail\Win_WorkList.xaml.cs">
+      <DependentUpon>Win_WorkList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Input\Error_Model.cs" />
+    <Compile Include="Input\InputModel.cs" />
+    <Compile Include="Input\Ip_input.xaml.cs">
+      <DependentUpon>Ip_input.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Input\Plc_Pop.xaml.cs">
+      <DependentUpon>Plc_Pop.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Input\Pop_noty.xaml.cs">
+      <DependentUpon>Pop_noty.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Input\SearchList.xaml.cs">
+      <DependentUpon>SearchList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Input\Unique_input.xaml.cs">
+      <DependentUpon>Unique_input.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Input\Win_input.xaml.cs">
+      <DependentUpon>Win_input.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Input\Win_resultUpdate.xaml.cs">
+      <DependentUpon>Win_resultUpdate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Input\Win_Setting.xaml.cs">
+      <DependentUpon>Win_Setting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Input\Win_Update.xaml.cs">
+      <DependentUpon>Win_Update.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="KeyBoard\Win_KeyBoard.xaml.cs">
+      <DependentUpon>Win_KeyBoard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ls_Fenet.cs" />
+    <Compile Include="MerList\MercList.xaml.cs">
+      <DependentUpon>MercList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MerList\MerModel.cs" />
+    <Compile Include="MessageBox\MessageBox_Dialog.xaml.cs">
+      <DependentUpon>MessageBox_Dialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MessageBox\PrintMessage.xaml.cs">
+      <DependentUpon>PrintMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MessageBox\SwPrintMessage.xaml.cs">
+      <DependentUpon>SwPrintMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SerialList\SerialList.xaml.cs">
+      <DependentUpon>SerialList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Time_pick\Time_pick.xaml.cs">
+      <DependentUpon>Time_pick.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_\AuthCode.xaml.cs">
+      <DependentUpon>AuthCode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_\ChangeWorkList.xaml.cs">
+      <DependentUpon>ChangeWorkList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_\Main.xaml.cs">
+      <DependentUpon>Main.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_\Main1.xaml.cs">
+      <DependentUpon>Main1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_\MainModel.cs" />
+    <Compile Include="UserControl_\Main_item.xaml.cs">
+      <DependentUpon>Main_item.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_\test.xaml.cs">
+      <DependentUpon>test.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_\UserModel.cs" />
+    <Compile Include="UserControl_\UserSetting.xaml.cs">
+      <DependentUpon>UserSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ClsUc_명세서_Report3.xaml.cs">
+      <DependentUpon>ClsUc_명세서_Report3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ClsUc_명세서_Report2.xaml.cs">
+      <DependentUpon>ClsUc_명세서_Report2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ClsUc_명세서_Report.xaml.cs">
+      <DependentUpon>ClsUc_명세서_Report.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ClsUc_명세서_Report4.xaml.cs">
+      <DependentUpon>ClsUc_명세서_Report4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ClsUc_완제품명세서_Control2.xaml.cs">
+      <DependentUpon>ClsUc_완제품명세서_Control2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ClsUc_완제품명세서_Control1.xaml.cs">
+      <DependentUpon>ClsUc_완제품명세서_Control1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ClsUc_완제품명세서_Control.xaml.cs">
+      <DependentUpon>ClsUc_완제품명세서_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ClsUc_완제품명세서_Control3.xaml.cs">
+      <DependentUpon>ClsUc_완제품명세서_Control3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ClsUc_완제품명세서_Control4.xaml.cs">
+      <DependentUpon>ClsUc_완제품명세서_Control4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\HttpClient_util.cs" />
+    <Compile Include="Util\LogData.cs" />
+    <Compile Include="Util\PrintWindow.xaml.cs">
+      <DependentUpon>PrintWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ReturnModel.cs" />
+    <Compile Include="Util\ServiceModel.cs" />
+    <Compile Include="Util\SignalRAdministrator.cs" />
+    <Compile Include="Util\ViewModelBase.cs" />
+    <Page Include="Consumer_\Consumer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consumer_\Consumer_input.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Detail\IP_Setting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Detail\Robot_Setting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Detail\Win_Detail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Detail\Win_PictureView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Detail\Win_WorkList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Input\Ip_input.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Input\Plc_Pop.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Input\Pop_noty.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Input\SearchList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Input\Unique_input.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Input\Win_input.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Input\Win_resultUpdate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Input\Win_Setting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Input\Win_Update.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KeyBoard\Win_KeyBoard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="MerList\MercList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessageBox\MessageBox_Dialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessageBox\PrintMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessageBox\SwPrintMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SerialList\SerialList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Time_pick\Time_pick.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl_\AuthCode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl_\ChangeWorkList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl_\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl_\Main.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl_\Main1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl_\Main_item.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl_\test.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl_\UserSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Util\ClsUc_명세서_Report3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Util\ClsUc_명세서_Report2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Util\ClsUc_명세서_Report.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Util\ClsUc_명세서_Report4.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Util\ClsUc_완제품명세서_Control2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Util\ClsUc_완제품명세서_Control1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Util\ClsUc_완제품명세서_Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Util\ClsUc_완제품명세서_Control3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Util\ClsUc_완제품명세서_Control4.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Util\PrintWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Resource Include="font\KOPUBBATANGBOLD.TTF" />
+    <Resource Include="font\KOPUBBATANGLIGHT.TTF" />
+    <Resource Include="font\KOPUBBATANGMEDIUM.TTF" />
+    <Resource Include="font\KOPUBDOTUMBOLD.TTF" />
+    <Resource Include="font\KOPUBDOTUMLIGHT.TTF" />
+    <Resource Include="font\KOPUBDOTUMMEDIUM.TTF" />
+    <None Include="Connected Services\ServiceReference_dsbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dsbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dsbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dsbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dsbox\PopProject.ServiceReference_dsbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_dsbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_dubox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dubox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dubox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dubox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dubox\PopProject.ServiceReference_dubox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_dubox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dybox\PopProject.ServiceReference_dybox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_dybox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_hsbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hsbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hsbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hsbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hsbox\PopProject.ServiceReference_hsbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_hsbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_kmbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_kmbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_kmbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_kmbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_kmbox\PopProject.ServiceReference_kmbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_kmbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_mirae\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_mirae\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_mirae\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_mirae\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_mirae\PopProject.ServiceReference_mirae.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_mirae\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_hnbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hnbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hnbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hnbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hnbox\PopProject.ServiceReference_hnbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_hnbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_ksbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ksbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ksbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ksbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ksbox\PopProject.ServiceReference_ksbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_ksbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_nrbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_nrbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_nrbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_nrbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_nrbox\PopProject.ServiceReference_nrbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_nrbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_ojbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ojbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ojbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ojbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ojbox\PopProject.ServiceReference_ojbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_ojbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_real_ojbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_real_ojbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_real_ojbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_real_ojbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_real_ojbox\PopProject.ServiceReference_real_ojbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_real_ojbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_shbox\PopProject.ServiceReference_shbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_shbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_sjbox\PopProject.ServiceReference_sjbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_sjbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_swbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_swbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_swbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_swbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_swbox\PopProject.ServiceReference_swbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_swbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_wrbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_wrbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_wrbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_wrbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_wrbox\PopProject.ServiceReference_wrbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_wrbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_ycbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ycbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ycbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ycbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ycbox\PopProject.ServiceReference_ycbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_ycbox\Service_CRUD.wsdl" />
+    <None Include="packages.config" />
+    <None Include="packcom_net_chain.pfx" />
+    <None Include="PopProject_TemporaryKey.pfx" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\back_02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\back_06.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\back_01.png" />
+    <Resource Include="img\back_03-1.png" />
+    <Resource Include="img\back_03.png" />
+    <Resource Include="img\back_04.png" />
+    <Resource Include="img\back_05.png" />
+    <Resource Include="img\back_07.png" />
+    <Resource Include="img\back_08.png" />
+    <Resource Include="img\bn_01.png" />
+    <Resource Include="img\bn_02.png" />
+    <Resource Include="img\bn_03.png" />
+    <Resource Include="img\bn_04.png" />
+    <Resource Include="img\bn_05.png" />
+    <Resource Include="img\bn_06.png" />
+    <Resource Include="img\bn_07.png" />
+    <Resource Include="img\bn_08.png" />
+    <Resource Include="img\b_01.png" />
+    <Resource Include="img\b_02.png" />
+    <Resource Include="img\b_03.png" />
+    <Resource Include="img\b_04.png" />
+    <Resource Include="img\close_01.png" />
+    <Resource Include="img\col_01.png" />
+    <Resource Include="img\col_02.png" />
+    <Resource Include="img\col_03.png" />
+    <Resource Include="img\col_04.png" />
+    <Resource Include="img\Dot.png" />
+    <Resource Include="img\imgButton.png" />
+    <Resource Include="img\new.png" />
+    <Resource Include="img\open_01.png" />
+    <Resource Include="img\out_01.png" />
+    <Resource Include="img\out_02.png" />
+    <Resource Include="img\plus_01.png" />
+    <Resource Include="img\plus_02.png" />
+    <Resource Include="img\pro_11.png" />
+    <Resource Include="img\pro_12.png" />
+    <Resource Include="img\pro_13.png" />
+    <Resource Include="img\pro_14.png" />
+    <Resource Include="img\pro_21.png" />
+    <Resource Include="img\pro_22.png" />
+    <Resource Include="img\pro_23.png" />
+    <Resource Include="img\pro_24.png" />
+    <Resource Include="img\pro_31.png" />
+    <Resource Include="img\pro_32.png" />
+    <Resource Include="img\pro_33.png" />
+    <Resource Include="img\pro_34.png" />
+    <Resource Include="img\pro_41.png" />
+    <Resource Include="img\pro_42.png" />
+    <Resource Include="img\pro_43.png" />
+    <Resource Include="img\pro_44.png" />
+    <Resource Include="img\pro_51.png" />
+    <Resource Include="img\pro_52.png" />
+    <Resource Include="img\pro_53.png" />
+    <Resource Include="img\pro_54.png" />
+    <Resource Include="img\title_01.png" />
+    <Resource Include="img\title_02.png" />
+    <Resource Include="img\제품명세서-버튼.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\b_exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_dsbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_dubox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_dybox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_hsbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_kmbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_mirae\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_hnbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_ksbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_nrbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_ojbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_real_ojbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_shbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_sjbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_swbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_wrbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_ycbox\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_mirae\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_mirae\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_mirae\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_mirae\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="mes_ico.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2%28x86 및 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_ksbox\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_ksbox\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_ksbox\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_ksbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_hnbox\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_hnbox\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_hnbox\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_hnbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\setting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_shbox\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_shbox\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_shbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_kmbox\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_kmbox\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_kmbox\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_kmbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_ycbox\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_ycbox\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_ycbox\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_ycbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_ojbox\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_ojbox\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_ojbox\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_ojbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_hsbox\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_hsbox\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_hsbox\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_hsbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_swbox\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_swbox\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_swbox\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_swbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_nrbox\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_nrbox\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_nrbox\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_nrbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_wrbox\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_wrbox\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_wrbox\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_wrbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\11자4종구.png" />
+    <Resource Include="img\1종구.png" />
+    <Resource Include="img\2종구.png" />
+    <Resource Include="img\3종구.png" />
+    <Resource Include="img\4종구.png" />
+    <Resource Include="img\5종구.png" />
+    <Resource Include="img\6종구.png" />
+    <Resource Include="img\8종구.png" />
+    <Resource Include="img\9종구.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_real_ojbox\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_real_ojbox\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_real_ojbox\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_real_ojbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_dybox\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_dybox\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_dybox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Image1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\plan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\8종구2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\back_12.png" />
+    <Resource Include="img\box1.png" />
+    <Resource Include="img\box10.png" />
+    <Resource Include="img\box11.png" />
+    <Resource Include="img\box12.png" />
+    <Resource Include="img\box13.png" />
+    <Resource Include="img\box14.png" />
+    <Resource Include="img\box15.png" />
+    <Resource Include="img\box16.png" />
+    <Resource Include="img\box2.png" />
+    <Resource Include="img\box3.png" />
+    <Resource Include="img\box4.png" />
+    <Resource Include="img\box5.png" />
+    <Resource Include="img\box6.png" />
+    <Resource Include="img\box7.png" />
+    <Resource Include="img\box8.png" />
+    <Resource Include="img\box9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_sjbox\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_sjbox\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_sjbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_dubox\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_dubox\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_dubox\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_dubox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_dsbox\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_dsbox\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_dsbox\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_dsbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.2-mauipre.1.22102.15\build\Microsoft.Extensions.Logging.Abstractions.targets" Condition="Exists('..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.2-mauipre.1.22102.15\build\Microsoft.Extensions.Logging.Abstractions.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>이 프로젝트는 이 컴퓨터에 없는 NuGet 패키지를 참조합니다. 해당 패키지를 다운로드하려면 NuGet 패키지 복원을 사용하십시오. 자세한 내용은 http://go.microsoft.com/fwlink/?LinkID=322105를 참조하십시오. 누락된 파일은 {0}입니다.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.2-mauipre.1.22102.15\build\Microsoft.Extensions.Logging.Abstractions.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.2-mauipre.1.22102.15\build\Microsoft.Extensions.Logging.Abstractions.targets'))" />
+    <Error Condition="!Exists('..\packages\System.Text.Json.6.0.3\build\System.Text.Json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Text.Json.6.0.3\build\System.Text.Json.targets'))" />
+  </Target>
+  <Import Project="..\packages\System.Text.Json.6.0.3\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.3\build\System.Text.Json.targets')" />
+</Project>

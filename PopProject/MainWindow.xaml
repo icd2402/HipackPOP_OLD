@@ -1,0 +1,16 @@
+﻿<Window x:Class="PopProject.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PopProject"
+        mc:Ignorable="d"
+        Title="MainWindow" Closed="Win_closed"  Height="1024" Width="1280" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" KeyDown="Window_KeyDown" >
+
+    <Border BorderBrush="Aqua" BorderThickness="1" >
+        <ContentPresenter x:Name="MainCP" MouseLeftButtonDown="MainCP_MouseLeftButtonDown" >
+            
+        </ContentPresenter>
+        
+    </Border>
+</Window>
