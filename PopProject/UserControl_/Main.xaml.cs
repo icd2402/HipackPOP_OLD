@@ -37,6 +37,7 @@ namespace PopProject.UserControl_
     public partial class Main : UserControl
     {
         int wdIGCOunt = 0;
+        int arduconnCount = 0;
         private bool sortChecked = true;
         private DispatcherTimer timer;
         public static SerialPort arduSerial = new SerialPort();
@@ -48,6 +49,7 @@ namespace PopProject.UserControl_
         public static Consumer consumer_;
         public static MainModel production = null;
         private int minuite = 0;
+        private int minuite1 = 0;
         public static int str;
         private Point scrollMousePoint = new Point();
         private double hOff = 1;
@@ -96,7 +98,7 @@ namespace PopProject.UserControl_
                 string metrialitem = Properties.Settings.Default.meterialinfo;
                 SetSetting(metrialitem);
                 ArduConn();
-                ArduConn1();
+                //ArduConn1();
                 if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("혜성수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트"))
                 {
                     if (Properties.Settings.Default.CountType != 0)
@@ -257,6 +259,21 @@ namespace PopProject.UserControl_
                 arduSerial.Close(); // 시리얼 포트 닫기
             }
             catch { }
+            finally{
+                arduSerial.Encoding = Encoding.GetEncoding(65001);
+                arduSerial.PortName = Properties.Settings.Default.SerialName;
+                arduSerial.BaudRate = Properties.Settings.Default.baudrate;
+                arduSerial.DataReceived += ArduReReceive;
+
+                arduSerial.Open();
+                arduSerial.Write(Properties.Settings.Default.SensorRate);
+                Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                {
+                    btrSerial.Background = Brushes.Green;
+                }));
+
+                
+            }
         }
 
 
@@ -272,14 +289,18 @@ namespace PopProject.UserControl_
                     serialClose.Start(); // 스레드 시작
                     //serialDisConnect();
                 }
-                arduSerial.Encoding = Encoding.GetEncoding(65001);
-                arduSerial.PortName = Properties.Settings.Default.SerialName;
-                arduSerial.BaudRate = Properties.Settings.Default.baudrate;
-                arduSerial.DataReceived += ArduReReceive;
+                else
+                {
+                    arduSerial.Encoding = Encoding.GetEncoding(65001);
+                    arduSerial.PortName = Properties.Settings.Default.SerialName;
+                    arduSerial.BaudRate = Properties.Settings.Default.baudrate;
+                    arduSerial.DataReceived += ArduReReceive;
 
-                arduSerial.Open();
-                arduSerial.Write(Properties.Settings.Default.SensorRate);
-                btrSerial.Background = Brushes.Green;
+                    arduSerial.Open();
+                    arduSerial.Write(Properties.Settings.Default.SensorRate);
+                    btrSerial.Background = Brushes.Green;
+                }
+                
 
             }
             catch (Exception e)
@@ -288,6 +309,7 @@ namespace PopProject.UserControl_
                 //MessageBox_Dialog msg = new MessageBox_Dialog("아두이노 연결 오류 : " + e.Message);
                 //msg.Show();
                 btrSerial.Background = Brushes.Red;
+                
             }
         }
         private void ArduConn1()
@@ -374,32 +396,25 @@ namespace PopProject.UserControl_
         private void ArduReReceive1(object sender, SerialDataReceivedEventArgs e)
         {
             float pCnt;
-            int bytesize;
             string ArdumercName;
-
-
 
             switch (Properties.Settings.Default.corp_id)
             {
                 case "icdtest2":
                     string[] arry = arduSerial1.ReadLine().Split('^');
                     ArdumercName = arry[0].ToString().Trim();
+
                     if (arry.Length == 2)
                     {
                         str = int.Parse(arry[1].Trim());
                         LogWrite(str.ToString());
-
                     }
                     else
                     {
                         return;
                     }
-
-
-
                     if (production != null)
                     {
-
                         Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                         {
                             if (production != null)
@@ -408,6 +423,7 @@ namespace PopProject.UserControl_
 
 
                             }
+
                             else
                             {
                                 pCnt = 1;
@@ -443,7 +459,6 @@ namespace PopProject.UserControl_
                                 }
 
 
-
                                 production.sumPworkCount = Convert.ToInt32(Math.Floor(str * pCnt));
                                 if (Properties.Settings.Default.boxCheck)
                                 {
@@ -462,7 +477,6 @@ namespace PopProject.UserControl_
                                 InvokeCount(Convert.ToInt32(production.presultCount), ArdumercName);
                             }
                         }));
-
 
 
                         //  int lastcount = str;
@@ -485,11 +499,8 @@ namespace PopProject.UserControl_
             float pCnt;
             int bytesize;
             string ArdumercName;
-
             try
             {
-
-
                 switch (Properties.Settings.Default.corp_id)
                 {
                     case "icdtest2":
@@ -506,8 +517,6 @@ namespace PopProject.UserControl_
                             return;
                         }
 
-
-
                         if (production != null)
                         {
 
@@ -517,13 +526,11 @@ namespace PopProject.UserControl_
                                 {
                                     pCnt = Properties.Settings.Default.twoSum ? production.pCnt * 2 : production.pCnt;
 
-
                                 }
                                 else
                                 {
                                     pCnt = 1;
                                 }
-
 
                                 if (!Properties.Settings.Default.saveDate.Equals("") && !Properties.Settings.Default.saveDate.Equals(DateTime.Now.ToString("yyyy-MM-dd")))
                                 {
@@ -545,15 +552,12 @@ namespace PopProject.UserControl_
                                     }
                                     InvokeCount(str, ArdumercName);
                                 }
-
                                 else
                                 {
                                     if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩"))
                                     {
                                         pCnt = Properties.Settings.Default.twoSum ? (production.pCnt * 2) : 1;
                                     }
-
-
 
                                     production.sumPworkCount = Convert.ToInt32(Math.Floor(str * pCnt));
                                     if (Properties.Settings.Default.boxCheck)
@@ -590,32 +594,26 @@ namespace PopProject.UserControl_
                             bytesize = arduSerial.BytesToRead;
 
                             if (bytesize == -1) return;
-
                             // byte[] data = new byte[bytesize];
                             // arduSerial.Read(data, 0, bytesize);
                             // string msg = Encoding.Default.GetString(data);
-
-                            //str = int.Parse(msg);
+                            // str = int.Parse(msg);
                             // LogWrite(str.ToString());
                             str = int.Parse(arduSerial.ReadLine().Trim());
                             LogWrite(str.ToString());
-
                             if (production != null)
                             {
-
                                 Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                                 {
                                     if (production != null)
                                     {
                                         pCnt = Properties.Settings.Default.twoSum ? production.pCnt * 2 : production.pCnt;
 
-
                                     }
                                     else
                                     {
                                         pCnt = 1;
                                     }
-
 
                                     if (!Properties.Settings.Default.saveDate.Equals("") && !Properties.Settings.Default.saveDate.Equals(DateTime.Now.ToString("yyyy-MM-dd")))
                                     {
@@ -737,7 +735,7 @@ namespace PopProject.UserControl_
 
             _ = tbBarcode.Focus();
             tbBarcode.SelectAll();
-            if (minuite == 60)
+            if (minuite1 == 60)
             {
                 bool connected = NetworkInterface.GetIsNetworkAvailable();
                 if (connected)
@@ -748,7 +746,7 @@ namespace PopProject.UserControl_
                         InvokeMercName(Properties.Settings.Default.mercName, "A");
                     }
                 }
-
+                minuite1 = 0;
             }
 
             if (minuite == 300)
@@ -763,14 +761,14 @@ namespace PopProject.UserControl_
 
 
                 }
-                if (!arduSerial1.IsOpen)
-                {
-                    arduSerial1.DataReceived -= ArduReReceive1;
+                //if (!arduSerial1.IsOpen)
+                //{
+                //    //arduSerial1.DataReceived -= ArduReReceive1;
 
-                    ArduConn1();
+                //    //ArduConn1();
 
 
-                }
+                //}
                 if (connected)
                 {
 
@@ -965,6 +963,7 @@ namespace PopProject.UserControl_
 
             }
             minuite += 1;
+            minuite1 += 1;
             // Console.WriteLine("minuite - " + minuite);
         }
         // 현황판으로 카운터 전송
@@ -1236,7 +1235,6 @@ namespace PopProject.UserControl_
                         listitem.pplanKey = int.Parse(result["pplanKey"].ToString());
                         listitem.orderKey = result["orderKey"].ToString();
                         listitem.ProcessType = int.Parse(result["ProcessType"].ToString());
-
                         listitem.pplanDate = "[" + result["pplanDate"].ToString().Replace("-", "/").Substring(2, 8) + "]";
                         listitem.prodName = result["prodName"].ToString();
                         listitem.customSName = result["customSName"].ToString();
@@ -2354,7 +2352,7 @@ namespace PopProject.UserControl_
                         Properties.Settings.Default.presultcount = 0;
                         Properties.Settings.Default.Save();
                         // model.presultCount = 11;
-                        //model.presultCount = 
+                        // model.presultCount = 
                         // ResultSearchDate();
 
                     }
@@ -2416,7 +2414,7 @@ namespace PopProject.UserControl_
             try
             {
 
-
+               
                 if (!sender.GetType().Name.Equals("Image"))
                 {
                     Canvas canvas = (Canvas)sender;
@@ -2658,7 +2656,7 @@ namespace PopProject.UserControl_
             arduSerial.DataReceived -= ArduReReceive;
 
             ArduConn();
-            ArduConn1();
+           // ArduConn1();
 
             sv.VerticalScrollBarVisibility = Properties.Settings.Default.scrollvarCheck ? ScrollBarVisibility.Visible : ScrollBarVisibility.Hidden;
 

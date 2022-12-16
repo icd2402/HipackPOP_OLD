@@ -50,33 +50,33 @@ namespace PopProject
 
         private void Duplicate_execution(string mutexName)
         {
-            InitializeComponent();
-            MainCP.Content = new Login();
+            //InitializeComponent();
+            //MainCP.Content = new Login();
 
 
-            //try
-            //{
-            //    mutex = new Mutex(false, mutexName);
-            //}
+            try
+            {
+                mutex = new Mutex(false, mutexName);
+            }
 
-            //catch (Exception)
-            //{
-            //    _ = System.Windows.MessageBox.Show("프로그램이 이미 실행 중입니다!", "", MessageBoxButton.OK);
-            //    Application.Current.Shutdown();
-            //}
+            catch (Exception)
+            {
+                _ = System.Windows.MessageBox.Show("프로그램이 이미 실행 중입니다!", "", MessageBoxButton.OK);
+                Application.Current.Shutdown();
+            }
 
-            //if (mutex.WaitOne(0, false))
-            //{
-            //    InitializeComponent();
-            //    MainCP.Content = new Login();
-            //}
+            if (mutex.WaitOne(0, false))
+            {
+                InitializeComponent();
+                MainCP.Content = new Login();
+            }
 
-            //else
-            //{
-            //    _ = System.Windows.MessageBox.Show("프로그램이 이미 실행 중입니다!", "", MessageBoxButton.OK);
-            //    // MessageBox.Show("Application already startet.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
-            //    Application.Current.Shutdown();
-            //}
+            else
+            {
+                _ = System.Windows.MessageBox.Show("프로그램이 이미 실행 중입니다!", "", MessageBoxButton.OK);
+                // MessageBox.Show("Application already startet.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                Application.Current.Shutdown();
+            }
         }
 
         private void MainCP_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

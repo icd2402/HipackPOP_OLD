@@ -211,6 +211,7 @@ namespace PopProject.KeyBoard
                         if (inputContext != null)
                         {
                             inputContext.pworkCount = Properties.Settings.Default.option1 ? int.Parse(txtbox.Text) * inputContext.pCnt : int.Parse(txtbox.Text);
+                            inputContext.count = Properties.Settings.Default.option1 ? int.Parse(txtbox.Text) * inputContext.pCnt : int.Parse(txtbox.Text);
                         }
 
                         else if (errorContext != null)

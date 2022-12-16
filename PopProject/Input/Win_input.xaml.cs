@@ -1235,6 +1235,22 @@ namespace PopProject.Input
                         }
                     }
                 }
+                if (Properties.Settings.Default.corp_name.Equals("성주포장") && Properties.Settings.Default.mercName.Equals("후렉소") &&
+                    (Properties.Settings.Default.processType == 1))
+                {
+                    for (int i = 0; i < mainModel.subOb.Count; i++)
+                    {
+
+                        if (mainModel.subOb[i].ProcessTypeName.Equals("인쇄"))
+                        {
+                            if (mainModel.subOb[i].presultCount < 1)
+                            {
+                                PopInlineStart(mainModel.subOb[i+1]);
+                            }
+                        }
+                    }
+                }
+
 
                 switch (metrialitem)
                 {
@@ -1330,11 +1346,13 @@ namespace PopProject.Input
                         Main1.production = mainModel;
                         try
                         {
+                            
                             if (Main1.production != null)
                             {
                                 Main1.arduSerial.Write("A");
                                 Main1.arduSerial.Write("B");
                             }
+
                             else
                             {
                                 Main1.arduSerial.Write("A");

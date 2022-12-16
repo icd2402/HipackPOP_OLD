@@ -324,7 +324,7 @@
                     <TextBlock Text="게더링 설정 " FontSize="22" Foreground="Black" Canvas.Left="20" Canvas.Top="20" FontFamily="/font/#KoPubDotum Medium"/>
                     <TextBlock Text="PortName " FontSize="22" Foreground="Black" Canvas.Left="40" Canvas.Top="62" FontFamily="/font/#KoPubDotum Medium"/>
                     <ComboBox VerticalContentAlignment="Center" FontSize="20"  x:Name="cb_1" Canvas.Left="170" Canvas.Top="55" Width="200" Height="40"></ComboBox>
-                    <ComboBox VerticalContentAlignment="Center" FontSize="20"  x:Name="cb_12" Canvas.Left="170" Canvas.Top="125" Width="200" Height="40"></ComboBox>
+                    <ComboBox VerticalContentAlignment="Center" FontSize="20" Visibility="Collapsed"  x:Name="cb_12" Canvas.Left="170" Canvas.Top="125" Width="200" Height="40"></ComboBox>
                     <TextBlock Text="BaudRate "  FontSize="22" Foreground="Black" Canvas.Left="40" Canvas.Top="242" FontFamily="/font/#KoPubDotum Medium"/>
                     <ComboBox x:Name="cb_2" FontSize="20" VerticalContentAlignment="Center"  Canvas.Left="170" Canvas.Top="235" Width="200" Height="40"></ComboBox>
                     <TextBlock Text="SensorRate "  FontSize="22" Foreground="Black" Canvas.Left="40" Canvas.Top="330" FontFamily="/font/#KoPubDotum Medium"/>

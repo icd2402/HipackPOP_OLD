@@ -174,6 +174,22 @@ namespace PopProject.Util
                     onPropertyChanged("resultCount");
                 }
             }
+            
+            private string _PalletType;
+            public string PalletType
+            {
+                get
+                {
+                    return _PalletType;
+                }
+
+                set
+                {
+                    _PalletType = value;
+                    onPropertyChanged("PalletType");
+                }
+            }
+
 
             private string _pGol;
             public string pGol

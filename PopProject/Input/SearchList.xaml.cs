@@ -73,7 +73,7 @@ namespace PopProject.Input
 
        private void SearchChanged_Text(object sender, TextChangedEventArgs e)
        {
-             searchList = new ObservableCollection<MainModel>();
+            searchList = new ObservableCollection<MainModel>();
 
             if (textbox_search.Text.Length == 0)
             {

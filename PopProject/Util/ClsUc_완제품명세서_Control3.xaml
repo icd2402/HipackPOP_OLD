@@ -140,7 +140,7 @@
                 </DockPanel>
                 <DockPanel >
                     <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,1" BorderBrush="Black" Content="파렛트종류" HorizontalContentAlignment="Center" Height="75"  Width="165" />
-                    <Label  DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,1" BorderBrush="Black"  Content="{Binding PalletSize}" ContentStringFormat="N0" Width="220" HorizontalContentAlignment="Center"  />
+                    <Label  DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,1" BorderBrush="Black"  Content="{Binding PalletType}" ContentStringFormat="N0" Width="220" HorizontalContentAlignment="Center"  />
                     <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="0,1,0,1" BorderBrush="Black" Content="생산일자" HorizontalContentAlignment="Center" Height="75"  Width="165" />
                     <Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,1" BorderBrush="Black"    HorizontalContentAlignment="Center" Content="{Binding pworkDate}"/> 
                 </DockPanel>

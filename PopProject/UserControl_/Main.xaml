@@ -72,7 +72,7 @@
                     <ItemsControl.ItemTemplate  >
                         <DataTemplate x:Name="dt" >
                             <Canvas  Height="77.8" PreviewMouseLeftButtonDown="Canvas_PreviewMouseDown" Background="{Binding icback}"  Focusable="False" >
-                                <TextBlock Canvas.Left="0" Background="{Binding pStateColor}"  Height="77" FontSize="18" Width="55" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},
+                                <TextBlock x:Name="aa" Canvas.Left="0" Background="{Binding pStateColor}"  Height="77" FontSize="18" Width="55" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},
                                       Path=(ItemsControl.AlternationIndex),Converter={StaticResource IndexConverter}}" VerticalAlignment="Center" Padding="0,28,0,0"  HorizontalAlignment="Stretch" TextAlignment="Center"  FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
                                 <TextBlock Canvas.Left="0" Canvas.Top="52" FontSize="18" Width="55" Visibility="{Binding pStateVisi}" Text="{Binding pStateString}" Foreground="{Binding pStateSColor}" TextAlignment="Center" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
 

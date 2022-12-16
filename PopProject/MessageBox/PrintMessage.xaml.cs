@@ -213,7 +213,7 @@ namespace PopProject.MessageBox
                         pr3.orderLast = Convert.ToDateTime(result["orderLast"]);
                         pr3.pSize = result["pSize"].ToString();
                         pr3.pGol = mainModel.paperGor;
-                        pr3.PalletSize = detailitem.PalletSize;
+                        pr3.PalletType = detailitem.PalletType;
                         string memo = getMemo(Properties.Settings.Default.printItem);
                         pr3.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
                         //pr3.pworkDate = Convert.ToDateTime(result["pworkDate"]).ToString("yyyy/MM/dd");
