@@ -177,6 +177,18 @@
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>
                         <TextBlock x:Name="tb적재방법" Text="" FontSize="16" Canvas.Left="128" FontFamily="/font/#KoPubDotum Medium"/>
                     </Canvas>
+                    <Canvas x:Name="파렛트적재매수" DockPanel.Dock="Top" Height="20">
+                        <TextBlock Text="파렛트 적재매수"  FontSize="16" Canvas.Left="30" Canvas.Top="1" FontFamily="/font/#KoPubBatang Light"/>
+                        <TextBlock Text=":" FontSize="16" Canvas.Left="148" Canvas.Top="-2"/>
+                        <TextBlock x:Name="tb파렛트적재매수" Text="" FontSize="16" Canvas.Left="158" Foreground="Red" FontFamily="/font/#KoPubDotum Medium"/>
+                    </Canvas>
+
+                    <Canvas x:Name="파렛트적재높이" DockPanel.Dock="Top" Height="20">
+                        <TextBlock Text="파렛트 적재높이 "  FontSize="16" Canvas.Left="30" Canvas.Top="1" FontFamily="/font/#KoPubBatang Light"/>
+                        <TextBlock Text=":" FontSize="16" Canvas.Left="148" Canvas.Top="-2"/>
+                        <TextBlock x:Name="tb파렛트적재높이" Text="" FontSize="16" Canvas.Left="158" Foreground="Red" FontFamily="/font/#KoPubDotum Medium"/>
+                    </Canvas>
+
                     <Canvas x:Name="파렛트종류" DockPanel.Dock="Top" Height="20">
                         <TextBlock Text="파렛트종류"  FontSize="16" Canvas.Left="30" Canvas.Top="1" FontFamily="/font/#KoPubBatang Light"/>
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>

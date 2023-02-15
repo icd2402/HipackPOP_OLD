@@ -95,11 +95,32 @@ namespace PopProject.Util
         public static ServiceReference_dsbox.DBHandle_Model ds_DB_Handle_Model;
         public static ServiceReference_dsbox.Access_Model ds_Access_Model;
         public static ServiceReference_dsbox.Return_Model ds_Return_Model;
+        
+        //구룡산업제2공장
+        public static ServiceReference_grbox1.Service_CRUDClient gr_Service;
+        public static ServiceReference_grbox1.DBHandle_Model gr_DB_Handle_Model;
+        public static ServiceReference_grbox1.Access_Model gr_Access_Model;
+        public static ServiceReference_grbox1.Return_Model gr_Return_Model;
+
         public static void ServiceModelClean(string serverIndex)
         {
             Console.WriteLine("serverIndex : " + serverIndex);
             switch (serverIndex)
             {
+                case "grbox":
+                    gr_Service = new ServiceReference_grbox1.Service_CRUDClient();
+                    gr_Access_Model = new ServiceReference_grbox1.Access_Model();
+                    gr_Return_Model = new ServiceReference_grbox1.Return_Model();
+                    gr_DB_Handle_Model = new ServiceReference_grbox1.DBHandle_Model
+                    {
+                        접속정보 = 접속정보,
+                        BroadCasting = 0,
+                        BroadCastingName = string.Empty,
+                        inputPkey = "0",
+                        inputContent = string.Empty,
+                        inputProcessContent = string.Empty
+                    };
+                    break;
 
                 case "dsbox":
                     ds_Service = new ServiceReference_dsbox.Service_CRUDClient();
@@ -366,6 +387,21 @@ namespace PopProject.Util
             {
                 switch (serverIndex)
                 {
+                    case "grbox":
+                        gr_Access_Model.SP명 = SP명;
+                        gr_Access_Model.파라미터 = 파라미터;
+                        gr_Access_Model.값 = 값;
+                        gr_DB_Handle_Model.프로시저 = new ServiceReference_grbox1.Access_Model[1] { gr_Access_Model };
+                        gr_DB_Handle_Model.BroadCasting = 0;
+
+                        gr_Return_Model = 갱신 == 1 ? gr_Service.갱신(gr_DB_Handle_Model, 갱신) : gr_Service.조회(gr_DB_Handle_Model);
+
+                        returnModel.결과 = gr_Return_Model.결과;
+                        returnModel.리턴값 = gr_Return_Model.Retrun값;
+                        Console.WriteLine(SP명 + " 리턴결과 : " + gr_Return_Model.결과);
+                        Console.WriteLine(SP명 + " 리턴값 : " + gr_Return_Model.Retrun값);
+                        break;
+
                     case "dsbox":
                         ds_Access_Model.SP명 = SP명;
                         ds_Access_Model.파라미터 = 파라미터;
@@ -636,7 +672,8 @@ namespace PopProject.Util
             ReturnModel returnModel = new ReturnModel();
             switch (serverIndex)
             {
-                case "dsox":
+                //dsbox 이거 오타 때문인거 같은데
+                case "dsbox":
                     ds_Access_Model.SP명 = SP명;
                     ds_Access_Model.파라미터 = 파라미터;
                     ds_Access_Model.값 = 값;
@@ -937,6 +974,26 @@ namespace PopProject.Util
 
                     returnModel.결과 = yc_Return_Model.결과;
                     returnModel.리턴값 = yc_Return_Model.Retrun값;
+
+                    //  Console.WriteLine(SP명 + " 리턴결과 : " + yc_Return_Model.결과);
+                    //  Console.WriteLine(SP명 + " 리턴값 : " + yc_Return_Model.Retrun값);
+
+                    break;
+
+                case "grbox":
+                    gr_Access_Model.SP명 = SP명;
+                    gr_Access_Model.파라미터 = 파라미터;
+                    gr_Access_Model.값 = 값;
+                    gr_DB_Handle_Model.프로시저 = new ServiceReference_grbox1.Access_Model[1] { gr_Access_Model };
+                    gr_DB_Handle_Model.BroadCasting = 1;
+                    gr_DB_Handle_Model.inputPkey = "14201";
+                    gr_DB_Handle_Model.BroadCastingName = "생산입력완료";
+                    gr_DB_Handle_Model.inputContent = parameter;
+
+                    gr_Return_Model = 갱신 == 1 ? gr_Service.갱신(gr_DB_Handle_Model, 갱신) : gr_Service.조회(gr_DB_Handle_Model);
+
+                    returnModel.결과 = gr_Return_Model.결과;
+                    returnModel.리턴값 = gr_Return_Model.Retrun값;
 
                     //  Console.WriteLine(SP명 + " 리턴결과 : " + yc_Return_Model.결과);
                     //  Console.WriteLine(SP명 + " 리턴값 : " + yc_Return_Model.Retrun값);

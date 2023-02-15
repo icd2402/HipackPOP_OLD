@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/MiddleWareService.Models" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/MiddleWareService.Models" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://grbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="DBHandle_Model">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BroadCasting" type="xs:int" />
+      <xs:element minOccurs="0" name="BroadCastingName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="inputContent" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="inputPkey" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="inputProcessContent" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="접속정보" nillable="true" type="q1:ArrayOfstring" />
+      <xs:element minOccurs="0" name="프로시저" nillable="true" type="tns:ArrayOfAccess_Model" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DBHandle_Model" nillable="true" type="tns:DBHandle_Model" />
+  <xs:complexType name="ArrayOfAccess_Model">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Access_Model" nillable="true" type="tns:Access_Model" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAccess_Model" nillable="true" type="tns:ArrayOfAccess_Model" />
+  <xs:complexType name="Access_Model">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="SP명" nillable="true" type="xs:string" />
+      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="값" nillable="true" type="q2:ArrayOfanyType" />
+      <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="파라미터" nillable="true" type="q3:ArrayOfstring" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Access_Model" nillable="true" type="tns:Access_Model" />
+  <xs:complexType name="Return_Model">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Retrun값" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="결과" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Return_Model" nillable="true" type="tns:Return_Model" />
+</xs:schema>

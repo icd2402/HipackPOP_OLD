@@ -24,6 +24,7 @@ namespace PopProject
         {
             try
             {
+                //Properties.Settings.Default.Reset();
                 if (Properties.Settings.Default.baudrate == 0)
                 {
                     Properties.Settings.Default.baudrate = 9600;
@@ -40,12 +41,13 @@ namespace PopProject
                 Properties.Settings.Default.Save();
                 Duplicate_execution("PopProject");
 
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 LogWrite(e.Message);
 
             }
-           
+
         }
 
         private void Duplicate_execution(string mutexName)
@@ -127,10 +129,11 @@ namespace PopProject
         private void Win_closed(object sender, EventArgs e)
         {
             Console.WriteLine("종료됨");
-            if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업"))
-            {
-                invokeMercName(Properties.Settings.Default.mercName, "B");
-            }
+            //Properties.Settings.Default.pworkkey = "";
+            //Properties.Settings.Default.Save();
+            
+            invokeMercName(Properties.Settings.Default.mercName, "B");
+            
         }
 
         private void LogWrite(string str)

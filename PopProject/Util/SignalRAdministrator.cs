@@ -11,8 +11,11 @@ namespace PopProject.Util
         public static string 주소 = Properties.Settings.Default.signalR.ToString();
             
         public SignalRAdministrator()
+
+
+
         {
-                Console.WriteLine("Signalr 주소 : " + Properties.Settings.Default.signalR.ToString());
+            Console.WriteLine("Signalr 주소 : " + Properties.Settings.Default.signalR.ToString());
         }
 
         public void Setconnection()
@@ -37,7 +40,7 @@ namespace PopProject.Util
 
             catch (Exception)
             {
-                
+
                 //MessageBox_Dialog dialog = new MessageBox_Dialog("SignalR 서버 접속 불가");
                 //dialog.ShowDialog();
             }

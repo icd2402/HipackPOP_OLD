@@ -57,9 +57,10 @@ namespace PopProject.Input
             this.workList = workList;
             inputModel = new InputModel();
             this.mainModel = mainModel;
-            boxType.Text = "형 태 : "+ mainModel.boxType;
+            boxType.Text = "형 태 : " + mainModel.boxType;
 
-            if (Properties.Settings.Default.corp_name.Equals("오주포장")) {
+            if (Properties.Settings.Default.corp_name.Equals("오주포장"))
+            {
                 SignalRAdministrator.허브.On<string, string>("returnCount", recive);
             }
 
@@ -509,13 +510,13 @@ namespace PopProject.Input
                             listitem.perrCount = float.Parse(result["perrCount"].ToString());
                             listitem.pMemo = result["pMemo"].ToString();
                             listitem.errorModelOb = PopErrorListSearch(listitem);
-                            
+
                             if (!listitem.eDatetime.Equals(""))
                             {
                                 errorModel item2 = new errorModel();
                                 item2.pworkKey = listitem.pworkKey;
                                 item2.memo = "작업완료";
-                                if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩"))
+                                if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
                                 {
                                     if (Properties.Settings.Default.CountType == 1)
                                     {
@@ -525,15 +526,18 @@ namespace PopProject.Input
                                     {
                                         item2.perrCount = listitem.pworkCount;
                                     }
-                                   
+
                                 }
                                 else
                                 {
+
                                     item2.perrCount = listitem.pworkCount;
+
+
                                 }
                                 item2.fontColor = Brushes.Red;
                                 item2.updateTime = DateTime.Parse(listitem.eDatetime);
-                                
+
                                 listitem.errorModelOb.Add(item2);
                             }
 
@@ -593,13 +597,13 @@ namespace PopProject.Input
                             inputModel.sumPlanCount = inputModel.pplanCount - inputModel.sumPworkCount;
 
                         }
-                        
+
                     }
                     else
                     {
                         inputModel.sumPlanCount = inputModel.pplanCount - inputModel.sumPworkCount;
                     }
-                    
+
                     if (Properties.Settings.Default.boxCheck)
                     {
                         inputModel.sumPlanCount = inputModel.pplanCount - (inputModel.sumPworkCount / inputModel.pCnt);
@@ -712,7 +716,7 @@ namespace PopProject.Input
                 TextBox context = (TextBox)sender;
                 if (context.Name.Equals("tbResult"))
                 {
-                    win_KeyBoard = new Win_KeyBoard(context, context.DataContext,inputModel)
+                    win_KeyBoard = new Win_KeyBoard(context, context.DataContext, inputModel)
                     {
                         Left = SystemParameters.WorkArea.Width - this.Width - 10,
                         Top = (SystemParameters.WorkArea.Height / 2) - this.Top
@@ -732,7 +736,7 @@ namespace PopProject.Input
                     else
                     {
                         InputModel inputmodel = (InputModel)context.DataContext;
-                        win_KeyBoard = new Win_KeyBoard(context, inputmodel.errorModel,inputmodel)
+                        win_KeyBoard = new Win_KeyBoard(context, inputmodel.errorModel, inputmodel)
                         {
 
                             Left = SystemParameters.WorkArea.Width - Width,
@@ -790,12 +794,12 @@ namespace PopProject.Input
                 float value;
                 if (Properties.Settings.Default.CountType == 0)
                 {
-                    value = 1 ;
+                    value = 1;
                 }
 
                 else
                 {
-                    if(Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") )
+                    if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩"))
                     {
                         value = Properties.Settings.Default.twoSum ? (inputModel.pCnt * 2) : 1;
                     }
@@ -935,7 +939,7 @@ namespace PopProject.Input
                         catch (Exception e)
                         {
                             MessageBox_Dialog msg = new MessageBox_Dialog("PopResultStart 오류발생 !!" + e.Message);
-                           // msg.ShowDialog();
+                            // msg.ShowDialog();
                         }
 
                         break;
@@ -956,7 +960,7 @@ namespace PopProject.Input
             string arrChkAED = "1|";
 
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
-            string parameter = "[" + Properties.Settings.Default.mercName + "] " + this.inputModel.customSName + Environment.NewLine + inputModel.prodName + " " + inputModel.pworkCount.ToString("N0") + "개";
+            string parameter = "[" + subOb.ProcessTypeName + "] " + this.inputModel.customSName + Environment.NewLine + inputModel.prodName + " " + inputModel.pworkCount.ToString("N0") + "개";
             ReturnModel returnData = ServiceModel.GetData(
                 Properties.Settings.Default.serverIndex,
                 "[PopResultEnd]",
@@ -974,7 +978,7 @@ namespace PopProject.Input
                 inputModel.perrCount + "|",
                 inputModel.pMemo + "|",
                 inputModel.sDatetime,
-                Properties.Settings.Default.mercName 
+                subOb.ProcessTypeName
                 }, 1, parameter
               );
             if (returnData.결과 == 1)
@@ -1002,6 +1006,7 @@ namespace PopProject.Input
                 }
 
             }
+
             Properties.Settings.Default.consumersumcount = 0;
             Properties.Settings.Default.count = 0;
             Properties.Settings.Default.saveDate = "";
@@ -1143,10 +1148,11 @@ namespace PopProject.Input
             }
             if (Properties.Settings.Default.CountType == 1)
             {
-                if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("우리포장산업")) {
+                if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("우리포장산업"))
+                {
                     inputModel.pworkCount = (int)(this.inputModel.pworkCount * this.inputModel.pCnt);
                 }
-                
+
             }
 
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -1174,6 +1180,7 @@ namespace PopProject.Input
 
             if (returnData.결과 == 1)
             {
+
                 Canvas.SetTop(box, 490);
                 Canvas.SetTop(box1, 570);
 
@@ -1197,6 +1204,7 @@ namespace PopProject.Input
                 inputModel.imagePath = "/img/bn_05.png";
                 mainModel.imagePath = "/img/bn_02.png";
                 mainModel.sumPworkCount = inputModel.pworkCount + inputModel.perrCount;
+
                 mainModel.presultCount = inputModel.pworkCount + inputModel.perrCount;
                 mainModel.presultCount1 = inputModel.pworkCount + inputModel.perrCount;
 
@@ -1245,9 +1253,20 @@ namespace PopProject.Input
                         {
                             if (mainModel.subOb[i].presultCount < 1)
                             {
-                                PopInlineStart(mainModel.subOb[i+1]);
+                                PopInlineStart(mainModel.subOb[i + 1]);
                             }
                         }
+                    }
+                }
+                if(Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
+                {
+                    if (Properties.Settings.Default.mercName.Contains("인라인"))
+                    {
+                        if (mainModel.subOb.Count == 2)
+                        {
+                            PopInlineStart(mainModel.subOb[mainModel.subOb.Count - 1]);
+                        }
+                       
                     }
                 }
 
@@ -1284,6 +1303,9 @@ namespace PopProject.Input
                         }
                         break;
                 }
+
+
+
                 Properties.Settings.Default.consumersumcount = 0;
                 Properties.Settings.Default.count = 0;
                 Properties.Settings.Default.saveDate = "";
@@ -1338,7 +1360,7 @@ namespace PopProject.Input
                 Properties.Settings.Default.saveDate = "";
                 Properties.Settings.Default.pplanKey = 0;
                 Properties.Settings.Default.Save();
-               
+
                 switch (metrialitem)
                 {
                     case "12":
@@ -1346,7 +1368,7 @@ namespace PopProject.Input
                         Main1.production = mainModel;
                         try
                         {
-                            
+
                             if (Main1.production != null)
                             {
                                 Main1.arduSerial.Write("A");
@@ -1358,7 +1380,7 @@ namespace PopProject.Input
                                 Main1.arduSerial.Write("A");
                             }
                         }
-                        catch (Exception )
+                        catch (Exception)
                         {
                             //MessageBox_Dialog msg = new MessageBox_Dialog("PopResultStart 오류발생 !!" + e.Message);
                             //msg.ShowDialog();
@@ -1383,14 +1405,16 @@ namespace PopProject.Input
                             }
                         }
 
-                        catch (Exception )
+                        catch (Exception)
                         {
                             // MessageBox_Dialog msg = new MessageBox_Dialog("PopResultStart 오류발생 !!" + e.Message);
                             // msg.ShowDialog();
                         }
 
                         break;
+
                 }
+
                 if (Properties.Settings.Default.corp_name.Equals("대양포장") || Properties.Settings.Default.corp_name.Equals("오주포장"))
                 {
                     try
@@ -1515,7 +1539,8 @@ namespace PopProject.Input
             {
                 SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
 
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
 
             }
@@ -1527,7 +1552,7 @@ namespace PopProject.Input
             {
                 Image img = (Image)sender;
                 InputModel context = (InputModel)img.DataContext;
-                if (!tbError.Text.Equals("0")  && !context.errorModel.memo.Equals(""))
+                if (!tbError.Text.Equals("0") && !context.errorModel.memo.Equals(""))
                 {
                     if (inputModel.pworkKey != 0)
                     {

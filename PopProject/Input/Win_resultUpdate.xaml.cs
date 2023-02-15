@@ -15,7 +15,9 @@ namespace PopProject.Input
     public partial class Win_resultUpdate : Window
     {
         private InputModel inputModel;
-            private errorModel errorModel;
+        private errorModel errorModel;
+        private bool consumerCheck = false;
+
         public Win_resultUpdate(errorModel errorModel, InputModel inputModel)
         {
             InitializeComponent();
@@ -28,8 +30,24 @@ namespace PopProject.Input
                 _ = pworkCount.Focus();
                 _ = pworkCount.Dispatcher.BeginInvoke(new Action(() => { pworkCount.SelectAll(); }));
             }
-        
-        }   
+
+        }
+
+        public Win_resultUpdate(errorModel errorModel, InputModel inputModel, bool v)
+        {
+            InitializeComponent();
+            consumerCheck = v;
+            pworkCount.Text = errorModel.perrCount.ToString();
+            this.inputModel = inputModel;
+            this.errorModel = errorModel;
+
+            if (Properties.Settings.Default.keyinCheck)
+            {
+                pworkCount.Focusable = true;
+                _ = pworkCount.Focus();
+                _ = pworkCount.Dispatcher.BeginInvoke(new Action(() => { pworkCount.SelectAll(); }));
+            }
+        }
 
 
         public Win_resultUpdate(InputModel inputModel)
@@ -46,6 +64,8 @@ namespace PopProject.Input
             }
         }
 
+
+
         private void Image_MouseLeftButtonDown_4(object sender, MouseButtonEventArgs e)
         {
             DragMove();
@@ -60,41 +80,70 @@ namespace PopProject.Input
         private void PopresultUpdate()
         {
             string arrChkAED = "";
-            if (pworkCount.Text.ToString().Equals("0"))
+            string workCount = "";
+            if (consumerCheck)
             {
-                arrChkAED = "3|";
-            }
-            else
-            {
-                arrChkAED = "2|";
-            }
-
-            if (Properties.Settings.Default.boxCheck)
-            {
-                pworkCount.Text = ((int)(inputModel.pworkCount * inputModel.pCnt)).ToString();
-            }
-            else
-            {
-                if (Properties.Settings.Default.CountType == 1)
+                arrChkAED = pworkCount.Text.ToString().Equals("0") ? "3" : "2";
+                if(Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
                 {
-                    if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업"))
-                    {
-                        pworkCount.Text = ((int)(inputModel.pworkCount * inputModel.pCnt)).ToString();
-                    }
-                   
+                    workCount = (int.Parse(pworkCount.Text) * inputModel.pCnt).ToString();
+                }
+                else
+                {
+                    workCount = pworkCount.Text;
+
                 }
 
+                ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+                ReturnModel returnData = ServiceModel.GetData(
+                    Properties.Settings.Default.serverIndex,
+                    "[PopResultEndMember]",
+                    new string[] { "@작업일자", "@오더Key", "@ChkAED", "@실수요자생산Key", "@작업량", "@불량" },
+                    new object[] {
+                DateTime.Now.ToString("yyyy-MM-dd"),
+                inputModel.orderKey,
+                arrChkAED,
+                errorModel.workMemberKey,
+                workCount,
+                inputModel.perrCount,
 
+                     }, 1
+
+                  );
+
+                if (returnData.결과 == 1)
+                {
+
+                    Close();
+                }
             }
+            else
+            {
+                if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                {
+                    workCount = (int.Parse(pworkCount.Text) * inputModel.pCnt).ToString();
+                }
+                else
+                {
+                    workCount = pworkCount.Text;
 
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
-            string parameter = "[" + Properties.Settings.Default.mercName + "] " + inputModel.customSName + Environment.NewLine + inputModel.prodName + " " + inputModel.pworkCount.ToString("N0") + "개";
-            ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
-                "[PopResultEnd]",
-                new string[] { "@AllChkAED", "@작업일자", "@오더Key", "@arrChkAED", "@arr공정구분", "@arr계획Key",
+                }
+                if (pworkCount.Text.ToString().Equals("0"))
+                {
+                    arrChkAED = "3|";
+                }
+                else
+                {
+                    arrChkAED = "2|";
+                }
+                ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+                string parameter = "[" + Properties.Settings.Default.mercName + "] " + inputModel.customSName + Environment.NewLine + inputModel.prodName + " " + inputModel.pworkCount.ToString("N0") + "개";
+                ReturnModel returnData = ServiceModel.GetData(
+                    Properties.Settings.Default.serverIndex,
+                    "[PopResultEnd]",
+                    new string[] { "@AllChkAED", "@작업일자", "@오더Key", "@arrChkAED", "@arr공정구분", "@arr계획Key",
                 "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고"},
-                new object[] {
+                    new object[] {
                 "1",
                 DateTime.Now.ToString("yyyy-MM-dd"),
                 inputModel.orderKey,
@@ -102,18 +151,27 @@ namespace PopProject.Input
                 inputModel.ProcessType + "|",
                 inputModel.pplanKey + "|",
                 errorModel.pworkKey + "|",
-                pworkCount.Text + "|",
+                workCount + "|",
                 inputModel.perrCount + "|",
                 inputModel.pMemo + "|"
-                 }, 1, parameter
-              );
+                     }, 1, parameter
+                  );
 
-            if (returnData.결과 == 1)
-            {
-                Properties.Settings.Default.presultcount = float.Parse(pworkCount.Text);
-                Properties.Settings.Default.Save();
-                Close();
+                if (returnData.결과 == 1)
+                {
+                    Properties.Settings.Default.presultcount = float.Parse(pworkCount.Text);
+                    Properties.Settings.Default.Save();
+                    Close();
+                }
+
             }
+
+            
+            
+
+           
+
+          
 
         }
 

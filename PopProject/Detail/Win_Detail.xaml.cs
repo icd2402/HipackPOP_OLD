@@ -33,6 +33,9 @@ namespace PopProject.Detail
         private readonly ObservableCollection<MainModel> workList;
         private readonly bool monitorcheck = false;
         public Socket mainSock;
+        private string special;
+        private bool detail_check;
+
         public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v)
         {
             InitializeComponent();
@@ -42,6 +45,8 @@ namespace PopProject.Detail
             customSname.Text = mainModel.customSName;
             boxType.Text = "형  태 : " + mainModel.boxType;
             pplanCount.Text = "계획량 : " + mainModel.pplanCount.ToString("N0");
+            tb파렛트적재높이.Text = this.mainModel.PalletHeight;
+            tb파렛트적재매수.Text = this.mainModel.PalletCount;
             prodName.Text = mainModel.prodName;
             subOb.ItemsSource = mainModel.subOb;
             tb공정별.Text = special.Replace("|", "\n");
@@ -57,6 +62,31 @@ namespace PopProject.Detail
             {
                 serchRobotData();
             }
+        }
+
+        public Win_Detail(MainModel mainModel, string special, bool detail_check)
+        {
+            InitializeComponent();
+            this.mainModel = mainModel;
+            this.special = special;
+            this.detail_check = detail_check;
+
+            customSname.Text = mainModel.customSName;
+            boxType.Text = "형  태 : " + mainModel.boxType;
+            pplanCount.Text = "계획량 : " + mainModel.pplanCount.ToString("N0");
+            tb파렛트적재높이.Text = this.mainModel.PalletHeight;
+            tb파렛트적재매수.Text = this.mainModel.PalletCount;
+            prodName.Text = mainModel.prodName;
+            subOb.ItemsSource = mainModel.subOb;
+            tb공정별.Text = special.Replace("|", "\n");
+            pSize.Text = mainModel.pSize;
+            Pass_detail.Visibility = Properties.Settings.Default.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
+            robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
+
+            MetrialBj();
+            MetrialIG();
+            PopSearchPhoto();
+
         }
 
         private void serchRobotData()
@@ -665,6 +695,9 @@ namespace PopProject.Detail
                                     break;
                                 case "8종구2":
                                     jonggu.Source = new BitmapImage(new Uri(@"/img/8종구2.png", UriKind.Relative));
+                                    break;
+                                case "1자3종구":
+                                    jonggu.Source = new BitmapImage(new Uri(@"/img/1자3종구.png", UriKind.Relative));
                                     break;
                                 default:
                                     jonggu.Visibility = Visibility.Collapsed;

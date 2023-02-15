@@ -18,7 +18,7 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>ftp://114.108.146.173:61028/Setup/POP_NEW/</PublishUrl>
+    <PublishUrl>ftp://211.251.238.209:61028/Setup/POP_NEW/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.200</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.227</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>200</ApplicationRevision>
+    <ApplicationRevision>228</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -171,6 +171,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\ServiceReference_grbox1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\ServiceReference_hsbox\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -242,6 +247,12 @@
     <Compile Include="Consumer_\ConsumerModel.cs" />
     <Compile Include="Consumer_\Consumer_input.xaml.cs">
       <DependentUpon>Consumer_input.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consumer_\DSConsumer.xaml.cs">
+      <DependentUpon>DSConsumer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consumer_\DsConsumer_input.xaml.cs">
+      <DependentUpon>DsConsumer_input.xaml</DependentUpon>
     </Compile>
     <Compile Include="Detail\DetailModel.cs" />
     <Compile Include="Detail\IP_Setting.xaml.cs">
@@ -378,6 +389,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Consumer_\Consumer_input.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consumer_\DSConsumer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consumer_\DsConsumer_input.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -606,22 +625,38 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ServiceReference_dubox\Service_CRUD.wsdl" />
-    <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD.xsd">
+    <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD4.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD1.xsd">
+    <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD41.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD2.xsd">
+    <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD42.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD3.xsd">
+    <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD43.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\ServiceReference_dybox\PopProject.ServiceReference_dybox.Return_Model.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\ServiceReference_dybox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_dybox\Service_CRUD1.wsdl" />
+    <None Include="Connected Services\ServiceReference_grbox1\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_grbox1\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_grbox1\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_grbox1\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_grbox1\PopProject.ServiceReference_grbox1.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_grbox1\Service_CRUD.wsdl" />
     <None Include="Connected Services\ServiceReference_hsbox\Access_MiddleWare_CRUD.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -832,7 +867,6 @@
     <None Include="Connected Services\ServiceReference_ycbox\Service_CRUD.wsdl" />
     <None Include="packages.config" />
     <None Include="packcom_net_chain.pfx" />
-    <None Include="PopProject_TemporaryKey.pfx" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -915,6 +949,7 @@
     <WCFMetadataStorage Include="Connected Services\ServiceReference_dsbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_dubox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_dybox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_grbox1\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_hsbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_kmbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_mirae\" />
@@ -1182,9 +1217,6 @@
     <Resource Include="img\box9.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD.disco" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD.disco" />
   </ItemGroup>
   <ItemGroup>
@@ -1228,6 +1260,28 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_grbox1\Access_MiddleWare_CRUD.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_grbox1\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_grbox1\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_grbox1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\1자3종구.png" />
+    <Resource Include="img\7종구.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD1.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.2-mauipre.1.22102.15\build\Microsoft.Extensions.Logging.Abstractions.targets" Condition="Exists('..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.2-mauipre.1.22102.15\build\Microsoft.Extensions.Logging.Abstractions.targets')" />

@@ -41,9 +41,14 @@ namespace PopProject.MessageBox
                 _ = box_count.Dispatcher.BeginInvoke(new Action(() => { copy_count.SelectAll(); }));
             }
 
-            if (!Properties.Settings.Default.corp_id.Equals("3125247246") ) // 오주포장
+            if (Properties.Settings.Default.corp_id.Equals("3125247246") || Properties.Settings.Default.corp_id.Equals("C91950615") || Properties.Settings.Default.corp_id.Equals("766562426")) // 오주포장
             {
-                pallet.Visibility = Visibility.Hidden;
+                pallet.Visibility = Visibility.Visible;
+                //print_stack.Margin = new Thickness(0, 0, 0, 0);
+                //set_count.Margin = new Thickness(0, 20, 0, 0);
+            }
+            else
+            {
                 print_stack.Margin = new Thickness(0, 0, 0, 0);
                 set_count.Margin = new Thickness(0, 20, 0, 0);
             }
@@ -219,7 +224,7 @@ namespace PopProject.MessageBox
                         //pr3.pworkDate = Convert.ToDateTime(result["pworkDate"]).ToString("yyyy/MM/dd");
                         pr3.pworkDate = DateTime.Today.ToString("yyyy/MM/dd");
                         pr3.pStockKey = result["pStockKey"].ToString();
-                      
+                  
                         int keyLenth = 0;
                         keyLenth = 10 - pr3.pStockKey.Length;
 
@@ -262,7 +267,13 @@ namespace PopProject.MessageBox
                         pr1.pworkDate = DateTime.Today.ToString("yyyy/MM/dd");
                         pr1.resultCount = result["resultCount"].ToString();
                         pr1.pStockKey = result["pStockKey"].ToString();
-
+                        pr1.loadCount = "";
+                        if (box_count.Text.ToString().Length > 0)
+                        {
+                            pr1.loadCount = box_count.Text;
+                        }
+                       
+                        
                         int keyLenth = 0;
                         keyLenth = 10 - pr1.pStockKey.Length;
 

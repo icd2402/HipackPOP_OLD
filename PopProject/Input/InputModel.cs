@@ -510,6 +510,19 @@ namespace PopProject.input
     public class errorModel :ViewModelBase
     {
 
+        private string _workMemberKey;
+        public string workMemberKey
+        {
+            get
+            {
+                return _workMemberKey;
+            }
+            set
+            {
+                _workMemberKey = value;
+            }
+
+        }
         private int _pworkKey;
 
         public int pworkKey

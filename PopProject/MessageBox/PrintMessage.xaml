@@ -33,7 +33,7 @@
 
 
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,30,0,0"  x:Name="pallet">
+                <StackPanel Orientation="Horizontal" Margin="0,30,0,0"  x:Name="pallet" Visibility="Hidden">
                     <TextBlock  Text="파렛트 당 적재수량 : " Foreground="Black" VerticalAlignment="Center"  FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" Margin="60,0,0,0"/>
                     <TextBox x:Name="box_count" Focusable="False"   Margin="15,0,30,0" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="70" Canvas.Top="434" Foreground="#26414A" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="pallet_count"/>
 

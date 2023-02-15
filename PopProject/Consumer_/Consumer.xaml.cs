@@ -138,14 +138,11 @@ namespace PopProject.Consumer_
                     break;
 
             }
-            ConvertModel();
+            
 
         }
 
-        private void ConvertModel()
-        {
-
-        }
+        
 
         private void ArduReReceive(object sender, SerialDataReceivedEventArgs e)
         {
@@ -182,7 +179,7 @@ namespace PopProject.Consumer_
                         consumer_input.inputModel.count = str;
                         InvokeCount(str);
                         Console.WriteLine("consumer_input.inputModel.count : " + consumer_input.inputModel.count);
-                   }
+                    }
                     break;
                 default:
                     if (consumer_input != null)

@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using PopProject.KeyBoard;
+using PopProject.Input;
 
 namespace PopProject.Consumer_
 {
@@ -148,7 +149,6 @@ namespace PopProject.Consumer_
                             pworkKey = int.Parse(result["pworkKey"].ToString()),
                             sDatetime = result["sDatetime"].ToString()
                         };
-
                         listitem.eDatetime = result["sDatetime"].ToString().Length > 2 ? result["eDatetime"].ToString() : "";
                         listitem.orderKey = result["orderKey"].ToString();
                         listitem.pplanKey = int.Parse(result["pplanKey"].ToString());
@@ -162,7 +162,8 @@ namespace PopProject.Consumer_
                         {
                             errorModel item2 = new errorModel
                             {
-                                memo = "작업완료",
+                                workMemberKey = result["workMemberKey"].ToString(),
+                                 memo = "작업완료",
                                 perrCount = listitem.pWorkCount,
                                 updateTime = DateTime.Parse(listitem.eDatetime),
                                 fontColor = Brushes.Red
@@ -178,12 +179,10 @@ namespace PopProject.Consumer_
                         //        listitem.perrCnt += item.perrCount;
                         //    }
                         //}
-
                         inputModel.sumPworkCount += listitem.pWorkCount;
                         if (consumerModel.membID.Equals(result["membID"].ToString()))
-                            
                         {
-                            
+
                         }
 
                         ob.Add(listitem);
@@ -211,12 +210,13 @@ namespace PopProject.Consumer_
                             inputModel.pMemo = tempItem.Memo;
                             inputModel.sDatetime = tempItem.sDatetime;
                             inputModel.eDatetime = tempItem.eDatetime;
+                           
                         }
 
                         else
                         {
                             inputModel.imagePath = "/img/bn_05.png";
-                            
+
                             if (inputModel.eDatetime.Length > 3)
                             {
 
@@ -282,6 +282,7 @@ namespace PopProject.Consumer_
                 {
                     errorModel startItem = new errorModel
                     {
+
                         updateTime = DateTime.Parse(listitem.sDatetime),
                         memo = "작업시작",
                         fontColor = Brushes.Green,
@@ -293,6 +294,7 @@ namespace PopProject.Consumer_
                     {
                         errorModel item = new errorModel
                         {
+                            workMemberKey = listitem.workMemberKey,
                             ConsumerModel = listitem,
                             perrKey = result["workErrorMemberKey"].ToString(),
                             memo = result["Memo"].ToString(),
@@ -347,7 +349,41 @@ namespace PopProject.Consumer_
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            e.Handled = true;
 
+            if (e.ClickCount == 2)
+            {
+                if (sender.GetType().Name.Equals("Border"))
+                {
+                    Border border = (Border)sender;
+                    errorModel context = (errorModel)border.DataContext;
+
+                    //Console.WriteLine("메모" + context.memo);
+
+                    if (!context.memo.Equals("작업시작") && !context.memo.Equals("작업완료"))
+                    {
+                        //can.Visibility = Visibility.Visible;
+                        //Win_Update win_Update = new Win_Update(context,inputModel);
+                        //_ = win_Update.ShowDialog();
+
+                        //PopResultSearchMember();
+                        //can.Visibility = Visibility.Collapsed;
+
+                    }
+
+                    else if (context.memo.Equals("작업완료"))
+                    {
+
+                        can.Visibility = Visibility.Visible;
+                        Win_resultUpdate win_resultUpdate = new Win_resultUpdate(context, inputModel,true);
+                        _ = win_resultUpdate.ShowDialog();
+                        PopResultSearchMember();
+                        can.Visibility = Visibility.Collapsed;
+
+
+                    }
+                }
+            }
         }
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -374,7 +410,7 @@ namespace PopProject.Consumer_
                 checkChangeButton = true;
                 Width = 1105;
                 Left = (SystemParameters.WorkArea.Width / 2) - (Width / 2);
-            } 
+            }
 
         }
 
@@ -497,7 +533,7 @@ namespace PopProject.Consumer_
             int ChkAED;
             if (inputModel.pworkCount == 0 && inputModel.perrCount == 0)
             {
-                return 0;
+                ChkAED = 3;
             }
             else
             {

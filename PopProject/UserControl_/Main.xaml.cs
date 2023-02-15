@@ -86,11 +86,9 @@ namespace PopProject.UserControl_
 
                 SignalRAdministrator.허브.On<string, string>("returnCount", recive);
 
-                if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩")
-                        || Properties.Settings.Default.corp_name.Equals("성주포장"))
-                {
+               
                     InvokeMercName(Properties.Settings.Default.mercName, "A");
-                }
+                
 
                 Properties.Settings.Default.consumersumcount = 0;
                 Properties.Settings.Default.Save();
@@ -99,7 +97,7 @@ namespace PopProject.UserControl_
                 SetSetting(metrialitem);
                 ArduConn();
                 //ArduConn1();
-                if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("혜성수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트"))
+                if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("혜성수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트") || Properties.Settings.Default.corp_name.Equals("성주포장"))
                 {
                     if (Properties.Settings.Default.CountType != 0)
                     {
@@ -312,6 +310,7 @@ namespace PopProject.UserControl_
                 
             }
         }
+
         private void ArduConn1()
         {
 
@@ -453,7 +452,7 @@ namespace PopProject.UserControl_
 
                             else
                             {
-                                if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩"))
+                                if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("성주포장"))
                                 {
                                     pCnt = Properties.Settings.Default.twoSum ? (production.pCnt * 2) : 1;
                                 }
@@ -496,11 +495,13 @@ namespace PopProject.UserControl_
 
         public void ArduReReceive(object sender, SerialDataReceivedEventArgs e)
         {
+
+            //Console.WriteLine(arduSerial.ReadLine().Trim());
+            //str = int.Parse(arduSerial.ReadLine().Trim());
             float pCnt;
             int bytesize;
             string ArdumercName;
-            try
-            {
+           
                 switch (Properties.Settings.Default.corp_id)
                 {
                     case "icdtest2":
@@ -554,7 +555,7 @@ namespace PopProject.UserControl_
                                 }
                                 else
                                 {
-                                    if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩"))
+                                    if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("성주포장") || Properties.Settings.Default.corp_name.Equals("대세물산"))
                                     {
                                         pCnt = Properties.Settings.Default.twoSum ? (production.pCnt * 2) : 1;
                                     }
@@ -591,17 +592,19 @@ namespace PopProject.UserControl_
                         try
                         {
 
-                            bytesize = arduSerial.BytesToRead;
+                        //bytesize = arduSerial.BytesToRead;
 
-                            if (bytesize == -1) return;
-                            // byte[] data = new byte[bytesize];
-                            // arduSerial.Read(data, 0, bytesize);
-                            // string msg = Encoding.Default.GetString(data);
-                            // str = int.Parse(msg);
-                            // LogWrite(str.ToString());
-                            str = int.Parse(arduSerial.ReadLine().Trim());
-                            LogWrite(str.ToString());
-                            if (production != null)
+                        //if (bytesize == -1) return;
+                        //byte[] data = new byte[bytesize];
+                        //arduSerial.Read(data, 0, bytesize);
+                        //string msg = Encoding.Default.GetString(data);
+                        //str = int.Parse(msg);
+                        //LogWrite(str.ToString());
+                        //Console.WriteLine("값 : " + str);
+                        str = int.Parse(arduSerial.ReadLine().Trim());
+                        Console.WriteLine("값 : " + str);
+                        //LogWrite(str.ToString());
+                        if (production != null)
                             {
                                 Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                                 {
@@ -638,7 +641,7 @@ namespace PopProject.UserControl_
 
                                     else
                                     {
-                                        if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩"))
+                                        if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("성주포장"))
                                         {
                                             pCnt = Properties.Settings.Default.twoSum ? (production.pCnt * 2) : 1;
                                         }
@@ -676,17 +679,13 @@ namespace PopProject.UserControl_
                         {
                             //MessageBoxResult result = System.Windows.MessageBox.Show(e1.Message, "작업 저장",
                             //     MessageBoxButton.YesNo);
-                            //MessageBox_Dialog msg = new MessageBox_Dialog("아두이노 리시브 오류 : "+e1.Message);
-                            // msg.Show();
+                            //MessageBox_Dialog msg = new MessageBox_Dialog("아두이노 리시브 오류 : " + e1.Message);
+                            //msg.Show();
                         }
 
                         break;
                 }
-            }
-            catch (Exception e1)
-            {
-
-            }
+           
             //Console.WriteLine("aa" + arduSerial.ReadLine().Trim());
             // Console.WriteLine(arduSerial.ReadLine().Trim());
 
@@ -740,11 +739,9 @@ namespace PopProject.UserControl_
                 bool connected = NetworkInterface.GetIsNetworkAvailable();
                 if (connected)
                 {
-                    if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("성주포장"))
-
-                    {
+                   
                         InvokeMercName(Properties.Settings.Default.mercName, "A");
-                    }
+                    
                 }
                 minuite1 = 0;
             }
@@ -1014,9 +1011,7 @@ namespace PopProject.UserControl_
                 _ = mercList.ShowDialog();
                 tbMercName.Text = Properties.Settings.Default.mercName;
 
-                if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("성주포장"))
-
-                {
+               
                     if (!before.Equals(Properties.Settings.Default.mercName))
                     {
                         InvokeMercName(before, "B");
@@ -1030,10 +1025,9 @@ namespace PopProject.UserControl_
                     {
                         InvokeMercName(Properties.Settings.Default.mercName, "A");
                     }
-                }
+                
                 //setTbPintNo();
-                if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("혜성수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트"))
-                {
+               
                     if (Properties.Settings.Default.CountType != 0)
                     {
                         work.Text = "박스수";
@@ -1049,7 +1043,7 @@ namespace PopProject.UserControl_
                         Canvas.SetTop(work, 10);
                     }
 
-                }
+                
                 SelectWorkList();
                 ResultSearchDate();
 
@@ -1089,6 +1083,16 @@ namespace PopProject.UserControl_
                         if (result["boxType"].ToString() != null)
                         {
                             listitem.boxType = result["boxType"].ToString();
+                        }
+
+                        if (result["PalletHeight"].ToString() != null)
+                        {
+                            listitem.PalletHeight = result["PalletHeight"].ToString();
+                        }
+
+                        if (result["PalletCount"].ToString() != null)
+                        {
+                            listitem.PalletCount = result["PalletCount"].ToString();
                         }
 
                         if (result["givWD"].ToString() != null)
@@ -1263,7 +1267,7 @@ namespace PopProject.UserControl_
                         listitem.CoatingType = result["CoatingType"].ToString();
                         listitem.PackCount = result["PackCount"].ToString();
                         listitem.pplanCount = int.Parse(result["pplanCount"].ToString());
-                        if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("혜성수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트"))
+                        if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("혜성수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트") || Properties.Settings.Default.corp_name.Equals("성주포장"))
                         {
                             if (Properties.Settings.Default.CountType == 0)
                             {
@@ -1283,7 +1287,7 @@ namespace PopProject.UserControl_
 
                         if (Properties.Settings.Default.boxCheck)
                         {
-                            listitem.pplanCount = Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("혜성수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트")
+                            listitem.pplanCount = Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("혜성수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트") || Properties.Settings.Default.corp_name.Equals("성주포장")
                                 ? int.Parse(result["pplanCount"].ToString())
                                 : (float)Math.Ceiling(listitem.pplanCount / (float)listitem.pCnt);
                         }
@@ -1299,7 +1303,7 @@ namespace PopProject.UserControl_
                         {
                             if (Properties.Settings.Default.CountType == 1)
                             {
-                                if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩"))
+                                if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("성주포장"))
                                 {
                                     listitem.presultCount = float.Parse(result["presultCount"].ToString()) / listitem.pCnt;
                                     listitem.presultCount1 = float.Parse(result["presultCount"].ToString()) / listitem.pCnt;
@@ -1790,6 +1794,253 @@ namespace PopProject.UserControl_
                             }
 
                         }
+                        //else if (Properties.Settings.Default.mercName.Equals("1호기(오프라인)") && Properties.Settings.Default.corp_name.Equals("구룡산업제2공장"))
+                        //{
+                        //    if (listitem.ProcessType == 15)
+                        //    {
+                        //        string[] setting = Properties.Settings.Default.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
+                        //        for (int i = 0; i < setting.Length; i++)
+                        //        {
+                        //            string item = "";
+                        //            switch (setting[i])
+                        //            {
+                        //                case "1":
+                        //                    item = result["filmNo"].ToString();
+                        //                    break;
+                        //                case "2":
+                        //                    item = result["CoatingType"].ToString();
+                        //                    break;
+                        //                case "3":
+                        //                    item = result["PrintNo"].ToString();
+                        //                    break;
+
+                        //                case "4":
+                        //                    item = result["Printposition"].ToString();
+                        //                    break;
+                        //                case "5":
+                        //                    item = result["PushingNo"].ToString();
+                        //                    break;
+                        //                case "6":
+                        //                    item = result["Pushingposition"].ToString();
+                        //                    break;
+                        //                case "7":
+                        //                    item = Properties.Settings.Default.color_check ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ") : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
+                        //                    break;
+                        //                case "8":
+                        //                    item = result["ConnetingType"].ToString();
+                        //                    break;
+
+                        //                case "9":
+                        //                    item = result["handChk"].ToString();
+                        //                    break;
+
+                        //                case "10":
+                        //                    item = result["PackCount"].ToString();
+                        //                    break;
+
+                        //                case "11":
+                        //                    item = result["PackType"].ToString();
+                        //                    break;
+                        //                case "14":
+                        //                    item = result["workMemo"].ToString();
+                        //                    break;
+                        //                case "15":
+                        //                    item = result["pplanMemo"].ToString();
+                        //                    break;
+                        //                case "16":
+                        //                    item = result["ProcessMemo"].ToString();
+                        //                    break;
+                        //                case "17":
+                        //                    item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
+                        //                       ? "-"
+                        //                       : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
+                        //                    break;
+                        //                case "18":
+                        //                    item = result["PalletType"].ToString();
+                        //                    break;
+
+                        //                default:
+                        //                    break;
+                        //            }
+
+                        //            if (i == 0)
+                        //            {
+                        //                listitem.item1 = item.Replace("\r\n", "");
+                        //            }
+
+                        //            else if (i == 1)
+                        //            {
+                        //                listitem.item2 = item.Replace("\r\n", "");
+                        //            }
+
+                        //            else if (i == 2)
+                        //            {
+                        //                listitem.item3 = item.Replace("\r\n", "");
+                        //            }
+                        //        }
+                        //        foreach (JObject resultSub in Data_Jarry)
+                        //        {
+                        //            SubModel subItem = new SubModel();
+                        //            if (listitem.orderKey.Equals(resultSub["orderKey"].ToString()))
+                        //            {
+                        //                if (listitem.pplanKey.Equals(resultSub["pplanKey"].ToString()))
+                        //                {
+
+                        //                }
+                        //            }
+
+                        //            if ((listitem.orderKey + listitem.orderWorkNo).Equals(resultSub["orderKey"].ToString() + resultSub["orderWorkNo"].ToString()))
+                        //            {
+                        //                subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();
+                        //                subItem.ProcessTypeName = resultSub["ProcessTypeName"].ToString();
+                        //                subItem.processType = int.Parse(resultSub["ProcessType"].ToString());
+                        //                subItem.orderKey = resultSub["orderKey"].ToString();
+                        //                subItem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());
+                        //                if (int.Parse(resultSub["presultCount"].ToString()) > 0)
+                        //                {
+                        //                    subItem.stateColor = Brushes.Black;
+                        //                    subItem.stateFontColor = Brushes.White;
+                        //                    subItem.presultCount = int.Parse(resultSub["presultCount"].ToString());
+
+                        //                    if (!resultSub["perrCount"].ToString().Equals(""))
+                        //                    {
+                        //                        subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
+                        //                    }
+
+                        //                }
+
+                        //                else
+                        //                {
+                        //                    subItem.stateColor = Brushes.White;
+                        //                    subItem.stateFontColor = Brushes.Black;
+                        //                }
+                        //                listitem.subOb.Add(subItem);
+                        //            }
+                        //        }
+
+                        //        listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
+                        //        workList.Add(listitem);
+                        //    }
+                        //}
+                        else if (Properties.Settings.Default.mercName.Equals("2공장인쇄기") && Properties.Settings.Default.corp_name.Equals("오주포장"))
+                        {
+                            if (listitem.mercName.Equals("2공장인쇄기"))
+                            {
+                                if (listitem.ProcessType == Properties.Settings.Default.processType)
+                                {
+                                    string[] setting = Properties.Settings.Default.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
+                                    for (int i = 0; i < setting.Length; i++)
+                                    {
+                                        string item = "";
+                                        switch (setting[i])
+                                        {
+                                            case "1":
+                                                item = result["filmNo"].ToString();
+                                                break;
+                                            case "2":
+                                                item = result["CoatingType"].ToString();
+                                                break;
+                                            case "3":
+                                                item = result["PrintNo"].ToString();
+                                                break;
+                                            case "4":
+                                                item = result["Printposition"].ToString();
+                                                break;
+                                            case "5":
+                                                item = result["PushingNo"].ToString();
+                                                break;
+                                            case "6":
+                                                item = result["Pushingposition"].ToString();
+                                                break;
+                                            case "7":
+                                                item = Properties.Settings.Default.color_check ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ") : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
+                                                break;
+                                            case "8":
+                                                item = result["ConnetingType"].ToString();
+                                                break;
+                                            case "9":
+                                                item = result["handChk"].ToString();
+                                                break;
+                                            case "10":
+                                                item = result["PackCount"].ToString();
+                                                break;
+                                            case "11":
+                                                item = result["PackType"].ToString();
+                                                break;
+                                            case "14":
+                                                item = result["workMemo"].ToString();
+                                                break;
+                                            case "15":
+                                                item = result["pplanMemo"].ToString();
+                                                break;
+                                            case "16":
+                                                item = result["ProcessMemo"].ToString();
+                                                break;
+                                            case "17":
+                                                item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
+                                                ? "-"
+                                                : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
+                                                break;
+                                            case "18":
+                                                item = result["PalletType"].ToString();
+                                                break;
+
+                                            default:
+                                                break;
+                                        }
+
+                                        if (i == 0)
+                                        {
+                                            listitem.item1 = item.Replace("\r\n", "");
+                                        }
+
+                                        else if (i == 1)
+                                        {
+                                            listitem.item2 = item.Replace("\r\n", "");
+                                        }
+
+                                        else if (i == 2)
+                                        {
+                                            listitem.item3 = item.Replace("\r\n", "");
+                                        }
+                                    }
+
+                                    foreach (JObject resultSub in Data_Jarry)
+                                    {
+                                        SubModel subItem = new SubModel();
+                                        //Console.WriteLine(resultSub["pplanKey"].ToString());
+                                        if ((listitem.orderKey + listitem.orderWorkNo).Equals(resultSub["orderKey"].ToString() + resultSub["orderWorkNo"].ToString()))
+                                        {
+                                            subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();
+                                            subItem.ProcessTypeName = resultSub["ProcessTypeName"].ToString();
+                                            subItem.processType = int.Parse(resultSub["ProcessType"].ToString());
+                                            subItem.orderKey = resultSub["orderKey"].ToString();
+                                            subItem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());
+                                            if (int.Parse(resultSub["presultCount"].ToString()) > 0)
+                                            {
+                                                subItem.stateColor = Brushes.Black;
+                                                subItem.stateFontColor = Brushes.White;
+                                                subItem.presultCount = int.Parse(resultSub["presultCount"].ToString());
+                                                if (!resultSub["perrCount"].ToString().Equals(""))
+                                                {
+                                                    subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
+                                                }
+                                            }
+
+                                            else
+                                            {
+                                                subItem.stateColor = Brushes.White;
+                                                subItem.stateFontColor = Brushes.Black;
+                                            }
+
+                                            listitem.subOb.Add(subItem);
+                                        }
+                                    }
+                                    listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
+                                    workList.Add(listitem);
+                                }
+                            }
+                        }
                         else
                         {
                             if (listitem.mercName.Equals(""))
@@ -2074,6 +2325,10 @@ namespace PopProject.UserControl_
                                 {
                                     workItem.presultCount = float.Parse(result["pworkCount"].ToString());
                                     workItem.sumPworkCount += float.Parse(result["pworkCount"].ToString());
+                                    if (Properties.Settings.Default.boxCheck)
+                                    {
+                                        workItem.sumPworkCount = workItem.sumPworkCount / workItem.pCnt;
+                                    }
                                     workItem.sDatetime = result["sDatetime"].ToString();
 
                                     if (!result["perrorCount"].ToString().Equals(""))
@@ -2302,10 +2557,9 @@ namespace PopProject.UserControl_
         {
             Properties.Settings.Default.consumersumcount = 0;
             Properties.Settings.Default.Save();
-            if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("성주포장"))
-            {
-                InvokeMercName(Properties.Settings.Default.mercName, "B");
-            }
+           
+             InvokeMercName(Properties.Settings.Default.mercName, "B");
+            
             Environment.Exit(0);
 
 
@@ -2328,27 +2582,56 @@ namespace PopProject.UserControl_
 
                     if (model.bMember)
                     {
-                        Consumer consumer = new Consumer(model);
-                        _ = consumer.ShowDialog();
+                        if(Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
+                        {
+
+                            if (model.imagePath.Equals("/img/bn_02.png"))
+                            {
+                                model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                PopResultStart(model);
+
+                            }
+                            else if (model.imagePath.Equals("/img/bn_03.png"))
+                            {
+                                model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                PopResultStart(model);
+                            }else if (model.imagePath.Equals("/img/bn_01.png"))
+                            {
+                                model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            }
+                            e.Handled = false;
+                            DSConsumer dSConsumer = new DSConsumer(model);
+                            dSConsumer.ShowDialog();
+                            InvokeCount(Properties.Settings.Default.mercName, "E");
+                            SelectWorkList();
+                            ResultSearchDate();
+                        }
+                        else
+                        {
+                            Consumer consumer = new Consumer(model);
+                            _ = consumer.ShowDialog();
+                            SelectWorkList();
+                            ResultSearchDate();
+
+                        }
+
                     }
 
                     else
                     {
-
-
-
                         win_Input = new Win_input(model, workList, false);
                         _ = win_Input.ShowDialog();
-                        //if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("신우포장테스트"))
-                        //{
-                        //    SelectWorkList();
-                        //    ResultSearchDate();
-                        //}
-
                         if (Properties.Settings.Default.presultcount != 0)
                         {
                             model.presultCount = Properties.Settings.Default.presultcount;
                         }
+                        if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                        {
+                            SelectWorkList();
+                            ResultSearchDate();
+                        }
+
+
                         Properties.Settings.Default.presultcount = 0;
                         Properties.Settings.Default.Save();
                         // model.presultCount = 11;
@@ -2385,6 +2668,123 @@ namespace PopProject.UserControl_
                 can.Visibility = Visibility.Collapsed;
                 //MessageBox_Dialog msg = new MessageBox_Dialog(e1.Message);
                 //msg.ShowDialog();
+            }
+        }
+        private int PopResultStart(MainModel model)
+        {
+
+            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ReturnModel returnData = ServiceModel.GetData(
+                Properties.Settings.Default.serverIndex,
+                "[PopResultStart]",
+                new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey" },
+                new object[] {
+                DateTime.Now.ToString("yyyy-MM-dd"),
+                model.orderKey,
+                model.pplanKey,
+                model.ProcessType,
+                Properties.Settings.Default.mercName,
+                MainWindow.userID,
+                MainWindow.userName,
+                "",
+                "",
+                ""},
+                1
+
+                );
+
+            if (returnData.결과 == 1)
+            {
+
+                // mainModel.pworkKey = int.Parse(returnData.리턴값);
+                if (model.imagePath.Equals("/img/bn_03.png"))
+                {
+                    model.ConsumWorkKey = returnData.리턴값;
+                }
+                Properties.Settings.Default.pworkkey = returnData.리턴값;
+                Properties.Settings.Default.Save();
+                //Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
+                model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                InvokeCount(Properties.Settings.Default.mercName, "S");
+                Properties.Settings.Default.count = 0;
+                Properties.Settings.Default.saveDate = "";
+                Properties.Settings.Default.pplanKey = 0;
+                Properties.Settings.Default.Save();
+
+                //switch (metrialitem)
+                //{
+                //    case "12":
+                //    case "13":
+                //        Main1.production = mainModel;
+                //        try
+                //        {
+
+                //            if (Main1.production != null)
+                //            {
+                //                Main1.arduSerial.Write("A");
+                //                Main1.arduSerial.Write("B");
+                //            }
+
+                //            else
+                //            {
+                //                Main1.arduSerial.Write("A");
+                //            }
+                //        }
+                //        catch (Exception)
+                //        {
+                //            //MessageBox_Dialog msg = new MessageBox_Dialog("PopResultStart 오류발생 !!" + e.Message);
+                //            //msg.ShowDialog();
+                //        }
+                //        break;
+
+                //    default:
+
+                //        Main.production = mainModel;
+
+                //        try
+                //        {
+                //            if (Main.production != null)
+                //            {
+                //                Main.arduSerial.Write("A");
+                //                Main.arduSerial.Write("B");
+                //            }
+
+                //            else
+                //            {
+                //                Main.arduSerial.Write("A");
+                //            }
+                //        }
+
+                //        catch (Exception)
+                //        {
+                //            // MessageBox_Dialog msg = new MessageBox_Dialog("PopResultStart 오류발생 !!" + e.Message);
+                //            // msg.ShowDialog();
+                //        }
+
+                //        break;
+
+                //}
+
+
+            }
+            else
+            {
+                MessageBox_Dialog msg = new MessageBox_Dialog("저장실패");
+                msg.ShowDialog();
+            }
+            return returnData.결과;
+        }
+        private void InvokeCount(string mercName, string v)
+        {
+            //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
+            try
+            {
+                SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
+
+            }
+            catch (Exception e)
+            {
+
             }
         }
 

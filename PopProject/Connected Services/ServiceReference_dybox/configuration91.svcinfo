@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="Yb4Wya911fORWmOxxdz6g9MAs/UHF1Et7Chhrii3y2I=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="BMPjwoHabElW+X+BIduL0P3AXOjrewe4Wm1illGu6oU=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_IService_CRUD12">
       <properties>
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="BasicHttpBinding_IService_CRUD12" contract="ServiceReference_dybox.IService_CRUD" bindingType="basicHttpBinding" address="http://114.108.146.189/WAS/Access_MiddleWare_CRUD.svc" bindingConfiguration="BasicHttpBinding_IService_CRUD12">
+    <endpoint name="BasicHttpBinding_IService_CRUD12" contract="ServiceReference_dybox.IService_CRUD" bindingType="basicHttpBinding" address="http://dybox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" bindingConfiguration="BasicHttpBinding_IService_CRUD12">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://114.108.146.189/WAS/Access_MiddleWare_CRUD.svc</serializedValue>
+          <serializedValue>http://dybox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

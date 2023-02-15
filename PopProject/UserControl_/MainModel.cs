@@ -22,6 +22,22 @@ namespace PopProject.UserControl_
                 onPropertyChanged("PackCount");
             }
         }
+
+        private String _ConsumWorkKey = "";
+        public String ConsumWorkKey
+        {
+
+            get
+            {
+                return _ConsumWorkKey;
+            }
+            set
+            {
+                _ConsumWorkKey = value;
+                onPropertyChanged("ConsumWorkKey");
+            }
+        }
+
         private String _item6 = "";
         public String item6
         {
@@ -617,6 +633,37 @@ namespace PopProject.UserControl_
                 onPropertyChanged("givSC");
             }
         }
+        //PalletHeight
+        //PalletCount
+
+        private string _PalletCount = "";
+        public string PalletCount
+        {
+            get
+            {
+                return _PalletCount;
+            }
+            set
+            {
+                _PalletCount = value;
+                onPropertyChanged("PalletCount");
+            }
+        }
+
+        private string _PalletHeight = "";
+        public string PalletHeight
+        {
+            get
+            {
+                return _PalletHeight;
+            }
+            set
+            {
+                _PalletHeight = value;
+                onPropertyChanged("PalletHeight");
+            }
+        }
+
         private string _boxType = "";
         public string boxType
         {
