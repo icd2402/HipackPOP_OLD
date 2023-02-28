@@ -246,6 +246,7 @@ namespace PopProject.Util
                     break;
 
                 case "hsbox":
+                case "hsbox1":
                     hs_Service = new ServiceReference_hsbox.Service_CRUDClient();
                     hs_Access_Model = new ServiceReference_hsbox.Access_Model();
                     hs_Return_Model = new ServiceReference_hsbox.Return_Model();
@@ -528,6 +529,7 @@ namespace PopProject.Util
                         break;
 
                     case "hsbox":
+                    case "hsbox1":
                         hs_Access_Model.SP명 = SP명;
                         hs_Access_Model.파라미터 = 파라미터;
                         hs_Access_Model.값 = 값;
@@ -812,6 +814,7 @@ namespace PopProject.Util
                     break;
 
                 case "hsbox":
+                case "hsbox1":
                     hs_Access_Model.SP명 = SP명;
                     hs_Access_Model.파라미터 = 파라미터;
                     hs_Access_Model.값 = 값;
