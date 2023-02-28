@@ -440,7 +440,7 @@ namespace PopProject.Consumer_
                new string[] { "@AllChkAED", "@작업일자", "@오더Key", "@arrChkAED", "@arr공정구분", "@arr계획Key",
                 "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명"},
                new object[] {
-                "1",
+                "2",
                 DateTime.Now.ToString("yyyy-MM-dd"),
                 mainModel.orderKey,
                 arrChkAED,
