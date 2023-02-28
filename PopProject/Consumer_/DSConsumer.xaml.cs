@@ -469,7 +469,7 @@ namespace PopProject.Consumer_
                 }
             }
             Properties.Settings.Default.pplanKey = 0;
-            Properties.Settings.Default.pworkkey = "";
+            Properties.Settings.Default.pworkkey = ""; 
             Properties.Settings.Default.Save();
             return returnData.결과;
         }
