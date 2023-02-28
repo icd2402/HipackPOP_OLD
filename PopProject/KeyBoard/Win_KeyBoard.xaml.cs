@@ -241,7 +241,7 @@ namespace PopProject.KeyBoard
                 if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
                 {
 
-                    System.Drawing.Rectangle rec = System.Windows.Forms.Screen.AllScreens[0].WorkingArea; 
+                    System.Drawing.Rectangle rec = System.Windows.Forms.Screen.AllScreens[1].WorkingArea; 
                     Left = rec.Left + 40;
                     Top = rec.Top + 380;
                     WindowStartupLocation = WindowStartupLocation.CenterScreen;
