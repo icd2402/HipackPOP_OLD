@@ -53,7 +53,7 @@ namespace PopProject.Detail
             pSize.Text = mainModel.pSize;
             Pass_detail.Visibility = Properties.Settings.Default.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
             robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
-
+            wharehouse.Visibility = Properties.Settings.Default.corp_name.Equals("두성포장테스트") || Properties.Settings.Default.corp_name.Equals("두성포장") ? Visibility.Visible : Visibility.Collapsed;
             MetrialBj();
             MetrialIG();
             PopSearchPhoto();
@@ -610,6 +610,15 @@ namespace PopProject.Detail
                             PalletType = result["PalletType"] != null ? result["PalletType"].ToString() : "",
                             PalletSize = result["PalletSize"] != null ? result["PalletSize"].ToString() : ""
                         };
+                        if(Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Equals("두성포장테스트"))
+                        {
+                            Detailitem.LocationName = result["LocationName"].ToString();
+                            if (Detailitem.LocationName.Length > 2)
+                            {
+                                wharehouselocation.Text = Detailitem.LocationName;
+                            }
+                        }
+
                         if (Properties.Settings.Default.corp_name.Equals("오주포장"))
                         {
                             if (Detailitem.PrintNo.Contains("무인쇄") || Detailitem.PrintNo.Contains("X"))
@@ -1145,6 +1154,13 @@ namespace PopProject.Detail
             Main.robot_Setting = new Robot_Setting(mainModel.prodID, mainModel.customSName, mainModel.prodName);
             Main.robot_Setting.ShowDialog();
             Main.robot_Setting = null;
+        }
+
+        private void Wharehouse(object sender, MouseButtonEventArgs e)
+        {
+            Wharehouse_info wharehouse = new Wharehouse_info(mainModel);
+            wharehouse.ShowDialog();
+            MetrialBj();
         }
     }
 }

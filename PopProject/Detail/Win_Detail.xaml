@@ -25,8 +25,12 @@
             <TextBlock Name="prodName"  Text="{Binding prodName}" FontSize="38" Foreground="White" Canvas.Left="27" Canvas.Top="135" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock Name="boxType" Text="{Binding boxType }" FontSize="22" Foreground="White" Canvas.Left="406" Canvas.Top="135"/>
             <Image Source="/img/b_02.png" Canvas.Left="430" Canvas.Top="2" MouseDown="Detail_List"/>
-            <Border x:Name="robot" BorderThickness="2" Background="#495664" CornerRadius="2" BorderBrush="#43505E" Width="90" Height="45" Canvas.Top="9" Canvas.Left="338"   VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="robot_setting">
+            <Border x:Name="robot" BorderThickness="2" Background="#495664" CornerRadius="2" BorderBrush="#43505E" Width="90" Height="45" Canvas.Top="9" Canvas.Left="238"   VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="robot_setting">
                 <TextBlock Text="로봇 설정" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="/font/#KoPubDotum Light" Foreground="White" />
+            </Border>
+
+            <Border x:Name="wharehouse"  BorderThickness="2" Background="#495664" CornerRadius="2" BorderBrush="#43505E" Width="90" Height="45" Canvas.Top="9" Canvas.Left="338"   VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="Wharehouse">
+                <TextBlock x:Name="wharehouselocation" Text="창고 적재" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="/font/#KoPubDotum Light" Foreground="White" />
             </Border>
 
             <Image Source="/img/title_02.png" Canvas.Left="557" Canvas.Top="529"/>
