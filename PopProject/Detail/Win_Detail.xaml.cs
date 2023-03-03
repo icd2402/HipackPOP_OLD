@@ -1158,7 +1158,7 @@ namespace PopProject.Detail
 
         private void Wharehouse(object sender, MouseButtonEventArgs e)
         {
-            Wharehouse_info wharehouse = new Wharehouse_info(mainModel);
+            Wharehouse_info wharehouse = new Wharehouse_info(mainModel,Detailitem.LocationName);
             wharehouse.ShowDialog();
             MetrialBj();
         }

@@ -27,7 +27,7 @@ namespace PopProject.Detail
         MainModel mainModel;
         ObservableCollection<WhareHouseModel> WhareHouselist;
         ObservableCollection<Wharehouse_LocationModel> wharehouse_LocationsList;
-        public Wharehouse_info(MainModel mainModel)
+        public Wharehouse_info(MainModel mainModel, string locationName)
         {
             InitializeComponent();
             this.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
@@ -35,6 +35,8 @@ namespace PopProject.Detail
             customName.Text = mainModel.customSName;
             prodName.Text = mainModel.prodName;
             pworkCount.Text = mainModel.sumPworkCount.ToString();
+
+            LocationName.Text = locationName;
             Get_DataInformation();
             
         }
