@@ -1267,6 +1267,17 @@ namespace PopProject.UserControl_
                         listitem.CoatingType = result["CoatingType"].ToString();
                         listitem.PackCount = result["PackCount"].ToString();
                         listitem.pplanCount = int.Parse(result["pplanCount"].ToString());
+
+                        if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("우리포장산업테스트") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("누리팩테스트"))
+                        {
+                            ss.Visibility = Visibility.Visible; //집계창 표시
+                        }
+                        else
+                        {
+                            Grid.SetRowSpan(workListBorder, 2); //WorkList Grid.Row3까지 확장 
+                            ss.Visibility = Visibility.Collapsed; //집계창 표시해제
+                        }
+                         
                         if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("혜성수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트") || Properties.Settings.Default.corp_name.Equals("성주포장"))
                         {
                             if (Properties.Settings.Default.CountType == 0)
@@ -1276,7 +1287,6 @@ namespace PopProject.UserControl_
                             else
                             {
                                 listitem.pplanboxCount = (float)Math.Ceiling(listitem.pplanCount / (float)listitem.pCnt);
-                                listitem.boxvisibility = Visibility.Visible;
                             }
                         }
 
@@ -2296,7 +2306,86 @@ namespace PopProject.UserControl_
                     //_ = box.ShowDialog();
                 }
             }
+
+            실적현황조회();
         }
+
+        private void 실적현황조회()
+        {
+
+            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ReturnModel 실적returnData = ServiceModel.GetData(
+               Properties.Settings.Default.serverIndex,
+               "[spSel425processinfo_workProcess]",
+               new string[] { "@출력일", "@출력일2", "@설비명" },
+               new string[] { DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToString("yyyy-MM-dd"), Properties.Settings.Default.mercName },
+               0
+               );
+            if (실적returnData.결과 == 1)
+            {
+
+                JArray Data_Jarry = JArray.Parse(실적returnData.리턴값);
+                if (Data_Jarry != null)
+                {
+                    List<실적Model> 실적List = new List<실적Model>();
+
+                    foreach (JObject result in Data_Jarry)
+                    {
+                        실적Model 실적Item = new 실적Model();
+
+                        실적Item.pworkKey = Convert.ToInt32(result["pworkKey"].ToString());
+                        실적Item.ProcessSeq = Convert.ToInt32(result["ProcessSeq"].ToString());
+                        실적Item.ProcessType = Convert.ToInt32(result["ProcessType"].ToString());
+                        실적Item.ProcessName = result["ProcessName"].ToString();
+                        실적Item.customID = Convert.ToInt32(result["customID"].ToString());
+                        실적Item.customSName = result["customSName"].ToString();
+                        실적Item.prodID = Convert.ToInt32(result["prodID"].ToString());
+                        실적Item.prodName = result["prodName"].ToString();
+                        실적Item.pplanCount = Convert.ToInt32(result["pplanCount"].ToString());
+                        실적Item.pworkCount = Convert.ToInt32(result["pworkCount"].ToString());
+                        실적Item.perrCount = Convert.ToInt32(result["perrCount"].ToString());
+                        실적Item.sDatetime = result["sDatetime"].ToString();
+                        실적Item.eDatetime = result["eDatetime"].ToString();
+                        실적Item.workingTimeValue = Convert.ToInt32(result["workingTime"].ToString());
+                        실적Item.workingTime = String.Format("{0}분", result["workingTime"].ToString());
+                        실적Item.machineName = result["mercName"].ToString();
+                        실적Item.errMemo = result["workerName"].ToString();
+                        실적Item.pMemo = result["pMemo"].ToString();
+                        Double pCnt = 1.0;
+                        Double.TryParse(result["pCnt"].ToString(), out pCnt);
+                        실적Item.pCnt = pCnt;
+                        실적Item.workM2 = Convert.ToDouble(result["workM2"].ToString());
+
+                        실적List.Add(실적Item);
+                    }
+
+
+                    p1.Text = workList.Sum(x => x.pplanCount).ToString("N0"); //계획량 (매수)
+                    p2.Text = workList.Sum(x => x.pplanCount / x.pCnt).ToString("N0"); //계획통 (통수)
+
+                    if (실적List.Count() >= 0)
+                    {
+                        p3.Text = 실적List.Sum((x) => x.pworkCount).ToString("N0"); //생산량 (매수)
+                        p4.Text = 실적List.Sum((x) => x.pworkCount / x.pCnt).ToString("N0"); //생산통 (통수)
+                        p5.Text = 실적List.Sum((x) => x.workM2).ToString("N0"); //생산면적
+                        p6.Text = 실적List.Sum((x) => x.perrCount).ToString("N0"); //불량수 (매수)
+                        p7.Text = 실적List.Sum((x) => x.perrCount / x.pCnt).ToString("N0"); //불량통 (통수)
+                        p8.Text = 실적List.Sum((x) => x.workingTimeValue).ToString("D0") + "분"; //생산시간 
+
+                        if (실적List.Sum((x) => x.pworkCount) == 0) //진행율
+                        {
+                            p9.Text = "0%";
+                        }
+                        else
+                        {
+                            Double 진척률 = (실적List.Sum((x) => x.pworkCount) / workList.Sum(x => x.pplanCount)) * 100.0;
+                            p9.Text = 진척률.ToString("N2") + "%";
+                        }
+                    }
+                }
+            }
+        }
+
         public void ResultSearchDate()
         {
             production = null;
@@ -2413,6 +2502,7 @@ namespace PopProject.UserControl_
                 //_ = box.ShowDialog();
             }
 
+            실적현황조회();
         }
 
         private void SortedList()
@@ -2549,6 +2639,7 @@ namespace PopProject.UserControl_
             {
                 tbNo.Text = workList.Count.ToString();
             }
+
         }
 
 

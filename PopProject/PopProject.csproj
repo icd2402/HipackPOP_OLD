@@ -29,7 +29,7 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.227</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.228</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <ApplicationRevision>228</ApplicationRevision>
@@ -178,6 +178,11 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Connected Services\ServiceReference_hsbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_hssbox\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -674,6 +679,22 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ServiceReference_hsbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_hssbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hssbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hssbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hssbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hssbox\PopProject.ServiceReference_hssbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_hssbox\Service_CRUD.wsdl" />
     <None Include="Connected Services\ServiceReference_kmbox\Access_MiddleWare_CRUD.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -952,6 +973,7 @@
     <WCFMetadataStorage Include="Connected Services\ServiceReference_dybox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_grbox1\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_hsbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_hssbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_kmbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_mirae\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_hnbox\" />
@@ -1285,6 +1307,13 @@
     <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD1.disco" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\ServiceReference_hssbox\Access_MiddleWare_CRUD.disco" />
+    <None Include="Connected Services\ServiceReference_hssbox\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceReference_hssbox\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceReference_hssbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

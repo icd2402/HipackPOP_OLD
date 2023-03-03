@@ -102,11 +102,32 @@ namespace PopProject.Util
         public static ServiceReference_grbox1.Access_Model gr_Access_Model;
         public static ServiceReference_grbox1.Return_Model gr_Return_Model;
 
+        //(주)혜성 울산공장
+        public static ServiceReference_hssbox.Service_CRUDClient hss_Service;
+        public static ServiceReference_hssbox.DBHandle_Model hss_DB_Handle_Model;
+        public static ServiceReference_hssbox.Access_Model hss_Access_Model;
+        public static ServiceReference_hssbox.Return_Model hss_Return_Model;
+
         public static void ServiceModelClean(string serverIndex)
         {
             Console.WriteLine("serverIndex : " + serverIndex);
             switch (serverIndex)
             {
+                case "hssbox":
+                    hss_Service = new ServiceReference_hssbox.Service_CRUDClient();
+                    hss_Access_Model = new ServiceReference_hssbox.Access_Model();
+                    hss_Return_Model = new ServiceReference_hssbox.Return_Model();
+                    hss_DB_Handle_Model = new ServiceReference_hssbox.DBHandle_Model
+                    {
+                        접속정보 = 접속정보,
+                        BroadCasting = 0,
+                        BroadCastingName = string.Empty,
+                        inputPkey = "0",
+                        inputContent = string.Empty,
+                        inputProcessContent = string.Empty
+                    };
+                    break;
+
                 case "grbox":
                     gr_Service = new ServiceReference_grbox1.Service_CRUDClient();
                     gr_Access_Model = new ServiceReference_grbox1.Access_Model();
@@ -388,6 +409,21 @@ namespace PopProject.Util
             {
                 switch (serverIndex)
                 {
+                    case "hssbox":
+                        hss_Access_Model.SP명 = SP명;
+                        hss_Access_Model.파라미터 = 파라미터;
+                        hss_Access_Model.값 = 값;
+                        hss_DB_Handle_Model.프로시저 = new ServiceReference_hssbox.Access_Model[1] { hss_Access_Model };
+                        hss_DB_Handle_Model.BroadCasting = 0;
+
+                        hss_Return_Model = 갱신 == 1 ? hss_Service.갱신(hss_DB_Handle_Model, 갱신) : hss_Service.조회(hss_DB_Handle_Model);
+
+                        returnModel.결과 = hss_Return_Model.결과;
+                        returnModel.리턴값 = hss_Return_Model.Retrun값;
+                        Console.WriteLine(SP명 + " 리턴결과 : " + hss_Return_Model.결과);
+                        Console.WriteLine(SP명 + " 리턴값 : " + hss_Return_Model.Retrun값);
+                        break;
+
                     case "grbox":
                         gr_Access_Model.SP명 = SP명;
                         gr_Access_Model.파라미터 = 파라미터;
@@ -674,6 +710,22 @@ namespace PopProject.Util
             ReturnModel returnModel = new ReturnModel();
             switch (serverIndex)
             {
+                case "hssbox":
+                    hss_Access_Model.SP명 = SP명;
+                    hss_Access_Model.파라미터 = 파라미터;
+                    hss_Access_Model.값 = 값;
+
+                    hss_DB_Handle_Model.프로시저 = new ServiceReference_hssbox.Access_Model[1] { hss_Access_Model };
+                    hss_DB_Handle_Model.BroadCasting = 1;
+                    hss_DB_Handle_Model.BroadCastingName = "생산입력완료";
+                    hss_DB_Handle_Model.inputPkey = "14201";
+                    hss_DB_Handle_Model.inputContent = parameter;
+                    hss_Return_Model = 갱신 == 1 ? hss_Service.갱신(hss_DB_Handle_Model, 갱신) : hss_Service.조회(hss_DB_Handle_Model);
+
+                    returnModel.결과 = hss_Return_Model.결과;
+                    returnModel.리턴값 = hss_Return_Model.Retrun값;
+                    break;
+
                 //dsbox 이거 오타 때문인거 같은데
                 case "dsbox":
                     ds_Access_Model.SP명 = SP명;

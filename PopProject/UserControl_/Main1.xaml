@@ -134,6 +134,5 @@
         </Canvas>
         <TextBox x:Name="tbBarcode" Text="" HorizontalAlignment="Left" Width="200" Height="50" Visibility="Visible" Opacity="0" KeyDown="TbBarcode_KeyDown"></TextBox>
 
-
     </Grid>
 </UserControl>

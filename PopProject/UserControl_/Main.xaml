@@ -24,6 +24,7 @@
             <RowDefinition Height="110"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="100*"/>
+            <RowDefinition Height="77"/>
 
         </Grid.RowDefinitions>
 
@@ -60,7 +61,7 @@
             <Image Source="/img/plan.png" x:Name="pop_Noty" Visibility="Collapsed" Canvas.Left="1220" Canvas.Top="3" MouseLeftButtonDown="Pop_noty"></Image>
         </Canvas>
 
-        <Border  Grid.Row="2" Margin="5,10,5,5" BorderBrush="Black" BorderThickness="1,1,1,1" Background="WhiteSmoke" Focusable="False">
+        <Border x:Name="workListBorder" Grid.Row="2" Margin="5,10,5,5" BorderBrush="Black" BorderThickness="1,1,1,1" Background="WhiteSmoke" Focusable="False">
             <ScrollViewer VerticalScrollBarVisibility="Visible" x:Name="sv">
 
                 <ItemsControl x:Name="ic" Grid.Row="3" Focusable="False"  AlternationCount="10000" >
@@ -148,6 +149,51 @@
         </Canvas>
         <TextBox x:Name="tbBarcode" Text="" HorizontalAlignment="Left" Width="200" Height="50" Visibility="Visible" Opacity="0" KeyDown="TbBarcode_KeyDown"></TextBox>
 
+
+        <Grid x:Name="ss" Grid.Row="3" Background="#87BDE5" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="160"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Grid.Row="1" Background="#5B9BD5" BorderBrush="#658DAB" BorderThickness="1,2,1,2" />
+            <Border Grid.Column="1" Grid.Row="1" BorderBrush="#658DAB" BorderThickness="1,2,1,2" />
+            <Border Grid.Column="2" Grid.Row="1" BorderBrush="#658DAB" BorderThickness="1,2,1,2" />
+            <Border Grid.Column="3" Grid.Row="1" BorderBrush="#658DAB" BorderThickness="1,2,1,2" />
+            <Border Grid.Column="4" Grid.Row="1" BorderBrush="#658DAB" BorderThickness="1,2,1,2" />
+            <Border Grid.Column="5" Grid.Row="1" BorderBrush="#658DAB" BorderThickness="1,2,1,2" />
+            <Border Grid.Column="6" Grid.Row="1" Background="#5B9BD5" BorderBrush="#658DAB" BorderThickness="1,2,1,2" />
+
+            <TextBlock Grid.Column="0" Text="합 계" FontSize="22" Foreground="Black" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1" Text="계획량" FontSize="20" Foreground="Black" FontWeight="Bold" Margin="15,7,110,40" />
+            <TextBlock Grid.Column="1" Text="계획통" FontSize="20" Foreground="Black" FontWeight="Bold" Margin="15,40,110,5" />
+            <TextBlock Grid.Column="1" x:Name="p1" Text="0" FontSize="20" Foreground="Black" FontWeight="Bold" HorizontalAlignment="Right" Margin="100,7,15,40"/>
+            <TextBlock Grid.Column="1" x:Name="p2" Text="0" FontSize="20" Foreground="Black" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,40,15,5"/>
+
+            <TextBlock Grid.Column="2" Text="생산량" FontSize="20" Foreground="Black" FontWeight="Bold" Margin="15,7,110,40" />
+            <TextBlock Grid.Column="2" Text="생산통" FontSize="20" Foreground="Black" FontWeight="Bold" Margin="15,40,110,5" />
+            <TextBlock Grid.Column="2" x:Name="p3" Text="0" FontSize="20" Foreground="Black" FontWeight="Bold" HorizontalAlignment="Right" Margin="100,7,15,40"/>
+            <TextBlock Grid.Column="2" x:Name="p4" Text="0" FontSize="20" Foreground="Black" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,40,15,5"/>
+
+            <TextBlock Grid.Column="3" Text="생산면적" FontSize="20" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" Margin="15,20,100,20" />
+            <TextBlock Grid.Column="3" x:Name="p5" Text="0" FontSize="20" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0"/>
+
+            <TextBlock Grid.Column="4" Text="불량수" FontSize="20" Foreground="Black" FontWeight="Bold" Margin="15,7,110,40" />
+            <TextBlock Grid.Column="4" Text="불량통" FontSize="20" Foreground="Black" FontWeight="Bold" Margin="15,40,110,5" />
+            <TextBlock Grid.Column="4" x:Name="p6" Text="0" FontSize="20" Foreground="Red" FontWeight="Bold" HorizontalAlignment="Right" Margin="100,7,15,40"/>
+            <TextBlock Grid.Column="4" x:Name="p7" Text="0" FontSize="20" Foreground="Red" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,40,15,5"/>
+
+            <TextBlock Grid.Column="5" Text="작업시간" FontSize="20" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" Margin="15,20,100,20" />
+            <TextBlock Grid.Column="5" x:Name="p8" Text="0" FontSize="20" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0"/>
+
+            <TextBlock Grid.Column="6" Text="진도율" FontSize="20" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" Margin="15,20,80,20" />
+            <TextBlock Grid.Column="6" x:Name="p9" Text="%" FontSize="20" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0"/>
+        </Grid>
     </Grid>
    
 </UserControl>

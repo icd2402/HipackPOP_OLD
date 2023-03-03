@@ -1355,4 +1355,428 @@ namespace PopProject.UserControl_
 
        
     }
+
+    public class 실적Model : ViewModelBase
+    {
+
+        private int _pworkKey;
+        public int pworkKey
+        {
+            get
+            {
+                return _pworkKey;
+            }
+            set
+            {
+                _pworkKey = value;
+                onPropertyChanged("pworkKey");
+            }
+        }
+
+        private int _ProcessSeq;
+        public int ProcessSeq
+        {
+            get
+            {
+                return _ProcessSeq;
+            }
+            set
+            {
+                _ProcessSeq = value;
+                onPropertyChanged("ProcessSeq");
+            }
+        }
+
+        private int _ProcessType;
+        public int ProcessType
+        {
+            get
+            {
+                return _ProcessType;
+            }
+            set
+            {
+                _ProcessType = value;
+                onPropertyChanged("ProcessType");
+            }
+        }
+
+        private string _ProcessName;
+        public string ProcessName
+        {
+            get
+            {
+                return _ProcessName;
+            }
+            set
+            {
+                _ProcessName = value;
+                onPropertyChanged("ProcessName");
+            }
+        }
+
+        private DateTime _pworkDate;
+        public DateTime pworkDate
+        {
+            get
+            {
+                return _pworkDate;
+            }
+            set
+            {
+                _pworkDate = value;
+                onPropertyChanged("pworkDate");
+            }
+        }
+
+        private int _customID;
+        public int customID
+        {
+            get
+            {
+                return _customID;
+            }
+            set
+            {
+                _customID = value;
+                onPropertyChanged("customID");
+            }
+        }
+
+        private string _customSName;
+        public string customSName
+        {
+            get
+            {
+                return _customSName;
+            }
+            set
+            {
+                _customSName = value;
+                onPropertyChanged("customSName");
+            }
+        }
+
+        private int _prodID;
+        public int prodID
+        {
+            get
+            {
+                return _prodID;
+            }
+            set
+            {
+                _prodID = value;
+                onPropertyChanged("prodID");
+            }
+        }
+
+        private string _prodName;
+        public string prodName
+        {
+            get
+            {
+                return _prodName;
+            }
+            set
+            {
+                _prodName = value;
+                onPropertyChanged("prodName");
+            }
+        }
+
+        private int _pplanCount;
+        public int pplanCount
+        {
+            get
+            {
+                return _pplanCount;
+            }
+            set
+            {
+                _pplanCount = value;
+                onPropertyChanged("pplanCount");
+            }
+        }
+
+        private int _pworkCount;
+        public int pworkCount
+        {
+            get
+            {
+                return _pworkCount;
+            }
+            set
+            {
+                _pworkCount = value;
+                onPropertyChanged("pworkCount");
+            }
+        }
+
+        private int _perrCount;
+        public int perrCount
+        {
+            get
+            {
+                return _perrCount;
+            }
+            set
+            {
+                _perrCount = value;
+                onPropertyChanged("perrCount");
+            }
+        }
+
+        private string _sDatetime;
+        public string sDatetime
+        {
+            get
+            {
+                return _sDatetime;
+            }
+            set
+            {
+                _sDatetime = value;
+                onPropertyChanged("sDatetime");
+            }
+        }
+
+        private string _eDatetime;
+        public string eDatetime
+        {
+            get
+            {
+                return _eDatetime;
+            }
+            set
+            {
+                _eDatetime = value;
+                onPropertyChanged("eDatetime");
+            }
+        }
+
+        private string _workingTime;
+        public string workingTime
+        {
+            get
+            {
+                return _workingTime;
+            }
+            set
+            {
+                _workingTime = value;
+                onPropertyChanged("workingTime");
+            }
+        }
+
+        private int _workingTimeValue;
+        public int workingTimeValue
+        {
+            get
+            {
+                return _workingTimeValue;
+            }
+            set
+            {
+                _workingTimeValue = value;
+                onPropertyChanged("workingTimeValue");
+            }
+        }
+
+        private string _errMemo;
+        public string errMemo
+        {
+            get
+            {
+                return _errMemo;
+            }
+            set
+            {
+                _errMemo = value;
+                onPropertyChanged("errMemo");
+            }
+        }
+
+        private string _machineName;
+        public string machineName
+        {
+            get
+            {
+                return _machineName;
+            }
+            set
+            {
+                _machineName = value;
+                onPropertyChanged("machineName");
+            }
+        }
+
+        private double _pCnt;
+        public double pCnt
+        {
+            get
+            {
+                return _pCnt;
+            }
+            set
+            {
+                _pCnt = value;
+                onPropertyChanged("pCnt");
+            }
+        }
+
+        private DateTime _orderDate;
+        public DateTime orderDate
+        {
+            get
+            {
+                return _orderDate;
+            }
+            set
+            {
+                _orderDate = value;
+                onPropertyChanged("orderDate");
+            }
+        }
+
+        private string _metrialName;
+        public string metrialName
+        {
+            get
+            {
+                return _metrialName;
+            }
+            set
+            {
+                _metrialName = value;
+                onPropertyChanged("metrialName");
+            }
+        }
+
+        private string _metrialGor;
+        public string metrialGor
+        {
+            get
+            {
+                return _metrialGor;
+            }
+            set
+            {
+                _metrialGor = value;
+                onPropertyChanged("metrialGor");
+            }
+        }
+
+        private string _pSize;
+        public string pSize
+        {
+            get
+            {
+                return _pSize;
+            }
+            set
+            {
+                _pSize = value;
+                onPropertyChanged("pSize");
+            }
+        }
+
+        private string _WDSize;
+        public string WDSize
+        {
+            get
+            {
+                return _WDSize;
+            }
+            set
+            {
+                _WDSize = value;
+                onPropertyChanged("WDSize");
+            }
+        }
+
+        private double _pPercent;
+        public double pPercent
+        {
+            get
+            {
+                return _pPercent;
+            }
+            set
+            {
+                _pPercent = value;
+                onPropertyChanged("pPercent");
+            }
+        }
+
+        private string _metcustomSName;
+        public string metcustomSName
+        {
+            get
+            {
+                return _metcustomSName;
+            }
+            set
+            {
+                _metcustomSName = value;
+                onPropertyChanged("metcustomSName");
+            }
+        }
+
+        private string _workerName;
+        public string workerName
+        {
+            get
+            {
+                return _workerName;
+            }
+            set
+            {
+                _workerName = value;
+                onPropertyChanged("workerName");
+            }
+        }
+
+        private int _TperrCount;
+        public int TperrCount
+        {
+            get
+            {
+                return _TperrCount;
+            }
+            set
+            {
+                _TperrCount = value;
+                onPropertyChanged("TperrCount");
+            }
+        }
+
+        private string _pMemo;
+        public string pMemo
+        {
+            get
+            {
+                return _pMemo;
+            }
+            set
+            {
+                _pMemo = value;
+                onPropertyChanged("pMemo");
+            }
+        }
+
+        private double _workM2;
+        public double workM2
+        {
+            get
+            {
+                return _workM2;
+            }
+            set
+            {
+                _workM2 = value;
+                onPropertyChanged("workM2");
+            }
+        }
+    }
 }
