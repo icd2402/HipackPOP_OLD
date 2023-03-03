@@ -99,6 +99,7 @@ namespace PopProject.MessageBox
                     ClsUc_완제품명세서_Control1.ProductReport pr1 = new ClsUc_완제품명세서_Control1.ProductReport();
                     ClsUc_완제품명세서_Control2.ProductReport pr2 = new ClsUc_완제품명세서_Control2.ProductReport();
                     ClsUc_완제품명세서_Control3.ProductReport pr3 = new ClsUc_완제품명세서_Control3.ProductReport();
+                    ClsUc_완제품명세서_Control5두성.ProductReport pr5 = new ClsUc_완제품명세서_Control5두성.ProductReport();
                     JToken result = SignCorpinfo_Base_JArray.First;
 
                     if (Properties.Settings.Default.corp_id.Equals("75BB212362"))
@@ -144,11 +145,13 @@ namespace PopProject.MessageBox
                     ClsUc_완제품명세서_Control1 완제품명세서_Uc1 = new ClsUc_완제품명세서_Control1();
                     ClsUc_완제품명세서_Control2 완제품명세서_Uc2 = new ClsUc_완제품명세서_Control2();
                     ClsUc_완제품명세서_Control3 완제품명세서_Uc3 = new ClsUc_완제품명세서_Control3();
+                    ClsUc_완제품명세서_Control5두성 완제품명세서_두성 = new ClsUc_완제품명세서_Control5두성();
                     ClsUc_명세서_Report 명세서양식_Uc = new ClsUc_명세서_Report();
                     ClsUc_명세서_Report2 명세서양식_Uc2 = new ClsUc_명세서_Report2();
                     ClsUc_명세서_Report3 명세서양식_Uc3 = new ClsUc_명세서_Report3();
+                    ClsUc_명세서_Report5두성 명세서양식_uc5두성 = new ClsUc_명세서_Report5두성();
 
-                    FixedDocument FixedDocument = new FixedDocument();
+                     FixedDocument FixedDocument = new FixedDocument();
                     double Dbl_HeightReportPageWidthSize = 8.2 * 96;
                     double Dbl_HeightReportPageHeightSize = 12 * 96;
 
@@ -241,6 +244,62 @@ namespace PopProject.MessageBox
 
                         명세서양식_Uc3.ItemPanel.Children.Add(완제품명세서_Uc3);
                         Set_FixedPage.Children.Add(명세서양식_Uc3 as UIElement);
+                    }
+
+                    else if(Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Equals("두성포장테스트"))
+                    {
+                        pr5.customSName = result["customSName"].ToString();
+                        pr5.prodName = result["prodName"].ToString();
+                        pr5.orderLast = Convert.ToDateTime(result["orderLast"]);
+                        pr5.pSize = result["pSize"].ToString();
+                        string memo = "";
+
+                        if (Properties.Settings.Default.corp_name.Equals("광무포장"))
+                        {
+                            memo = detailitem.SpecialMemo + Environment.NewLine;
+                            memo += getMemo(Properties.Settings.Default.printItem);
+                        }
+
+                        else
+                        {
+                            memo = getMemo(Properties.Settings.Default.printItem);
+                        }
+
+                        // memo = getMemo(Properties.Settings.Default.printItem);
+                        pr5.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
+                        pr5.pworkDate = DateTime.Today.ToString("yyyy/MM/dd");
+                        pr5.resultCount = result["resultCount"].ToString();
+                        pr5.pStockKey = result["pStockKey"].ToString();
+                        pr5.loadCount = "";
+                        pr5.LocationName = detailitem.LocationName;
+                        if (box_count.Text.ToString().Length > 0)
+                        {
+                            pr5.loadCount = box_count.Text;
+                        }
+
+
+                        int keyLenth = 0;
+                        keyLenth = 10 - pr5.pStockKey.Length;
+
+                        for (var index = 1; index <= keyLenth; index++)
+                        {
+                            pr5.pStockKey = "0" + pr5.pStockKey;
+                        }
+
+                        if (Convert.ToInt32(mainModel.sumPworkCount) > 0)
+                        {
+                            pr5.resultCount = mainModel.sumPworkCount == 0 ? "" : mainModel.sumPworkCount + "";
+                        }
+
+                        if (!Properties.Settings.Default.count_check)
+                        {
+                            pr5.resultCount = "";
+                        }
+                        완제품명세서_두성.ViewModel = pr5;
+                        완제품명세서_두성.Set_BarCode();
+                        Grid.SetRow(완제품명세서_두성, 1);
+                        명세서양식_uc5두성.ItemPanel.Children.Add(완제품명세서_두성);
+                        Set_FixedPage.Children.Add(명세서양식_uc5두성 as UIElement);
                     }
 
                     else

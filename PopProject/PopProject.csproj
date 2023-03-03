@@ -32,7 +32,7 @@
     <MinimumRequiredVersion>1.0.1.228</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>228</ApplicationRevision>
+    <ApplicationRevision>233</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -267,6 +267,10 @@
     <Compile Include="Detail\Robot_Setting.xaml.cs">
       <DependentUpon>Robot_Setting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Detail\WhareHouseModel.cs" />
+    <Compile Include="Detail\Wharehouse_info.xaml.cs">
+      <DependentUpon>Wharehouse_info.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Detail\Win_Detail.xaml.cs">
       <DependentUpon>Win_Detail.xaml</DependentUpon>
     </Compile>
@@ -322,6 +326,9 @@
     <Compile Include="MessageBox\SwPrintMessage.xaml.cs">
       <DependentUpon>SwPrintMessage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MessageBox\WharehouseMessage.xaml.cs">
+      <DependentUpon>WharehouseMessage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SerialList\SerialList.xaml.cs">
       <DependentUpon>SerialList.xaml</DependentUpon>
     </Compile>
@@ -354,6 +361,10 @@
     <Compile Include="UserControl_\UserSetting.xaml.cs">
       <DependentUpon>UserSetting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Detail\Wharehouse_LocationModel.cs" />
+    <Compile Include="Util\ClsUc_명세서_Report5두성.xaml.cs">
+      <DependentUpon>ClsUc_명세서_Report5두성.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Util\ClsUc_명세서_Report3.xaml.cs">
       <DependentUpon>ClsUc_명세서_Report3.xaml</DependentUpon>
     </Compile>
@@ -365,6 +376,9 @@
     </Compile>
     <Compile Include="Util\ClsUc_명세서_Report4.xaml.cs">
       <DependentUpon>ClsUc_명세서_Report4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ClsUc_완제품명세서_Control5두성.xaml.cs">
+      <DependentUpon>ClsUc_완제품명세서_Control5두성.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\ClsUc_완제품명세서_Control2.xaml.cs">
       <DependentUpon>ClsUc_완제품명세서_Control2.xaml</DependentUpon>
@@ -411,6 +425,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Detail\Robot_Setting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Detail\Wharehouse_info.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -494,6 +512,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MessageBox\WharehouseMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SerialList\SerialList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -534,6 +556,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Util\ClsUc_명세서_Report5두성.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Util\ClsUc_명세서_Report3.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -547,6 +573,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Util\ClsUc_명세서_Report4.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Util\ClsUc_완제품명세서_Control5두성.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

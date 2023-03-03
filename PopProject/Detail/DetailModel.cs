@@ -8,7 +8,21 @@ namespace PopProject.Detail
 {
    public class DetailModel : ViewModelBase
     {
-        //WDScore WDSize DesignNO handChk HandPosition PackCount PackType LoadHeight LoadType PalletType PalletSize   
+        //WDScore WDSize DesignNO handChk HandPosition PackCount PackType LoadHeight LoadType PalletType PalletSize   LocationName
+
+        private string _LocationName;
+        public string LocationName
+        {
+            get
+            {
+                return _LocationName;
+            }
+            set
+            {
+                _LocationName = value;
+                onPropertyChanged("LocationName");
+            }
+        }
 
         private string _PalletSize;
         public string PalletSize
