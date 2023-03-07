@@ -54,6 +54,7 @@ namespace PopProject.UserControl_
         public Main1()
         {
             InitializeComponent();
+            production = null;
             setLock();
             string metrialitem = Properties.Settings.Default.meterialinfo;
             SetSetting(metrialitem);
