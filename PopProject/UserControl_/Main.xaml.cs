@@ -60,6 +60,7 @@ namespace PopProject.UserControl_
             try
             {
                 InitializeComponent();
+                production = null;
                 if (!Properties.Settings.Default.checkMerc)
                 {
                     btnLogout.Background = Brushes.Green;
@@ -1178,7 +1179,8 @@ namespace PopProject.UserControl_
 
                                 if (result["SCIGCount"].ToString().Equals("0") && !result["SCBJCount"].ToString().Equals("0"))
                                 {
-                                    listitem.SCIGCount = result["metCustomSname"].ToString();
+                                    
+                                    listitem.SCIGCount = result["SCIGCount"].ToString();
                                 }
 
 

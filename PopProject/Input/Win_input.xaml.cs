@@ -54,6 +54,8 @@ namespace PopProject.Input
         public Win_input(MainModel mainModel, ObservableCollection<MainModel> workList, bool check)
         {
             InitializeComponent();
+            Main.production = null;
+            Main1.production = null;
             this.workList = workList;
             inputModel = new InputModel();
             this.mainModel = mainModel;
