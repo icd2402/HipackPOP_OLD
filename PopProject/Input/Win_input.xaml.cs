@@ -54,6 +54,7 @@ namespace PopProject.Input
         public Win_input(MainModel mainModel, ObservableCollection<MainModel> workList, bool check)
         {
             InitializeComponent();
+            Main.production = null;
             this.workList = workList;
             inputModel = new InputModel();
             this.mainModel = mainModel;
@@ -1004,7 +1005,7 @@ namespace PopProject.Input
                     box1.Visibility = Visibility.Collapsed;
                     Canvas.SetTop(box, 540);
                 }
-
+                Main.production = null;
             }
 
             Properties.Settings.Default.consumersumcount = 0;

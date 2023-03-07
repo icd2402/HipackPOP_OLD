@@ -1358,6 +1358,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Resource Include="img\1자4종구.png" />
+    <Resource Include="img\1자5종구.png" />
+    <Resource Include="img\1자6종구.png" />
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -713,6 +713,15 @@ namespace PopProject.Detail
                                 case "1자3종구":
                                     jonggu.Source = new BitmapImage(new Uri(@"/img/1자3종구.png", UriKind.Relative));
                                     break;
+                                case "1자4종구":
+                                    jonggu.Source = new BitmapImage(new Uri(@"/img/1자4종구.png", UriKind.Relative));
+                                    break;
+                                case "1자5종구":
+                                    jonggu.Source = new BitmapImage(new Uri(@"/img/1자5종구.png", UriKind.Relative));
+                                    break;
+                                case "1자6종구":
+                                    jonggu.Source = new BitmapImage(new Uri(@"/img/1자6종구.png", UriKind.Relative));
+                                    break;
                                 default:
                                     jonggu.Visibility = Visibility.Collapsed;
                                     break;
