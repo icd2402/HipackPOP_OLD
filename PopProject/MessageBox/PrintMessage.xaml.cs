@@ -100,6 +100,7 @@ namespace PopProject.MessageBox
                     ClsUc_완제품명세서_Control2.ProductReport pr2 = new ClsUc_완제품명세서_Control2.ProductReport();
                     ClsUc_완제품명세서_Control3.ProductReport pr3 = new ClsUc_완제품명세서_Control3.ProductReport();
                     ClsUc_완제품명세서_Control5두성.ProductReport pr5 = new ClsUc_완제품명세서_Control5두성.ProductReport();
+                    ClsUc_완제품명세서_Control6구룡.ProductReport pr6 = new ClsUc_완제품명세서_Control6구룡.ProductReport();
                     JToken result = SignCorpinfo_Base_JArray.First;
 
                     if (Properties.Settings.Default.corp_id.Equals("75BB212362"))
@@ -146,12 +147,14 @@ namespace PopProject.MessageBox
                     ClsUc_완제품명세서_Control2 완제품명세서_Uc2 = new ClsUc_완제품명세서_Control2();
                     ClsUc_완제품명세서_Control3 완제품명세서_Uc3 = new ClsUc_완제품명세서_Control3();
                     ClsUc_완제품명세서_Control5두성 완제품명세서_두성 = new ClsUc_완제품명세서_Control5두성();
+                    ClsUc_완제품명세서_Control6구룡 완제품명세서_구룡 = new ClsUc_완제품명세서_Control6구룡();
                     ClsUc_명세서_Report 명세서양식_Uc = new ClsUc_명세서_Report();
                     ClsUc_명세서_Report2 명세서양식_Uc2 = new ClsUc_명세서_Report2();
                     ClsUc_명세서_Report3 명세서양식_Uc3 = new ClsUc_명세서_Report3();
                     ClsUc_명세서_Report5두성 명세서양식_uc5두성 = new ClsUc_명세서_Report5두성();
+                    ClsUc_명세서_Report6구룡 명세서양식_uc6구룡 = new ClsUc_명세서_Report6구룡();
 
-                     FixedDocument FixedDocument = new FixedDocument();
+                    FixedDocument FixedDocument = new FixedDocument();
                     double Dbl_HeightReportPageWidthSize = 8.2 * 96;
                     double Dbl_HeightReportPageHeightSize = 12 * 96;
 
@@ -248,6 +251,7 @@ namespace PopProject.MessageBox
 
                     else if(Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Equals("두성포장테스트"))
                     {
+
                         pr5.customSName = result["customSName"].ToString();
                         pr5.prodName = result["prodName"].ToString();
                         pr5.orderLast = Convert.ToDateTime(result["orderLast"]);
@@ -272,6 +276,10 @@ namespace PopProject.MessageBox
                         pr5.pStockKey = result["pStockKey"].ToString();
                         pr5.loadCount = "";
                         pr5.LocationName = detailitem.LocationName;
+                        pr5.LoadHeight = detailitem.LoadHeight;
+                        pr5.LoadType = detailitem.LoadType;
+
+
                         if (box_count.Text.ToString().Length > 0)
                         {
                             pr5.loadCount = box_count.Text;
@@ -300,6 +308,63 @@ namespace PopProject.MessageBox
                         Grid.SetRow(완제품명세서_두성, 1);
                         명세서양식_uc5두성.ItemPanel.Children.Add(완제품명세서_두성);
                         Set_FixedPage.Children.Add(명세서양식_uc5두성 as UIElement);
+                    }
+                    else if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장"))
+                    {
+                        pr6.customSName = result["customSName"].ToString();
+                        pr6.prodName = result["prodName"].ToString();
+                        pr6.orderLast = Convert.ToDateTime(result["orderLast"]);
+                        pr6.pSize = result["pSize"].ToString();
+                        string memo = "";
+
+                        if (Properties.Settings.Default.corp_name.Equals("광무포장"))
+                        {
+                            memo = detailitem.SpecialMemo + Environment.NewLine;
+                            memo += getMemo(Properties.Settings.Default.printItem);
+                        }
+
+                        else
+                        {
+                            memo = getMemo(Properties.Settings.Default.printItem);
+                        }
+
+                        // memo = getMemo(Properties.Settings.Default.printItem);
+                        pr6.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
+                        pr6.pworkDate = DateTime.Today.ToString("yyyy/MM/dd");
+                        pr6.resultCount = result["resultCount"].ToString();
+                        pr6.pStockKey = result["pStockKey"].ToString();
+                        pr6.loadCount = "";
+                        pr6.LocationName = detailitem.LocationName;
+                        pr6.loadHeight = detailitem.LoadHeight;
+                        pr6.loadType = detailitem.LoadType;
+                        if (box_count.Text.ToString().Length > 0)
+                        {
+                            pr6.loadCount = box_count.Text;
+                        }
+
+
+                        int keyLenth = 0;
+                        keyLenth = 10 - pr6.pStockKey.Length;
+
+                        for (var index = 1; index <= keyLenth; index++)
+                        {
+                            pr6.pStockKey = "0" + pr6.pStockKey;
+                        }
+
+                        if (Convert.ToInt32(mainModel.sumPworkCount) > 0)
+                        {
+                            pr6.resultCount = mainModel.sumPworkCount == 0 ? "" : mainModel.sumPworkCount + "";
+                        }
+
+                        if (!Properties.Settings.Default.count_check)
+                        {
+                            pr6.resultCount = "";
+                        }
+                        완제품명세서_구룡.ViewModel = pr6;
+                        완제품명세서_구룡.Set_BarCode();
+                        Grid.SetRow(완제품명세서_구룡, 1);
+                        명세서양식_uc6구룡.ItemPanel.Children.Add(완제품명세서_구룡);
+                        Set_FixedPage.Children.Add(명세서양식_uc6구룡 as UIElement);
                     }
 
                     else
@@ -356,7 +421,7 @@ namespace PopProject.MessageBox
                         명세서양식_Uc.ItemPanel.Children.Add(완제품명세서_Uc1);
                         Set_FixedPage.Children.Add(명세서양식_Uc as UIElement);
                     }
-                    
+
                     // 양식 유저 컨트롤 픽셀 페이지 자식 형태로 저장
                     // 페이지 콘텐츠 객체 생성
                     PageContent Set_PageContent = new PageContent();
@@ -405,7 +470,7 @@ namespace PopProject.MessageBox
                     else
                     {
                         reportWindow.DirectPrint(int.Parse(copy_count.Text));
-                        reportWindow.Close();
+                       // reportWindow.Close();
                         Focus();
                         Close();
 

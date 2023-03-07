@@ -1368,17 +1368,23 @@ namespace PopProject.Input
                         Main1.production = mainModel;
                         try
                         {
-
-                            if (Main1.production != null)
-                            {
-                                Main1.arduSerial.Write("A");
-                                Main1.arduSerial.Write("B");
+                            if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트")) {
+                                
                             }
-
                             else
                             {
-                                Main1.arduSerial.Write("A");
-                            }
+                                if (Main1.production != null)
+                                {
+                                    Main1.arduSerial.Write("A");
+                                    Main1.arduSerial.Write("B");
+                                }
+
+                                else
+                                {
+                                    Main1.arduSerial.Write("A");
+                                }
+
+                            }         
                         }
                         catch (Exception)
                         {
@@ -1393,16 +1399,24 @@ namespace PopProject.Input
 
                         try
                         {
-                            if (Main.production != null)
+                            if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
                             {
-                                Main.arduSerial.Write("A");
-                                Main.arduSerial.Write("B");
+                               
                             }
-
                             else
                             {
-                                Main.arduSerial.Write("A");
+                                if (Main.production != null)
+                                {
+                                    Main.arduSerial.Write("A");
+                                    Main.arduSerial.Write("B");
+                                }
+
+                                else
+                                {
+                                    Main.arduSerial.Write("A");
+                                }
                             }
+                            
                         }
 
                         catch (Exception)

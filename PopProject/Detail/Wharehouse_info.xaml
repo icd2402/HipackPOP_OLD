@@ -123,6 +123,10 @@
                                             <Setter TargetName="구역Border" Property="Background" Value="#BBF2FF"/>
                                             <Setter TargetName="구역" Property="Foreground" Value="#707070" />
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding LocationType}" Value="1" >
+                                            <Setter TargetName="구역Border" Property="Background" Value="#FF385DAB"/>
+                                            <Setter TargetName="구역" Property="Foreground" Value="#707070" />
+                                        </DataTrigger>
                                         <DataTrigger Binding="{Binding IsSelectedStyle}" Value="0">
                                             <Setter TargetName="구역Border" Property="BorderBrush" Value="LightGray" />
                                         </DataTrigger>

@@ -14,20 +14,7 @@ namespace PopProject.Util
         public ClsUc_완제품명세서_Control5두성()
         {
             InitializeComponent();
-            if (Properties.Settings.Default.corp_name.Equals("유창포장"))
-            {
-                title.FontSize = 36;
-                title.Content = "물     품     표";
-                title1.Content = "생산일자";
-                dock2.Visibility = System.Windows.Visibility.Visible;
-                dock1.Visibility = System.Windows.Visibility.Collapsed;
-            }
-
-            else
-            {
-                dock2.Visibility = System.Windows.Visibility.Collapsed;
-                dock1.Visibility = System.Windows.Visibility.Visible;
-            }
+         
         }
 
         public void Set_BarCode()
@@ -45,7 +32,33 @@ namespace PopProject.Util
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
             }
+            private string _LoadHeight;
+            public string LoadHeight
+            {
+                get
+                {
+                    return _LoadHeight;
+                }
+                set
+                {
+                    _LoadHeight = value;
+                    onPropertyChanged("LoadHeight");
+                }
+            }
 
+            private string _LoadType;
+            public string LoadType
+            {
+                get
+                {
+                    return _LoadType;
+                }
+                set
+                {
+                    _LoadType = value;
+                    onPropertyChanged("LoadType");
+                }
+            }
             private string _LocationName;
             public string LocationName
             {

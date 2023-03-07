@@ -577,7 +577,6 @@ namespace PopProject.Detail
                 JArray Data_JArray = JArray.Parse(returnData.리턴값);
                 if (Data_JArray != null)
                 {
-
                     _ = new ObservableCollection<MainModel>();
                     foreach (JObject result in Data_JArray)
                     {
@@ -610,13 +609,19 @@ namespace PopProject.Detail
                             PalletType = result["PalletType"] != null ? result["PalletType"].ToString() : "",
                             PalletSize = result["PalletSize"] != null ? result["PalletSize"].ToString() : ""
                         };
+
                         if(Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Equals("두성포장테스트"))
                         {
-                            Detailitem.LocationName = result["LocationName"].ToString();
-                            if (Detailitem.LocationName.Length > 2)
+                            JToken token = result["LocationName"];
+                            if (token != null)
                             {
-                                wharehouselocation.Text = Detailitem.LocationName;
+                                Detailitem.LocationName = result["LocationName"].ToString();
+                                if (Detailitem.LocationName.Length > 2)
+                                {
+                                    wharehouselocation.Text = Detailitem.LocationName;
+                                }
                             }
+                            
                         }
 
                         if (Properties.Settings.Default.corp_name.Equals("오주포장"))

@@ -10,7 +10,7 @@ namespace PopProject.Detail
     {
         //WDScore WDSize DesignNO handChk HandPosition PackCount PackType LoadHeight LoadType PalletType PalletSize   LocationName
 
-        private string _LocationName;
+        private string _LocationName="";
         public string LocationName
         {
             get

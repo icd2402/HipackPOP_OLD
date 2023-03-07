@@ -101,12 +101,14 @@ namespace PopProject.UserControl_
 
                     else if (j == 1)
                     {
+                        if(item!=null)
                         list[i].item5 = item.Replace("\r\n", "");
                     }
 
                     else if (j == 2)
                     {
-                        list[i].item6 = item.Replace("\r\n", "");
+                        if (item != null)
+                            list[i].item6 = item.Replace("\r\n", "");
                     }
                 }
                 workList.Add(list[i]);

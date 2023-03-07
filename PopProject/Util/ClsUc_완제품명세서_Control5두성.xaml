@@ -107,7 +107,7 @@
             </DockPanel>
 
             <StackPanel Grid.Row="2" >
-                <DockPanel>
+                <DockPanel >
 
                     <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="적재위치" HorizontalContentAlignment="Center" Height="85"  Width="152"  />
                     <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding LocationName}" ContentStringFormat="yyyy/MM/dd"  Width="auto" HorizontalContentAlignment="Left"  />
@@ -134,6 +134,14 @@
                     <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="규      격" HorizontalContentAlignment="Center" Height="85"  Width="152" />
                     <Label DockPanel.Dock="Right" Style="{StaticResource 명세서Label}" BorderThickness="1,1,1,0" BorderBrush="Black" Content="{Binding pSize}" HorizontalContentAlignment="Left" Padding="20,0" />
                 </DockPanel>
+
+                <DockPanel Visibility="Collapsed" x:Name="구룡" >
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="적      재방      법" HorizontalContentAlignment="Center" Height="85"  Width="152" />
+                    <Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding LoadType}" ContentStringFormat="N0" Width="230" HorizontalContentAlignment="Right"  />
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="0,1,0,0" BorderBrush="Black" Content="적      재단      수" HorizontalContentAlignment="Center" Height="85"  Width="144" />
+                    <Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0"   HorizontalContentAlignment="Center" Content="{Binding LoadHeight}" />
+                </DockPanel>
+
                 <DockPanel >
                     <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="총  수  량" HorizontalContentAlignment="Center" Height="85"  Width="152" />
                     <Label x:Name="result_count" DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding resultCount}" ContentStringFormat="N0" Width="230" HorizontalContentAlignment="Right"  />
