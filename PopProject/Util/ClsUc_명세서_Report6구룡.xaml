@@ -22,7 +22,7 @@
     <Grid x:Name="ItemPanel" x:FieldModifier="public" Background="White" >
         <Grid.RowDefinitions >
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="2.7*" />
+            <RowDefinition Height="4*" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Margin="0,50,0,0" />
 

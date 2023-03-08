@@ -607,7 +607,9 @@ namespace PopProject.Detail
                             LoadHeight = result["LoadHeight"] != null ? result["LoadHeight"].ToString() : "",
                             LoadType = result["LoadType"] != null ? result["LoadType"].ToString() : "",
                             PalletType = result["PalletType"] != null ? result["PalletType"].ToString() : "",
-                            PalletSize = result["PalletSize"] != null ? result["PalletSize"].ToString() : ""
+                            PalletSize = result["PalletSize"] != null ? result["PalletSize"].ToString() : "",
+                            vendorName = result["vendorName"].ToString()
+
                         };
 
                         if(Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Equals("두성포장테스트"))

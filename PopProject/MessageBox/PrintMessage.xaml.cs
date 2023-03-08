@@ -311,7 +311,11 @@ namespace PopProject.MessageBox
                     }
                     else if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장"))
                     {
+                        
                         pr6.customSName = result["customSName"].ToString();
+                        pr6.vendorName = detailitem.vendorName;
+
+
                         pr6.prodName = result["prodName"].ToString();
                         pr6.orderLast = Convert.ToDateTime(result["orderLast"]);
                         pr6.pSize = result["pSize"].ToString();

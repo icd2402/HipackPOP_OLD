@@ -60,6 +60,20 @@ namespace PopProject.Util
                 }
             }
 
+            private string _vendorName;
+            public string vendorName
+            {
+                get
+                {
+                    return _vendorName;
+                }
+                set
+                {
+                    _vendorName = value;
+                    onPropertyChanged("vendorName");
+                }
+            }
+
             private string _customSName;
             public string customSName
             {

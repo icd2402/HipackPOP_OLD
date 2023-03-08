@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PopProject.Util"
              mc:Ignorable="d" 
-             Height="800" Width="787">
+             Height="880" Width="787">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -120,6 +120,13 @@
                     <Label Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource 명세서value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding customSName}" />
 
                 </DockPanel>
+
+                <DockPanel>
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="납 품 처" HorizontalContentAlignment="Center" Height="85"  Width="152" />
+                    <Label Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource 명세서value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding vendorName}" />
+
+                </DockPanel>
+
                 <DockPanel >
                     <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="품      명" HorizontalContentAlignment="Center" Height="85"  Width="152" />
                     <Label DockPanel.Dock="Right" Style="{StaticResource 명세서value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding prodName}" />
