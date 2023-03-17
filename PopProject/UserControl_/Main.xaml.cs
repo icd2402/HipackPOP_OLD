@@ -276,7 +276,7 @@ namespace PopProject.UserControl_
         }
 
 
-        private void ArduConn()
+        public  void ArduConn()
         {
             try
             {

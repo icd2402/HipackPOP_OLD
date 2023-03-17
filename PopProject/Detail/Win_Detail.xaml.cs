@@ -1028,7 +1028,7 @@ namespace PopProject.Detail
         //제품명세서 출력 요청 
         private void Image_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
         {
-            if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩"))
+            if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("지온"))
             {
                 SwPrintMessage swPrintMessage = new SwPrintMessage(mainModel, Detailitem);
                 swPrintMessage.ShowDialog();

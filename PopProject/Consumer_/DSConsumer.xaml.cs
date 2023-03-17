@@ -17,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace PopProject.Consumer_
 {
@@ -38,7 +39,8 @@ namespace PopProject.Consumer_
         bool beforeCountCheck = true;
         string imgpath = "";
         private bool checkProcessing = false;
-
+        private DispatcherTimer timer;
+        private int second = 0;
         public DSConsumer(MainModel mainModel)
 
         {
@@ -47,8 +49,13 @@ namespace PopProject.Consumer_
             imgpath = mainModel.imagePath;
             sumPworkCount = mainModel.sumPworkCount;
             PopWorkListSearch();
+         
             //PopResultStart();
         }
+
+       
+
+       
         private void InvokeCount(string mercName, string v)
         {
             //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
@@ -102,9 +109,9 @@ namespace PopProject.Consumer_
                             membName = result["membName"].ToString(),
                             adress = result["adress"].ToString(),
                             PhonNo = result["PhonNo"].ToString(),
-                            orderCount = int.Parse(result["orderCount"].ToString())
+                            orderCount = int.Parse(result["orderCount"].ToString()),
+                            pworkDate = DateTime.Parse(result["pworkDate"].ToString())
                         };
-
 
 
                         listitem.pWorkCount = float.Parse(result["pworkCount"].ToString());
@@ -122,8 +129,14 @@ namespace PopProject.Consumer_
                         listitem.Memo = result["Memo"].ToString();
 
 
+                        // 금일 실수요자 생산 리스트, 이월 실수요자 리스트만 보이도록 / 전날 생산 건은 삭제  
+                        if(listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.pworkDate.ToString("yyyyMMdd").Equals("19000101"))
+                        {
+                            consumerList.Add(listitem);
 
-                        consumerList.Add(listitem);
+                        }
+
+            
 
 
                     }
