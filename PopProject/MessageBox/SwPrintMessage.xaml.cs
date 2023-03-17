@@ -292,7 +292,15 @@ namespace PopProject.MessageBox
 
             if (int.Parse(copy_count.Text) == 1)
             {
-                pr1.loadCount = box_Count.Text.ToString();
+                if (box_Count.Text.ToString().Equals("0"))
+                {
+                    pr1.loadCount = "";
+                }
+                else
+                {
+                    pr1.loadCount = box_Count.Text.ToString();
+                }
+                
                 완제품명세서_Uc1.ViewModel = pr1;
                 완제품명세서_Uc1.Set_BarCode();
                 Grid.SetRow(완제품명세서_Uc1, 0);
