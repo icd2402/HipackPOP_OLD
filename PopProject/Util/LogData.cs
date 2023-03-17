@@ -155,8 +155,8 @@ namespace PopProject.Util
                     break;
 
                 case "3125247246":
-                    //오주:   $5$API$88YVlKU1Ieysybu0wsbdrxgZ9XIk2M8t5NC3ex/FHs9
-                    crtfcKey = "$5$API$88YVlKU1Ieysybu0wsbdrxgZ9XIk2M8t5NC3ex/FHs9";
+                    //오주:   $5$API$vdZaR4Lyk12Z/NhS3bXUUKYZsP9gLgnx20GckLkfPk3
+                    crtfcKey = "$5$API$vdZaR4Lyk12Z/NhS3bXUUKYZsP9gLgnx20GckLkfPk3";
                     break;
 
                 case "C53155632":
