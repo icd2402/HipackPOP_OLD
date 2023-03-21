@@ -49,13 +49,13 @@ namespace PopProject.Consumer_
             imgpath = mainModel.imagePath;
             sumPworkCount = mainModel.sumPworkCount;
             PopWorkListSearch();
-         
+
             //PopResultStart();
         }
 
-       
 
-       
+
+
         private void InvokeCount(string mercName, string v)
         {
             //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
@@ -130,13 +130,13 @@ namespace PopProject.Consumer_
 
 
                         // 금일 실수요자 생산 리스트, 이월 실수요자 리스트만 보이도록 / 전날 생산 건은 삭제  
-                        if(listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.pworkDate.ToString("yyyyMMdd").Equals("19000101"))
-                        {
-                            consumerList.Add(listitem);
+                        //if(listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.pworkDate.ToString("yyyyMMdd").Equals("19000101"))
+                        //{
+                            
 
-                        }
+                        //}
+                        consumerList.Add(listitem);
 
-            
 
 
                     }
