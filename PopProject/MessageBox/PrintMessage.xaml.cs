@@ -249,7 +249,7 @@ namespace PopProject.MessageBox
                         Set_FixedPage.Children.Add(명세서양식_Uc3 as UIElement);
                     }
 
-                    else if(Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Equals("두성포장테스트"))
+                    else if(Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Equals("두성포장테스트") || Properties.Settings.Default.corp_name.Contains("혜성"))
                     {
 
                         pr5.customSName = result["customSName"].ToString();

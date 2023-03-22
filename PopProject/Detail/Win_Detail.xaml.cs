@@ -53,7 +53,7 @@ namespace PopProject.Detail
             pSize.Text = mainModel.pSize;
             Pass_detail.Visibility = Properties.Settings.Default.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
             robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
-            wharehouse.Visibility = Properties.Settings.Default.corp_name.Equals("두성포장테스트") || Properties.Settings.Default.corp_name.Equals("두성포장") ? Visibility.Visible : Visibility.Collapsed;
+            wharehouse.Visibility = Properties.Settings.Default.corp_name.Equals("두성포장테스트") || Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Contains("혜성") ? Visibility.Visible : Visibility.Collapsed;
             MetrialBj();
             MetrialIG();
             PopSearchPhoto();

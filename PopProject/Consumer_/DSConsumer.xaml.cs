@@ -135,7 +135,11 @@ namespace PopProject.Consumer_
                             
 
                         //}
-                        consumerList.Add(listitem);
+                        if(listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.orderCount - listitem.pWorkCount > 50)
+                        {
+                            consumerList.Add(listitem);
+                        }
+                        
 
 
 
