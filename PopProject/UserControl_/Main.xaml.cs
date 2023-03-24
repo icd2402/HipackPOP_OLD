@@ -286,9 +286,22 @@ namespace PopProject.UserControl_
                     serialClose = new System.Threading.Thread(new System.Threading.ThreadStart(serialDisConnect));
                     serialClose.IsBackground = true;
                     serialClose.Start(); // 스레드 시작
+
                     //serialDisConnect();
                 }
                 else
+                {
+                    arduSerial.Encoding = Encoding.GetEncoding(65001);
+                    arduSerial.PortName = Properties.Settings.Default.SerialName;
+                    arduSerial.BaudRate = Properties.Settings.Default.baudrate;
+                    arduSerial.DataReceived += ArduReReceive;
+
+                    arduSerial.Open();
+                    arduSerial.Write(Properties.Settings.Default.SensorRate);
+                    btrSerial.Background = Brushes.Green;
+                }
+
+                if (!arduSerial.IsOpen)
                 {
                     arduSerial.Encoding = Encoding.GetEncoding(65001);
                     arduSerial.PortName = Properties.Settings.Default.SerialName;
@@ -737,6 +750,7 @@ namespace PopProject.UserControl_
             tbBarcode.SelectAll();
             if (minuite1 == 60)
             {
+                ArduConn();
                 bool connected = NetworkInterface.GetIsNetworkAvailable();
                 if (connected)
                 {
