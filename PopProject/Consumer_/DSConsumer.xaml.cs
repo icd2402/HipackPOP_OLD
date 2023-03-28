@@ -599,5 +599,54 @@ namespace PopProject.Consumer_
                 sv.ScrollToVerticalOffset(vOff + (scrollMousePoint.Y - e.GetPosition(sv).Y));
             }
         }
+
+        private void 이월(object sender, MouseButtonEventArgs e)
+        {
+            var result = System.Windows.MessageBox.Show(mainModel.prodName + " 품목을 이월 하시겠습니까 ?", "이월",
+                       MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                Close();
+            }
+
+            else
+            {
+                if (mainModel.presultCount > 0 )
+                {
+                    spAdd410processinfo_workplan();
+                }
+
+                else
+                {
+                    MessageBox_Dialog dialog = new MessageBox_Dialog("이월 작업을 할 수 없습니다.");
+                    dialog.ShowDialog();
+                }
+            }
+
+        }
+
+        private void spAdd410processinfo_workplan()
+        {
+            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ReturnModel returnData = ServiceModel.GetData(
+                Properties.Settings.Default.serverIndex,
+                "[spAdd410processinfo_workplan]",
+                new string[] { "@오더Key", "@계획Key" },
+                new object[] { mainModel.orderKey, mainModel.pplanKey },
+                1
+                );
+            if (returnData.결과 == 1)
+            {
+                MessageBox_Dialog msg = new MessageBox_Dialog("이월 완료");
+                msg.ShowDialog();
+               
+            }
+            else
+            {
+                MessageBox_Dialog msg = new MessageBox_Dialog("이월 실패");
+                msg.ShowDialog();
+            }
+        }
     }
 }

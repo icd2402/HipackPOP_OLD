@@ -750,7 +750,7 @@ namespace PopProject.UserControl_
             tbBarcode.SelectAll();
             if (minuite1 == 60)
             {
-                ArduConn();
+               // ArduConn();
                 bool connected = NetworkInterface.GetIsNetworkAvailable();
                 if (connected)
                 {
@@ -3178,14 +3178,13 @@ namespace PopProject.UserControl_
                 sv.PreviewMouseLeftButtonDown += ScrollViewer_PreviewMouseLeftButtonDown;
                 sv.PreviewMouseLeftButtonUp += Sv_PreviewMouseLeftButtonUp;
                 sv.PreviewMouseMove += Sv_PreviewMouseMove;
-
             }
-
             if (Properties.Settings.Default.searchCheck)
             {
                 SelectWorkList(); // 생산 계획 리스트 조회
                 ResultSearchDate();
             }
+
             Properties.Settings.Default.searchCheck = false;
             Properties.Settings.Default.Save();
             can.Visibility = Visibility.Collapsed;

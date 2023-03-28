@@ -318,6 +318,7 @@ namespace PopProject.MessageBox
 
                         pr6.prodName = result["prodName"].ToString();
                         pr6.orderLast = Convert.ToDateTime(result["orderLast"]);
+                        pr6.orderLast1 = pr6.orderLast.ToString("yyyy.MM.dd");
                         pr6.pSize = result["pSize"].ToString();
                         string memo = "";
 

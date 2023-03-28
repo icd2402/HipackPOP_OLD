@@ -123,7 +123,10 @@
 
                 <DockPanel>
                     <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="납 품 처" HorizontalContentAlignment="Center" Height="85"  Width="152" />
-                    <Label Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource 명세서value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding vendorName}" />
+                    <Label Style="{StaticResource 명세서value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding vendorName}" Width="230" />
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="0,1,0,0" BorderBrush="Black" Content="납 기 일" HorizontalContentAlignment="Center" Height="85"  Width="144" />
+                    <Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0"   HorizontalContentAlignment="Center" Content="{Binding orderLast1}" />
+
 
                 </DockPanel>
 
