@@ -79,6 +79,21 @@ namespace PopProject.Input
 
         private void PopresultUpdate()
         {
+
+            string 전체공정 = "0";
+            if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
+            {
+                if (Properties.Settings.Default.mercName.Contains("인라인"))
+                {
+                   전체공정 = "1";
+
+                }
+                else
+                {
+                    전체공정 = "0";
+                }
+            }
+
             string arrChkAED = "";
             string workCount = "";
             if (consumerCheck)
@@ -142,7 +157,7 @@ namespace PopProject.Input
                     Properties.Settings.Default.serverIndex,
                     "[PopResultEnd]",
                     new string[] { "@AllChkAED", "@작업일자", "@오더Key", "@arrChkAED", "@arr공정구분", "@arr계획Key",
-                "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고"},
+                "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@전체공정"},
                     new object[] {
                 "1",
                 DateTime.Now.ToString("yyyy-MM-dd"),
@@ -153,7 +168,8 @@ namespace PopProject.Input
                 errorModel.pworkKey + "|",
                 workCount + "|",
                 inputModel.perrCount + "|",
-                inputModel.pMemo + "|"
+                inputModel.pMemo + "|",
+                전체공정
                      }, 1, parameter
                   );
 
@@ -165,13 +181,6 @@ namespace PopProject.Input
                 }
 
             }
-
-            
-            
-
-           
-
-          
 
         }
 

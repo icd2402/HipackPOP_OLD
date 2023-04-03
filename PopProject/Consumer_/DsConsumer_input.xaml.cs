@@ -336,7 +336,7 @@ namespace PopProject.Consumer_
                             {
                                 if (mainModel.subOb.Count == 2)
                                 {
-                                    PopResultInlineStartMember(mainModel.subOb[mainModel.subOb.Count - 1]);
+                                    //PopResultInlineStartMember(mainModel.subOb[mainModel.subOb.Count - 1]);
                                 }
 
                             }
@@ -834,7 +834,7 @@ namespace PopProject.Consumer_
 
             
 
-            Win_Detail win_Detail = new Win_Detail(mainModel, special, Properties.Settings.Default.detail_check);
+            Win_Detail win_Detail = new Win_Detail(mainModel, special,consumerModel, Properties.Settings.Default.detail_check,true);
             win_Detail.ShowDialog();
         }
 

@@ -276,19 +276,19 @@ namespace PopProject.Consumer_
                     
                     if (PopresultEnd(totalCount, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey) == 1)
                     {
-                        if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
-                        {
-                            if (Properties.Settings.Default.mercName.Contains("인라인"))
-                            {
-                                if (mainModel.subOb.Count == 2)
-                                {
-                                    PopInlineStart(mainModel.subOb[mainModel.subOb.Count - 1]);
-                                }
-                            }
-                        }
+                        //if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
+                        //{
+                        //    if (Properties.Settings.Default.mercName.Contains("인라인"))
+                        //    {
+                        //        if (mainModel.subOb.Count == 2)
+                        //        {
+                        //            PopInlineStart(mainModel.subOb[mainModel.subOb.Count - 1]);
+                        //        }
+                        //    }
+                        //}
 
-                            
-                        Close();
+
+                        Close(); 
                     }
                     //if ((mainModel.sumPworkCount == getCount()) && (mainModel.sumPworkCount > 0 || getCount() > 0))
                     //{
@@ -347,7 +347,7 @@ namespace PopProject.Consumer_
 
         private int PopInlineStart(SubModel subOb)
         {
-
+            Console.WriteLine("인라인시작");
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
                 Properties.Settings.Default.serverIndex,
@@ -383,16 +383,7 @@ namespace PopProject.Consumer_
                 Properties.Settings.Default.Save();
 
                 PopInlineEnd(subOb, int.Parse(returnData.리턴값));
-                if (Main.production != null)
-                {
-                    Main.arduSerial.Write("A");
-                    Main.arduSerial.Write("B");
-                }
-
-                else
-                {
-                    Main.arduSerial.Write("A");
-                }
+                
 
             }
             else
@@ -406,6 +397,22 @@ namespace PopProject.Consumer_
 
         private void PopInlineEnd(SubModel subOb, int pWorkkey)
         {
+            string 전체공정 = "0";
+            if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
+            {
+                if (Properties.Settings.Default.mercName.Contains("인라인"))
+                {
+                    if (mainModel.subOb.Count == 2)
+                    {
+                        전체공정 = "1";
+                    }
+                    else
+                    {
+                        전체공정 = "0";
+                    }
+
+                }
+            }
             string arrChkAED = "1|";
 
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -414,7 +421,7 @@ namespace PopProject.Consumer_
                 Properties.Settings.Default.serverIndex,
                 "[PopResultEnd]",
                 new string[] { "@AllChkAED", "@작업일자", "@오더Key", "@arrChkAED", "@arr공정구분", "@arr계획Key",
-                "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명"},
+                "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명","@전체공정"},
                 new object[] {
                 "1",
                 DateTime.Now.ToString("yyyy-MM-dd"),
@@ -427,12 +434,13 @@ namespace PopProject.Consumer_
                 getErrorCount() + "|",
                 "" + "|",
                 mainModel.sDatetime,
-                subOb.ProcessTypeName
+                subOb.ProcessTypeName,
+                전체공정
                 }, 1, parameter
               );
             if (returnData.결과 == 1)
             {
-                
+                Console.WriteLine("인라인END");
 
             }
 
@@ -447,6 +455,22 @@ namespace PopProject.Consumer_
 
         private int PopresultEnd(int totalCount, int totalErrorCount, string arrChkAED, string pWorkKey)
         {
+            string 전체공정 = "0";
+            if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
+            {
+                if (Properties.Settings.Default.mercName.Contains("인라인"))
+                {
+                    if (mainModel.subOb.Count == 2)
+                    {
+                        전체공정 = "1";
+                    }
+                    else
+                    {
+                        전체공정 = "0";
+                    }
+
+                }
+            }
             //Thread.Sleep(1000);
             string parameter = "[" + Properties.Settings.Default.mercName + "] " + this.mainModel.customSName + Environment.NewLine + mainModel.prodName + " " + totalCount.ToString("N0") + "개";
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -455,7 +479,7 @@ namespace PopProject.Consumer_
 
                "[PopResultEnd]",
                new string[] { "@AllChkAED", "@작업일자", "@오더Key", "@arrChkAED", "@arr공정구분", "@arr계획Key",
-                "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명"},
+                "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명","@전체공정"},
                new object[] {
                 "2",
                 DateTime.Now.ToString("yyyy-MM-dd"),
@@ -468,7 +492,8 @@ namespace PopProject.Consumer_
                 totalErrorCount+ "|",
                 ""+"|",
                 mainModel.sDatetime,
-                Properties.Settings.Default.mercName
+                Properties.Settings.Default.mercName,
+                전체공정
 
                 }, 1, parameter
 
@@ -476,7 +501,7 @@ namespace PopProject.Consumer_
 
             if (returnData.결과 == 1)
             {
-
+                Main.production = null;
 
                 if ((imgpath.Equals("/img/bn_03.png") || imgpath.Equals("/img/bn_01.png")) && beforeCountCheck)
                 {

@@ -661,7 +661,10 @@ namespace PopProject.UserControl_
                                         }
 
 
+                                        if(str != 0)
+                                        {
 
+                                       
                                         production.sumPworkCount = Convert.ToInt32(Math.Floor(str * pCnt));
                                         if (Properties.Settings.Default.boxCheck)
                                         {
@@ -678,6 +681,7 @@ namespace PopProject.UserControl_
                                             // Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
                                         }
                                         InvokeCount(Convert.ToInt32(production.presultCount), Properties.Settings.Default.mercName);
+                                        }
                                     }
                                 }));
 
@@ -2732,7 +2736,7 @@ namespace PopProject.UserControl_
                         {
                             model.presultCount = Properties.Settings.Default.presultcount;
                         }
-                        if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                        if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
                         {
                             SelectWorkList();
                             ResultSearchDate();

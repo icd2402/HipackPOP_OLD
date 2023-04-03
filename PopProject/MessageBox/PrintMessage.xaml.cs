@@ -1,5 +1,6 @@
 ﻿using Monitor.Util;
 using Newtonsoft.Json.Linq;
+using PopProject.Consumer_;
 using PopProject.Detail;
 using PopProject.KeyBoard;
 using PopProject.UserControl_;
@@ -22,7 +23,8 @@ namespace PopProject.MessageBox
         MainModel mainModel;
         DetailModel detailitem;
         private Win_KeyBoard win_KeyBoard;
-
+        private ConsumerModel consumerModel;
+        bool consumCheck;
         public PrintMessage(MainModel main, DetailModel detailitem)
         {
             InitializeComponent();
@@ -53,6 +55,40 @@ namespace PopProject.MessageBox
                 set_count.Margin = new Thickness(0, 20, 0, 0);
             }
 
+        }
+
+        public PrintMessage(MainModel main, DetailModel detailitem, ConsumerModel consumerModel,bool consumCheck) 
+        {
+            InitializeComponent();
+            this.consumCheck = consumCheck;
+            copy_count.Text = "1";
+            mainModel = main;
+            this.detailitem = detailitem;
+
+            if (Properties.Settings.Default.keyinCheck)
+            {
+                copy_count.Focusable = true;
+                _ = copy_count.Focus();
+                _ = copy_count.Dispatcher.BeginInvoke(new Action(() => { copy_count.SelectAll(); }));
+
+                box_count.Focusable = true;
+                _ = box_count.Focus();
+                _ = box_count.Dispatcher.BeginInvoke(new Action(() => { copy_count.SelectAll(); }));
+            }
+
+            if (Properties.Settings.Default.corp_id.Equals("3125247246") || Properties.Settings.Default.corp_id.Equals("C91950615") || Properties.Settings.Default.corp_id.Equals("766562426")) // 오주포장
+            {
+                pallet.Visibility = Visibility.Visible;
+                //print_stack.Margin = new Thickness(0, 0, 0, 0);
+                //set_count.Margin = new Thickness(0, 20, 0, 0);
+            }
+            else
+            {
+                print_stack.Margin = new Thickness(0, 0, 0, 0);
+                set_count.Margin = new Thickness(0, 20, 0, 0);
+            }
+
+            this.consumerModel = consumerModel;
         }
 
         private void Result_count_minus(object sender, MouseButtonEventArgs e)
@@ -309,9 +345,76 @@ namespace PopProject.MessageBox
                         명세서양식_uc5두성.ItemPanel.Children.Add(완제품명세서_두성);
                         Set_FixedPage.Children.Add(명세서양식_uc5두성 as UIElement);
                     }
-                    else if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장"))
+                    else if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
                     {
+
+                        if (consumCheck)
+                        {
+                            ClsUc_완제품명세서_Control7구룡실수요자 완제품명세서_구룡실수요자 = new ClsUc_완제품명세서_Control7구룡실수요자();
+                            ClsUc_명세서_Report7구룡실수요자 명세서양식_uc7구룡실수요자 = new ClsUc_명세서_Report7구룡실수요자();
+                            ClsUc_완제품명세서_Control7구룡실수요자.ProductReport pr7 = new ClsUc_완제품명세서_Control7구룡실수요자.ProductReport();
+                            
+                            pr7.customSName = result["customSName"].ToString();
+                            pr7.vendorName = detailitem.vendorName;
+                            pr7.adress = consumerModel.adress;
+                            pr7.membName = consumerModel.membName;
+                            pr7.PhonNo = consumerModel.PhonNo;
+
+                            pr7.prodName = result["prodName"].ToString();
+                            pr7.orderLast = Convert.ToDateTime(result["orderLast"]);
+                            pr7.orderLast1 = pr6.orderLast.ToString("yyyy.MM.dd");
+                            pr7.pSize = result["pSize"].ToString();
+                            string memo = "";
+
+
+                            memo = getMemo(Properties.Settings.Default.printItem);
+
+
+                            // memo = getMemo(Properties.Settings.Default.printItem);
+                            pr7.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
+                            pr7.pworkDate = DateTime.Today.ToString("yyyy/MM/dd");
+                            pr7.resultCount = result["resultCount"].ToString();
+                            pr7.pStockKey = result["pStockKey"].ToString();
+                            pr7.loadCount = "";
+                            pr7.LocationName = detailitem.LocationName;
+                            pr7.loadHeight = detailitem.LoadHeight;
+                            pr7.loadType = detailitem.LoadType;
+                            if (box_count.Text.ToString().Length > 0)
+                            {
+                                pr7.loadCount = box_count.Text;
+                            }
+
+
+                            int keyLenth = 0;
+                            keyLenth = 10 - pr7.pStockKey.Length;
+
+                            for (var index = 1; index <= keyLenth; index++)
+                            {
+                                pr7.pStockKey = "0" + pr6.pStockKey;
+                            }
+
+                            if (Convert.ToInt32(mainModel.sumPworkCount) > 0)
+                            {
+                                pr7.resultCount = mainModel.sumPworkCount == 0 ? "" : mainModel.sumPworkCount + "";
+                            }
+
+                            if (!Properties.Settings.Default.count_check)
+                            {
+                                pr7.resultCount = "";
+                            }
+                            완제품명세서_구룡실수요자.ViewModel = pr7;
+                            완제품명세서_구룡실수요자.Set_BarCode();
+                            Grid.SetRow(완제품명세서_구룡실수요자, 1);
+                            명세서양식_uc7구룡실수요자.ItemPanel.Children.Add(완제품명세서_구룡실수요자);
+                            Set_FixedPage.Children.Add(명세서양식_uc7구룡실수요자 as UIElement);
+
+
+                        }
+                        else
+                        {
+
                         
+
                         pr6.customSName = result["customSName"].ToString();
                         pr6.vendorName = detailitem.vendorName;
 
@@ -322,16 +425,9 @@ namespace PopProject.MessageBox
                         pr6.pSize = result["pSize"].ToString();
                         string memo = "";
 
-                        if (Properties.Settings.Default.corp_name.Equals("광무포장"))
-                        {
-                            memo = detailitem.SpecialMemo + Environment.NewLine;
-                            memo += getMemo(Properties.Settings.Default.printItem);
-                        }
-
-                        else
-                        {
-                            memo = getMemo(Properties.Settings.Default.printItem);
-                        }
+                        
+                        memo = getMemo(Properties.Settings.Default.printItem);
+                        
 
                         // memo = getMemo(Properties.Settings.Default.printItem);
                         pr6.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
@@ -370,6 +466,7 @@ namespace PopProject.MessageBox
                         Grid.SetRow(완제품명세서_구룡, 1);
                         명세서양식_uc6구룡.ItemPanel.Children.Add(완제품명세서_구룡);
                         Set_FixedPage.Children.Add(명세서양식_uc6구룡 as UIElement);
+                        }
                     }
 
                     else
@@ -475,7 +572,7 @@ namespace PopProject.MessageBox
                     else
                     {
                         reportWindow.DirectPrint(int.Parse(copy_count.Text));
-                       // reportWindow.Close();
+                        reportWindow.Close();
                         Focus();
                         Close();
 
