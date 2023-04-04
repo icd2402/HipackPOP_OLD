@@ -291,6 +291,7 @@
     <Compile Include="Input\Pop_noty.xaml.cs">
       <DependentUpon>Pop_noty.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Input\Recipe_Model.cs" />
     <Compile Include="Input\SearchList.xaml.cs">
       <DependentUpon>SearchList.xaml</DependentUpon>
     </Compile>
