@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using PopProject.Consumer_;
 using PopProject.Input;
 using PopProject.MessageBox;
 using PopProject.UserControl_;
@@ -35,6 +36,9 @@ namespace PopProject.Detail
         public Socket mainSock;
         private string special;
         private bool detail_check;
+        private bool consumcheck;
+        private ConsumerModel consumerModel;
+        private bool v;
 
         public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v)
         {
@@ -53,7 +57,7 @@ namespace PopProject.Detail
             pSize.Text = mainModel.pSize;
             Pass_detail.Visibility = Properties.Settings.Default.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
             robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
-            wharehouse.Visibility = Properties.Settings.Default.corp_name.Equals("두성포장테스트") || Properties.Settings.Default.corp_name.Equals("두성포장") ? Visibility.Visible : Visibility.Collapsed;
+            wharehouse.Visibility = Properties.Settings.Default.corp_name.Equals("두성포장테스트") || Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Contains("혜성") ? Visibility.Visible : Visibility.Collapsed;
             MetrialBj();
             MetrialIG();
             PopSearchPhoto();
@@ -67,6 +71,7 @@ namespace PopProject.Detail
         public Win_Detail(MainModel mainModel, string special, bool detail_check)
         {
             InitializeComponent();
+
             this.mainModel = mainModel;
             this.special = special;
             this.detail_check = detail_check;
@@ -82,7 +87,35 @@ namespace PopProject.Detail
             pSize.Text = mainModel.pSize;
             Pass_detail.Visibility = Properties.Settings.Default.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
             robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
+           
+            MetrialBj();
+            MetrialIG();
+            PopSearchPhoto();
 
+        }
+
+        public Win_Detail(MainModel mainModel, string special, ConsumerModel consumerModel, bool detail_check, bool v)
+        {
+            InitializeComponent();
+            this.mainModel = mainModel;
+            this.special = special;
+            this.consumerModel = consumerModel;
+            this.detail_check = detail_check;
+            this.v = v;
+
+
+            customSname.Text = mainModel.customSName;
+            boxType.Text = "형  태 : " + mainModel.boxType;
+            pplanCount.Text = "계획량 : " + mainModel.pplanCount.ToString("N0");
+            tb파렛트적재높이.Text = this.mainModel.PalletHeight;
+            tb파렛트적재매수.Text = this.mainModel.PalletCount;
+            prodName.Text = mainModel.prodName;
+            subOb.ItemsSource = mainModel.subOb;
+            tb공정별.Text = special.Replace("|", "\n");
+            pSize.Text = mainModel.pSize;
+            Pass_detail.Visibility = Properties.Settings.Default.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
+            robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
+            consumcheck = v;
             MetrialBj();
             MetrialIG();
             PopSearchPhoto();
@@ -152,9 +185,11 @@ namespace PopProject.Detail
                     Receive_Data += obj.Buffer[i].ToString("x2");
                 }
                 //MessageBox.Show(Receive_Data.ToString()); //수신 데이터값 보기(기본)
+
                 //연속읽기
                 string continuous_read = string.Empty;
                 string RD = Receive_Data.Substring(64);
+
                 //Console.WriteLine("수신데이터RD : " + RD.ToString());
                 //앞에 데이터 지우고 데이터 정보부터 읽음
 
@@ -169,7 +204,6 @@ namespace PopProject.Detail
 
                 ///MessageBox_Dialog msg = new MessageBox_Dialog(continuous_read.ToString());
                 // msg.ShowDialog();//수신 데이터값 보기
-
                 //개별읽기
                 //string RD = Receive_Data.Substring(64); //앞에 데이터 지우고 데이터 정보부터 읽음
                 //string high_data = RD.Substring(0, 2); //앞 두자리 추출
@@ -177,10 +211,8 @@ namespace PopProject.Detail
                 //int single_read = Convert.ToInt32(low_data + high_data, 16); //앞 뒤 자리바꾸고 10진수 변환
                 //MessageBox.Show(single_read.ToString()); //수신 데이터값 보기
                 // 데이터를 받은 후엔 다시 버퍼를 비워주고 같은 방법으로 수신을 대기한다.
-
                 Console.WriteLine(continuous_read.Substring(0, 36).ToString());
                 obj.ClearBuffer();
-
             }
             catch (Exception)
             {
@@ -254,18 +286,17 @@ namespace PopProject.Detail
                    // msg = new MessageBox_Dialog("전송되었습니다.");
                    // msg.Show();
                 }
+
                 catch (Exception)
                 {
                     msg = new MessageBox_Dialog("재시도 해주세요.");
 
                     msg.Show();
                 }
+
                 finally
                 {
                     mainSock.Close();
-
-
-
                 }
                 //if (WriteData6.Text.ToString().Equals("0"))
                 //{
@@ -1036,8 +1067,17 @@ namespace PopProject.Detail
 
             else
             {
-                PrintMessage printMessage = new PrintMessage(mainModel, Detailitem);
-                _ = printMessage.ShowDialog();
+                if (consumcheck)
+                {
+                    PrintMessage printMessage = new PrintMessage(mainModel, Detailitem,consumerModel,true);
+                    _ = printMessage.ShowDialog();
+                }
+                else
+                {
+                    PrintMessage printMessage = new PrintMessage(mainModel, Detailitem);
+                    _ = printMessage.ShowDialog();
+
+                }
             }
 
         }
@@ -1147,16 +1187,12 @@ namespace PopProject.Detail
         {
             Main.passCheck = false;
             InvokeCount(Properties.Settings.Default.mercName, mainModel.orderKey.ToString() + "^@");
-
         }
 
         private void InvokeCount(string mercName, string v)
         {
-
             //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
             SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
-
-
         }
 
         private void Detail_closed(object sender, EventArgs e)

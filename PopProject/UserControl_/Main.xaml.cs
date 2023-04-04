@@ -287,9 +287,22 @@ namespace PopProject.UserControl_
                     serialClose = new System.Threading.Thread(new System.Threading.ThreadStart(serialDisConnect));
                     serialClose.IsBackground = true;
                     serialClose.Start(); // 스레드 시작
+
                     //serialDisConnect();
                 }
                 else
+                {
+                    arduSerial.Encoding = Encoding.GetEncoding(65001);
+                    arduSerial.PortName = Properties.Settings.Default.SerialName;
+                    arduSerial.BaudRate = Properties.Settings.Default.baudrate;
+                    arduSerial.DataReceived += ArduReReceive;
+
+                    arduSerial.Open();
+                    arduSerial.Write(Properties.Settings.Default.SensorRate);
+                    btrSerial.Background = Brushes.Green;
+                }
+
+                if (!arduSerial.IsOpen)
                 {
                     arduSerial.Encoding = Encoding.GetEncoding(65001);
                     arduSerial.PortName = Properties.Settings.Default.SerialName;
@@ -649,7 +662,10 @@ namespace PopProject.UserControl_
                                         }
 
 
+                                        if(str != 0)
+                                        {
 
+                                       
                                         production.sumPworkCount = Convert.ToInt32(Math.Floor(str * pCnt));
                                         if (Properties.Settings.Default.boxCheck)
                                         {
@@ -666,6 +682,7 @@ namespace PopProject.UserControl_
                                             // Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
                                         }
                                         InvokeCount(Convert.ToInt32(production.presultCount), Properties.Settings.Default.mercName);
+                                        }
                                     }
                                 }));
 
@@ -738,6 +755,7 @@ namespace PopProject.UserControl_
             tbBarcode.SelectAll();
             if (minuite1 == 60)
             {
+               // ArduConn();
                 bool connected = NetworkInterface.GetIsNetworkAvailable();
                 if (connected)
                 {
@@ -2719,7 +2737,7 @@ namespace PopProject.UserControl_
                         {
                             model.presultCount = Properties.Settings.Default.presultcount;
                         }
-                        if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                        if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
                         {
                             SelectWorkList();
                             ResultSearchDate();
@@ -3165,14 +3183,13 @@ namespace PopProject.UserControl_
                 sv.PreviewMouseLeftButtonDown += ScrollViewer_PreviewMouseLeftButtonDown;
                 sv.PreviewMouseLeftButtonUp += Sv_PreviewMouseLeftButtonUp;
                 sv.PreviewMouseMove += Sv_PreviewMouseMove;
-
             }
-
             if (Properties.Settings.Default.searchCheck)
             {
                 SelectWorkList(); // 생산 계획 리스트 조회
                 ResultSearchDate();
             }
+
             Properties.Settings.Default.searchCheck = false;
             Properties.Settings.Default.Save();
             can.Visibility = Visibility.Collapsed;

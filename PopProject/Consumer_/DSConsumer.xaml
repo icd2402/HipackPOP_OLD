@@ -23,6 +23,10 @@
         <TextBlock x:Name="tbMercName" Margin="0,0,0,0" Text="실수요자 리스트" Foreground="White" Width="600" FontSize="35" TextAlignment="Center" Height="50" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="/font/#KoPubDotum Bold" ></TextBlock>
         <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_exit.png" Margin="0,0,5,0" MouseLeftButtonDown="Program_exit"/>
 
+        <Border x:Name="box1"  BorderThickness="2" Background="White" CornerRadius="10" BorderBrush="#FF747474" Width="78" Height="70"   VerticalAlignment="Center"  Margin="940,0,0,0" MouseLeftButtonDown="이월">
+            <TextBlock Text="이 월" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="/font/#KoPubDotum Bold" Foreground="#FF565656"/>
+        </Border>
+        
         <Canvas Grid.Row="1" Background="White" Opacity="0.5">
 
         </Canvas>

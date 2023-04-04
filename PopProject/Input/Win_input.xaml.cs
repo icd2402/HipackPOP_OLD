@@ -65,7 +65,7 @@ namespace PopProject.Input
             this.mainModel = mainModel;
             boxType.Text = "형 태 : " + mainModel.boxType;
 
-            if (Properties.Settings.Default.corp_name.Equals("오주포장"))
+            if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
             {
                 SignalRAdministrator.허브.On<string, string>("returnCount", recive);
             }
@@ -963,6 +963,22 @@ namespace PopProject.Input
 
         private void PopInlineEnd(SubModel subOb, int pWorkkey)
         {
+            string 전체공정 = "0";
+            if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
+            {
+                if (Properties.Settings.Default.mercName.Contains("인라인"))
+                {
+                    if (mainModel.subOb.Count == 2)
+                    {
+                        전체공정 = "1";
+                    }
+                    else
+                    {
+                        전체공정 = "0";
+                    }
+
+                }
+            }
             string arrChkAED = "1|";
 
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -971,7 +987,7 @@ namespace PopProject.Input
                 Properties.Settings.Default.serverIndex,
                 "[PopResultEnd]",
                 new string[] { "@AllChkAED", "@작업일자", "@오더Key", "@arrChkAED", "@arr공정구분", "@arr계획Key",
-                "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명"},
+                "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명","@전체공정"},
                 new object[] {
                 "1",
                 DateTime.Now.ToString("yyyy-MM-dd"),
@@ -984,7 +1000,8 @@ namespace PopProject.Input
                 inputModel.perrCount + "|",
                 inputModel.pMemo + "|",
                 inputModel.sDatetime,
-                subOb.ProcessTypeName
+                subOb.ProcessTypeName,
+                전체공정
                 }, 1, parameter
               );
             if (returnData.결과 == 1)
@@ -1012,7 +1029,7 @@ namespace PopProject.Input
                 }
                 Main.production = null;
             }
-
+            Main.production = null;
             Properties.Settings.Default.consumersumcount = 0;
             Properties.Settings.Default.count = 0;
             Properties.Settings.Default.saveDate = "";
@@ -1480,6 +1497,22 @@ namespace PopProject.Input
 
         private int PopResultEnd()
         {
+            string 전체공정 = "0";
+            if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
+            {
+                if (Properties.Settings.Default.mercName.Contains("인라인"))
+                {
+                    if (mainModel.subOb.Count == 2)
+                    {
+                        전체공정 = "1";
+                    }
+                    else
+                    {
+                        전체공정 = "0";
+                    }
+
+                }
+            }
             inputModel.pworkCount = int.Parse(tbResult.Text.ToString());
             string arrChkAED = inputModel.pworkCount == 0 && inputModel.perrCount == 0 ? "3|" : "1|";
             if (Properties.Settings.Default.boxCheck)
@@ -1501,7 +1534,7 @@ namespace PopProject.Input
                 Properties.Settings.Default.serverIndex,
                 "[PopResultEnd]",
                 new string[] { "@AllChkAED", "@작업일자", "@오더Key", "@arrChkAED", "@arr공정구분", "@arr계획Key",
-                "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명"},
+                "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명", "@전체공정"},
                 new object[] {
                 "1",
                 DateTime.Now.ToString("yyyy-MM-dd"),
@@ -1514,7 +1547,8 @@ namespace PopProject.Input
                 inputModel.perrCount + "|",
                 inputModel.pMemo + "|",
                 inputModel.sDatetime,
-                Properties.Settings.Default.mercName
+                Properties.Settings.Default.mercName,
+                전체공정
                 }, 1, parameter
               );
 
@@ -1563,7 +1597,7 @@ namespace PopProject.Input
                 InvokeCount(Properties.Settings.Default.mercName, "E");
 
                 //Console.WriteLine("metrialitem -> " + metrialitem);
-                if (Properties.Settings.Default.corp_name.Equals("오주포장") &&
+                if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트") &&
                     (Properties.Settings.Default.processType == 7
                     || Properties.Settings.Default.processType == 5
                     || Properties.Settings.Default.processType == 8
@@ -1600,14 +1634,14 @@ namespace PopProject.Input
                 }
                 if(Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
                 {
-                    if (Properties.Settings.Default.mercName.Contains("인라인"))
-                    {
-                        if (mainModel.subOb.Count == 2)
-                        {
-                            PopInlineStart(mainModel.subOb[mainModel.subOb.Count - 1]);
-                        }
+                    //if (Properties.Settings.Default.mercName.Contains("인라인"))
+                    //{
+                    //    if (mainModel.subOb.Count == 2)
+                    //    {
+                    //        PopInlineStart(mainModel.subOb[mainModel.subOb.Count - 1]);
+                    //    }
                        
-                    }
+                    //}
                 }
 
 
@@ -1770,7 +1804,7 @@ namespace PopProject.Input
 
                 }
 
-                if (Properties.Settings.Default.corp_name.Equals("대양포장") || Properties.Settings.Default.corp_name.Equals("오주포장"))
+                if (Properties.Settings.Default.corp_name.Equals("대양포장") || Properties.Settings.Default.corp_name.Equals("오주포장")|| Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
                 {
                     try
                     {

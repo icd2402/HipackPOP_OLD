@@ -20,6 +20,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace PopProject.Consumer_
 {
@@ -35,8 +36,10 @@ namespace PopProject.Consumer_
         private float totalPerrCount = 0;
         private bool checkChangeButton = false;
         public Win_KeyBoard win_KeyBoard;
+        private DispatcherTimer timer;
         int pworkkey;
-        int workmemberkey;
+        int workmemberkey, second =0;
+    
         public DsConsumer_input(ConsumerModel consumerModel, MainModel mainModel)
         {
             InitializeComponent();
@@ -123,8 +126,32 @@ namespace PopProject.Consumer_
 
             PopResultSearchMember();
             PopErrorSearch();
+            TimerSet();
 
         }
+        private void TimerSet()
+        {
+            timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            timer.Tick += new EventHandler(Timer_Tick);
+            timer.Start();
+
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            second++;
+            if(second == 10)
+            {
+                mainModel.inputModel = inputModel;
+                Main.production = mainModel;
+                second = 0;
+            }
+           
+        }
+
         private void PopErrorSearch()
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -309,7 +336,7 @@ namespace PopProject.Consumer_
                             {
                                 if (mainModel.subOb.Count == 2)
                                 {
-                                    PopResultInlineStartMember(mainModel.subOb[mainModel.subOb.Count - 1]);
+                                    //PopResultInlineStartMember(mainModel.subOb[mainModel.subOb.Count - 1]);
                                 }
 
                             }
@@ -807,7 +834,7 @@ namespace PopProject.Consumer_
 
             
 
-            Win_Detail win_Detail = new Win_Detail(mainModel, special, Properties.Settings.Default.detail_check);
+            Win_Detail win_Detail = new Win_Detail(mainModel, special,consumerModel, Properties.Settings.Default.detail_check,true);
             win_Detail.ShowDialog();
         }
 

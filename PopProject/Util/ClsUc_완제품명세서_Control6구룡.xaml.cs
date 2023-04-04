@@ -144,6 +144,21 @@ namespace PopProject.Util
                 }
             }
 
+            private string _orderLast1;
+            public string orderLast1
+            {
+                get
+                {
+                    return _orderLast1;
+                }
+                set
+                {
+                    _orderLast1 = value;
+                    onPropertyChanged("orderLast1");
+                }
+            }
+
+
             private DateTime _orderLast;
             public DateTime orderLast
             {
