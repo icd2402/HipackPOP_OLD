@@ -271,7 +271,7 @@ namespace PopProject.UserControl_
                     btrSerial.Background = Brushes.Green;
                 }));
 
-                
+
             }
         }
 
@@ -430,17 +430,7 @@ namespace PopProject.UserControl_
                     {
                         Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                         {
-                            if (production != null)
-                            {
-                                pCnt = Properties.Settings.Default.twoSum ? production.pCnt * 2 : production.pCnt;
-
-
-                            }
-
-                            else
-                            {
-                                pCnt = 1;
-                            }
+                            pCnt = production != null ? Properties.Settings.Default.twoSum ? production.pCnt * 2 : production.pCnt : 1;
 
 
                             if (!Properties.Settings.Default.saveDate.Equals("") && !Properties.Settings.Default.saveDate.Equals(DateTime.Now.ToString("yyyy-MM-dd")))

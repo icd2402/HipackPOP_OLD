@@ -41,6 +41,10 @@ namespace PopProject.Consumer_
         private bool checkProcessing = false;
         private DispatcherTimer timer;
         private int second = 0;
+        int totalCount = 0;
+        int totalErrorCount = 0;
+        string arrChkAED = "";
+        bool 이월체크 = false;
         public DSConsumer(MainModel mainModel)
 
         {
@@ -135,7 +139,7 @@ namespace PopProject.Consumer_
                             
 
                         //}
-                        if(listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.orderCount - listitem.pWorkCount > 50)
+                        if(listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.orderCount - listitem.pWorkCount > 30)
                         {
                             consumerList.Add(listitem);
                         }
@@ -229,67 +233,25 @@ namespace PopProject.Consumer_
                 else
                 {
                     //PopWorkListSearch();
-                    int totalCount = getCount();
-                    totalCount -= beforeCount;
-                    int totalErrorCount = getErrorCount();
-                    string arrChkAED = "";
-                    if (Properties.Settings.Default.boxCheck)
-                    {
-                        totalCount *= int.Parse(mainModel.pCnt.ToString());
-
-
-                    }
-                    if (getCount() == 0)
-                    {
-                        arrChkAED = "3|";
-                    }
-                    else
-                    {
-                        if (mainModel.imagePath.Equals("/img/bn_02.png"))
-                        {
-                            arrChkAED = "1|";
-                        }
-                        else if (mainModel.imagePath.Equals("/img/bn_03.png"))
-                        {
-                            arrChkAED = "2|";
-                        }
-                        else if (mainModel.imagePath.Equals("/img/bn_01.png"))
-                        {
-                            if (getCount() == 0)
-                            {
-                                arrChkAED = "3|";
-                            }
-                            else
-                            {
-                                if (consumbefore > 0)
-                                {
-                                    arrChkAED = "2|";
-                                }
-                                else if (consumbefore ==0){
-                                    arrChkAED = "1|";
-                                }
-                               
-                            }
-                        }
-
-                    }
                     
-                    if (PopresultEnd(totalCount, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey) == 1)
-                    {
-                        //if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
-                        //{
-                        //    if (Properties.Settings.Default.mercName.Contains("인라인"))
-                        //    {
-                        //        if (mainModel.subOb.Count == 2)
-                        //        {
-                        //            PopInlineStart(mainModel.subOb[mainModel.subOb.Count - 1]);
-                        //        }
-                        //    }
-                        //}
+                    Close();
+
+                    //if (PopresultEnd(totalCount, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey) == 1)
+                    //{
+                    //    //if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
+                    //    //{
+                    //    //    if (Properties.Settings.Default.mercName.Contains("인라인"))
+                    //    //    {
+                    //    //        if (mainModel.subOb.Count == 2)
+                    //    //        {
+                    //    //            PopInlineStart(mainModel.subOb[mainModel.subOb.Count - 1]);
+                    //    //        }
+                    //    //    }
+                    //    //}
 
 
-                        Close(); 
-                    }
+                    //    Close(); 
+                    //}
                     //if ((mainModel.sumPworkCount == getCount()) && (mainModel.sumPworkCount > 0 || getCount() > 0))
                     //{
                     //    // Thread.Sleep(500);
@@ -332,7 +294,7 @@ namespace PopProject.Consumer_
                     //    };
 
                     //}
-                    }
+                }
 
 
 
@@ -460,15 +422,15 @@ namespace PopProject.Consumer_
             {
                 if (Properties.Settings.Default.mercName.Contains("인라인"))
                 {
-                    if (mainModel.subOb.Count == 2)
-                    {
-                        전체공정 = "1";
-                    }
-                    else
-                    {
-                        전체공정 = "0";
-                    }
-
+                    //if (mainModel.subOb.Count == 2)
+                    //{
+                    //    전체공정 = "1";
+                    //}
+                    //else
+                    //{
+                    //    전체공정 = "0";
+                    //}
+                    전체공정 = "1";
                 }
             }
             //Thread.Sleep(1000);
@@ -627,6 +589,7 @@ namespace PopProject.Consumer_
 
         private void 이월(object sender, MouseButtonEventArgs e)
         {
+            이월체크 = true;
             var result = System.Windows.MessageBox.Show(mainModel.prodName + " 품목을 이월 하시겠습니까 ?", "이월",
                        MessageBoxButton.YesNo);
 
@@ -640,6 +603,7 @@ namespace PopProject.Consumer_
                 if (mainModel.presultCount > 0 )
                 {
                     spAdd410processinfo_workplan();
+                    Close();
                 }
 
                 else
@@ -672,6 +636,60 @@ namespace PopProject.Consumer_
                 MessageBox_Dialog msg = new MessageBox_Dialog("이월 실패");
                 msg.ShowDialog();
             }
+        }
+
+        private void consumClosed(object sender, EventArgs e)
+
+        {
+            totalCount = getCount();
+            totalCount -= beforeCount;
+            totalErrorCount = getErrorCount();
+            arrChkAED = "";
+            if (Properties.Settings.Default.boxCheck)
+            {
+                totalCount *= int.Parse(mainModel.pCnt.ToString());
+
+            }
+            if (getCount() == 0)
+            {
+                arrChkAED = "3|";
+            }
+            else
+            {
+                if (mainModel.imagePath.Equals("/img/bn_02.png"))
+                {
+                    arrChkAED = "1|";
+                }
+                else if (mainModel.imagePath.Equals("/img/bn_03.png"))
+                {
+                    arrChkAED = "2|";
+                }
+                else if (mainModel.imagePath.Equals("/img/bn_01.png"))
+                {
+                    if (getCount() == 0)
+                    {
+                        arrChkAED = "3|";
+                    }
+                    else
+                    {
+                        if (consumbefore > 0)
+                        {
+                            arrChkAED = "2|";
+                        }
+                        else if (consumbefore == 0)
+                        {
+                            arrChkAED = "1|";
+                        }
+
+                    }
+                }
+
+            }
+            if (이월체크)
+            {
+                arrChkAED = "3|";
+            }
+            PopresultEnd(totalCount, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey);
         }
     }
 }

@@ -118,7 +118,7 @@ namespace PopProject.Consumer_
             inputModel.pMemo = "";
             inputModel.pworkCount = consumerModel.pWorkCount;
             inputModel.imagePath = inputModel.sDatetime.Length > 3 && inputModel.eDatetime.Length <= 1 ? "/img/bn_06.png" : "/img/bn_05.png";
-            inputModel.prodName = mainModel.prodName + " (" + consumerModel.vendorName + "/" + consumerModel.membName + ")";
+            inputModel.prodName = mainModel.prodName + " \n(" + consumerModel.vendorName + "/" + consumerModel.membName + ")";
 
 
             mainModel.inputModel = inputModel;
@@ -882,6 +882,11 @@ namespace PopProject.Consumer_
         private void ScrollViewer_PreviewMouseMove(object sender, MouseEventArgs e)
         {
 
+        }
+
+        private void consum_closed(object sender, EventArgs e)
+        {
+            timer.Stop();
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)

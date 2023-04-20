@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PopProject.Consumer_"
         mc:Ignorable="d"
-        Title="DSConsumer" Height="890" Width="1230" WindowStyle="None" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+        Title="DSConsumer" Height="890" Width="1230" WindowStyle="None" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" MouseLeftButtonDown="Window_MouseLeftButtonDown" Closed="consumClosed">
 
     <Window.Resources>
         <local:IndexConverter x:Key="IndexConverter"/>

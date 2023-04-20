@@ -49,8 +49,14 @@ namespace PopProject.Detail
             customSname.Text = mainModel.customSName;
             boxType.Text = "형  태 : " + mainModel.boxType;
             pplanCount.Text = "계획량 : " + mainModel.pplanCount.ToString("N0");
-            tb파렛트적재높이.Text = this.mainModel.PalletHeight;
-            tb파렛트적재매수.Text = this.mainModel.PalletCount;
+            if (Properties.Settings.Default.corp_name.Equals("오주포장"))
+            {
+                파렛트적재매수.Visibility = Visibility.Visible;
+                파렛트적재높이.Visibility = Visibility.Visible;
+                tb파렛트적재높이.Text = this.mainModel.PalletHeight;
+                tb파렛트적재매수.Text = this.mainModel.PalletCount;
+            }
+           
             prodName.Text = mainModel.prodName;
             subOb.ItemsSource = mainModel.subOb;
             tb공정별.Text = special.Replace("|", "\n");

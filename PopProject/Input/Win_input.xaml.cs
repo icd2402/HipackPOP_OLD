@@ -968,14 +968,15 @@ namespace PopProject.Input
             {
                 if (Properties.Settings.Default.mercName.Contains("인라인"))
                 {
-                    if (mainModel.subOb.Count == 2)
-                    {
-                        전체공정 = "1";
-                    }
-                    else
-                    {
-                        전체공정 = "0";
-                    }
+                    //if (mainModel.subOb.Count == 2)
+                    //{
+                    //    전체공정 = "1";
+                    //}
+                    //else
+                    //{
+                    //    전체공정 = "0";
+                    //}
+                    전체공정 = "1";
 
                 }
             }
@@ -1168,15 +1169,15 @@ namespace PopProject.Input
             {
                 if (Properties.Settings.Default.mercName.Contains("인라인"))
                 {
-                    if (mainModel.subOb.Count == 2)
-                    {
-                        전체공정 = "1";
-                    }
-                    else
-                    {
-                        전체공정 = "0";
-                    }
-
+                    //if (mainModel.subOb.Count == 2)
+                    //{
+                    //    전체공정 = "1";
+                    //}
+                    //else
+                    //{
+                    //    전체공정 = "0";
+                    //}
+                    전체공정 = "1";
                 }
             }
             inputModel.pworkCount = int.Parse(tbResult.Text.ToString());
@@ -1263,7 +1264,7 @@ namespace PopProject.Input
                 InvokeCount(Properties.Settings.Default.mercName, "E");
 
                 //Console.WriteLine("metrialitem -> " + metrialitem);
-                if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트") &&
+                if (Properties.Settings.Default.corp_name.Equals("오주포장")  &&
                     (Properties.Settings.Default.processType == 7
                     || Properties.Settings.Default.processType == 5
                     || Properties.Settings.Default.processType == 8
