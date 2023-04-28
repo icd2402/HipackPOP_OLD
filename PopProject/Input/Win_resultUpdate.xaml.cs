@@ -99,10 +99,12 @@ namespace PopProject.Input
             if (consumerCheck)
             {
                 arrChkAED = pworkCount.Text.ToString().Equals("0") ? "3" : "2";
+                
                 if(Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
                 {
                     workCount = (int.Parse(pworkCount.Text) * inputModel.pCnt).ToString();
                 }
+
                 else
                 {
                     workCount = pworkCount.Text;

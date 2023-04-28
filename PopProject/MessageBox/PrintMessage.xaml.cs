@@ -372,8 +372,9 @@ namespace PopProject.MessageBox
 
                             // memo = getMemo(Properties.Settings.Default.printItem);
                             pr7.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
-                            pr7.pworkDate = DateTime.Today.ToString("yyyy/MM/dd");
-                            pr7.resultCount = result["resultCount"].ToString();
+                            pr7.pMemo = pr7.pMemo + Environment.NewLine + consumerModel.Memo;
+                            pr7.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); 
+                            pr7.resultCount = consumerModel.orderCount.ToString();
                             pr7.pStockKey = result["pStockKey"].ToString();
                             pr7.loadCount = "";
                             pr7.LocationName = detailitem.LocationName;

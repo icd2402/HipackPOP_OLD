@@ -76,7 +76,7 @@ namespace PopProject.Detail
                             WharehouseType = item["WharehouseType"].ToString()
                         };
                         WhareHouselist.Add(model);
-                        
+
                     }
                 }
 

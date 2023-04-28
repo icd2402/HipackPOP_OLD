@@ -390,9 +390,12 @@ namespace PopProject.Consumer_
 
             if (returnData.결과 == 1)
             {
+                Properties.Settings.Default.consumCount += workcount;
+                Properties.Settings.Default.Save();
                 InvokeCount(Properties.Settings.Default.mercName, "E");
                 Canvas.SetTop(box, 490);
                 Canvas.SetTop(box1, 570);
+               
                 count = int.Parse(tbResult.Text.ToString());
 
                 if (count > 0)
