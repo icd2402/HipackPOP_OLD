@@ -37,6 +37,7 @@ namespace PopProject.UserControl_
 
     public partial class Main : UserControl
     {
+
         int wdIGCOunt = 0;
         int arduconnCount = 0;
         private bool sortChecked = true;
@@ -45,6 +46,7 @@ namespace PopProject.UserControl_
         public static SerialPort arduSerial1 = new SerialPort();
         public static Win_input win_Input;
         public static Robot_Setting robot_Setting = null;
+        public static Robot_Setting2 robot_Setting2 = null;
         public ObservableCollection<MainModel> workList;
         public ObservableCollection<MainModel> workList1;
         public static Consumer consumer_;

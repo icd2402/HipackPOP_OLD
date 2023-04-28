@@ -48,7 +48,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -82,6 +82,9 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DataBase연결">
+      <HintPath>..\..\ICD_Intranet\DataBase연결\bin\Debug\DataBase연결.dll</HintPath>
+    </Reference>
     <Reference Include="Hangfire.Core, Version=1.7.28.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hangfire.Core.1.7.28\lib\net45\Hangfire.Core.dll</HintPath>
     </Reference>
@@ -102,6 +105,9 @@
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="PLC_MITSU, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PLCMitsuConfig.1.0.1\lib\net45\PLC_MITSU.dll</HintPath>
     </Reference>
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
@@ -267,6 +273,9 @@
     <Compile Include="Detail\Robot_Setting.xaml.cs">
       <DependentUpon>Robot_Setting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Detail\Robot_Setting2.xaml.cs">
+      <DependentUpon>Robot_Setting2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Detail\WhareHouseModel.cs" />
     <Compile Include="Detail\Wharehouse_info.xaml.cs">
       <DependentUpon>Wharehouse_info.xaml</DependentUpon>
@@ -320,6 +329,9 @@
     <Compile Include="MerList\MerModel.cs" />
     <Compile Include="MessageBox\MessageBox_Dialog.xaml.cs">
       <DependentUpon>MessageBox_Dialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MessageBox\MessageBox_Robot.xaml.cs">
+      <DependentUpon>MessageBox_Robot.xaml</DependentUpon>
     </Compile>
     <Compile Include="MessageBox\PrintMessage.xaml.cs">
       <DependentUpon>PrintMessage.xaml</DependentUpon>
@@ -441,6 +453,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Detail\Robot_Setting2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Detail\Wharehouse_info.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -514,6 +530,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MessageBox\MessageBox_Dialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessageBox\MessageBox_Robot.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1377,6 +1397,35 @@
     <Resource Include="img\1자5종구.png" />
     <Resource Include="img\1자6종구.png" />
     <Content Include="System.Net.Json.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="ACTETHERLib">
+      <Guid>{A306B168-AE98-11D3-83AE-00A024BDBF2B}</Guid>
+      <VersionMajor>3</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="ACTPCUSBLib">
+      <Guid>{A306B175-AE98-11D3-83AE-00A024BDBF2B}</Guid>
+      <VersionMajor>3</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="ActUtlTypeLib">
+      <Guid>{D217E54E-4A26-4A76-B0AB-57166B90F9AF}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.2-mauipre.1.22102.15\build\Microsoft.Extensions.Logging.Abstractions.targets" Condition="Exists('..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.2-mauipre.1.22102.15\build\Microsoft.Extensions.Logging.Abstractions.targets')" />

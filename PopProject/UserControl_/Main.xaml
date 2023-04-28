@@ -20,7 +20,7 @@
             <ImageBrush ImageSource="/img/back_02.png"/>
         </Grid.Background>
         <Grid.RowDefinitions>
-        
+
             <RowDefinition Height="110"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="100*"/>
@@ -29,18 +29,18 @@
         </Grid.RowDefinitions>
 
         <TextBlock x:Name="tbMercName" Text="공 정" Foreground="White" Width="280" FontSize="40" TextAlignment="Center" Height="50" HorizontalAlignment="Center" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="Mer_click"></TextBlock>
-        
+
         <Button x:Name="btrSerial" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="Serial_click" Margin="0,0,0,90"/>
-       
+
         <Button x:Name="btnLogout" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="Logout_click"/>
         <TextBlock x:Name="merc_lock" Foreground="White" Text="lock" Padding="5,0,0,0" TextAlignment="Justify" FontSize="15"  Margin="18,0,0,0" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" MouseLeftButtonDown="Logout_click"></TextBlock>
         <TextBlock x:Name="corp_name" Foreground="White" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="24,36,0,0" ></TextBlock>
         <TextBlock MouseLeftButtonDown="Change_workList" Background="DimGray" Foreground="White" FontSize="23"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="9" Margin="850,34,0,0" FontFamily="/font/#KoPubBatang Medium" Text="계획순서변경"></TextBlock>
-        
+
         <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_01.png" Margin="0,0,95,0" MouseLeftButtonDown="Remote_click"/>
         <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_exit.png" Margin="0,0,5,0" MouseLeftButtonDown="Program_exit"/>
         <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/setting.png" Margin="0,1,185,0" MouseLeftButtonDown="Setting"/>
-        
+
         <TextBlock x:Name="txtDate"  FontSize="23" VerticalAlignment="Top" Text="2019.10.28(수)"  Margin="260,27,745,0"  FontFamily="/font/#KoPubBatang Medium" MouseLeftButtonDown="TxtDate_MouseLeftButtonDown"/>
         <TextBlock x:Name="txtClock"   FontSize="23" VerticalAlignment="Top" Text="오전 11:11" Margin="260,60,745,0"  FontFamily="/font/#KoPubBatang Medium" MouseLeftButtonDown="TxtTime_MouseLeftButtonDown"/>
 
@@ -130,14 +130,14 @@
                                 <TextBlock Canvas.Left="984" Canvas.Top="20" FontSize="15" Width="80" TextAlignment="Right" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold" x:Name="pPlan1" Visibility="Collapsed"></TextBlock>
 
                                 <!-- <TextBlock Canvas.Left="984" Foreground="Blue" Canvas.Top="40" FontSize="15" Width="80" Text="{Binding preCount}" TextAlignment="Right" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>!-->
-                                
+
                                 <Border Canvas.Left="1070" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
                                 <TextBlock Canvas.Left="1040" Canvas.Top="18" FontSize="15" Width="75" Text="{Binding sumPworkCount}" TextAlignment="Right" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
                                 <TextBlock Canvas.Left="1040" Canvas.Top="38" FontSize="15" Width="75" Text="{Binding perrorCount}" Foreground="red" TextAlignment="Right" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
                                 <Border Canvas.Left="1125" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
                                 <Image Canvas.Left="1125" Canvas.Top="2" Width="130" Height="73" Source="{Binding imagePath}" PreviewMouseLeftButtonDown="Image_MouseDown"></Image>
                                 <Border BorderBrush="#2c3e50" BorderThickness="0,0,0,1" Width="1300" Canvas.Bottom="0"></Border>
-        
+
                             </Canvas>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -195,5 +195,5 @@
             <TextBlock Grid.Column="6" x:Name="p9" Text="%" FontSize="20" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0"/>
         </Grid>
     </Grid>
-   
+
 </UserControl>
