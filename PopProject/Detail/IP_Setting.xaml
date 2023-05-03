@@ -24,6 +24,9 @@
         <TextBox x:Name="ipaddress" Width="238" Canvas.Left="108" Canvas.Top="66" Height="24" />
         <Label Content="포트 번호" Height="28" HorizontalAlignment="Left" x:Name="label1_Copy" VerticalAlignment="Top" Canvas.Left="20" Canvas.Top="93" FontWeight="Bold" />
         <ComboBox Height="23" HorizontalAlignment="Left" x:Name="PortNum" VerticalAlignment="Top" Width="238"  Canvas.Left="108" Canvas.Top="95">
+            <ComboBoxItem Content="0" />
+            <ComboBoxItem Content="1" />
+            <ComboBoxItem Content="2" />
             <ComboBoxItem Content="2003" />
             <ComboBoxItem Content="2004" />
             <ComboBoxItem Content="2005" />

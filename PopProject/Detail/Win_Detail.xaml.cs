@@ -64,7 +64,7 @@ namespace PopProject.Detail
             Pass_detail.Visibility = Properties.Settings.Default.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
             robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
             wharehouse.Visibility = Properties.Settings.Default.corp_name.Equals("두성포장테스트") || Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Contains("혜성") ? Visibility.Visible : Visibility.Collapsed;
-            MetrialBj();
+            MetrialBj(); 
             MetrialIG();
             PopSearchPhoto();
 
@@ -172,9 +172,19 @@ namespace PopProject.Detail
                 }
                 else
                 {
-                    Main.robot_Setting = new Robot_Setting(mainModel.prodID, mainModel.customSName, mainModel.prodName);
-                    Main.robot_Setting.ShowDialog();
-                    Main.robot_Setting = null;
+                    if (Properties.Settings.Default.corp_name.Equals("오주포장"))
+                    {
+                        Main.robot_Setting = new Robot_Setting(mainModel.prodID, mainModel.customSName, mainModel.prodName);
+                        Main.robot_Setting.ShowDialog();
+                        Main.robot_Setting = null;
+                    }
+                    if (Properties.Settings.Default.corp_name.Equals("대세물산"))
+                    {
+                        Main.robot_Setting2 = new Robot_Setting2(mainModel.prodID, mainModel.customSName, mainModel.prodName);
+                        Main.robot_Setting2.ShowDialog();
+                        Main.robot_Setting2 = null;
+                    }
+                    
                 }
             }
         }
@@ -230,36 +240,41 @@ namespace PopProject.Detail
         }
         private Boolean ConnectSocket(string flag)
         {
-            bool success = false;
-
-            mainSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-            if (!mainSock.Connected)
+            if (true)
             {
-                int port = int.Parse(Properties.Settings.Default.robotPort);
-                IAsyncResult result = mainSock.BeginConnect(Properties.Settings.Default.robotIP, port, null, null);
-                //IAsyncResult result = mainSock.BeginConnect("192.168.7.7", port, null, null);
+                bool success = false;
 
-                success = result.AsyncWaitHandle.WaitOne(2000, true);
-
-                if (success)
+                mainSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+                if (!mainSock.Connected)
                 {
-                    mainSock.EndConnect(result);
-                    AsyncObject obj = new AsyncObject(150);
-                    obj.WorkingSocket = mainSock;
-                    obj.ClearBuffer();
-                    switch (flag)
+                    int port = int.Parse(Properties.Settings.Default.robotPort);
+                    IAsyncResult result = mainSock.BeginConnect(Properties.Settings.Default.robotIP, port, null, null);
+                    //IAsyncResult result = mainSock.BeginConnect("192.168.7.7", port, null, null);
+
+                    success = result.AsyncWaitHandle.WaitOne(2000, true);
+
+                    if (success)
                     {
-                        case "W":
-                            mainSock.BeginReceive(obj.Buffer, 0, obj.BufferSize, 0, DataReceived1, obj);
-                            break;
+                        mainSock.EndConnect(result);
+                        AsyncObject obj = new AsyncObject(150);
+                        obj.WorkingSocket = mainSock;
+                        obj.ClearBuffer();
+                        switch (flag)
+                        {
+                            case "W":
+                                mainSock.BeginReceive(obj.Buffer, 0, obj.BufferSize, 0, DataReceived1, obj);
+                                break;
+                        }
+
                     }
+
 
                 }
 
-
+                return success;
             }
 
-            return success;
+            
         }
         private void DataSend(string bOX_W, string bOX_H, string bOX_D, string bOX_DADAN, string bOX_DANSU, string bOX_PAT, string pALLET_W, string pALLET_H, string pALLET_D)
         {
@@ -1034,6 +1049,7 @@ namespace PopProject.Detail
             {
             }
         }
+
         private void Detail_List(object sender, MouseButtonEventArgs e)
         {
             can.Visibility = Visibility.Visible;
@@ -1207,11 +1223,29 @@ namespace PopProject.Detail
             pic.Source = null;
         }
 
-        private void robot_setting(object sender, MouseButtonEventArgs e)
+        private void robot_setting(object sender, MouseButtonEventArgs e)//오주 로봇창
         {
-            Main.robot_Setting = new Robot_Setting(mainModel.prodID, mainModel.customSName, mainModel.prodName);
-            Main.robot_Setting.ShowDialog();
-            Main.robot_Setting = null;
+
+            if (Properties.Settings.Default.corp_name.Equals("오주포장"))
+            {
+                Main.robot_Setting = new Robot_Setting(mainModel.prodID, mainModel.customSName, mainModel.prodName);
+                Main.robot_Setting.ShowDialog();
+                Main.robot_Setting = null;
+            }
+
+            if (Properties.Settings.Default.corp_name.Equals("대세물산"))
+            {
+                Main.robot_Setting2 = new Robot_Setting2(mainModel.prodID, mainModel.customSName, mainModel.prodName);
+                Main.robot_Setting2.ShowDialog();
+                Main.robot_Setting2 = null;
+            }
+        }
+
+        private void robot_setting2(object sender, MouseButtonEventArgs e)//대세 로봇창
+        {
+            Main.robot_Setting2 = new Robot_Setting2(mainModel.prodID, mainModel.customSName, mainModel.prodName);
+            Main.robot_Setting2.ShowDialog();
+            Main.robot_Setting2 = null;
         }
 
         private void Wharehouse(object sender, MouseButtonEventArgs e)
