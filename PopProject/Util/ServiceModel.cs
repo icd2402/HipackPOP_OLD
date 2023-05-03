@@ -108,6 +108,11 @@ namespace PopProject.Util
         public static ServiceReference_hssbox.Access_Model hss_Access_Model;
         public static ServiceReference_hssbox.Return_Model hss_Return_Model;
 
+        //지온
+        public static ServiceReference_jobox.Service_CRUDClient jo_Service;
+        public static ServiceReference_jobox.DBHandle_Model jo_DB_Handle_Model;
+        public static ServiceReference_jobox.Access_Model jo_Access_Model;
+        public static ServiceReference_jobox.Return_Model jo_Return_Model;
         public static void ServiceModelClean(string serverIndex)
         {
             Console.WriteLine("serverIndex : " + serverIndex);
@@ -204,10 +209,10 @@ namespace PopProject.Util
                     break;
 
                 case "jobox":
-                    wr_Service = new ServiceReference_wrbox.Service_CRUDClient();
-                    wr_Access_Model = new ServiceReference_wrbox.Access_Model();
-                    wr_Return_Model = new ServiceReference_wrbox.Return_Model();
-                    wr_DB_Handle_Model = new ServiceReference_wrbox.DBHandle_Model
+                    jo_Service = new ServiceReference_jobox.Service_CRUDClient();
+                    jo_Access_Model = new ServiceReference_jobox.Access_Model();
+                    jo_Return_Model = new ServiceReference_jobox.Return_Model();
+                    jo_DB_Handle_Model = new ServiceReference_jobox.DBHandle_Model
                     {
                         접속정보 = 접속정보,
                         BroadCasting = 0,
@@ -519,18 +524,18 @@ namespace PopProject.Util
 
                     case "jobox":
 
-                        wr_Access_Model.SP명 = SP명;
-                        wr_Access_Model.파라미터 = 파라미터;
-                        wr_Access_Model.값 = 값;
-                        wr_DB_Handle_Model.프로시저 = new ServiceReference_wrbox.Access_Model[1] { wr_Access_Model };
-                        wr_DB_Handle_Model.BroadCasting = 0;
+                        jo_Access_Model.SP명 = SP명;
+                        jo_Access_Model.파라미터 = 파라미터;
+                        jo_Access_Model.값 = 값;
+                        jo_DB_Handle_Model.프로시저 = new ServiceReference_jobox.Access_Model[1] { jo_Access_Model };
+                        jo_DB_Handle_Model.BroadCasting = 0;
 
-                        wr_Return_Model = 갱신 == 1 ? wr_Service.갱신(wr_DB_Handle_Model, 갱신) : wr_Service.조회(wr_DB_Handle_Model);
+                        jo_Return_Model = 갱신 == 1 ? jo_Service.갱신(jo_DB_Handle_Model, 갱신) : jo_Service.조회(jo_DB_Handle_Model);
 
-                        returnModel.결과 = wr_Return_Model.결과;
-                        returnModel.리턴값 = wr_Return_Model.Retrun값;
-                        Console.WriteLine(SP명 + " 리턴결과 : " + wr_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + wr_Return_Model.Retrun값);
+                        returnModel.결과 = jo_Return_Model.결과;
+                        returnModel.리턴값 = jo_Return_Model.Retrun값;
+                        Console.WriteLine(SP명 + " 리턴결과 : " + jo_Return_Model.결과);
+                        Console.WriteLine(SP명 + " 리턴값 : " + jo_Return_Model.Retrun값);
                         break;
 
                     case "nrbox":
@@ -813,19 +818,19 @@ namespace PopProject.Util
                     //  Console.WriteLine(SP명 + " 리턴값 : " + mirae_Return_Model.Retrun값);
                     break;
                 case "jobox":
-                    wr_Access_Model.SP명 = SP명;
-                    wr_Access_Model.파라미터 = 파라미터;
-                    wr_Access_Model.값 = 값;
+                    jo_Access_Model.SP명 = SP명;
+                    jo_Access_Model.파라미터 = 파라미터;
+                    jo_Access_Model.값 = 값;
 
-                    wr_DB_Handle_Model.프로시저 = new ServiceReference_wrbox.Access_Model[1] { wr_Access_Model };
-                    wr_DB_Handle_Model.BroadCasting = 1;
-                    wr_DB_Handle_Model.BroadCastingName = "생산입력완료";
-                    wr_DB_Handle_Model.inputPkey = "14201";
-                    wr_DB_Handle_Model.inputContent = parameter;
-                    wr_Return_Model = 갱신 == 1 ? wr_Service.갱신(wr_DB_Handle_Model, 갱신) : wr_Service.조회(wr_DB_Handle_Model);
+                    jo_DB_Handle_Model.프로시저 = new ServiceReference_jobox.Access_Model[1] { jo_Access_Model };
+                    jo_DB_Handle_Model.BroadCasting = 1;
+                    jo_DB_Handle_Model.BroadCastingName = "생산입력완료";
+                    jo_DB_Handle_Model.inputPkey = "14201";
+                    jo_DB_Handle_Model.inputContent = parameter;
+                    jo_Return_Model = 갱신 == 1 ? jo_Service.갱신(jo_DB_Handle_Model, 갱신) : jo_Service.조회(jo_DB_Handle_Model);
 
-                    returnModel.결과 = wr_Return_Model.결과;
-                    returnModel.리턴값 = wr_Return_Model.Retrun값;
+                    returnModel.결과 = jo_Return_Model.결과;
+                    returnModel.리턴값 = jo_Return_Model.Retrun값;
                     //  Console.WriteLine(SP명 + " 리턴결과 : " + mirae_Return_Model.결과);
                     //  Console.WriteLine(SP명 + " 리턴값 : " + mirae_Return_Model.Retrun값);
                     break;
