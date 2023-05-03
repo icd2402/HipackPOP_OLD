@@ -82,8 +82,9 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DataBase연결">
-      <HintPath>..\..\ICD_Intranet\DataBase연결\bin\Debug\DataBase연결.dll</HintPath>
+    <Reference Include="ActUtlTypeLib">
+      <HintPath>..\..\..\..\Documents\카카오톡 받은 파일\ActEther\ActUtlTypeLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Hangfire.Core, Version=1.7.28.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hangfire.Core.1.7.28\lib\net45\Hangfire.Core.dll</HintPath>
@@ -1426,35 +1427,6 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="System.Net.Json.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="ACTETHERLib">
-      <Guid>{A306B168-AE98-11D3-83AE-00A024BDBF2B}</Guid>
-      <VersionMajor>3</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="ACTPCUSBLib">
-      <Guid>{A306B175-AE98-11D3-83AE-00A024BDBF2B}</Guid>
-      <VersionMajor>3</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="ActUtlTypeLib">
-      <Guid>{D217E54E-4A26-4A76-B0AB-57166B90F9AF}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.2-mauipre.1.22102.15\build\Microsoft.Extensions.Logging.Abstractions.targets" Condition="Exists('..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.2-mauipre.1.22102.15\build\Microsoft.Extensions.Logging.Abstractions.targets')" />
