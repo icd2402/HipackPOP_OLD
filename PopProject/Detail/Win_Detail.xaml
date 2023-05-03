@@ -259,8 +259,8 @@
                                     <TextBlock Text="{Binding metDate, StringFormat='{}{0:yy.MM.dd}'}" Canvas.Top="9" FontSize="16" Canvas.Left="10" FontFamily="/font/#KoPubBatang Bold"/>
                                     <TextBlock Text="{Binding customSName}"  Width="100" Canvas.Top="9" Canvas.Left="90" FontSize="16"  FontFamily="/font/#KoPubBatang Bold"></TextBlock>
                                     <TextBlock Text="{Binding metrialName}"  TextTrimming="CharacterEllipsis" Width="195"  Canvas.Top="9" Canvas.Left="190" FontSize="16"  FontFamily="/font/#KoPubBatang Bold"></TextBlock>
-                                    <TextBlock Text="{Binding metCountString}" Foreground="{Binding fontColor}"  Width="40"  TextAlignment="Left" Canvas.Top="9" Canvas.Left="390" FontSize="16"  FontFamily="/font/#KoPubBatang Bold"></TextBlock>
-                                    <TextBlock Text="{Binding metBJLast, StringFormat='{}{0:MM.dd.예정}'}"   Width="80" TextAlignment="Right" Canvas.Top="9" Canvas.Left="438" FontSize="16"  FontFamily="/font/#KoPubBatang Bold"></TextBlock>
+                                    <TextBlock Text="{Binding metCountString}" Foreground="{Binding fontColor}"  Width="50"  TextAlignment="Left" Canvas.Top="9" Canvas.Left="390" FontSize="16"  FontFamily="/font/#KoPubBatang Bold"></TextBlock>
+                                    <!--<TextBlock Text="{Binding metBJLast, StringFormat='{}{0:MM.dd.예정}'}"   Width="80" TextAlignment="Right" Canvas.Top="9" Canvas.Left="438" FontSize="16"  FontFamily="/font/#KoPubBatang Bold"></TextBlock>-->
                                     <TextBlock Text="{Binding metPreCountString}" Foreground="Red" Width="70" TextAlignment="Right" Canvas.Top="9" Canvas.Left="518" FontSize="16"  FontFamily="/font/#KoPubBatang Bold"></TextBlock>
 
                                 </Canvas>

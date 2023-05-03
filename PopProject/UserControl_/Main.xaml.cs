@@ -90,9 +90,9 @@ namespace PopProject.UserControl_
 
                 SignalRAdministrator.허브.On<string, string>("returnCount", recive);
 
-               
-                    InvokeMercName(Properties.Settings.Default.mercName, "A");
-                
+
+                InvokeMercName(Properties.Settings.Default.mercName, "A");
+
 
                 Properties.Settings.Default.consumersumcount = 0;
                 Properties.Settings.Default.Save();
@@ -261,7 +261,8 @@ namespace PopProject.UserControl_
                 arduSerial.Close(); // 시리얼 포트 닫기
             }
             catch { }
-            finally{
+            finally
+            {
                 arduSerial.Encoding = Encoding.GetEncoding(65001);
                 arduSerial.PortName = Properties.Settings.Default.SerialName;
                 arduSerial.BaudRate = Properties.Settings.Default.baudrate;
@@ -279,7 +280,7 @@ namespace PopProject.UserControl_
         }
 
 
-        public  void ArduConn()
+        public void ArduConn()
         {
             try
             {
@@ -315,7 +316,7 @@ namespace PopProject.UserControl_
                     arduSerial.Write(Properties.Settings.Default.SensorRate);
                     btrSerial.Background = Brushes.Green;
                 }
-                
+
 
             }
             catch (Exception e)
@@ -324,7 +325,7 @@ namespace PopProject.UserControl_
                 //MessageBox_Dialog msg = new MessageBox_Dialog("아두이노 연결 오류 : " + e.Message);
                 //msg.Show();
                 btrSerial.Background = Brushes.Red;
-                
+
             }
         }
 
@@ -452,8 +453,8 @@ namespace PopProject.UserControl_
                                 if (win_Input != null)
                                 {
                                     win_Input.inputModel.count = str;
-                                        // Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
-                                    }
+                                    // Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
+                                }
                                 InvokeCount(str, ArdumercName);
                             }
 
@@ -478,8 +479,8 @@ namespace PopProject.UserControl_
                                 if (win_Input != null)
                                 {
                                     win_Input.inputModel.count = production.presultCount;
-                                        // Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
-                                    }
+                                    // Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
+                                }
                                 InvokeCount(Convert.ToInt32(production.presultCount), ArdumercName);
                             }
                         }));
@@ -508,26 +509,111 @@ namespace PopProject.UserControl_
             float pCnt;
             int bytesize;
             string ArdumercName;
-           
-                switch (Properties.Settings.Default.corp_id)
-                {
-                    case "icdtest2":
-                        string[] arry = arduSerial.ReadLine().Split('^');
-                        ArdumercName = arry[0].ToString().Trim();
-                        if (arry.Length == 2)
-                        {
-                            str = int.Parse(arry[1].Trim());
-                            LogWrite(str.ToString());
 
-                        }
-                        else
-                        {
-                            return;
-                        }
+            switch (Properties.Settings.Default.corp_id)
+            {
+                case "icdtest2":
+                    string[] arry = arduSerial.ReadLine().Split('^');
+                    ArdumercName = arry[0].ToString().Trim();
+                    if (arry.Length == 2)
+                    {
+                        str = int.Parse(arry[1].Trim());
+                        LogWrite(str.ToString());
 
+                    }
+                    else
+                    {
+                        return;
+                    }
+
+                    if (production != null)
+                    {
+
+                        Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                        {
+                            if (production != null)
+                            {
+                                pCnt = Properties.Settings.Default.twoSum ? production.pCnt * 2 : production.pCnt;
+
+                            }
+                            else
+                            {
+                                pCnt = 1;
+                            }
+
+                            if (!Properties.Settings.Default.saveDate.Equals("") && !Properties.Settings.Default.saveDate.Equals(DateTime.Now.ToString("yyyy-MM-dd")))
+                            {
+                                if (production.pplanKey == Properties.Settings.Default.pplanKey)
+                                {
+                                    str = Properties.Settings.Default.count + str;
+                                }
+                            }
+
+                            if (Properties.Settings.Default.CountType == 0)
+                            {
+                                production.sumPworkCount = str;
+                                production.presultCount = str;
+                                production.presultCount1 = str;
+                                if (win_Input != null)
+                                {
+                                    win_Input.inputModel.count = str;
+                                        // Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
+                                    }
+                                InvokeCount(str, ArdumercName);
+                            }
+                            else
+                            {
+                                if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("성주포장") || Properties.Settings.Default.corp_name.Equals("대세물산"))
+                                {
+                                    pCnt = Properties.Settings.Default.twoSum ? (production.pCnt * 2) : 1;
+                                }
+
+                                production.sumPworkCount = Convert.ToInt32(Math.Floor(str * pCnt));
+                                if (Properties.Settings.Default.boxCheck)
+                                {
+                                    if (pCnt >= 1)
+                                    {
+                                        production.sumPworkCount /= (float)pCnt;
+                                    }
+                                }
+                                production.presultCount = production.sumPworkCount;
+                                production.presultCount1 = production.sumPworkCount;
+                                if (win_Input != null)
+                                {
+                                    win_Input.inputModel.count = production.presultCount;
+                                        // Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
+                                    }
+                                InvokeCount(Convert.ToInt32(production.presultCount), ArdumercName);
+                            }
+                        }));
+
+
+
+                        //  int lastcount = str;
+                        //  double 분당생산수 = str - lastcount;
+                    }
+
+
+                    break;
+
+                default:
+                    try
+                    {
+
+                        //bytesize = arduSerial.BytesToRead;
+
+                        //if (bytesize == -1) return;
+                        //byte[] data = new byte[bytesize];
+                        //arduSerial.Read(data, 0, bytesize);
+                        //string msg = Encoding.Default.GetString(data);
+                        //str = int.Parse(msg);
+                        //LogWrite(str.ToString());
+                        //Console.WriteLine("값 : " + str);
+                        str = int.Parse(arduSerial.ReadLine().Trim());
+                        Console.WriteLine("값 : " + str);
+                        //LogWrite(str.ToString());
                         if (production != null)
                         {
-
                             Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                             {
                                 if (production != null)
@@ -556,108 +642,23 @@ namespace PopProject.UserControl_
                                     if (win_Input != null)
                                     {
                                         win_Input.inputModel.count = str;
-                                        // Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
-                                    }
-                                    InvokeCount(str, ArdumercName);
+                                            // Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
+                                        }
+                                    InvokeCount(str, Properties.Settings.Default.mercName);
                                 }
+
                                 else
                                 {
-                                    if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("성주포장") || Properties.Settings.Default.corp_name.Equals("대세물산"))
+                                    if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("성주포장"))
                                     {
                                         pCnt = Properties.Settings.Default.twoSum ? (production.pCnt * 2) : 1;
                                     }
 
-                                    production.sumPworkCount = Convert.ToInt32(Math.Floor(str * pCnt));
-                                    if (Properties.Settings.Default.boxCheck)
+
+                                    if (str != 0)
                                     {
-                                        if (pCnt >= 1)
-                                        {
-                                            production.sumPworkCount /= (float)pCnt;
-                                        }
-                                    }
-                                    production.presultCount = production.sumPworkCount;
-                                    production.presultCount1 = production.sumPworkCount;
-                                    if (win_Input != null)
-                                    {
-                                        win_Input.inputModel.count = production.presultCount;
-                                        // Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
-                                    }
-                                    InvokeCount(Convert.ToInt32(production.presultCount), ArdumercName);
-                                }
-                            }));
 
 
-
-                            //  int lastcount = str;
-                            //  double 분당생산수 = str - lastcount;
-                        }
-
-
-                        break;
-
-                    default:
-                        try
-                        {
-
-                        //bytesize = arduSerial.BytesToRead;
-
-                        //if (bytesize == -1) return;
-                        //byte[] data = new byte[bytesize];
-                        //arduSerial.Read(data, 0, bytesize);
-                        //string msg = Encoding.Default.GetString(data);
-                        //str = int.Parse(msg);
-                        //LogWrite(str.ToString());
-                        //Console.WriteLine("값 : " + str);
-                        str = int.Parse(arduSerial.ReadLine().Trim());
-                        Console.WriteLine("값 : " + str);
-                        //LogWrite(str.ToString());
-                        if (production != null)
-                            {
-                                Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
-                                {
-                                    if (production != null)
-                                    {
-                                        pCnt = Properties.Settings.Default.twoSum ? production.pCnt * 2 : production.pCnt;
-
-                                    }
-                                    else
-                                    {
-                                        pCnt = 1;
-                                    }
-
-                                    if (!Properties.Settings.Default.saveDate.Equals("") && !Properties.Settings.Default.saveDate.Equals(DateTime.Now.ToString("yyyy-MM-dd")))
-                                    {
-                                        if (production.pplanKey == Properties.Settings.Default.pplanKey)
-                                        {
-                                            str = Properties.Settings.Default.count + str;
-                                        }
-                                    }
-
-                                    if (Properties.Settings.Default.CountType == 0)
-                                    {
-                                        production.sumPworkCount = str;
-                                        production.presultCount = str;
-                                        production.presultCount1 = str;
-                                        if (win_Input != null)
-                                        {
-                                            win_Input.inputModel.count = str;
-                                            // Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
-                                        }
-                                        InvokeCount(str, Properties.Settings.Default.mercName);
-                                    }
-
-                                    else
-                                    {
-                                        if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("성주포장"))
-                                        {
-                                            pCnt = Properties.Settings.Default.twoSum ? (production.pCnt * 2) : 1;
-                                        }
-
-
-                                        if(str != 0)
-                                        {
-
-                                       
                                         production.sumPworkCount = Convert.ToInt32(Math.Floor(str * pCnt));
                                         if (Properties.Settings.Default.boxCheck)
                                         {
@@ -671,32 +672,32 @@ namespace PopProject.UserControl_
                                         if (win_Input != null)
                                         {
                                             win_Input.inputModel.count = production.presultCount;
-                                            // Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
-                                        }
+                                                // Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
+                                            }
                                         InvokeCount(Convert.ToInt32(production.presultCount), Properties.Settings.Default.mercName);
-                                        }
                                     }
-                                }));
+                                }
+                            }));
 
 
 
-                                //  int lastcount = str;
-                                //  double 분당생산수 = str - lastcount;
-                            }
+                            //  int lastcount = str;
+                            //  double 분당생산수 = str - lastcount;
                         }
+                    }
 
 
-                        catch (Exception e1)
-                        {
-                            //MessageBoxResult result = System.Windows.MessageBox.Show(e1.Message, "작업 저장",
-                            //     MessageBoxButton.YesNo);
-                            //MessageBox_Dialog msg = new MessageBox_Dialog("아두이노 리시브 오류 : " + e1.Message);
-                            //msg.Show();
-                        }
+                    catch (Exception e1)
+                    {
+                        //MessageBoxResult result = System.Windows.MessageBox.Show(e1.Message, "작업 저장",
+                        //     MessageBoxButton.YesNo);
+                        //MessageBox_Dialog msg = new MessageBox_Dialog("아두이노 리시브 오류 : " + e1.Message);
+                        //msg.Show();
+                    }
 
-                        break;
-                }
-           
+                    break;
+            }
+
             //Console.WriteLine("aa" + arduSerial.ReadLine().Trim());
             // Console.WriteLine(arduSerial.ReadLine().Trim());
 
@@ -747,13 +748,13 @@ namespace PopProject.UserControl_
             tbBarcode.SelectAll();
             if (minuite1 == 60)
             {
-               // ArduConn();
+                // ArduConn();
                 bool connected = NetworkInterface.GetIsNetworkAvailable();
                 if (connected)
                 {
-                   
-                        InvokeMercName(Properties.Settings.Default.mercName, "A");
-                    
+
+                    InvokeMercName(Properties.Settings.Default.mercName, "A");
+
                 }
                 minuite1 = 0;
             }
@@ -1023,39 +1024,39 @@ namespace PopProject.UserControl_
                 _ = mercList.ShowDialog();
                 tbMercName.Text = Properties.Settings.Default.mercName;
 
-               
-                    if (!before.Equals(Properties.Settings.Default.mercName))
-                    {
-                        InvokeMercName(before, "B");
-                        InvokeMercName(Properties.Settings.Default.mercName, "A");
-                        Properties.Settings.Default.error = "";
-                        Properties.Settings.Default.error1 = "";
-                        Properties.Settings.Default.Save();
-                    }
 
-                    else
-                    {
-                        InvokeMercName(Properties.Settings.Default.mercName, "A");
-                    }
-                
+                if (!before.Equals(Properties.Settings.Default.mercName))
+                {
+                    InvokeMercName(before, "B");
+                    InvokeMercName(Properties.Settings.Default.mercName, "A");
+                    Properties.Settings.Default.error = "";
+                    Properties.Settings.Default.error1 = "";
+                    Properties.Settings.Default.Save();
+                }
+
+                else
+                {
+                    InvokeMercName(Properties.Settings.Default.mercName, "A");
+                }
+
                 //setTbPintNo();
-               
-                    if (Properties.Settings.Default.CountType != 0)
-                    {
-                        work.Text = "박스수";
-                        work.FontSize = 16;
-                        box.Visibility = Visibility.Visible;
-                        Canvas.SetTop(work, 1);
-                        Canvas.SetTop(box, 20);
-                    }
-                    else
-                    {
-                        work.Text = "계획수";
-                        box.Visibility = Visibility.Collapsed;
-                        Canvas.SetTop(work, 10);
-                    }
 
-                
+                if (Properties.Settings.Default.CountType != 0)
+                {
+                    work.Text = "박스수";
+                    work.FontSize = 16;
+                    box.Visibility = Visibility.Visible;
+                    Canvas.SetTop(work, 1);
+                    Canvas.SetTop(box, 20);
+                }
+                else
+                {
+                    work.Text = "계획수";
+                    box.Visibility = Visibility.Collapsed;
+                    Canvas.SetTop(work, 10);
+                }
+
+
                 SelectWorkList();
                 ResultSearchDate();
 
@@ -1190,7 +1191,7 @@ namespace PopProject.UserControl_
 
                                 if (result["SCIGCount"].ToString().Equals("0") && !result["SCBJCount"].ToString().Equals("0"))
                                 {
-                                    
+
                                     listitem.SCIGCount = result["SCIGCount"].ToString();
                                 }
 
@@ -1290,7 +1291,7 @@ namespace PopProject.UserControl_
                             Grid.SetRowSpan(workListBorder, 2); //WorkList Grid.Row3까지 확장 
                             ss.Visibility = Visibility.Collapsed; //집계창 표시해제
                         }
-                         
+
                         if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("혜성수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트") || Properties.Settings.Default.corp_name.Equals("성주포장"))
                         {
                             if (Properties.Settings.Default.CountType == 0)
@@ -2490,13 +2491,13 @@ namespace PopProject.UserControl_
 
                         if (Properties.Settings.Default.completeValue_checked)
                         {
-                           
+
                             if (workList[i].eDatetime.Length > 5)
                             {
                                 workList.Remove(workList[i]);
                             }
 
-                          
+
                         }
 
                     }
@@ -2668,9 +2669,9 @@ namespace PopProject.UserControl_
         {
             Properties.Settings.Default.consumersumcount = 0;
             Properties.Settings.Default.Save();
-           
-             InvokeMercName(Properties.Settings.Default.mercName, "B");
-            
+
+            InvokeMercName(Properties.Settings.Default.mercName, "B");
+
             Environment.Exit(0);
 
 
@@ -2693,38 +2694,30 @@ namespace PopProject.UserControl_
 
                     if (model.bMember)
                     {
-                        if(Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
-                        {
 
-                            if (model.imagePath.Equals("/img/bn_02.png"))
-                            {
-                                model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                                PopResultStart(model);
-
-                            }
-                            else if (model.imagePath.Equals("/img/bn_03.png"))
-                            {
-                                model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                                PopResultStart(model);
-                            }else if (model.imagePath.Equals("/img/bn_01.png"))
-                            {
-                                model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                            }
-                            e.Handled = false;
-                            DSConsumer dSConsumer = new DSConsumer(model);
-                            dSConsumer.ShowDialog();
-                            InvokeCount(Properties.Settings.Default.mercName, "E");
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        else
+                        if (model.imagePath.Equals("/img/bn_02.png"))
                         {
-                            Consumer consumer = new Consumer(model);
-                            _ = consumer.ShowDialog();
-                            SelectWorkList();
-                            ResultSearchDate();
+                            model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            PopResultStart(model);
 
                         }
+                        else if (model.imagePath.Equals("/img/bn_03.png"))
+                        {
+                            model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            PopResultStart(model);
+                        }
+                        else if (model.imagePath.Equals("/img/bn_01.png"))
+                        {
+                            model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        }
+                        e.Handled = false;
+                        DSConsumer dSConsumer = new DSConsumer(model);
+                        dSConsumer.ShowDialog();
+                        InvokeCount(Properties.Settings.Default.mercName, "E");
+                        SelectWorkList();
+                        ResultSearchDate();
+
+
 
                     }
 
@@ -2925,7 +2918,7 @@ namespace PopProject.UserControl_
             try
             {
 
-               
+
                 if (!sender.GetType().Name.Equals("Image"))
                 {
                     Canvas canvas = (Canvas)sender;
@@ -3167,7 +3160,7 @@ namespace PopProject.UserControl_
             arduSerial.DataReceived -= ArduReReceive;
 
             ArduConn();
-           // ArduConn1();
+            // ArduConn1();
 
             sv.VerticalScrollBarVisibility = Properties.Settings.Default.scrollvarCheck ? ScrollBarVisibility.Visible : ScrollBarVisibility.Hidden;
 
