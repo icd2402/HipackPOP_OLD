@@ -187,6 +187,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\ServiceReference_jobox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\ServiceReference_kmbox\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -754,6 +759,22 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ServiceReference_hssbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_jobox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_jobox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_jobox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_jobox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_jobox\PopProject.ServiceReference_jobox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_jobox\Service_CRUD.wsdl" />
     <None Include="Connected Services\ServiceReference_kmbox\Access_MiddleWare_CRUD.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1033,6 +1054,7 @@
     <WCFMetadataStorage Include="Connected Services\ServiceReference_grbox1\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_hsbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_hssbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_jobox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_kmbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_mirae\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_hnbox\" />
@@ -1376,6 +1398,13 @@
     <Resource Include="img\1자4종구.png" />
     <Resource Include="img\1자5종구.png" />
     <Resource Include="img\1자6종구.png" />
+    <None Include="Connected Services\ServiceReference_jobox\Access_MiddleWare_CRUD.disco" />
+    <None Include="Connected Services\ServiceReference_jobox\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceReference_jobox\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceReference_jobox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
