@@ -965,6 +965,8 @@ namespace PopProject.UserControl_
             }
         }
 
+        
+
         private String _pplanMemo;
         public String pplanMemo
         {

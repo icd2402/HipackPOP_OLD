@@ -6,6 +6,35 @@ namespace PopProject.Consumer_
 {
     public class ConsumerModel : ViewModelBase
     {
+        private string _memo = "";
+        public string memo
+        {
+            get
+            {
+                return _memo;
+            }
+            set
+            {
+                _memo = value;
+                onPropertyChanged("memo");
+            }
+        }
+
+        private bool _workCheck = false;
+
+        public bool workCheck
+        {
+            get
+            {
+                return _workCheck;
+            }
+            set
+            {
+                _workCheck = value;
+                onPropertyChanged("workCheck");
+            }
+        }
+
         private float _presultCount;
         public float presultCount
         {

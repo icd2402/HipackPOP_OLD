@@ -2427,10 +2427,10 @@ namespace PopProject.UserControl_
                                 {
                                     workItem.presultCount = float.Parse(result["pworkCount"].ToString());
                                     workItem.sumPworkCount += float.Parse(result["pworkCount"].ToString());
-                                    if (Properties.Settings.Default.boxCheck)
-                                    {
-                                        workItem.sumPworkCount = workItem.sumPworkCount / workItem.pCnt;
-                                    }
+                                    //if (Properties.Settings.Default.boxCheck)
+                                    //{
+                                    //    workItem.sumPworkCount = workItem.sumPworkCount / workItem.pCnt;
+                                    //}
                                     workItem.sDatetime = result["sDatetime"].ToString();
 
                                     if (!result["perrorCount"].ToString().Equals(""))
@@ -2483,13 +2483,20 @@ namespace PopProject.UserControl_
 
                     for (int i = 0; i < workList.Count; i++)
                     {
+                        if (Properties.Settings.Default.boxCheck)
+                        {
+                            workList[i].sumPworkCount = workList[i].sumPworkCount / workList[i].pCnt;
+                        }
 
                         if (Properties.Settings.Default.completeValue_checked)
                         {
+                           
                             if (workList[i].eDatetime.Length > 5)
                             {
                                 workList.Remove(workList[i]);
                             }
+
+                          
                         }
 
                     }

@@ -826,5 +826,17 @@ namespace PopProject.Properties {
                 this["SerialName1"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int consumCount {
+            get {
+                return ((int)(this["consumCount"]));
+            }
+            set {
+                this["consumCount"] = value;
+            }
+        }
     }
 }

@@ -45,6 +45,7 @@ namespace PopProject.Consumer_
         int totalErrorCount = 0;
         string arrChkAED = "";
         bool 이월체크 = false;
+        bool checkbefore = true;
         public DSConsumer(MainModel mainModel)
 
         {
@@ -53,7 +54,9 @@ namespace PopProject.Consumer_
             imgpath = mainModel.imagePath;
             sumPworkCount = mainModel.sumPworkCount;
             PopWorkListSearch();
-
+            Properties.Settings.Default.consumCount = 0;
+            Properties.Settings.Default.Save();
+            
             //PopResultStart();
         }
 
@@ -114,7 +117,9 @@ namespace PopProject.Consumer_
                             adress = result["adress"].ToString(),
                             PhonNo = result["PhonNo"].ToString(),
                             orderCount = int.Parse(result["orderCount"].ToString()),
-                            pworkDate = DateTime.Parse(result["pworkDate"].ToString())
+                            pworkDate = DateTime.Parse(result["pworkDate"].ToString()),
+                           
+
                         };
 
 
@@ -159,6 +164,10 @@ namespace PopProject.Consumer_
 
                     for (int i = 0; i < consumerList.Count; i++)
                     {
+                        if (checkbefore)
+                        {
+                            beforeCount += (int)Math.Ceiling(float.Parse(consumerList[i].pWorkCount.ToString()));
+                        }
                         consumbefore += (int)Math.Ceiling(float.Parse(consumerList[i].pWorkCount.ToString()));
                         if (consumerList[i].pworkKey != 0 && (imgpath.Equals("/img/bn_03.png") || imgpath.Equals("/img/bn_06.png")))
                         {
@@ -166,6 +175,7 @@ namespace PopProject.Consumer_
                             Properties.Settings.Default.Save();
 
                         }
+                        
                     }
 
 
@@ -189,7 +199,7 @@ namespace PopProject.Consumer_
                 MessageBox_Dialog box = new MessageBox_Dialog("PopWorkListMember 조회 오류!!");
                 _ = box.ShowDialog();
             }
-
+            checkbefore = false;
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -378,7 +388,7 @@ namespace PopProject.Consumer_
             string arrChkAED = "1|";
 
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
-            string parameter = "[" + subOb.ProcessTypeName + "] " + mainModel.customSName + Environment.NewLine + mainModel.prodName + " " + getCount().ToString("N0") + "개";
+            string parameter = "[" + subOb.ProcessTypeName + "] " + mainModel.customSName + Environment.NewLine + mainModel.prodName + " " + Properties.Settings.Default.consumCount.ToString("N0") + "개";
             ReturnModel returnData = ServiceModel.GetData(
                 Properties.Settings.Default.serverIndex,
                 "[PopResultEnd]",
@@ -392,7 +402,7 @@ namespace PopProject.Consumer_
                 subOb.processType + "|",
                 subOb.pplanKey + "|",
                 pWorkkey + "|",
-                getCount() + "|",
+                Properties.Settings.Default.consumCount + "|",
                 getErrorCount() + "|",
                 "" + "|",
                 mainModel.sDatetime,
@@ -450,7 +460,7 @@ namespace PopProject.Consumer_
                 mainModel.ProcessType+ "|",
                 mainModel.pplanKey+ "|",
                 pWorkKey+ "|",
-                totalCount - beforeCount + "|",
+                totalCount + "|",
                 totalErrorCount+ "|",
                 ""+"|",
                 mainModel.sDatetime,
@@ -465,7 +475,7 @@ namespace PopProject.Consumer_
             {
                 Main.production = null;
 
-                if ((imgpath.Equals("/img/bn_03.png") || imgpath.Equals("/img/bn_01.png")) && beforeCountCheck)
+                if ((imgpath.Equals("/img/bn_03.png")|| imgpath.Equals("/img/bn_01.png")) && beforeCountCheck)
                 {
                     beforeCountCheck = false;
                     PopresultEnd(0, 0, "3|", mainModel.ConsumWorkKey);
@@ -495,7 +505,11 @@ namespace PopProject.Consumer_
 
             for (int i = 0; i < consumerList.Count; i++)
             {
-                count += (int)Math.Ceiling(float.Parse(consumerList[i].pWorkCount.ToString()));
+                if (consumerList[i].imgSource.Equals("/img/bn_03.png"))
+                {
+                    count += (int)Math.Ceiling(float.Parse(consumerList[i].pWorkCount.ToString()));
+                }
+                
             }
             Console.WriteLine(count + "전체값");
             return count;
@@ -650,9 +664,21 @@ namespace PopProject.Consumer_
                 totalCount *= int.Parse(mainModel.pCnt.ToString());
 
             }
-            if (getCount() == 0)
+            if (totalCount == 0)
             {
                 arrChkAED = "3|";
+                
+
+                if (beforeCount == 0)
+                {
+                    PopresultEnd(0, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey);
+                   
+                }
+                else
+                {
+                    PopresultEnd(0, totalErrorCount, arrChkAED, mainModel.ConsumWorkKey);
+                }
+                return;
             }
             else
             {
@@ -661,22 +687,35 @@ namespace PopProject.Consumer_
                     arrChkAED = "1|";
                 }
                 else if (mainModel.imagePath.Equals("/img/bn_03.png"))
+
                 {
                     arrChkAED = "2|";
+                    PopresultEnd(getCount(), totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey);
+                    return;
+                    //if (Properties.Settings.Default.consumCount == 0)
+                    //{
+                    //    arrChkAED = "3|";
+                    //}
+                    //else
+                    //{
+                    //    arrChkAED = "1|";
+                    //}
+
+
                 }
                 else if (mainModel.imagePath.Equals("/img/bn_01.png"))
                 {
-                    if (getCount() == 0)
+                    if (Properties.Settings.Default.consumCount == 0)
                     {
                         arrChkAED = "3|";
                     }
                     else
                     {
-                        if (consumbefore > 0)
+                        if (beforeCount > 0)
                         {
                             arrChkAED = "2|";
                         }
-                        else if (consumbefore == 0)
+                        else if (beforeCount == 0)
                         {
                             arrChkAED = "1|";
                         }
@@ -688,6 +727,8 @@ namespace PopProject.Consumer_
             if (이월체크)
             {
                 arrChkAED = "3|";
+                PopresultEnd(totalCount, totalErrorCount, arrChkAED, mainModel.ConsumWorkKey);
+                return;
             }
             PopresultEnd(totalCount, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey);
         }
