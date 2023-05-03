@@ -79,7 +79,8 @@
                 <ColumnDefinition Width="78*"/>
                 <ColumnDefinition Width="78*"/>
                 <ColumnDefinition Width="78*"/>
-                <ColumnDefinition Width="156"/>
+                <ColumnDefinition Width="78*"/>
+                <ColumnDefinition Width="78*"/>
                 <ColumnDefinition Width="78*"/>
             </Grid.ColumnDefinitions>
 
@@ -89,8 +90,9 @@
             <TextBlock Grid.Column="3" Text="단수"  FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="21,8"/>
             <TextBlock Grid.Column="4" Text="간지"  FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="21,8"/>
             <TextBlock Grid.Column="5" Text="패턴"  FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="21,8"/>
-            <TextBlock Grid.Column="6" Text="가동 / 정지"  FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="21,8"/>
-            <TextBlock Grid.Column="7" Text="통신"  FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="21,8"/>
+            <TextBlock Grid.Column="6" Text="가동상태"  FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,8"/>
+            <TextBlock Grid.Column="7" Text="송/수신"  FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,8"/>
+            <TextBlock Grid.Column="8" Text="통신"  FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="21,8"/>
 
             <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0"/>
@@ -99,7 +101,8 @@
             <Border Grid.Column="4" BorderBrush="Black" BorderThickness="0,0,1,0"/>
             <Border Grid.Column="5" BorderBrush="Black" BorderThickness="0,0,1,0"/>
             <Border Grid.Column="6" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-            <Border Grid.Column="7" BorderBrush="Black" BorderThickness="0,0,1,0" Grid.ColumnSpan="2"/>
+            <Border Grid.Column="7" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+            <Border Grid.Column="8" BorderBrush="Black" BorderThickness="0,0,1,0" Grid.ColumnSpan="2"/>
 
         </Grid>
 
@@ -111,7 +114,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="156"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
@@ -140,6 +144,8 @@
             <Border Grid.Column="7" x:Name="State2" BorderBrush="red" BorderThickness="14" Width="28" Height="28" CornerRadius="10" HorizontalAlignment="Center" VerticalAlignment="Center" Canvas.Top="669" Canvas.Left="153">
             </Border>
 
+            <Border Grid.Column="8" x:Name="State3" BorderBrush="red" BorderThickness="14" Width="28" Height="28" CornerRadius="10" HorizontalAlignment="Center" VerticalAlignment="Center" Canvas.Top="669" Canvas.Left="153">
+            </Border>
 
             <!--<Border Grid.Column="8" BorderBrush="#abbfd9" BorderThickness="2" Width="70" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Canvas.Top="669" Canvas.Left="153">
                 <TextBlock x:Name="ReadData9" Text="0" FontSize="18" TextAlignment="Center"  ></TextBlock>
@@ -161,6 +167,7 @@
             <Border Grid.Column="5" Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,1,0"/>
             <Border Grid.Column="6" Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,1,0"/>
             <Border Grid.Column="7" Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+            <Border Grid.Column="8" Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,1,0"/>
         </Grid>
 
         <Grid Grid.Row="6">

@@ -121,6 +121,8 @@ namespace PopProject.Detail
         {
             if (PLC_Connection)
             {
+                State3.BorderBrush = Brushes.Green; //통신 상태
+
                 int rda1 = 0;
                 int rda2 = 0;
                 int rda3 = 0;
@@ -668,7 +670,7 @@ namespace PopProject.Detail
         private void Data_Send(object sender, RoutedEventArgs e) //데이터 전송 버튼 활성화
         {
             MessageBox_Dialog msg;
-            if (dataCheck() && Con_State.Equals("1")) //통신연결 상태 확인
+            if (Con_State.Equals("1")) //데이터 송신 가능상태 확인
             {
                 try
                 {
@@ -892,6 +894,8 @@ namespace PopProject.Detail
         {
             try
             {
+                State3.BorderBrush = Brushes.Red;
+
                 if (PLC_Connection)
                 {
                     ActUtlType.Close();
@@ -914,6 +918,8 @@ namespace PopProject.Detail
         {
             try
             {
+                State3.BorderBrush = Brushes.Red; 
+
                 if (PLC_Connection)
                 {
                     ActUtlType.Close();
