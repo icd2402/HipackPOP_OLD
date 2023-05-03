@@ -254,12 +254,20 @@ namespace PopProject.Detail
                     PALLET_D = result["PALLET_D"].ToString();     //팔렛 높이 (안씀)
                     UpDatetime = result["UpDatetime"].ToString(); //업데이트 시간 (안씀)
                 }
-                WriteData1.Text = BOX_W;     //가로
-                WriteData2.Text = BOX_H;     //세로
-                WriteData3.Text = BOX_D;     //높이
-                WriteData4.Text = BOX_DADAN; //단수
-                WriteData5.Text = BOX_DANSU; //간지
-                WriteData6.Text = BOX_PAT;   //패턴
+
+                WriteData1.Text = BOX_W == "" ? "0" : BOX_W;     //가로
+                WriteData2.Text = BOX_H == "" ? "0" : BOX_W;     //세로
+                WriteData3.Text = BOX_D == "" ? "0" : BOX_W;     //높이
+                WriteData4.Text = BOX_DADAN == "" ? "0" : BOX_W; //단수
+                WriteData5.Text = BOX_DANSU == "" ? "0" : BOX_W; //간지
+                WriteData6.Text = BOX_PAT == "" ? "0" : BOX_W;   //패턴
+
+                //WriteData1.Text = BOX_W;     //가로
+                //WriteData2.Text = BOX_H;     //세로
+                //WriteData3.Text = BOX_D;     //높이
+                //WriteData4.Text = BOX_DADAN; //단수
+                //WriteData5.Text = BOX_DANSU; //간지
+                //WriteData6.Text = BOX_PAT;   //패턴
             }
             else
             {
