@@ -103,12 +103,16 @@ namespace PopProject.Detail
                 {
                     PLC_Connection = true;
                     Read_Timer.Start();
+                    State3.BorderBrush = Brushes.Green; //통신 상태
                 }
                 else //실패시
                 {
                     ActUtlType.Close();
                     Read_Timer.Stop();
                     Read_Timer.Dispose();
+
+                    msg = new MessageBox_Dialog("로봇 통신 상태를 확인해 주세요.");
+                    msg.ShowDialog();
                 }
             }
             catch (Exception e)
@@ -121,8 +125,6 @@ namespace PopProject.Detail
         {
             if (PLC_Connection)
             {
-                State3.BorderBrush = Brushes.Green; //통신 상태
-
                 int rda1 = 0;
                 int rda2 = 0;
                 int rda3 = 0;
@@ -209,6 +211,10 @@ namespace PopProject.Detail
                                 break;
                         }
                     }));
+            }
+            else
+            {
+
             }
         }
 
