@@ -2685,7 +2685,7 @@ namespace PopProject.UserControl_
             try
             {
 
-
+                bool check = true;
                 if (sender.GetType().Name.Equals("Image"))
                 {
                     can.Visibility = Visibility.Visible;
@@ -2697,21 +2697,24 @@ namespace PopProject.UserControl_
 
                         if (model.imagePath.Equals("/img/bn_02.png"))
                         {
+                            check = true;
                             model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                             PopResultStart(model);
 
                         }
                         else if (model.imagePath.Equals("/img/bn_03.png"))
                         {
+                            check = true;
                             model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                             PopResultStart(model);
                         }
                         else if (model.imagePath.Equals("/img/bn_01.png"))
                         {
+                            check = false;
                             model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                         }
                         e.Handled = false;
-                        DSConsumer dSConsumer = new DSConsumer(model);
+                        DSConsumer dSConsumer = new DSConsumer(model, check);
                         dSConsumer.ShowDialog();
                         InvokeCount(Properties.Settings.Default.mercName, "E");
                         SelectWorkList();

@@ -46,11 +46,18 @@ namespace PopProject.Consumer_
         string arrChkAED = "";
         bool 이월체크 = false;
         bool checkbefore = true;
-        public DSConsumer(MainModel mainModel)
+        bool statCheck = false;
+       
+        public DSConsumer(MainModel mainModel,bool check)
 
         {
             InitializeComponent();
             this.mainModel = mainModel;
+            statCheck = check;
+            if (!statCheck)
+            {
+                box1.Visibility = Visibility.Collapsed;
+            }
             imgpath = mainModel.imagePath;
             sumPworkCount = mainModel.sumPworkCount;
             PopWorkListSearch();
@@ -730,7 +737,10 @@ namespace PopProject.Consumer_
                 PopresultEnd(totalCount, totalErrorCount, arrChkAED, mainModel.ConsumWorkKey);
                 return;
             }
-            PopresultEnd(totalCount, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey);
+            
+                PopresultEnd(totalCount, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey);
+            
+           
         }
     }
 }

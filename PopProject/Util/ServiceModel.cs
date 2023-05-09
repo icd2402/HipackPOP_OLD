@@ -113,6 +113,9 @@ namespace PopProject.Util
         public static ServiceReference_jobox.DBHandle_Model jo_DB_Handle_Model;
         public static ServiceReference_jobox.Access_Model jo_Access_Model;
         public static ServiceReference_jobox.Return_Model jo_Return_Model;
+
+
+
         public static void ServiceModelClean(string serverIndex)
         {
             Console.WriteLine("serverIndex : " + serverIndex);
