@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.265</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.268</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>265</ApplicationRevision>
+    <ApplicationRevision>269</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -1426,6 +1426,17 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Resource Include="img\1종.png" />
+    <Resource Include="img\2종.png" />
+    <Resource Include="img\3-1종.png" />
+    <Resource Include="img\3종.png" />
+    <Resource Include="img\4-1종.png" />
+    <Resource Include="img\4종.png" />
+    <Resource Include="img\5종.png" />
+    <Resource Include="img\6-1종.png" />
+    <Resource Include="img\6종.png" />
+    <Resource Include="img\7종.png" />
+    <Resource Include="img\8종.png" />
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

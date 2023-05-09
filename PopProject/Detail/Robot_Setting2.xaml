@@ -306,33 +306,28 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0" Name="box1" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box1.png" Margin="16" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
+                <Image Source="/img/1종.png" Width="105" Height="105" Margin="10" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
             </Grid>
             <Grid Grid.Column="1" Name="box2" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box2.png" Margin="10" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
+                <Image Source="/img/2종.png" Width="105" Height="105" Margin="10" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
             </Grid>
             <Grid Grid.Column="2" Name="box3" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box3.png" Margin="10" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
+                <Image Source="/img/3종.png" Width="105" Height="105" Margin="10" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
             </Grid>
             <Grid Grid.Column="3" Name="box4" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box4.png" Margin="8" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
+                <Image Source="/img/3-1종.png" Width="105" Height="105" Margin="10" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
             </Grid>
             <Grid Grid.Column="4" Name="box5" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box5.png" Margin="9" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
-            </Grid>
-            <Grid Grid.Column="5" Name="box6" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box6.png" Margin="12" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
+                <Image Source="/img/4종.png" Width="105" Height="105" Margin="10" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
             </Grid>
 
             <Border Grid.Column="1" Grid.RowSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,0" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left"></Border>
             <Border Grid.Column="2" Grid.RowSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,0" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left"></Border>
             <Border Grid.Column="3" Grid.RowSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,0" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left"></Border>
             <Border Grid.Column="4" Grid.RowSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,0" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left"></Border>
-            <Border Grid.Column="5" Grid.RowSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,0" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left"></Border>
         </Grid>
 
         <Grid Grid.Row="13"  x:Name="pat_grid2">
@@ -342,33 +337,28 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Name="box7" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box7.png" Margin="13" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
+            <Grid Grid.Column="0" Name="box6" Background="White" MouseLeftButtonDown="pat_select">
+                <Image Source="/img/4-1종.png" Width="105" Height="105" Margin="10" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
             </Grid>
-            <Grid Grid.Column="1" Name="box8" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box8.png" Margin="15" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
+            <Grid Grid.Column="1" Name="box7" Background="White" MouseLeftButtonDown="pat_select">
+                <Image Source="/img/5종.png" Width="105" Height="105" Margin="10" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
             </Grid>
-            <Grid Grid.Column="2" Name="box9" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box9.png" Margin="15" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
+            <Grid Grid.Column="2" Name="box8" Background="White" MouseLeftButtonDown="pat_select">
+                <Image Source="/img/6종.png" Width="105" Height="105" Margin="10" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
             </Grid>
-            <Grid Grid.Column="3" Name="box10" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box10.png" Margin="15" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
+            <Grid Grid.Column="3" Name="box9" Background="White" MouseLeftButtonDown="pat_select">
+                <Image Source="/img/6-1종.png" Width="105" Height="105" Margin="10" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
             </Grid>
-            <Grid Grid.Column="4" Name="box11" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box11.png" Margin="13" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
-            </Grid>
-            <Grid  Grid.Column="5" Name="box12" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box12.png" Margin="13" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
+            <Grid Grid.Column="4" Name="box10" Background="White" MouseLeftButtonDown="pat_select">
+                <Image Source="/img/7종.png" Width="105" Height="105" Margin="10" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
             </Grid>
 
             <Border Grid.Column="1" Grid.RowSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,0" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left"></Border>
             <Border Grid.Column="2" Grid.RowSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,0" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left"></Border>
             <Border Grid.Column="3" Grid.RowSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,0" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left"></Border>
             <Border Grid.Column="4" Grid.RowSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,0" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left"></Border>
-            <Border Grid.Column="5" Grid.RowSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,0" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left"></Border>
         </Grid>
 
         <Grid Grid.Row="14"  x:Name="pat_grid3">
@@ -378,20 +368,10 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Name="box13" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box13.png" Margin="15"/>
-            </Grid>
-            <Grid Grid.Column="1" Name="box14" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box14.png" Margin="15"  />
-            </Grid>
-            <Grid Grid.Column="2" Name="box15" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box15.png" Margin="15"  />
-            </Grid>
-            <Grid Grid.Column="3" Name="box16" Background="White" MouseLeftButtonDown="pat_select">
-                <Image Source="/img/box16.png" Margin="15" />
+            <Grid Grid.Column="0" Name="box11" Background="White" MouseLeftButtonDown="pat_select">
+                <Image Source="/img/8종.png" Width="105" Height="105" Margin="10"/>
             </Grid>
 
             <Border Grid.Column="1" Grid.RowSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,0" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left"></Border>
