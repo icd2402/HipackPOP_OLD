@@ -20,6 +20,18 @@ namespace PopProject.Detail
             }
         }
 
+        private string _LocationNameDisplay = "";
+        public string LocationNameDisplay
+        {
+
+            get => _LocationNameDisplay;
+            set
+            {
+                _LocationNameDisplay = value;
+                onPropertyChanged("LocationNameDisplay");
+            }
+        }
+
         private int _LocationType ;
         public int LocationType
         {

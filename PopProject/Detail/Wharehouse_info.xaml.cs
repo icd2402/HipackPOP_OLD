@@ -147,6 +147,17 @@ namespace PopProject.Detail
                                     IsSelectedStyle = 0
                                 };
                             }
+
+                            if (setedItem.LocationName.Length - setedItem.LocationName.Replace("-", "").Length > 1)
+                            {
+                                setedItem.LocationNameDisplay = setedItem.LocationName.Substring(0, setedItem.LocationName.LastIndexOf("-"));
+                                setedItem.LocationNameDisplay += Environment.NewLine + i.ToString("D2");
+                            }
+                            else
+                            {
+                                setedItem.LocationNameDisplay = setedItem.LocationName;
+                            }
+
                             tempItem.적재구역_ItemList.Add(setedItem);
                         }
 
