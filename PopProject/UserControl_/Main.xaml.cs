@@ -2351,14 +2351,19 @@ namespace PopProject.UserControl_
                     {
                         foreach (MainModel item in tempOb)
                         {
-                            if (Properties.Settings.Default.mercName.Equals(item.mercName))
+                            if (!Properties.Settings.Default.mercName.Equals(item.mercName))
                             {
-                                _ = workList.Remove(item);
+                                if (!item.imagePath.Equals("/img/bn_01.png"))
+                                {
+                                    _ = workList.Remove(item);
+
+                                }
 
                             }
 
                         }
                     }
+                    
 
                     txtNoPlan.Visibility = workList.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
                     SortWorkList();
@@ -2986,6 +2991,7 @@ namespace PopProject.UserControl_
 
         private void setLock()
         {
+
             if (Properties.Settings.Default.checkMerc)
             {
                 btnLogout.Background = Brushes.Green;
@@ -2999,6 +3005,7 @@ namespace PopProject.UserControl_
                 Properties.Settings.Default.checkMerc = true;
             }
             Properties.Settings.Default.Save();
+
         }
 
         private void Setting(object sender, MouseButtonEventArgs e)
