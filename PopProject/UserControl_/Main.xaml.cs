@@ -2351,7 +2351,11 @@ namespace PopProject.UserControl_
                     {
                         foreach (MainModel item in tempOb)
                         {
-                            _ = workList.Remove(item);
+                            if (Properties.Settings.Default.mercName.Equals(item.mercName))
+                            {
+                                _ = workList.Remove(item);
+
+                            }
 
                         }
                     }
