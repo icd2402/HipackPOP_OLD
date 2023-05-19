@@ -77,7 +77,7 @@ namespace PopProject.UserControl_
                     btnLogout.Background = Brushes.Red;
                 }
                 
-
+                //중앙 설비명 텍스트
                 string merName = Properties.Settings.Default.mercName;
                 tbMercName.Text = merName;
                 try
@@ -87,33 +87,38 @@ namespace PopProject.UserControl_
                 }
                 catch (Exception)
                 {
-
                 }
 
+                //아두이노로부터 카운팅 값 받음
                 SignalRAdministrator.허브.On<string, string>("returnCount", recive);
 
-
-                InvokeMercName(Properties.Settings.Default.mercName, "A");
-
+                //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 
+                if (!Properties.Settings.Default.manager.Equals("1"))
+                {
+                    InvokeMercName(Properties.Settings.Default.mercName, "A");
+                }
 
                 Properties.Settings.Default.consumersumcount = 0;
                 Properties.Settings.Default.Save();
+
                 corp_name.Text = Properties.Settings.Default.corp_name;
                 string metrialitem = Properties.Settings.Default.meterialinfo;
+
                 SetSetting(metrialitem);
                 ArduConn();
-                //ArduConn1();
+
+                //신우,우리,누리,혜성,성주
                 if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("혜성수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트") || Properties.Settings.Default.corp_name.Equals("성주포장"))
                 {
+                    //통수 설비일때
                     if (Properties.Settings.Default.CountType != 0)
                     {
                         work.Text = "박스수";
                         work.FontSize = 16;
                         box.Visibility = Visibility.Visible;
-                        Canvas.SetTop(work, 1);
-                        Canvas.SetTop(box, 20);
+                        Canvas.SetTop(work, 1); //박스수 텍스트
+                        Canvas.SetTop(box, 20); //작업수 텍스트
                     }
-
                 }
 
                 //옵션에서 스크롤바 사용 유/무
@@ -131,6 +136,7 @@ namespace PopProject.UserControl_
                     sv.PreviewMouseMove += Sv_PreviewMouseMove;
                 }
 
+                //네트워크 연결 확인
                 bool connected = NetworkInterface.GetIsNetworkAvailable();
                 if (connected)
                 {
@@ -139,7 +145,7 @@ namespace PopProject.UserControl_
                         SelectWorkList(); //생산 계획 리스트 조회
                     }
                     ResultSearchDate(); //생산 결과 리스트 조회
-                    TimerSet(); //현황판으로 카운터 전송 타이머
+                    TimerSet(); //시계 타이머 실행
                 }
                 else
                 {
@@ -155,13 +161,14 @@ namespace PopProject.UserControl_
             }
         }
 
-        private void recive(string arg1, string arg2)
+        private void recive(string arg1, string arg2) //설비명, 카운터
         {
             MainModel model = new MainModel();
             try
             {
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
+                    //오주포장
                     switch (arg1)
                     {
                         case "인라인3호기":
@@ -207,6 +214,7 @@ namespace PopProject.UserControl_
                                             LogWrite(e1.StackTrace);
                                             LogWrite(e1.Message);
                                         }
+
                                         try
                                         {
                                             if (production != null)
@@ -214,26 +222,20 @@ namespace PopProject.UserControl_
                                                 arduSerial.Write("B");
                                             }
                                         }
-
                                         catch (Exception)
                                         {
 
                                         }
                                         can.Visibility = Visibility.Collapsed;
-
                                     }
                                 }
-
                             }
                             break;
 
-
                         case "후렉소":
-
                             break;
 
                         default:
-
                             break;
 
                     }
@@ -244,8 +246,7 @@ namespace PopProject.UserControl_
             }
         }
 
-
-
+        // 아두이노 시리얼포트 닫기
         private void serialDisConnect()
         {
             try
@@ -456,22 +457,14 @@ namespace PopProject.UserControl_
                                 InvokeCount(Convert.ToInt32(production.presultCount), ArdumercName);
                             }
                         }));
-
-
-
                         //  int lastcount = str;
                         //  double 분당생산수 = str - lastcount;
                     }
-
-
                     break;
-
                 default:
                     try
                     {
-
                         //bytesize = arduSerial.BytesToRead;
-
                         //if (bytesize == -1) return;
                         //byte[] data = new byte[bytesize];
                         //arduSerial.Read(data, 0, bytesize);
@@ -516,7 +509,6 @@ namespace PopProject.UserControl_
                                         }
                                     InvokeCount(str, Properties.Settings.Default.mercName);
                                 }
-
                                 else
                                 {
                                     if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("성주포장"))
@@ -524,11 +516,8 @@ namespace PopProject.UserControl_
                                         pCnt = Properties.Settings.Default.twoSum ? (production.pCnt * 2) : 1;
                                     }
 
-
                                     if (str != 0)
                                     {
-
-
                                         production.sumPworkCount = Convert.ToInt32(Math.Floor(str * pCnt));
                                         if (Properties.Settings.Default.boxCheck)
                                         {
@@ -548,15 +537,10 @@ namespace PopProject.UserControl_
                                     }
                                 }
                             }));
-
-
-
                             //  int lastcount = str;
                             //  double 분당생산수 = str - lastcount;
                         }
                     }
-
-
                     catch (Exception e1)
                     {
                         //MessageBoxResult result = System.Windows.MessageBox.Show(e1.Message, "작업 저장",
@@ -564,15 +548,10 @@ namespace PopProject.UserControl_
                         //MessageBox_Dialog msg = new MessageBox_Dialog("아두이노 리시브 오류 : " + e1.Message);
                         //msg.Show();
                     }
-
                     break;
             }
-
             //Console.WriteLine("aa" + arduSerial.ReadLine().Trim());
             // Console.WriteLine(arduSerial.ReadLine().Trim());
-
-
-
         }
 
         private void CountReflash(string v)
@@ -580,7 +559,7 @@ namespace PopProject.UserControl_
             throw new NotImplementedException();
         }
 
-        // 1초마다 실행
+        // 시계 타이머
         private void TimerSet()
         {
             timer = new DispatcherTimer
@@ -591,6 +570,7 @@ namespace PopProject.UserControl_
             timer.Start();
         }
 
+        //시계 타이머
         private void Timer_Tick(object sender, EventArgs e)
         {
             //지정된 시간에 프로그램을 종료하는 코드
@@ -613,29 +593,33 @@ namespace PopProject.UserControl_
 
             _ = tbBarcode.Focus();
             tbBarcode.SelectAll();
+
+            //1분마다 실행
             if (minuite1 == 60)
             {
-                // ArduConn();
-                bool connected = NetworkInterface.GetIsNetworkAvailable();
+                bool connected = NetworkInterface.GetIsNetworkAvailable(); //네트워크 연결 여부 확인
                 if (connected)
                 {
-                    InvokeMercName(Properties.Settings.Default.mercName, "A");
+                    //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 
+                    if (!Properties.Settings.Default.manager.Equals("1"))
+                    {
+                        InvokeMercName(Properties.Settings.Default.mercName, "A");
+                    }
                 }
                 minuite1 = 0;
             }
 
-            //유창포장 5분마다 동작
+            //5분마다 실행
             if (minuite == 300)
             {
-                bool connected = NetworkInterface.GetIsNetworkAvailable(); //연결 여부 확인
-                // Console.WriteLine("네트워크 연결 체크 : " + connected);
-                if (!arduSerial.IsOpen)//아두이노 오픈 안되어 있으면 다시 오픈 요청
+                bool connected = NetworkInterface.GetIsNetworkAvailable(); //네트워크 연결 여부 확인
+                if (!arduSerial.IsOpen) //아두이노 오픈 안되어 있으면 다시 오픈 요청
                 {
                     arduSerial.DataReceived -= ArduReReceive;
                     ArduConn();
                 }
                 
-                if (connected) //연결되어 있으면
+                if (connected) //네트워크 연결되어 있으면
                 {
                     if (production != null)
                     {
@@ -839,7 +823,6 @@ namespace PopProject.UserControl_
             {
                 _ = SignalRAdministrator.허브.Invoke("invokeCount", Properties.Settings.Default.corp_id, mercName, str + "");
             }
-
             catch (Exception)
             {
             }
@@ -847,7 +830,6 @@ namespace PopProject.UserControl_
 
         private void Serial_click(object sender, RoutedEventArgs e)
         {
-
             /*
             e.Handled = true;
             string[] portName = SerialPort.GetPortNames();
@@ -872,24 +854,33 @@ namespace PopProject.UserControl_
         //설비명 클릭
         private void Mer_click(object sender, MouseButtonEventArgs e)
         {
+            // UNLOCK 일때
             if (!Properties.Settings.Default.checkMerc)
             {
-                string before = Properties.Settings.Default.mercName;
-                MercList mercList = new MercList();
-                _ = mercList.ShowDialog();
+                string before = Properties.Settings.Default.mercName; //현재 설비명 before에 담기
+                MercList mercList = new MercList(); //리스트 가져오기
+                _ = mercList.ShowDialog(); //설비 리스트 팝업
                 tbMercName.Text = Properties.Settings.Default.mercName;
 
                 if (!before.Equals(Properties.Settings.Default.mercName)) //설비명이 변경되면
                 {
-                    InvokeMercName(before, "B"); //프로그램 꺼짐 신호
-                    InvokeMercName(Properties.Settings.Default.mercName, "A");//프로그램 켜짐 신호
-                    Properties.Settings.Default.error = "";
-                    Properties.Settings.Default.error1 = "";
-                    Properties.Settings.Default.Save();
+                    //관리자 계정이 아닐때만 실행
+                    if (!Properties.Settings.Default.manager.Equals("1"))
+                    {
+                        InvokeMercName(before, "B"); 
+                        InvokeMercName(Properties.Settings.Default.mercName, "A");
+                        Properties.Settings.Default.error = "";
+                        Properties.Settings.Default.error1 = "";
+                        Properties.Settings.Default.Save();
+                    }
                 }
                 else
                 {
-                    InvokeMercName(Properties.Settings.Default.mercName, "A"); //프로그램 켜짐 신호
+                    //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 
+                    if (!Properties.Settings.Default.manager.Equals("1"))
+                    {
+                        InvokeMercName(Properties.Settings.Default.mercName, "A"); 
+                    }
                 }
 
                 // 상단 바 계획 글자 옵션
@@ -997,7 +988,8 @@ namespace PopProject.UserControl_
                                 break;
                         }
 
-                        if (Properties.Settings.Default.meterialinfo.Equals("")) //세팅에서 마닐라 정보 미체크시 (기본)
+                        //세팅에서 마닐라 정보 미체크시 (기본)
+                        if (Properties.Settings.Default.meterialinfo.Equals("")) 
                         {
                             info.Text = "장 * 폭 * 고";
                             listitem.SCBJCount = result["WDScore"].ToString(); //스코아
@@ -1058,12 +1050,12 @@ namespace PopProject.UserControl_
                         {
                             listitem.orderDate = "[" + result["orderDate"].ToString().Replace("-", "/").Substring(2, 8) + "]";
                         }
+
                         if (listitem.givWD.Equals("2"))
                         {
                             listitem.WDBJCount = "대체량   " + string.Format("{0:n0}", result["WDBJCount"]);
                             listitem.WDIGCount = "";
                         }
-
                         else
                         {
                             listitem.WDBJCount = "발주   " + string.Format("{0:n0}", result["WDBJCount"]);
@@ -1091,7 +1083,6 @@ namespace PopProject.UserControl_
                                 {
                                     listitem.WDIGCount = "입고   " + string.Format("{0:n0}", result["WDIGCount"]);
                                 }
-
                             }
                         }
 
@@ -1127,6 +1118,7 @@ namespace PopProject.UserControl_
                         listitem.PackCount = result["PackCount"].ToString();
                         listitem.pplanCount = int.Parse(result["pplanCount"].ToString());
 
+                        //신우,우리,누리
                         if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("우리포장산업테스트") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("누리팩테스트"))
                         {
                             ss.Visibility = Visibility.Visible; //집계창 표시
@@ -1137,23 +1129,25 @@ namespace PopProject.UserControl_
                             ss.Visibility = Visibility.Collapsed; //집계창 표시해제
                         }
 
+                        //신우,우리,누리,혜성,성주
                         if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("혜성수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트") || Properties.Settings.Default.corp_name.Equals("성주포장"))
                         {
-                            if (Properties.Settings.Default.CountType == 0)
+                            //매수
+                            if (Properties.Settings.Default.CountType == 0) 
                             {
                                 listitem.boxvisibility = Visibility.Collapsed;
                             }
-                            else
+                            else//통수
                             {
                                 listitem.pplanboxCount = (float)Math.Ceiling(listitem.pplanCount / (float)listitem.pCnt);
                             }
                         }
-
                         else
                         {
                             listitem.boxvisibility = Visibility.Collapsed;
                         }
 
+                        //옵션>상자수 사용
                         if (Properties.Settings.Default.boxCheck)
                         {
                             listitem.pplanCount = Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("혜성수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트") || Properties.Settings.Default.corp_name.Equals("성주포장")
@@ -1161,8 +1155,9 @@ namespace PopProject.UserControl_
                                 : (float)Math.Ceiling(listitem.pplanCount / (float)listitem.pCnt);
                         }
 
-
                         listitem.presultCount = float.Parse(result["presultCount"].ToString());
+
+                        //옵션>상자수 사용
                         if (Properties.Settings.Default.boxCheck)
                         {
                             listitem.presultCount /= listitem.pCnt;
@@ -1170,21 +1165,22 @@ namespace PopProject.UserControl_
                         }
                         else
                         {
+                            //통수
                             if (Properties.Settings.Default.CountType == 1)
                             {
+                                //신우,우리,누리,성주
                                 if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("성주포장"))
                                 {
                                     listitem.presultCount = float.Parse(result["presultCount"].ToString()) / listitem.pCnt;
                                     listitem.presultCount1 = float.Parse(result["presultCount"].ToString()) / listitem.pCnt;
                                 }
-                                else
+                                else//그외 업체
                                 {
                                     listitem.presultCount = float.Parse(result["presultCount"].ToString());
                                     listitem.presultCount1 = float.Parse(result["presultCount"].ToString());
                                 }
-
                             }
-                            else
+                            else//매수
                             {
                                 listitem.presultCount = float.Parse(result["presultCount"].ToString());
                                 listitem.presultCount1 = float.Parse(result["presultCount"].ToString());
@@ -1192,11 +1188,8 @@ namespace PopProject.UserControl_
 
                         }
 
-
-
                         listitem.pSize = result["pSize"].ToString();
                         listitem.orderCount = int.Parse(result["orderCount"].ToString());
-
                         listitem.orderLast = result["orderLast"].ToString();
 
                         if (result["orderLast"].ToString() != null)
@@ -1205,24 +1198,21 @@ namespace PopProject.UserControl_
                         }
 
                         listitem.prodID = result["prodID"].ToString();
-
                         listitem.newProd = newProd;
                         listitem.eDatetime = "";
                         listitem.sDatetime = "E";
-
                         listitem.subOb = new List<SubModel>();
                         listitem.resultList = new ObservableCollection<InputModel>();
                         listitem.bMember = bool.Parse(result["bMember"].ToString());
                         listitem.workMemo = result["workMemo"].ToString();
 
-
+                        //오주,대양
                         if (!Properties.Settings.Default.corp_name.Equals("오주포장") && !Properties.Settings.Default.corp_name.Equals("대양포장") && !Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
                         {
-                            listitem.icback = listitem.bMember ? "#AFE1FF" : "White";
+                            listitem.icback = listitem.bMember ? "#AFE1FF" : "White"; //실수요자
                             listitem.pStateVisi = Visibility.Collapsed;
                         }
-
-                        else
+                        else //그외 업체
                         {
                             listitem.pStateVisi = Visibility.Visible;
                             listitem.icback = result["WDIGCount"].ToString().Equals("0") || result["WDIGCount"].ToString().Equals("0.0") ? "White" : "#AFE1FF";
@@ -1262,9 +1252,10 @@ namespace PopProject.UserControl_
                                     listitem.pStateString = "상차";
                                     listitem.pStateSColor = "BLUE";
                                     break;
-
                             }
                         }
+
+                        //오주포장
                         if (Properties.Settings.Default.mercName.Equals("인라인2호기") || Properties.Settings.Default.mercName.Equals("인라인3호기"))
                         {
                             if (listitem.ProcessType == 8)
@@ -1371,28 +1362,22 @@ namespace PopProject.UserControl_
                                             {
                                                 subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
                                             }
-
                                         }
                                         else
                                         {
                                             subItem.stateColor = Brushes.White;
                                             subItem.stateFontColor = Brushes.Black;
                                         }
-
                                         listitem.subOb.Add(subItem);
-
                                     }
                                 }
                                 listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
                                 if (listitem.subOb.Count == 2)
                                 {
-
                                     workList.Add(listitem);
                                 }
-
                             }
                         }
-
                         else if (Properties.Settings.Default.mercName.Equals("풀접합") && Properties.Settings.Default.corp_name.Equals("오주포장"))
                         {
                             if (listitem.ProcessType == 8 || listitem.ProcessType == 7 || listitem.ProcessType == 5)
@@ -1512,9 +1497,7 @@ namespace PopProject.UserControl_
                                             {
                                                 subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
                                             }
-
                                         }
-
                                         else
                                         {
                                             subItem.stateColor = Brushes.White;
@@ -1540,9 +1523,11 @@ namespace PopProject.UserControl_
                                         case "1":
                                             item = result["filmNo"].ToString();
                                             break;
+
                                         case "2":
                                             item = result["CoatingType"].ToString();
                                             break;
+
                                         case "3":
                                             item = result["PrintNo"].ToString();
                                             break;
@@ -1550,15 +1535,19 @@ namespace PopProject.UserControl_
                                         case "4":
                                             item = result["Printposition"].ToString();
                                             break;
+
                                         case "5":
                                             item = result["PushingNo"].ToString();
                                             break;
+
                                         case "6":
                                             item = result["Pushingposition"].ToString();
                                             break;
+
                                         case "7":
                                             item = Properties.Settings.Default.color_check ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ") : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
                                             break;
+
                                         case "8":
                                             item = result["ConnetingType"].ToString();
                                             break;
@@ -1574,20 +1563,25 @@ namespace PopProject.UserControl_
                                         case "11":
                                             item = result["PackType"].ToString();
                                             break;
+
                                         case "14":
                                             item = result["workMemo"].ToString();
                                             break;
+
                                         case "15":
                                             item = result["pplanMemo"].ToString();
                                             break;
+
                                         case "16":
                                             item = result["ProcessMemo"].ToString();
                                             break;
+
                                         case "17":
                                             item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
                                                ? "-"
                                                : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
                                             break;
+
                                         case "18":
                                             item = result["PalletType"].ToString();
                                             break;
@@ -1611,6 +1605,7 @@ namespace PopProject.UserControl_
                                         listitem.item3 = item.Replace("\r\n", "");
                                     }
                                 }
+
                                 foreach (JObject resultSub in Data_Jarry)
                                 {
                                     SubModel subItem = new SubModel();
@@ -1618,7 +1613,6 @@ namespace PopProject.UserControl_
                                     {
                                         if (listitem.pplanKey.Equals(resultSub["pplanKey"].ToString()))
                                         {
-
                                         }
                                     }
 
@@ -1639,9 +1633,7 @@ namespace PopProject.UserControl_
                                             {
                                                 subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
                                             }
-
                                         }
-
                                         else
                                         {
                                             subItem.stateColor = Brushes.White;
@@ -1650,16 +1642,8 @@ namespace PopProject.UserControl_
                                         listitem.subOb.Add(subItem);
                                     }
                                 }
-
                                 listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
                                 workList.Add(listitem);
-                                //if (listitem.subOb.Count == 2)
-                                //{
-                                //    workList.Add(listitem);
-
-
-                                //}
-
                             }
 
                         }
@@ -1895,13 +1879,11 @@ namespace PopProject.UserControl_
                                                     subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
                                                 }
                                             }
-
                                             else
                                             {
                                                 subItem.stateColor = Brushes.White;
                                                 subItem.stateFontColor = Brushes.Black;
                                             }
-
                                             listitem.subOb.Add(subItem);
                                         }
                                     }
@@ -2014,13 +1996,11 @@ namespace PopProject.UserControl_
                                                     subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
                                                 }
                                             }
-
                                             else
                                             {
                                                 subItem.stateColor = Brushes.White;
                                                 subItem.stateFontColor = Brushes.Black;
                                             }
-
                                             listitem.subOb.Add(subItem);
                                         }
                                     }
@@ -2028,7 +2008,6 @@ namespace PopProject.UserControl_
                                     workList.Add(listitem);
                                 }
                             }
-
                             else
                             {
                                 if (listitem.mercName.Equals(Properties.Settings.Default.mercName))
@@ -2075,7 +2054,6 @@ namespace PopProject.UserControl_
                                             case "14":
                                                 item = result["workMemo"].ToString();
                                                 break;
-
                                             case "15":
                                                 item = result["pplanMemo"].ToString();
                                                 break;
@@ -2090,7 +2068,6 @@ namespace PopProject.UserControl_
                                             case "18":
                                                 item = result["PalletType"].ToString();
                                                 break;
-
                                             default:
                                                 break;
                                         }
@@ -2127,7 +2104,6 @@ namespace PopProject.UserControl_
 
                                             if (int.Parse(resultSub["presultCount"].ToString()) > 0)
                                             {
-
                                                 subitem.stateColor = Brushes.Black;
                                                 subitem.stateFontColor = Brushes.White;
                                                 subitem.presultCount = int.Parse(resultSub["presultCount"].ToString());
@@ -2142,7 +2118,6 @@ namespace PopProject.UserControl_
                                                 subitem.stateColor = Brushes.White;
                                                 subitem.stateFontColor = Brushes.Black;
                                             }
-
                                             listitem.subOb.Add(subitem);
                                         }
                                     }
@@ -2150,13 +2125,9 @@ namespace PopProject.UserControl_
                                     workList.Add(listitem);
                                 }
                             }
-
                         }
                     }
                     workList1 = workList;
-                    //this.workList = workList;
-
-
                     ic.ItemsSource = workList;
                 }
                 else
@@ -2165,13 +2136,11 @@ namespace PopProject.UserControl_
                     //_ = box.ShowDialog();
                 }
             }
-
             실적현황조회();
         }
 
         private void 실적현황조회()
         {
-
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
             ReturnModel 실적returnData = ServiceModel.GetData(
                Properties.Settings.Default.serverIndex,
@@ -2182,7 +2151,6 @@ namespace PopProject.UserControl_
                );
             if (실적returnData.결과 == 1)
             {
-
                 JArray Data_Jarry = JArray.Parse(실적returnData.리턴값);
                 if (Data_Jarry != null)
                 {
@@ -2217,8 +2185,6 @@ namespace PopProject.UserControl_
 
                         실적List.Add(실적Item);
                     }
-
-
                     p1.Text = workList.Sum(x => x.pplanCount).ToString("N0"); //계획량 (매수)
                     p2.Text = workList.Sum(x => x.pplanCount / x.pCnt).ToString("N0"); //계획통 (통수)
 
@@ -2245,6 +2211,7 @@ namespace PopProject.UserControl_
             }
         }
 
+        //생산결과 조회
         public void ResultSearchDate()
         {
             production = null;
@@ -2286,20 +2253,19 @@ namespace PopProject.UserControl_
 
                                     workItem.imagePath = "/img/bn_01.png";
 
+                                    //완료시간 있으면
                                     if (!result["eDatetime"].ToString().Equals(""))
                                     {
                                         workItem.eDatetime = result["eDatetime"].ToString();
                                     }
-                                    else
+                                    else//완료시간 없으면
                                     {
-
                                         if (production != null)
                                         {
                                             if (!production.pplanKey.ToString().Equals(workItem.pplanKey.ToString()))
                                             {
                                                 production = workItem;
                                             }
-
                                             else
                                             {
                                                 float tempSum = production.sumPworkCount;
@@ -2309,22 +2275,18 @@ namespace PopProject.UserControl_
                                                 production.presultCount = tempPresult;
                                             }
                                         }
-
                                         else
                                         {
                                             production = workItem;
                                         }
                                     }
                                 }
-
                                 else
                                 {
                                     tempOb.Add(workItem);
-
                                 }
                             }
                         }
-
                     }
 
                     for (int i = 0; i < workList.Count; i++)
@@ -2341,12 +2303,10 @@ namespace PopProject.UserControl_
                             {
                                 workList.Remove(workList[i]);
                             }
-
-
                         }
-
                     }
 
+                    //동시작업 설정 체크시
                     if (!Properties.Settings.Default.samework)
                     {
                         foreach (MainModel item in tempOb)
@@ -2356,35 +2316,30 @@ namespace PopProject.UserControl_
                                 if (!item.imagePath.Equals("/img/bn_01.png"))
                                 {
                                     _ = workList.Remove(item);
-
                                 }
-
                             }
-
                         }
                     }
-                    
-
                     txtNoPlan.Visibility = workList.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
                     SortWorkList();
-
                 }
             }
-
             else
             {
                 //MessageBox_Dialog box = new MessageBox_Dialog("PopResultSearchDate 조회 오류!!");
                 //_ = box.ShowDialog();
             }
-
             실적현황조회();
         }
 
+
+        //옵션>생산리스트 상단/하단 정렬
         private void SortedList()
         {
             SortDescription sort = new SortDescription("customSName", ListSortDirection.Ascending);
             ICollectionView collectionView = CollectionViewSource.GetDefaultView(workList);
 
+            //하단 정렬
             if (!sortChecked)
             {
                 collectionView.Filter = null;
@@ -2392,19 +2347,17 @@ namespace PopProject.UserControl_
                 collectionView.SortDescriptions.Add(sort);
                 collectionView.Refresh();
             }
-            else
+            else//상단 정렬
             {
                 SortWorkList();
             }
         }
 
+        //옵션>생산리스트 상단/하단 정렬
         private void SortWorkList()
         {
-
             if (sortChecked)
             {
-
-
                 SortDescription sort = new SortDescription("sDatetime", ListSortDirection.Ascending);
                 SortDescription sort1 = new SortDescription("pplanNo", ListSortDirection.Ascending);
                 SortDescription sort2 = new SortDescription("pplanKey", ListSortDirection.Ascending);
@@ -2421,30 +2374,26 @@ namespace PopProject.UserControl_
                 collectionView.Filter = null;
                 collectionView.SortDescriptions.Clear();
 
+                //하단정렬
                 if (sortCheck)
                 {
-
                     sort = new SortDescription("eDatetime", ListSortDirection.Ascending);
                     collectionView.SortDescriptions.Add(sort);
                     sort = new SortDescription("sDatetime", ListSortDirection.Ascending);
                     collectionView.SortDescriptions.Add(sort);
                     collectionView.SortDescriptions.Add(sort8);
+                    //오주,대양
                     if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("대양포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
                     {
                         //367124
-
                         collectionView.SortDescriptions.Add(sort3);
                         collectionView.SortDescriptions.Add(sort6);
-
                         collectionView.SortDescriptions.Add(sort1);
                         collectionView.SortDescriptions.Add(sort7);
                         collectionView.SortDescriptions.Add(sort2);
                         collectionView.SortDescriptions.Add(sort4);
-
-
                     }
-
-                    else
+                    else//그외 업체
                     {
                         collectionView.SortDescriptions.Add(sort3);
                         collectionView.SortDescriptions.Add(sort1);
@@ -2452,27 +2401,20 @@ namespace PopProject.UserControl_
                         collectionView.SortDescriptions.Add(sort4);
                     }
                     collectionView.Refresh();
-
                 }
-
-                else
+                else//상단정렬
                 {
-
                     collectionView.SortDescriptions.Add(sort);
                     collectionView.SortDescriptions.Add(sort8);
                     if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("대양포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
                     {
-
                         collectionView.SortDescriptions.Add(sort3);
                         collectionView.SortDescriptions.Add(sort6);
-
                         collectionView.SortDescriptions.Add(sort1);
                         collectionView.SortDescriptions.Add(sort7);
                         collectionView.SortDescriptions.Add(sort2);
                         collectionView.SortDescriptions.Add(sort4);
-
                     }
-
                     else
                     {
                         collectionView.SortDescriptions.Add(sort3);
@@ -2480,8 +2422,6 @@ namespace PopProject.UserControl_
                         collectionView.SortDescriptions.Add(sort2);
                         collectionView.SortDescriptions.Add(sort4);
                     }
-
-
                     collectionView.Refresh();
                 }
 
@@ -2514,7 +2454,6 @@ namespace PopProject.UserControl_
             {
                 tbNo.Text = workList.Count.ToString();
             }
-
         }
 
 
@@ -2524,13 +2463,12 @@ namespace PopProject.UserControl_
             Properties.Settings.Default.consumersumcount = 0;
             Properties.Settings.Default.Save();
 
-            InvokeMercName(Properties.Settings.Default.mercName, "B");
-
+            //관리자 계정이 아닐때만 현황판으로 꺼짐 신호 보냄 
+            if (!Properties.Settings.Default.manager.Equals("1"))
+            {
+                InvokeMercName(Properties.Settings.Default.mercName, "B");
+            }
             Environment.Exit(0);
-
-
-
-
         }
 
         // 상태 버튼 클릭
@@ -2538,7 +2476,6 @@ namespace PopProject.UserControl_
         {
             try
             {
-
                 bool check = true;
                 if (sender.GetType().Name.Equals("Image"))
                 {
@@ -2546,23 +2483,28 @@ namespace PopProject.UserControl_
                     Image img = (Image)sender;
                     MainModel model = (MainModel)img.DataContext;
 
+                    //실수요자 일때
                     if (model.bMember)
                     {
-
-                        if (model.imagePath.Equals("/img/bn_02.png"))
+                        if (model.imagePath.Equals("/img/bn_02.png"))//대기 버튼
                         {
                             check = true;
                             model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                            PopResultStart(model);
-
+                            if (!Properties.Settings.Default.manager.Equals("1"))
+                            {
+                                PopResultStart(model);
+                            }
                         }
-                        else if (model.imagePath.Equals("/img/bn_03.png"))
+                        else if (model.imagePath.Equals("/img/bn_03.png"))//완료 버튼
                         {
                             check = true;
                             model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                            PopResultStart(model);
+                            if (!Properties.Settings.Default.manager.Equals("1"))
+                            {
+                                PopResultStart(model);
+                            }
                         }
-                        else if (model.imagePath.Equals("/img/bn_01.png"))
+                        else if (model.imagePath.Equals("/img/bn_01.png"))//작업중 버튼
                         {
                             check = false;
                             model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -2573,11 +2515,7 @@ namespace PopProject.UserControl_
                         InvokeCount(Properties.Settings.Default.mercName, "E");
                         SelectWorkList();
                         ResultSearchDate();
-
-
-
                     }
-
                     else
                     {
                         win_Input = new Win_input(model, workList, false);
@@ -2592,13 +2530,11 @@ namespace PopProject.UserControl_
                             ResultSearchDate();
                         }
 
-
                         Properties.Settings.Default.presultcount = 0;
                         Properties.Settings.Default.Save();
                         // model.presultCount = 11;
                         // model.presultCount = 
                         // ResultSearchDate();
-
                     }
 
                     // ArduConn();
@@ -2611,7 +2547,6 @@ namespace PopProject.UserControl_
                         }
                     }
                     win_Input = null;
-
 
                     if (production != null)
                     {
@@ -2656,9 +2591,8 @@ namespace PopProject.UserControl_
 
             if (returnData.결과 == 1)
             {
-
                 // mainModel.pworkKey = int.Parse(returnData.리턴값);
-                if (model.imagePath.Equals("/img/bn_03.png"))
+                if (model.imagePath.Equals("/img/bn_03.png")) //완료버튼
                 {
                     model.ConsumWorkKey = returnData.리턴값;
                 }
@@ -2671,62 +2605,6 @@ namespace PopProject.UserControl_
                 Properties.Settings.Default.saveDate = "";
                 Properties.Settings.Default.pplanKey = 0;
                 Properties.Settings.Default.Save();
-
-                //switch (metrialitem)
-                //{
-                //    case "12":
-                //    case "13":
-                //        Main1.production = mainModel;
-                //        try
-                //        {
-
-                //            if (Main1.production != null)
-                //            {
-                //                Main1.arduSerial.Write("A");
-                //                Main1.arduSerial.Write("B");
-                //            }
-
-                //            else
-                //            {
-                //                Main1.arduSerial.Write("A");
-                //            }
-                //        }
-                //        catch (Exception)
-                //        {
-                //            //MessageBox_Dialog msg = new MessageBox_Dialog("PopResultStart 오류발생 !!" + e.Message);
-                //            //msg.ShowDialog();
-                //        }
-                //        break;
-
-                //    default:
-
-                //        Main.production = mainModel;
-
-                //        try
-                //        {
-                //            if (Main.production != null)
-                //            {
-                //                Main.arduSerial.Write("A");
-                //                Main.arduSerial.Write("B");
-                //            }
-
-                //            else
-                //            {
-                //                Main.arduSerial.Write("A");
-                //            }
-                //        }
-
-                //        catch (Exception)
-                //        {
-                //            // MessageBox_Dialog msg = new MessageBox_Dialog("PopResultStart 오류발생 !!" + e.Message);
-                //            // msg.ShowDialog();
-                //        }
-
-                //        break;
-
-                //}
-
-
             }
             else
             {
@@ -2735,17 +2613,15 @@ namespace PopProject.UserControl_
             }
             return returnData.결과;
         }
-        private void InvokeCount(string mercName, string v)
+        private void InvokeCount(string mercName, string v) //설비명,카운터
         {
             //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
             try
             {
                 SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
-
             }
             catch (Exception e)
             {
-
             }
         }
 
@@ -2767,15 +2643,12 @@ namespace PopProject.UserControl_
 
                 }
             }
-
         }
 
         private void ShowDetail(object sender)
         {
             try
             {
-
-
                 if (!sender.GetType().Name.Equals("Image"))
                 {
                     Canvas canvas = (Canvas)sender;
@@ -2796,6 +2669,7 @@ namespace PopProject.UserControl_
                             special += workList[i].ProcessTypeName + " 참고 사항 : " + workList[i].ProcessMemo + "|";
                         }
                     }
+
                     try
                     {
                         Win_Detail win_detail = new Win_Detail(context, special, workList, Properties.Settings.Default.detail_check);
@@ -2832,8 +2706,6 @@ namespace PopProject.UserControl_
                     }
 
                     can.Visibility = Visibility.Collapsed;
-
-
                 }
             }
             catch (Exception e)
@@ -2844,13 +2716,9 @@ namespace PopProject.UserControl_
 
         private void TbBarcode_KeyDown(object sender, KeyEventArgs e)
         {
-
             MainModel tempItem = null;
             string code = tbBarcode.Text;
-
             _ = int.TryParse(code, out int pCode);
-
-
 
             if (pCode > 0)
             {
@@ -2923,7 +2791,6 @@ namespace PopProject.UserControl_
                     LogWrite(e1.StackTrace);
                 }
 
-
                 if (production != null)
                 {
                     try
@@ -2937,10 +2804,7 @@ namespace PopProject.UserControl_
                     }
 
                 }
-
                 can.Visibility = Visibility.Collapsed;
-
-
             }
             e.Handled = false;
 
@@ -2948,16 +2812,13 @@ namespace PopProject.UserControl_
 
         private void BarcodeCheck()
         {
-
         }
 
         private void Sv_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
             sv.ReleaseMouseCapture();
-
         }
-
         private void Sv_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             e.Handled = true;
@@ -2980,8 +2841,7 @@ namespace PopProject.UserControl_
 
         private void Logout_click(object sender, RoutedEventArgs e)
         {
-
-            setLock();
+            setLock(); //설비명 LOCK /UNLOCK 버튼
 
             //Properties.Settings.Default.Reset();
             //Properties.Settings.Default.Save();
@@ -2989,9 +2849,9 @@ namespace PopProject.UserControl_
             //_ = Process.Start(Application.ResourceAssembly.Location);
         }
 
+        //설비명 LOCK /UNLOCK
         private void setLock()
         {
-
             if (Properties.Settings.Default.checkMerc)
             {
                 btnLogout.Background = Brushes.Green;
@@ -3008,6 +2868,7 @@ namespace PopProject.UserControl_
 
         }
 
+        //설정 버튼
         private void Setting(object sender, MouseButtonEventArgs e)
         {
             can.Visibility = Visibility.Visible;
@@ -3021,8 +2882,8 @@ namespace PopProject.UserControl_
             ArduConn();
             // ArduConn1();
 
+            //스크롤바 사용 유/무
             sv.VerticalScrollBarVisibility = Properties.Settings.Default.scrollvarCheck ? ScrollBarVisibility.Visible : ScrollBarVisibility.Hidden;
-
             if (Properties.Settings.Default.scrollvarCheck)
             {
                 sv.PreviewMouseLeftButtonDown -= ScrollViewer_PreviewMouseLeftButtonDown;
@@ -3035,6 +2896,7 @@ namespace PopProject.UserControl_
                 sv.PreviewMouseLeftButtonUp += Sv_PreviewMouseLeftButtonUp;
                 sv.PreviewMouseMove += Sv_PreviewMouseMove;
             }
+
             if (Properties.Settings.Default.searchCheck)
             {
                 SelectWorkList(); // 생산 계획 리스트 조회
@@ -3051,17 +2913,16 @@ namespace PopProject.UserControl_
             string str = Regex.Replace(beforestr, "#(?:[A-Fa-f0-9]{8}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})", "");
             return str;
         }
+
         private void SetSetting(string metrialitem)
         {
             switch (metrialitem)
             {
-
                 case "13":
                 case "12":
                     arduSerial.Close();
                     Content = null;
                     timer.Stop();
-
 
                     MainWindow.main = null;
                     if (MainWindow.main1 == null)
@@ -3159,6 +3020,7 @@ namespace PopProject.UserControl_
             ResultSearchDate();
         }
 
+        //설정>업로드
         private void upload_setting()
         {
             string macAddress = NetworkInterface.GetAllNetworkInterfaces().Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
@@ -3179,7 +3041,6 @@ namespace PopProject.UserControl_
                     macAddress
                 },
                 1
-
                 );
             if (returnData.결과 == 1)
             {
@@ -3199,13 +3060,15 @@ namespace PopProject.UserControl_
             pop_Noty.ShowDialog();
         }
 
+        //정렬
         private void sort(object sender, MouseButtonEventArgs e)
         {
+            //상단
             if (sortChecked)
             {
                 sortChecked = false;
             }
-            else
+            else//하단
             {
                 sortChecked = true;
             }

@@ -662,83 +662,87 @@ namespace PopProject.Consumer_
         private void consumClosed(object sender, EventArgs e)
 
         {
-            totalCount = getCount();
-            totalCount -= beforeCount;
-            totalErrorCount = getErrorCount();
-            arrChkAED = "";
-            if (Properties.Settings.Default.boxCheck)
+            if (!Properties.Settings.Default.manager.Equals("1"))
             {
-                totalCount *= int.Parse(mainModel.pCnt.ToString());
-
-            }
-            if (totalCount == 0)
-            {
-                arrChkAED = "3|";
-                
-
-                if (beforeCount == 0)
+                totalCount = getCount();
+                totalCount -= beforeCount;
+                totalErrorCount = getErrorCount();
+                arrChkAED = "";
+                if (Properties.Settings.Default.boxCheck)
                 {
-                    PopresultEnd(0, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey);
-                   
-                }
-                else
-                {
-                    PopresultEnd(0, totalErrorCount, arrChkAED, mainModel.ConsumWorkKey);
-                }
-                return;
-            }
-            else
-            {
-                if (mainModel.imagePath.Equals("/img/bn_02.png"))
-                {
-                    arrChkAED = "1|";
-                }
-                else if (mainModel.imagePath.Equals("/img/bn_03.png"))
-
-                {
-                    arrChkAED = "2|";
-                    PopresultEnd(getCount(), totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey);
-                    return;
-                    //if (Properties.Settings.Default.consumCount == 0)
-                    //{
-                    //    arrChkAED = "3|";
-                    //}
-                    //else
-                    //{
-                    //    arrChkAED = "1|";
-                    //}
-
+                    totalCount *= int.Parse(mainModel.pCnt.ToString());
 
                 }
-                else if (mainModel.imagePath.Equals("/img/bn_01.png"))
+                if (totalCount == 0)
                 {
-                    if (Properties.Settings.Default.consumCount == 0)
+                    arrChkAED = "3|";
+
+
+                    if (beforeCount == 0)
                     {
-                        arrChkAED = "3|";
+                        PopresultEnd(0, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey);
+
                     }
                     else
                     {
-                        if (beforeCount > 0)
-                        {
-                            arrChkAED = "2|";
-                        }
-                        else if (beforeCount == 0)
-                        {
-                            arrChkAED = "1|";
-                        }
+                        PopresultEnd(0, totalErrorCount, arrChkAED, mainModel.ConsumWorkKey);
+                    }
+                    return;
+                }
+                else
+                {
+                    if (mainModel.imagePath.Equals("/img/bn_02.png"))
+                    {
+                        arrChkAED = "1|";
+                    }
+                    else if (mainModel.imagePath.Equals("/img/bn_03.png"))
+
+                    {
+                        arrChkAED = "2|";
+                        PopresultEnd(getCount(), totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey);
+                        return;
+                        //if (Properties.Settings.Default.consumCount == 0)
+                        //{
+                        //    arrChkAED = "3|";
+                        //}
+                        //else
+                        //{
+                        //    arrChkAED = "1|";
+                        //}
+
 
                     }
+                    else if (mainModel.imagePath.Equals("/img/bn_01.png"))
+                    {
+                        if (Properties.Settings.Default.consumCount == 0)
+                        {
+                            arrChkAED = "3|";
+                        }
+                        else
+                        {
+                            if (beforeCount > 0)
+                            {
+                                arrChkAED = "2|";
+                            }
+                            else if (beforeCount == 0)
+                            {
+                                arrChkAED = "1|";
+                            }
+
+                        }
+                    }
+
+                }
+                if (이월체크)
+                {
+                    arrChkAED = "3|";
+                    PopresultEnd(totalCount, totalErrorCount, arrChkAED, mainModel.ConsumWorkKey);
+                    return;
                 }
 
-            }
-            if (이월체크)
-            {
-                arrChkAED = "3|";
-                PopresultEnd(totalCount, totalErrorCount, arrChkAED, mainModel.ConsumWorkKey);
-                return;
+                PopresultEnd(totalCount, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey);
             }
             
-                PopresultEnd(totalCount, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey);
             
            
         }

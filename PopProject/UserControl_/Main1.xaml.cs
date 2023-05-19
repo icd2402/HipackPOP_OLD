@@ -530,14 +530,22 @@ namespace PopProject.UserControl_
                 tbMercName.Text = Properties.Settings.Default.mercName;
                 if (!before.Equals(Properties.Settings.Default.mercName))
                 {
-                    invokeMercName(before, "B");
-                    Properties.Settings.Default.error = "";
-                    Properties.Settings.Default.error1 = "";
-                    Properties.Settings.Default.Save();
+                    //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 
+                    if (!Properties.Settings.Default.manager.Equals("1"))
+                    {
+                        invokeMercName(before, "B");
+                        Properties.Settings.Default.error = "";
+                        Properties.Settings.Default.error1 = "";
+                        Properties.Settings.Default.Save();
+                    }
                 }
                 else
                 {
-                    invokeMercName(Properties.Settings.Default.mercName, "A");
+                    //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 
+                    if (!Properties.Settings.Default.manager.Equals("1"))
+                    {
+                        invokeMercName(Properties.Settings.Default.mercName, "A");
+                    }
                 }
                 //setTbPintNo();
                 SelectWorkList();
@@ -1329,7 +1337,11 @@ namespace PopProject.UserControl_
             Properties.Settings.Default.Save();
             if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업"))
             {
-                invokeMercName(Properties.Settings.Default.mercName, "B");
+                //관리자 계정이 아닐때만 현황판으로 꺼짐 신호 보냄 
+                if (!Properties.Settings.Default.manager.Equals("1"))
+                {
+                    invokeMercName(Properties.Settings.Default.mercName, "B");
+                }
             }
 
             Environment.Exit(0);

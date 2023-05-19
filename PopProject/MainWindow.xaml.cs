@@ -131,8 +131,12 @@ namespace PopProject
             Console.WriteLine("종료됨");
             //Properties.Settings.Default.pworkkey = "";
             //Properties.Settings.Default.Save();
-            
-            invokeMercName(Properties.Settings.Default.mercName, "B");
+
+            //관리자 계정이 아닐때만 현황판으로 꺼짐 신호 보냄 
+            if (!Properties.Settings.Default.manager.Equals("1"))
+            {
+                invokeMercName(Properties.Settings.Default.mercName, "B");
+            }
             
         }
 
