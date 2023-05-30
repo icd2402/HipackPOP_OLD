@@ -44,6 +44,7 @@ namespace PopProject.Consumer_
                 metrialitem = "";
             }
 
+            //설정에서 세팅 정보
             switch (metrialitem)
             {
                 case "12":
@@ -62,7 +63,6 @@ namespace PopProject.Consumer_
                         }
 
                     }
-
                     else
                     {
                         try

@@ -54,6 +54,7 @@ namespace PopProject.Input
             }
         }
 
+        //키보드 호출
         private void KeyBoxarCall()
         {
             string path64 = Path.Combine(Directory.GetDirectories
@@ -67,13 +68,14 @@ namespace PopProject.Input
             }
         }
 
-        // 저장
+        //저장 버튼
         private void Image_MouseLeftButtonDown_2(object sender, MouseButtonEventArgs e)
         {
             string pMemo = unique_text.Text;
             PopInputResultMemo(pMemo);
         }
 
+        //특이사항 저장
         private void PopInputResultMemo(string pMemo)
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -91,16 +93,19 @@ namespace PopProject.Input
             }
         }
 
+        //나가기 버튼
         private void Image_MouseLeftButtonDown_3(object sender, MouseButtonEventArgs e)
         {
             Close();
         }
 
+        //드래그
         private void Image_MouseLeftButtonDown_4(object sender, MouseButtonEventArgs e)
         {
             DragMove();
         }
 
+        //키보드 호출 버튼
         private void Keyboard_call(object sender, MouseButtonEventArgs e)
         {
             KeyBoxarCall();

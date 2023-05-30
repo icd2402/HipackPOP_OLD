@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.274</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.275</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>275</ApplicationRevision>
+    <ApplicationRevision>276</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -289,6 +289,9 @@
     <Compile Include="Detail\Win_Detail.xaml.cs">
       <DependentUpon>Win_Detail.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Detail\Win_GigUpdate.xaml.cs">
+      <DependentUpon>Win_GigUpdate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Detail\Win_PictureView.xaml.cs">
       <DependentUpon>Win_PictureView.xaml</DependentUpon>
     </Compile>
@@ -468,6 +471,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Detail\Win_Detail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Detail\Win_GigUpdate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

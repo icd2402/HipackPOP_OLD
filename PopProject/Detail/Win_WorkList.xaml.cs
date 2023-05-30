@@ -30,7 +30,7 @@ namespace PopProject.Detail
         {
             InitializeComponent();
             this.mainModel = mainModel;
-            PopResultSearch();
+            PopResultSearch(); //작업리스트 조회
         }
 
         //작업 결과 리스트 조회
@@ -101,14 +101,12 @@ namespace PopProject.Detail
 
                             sumPworkCount += listitem.pworkCount;
                             ob.Add(listitem);
-
                         }
                     }
 
-
                     tbTotalWCount.Text = sumPworkCount.ToString();
                     tbTotalPCount.Text = sumPerrCount.ToString();
-
+                    
                     if (sumPerrCount > 0)
                     {
                         percent = sumPerrCount / (sumPworkCount + sumPerrCount) * 100;
@@ -124,7 +122,6 @@ namespace PopProject.Detail
                     sortList();
                 }
             }
-
             else
             {
                 MessageBox_Dialog dialog = new MessageBox_Dialog("PopResultSearchProdID 조회 오류!!");
@@ -132,6 +129,7 @@ namespace PopProject.Detail
             }
         }
 
+        //리스트 정렬
         private void sortList()
         {
             SortDescription sort = new SortDescription("sDatetime", ListSortDirection.Descending);
@@ -140,9 +138,9 @@ namespace PopProject.Detail
             collectionView.SortDescriptions.Clear();
             collectionView.SortDescriptions.Add(sort);
             collectionView.Refresh();
-
         }
 
+        //불량 리스트 조회
         private ObservableCollection<errorModel> popErrorListSearch(InputModel inputModel)
         {
             ObservableCollection<errorModel> ob = new ObservableCollection<errorModel>();
@@ -171,13 +169,11 @@ namespace PopProject.Detail
                         SubData(inputModel, ob, result);
                     }
                 }
-
                 else
                 {
                     return null;
                 }
             }
-
             return ob;
         }
 
@@ -200,6 +196,7 @@ namespace PopProject.Detail
             sv.ReleaseMouseCapture();
         }
 
+        //최근작업 리스트 창 클릭
         private void Sv_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             e.Handled = true;
@@ -210,6 +207,7 @@ namespace PopProject.Detail
             }
         }
 
+        //최근작업 리스트 창 클릭
         private void Sv_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = false;

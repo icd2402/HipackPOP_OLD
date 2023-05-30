@@ -32,53 +32,67 @@ namespace PopProject.Input
 
         private void Win_Set()
         {
-            count_check.IsChecked = Properties.Settings.Default.count_check;
-            twoSum.IsChecked = Properties.Settings.Default.twoSum;
-            samework.IsChecked = Properties.Settings.Default.samework;
-            option1.IsChecked = Properties.Settings.Default.option1;
-            plc.IsChecked = Properties.Settings.Default.Plc;
-            color_check.IsChecked = Properties.Settings.Default.color_check;
+            //설비명
             Setting_mercName.Text = Properties.Settings.Default.mercName;
-            completeValue.IsChecked = Properties.Settings.Default.completeValue_checked;
-            robotcheck.IsChecked = Properties.Settings.Default.robotchecked;
-            if (Properties.Settings.Default.RadioChecked)
-            {
-                radio2.IsChecked = true;
-            }
 
+            //기본 설정2 화면
+            if (Properties.Settings.Default.RadioChecked)//상단,하단 정렬
+            {
+                radio2.IsChecked = true; //상단
+            }
             else
             {
-                radio1.IsChecked = true;
+                radio1.IsChecked = true; //하단
             }
 
-            scrollvar_Check.IsChecked = Properties.Settings.Default.scrollvarCheck;
-            production_check.IsChecked = Properties.Settings.Default.productionCheck;
-            account_check.IsChecked = Properties.Settings.Default.accountCheck;
-            boxCheck.IsChecked = Properties.Settings.Default.boxCheck;
-            keyinCheck.IsChecked = Properties.Settings.Default.keyinCheck;
-            detail_check.IsChecked = Properties.Settings.Default.detail_check;
+            //기본 설정2 화면
+            keyinCheck.IsChecked = Properties.Settings.Default.keyinCheck;//키인 사용
+            robotcheck.IsChecked = Properties.Settings.Default.robotchecked; //로봇사용
+            detail_check.IsChecked = Properties.Settings.Default.detail_check; //듀얼 모니터 상세화면 표현
+            option1.IsChecked = Properties.Settings.Default.option1; //상자수 자동계산
+            samework.IsChecked = Properties.Settings.Default.samework; //동시작업 설정
+            color_check.IsChecked = Properties.Settings.Default.color_check; //인쇄 색도 표현
+            twoSum.IsChecked = Properties.Settings.Default.twoSum; //이합설비
+            scrollvar_Check.IsChecked = Properties.Settings.Default.scrollvarCheck; //스크롤바 사용
+            plc.IsChecked = Properties.Settings.Default.Plc; // PLC사용
+            boxCheck.IsChecked = Properties.Settings.Default.boxCheck; //상자수 사용
+            completeValue.IsChecked = Properties.Settings.Default.completeValue_checked; //완료항목 제거
 
+            //자재명세서 출력정보 화면
+            count_check.IsChecked = Properties.Settings.Default.count_check; //총수량 표현
+            account_check.IsChecked = Properties.Settings.Default.accountCheck; //거래처 표현
+            production_check.IsChecked = Properties.Settings.Default.productionCheck; //생산처 표현
 
+            
+
+            //시리얼 포트
             string[] port = SerialPort.GetPortNames();
-            cb_1.ItemsSource = port;
-            cb_12.ItemsSource = port;
+            
+            //포트넘버
+            cb_1.ItemsSource = port; 
+            cb_12.ItemsSource = port; 
             cb_1.Text = Properties.Settings.Default.SerialName;
-            cb_12.Text = Properties.Settings.Default.SerialName1;
-            int[] baudrate = new int[1] { 9600 };
+            cb_12.Text = Properties.Settings.Default.SerialName1; 
+            
+            //통신속도
+            int[] baudrate = new int[1] { 9600 }; //통신속도
             cb_2.ItemsSource = baudrate;
             cb_2.Text = Properties.Settings.Default.baudrate.ToString();
+
+            //센서 딜레이
             string[] SensorRate = new string[7] { "없음", "0.1초", "0.2초", "0.3초", "0.4초", "0.5초", "1초" };
             cb_3.ItemsSource = SensorRate;
             cb_3.Text = GetSenserRate(Properties.Settings.Default.SensorRate);
 
-            string settingItem = Properties.Settings.Default.settingitem;
-            string metrialinfo = Properties.Settings.Default.meterialinfo;
-            string printItem = Properties.Settings.Default.printItem;
+            string settingItem = Properties.Settings.Default.settingitem;  //작업정보
+            string metrialinfo = Properties.Settings.Default.meterialinfo; //마닐라,원단정보
+            string printItem = Properties.Settings.Default.printItem; //자재명세서 출정 정보
 
-            string[] setting = settingItem.Split(new string[] { "|" }, StringSplitOptions.None);
-            string[] metrial = metrialinfo.Split(new string[] { "|" }, StringSplitOptions.None);
-            string[] print = printItem.Split(new string[] { "|" }, StringSplitOptions.None);
+            string[] setting = settingItem.Split(new string[] { "|" }, StringSplitOptions.None); //작업정보 배열 생성
+            string[] metrial = metrialinfo.Split(new string[] { "|" }, StringSplitOptions.None); //마닐라,원단정보 배열 생성
+            string[] print = printItem.Split(new string[] { "|" }, StringSplitOptions.None); //저장된 자재명세서 출정 정보 배열 생성
 
+            //자재명세서 배열
             for (int i = 0; i < print.Length; i++)
             {
                 switch (print[i])
@@ -86,43 +100,33 @@ namespace PopProject.Input
                     case "1":
                         _cb1.IsChecked = true;
                         break;
-
                     case "2":
                         _cb2.IsChecked = true;
                         break;
-
                     case "3":
                         _cb3.IsChecked = true;
                         break;
-
                     case "4":
                         _cb4.IsChecked = true;
                         break;
-
                     case "5":
                         _cb5.IsChecked = true;
                         break;
-
                     case "6":
                         _cb6.IsChecked = true;
                         break;
-
                     case "7":
                         _cb7.IsChecked = true;
                         break;
-
                     case "8":
                         _cb8.IsChecked = true;
                         break;
-
                     case "9":
                         _cb9.IsChecked = true;
                         break;
-
                     case "10":
                         _cb10.IsChecked = true;
                         break;
-
                     case "11":
                         _cb11.IsChecked = true;
                         break;
@@ -134,15 +138,15 @@ namespace PopProject.Input
                 }
             }
 
+            //마닐라,원단정보 배열
             for (int i = 0; i < metrial.Length; i++)
             {
                 switch (metrial[i])
                 {
-                    case "12":
+                    case "12": //마닐라 정보
                         scinfo.IsChecked = true;
                         break;
-
-                    case "13":
+                    case "13": //원단 정보
                         wdinfo.IsChecked = true;
                         break;
                     default:
@@ -150,6 +154,7 @@ namespace PopProject.Input
                 }
             }
 
+            //작업정보 배열 생성
             for (int i = 0; i < setting.Length; i++)
             {
                 switch (setting[i])
@@ -157,15 +162,12 @@ namespace PopProject.Input
                     case "1":
                         cb1.IsChecked = true;
                         break;
-
                     case "2":
                         cb2.IsChecked = true;
                         break;
-
                     case "3":
                         cb3.IsChecked = true;
                         break;
-
                     case "4":
                         cb4.IsChecked = true;
                         break;
@@ -207,8 +209,8 @@ namespace PopProject.Input
                 }
             }
 
-            if (Properties.Settings.Default.corp_name.Equals("오주포장")
-                || Properties.Settings.Default.corp_name.Equals("대양포장"))
+            //오주 또는 대양포장일때 PLC 선택 체크박스 보이도록함
+            if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("대양포장"))
             {
                 plcText.Visibility = Visibility.Visible;
                 plc.Visibility = Visibility.Visible;
@@ -220,74 +222,19 @@ namespace PopProject.Input
             }
         }
 
+        //드래그
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
         }
 
+        //닫기
         private void Exit(object sender, MouseButtonEventArgs e)
         {
             Close();
         }
 
-        // 작업 정보 설정
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-
-            List<string> list = new List<string>();
-            int count = 0;
-
-            foreach (CheckBox cbx in str.Children.OfType<CheckBox>())
-            {
-                if (cbx.IsChecked == true)
-                {
-                    count++;
-                    if (count < 4)
-                    {
-                        list.Add(cbx.Content.ToString());
-                    }
-                }
-
-                else
-                {
-                    _ = list.Remove(cbx.Content.ToString());
-                }
-
-            }
-            foreach (CheckBox cbx in str1.Children.OfType<CheckBox>())
-            {
-                if (cbx.IsChecked == true)
-                {
-                    count++;
-                    if (count < 4)
-                    {
-                        list.Add(cbx.Content.ToString());
-                    }
-                }
-
-                else
-                {
-                    _ = list.Remove(cbx.Content.ToString());
-                }
-            }
-
-            if (count > 3)
-            {
-                CheckBox chb = (CheckBox)sender;
-                chb.IsChecked = false;
-            }
-            string settingValue = GetSettingValue(list);
-            if (settingValue.Length != 0)
-            {
-                settingValue = settingValue.Substring(0, settingValue.Length - 1);
-            }
-            Console.WriteLine("체크함 ->" + count);
-            Console.WriteLine("SettingValue : " + settingValue);
-            Properties.Settings.Default.searchCheck = !settingValue.Equals(Properties.Settings.Default.settingitem);
-            Properties.Settings.Default.settingitem = settingValue;
-            Properties.Settings.Default.Save();
-        }
-        //자재정보 설정
+        //마닐라,원단정보 체크
         private void CheckBox_Checked1(object sender, RoutedEventArgs e)
         {
             List<string> list = new List<string>();
@@ -310,14 +257,17 @@ namespace PopProject.Input
             {
                 settingValue = "";
             }
-            Properties.Settings.Default.searchCheck = !settingValue.Equals(Properties.Settings.Default.meterialinfo);
+            Properties.Settings.Default.searchCheck = !settingValue.Equals(Properties.Settings.Default.meterialinfo); //저장값이 변경되어있으면
             Properties.Settings.Default.meterialinfo = settingValue;
             Properties.Settings.Default.Save();
         }
-        // 출력 정보 설정
+
+        // 자재명세서 출력 정보 설정 체크시
         private void Setting_print(object sender, RoutedEventArgs e)
         {
             List<string> list = new List<string>();
+
+            //왼쪽
             foreach (CheckBox cbx in str3.Children.OfType<CheckBox>())
             {
                 if (cbx.IsChecked == true)
@@ -326,6 +276,7 @@ namespace PopProject.Input
                 }
             }
 
+            //오른쪽
             foreach (CheckBox cbx in str4.Children.OfType<CheckBox>())
             {
                 if (cbx.IsChecked == true)
@@ -336,15 +287,16 @@ namespace PopProject.Input
 
             string printItem = GetPringItem(list);
 
+            //명세서 출력정보 체크값 있을시 담고 저장
             if (printItem.Length != 0)
             {
                 printItem = printItem.Substring(0, printItem.Length - 1);
             }
-
             Properties.Settings.Default.printItem = printItem;
             Properties.Settings.Default.Save();
         }
 
+        //자재명세서 출력 정보 체크값 저장
         private string GetPringItem(List<string> list)
         {
             string settindValue = "";
@@ -408,11 +360,67 @@ namespace PopProject.Input
             return settindValue;
         }
 
-
-        // 작업정보 설정
-        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        // 기본설정1 작업 정보 설정 체크
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
 
+            List<string> list = new List<string>();
+            int count = 0;
+
+            foreach (CheckBox cbx in str.Children.OfType<CheckBox>())
+            {
+                if (cbx.IsChecked == true)
+                {
+                    count++;
+                    if (count < 4)
+                    {
+                        list.Add(cbx.Content.ToString());
+                    }
+                }
+
+                else
+                {
+                    _ = list.Remove(cbx.Content.ToString());
+                }
+
+            }
+            foreach (CheckBox cbx in str1.Children.OfType<CheckBox>())
+            {
+                if (cbx.IsChecked == true)
+                {
+                    count++;
+                    if (count < 4)
+                    {
+                        list.Add(cbx.Content.ToString());
+                    }
+                }
+
+                else
+                {
+                    _ = list.Remove(cbx.Content.ToString());
+                }
+            }
+
+            if (count > 3)
+            {
+                CheckBox chb = (CheckBox)sender;
+                chb.IsChecked = false;
+            }
+            string settingValue = GetSettingValue(list);
+            if (settingValue.Length != 0)
+            {
+                settingValue = settingValue.Substring(0, settingValue.Length - 1);
+            }
+            Console.WriteLine("체크함 ->" + count);
+            Console.WriteLine("SettingValue : " + settingValue);
+            Properties.Settings.Default.searchCheck = !settingValue.Equals(Properties.Settings.Default.settingitem);
+            Properties.Settings.Default.settingitem = settingValue;
+            Properties.Settings.Default.Save();
+        }
+
+        // 기본설정1 작업정보 설정 체크 해제
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
             List<string> list = new List<string>();
 
             foreach (CheckBox cbx in str.Children.OfType<CheckBox>())
@@ -446,6 +454,8 @@ namespace PopProject.Input
             Properties.Settings.Default.Save();
         }
 
+
+        //작업정보 설정 list에 담기
         private string GetSettingValue(List<string> list)
         {
             string settindValue = "";
@@ -457,58 +467,45 @@ namespace PopProject.Input
                     case "필름 NO":
                         setting = 1;
                         break;
-
                     case "코팅":
                         setting = 2;
                         break;
-
                     case "조판 NO":
                         setting = 3;
                         break;
-
                     case "조판 위치":
                         setting = 4;
                         break;
-
                     case "목형 NO":
                         setting = 5;
                         break;
-
                     case "목형 위치":
                         setting = 6;
                         break;
-
                     case "인쇄 색도":
                         setting = 7;
                         break;
-
                     case "접합 방법":
                         setting = 8;
                         break;
-
                     case "손잡이":
                         setting = 9;
                         break;
-
                     case "포장 매수":
                         setting = 10;
                         break;
-
                     case "포장 방법":
                         setting = 11;
                         break;
-
                     case "마닐라 정보":
                         setting = 12;
                         break;
-
                     case "원단 정보":
                         setting = 13;
                         break;
                     case "참고 사항":
                         setting = 14;
                         break;
-
                     case "공정별참고사항":
                         setting = 15;
                         break;
@@ -523,7 +520,7 @@ namespace PopProject.Input
                 }
 
                 settindValue = settindValue + setting + "|";
-                Console.WriteLine("list" + i + " :" + list[i].ToString());
+                Console.WriteLine("list" + i + " :" + list[i].ToString()); //선택된 리스트 확인용
             }
             return settindValue;
 
@@ -534,6 +531,7 @@ namespace PopProject.Input
             Close();
         }
 
+        //센서 딜레이
         private string GetSenserRate(string senser)
         {
             string str = "";
@@ -564,14 +562,15 @@ namespace PopProject.Input
                 default:
                     break;
             }
-
             return str;
         }
 
 
+        //창 닫을때 저장
         private void Window_Closed(object sender, EventArgs e)
         {
 
+            //게더링 COM넘버
             if (cb_1.SelectedItem != null)
             {
                 Properties.Settings.Default.SerialName = cb_1.SelectedItem.ToString();
@@ -579,6 +578,7 @@ namespace PopProject.Input
 
             }
 
+            //게더링 COM넘버 두번째꺼
             if (cb_12.SelectedItem != null)
             {
                 Properties.Settings.Default.SerialName1 = cb_12.SelectedItem.ToString();
@@ -586,14 +586,15 @@ namespace PopProject.Input
 
             }
 
+            //게더링 BaudRate
             if (cb_2.SelectedItem != null)
             {
                 Properties.Settings.Default.baudrate = int.Parse(cb_2.SelectedItem.ToString());
                 Properties.Settings.Default.Save();
             }
 
-
-            if (cb_3.SelectedItem != null)//
+            //센서 딜레이
+            if (cb_3.SelectedItem != null)
             {
                 switch (cb_3.Text)
                 {
@@ -621,19 +622,17 @@ namespace PopProject.Input
                     default:
                         break;
                 }
-
                 Properties.Settings.Default.Save();
-
             }
-
-
         }
 
+        //센서 딜레이 설정
         private void Cb_3_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
 
+        //상단,하단 정렬 버튼
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.RadioChecked = !radio1.IsChecked.Value;
@@ -641,6 +640,7 @@ namespace PopProject.Input
             Properties.Settings.Default.Save();
         }
 
+        //동시작업 
         private void SameCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.samework = samework.IsChecked.Value;
@@ -648,18 +648,21 @@ namespace PopProject.Input
             Properties.Settings.Default.Save();
         }
 
+        //인쇄색도 표현
         private void ColorCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.color_check = color_check.IsChecked.Value;
             Properties.Settings.Default.Save();
         }
 
+        //총수량 표현
         private void CountCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.count_check = count_check.IsChecked.Value;
             Properties.Settings.Default.Save();
         }
 
+        //상자수 사용
         private void BoxCountChecked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.boxCheck = boxCheck.IsChecked.Value;
@@ -667,18 +670,21 @@ namespace PopProject.Input
 
         }
 
+        //키인 사용
         private void KeyinChecked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.keyinCheck = keyinCheck.IsChecked.Value;
             Properties.Settings.Default.Save();
         }
 
+        //듀얼 모니터 상세화면 표현
         private void Detail_checked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.detail_check = detail_check.IsChecked.Value;
             Properties.Settings.Default.Save();
         }
 
+        //상자수 자동계산
         private void Optionchecked(object sender, RoutedEventArgs e)
         {
 
@@ -687,26 +693,28 @@ namespace PopProject.Input
 
         }
 
+        //이합설비
         private void TwoSumCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.twoSum = twoSum.IsChecked.Value;
             Properties.Settings.Default.Save();
         }
 
-        // 자재정보 설정
+        // 불량사유 화면
         private void PopErrorSearch()
         {
-
-            string[] error = Properties.Settings.Default.error.Split(',');
-            string[] error1 = Properties.Settings.Default.error1.Split(',');
+            string[] error = Properties.Settings.Default.error.Split(','); //공통
+            string[] error1 = Properties.Settings.Default.error1.Split(','); //설비
             List<string> errorlist = new List<string>();
             List<string> errorlist1 = new List<string>();
 
+            //공통
             for (int i = 0; i < error.Length; i++)
             {
                 errorlist.Add(error[i]);
             }
 
+            //설비
             for (int i = 0; i < error1.Length; i++)
             {
                 errorlist1.Add(error1[i]);
@@ -731,7 +739,7 @@ namespace PopProject.Input
                     ObservableCollection<Error_Model> ob1 = new ObservableCollection<Error_Model>();
                     foreach (JObject result in Data_Jarry)
                     {
-                        if (Properties.Settings.Default.processType != int.Parse(result["ProcessType"].ToString()))
+                        if (Properties.Settings.Default.processType != int.Parse(result["ProcessType"].ToString())) //공통
                         {
                             Error_Model model = new Error_Model()
                             {
@@ -742,7 +750,7 @@ namespace PopProject.Input
                             };
                             ob.Add(model);
                         }
-                        else
+                        else //설비
                         {
                             Error_Model model1 = new Error_Model()
                             {
@@ -754,6 +762,7 @@ namespace PopProject.Input
                             ob1.Add(model1);
                         }
 
+                        //공통
                         for(int i = 0; i < ob.Count; i++)
                         {
                             for(int j = 0; j < errorlist.Count; j++)
@@ -766,6 +775,7 @@ namespace PopProject.Input
                             }
                         }
 
+                        //설비
                         for (int i = 0; i < ob1.Count; i++)
                         {
                             for (int j = 0; j < errorlist1.Count; j++)
@@ -778,16 +788,11 @@ namespace PopProject.Input
                             }
                         }
 
-                        ic1.ItemsSource = ob1;
-                        ic.ItemsSource = ob;
-
+                        ic.ItemsSource = ob; //공통
+                        ic1.ItemsSource = ob1; //설비
                     }
-                    // inputModel.errorModel.memo = "";
-                    // errorOb = ob;
-                    // combo.ItemsSource = ob;
                 }
             }
-
             else
             {
                 MessageBox_Dialog msg = new MessageBox_Dialog("PopErrorSearch 조회 오류");
@@ -795,6 +800,7 @@ namespace PopProject.Input
             }
         }
 
+        //공통 스크롤뷰어 클릭
         private void ScrollViewer_PreviewMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = false;
@@ -804,12 +810,15 @@ namespace PopProject.Input
             _ = sv.CaptureMouse();
         }
 
+        //공통 스크롤뷰어 클릭
         private void Sv_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
             sv.ReleaseMouseCapture();
         }
 
+
+        //공통 스크롤뷰어 마우스 이동
         private void Sv_PreviewMouseMove(object sender, MouseEventArgs e)
         {
 
@@ -821,6 +830,7 @@ namespace PopProject.Input
             }
         }
 
+        //설비 스크롤뷰어 클릭
         private void ScrollViewer_PreviewMouseButtonDown1(object sender, MouseButtonEventArgs e)
         {
             e.Handled = false;
@@ -830,12 +840,14 @@ namespace PopProject.Input
             _ = sv.CaptureMouse();
         }
 
+        //설비 스크롤뷰어 클릭
         private void Sv_PreviewMouseLeftButtonUp1(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
             sv1.ReleaseMouseCapture();
         }
 
+        //설비 스크롤뷰어 마우스 이동
         private void Sv_PreviewMouseMove1(object sender, MouseEventArgs e)
         {
             e.Handled = true;
@@ -846,8 +858,7 @@ namespace PopProject.Input
             }
         }
 
-
-
+        //자재명세서 거래처
         private void AccountCheckBox_Checked(object sender, RoutedEventArgs e)
         {
 
@@ -855,21 +866,24 @@ namespace PopProject.Input
             Properties.Settings.Default.Save();
         }
 
+        //자재명세서 생산처
         private void ProductionCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.productionCheck = production_check.IsChecked.Value;
             Properties.Settings.Default.Save();
         }
 
+        //스크롤바 사용
         private void scrollvar_Checked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.scrollvarCheck = scrollvar_Check.IsChecked.Value;
             Properties.Settings.Default.Save();
         }
 
+        //공통 불량사유 체크박스
         private void Checked_checkbox(object sender, MouseButtonEventArgs e)
         {
-            if((sender as CheckBox).IsChecked == true)
+            if((sender as CheckBox).IsChecked == true) //체크해제 
             {
                 string errorValue = "";
                 string[] error = Properties.Settings.Default.error.Split(',');
@@ -882,7 +896,6 @@ namespace PopProject.Input
                     {
                         errorlist.Remove(errorlist[i]);
                     }
-
                     else
                     {
                         errorValue = "";
@@ -893,15 +906,12 @@ namespace PopProject.Input
                             {
                                 errorValue += errorlist[j];
                             }
-
                             else
                             {
                                 errorValue += "," + errorlist[j];
                             }
-
                         }
                     }
-
                 }
                 (sender as CheckBox).IsChecked = false;
                 Properties.Settings.Default.error = "";
@@ -909,16 +919,13 @@ namespace PopProject.Input
                 Properties.Settings.Default.Save();
                 Console.WriteLine("체크해제 :" + Properties.Settings.Default.error);
             }
-
-            else
+            else //체크
             {
-
                 (sender as CheckBox).IsChecked = true;
                 if (Properties.Settings.Default.error.Length == 0)
                 {
                     Properties.Settings.Default.error = (sender as CheckBox).Content.ToString();
                 }
-
                 else
                 {
                     Properties.Settings.Default.error += "," + (sender as CheckBox).Content.ToString();
@@ -929,9 +936,10 @@ namespace PopProject.Input
             
         }
 
+        //설비 불량사유 체크박스
         private void Checked_checkbox1(object sender, MouseButtonEventArgs e)
         {
-            if ((sender as CheckBox).IsChecked == true)
+            if ((sender as CheckBox).IsChecked == true) //체크해제
             {
                 string errorValue = "";
                 string[] error = Properties.Settings.Default.error1.Split(',');
@@ -939,6 +947,7 @@ namespace PopProject.Input
                 for (int i = 0; i < error.Length; i++)
                 {
                     errorlist.Add(error[i]);
+
                     if (error[i].Equals((sender as CheckBox).Content))
                     {
                         errorlist.Remove(errorlist[i]);
@@ -957,10 +966,8 @@ namespace PopProject.Input
                             {
                                 errorValue += "," + errorlist[j];
                             }
-
                         }
                     }
-
                 }
                 (sender as CheckBox).IsChecked = false;
                 Properties.Settings.Default.error1 = "";
@@ -968,7 +975,7 @@ namespace PopProject.Input
                 Properties.Settings.Default.Save();
                 Console.WriteLine("체크해제 :" + Properties.Settings.Default.error1);
             }
-            else
+            else //체크
             {
 
                 (sender as CheckBox).IsChecked = true;
@@ -984,18 +991,22 @@ namespace PopProject.Input
                 Console.WriteLine("체크 :" + Properties.Settings.Default.error1);
             }
         }
+
+        //PLC사용
         private void PlcCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.Plc = plc.IsChecked.Value;
             Properties.Settings.Default.Save();
         }
 
+        //완료항목 제거
         private void completeValue_checked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.completeValue_checked = completeValue.IsChecked.Value;
             Properties.Settings.Default.Save();
         }
 
+        //설정값 업로드 버튼 (DB저장)
         private void upload_setting(object sender, MouseButtonEventArgs e)
         {
             string macAddress = NetworkInterface.GetAllNetworkInterfaces().Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
@@ -1007,12 +1018,12 @@ namespace PopProject.Input
                 "[Pop_machinfo_update]",
                 new string[] { "@설비명", "@작업정보", "@상자수", "@동시작업", "@이합설비", "@상자수계산", "@맥주소" },
                 new object[] {
-                    Properties.Settings.Default.mercName,
-                    Properties.Settings.Default.settingitem,
-                    Properties.Settings.Default.boxCheck,
-                    Properties.Settings.Default.samework,
-                    Properties.Settings.Default.twoSum,
-                    Properties.Settings.Default.option1,
+                    Properties.Settings.Default.mercName,    //설비명
+                    Properties.Settings.Default.settingitem, //자재정보
+                    Properties.Settings.Default.boxCheck,    //상자수 사용
+                    Properties.Settings.Default.samework,    //동시작업
+                    Properties.Settings.Default.twoSum,      //이합설비
+                    Properties.Settings.Default.option1,     //상자수 자동계산
                     macAddress
                 },
                 1
@@ -1030,6 +1041,7 @@ namespace PopProject.Input
             }
         }
 
+        //설정값 로드 버튼 (DB불러오기)
         private void load_setting(object sender, MouseButtonEventArgs e)
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -1064,6 +1076,7 @@ namespace PopProject.Input
             }
         }
 
+        //로봇사용 
         private void robotChecked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.robotchecked = robotcheck.IsChecked.Value;

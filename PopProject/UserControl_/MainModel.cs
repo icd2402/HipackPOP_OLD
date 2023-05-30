@@ -606,6 +606,7 @@ namespace PopProject.UserControl_
                 onPropertyChanged("orderKey");
             }
         }
+
         private String _ProcessTypeName;
         public String ProcessTypeName
         {

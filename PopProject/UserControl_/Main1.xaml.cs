@@ -1346,6 +1346,7 @@ namespace PopProject.UserControl_
 
             Environment.Exit(0);
         }
+
         private void invokeMercName(string mercName, string v)
         {
 

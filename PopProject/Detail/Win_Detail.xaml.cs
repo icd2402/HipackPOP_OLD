@@ -16,6 +16,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using PopProject.KeyBoard;
+using PopProject.input;
+
 
 namespace PopProject.Detail
 {
@@ -39,10 +42,13 @@ namespace PopProject.Detail
         private bool consumcheck;
         private ConsumerModel consumerModel;
         private bool v;
+        private Win_KeyBoard win_KeyBoard;
+
 
         public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v)
         {
             InitializeComponent();
+
             this.mainModel = mainModel;
             monitorcheck = v;
             this.workList = workList;
@@ -64,9 +70,9 @@ namespace PopProject.Detail
             Pass_detail.Visibility = Properties.Settings.Default.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
             robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
             wharehouse.Visibility = Properties.Settings.Default.corp_name.Equals("두성포장테스트") || Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Contains("혜성") || Properties.Settings.Default.corp_name.Contains("지온") ? Visibility.Visible : Visibility.Collapsed;
-            MetrialBj(); 
-            MetrialIG();
-            PopSearchPhoto();
+            DetailSearch(); //세부정보 조회 (왼쪽화면)
+            MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
+            PopSearchPhoto(); //인쇄사양
 
             if (Properties.Settings.Default.robotchecked && Properties.Settings.Default.corp_name.Equals("오주포장"))
             {
@@ -93,22 +99,22 @@ namespace PopProject.Detail
             pSize.Text = mainModel.pSize;
             Pass_detail.Visibility = Properties.Settings.Default.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
             robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
-           
-            MetrialBj();
-            MetrialIG();
-            PopSearchPhoto();
+
+            DetailSearch(); //세부정보 조회 (왼쪽화면)
+            MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
+            PopSearchPhoto(); //인쇄사양
 
         }
 
         public Win_Detail(MainModel mainModel, string special, ConsumerModel consumerModel, bool detail_check, bool v)
         {
             InitializeComponent();
+
             this.mainModel = mainModel;
             this.special = special;
             this.consumerModel = consumerModel;
             this.detail_check = detail_check;
             this.v = v;
-
 
             customSname.Text = mainModel.customSName;
             boxType.Text = "형  태 : " + mainModel.boxType;
@@ -122,9 +128,10 @@ namespace PopProject.Detail
             Pass_detail.Visibility = Properties.Settings.Default.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
             robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
             consumcheck = v;
-            MetrialBj();
-            MetrialIG();
-            PopSearchPhoto();
+
+            DetailSearch(); //세부정보 조회 (왼쪽화면)
+            MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
+            PopSearchPhoto(); //인쇄사양
 
         }
 
@@ -265,17 +272,13 @@ namespace PopProject.Detail
                                 mainSock.BeginReceive(obj.Buffer, 0, obj.BufferSize, 0, DataReceived1, obj);
                                 break;
                         }
-
                     }
-
-
                 }
-
                 return success;
             }
-
-            
         }
+
+        //오주 로봇통신
         private void DataSend(string bOX_W, string bOX_H, string bOX_D, string bOX_DADAN, string bOX_DANSU, string bOX_PAT, string pALLET_W, string pALLET_H, string pALLET_D)
         {
             MessageBox_Dialog msg;
@@ -284,15 +287,15 @@ namespace PopProject.Detail
                 try
                 {
                     List<int> items = new List<int>();
-                    items.Add(int.Parse(bOX_W));//박스가로
-                    items.Add(int.Parse(bOX_H));//박스세로 
-                    items.Add(int.Parse(bOX_D));// 박스높이
-                    items.Add(int.Parse(bOX_DADAN));// 다단
-                    items.Add(int.Parse(bOX_DANSU));// 단수
-                    items.Add(int.Parse(bOX_PAT));//패턴
-                    items.Add(int.Parse(pALLET_W));//파렛트가로
-                    items.Add(int.Parse(pALLET_H));//파렛트세로
-                    items.Add(int.Parse(pALLET_D));//파렛트높이
+                    items.Add(int.Parse(bOX_W));     //박스가로
+                    items.Add(int.Parse(bOX_H));     //박스세로 
+                    items.Add(int.Parse(bOX_D));     //박스높이
+                    items.Add(int.Parse(bOX_DADAN)); //다단
+                    items.Add(int.Parse(bOX_DANSU)); //단수
+                    items.Add(int.Parse(bOX_PAT));   //패턴
+                    items.Add(int.Parse(pALLET_W));  //파렛트가로
+                    items.Add(int.Parse(pALLET_H));  //파렛트세로
+                    items.Add(int.Parse(pALLET_D));  //파렛트높이
 
                     int WriteCount = items.Count() * 2;
                     byte[] bDts = wd.continuous_Write("%DB1200", WriteCount, items);
@@ -307,35 +310,15 @@ namespace PopProject.Detail
                    // msg = new MessageBox_Dialog("전송되었습니다.");
                    // msg.Show();
                 }
-
                 catch (Exception)
                 {
                     msg = new MessageBox_Dialog("재시도 해주세요.");
-
                     msg.Show();
                 }
-
                 finally
                 {
                     mainSock.Close();
                 }
-                //if (WriteData6.Text.ToString().Equals("0"))
-                //{
-                //    Thread.Sleep(1000);
-                //    if (ConnectSocket("P"))
-                //    {
-                //        byte[] bDts = wd.Byte_continuous_Read("D", "312", 2);
-                //        string Send_Data = string.Empty;
-                //        for (int i = 0; i < bDts.Length; i++)
-                //        {
-                //            Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
-                //        }
-                //        Console.WriteLine(Send_Data);
-
-                //        patSock.Send(bDts);
-                //    }
-
-                //}
             }
             else
             {
@@ -343,13 +326,11 @@ namespace PopProject.Detail
                 msg = new MessageBox_Dialog("Plc 연결 불가");
                 msg.ShowDialog();
             }
-
         }
 
         //인쇄사양 출력
         private void PopSearchPhoto()
         {
-
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
             Properties.Settings.Default.serverIndex,
@@ -387,7 +368,6 @@ namespace PopProject.Detail
                         bitmap.EndInit();
                         pic.Source = bitmap;
                     }
-
                     else
                     {
                         tbNoCount.Visibility = Visibility.Visible;
@@ -396,7 +376,6 @@ namespace PopProject.Detail
                     }
                 }
             }
-
             else
             {
                 tbNoCount.Visibility = Visibility.Visible;
@@ -407,9 +386,167 @@ namespace PopProject.Detail
             }
         }
 
-        //원단 입고 내역 출력
+        
+        //원단입고 내역, 원단발주 내역
         private void MetrialIG()
         {
+            string scmServerIndex = ""; //업체 인덱스
+            string scmDBName = ""; //접속정보(DB명)
+
+            ObservableCollection<IgSmModel> ob = new ObservableCollection<IgSmModel>();
+
+            //거래처로 ServerIndex,DB명(접속정보)임시로 변경
+            if (Detailitem.SCMorderKey > 0)
+            {
+                switch (mainModel.customSName)
+                {
+                    case "신우수출포장":
+                    case "신우포장":
+                        scmServerIndex = "swbox";
+                        scmDBName = "A07E67034";
+                        break;
+                    case "누리팩":
+                        scmServerIndex = "nrbox";
+                        scmDBName = "A07E265671";
+                        break;
+                    case "우리포장산업":
+                    case "우리포장":
+                        scmServerIndex = "wrbox";
+                        scmDBName = "A07E144572";
+                        break;
+                    case "채움팩":
+                        scmServerIndex = "cwbox";
+                        scmDBName = "3ED73331";
+                        break;
+                    case "유램":
+                        scmServerIndex = "nrbox";
+                        scmDBName = "1461E3757";
+                        break;
+                    case "지온":
+                        scmServerIndex = "jobox";
+                        scmDBName = "13C554403";
+                        break;
+
+                    default:
+                        break;
+                }
+
+                //테스트
+                if (Properties.Settings.Default.corp_id.ToUpper().Contains("ICDTEST"))
+                {
+                    switch (mainModel.customSName)
+                    {
+                        case "신우수출포장":
+                        case "신우포장":
+                            scmDBName = "icdtest9";
+                            break;
+                        case "누리팩":
+                            scmDBName = "icdtest10";
+                            break;
+                        case "우리포장산업":
+                        case "우리포장":
+                            scmDBName = "icdtest11";
+                            break;
+                        case "채움팩":
+                            scmDBName = "icdtest11";
+                            break;
+                        case "유램":
+                            scmDBName = "icdtest10";
+                            break;
+                        case "지온":
+                            scmDBName = "icdtest16";
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+
+                ServiceModel.ServiceModelClean(scmServerIndex, scmDBName);
+                ReturnModel returnDataSCM가입고 = ServiceModel.GetData(
+                    scmServerIndex,
+                    "[PopBJSearch]",
+                    new string[] { "@orderKey" },
+                    new object[] { Detailitem.SCMorderKey },
+                    0
+                    );
+                if (returnDataSCM가입고.결과 == 1)
+                {
+                    JArray Data_JArray = JArray.Parse(returnDataSCM가입고.리턴값);
+                    if (Data_JArray != null)
+                    {
+                        foreach (JObject result in Data_JArray)
+                        {
+                            IgSmModel listitem = new IgSmModel();
+                            listitem.metrialBJKey = int.Parse(result["metrialBJKey"].ToString());                //원단발주키
+                            listitem.wdjs = (result["Wdjs"] != null) ? int.Parse(result["Wdjs"].ToString()) : 1; //원단절수
+                            listitem.SubscriptionBJCount = int.Parse(result["SubscriptionBJCount"].ToString());  //가입고수량
+                            listitem.GigText = listitem.SubscriptionBJCount == 0 ? "가입고" : listitem.SubscriptionBJCount.ToString();  //가입고 버튼 텍스트
+
+                            listitem.BtVisibility = "Visible";             //가입고 버튼
+                            listitem.SubscriptionBJCount *= listitem.wdjs; //가입고 수량에 절수 곱함
+
+                            listitem.SCMServerIndex = scmServerIndex;
+                            listitem.SCMDBName = scmDBName;
+
+
+                            ob.Add(listitem);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox_Dialog msg = new MessageBox_Dialog("PopBJSearch 오류 발생 !!");
+                        _ = msg.ShowDialog();
+                    }
+                }
+            }
+
+            /////////////////////////////////////////////////////////////////////발주/////////////////////////////////////////////////////////////////////////
+            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ReturnModel returnData가입고 = ServiceModel.GetData(
+                Properties.Settings.Default.serverIndex,
+                "[PopBJSearch]",
+                new string[] { "@orderKey" },
+                new object[] { mainModel.orderKey },
+                0
+                );
+            if (returnData가입고.결과 == 1)
+            {
+                JArray Data_JArray = JArray.Parse(returnData가입고.리턴값);
+                if (Data_JArray != null)
+                {
+                    foreach (JObject result in Data_JArray)
+                    {
+                        IgSmModel listitem = new IgSmModel();
+                        listitem.metDate = DateTime.Parse(result["metBJDate"].ToString());                   //발주일자
+                        listitem.customSName = result["customSName"].ToString();                             //거래처명
+                        listitem.metrialName = result["metrialName"].ToString();                             //자재명
+                        listitem.metBJCount = float.Parse(result["metBJCount"].ToString());                  //발주수량
+                        listitem.wdjs = (result["Wdjs"] != null) ? int.Parse(result["Wdjs"].ToString()) : 1; //원단절수
+                        listitem.metBJLast = DateTime.Parse(result["metBJLast"].ToString());                 //납기일
+                        listitem.SubscriptionBJCount = int.Parse(result["SubscriptionBJCount"].ToString());  //가입고수량
+                        listitem.metrialBJKey = int.Parse(result["metrialBJKey"].ToString());                //원단발주키
+
+                        listitem.paperGor = (result["paperGor"] != null) ? result["paperGor"].ToString() : "";                      //골재질
+                        listitem.metCount = (result["metBJCount"] != null) ? int.Parse(result["metBJCount"].ToString()) : 0;        //입고수량
+                        listitem.GigText = listitem.SubscriptionBJCount == 0 ? "가입고" : listitem.SubscriptionBJCount.ToString();  //가입고 버튼 텍스트
+
+                        listitem.BtVisibility = "Visible";             //가입고 버튼
+                        listitem.metCount *= listitem.wdjs;            //발주 수량에 절수 곱함
+                        listitem.SubscriptionBJCount *= listitem.wdjs; //가입고 수량에 절수 곱함
+                        listitem.fontColor = Brushes.ForestGreen;
+                        listitem.metCountString = listitem.metCount.ToString();
+
+                        ob.Add(listitem);
+                    }
+                }
+                else
+                {
+                    MessageBox_Dialog msg = new MessageBox_Dialog("PopBJSearch 오류 발생 !!");
+                    _ = msg.ShowDialog();
+                }
+            }
+            //////////////////////////////////////////////////////////////////////////입고/////////////////////////////////////////////////////////////////////
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
                 Properties.Settings.Default.serverIndex,
@@ -423,7 +560,6 @@ namespace PopProject.Detail
                 JArray Data_JArray = JArray.Parse(returnData.리턴값);
                 if (Data_JArray != null)
                 {
-                    ObservableCollection<IgSmModel> ob = new ObservableCollection<IgSmModel>();
                     float wdCount = 0;
                     float scCount = 0;
 
@@ -431,48 +567,48 @@ namespace PopProject.Detail
                     {
                         IgSmModel listitem = new IgSmModel
                         {
-                            metDate = DateTime.Parse(result["metIGDate"].ToString()),
-                            metType = int.Parse(result["metType"].ToString()),
-                            metCount = float.Parse(result["metIGCount"].ToString()),
-                            customSName = result["customSName"].ToString(),
-                            metrialName = result["metrialName"].ToString(),
-                            //metBJLast = DateTime.Parse(result["metBJLast"].ToString()),
+                            metDate = DateTime.Parse(result["metIGDate"].ToString()),   //발주일자
+                            metType = int.Parse(result["metType"].ToString()),          //자재구분
+                            metCount = float.Parse(result["metIGCount"].ToString()),    //입고수량
+                            customSName = result["customSName"].ToString(),             //거래처명
+                            metrialName = result["metrialName"].ToString(),             //자재명
+                            wdjs = int.Parse(result["WdJS"].ToString()),                //원단절수
+                            //metBJLast = DateTime.Parse(result["metBJLast"].ToString()), //납기일
                             fontColor = Brushes.ForestGreen,
-                            wdjs = int.Parse(result["WdJS"].ToString()),
-                            //metPreCount = float.Parse(result["metIGCount"].ToString()),
-
                         };
 
                         listitem.metCount *= listitem.wdjs;
                         listitem.metCountString = listitem.metCount.ToString();
                         listitem.metPreCount *= listitem.wdjs;
                         listitem.metPreCountString = listitem.metPreCount.ToString();
-                        
+
                         if (listitem.metType == 0)
                         {
                             wdCount += listitem.metCount;
                         }
-
                         else
                         {
                             scCount += listitem.metCount;
+                        }
+
+                        //실입고 수량 확인 후 가입고 버튼 생성
+                        if (listitem.metCount == 0)
+                        {
+                            listitem.BtVisibility = "Visible";
+                            listitem.GigText = "가입고";
+                        }
+                        else //실입고 수량 있으면
+                        {
+                            listitem.BtVisibility = "Collapsed";
                         }
 
                         ob.Add(listitem);
                         tbWdCount.Text = wdCount + "";
                         tbScCount.Text = scCount + "";
                     }
-                    //if (ob.Count != 0)
-                    //{
-                    MetrialSM(ob);
-                    //}
-                    //else
-                    //{
-                    //    //PopBJSearch();
-                    //}
 
+                    MetrialSM(ob); //소모내역 조회
                 }
-
                 else
                 {
                     MessageBox_Dialog msg = new MessageBox_Dialog("PopIGSearch 오류 발생 !!");
@@ -481,71 +617,7 @@ namespace PopProject.Detail
             }
         }
 
-        private void PopBJSearch()
-        {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
-            ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
-                "[PopBJSearch]",
-                new string[] { "@orderKey" },
-                new object[] { mainModel.orderKey },
-                0
-                );
-            if (returnData.결과 == 1)
-            {
-                JArray Data_JArray = JArray.Parse(returnData.리턴값);
-                if (Data_JArray != null)
-                {
-                    ObservableCollection<IgSmModel> ob = new ObservableCollection<IgSmModel>();
-                    float wdCount = 0;
-                    float scCount = 0;
-                    IgSmModel listitem = new IgSmModel();
-                    foreach (JObject result in Data_JArray)
-                    {
-
-                        listitem.customSName = result["customSName"].ToString();
-                        listitem.paperGor = result["customSName"].ToString();
-                        listitem.metCount = float.Parse(result["metBJCount"].ToString());
-                        listitem.metDate = DateTime.Parse(result["metBJDate"].ToString());
-                        // listitem.metBJLast = DateTime.Parse(result["metBJLast"].ToString());
-                        // listitem.metPreCount = float.Parse(result["metPreCount"].ToString());
-                        listitem.metrialName = result["metrialName"].ToString();
-                        if (result["WdJS"] != null)
-                        {
-                            listitem.wdjs = int.Parse(result["WdJS"].ToString());
-                        }
-                        else
-                        {
-                            listitem.wdjs = 1;
-                        }
-
-                        listitem.metCount *= listitem.wdjs;
-                        listitem.metPreCount *= listitem.wdjs;
-                        listitem.fontColor = Brushes.ForestGreen;
-                    }
-                    listitem.metCountString = listitem.metCount.ToString();
-                    if (listitem.metPreCount == 0)
-                    {
-                        // listitem.metPreCountString = "[가입고]";
-                        listitem.metPreCountString = "0";
-                    }
-                    else
-                    {
-                        listitem.metPreCountString = "[" + listitem.metPreCount + "]";
-                    }
-                    ob.Add(listitem);
-                    ic.ItemsSource = ob;
-                }
-
-                else
-                {
-                    MessageBox_Dialog msg = new MessageBox_Dialog("PopIGSearch 오류 발생 !!");
-                    _ = msg.ShowDialog();
-                }
-            }
-        }
-
-        //원단 소모내역 조회
+        //원단 소모내역 조회 (자재상태창)
         private void MetrialSM(ObservableCollection<IgSmModel> ob)
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -567,10 +639,10 @@ namespace PopProject.Detail
                     {
                         IgSmModel listitem = new IgSmModel
                         {
-                            metDate = DateTime.Parse(result["metSMDate"].ToString()),
-                            metBJLast = DateTime.Parse(result["metSMDate"].ToString()),
-                            metType = int.Parse(result["metType"].ToString()),
-                            metCount = float.Parse(result["metSMCount"].ToString())
+                            metDate = DateTime.Parse(result["metSMDate"].ToString()),    //발주일자
+                            metBJLast = DateTime.Parse(result["metSMDate"].ToString()),  //납기일
+                            metType = int.Parse(result["metType"].ToString()),           //자재구분
+                            metCount = float.Parse(result["metSMCount"].ToString())      //소모수량
                         };
                         listitem.metCount = -listitem.metCount;
                         listitem.metCountString = "";
@@ -578,6 +650,7 @@ namespace PopProject.Detail
                         listitem.fontColor = Brushes.Red;
                         listitem.metrialName = result["metrialName"].ToString();
                         listitem.metCount = float.Parse(result["metSMCount"].ToString());
+
                         if (listitem.metType == 0)
                         {
                             wdCount += listitem.metCount;
@@ -586,6 +659,19 @@ namespace PopProject.Detail
                         {
                             scCount += listitem.metCount;
                         }
+
+                        //실입고 수량 확인 후 가입고 버튼 생성
+                        if (listitem.metCount == 0)
+                        {
+                            listitem.BtVisibility = "Visible";
+                            listitem.GigText = "가입고";
+                        }
+                        else //실입고 수량 있으면
+                        {
+                            listitem.BtVisibility = "Collapsed";
+                        }
+
+
                         ob.Add(listitem);
                     }
 
@@ -594,10 +680,8 @@ namespace PopProject.Detail
                     tbScCount.Text = (float.Parse(tbScCount.Text) + scCount).ToString();
                     tbScCount.Foreground = float.Parse(tbScCount.Text) >= 0 ? Brushes.ForestGreen : Brushes.Red;
                     ic.ItemsSource = ob;
-
                 }
             }
-
             else
             {
                 MessageBox_Dialog msg = new MessageBox_Dialog("PopSMSearch 조회 오류!!");
@@ -613,8 +697,8 @@ namespace PopProject.Detail
             return str;
         }
 
-        //원단 발주리스트 출력
-        private void MetrialBj()
+        //세부정보 조회 (왼쪽화면)
+        private void DetailSearch() 
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
@@ -634,33 +718,34 @@ namespace PopProject.Detail
                     {
                         Detailitem = new DetailModel
                         {
-                            metrialName = result["metrialName"].ToString(),
-                            metType = int.Parse(result["metType"].ToString()),
-                            mL = int.Parse(result["mL"].ToString()),
-                            mW = int.Parse(result["mW"].ToString()),
-                            orderKey = int.Parse(result["orderKey"].ToString()),
-                            PrintNo = result["PrintNo"].ToString(),
-                            Printposition = result["Printposition"].ToString(),
-                            ColorType = ExtractKorean(result["ColorType"].ToString().Replace("|", "")),
-                            CoatingType = result["CoatingType"].ToString(),
-                            PushingNo = result["PushingNo"].ToString(),
-                            Pushingposition = result["Pushingposition"].ToString(),
-                            ConnetingType = result["ConnetingType"].ToString(),
-                            PackCount = int.Parse(result["PackCount"].ToString()),
-                            PackType = result["PackType"].ToString(),
-                            loadposition = result["loadposition"].ToString(),
-                            filmNo = result["filmNo"].ToString(),
-                            handChk = result["handChk"].ToString(),
-                            jobMemo = result["orderJobMemo"].ToString(),
-                            WDSize = result["WDSize"] != null ? result["WDSize"].ToString() : "",
-                            WDScore = result["WDScore"] != null ? result["WDScore"].ToString() : "",
-                            DesignNO = result["DesignNO"] != null ? result["DesignNO"].ToString() : "",
-                            HandPosition = result["HandPosition"] != null ? result["HandPosition"].ToString() : "",
-                            LoadHeight = result["LoadHeight"] != null ? result["LoadHeight"].ToString() : "",
-                            LoadType = result["LoadType"] != null ? result["LoadType"].ToString() : "",
-                            PalletType = result["PalletType"] != null ? result["PalletType"].ToString() : "",
-                            PalletSize = result["PalletSize"] != null ? result["PalletSize"].ToString() : "",
-                            vendorName = result["vendorName"].ToString()
+                            metrialName = result["metrialName"].ToString(),    //자재명
+                            metType = int.Parse(result["metType"].ToString()), //자재구분
+                            mL = int.Parse(result["mL"].ToString()), //장
+                            mW = int.Parse(result["mW"].ToString()), //폭
+                            orderKey = int.Parse(result["orderKey"].ToString()), //수주키
+                            PrintNo = result["PrintNo"].ToString(), //조판번호
+                            Printposition = result["Printposition"].ToString(), //조판위치
+                            ColorType = ExtractKorean(result["ColorType"].ToString().Replace("|", "")), //인쇄색도
+                            CoatingType = result["CoatingType"].ToString(), //코팅방법
+                            PushingNo = result["PushingNo"].ToString(), //목형번호
+                            Pushingposition = result["Pushingposition"].ToString(),//목형위치
+                            ConnetingType = result["ConnetingType"].ToString(), //접합방법
+                            PackCount = int.Parse(result["PackCount"].ToString()), //포장매수
+                            PackType = result["PackType"].ToString(), //포장방법
+                            loadposition = result["loadposition"].ToString(), //적재위치
+                            filmNo = result["filmNo"].ToString(), //필름넘버
+                            handChk = result["handChk"].ToString(), //손잡이사용
+                            jobMemo = result["orderJobMemo"].ToString(), //
+                            WDSize = result["WDSize"] != null ? result["WDSize"].ToString() : "", //원단규격
+                            WDScore = result["WDScore"] != null ? result["WDScore"].ToString() : "", //스코아
+                            DesignNO = result["DesignNO"] != null ? result["DesignNO"].ToString() : "", //디자인No
+                            HandPosition = result["HandPosition"] != null ? result["HandPosition"].ToString() : "", //손잡이위치
+                            LoadHeight = result["LoadHeight"] != null ? result["LoadHeight"].ToString() : "", //적재단수
+                            LoadType = result["LoadType"] != null ? result["LoadType"].ToString() : "", //적재방법
+                            PalletType = result["PalletType"] != null ? result["PalletType"].ToString() : "", //파렛트 종류
+                            PalletSize = result["PalletSize"] != null ? result["PalletSize"].ToString() : "", //파렛트 규격
+                            vendorName = result["vendorName"].ToString(), //납품처명
+                            SCMorderKey = int.Parse(result["SCMorderKey"].ToString()) //SCM오더키
 
                         };
 
@@ -688,9 +773,11 @@ namespace PopProject.Detail
 
                             }
                         }
-                        Detailitem.ColorType = Detailitem.ColorType.Replace("|", "");
+                        Detailitem.ColorType = Detailitem.ColorType.Replace("|", ""); //인쇄색도
                         Detailitem.SpecialMemo = result["SpecialMemo"].ToString();
 
+
+                        //메모
                         if (result["prodMemo"] != null)
                         {
                             tb공정별.Text = tb공정별.Text.ToString() + "\n" + "메  모 : " + result["prodMemo"].ToString();
@@ -698,34 +785,34 @@ namespace PopProject.Detail
 
                         int count = 17;
 
+                        //파렛트 사이즈
                         if (Detailitem.PalletSize.Equals(""))
                         {
                             //파렛트규격.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb파렛트규격.Text = Detailitem.PalletSize;
                         }
 
+                        //파렛트 종류
                         if (Detailitem.PalletType.Equals(""))
                         {
                             // 파렛트종류.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb파렛트종류.Text = Detailitem.PalletType;
                         }
 
+                        //적재방법
                         if (Detailitem.LoadType.Equals(""))
                         {
                             //적재방법.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb적재방법.Text = Detailitem.LoadType;
@@ -787,7 +874,6 @@ namespace PopProject.Detail
                             //적재단수.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb적재단수.Text = Detailitem.LoadHeight;
@@ -798,7 +884,6 @@ namespace PopProject.Detail
                             //손잡이위치.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb손잡이위치.Text = Detailitem.HandPosition;
@@ -809,7 +894,6 @@ namespace PopProject.Detail
                             //디자인NO.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb디자인NO.Text = Detailitem.DesignNO;
@@ -821,7 +905,6 @@ namespace PopProject.Detail
                             //조판번호.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb조판번호.Text = Detailitem.PrintNo;
@@ -832,7 +915,6 @@ namespace PopProject.Detail
                             //조판위치.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb조판위치.Text = Detailitem.Printposition;
@@ -843,7 +925,6 @@ namespace PopProject.Detail
                             //인쇄색도.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb인쇄색도.Text = Detailitem.ColorType;
@@ -854,8 +935,6 @@ namespace PopProject.Detail
                             // 필름번호.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
-
                         else
                         {
                             tb필름번호.Text = Detailitem.filmNo;
@@ -867,7 +946,6 @@ namespace PopProject.Detail
                             코팅.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb코팅.Text = Detailitem.CoatingType;
@@ -878,7 +956,6 @@ namespace PopProject.Detail
                             목형번호.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb목형번호.Text = Detailitem.PushingNo;
@@ -889,7 +966,6 @@ namespace PopProject.Detail
                             목형위치.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb목형위치.Text = Detailitem.Pushingposition;
@@ -900,7 +976,6 @@ namespace PopProject.Detail
                             손잡이.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb손잡이.Text = Detailitem.handChk;
@@ -911,7 +986,6 @@ namespace PopProject.Detail
                             접합방법.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb접합방법.Text = Detailitem.ConnetingType;
@@ -933,7 +1007,6 @@ namespace PopProject.Detail
                             밴딩방법.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb밴딩방법.Text = Detailitem.PackType;
@@ -990,8 +1063,6 @@ namespace PopProject.Detail
         }
 
 
-
-
         // 상세 화면 종료
         private void Detail_close(object sender, MouseButtonEventArgs e)
         {
@@ -1010,10 +1081,8 @@ namespace PopProject.Detail
             {
                 this.Close();
             }
-            
-            
-            
         }
+
         private void LogWrite(string str)
         {
             string DirPath = Environment.CurrentDirectory + @"\Log";
@@ -1050,6 +1119,7 @@ namespace PopProject.Detail
             }
         }
 
+        //최근작업 클릭(디테일 리스트)
         private void Detail_List(object sender, MouseButtonEventArgs e)
         {
             can.Visibility = Visibility.Visible;
@@ -1063,13 +1133,11 @@ namespace PopProject.Detail
         {
             if (sender.GetType().Name.Equals("Image"))
             {
-
                 can.Visibility = Visibility.Visible;
                 Image img = (Image)sender;
                 Win_PictureView win_Picture = new Win_PictureView(img.Source);
                 _ = win_Picture.ShowDialog();
                 can.Visibility = Visibility.Collapsed;
-
             }
         }
 
@@ -1086,7 +1154,6 @@ namespace PopProject.Detail
                 SwPrintMessage swPrintMessage = new SwPrintMessage(mainModel, Detailitem);
                 swPrintMessage.ShowDialog();
             }
-
             else
             {
                 if (consumcheck)
@@ -1098,12 +1165,11 @@ namespace PopProject.Detail
                 {
                     PrintMessage printMessage = new PrintMessage(mainModel, Detailitem);
                     _ = printMessage.ShowDialog();
-
                 }
             }
-
         }
 
+        //시작 버튼
         private void Image_MouseLeftButtonDown_2(object sender, MouseButtonEventArgs e)
         {
             Close();
@@ -1148,7 +1214,6 @@ namespace PopProject.Detail
             {
                 clickCount = 0;
             }
-
             else
             {
                 clickCount += 1;
@@ -1175,10 +1240,13 @@ namespace PopProject.Detail
         {
 
         }
+
+        //디테일 창 로드시 듀얼 모니터인지 확인
         private void Detail_Loaded(object sender, RoutedEventArgs e)
         {
             if (monitorcheck)
             {
+                //듀얼모니터 이면
                 if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
                 {
                     System.Drawing.Rectangle rec;
@@ -1196,7 +1264,6 @@ namespace PopProject.Detail
                     WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     WindowState = WindowState.Normal;
                 }
-
                 else
                 {
                     WindowState = WindowState.Normal;
@@ -1208,32 +1275,24 @@ namespace PopProject.Detail
         private void Pass_detailInfo(object sender, MouseButtonEventArgs e)
         {
             Main.passCheck = false;
-            InvokeCount(Properties.Settings.Default.mercName, mainModel.orderKey.ToString() + "^@");
+            InvokeCount(Properties.Settings.Default.mercName, mainModel.orderKey.ToString() + "^@"); //설비명, 오더키, ^@
         }
 
         private void InvokeCount(string mercName, string v)
         {
-            //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
             SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
         }
 
-        private void Detail_closed(object sender, EventArgs e)
+        //로봇 세팅 버튼
+        private void robot_setting(object sender, MouseButtonEventArgs e)
         {
-            Main.passCheck = true;
-            pic.Source = null;
-        }
-
-        private void robot_setting(object sender, MouseButtonEventArgs e)//오주 로봇창
-        {
-
             if (Properties.Settings.Default.corp_name.Equals("오주포장"))
             {
                 Main.robot_Setting = new Robot_Setting(mainModel.prodID, mainModel.customSName, mainModel.prodName);
                 Main.robot_Setting.ShowDialog();
                 Main.robot_Setting = null;
             }
-
-            if (Properties.Settings.Default.corp_name.Equals("대세물산"))
+            else if(Properties.Settings.Default.corp_name.Equals("대세물산"))
             {
                 Main.robot_Setting2 = new Robot_Setting2(mainModel.prodID, mainModel.customSName, mainModel.prodName);
                 Main.robot_Setting2.ShowDialog();
@@ -1241,18 +1300,23 @@ namespace PopProject.Detail
             }
         }
 
-        private void robot_setting2(object sender, MouseButtonEventArgs e)//대세 로봇창
-        {
-            Main.robot_Setting2 = new Robot_Setting2(mainModel.prodID, mainModel.customSName, mainModel.prodName);
-            Main.robot_Setting2.ShowDialog();
-            Main.robot_Setting2 = null;
-        }
-
+        //박스적재 창고
         private void Wharehouse(object sender, MouseButtonEventArgs e)
         {
             Wharehouse_info wharehouse = new Wharehouse_info(mainModel,Detailitem.LocationName);
             wharehouse.ShowDialog();
-            MetrialBj();
+            DetailSearch();
+        }
+
+        //가입고 버튼 클릭
+        private void GIGButton_Click(object sender, RoutedEventArgs e)
+        {
+            IgSmModel item = ((Button)sender).DataContext as IgSmModel;
+
+            Win_GigUpdate win_GigUpdate = new Win_GigUpdate(item.metrialBJKey, item.SCMServerIndex, item.SCMDBName);
+            _ = win_GigUpdate.ShowDialog();
+
+            MetrialIG();
         }
     }
 }

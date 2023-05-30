@@ -116,9 +116,19 @@ namespace PopProject.Util
 
 
 
-        public static void ServiceModelClean(string serverIndex)
+        public static void ServiceModelClean(string serverIndex, string dbName = "")
         {
             Console.WriteLine("serverIndex : " + serverIndex);
+
+            if (string.IsNullOrEmpty(dbName))
+            {
+                접속정보[0] = Properties.Settings.Default.corp_id;
+            }
+            else
+            {
+                접속정보[0] = dbName;
+            }
+
             switch (serverIndex)
             {
                 case "hssbox":

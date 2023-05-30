@@ -201,7 +201,6 @@ namespace PopProject.Detail
             }
         }
 
-
         private int _orderKey;
         public int orderKey {
             get
@@ -213,6 +212,21 @@ namespace PopProject.Detail
             {
                 _orderKey = value;
                 onPropertyChanged("orderKey");
+            }
+        }
+
+        private int _SCMorderKey;
+        public int SCMorderKey
+        {
+            get
+            {
+                return _SCMorderKey;
+            }
+
+            set
+            {
+                _SCMorderKey = value;
+                onPropertyChanged("SCMorderKey");
             }
         }
 
@@ -401,8 +415,8 @@ namespace PopProject.Detail
 
     public class IgSmModel: ViewModelBase
     {
-        private string _metBJCount;
-        public string metBJCount
+        private float _metBJCount;
+        public float metBJCount
         {
             get
             {
@@ -539,6 +553,62 @@ namespace PopProject.Detail
         }
         //metPreCountString
 
+        private float _SubscriptionBJCount;
+        public float SubscriptionBJCount
+        {
+            get
+            {
+                return _SubscriptionBJCount;
+            }
+            set
+            {
+                _SubscriptionBJCount = value;
+                onPropertyChanged("SubscriptionBJCount");
+            }
+        }
+
+        private string _SubscriptionBJCountString;
+        public string SubscriptionBJCountString
+        {
+            get
+            {
+                return _SubscriptionBJCountString;
+            }
+            set
+            {
+                _SubscriptionBJCountString = value;
+                onPropertyChanged("SubscriptionBJCountString");
+            }
+        }
+
+        private string _GigText;
+        public string GigText
+        {
+            get
+            {
+                return _GigText;
+            }
+            set
+            {
+                _GigText = value;
+                onPropertyChanged("GigText");
+            }
+        }
+
+        private int _metrialBJKey;
+        public int metrialBJKey
+        {
+            get
+            {
+                return _metrialBJKey;
+            }
+            set
+            {
+                _metrialBJKey = value;
+                onPropertyChanged("metrialBJKey");
+            }
+        }
+
         private string _metPreCountString;
         public string metPreCountString
         {
@@ -552,6 +622,22 @@ namespace PopProject.Detail
             {
                 _metPreCountString = value;
                 onPropertyChanged("metPreCountString");
+            }
+        }
+
+        private string _BtVisibility;
+        public string BtVisibility
+        {
+
+            get
+            {
+                return _BtVisibility;
+            }
+
+            set
+            {
+                _BtVisibility = value;
+                onPropertyChanged("BtVisibility");
             }
         }
 
@@ -610,6 +696,38 @@ namespace PopProject.Detail
                 _wdjs = value;
                 onPropertyChanged("wdjs");
             }
-        } 
+        }
+
+
+        private string _SCMServerIndex;
+        public string SCMServerIndex
+        {
+            get
+            {
+                return _SCMServerIndex;
+            }
+
+            set
+            {
+                _SCMServerIndex = value;
+                onPropertyChanged("SCMServerIndex");
+            }
+        }
+
+
+        private string _SCMDBName;
+        public string SCMDBName
+        {
+            get
+            {
+                return _SCMDBName;
+            }
+
+            set
+            {
+                _SCMDBName = value;
+                onPropertyChanged("SCMDBName");
+            }
+        }
     }
 }

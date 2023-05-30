@@ -38,6 +38,7 @@ namespace PopProject.Input
             _ = textbox_search.Focus();
         }
 
+        //키보드 호출
         private void KeyBoardCall()
         {
             string path64 = Path.Combine(Directory.GetDirectories
@@ -50,12 +51,13 @@ namespace PopProject.Input
             }
         }
 
+        //드래그
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
         }
 
-
+        //나가기 버튼
         private void exit(object sender, MouseButtonEventArgs e)
         {
 

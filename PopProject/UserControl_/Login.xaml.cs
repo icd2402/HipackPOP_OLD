@@ -105,7 +105,6 @@ namespace PopProject.UserControl_
                         break;
 
                     case "1":
-                        _ = new LogData("로그인");
                         string jo_data = jo.SelectToken("data").ToString();
                         JArray jarr = JArray.Parse(jo_data);
                         Console.WriteLine("jo_data : " + jo_data);
@@ -148,16 +147,15 @@ namespace PopProject.UserControl_
 
 
                             json = new JsonObjectCollection
-                             {
-                                  new JsonStringValue("login_time", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss")),
-                                  new JsonStringValue("login_id", Properties.Settings.Default.login_id)
-                                  
-                             };
+                                {
+                                     new JsonStringValue("login_time", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss")),
+                                     new JsonStringValue("login_id", Properties.Settings.Default.login_id)
+                                     
+                                };
                             Console.WriteLine("json : " + json.ToString());
                             httpClient_Util = new HttpClient_util("login_time_update");
                             result = httpClient_Util.SendHttp(json.ToString());
                         }
-
                         else
                         {
                             Properties.Settings.Default.login_id = "";
@@ -168,13 +166,12 @@ namespace PopProject.UserControl_
                             dialog = new MessageBox_Dialog("패스워드를 확인해 주세요");
                             _ = dialog.ShowDialog();
                         }
-
                         break;
+
                     default:
                         break;
                 }
             }
-
             else
             {
                 MessageBox_Dialog dialog = new MessageBox_Dialog("인터넷 연결 상태를 확인해 주세요");
@@ -184,14 +181,14 @@ namespace PopProject.UserControl_
 
         private void SetSetting(string metrialitem)
         {
-
+            //마닐라,원단 or 기본 화면 확면 구분
             switch (metrialitem)
             {
-
-                case "12":
-                case "13":
+                case "12": //마닐라
+                case "13": //원단
                     if (Properties.Settings.Default.authKey.Equals(Properties.Settings.Default.corp_id))
                     {
+                        _ = new LogData("로그인");
                         Main1 main1 = new Main1();
                         Content = main1;
                     }
@@ -207,17 +204,18 @@ namespace PopProject.UserControl_
                             MessageBox_Dialog msg = new MessageBox_Dialog("타업체 계정으로 로그인 할 수 없습니다.");
                             msg.ShowDialog();
                         }
-                       
                     }
-                
                     break;
-                default:
+
+                default://기본화면
+                    //DB명 일치시
                     if (Properties.Settings.Default.authKey.Equals(Properties.Settings.Default.corp_id))
                     {
+                        _ = new LogData("로그인");
                         Main main = new Main();
                         Content = main;
                     }
-                    else
+                    else //DB명 불일치
                     {
                         if (Properties.Settings.Default.authKey.Equals(""))
                         {
@@ -237,13 +235,10 @@ namespace PopProject.UserControl_
         private void Textbox_login_password_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-
             {
                 Login_();
             }
         }
-
-     
 
         private void Login_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

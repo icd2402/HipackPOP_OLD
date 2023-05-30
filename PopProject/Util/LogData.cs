@@ -174,4 +174,47 @@ namespace PopProject.Util
             return crtfcKey;
         }
     }
+
+    //private async void sendlog(string session)
+    //{
+
+    //    crtfcKey = CrtfcKey(Properties.Settings.Default.corp_id);
+    //    logDt = GetTime();
+    //    sysUser = Properties.Settings.Default.mercName;
+
+    //    conectIp = GetIP();
+
+    //    string loginjson = new JavaScriptSerializer().Serialize(new PMSItem()
+    //    {
+    //        crtfcKey = crtfcKey,
+    //        logDt = logDt,
+    //        useSe = useSe,
+    //        sysUser = sysUser,
+    //        conectIp = conectIp,
+    //        dataUsgqty = "0"
+    //    });
+
+    //    HttpClient hc = new HttpClient();
+    //    Uri requestUri = new Uri("https://log.smart-factory.kr/apisvc/sendLogDataJSON.do?logData=" + loginjson);
+    //    StringContent content = new StringContent("", Encoding.UTF8, "application/json");
+
+    //    try
+    //    {
+    //        await hc.PostAsync(requestUri, content);
+    //    }
+    //    catch (Exception)
+    //    {
+    //    }
+
+    //}
+
+    //public class PMSItem
+    //{
+    //    public string crtfcKey;
+    //    public string logDt;
+    //    public string useSe;
+    //    public string sysUser;
+    //    public string conectIp;
+    //    public string dataUsgqty;
+    //}
 }
