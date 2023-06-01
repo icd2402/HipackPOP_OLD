@@ -22,7 +22,6 @@ namespace PopProject.Util
                 dock2.Visibility = System.Windows.Visibility.Visible;
                 dock1.Visibility = System.Windows.Visibility.Collapsed;
             }
-
             else
             {
                 dock2.Visibility = System.Windows.Visibility.Collapsed;
@@ -201,6 +200,34 @@ namespace PopProject.Util
                 {
                     _MycustomSName = value;
                     onPropertyChanged("MycustomSName");
+                }
+            }
+
+            private string _LoadType;
+            public string LoadType
+            {
+                get
+                {
+                    return _LoadType;
+                }
+                set
+                {
+                    _LoadType = value;
+                    onPropertyChanged("LoadType");
+                }
+            }
+
+            private string _LoadHeight;
+            public string LoadHeight
+            {
+                get
+                {
+                    return _LoadHeight;
+                }
+                set
+                {
+                    _LoadHeight = value;
+                    onPropertyChanged("LoadHeight");
                 }
             }
         }

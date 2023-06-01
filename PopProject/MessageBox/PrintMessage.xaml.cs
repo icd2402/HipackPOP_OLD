@@ -43,14 +43,19 @@ namespace PopProject.MessageBox
                 _ = box_count.Dispatcher.BeginInvoke(new Action(() => { copy_count.SelectAll(); }));
             }
 
+            //오주, 대세, 구룡
             if (Properties.Settings.Default.corp_id.Equals("3125247246") || Properties.Settings.Default.corp_id.Equals("C91950615") || Properties.Settings.Default.corp_id.Equals("766562426")) // 오주포장
             {
+                //팔레트당 적재수량 표기 
                 pallet.Visibility = Visibility.Visible;
+
+                //각종 버튼 위치 이동
                 //print_stack.Margin = new Thickness(0, 0, 0, 0);
                 //set_count.Margin = new Thickness(0, 20, 0, 0);
             }
-            else
+            else//그외 업체
             {
+                //각종 버튼 위치 이동
                 print_stack.Margin = new Thickness(0, 0, 0, 0);
                 set_count.Margin = new Thickness(0, 20, 0, 0);
             }
@@ -65,6 +70,7 @@ namespace PopProject.MessageBox
             mainModel = main;
             this.detailitem = detailitem;
 
+            //설정에서 키인사용 체크시
             if (Properties.Settings.Default.keyinCheck)
             {
                 copy_count.Focusable = true;
@@ -76,14 +82,19 @@ namespace PopProject.MessageBox
                 _ = box_count.Dispatcher.BeginInvoke(new Action(() => { copy_count.SelectAll(); }));
             }
 
+            //오주, 대세, 구룡
             if (Properties.Settings.Default.corp_id.Equals("3125247246") || Properties.Settings.Default.corp_id.Equals("C91950615") || Properties.Settings.Default.corp_id.Equals("766562426")) // 오주포장
             {
+                //팔레트당 적재수량 표기 
                 pallet.Visibility = Visibility.Visible;
+
+                //각종 버튼 위치 이동
                 //print_stack.Margin = new Thickness(0, 0, 0, 0);
                 //set_count.Margin = new Thickness(0, 20, 0, 0);
             }
-            else
+            else//그외 업체
             {
+                //각종 버튼 위치 이동
                 print_stack.Margin = new Thickness(0, 0, 0, 0);
                 set_count.Margin = new Thickness(0, 20, 0, 0);
             }
@@ -91,6 +102,7 @@ namespace PopProject.MessageBox
             this.consumerModel = consumerModel;
         }
 
+        //인쇄수랑 - 버튼
         private void Result_count_minus(object sender, MouseButtonEventArgs e)
         {
             int value = 1;
@@ -100,17 +112,20 @@ namespace PopProject.MessageBox
             }
         }
 
+        //인쇄수량 +버튼
         private void Result_count_plus(object sender, MouseButtonEventArgs e)
         {
             int value = 1;
             copy_count.Text = int.Parse(copy_count.Text) + value + "";
         }
 
+        //닫기 버튼
         private void Messagebox_exit(object sender, MouseButtonEventArgs e)
         {
             Close();
         }
 
+        //인쇄 버튼
         private void Messagebox_button(object sender, MouseButtonEventArgs e)
         {
             try
@@ -139,44 +154,49 @@ namespace PopProject.MessageBox
                     ClsUc_완제품명세서_Control6구룡.ProductReport pr6 = new ClsUc_완제품명세서_Control6구룡.ProductReport();
                     JToken result = SignCorpinfo_Base_JArray.First;
 
+                    //선호칼라팩
                     if (Properties.Settings.Default.corp_id.Equals("75BB212362"))
                     {
-                        pr2.MycustomSName = "";
-                        pr2.corpName = "";
-                        pr2.customSName = result["customSName"].ToString();
-                        pr2.prodName = result["prodName"].ToString();
-                        pr2.orderLast = Convert.ToDateTime(result["orderLast"]);
-                        pr2.pSize = result["pSize"].ToString();
-                        string memo = getMemo(Properties.Settings.Default.printItem);
-                        pr2.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
-                        pr2.pworkDate = DateTime.Now;
-                        pr2.resultCount = result["resultCount"].ToString();
-                        pr2.pStockKey = result["pStockKey"].ToString();
-                        int keyLenth = 0;
-                        keyLenth = 10 - pr2.pStockKey.Length;
+                        pr2.MycustomSName = "";                                       //업체명
+                        pr2.corpName = "";                                            //거래처 상호
+                        pr2.customSName = result["customSName"].ToString();           //거래처명
+                        pr2.prodName = result["prodName"].ToString();                 //품명
+                        pr2.orderLast = Convert.ToDateTime(result["orderLast"]);      //납기일
+                        pr2.pSize = result["pSize"].ToString();                       //규격
+                        string memo = getMemo(Properties.Settings.Default.printItem); //출력정보
+                        pr2.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo); //비고 + 출력정보 
+                        pr2.pworkDate = DateTime.Now; //작성일자
+                        pr2.resultCount = result["resultCount"].ToString(); //총수량
+                        pr2.pStockKey = result["pStockKey"].ToString();     //재고키
+                        int keyLenth = 0;                                   //재고키 변수
+                        keyLenth = 10 - pr2.pStockKey.Length;               // 10 - 재고키 길이
 
                         for (int index = 1; index <= keyLenth; index++)
                         {
                             pr2.pStockKey = "0" + pr2.pStockKey;
                         }
 
+                        //총수량 1이상
                         if (Convert.ToInt32(mainModel.sumPworkCount) > 0)
                         {
                             pr2.resultCount = mainModel.sumPworkCount + "";
                         }
 
+                        //총수량 표현 미체크시
                         if (!Properties.Settings.Default.count_check)
                         {
                             pr2.resultCount = "";
                         }
                     }
-
-                    else
+                    else //선호 제외 업체
                     {
+                        //거래처 표현 체크시 표현x
                         pr1.corpName = Properties.Settings.Default.accountCheck ? "" : mainModel.corpName;
 
+                        //생산처 표현 미체시 표현x
+                        //생산처 표현 미체크시 우측 최하단에 업체명 기입
+                        //대양포장은 생산처 미체크라도 무조건 안보이게
                         pr1.MycustomSName = Properties.Settings.Default.productionCheck ? "" : Properties.Settings.Default.corp_name.Equals("대양포장") ? "    " : Properties.Settings.Default.corp_name;
-                        
                     }
 
                     ClsUc_완제품명세서_Control1 완제품명세서_Uc1 = new ClsUc_완제품명세서_Control1();
@@ -209,38 +229,43 @@ namespace PopProject.MessageBox
                         Height = Dbl_HeightReportPageHeightSize
                     };
 
+                    //유창포장
                     if (Properties.Settings.Default.corp_name.Equals("유창포장"))
                     {
-                        pr2.corpName = Properties.Settings.Default.accountCheck ? "" : mainModel.corpName;
-                        pr2.MycustomSName = Properties.Settings.Default.productionCheck ? "" : Properties.Settings.Default.corp_name;
-                        pr2.customSName = result["customSName"].ToString();
-                        pr2.prodName = result["prodName"].ToString();
-                        pr2.orderLast = Convert.ToDateTime(result["orderLast"]);
-                        pr2.pSize = result["pSize"].ToString();
+                        pr2.corpName = Properties.Settings.Default.accountCheck ? "" : mainModel.corpName; //거래처 상호
+                        pr2.MycustomSName = Properties.Settings.Default.productionCheck ? "" : Properties.Settings.Default.corp_name; //생산처
+                        pr2.customSName = result["customSName"].ToString();      //거래처명
+                        pr2.prodName = result["prodName"].ToString();            //품명
+                        pr2.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
+                        pr2.pSize = result["pSize"].ToString();                  //규격
 
-                        string memo = getMemo(Properties.Settings.Default.printItem);
-                        pr2.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
-                        pr2.pworkDate = Convert.ToDateTime(result["pworkDate"]);
-                        pr2.pworkDate = DateTime.Now;
-                        pr2.resultCount = result["resultCount"].ToString();
-                        pr2.pStockKey = result["pStockKey"].ToString();
+                        string memo = getMemo(Properties.Settings.Default.printItem); //프린트 출력정보
+                        pr2.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo); //비고 + 출력정보
+                        pr2.pworkDate = Convert.ToDateTime(result["pworkDate"]); //작업일자
+                        pr2.pworkDate = DateTime.Now;                            //작성일자
+                        pr2.resultCount = result["resultCount"].ToString();      //총수량
+                        pr2.pStockKey = result["pStockKey"].ToString();          //재고키
 
-                        int keyLenth = 0;
-                        keyLenth = 10 - pr2.pStockKey.Length;
-                        
+                        int keyLenth = 0;                     //재고키 변수
+                        keyLenth = 10 - pr2.pStockKey.Length; // 10 - 재고키 길이
+
                         for (int index = 1; index <= keyLenth; index++)
                         {
                             pr2.pStockKey = "0" + pr2.pStockKey;
                         }
 
+                        //총수량 1이상
                         if (Convert.ToInt32(mainModel.sumPworkCount) > 0)
                         {
                             pr2.resultCount = mainModel.sumPworkCount + "";
                         }
+
+                        //총수량 표현 미체크
                         if (!Properties.Settings.Default.count_check)
                         {
                             pr2.resultCount = "";
                         }
+
                         완제품명세서_Uc2.ViewModel = pr2;
                         완제품명세서_Uc2.Set_BarCode();
                         Grid.SetRow(완제품명세서_Uc2, 0);
@@ -249,33 +274,41 @@ namespace PopProject.MessageBox
                         Set_FixedPage.Children.Add(명세서양식_Uc2 as UIElement);
                     }
 
+                    //오주포장
                     else if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
                     {
 
-                        pr3.corpName = Properties.Settings.Default.accountCheck ? "" : mainModel.corpName;
-                        pr3.MycustomSName = Properties.Settings.Default.productionCheck ? "" : Properties.Settings.Default.corp_name;
-                        pr3.customSName = result["customSName"].ToString();
-                        pr3.prodName = result["prodName"].ToString();
-
-                        pr3.orderLast = Convert.ToDateTime(result["orderLast"]);
-                        pr3.pSize = result["pSize"].ToString();
-                        pr3.pGol = mainModel.paperGor;
-                        pr3.PalletType = detailitem.PalletType;
-                        string memo = getMemo(Properties.Settings.Default.printItem);
-                        pr3.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
-                        //pr3.pworkDate = Convert.ToDateTime(result["pworkDate"]).ToString("yyyy/MM/dd");
-                        pr3.pworkDate = DateTime.Today.ToString("yyyy/MM/dd");
-                        pr3.pStockKey = result["pStockKey"].ToString();
+                        pr3.corpName = Properties.Settings.Default.accountCheck ? "" : mainModel.corpName; //거래처 상호
+                        pr3.MycustomSName = Properties.Settings.Default.productionCheck ? "" : Properties.Settings.Default.corp_name; //생산처
+                        pr3.customSName = result["customSName"].ToString();           //거래처명
+                        pr3.prodName = result["prodName"].ToString();                 //품명
+                        pr3.orderLast = Convert.ToDateTime(result["orderLast"]);      //납기일
+                        pr3.pSize = result["pSize"].ToString();                       //규격
+                        pr3.pGol = mainModel.paperGor;                                //골
+                        pr3.PalletType = detailitem.PalletType;                       //파렛트 종류
+                        string memo = getMemo(Properties.Settings.Default.printItem); //프린트 출력정보
+                        pr3.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo); //비고 + 출력정보
+                        //pr3.pworkDate = Convert.ToDateTime(result["pworkDate"]).ToString("yyyy/MM/dd"); //작업일자
+                        pr3.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); //작성일자
+                        pr3.pStockKey = result["pStockKey"].ToString();        //재고키
                   
-                        int keyLenth = 0;
-                        keyLenth = 10 - pr3.pStockKey.Length;
+                        int keyLenth = 0;                     //재고키 변수
+                        keyLenth = 10 - pr3.pStockKey.Length; // 10 - 재고키 길이
 
                         for (var index = 1; index <= keyLenth; index++)
                         {
                             pr3.pStockKey = "0" + pr3.pStockKey;
                         }
 
-                        pr3.resultCount = box_count.Text.Length == 0 ? "" : box_count.Text;
+                        //팔레트당 적재수량 기입시
+                        if (box_count.Text.Length == 0)
+                        {
+                            pr3.resultCount = "";
+                        }
+                        else
+                        {
+                            pr3.resultCount = box_count.Text;
+                        }
 
                         완제품명세서_Uc3.ViewModel = pr3;
                         완제품명세서_Uc3.Set_BarCode();
@@ -285,56 +318,48 @@ namespace PopProject.MessageBox
                         Set_FixedPage.Children.Add(명세서양식_Uc3 as UIElement);
                     }
 
+                    //두성포장, 혜성수출포장
                     else if(Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Equals("두성포장테스트") || Properties.Settings.Default.corp_name.Contains("혜성"))
                     {
 
-                        pr5.customSName = result["customSName"].ToString();
-                        pr5.prodName = result["prodName"].ToString();
-                        pr5.orderLast = Convert.ToDateTime(result["orderLast"]);
-                        pr5.pSize = result["pSize"].ToString();
+                        pr5.customSName = result["customSName"].ToString();      //거래처명
+                        pr5.prodName = result["prodName"].ToString();            //품명
+                        pr5.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
+                        pr5.pSize = result["pSize"].ToString();                  //규격
+                        
                         string memo = "";
+                        memo = getMemo(Properties.Settings.Default.printItem);   //프린트 출력정보  
 
-                        if (Properties.Settings.Default.corp_name.Equals("광무포장"))
-                        {
-                            memo = detailitem.SpecialMemo + Environment.NewLine;
-                            memo += getMemo(Properties.Settings.Default.printItem);
-                        }
+                        pr5.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo); //비고 + 출력정보
+                        pr5.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); //작성일자
+                        pr5.resultCount = result["resultCount"].ToString();    //총수량
+                        pr5.pStockKey = result["pStockKey"].ToString();        //재고키
+                        pr5.loadCount = "";                                    //파렛트당 적재수량
+                        pr5.LocationName = detailitem.LocationName;            //적재위치이름
+                        pr5.LoadHeight = detailitem.LoadHeight;                //적재단수
+                        pr5.LoadType = detailitem.LoadType;                    //적재방법
 
-                        else
-                        {
-                            memo = getMemo(Properties.Settings.Default.printItem);
-                        }
-
-                        // memo = getMemo(Properties.Settings.Default.printItem);
-                        pr5.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
-                        pr5.pworkDate = DateTime.Today.ToString("yyyy/MM/dd");
-                        pr5.resultCount = result["resultCount"].ToString();
-                        pr5.pStockKey = result["pStockKey"].ToString();
-                        pr5.loadCount = "";
-                        pr5.LocationName = detailitem.LocationName;
-                        pr5.LoadHeight = detailitem.LoadHeight;
-                        pr5.LoadType = detailitem.LoadType;
-
-
+                        //파렛트당 적재수량
                         if (box_count.Text.ToString().Length > 0)
                         {
                             pr5.loadCount = box_count.Text;
                         }
 
-
-                        int keyLenth = 0;
-                        keyLenth = 10 - pr5.pStockKey.Length;
+                        int keyLenth = 0;                     //재고키 변수
+                        keyLenth = 10 - pr5.pStockKey.Length; // 10 - 재고키 길이
 
                         for (var index = 1; index <= keyLenth; index++)
                         {
                             pr5.pStockKey = "0" + pr5.pStockKey;
                         }
 
+                        //총수량 1이상
                         if (Convert.ToInt32(mainModel.sumPworkCount) > 0)
                         {
                             pr5.resultCount = mainModel.sumPworkCount == 0 ? "" : mainModel.sumPworkCount + "";
                         }
 
+                        //총수량 표현 미체크
                         if (!Properties.Settings.Default.count_check)
                         {
                             pr5.resultCount = "";
@@ -345,47 +370,43 @@ namespace PopProject.MessageBox
                         명세서양식_uc5두성.ItemPanel.Children.Add(완제품명세서_두성);
                         Set_FixedPage.Children.Add(명세서양식_uc5두성 as UIElement);
                     }
+
+                    //구룡산업
                     else if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
                     {
-
+                        //실수요자
                         if (consumCheck)
                         {
                             ClsUc_완제품명세서_Control7구룡실수요자 완제품명세서_구룡실수요자 = new ClsUc_완제품명세서_Control7구룡실수요자();
                             ClsUc_명세서_Report7구룡실수요자 명세서양식_uc7구룡실수요자 = new ClsUc_명세서_Report7구룡실수요자();
                             ClsUc_완제품명세서_Control7구룡실수요자.ProductReport pr7 = new ClsUc_완제품명세서_Control7구룡실수요자.ProductReport();
                             
-                            pr7.customSName = result["customSName"].ToString();
-                            pr7.vendorName = detailitem.vendorName;
-                            pr7.adress = consumerModel.adress;
-                            pr7.membName = consumerModel.membName;
-                            pr7.PhonNo = consumerModel.PhonNo;
-
-                            pr7.prodName = result["prodName"].ToString();
-                            pr7.orderLast = Convert.ToDateTime(result["orderLast"]);
-                            pr7.orderLast1 = pr6.orderLast.ToString("yyyy.MM.dd");
-                            pr7.pSize = result["pSize"].ToString();
+                            pr7.customSName = result["customSName"].ToString();      //거래처명
+                            pr7.vendorName = detailitem.vendorName;                  //납품처명
+                            pr7.membName = consumerModel.membName;                   //이름
+                            pr7.adress = consumerModel.adress;                       //주소
+                            pr7.PhonNo = consumerModel.PhonNo;                       //연락처
+                            pr7.prodName = result["prodName"].ToString();            //제품명
+                            pr7.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
+                            pr7.orderLast1 = pr6.orderLast.ToString("yyyy.MM.dd");   //납기일
+                            pr7.pSize = result["pSize"].ToString();                  //규격
+                            
                             string memo = "";
-
-
-                            memo = getMemo(Properties.Settings.Default.printItem);
-
-
-                            // memo = getMemo(Properties.Settings.Default.printItem);
+                            memo = getMemo(Properties.Settings.Default.printItem);   //프린트 출력정보
                             pr7.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
                             pr7.pMemo = pr7.pMemo + Environment.NewLine + consumerModel.Memo;
-                            pr7.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); 
-                            pr7.resultCount = consumerModel.orderCount.ToString();
-                            pr7.pStockKey = result["pStockKey"].ToString();
-                            pr7.loadCount = "";
-                            pr7.LocationName = detailitem.LocationName;
-                            pr7.loadHeight = detailitem.LoadHeight;
-                            pr7.loadType = detailitem.LoadType;
+
+                            pr7.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); //작성일자
+                            pr7.LocationName = detailitem.LocationName;            //적재위치 
+                            pr7.loadHeight = detailitem.LoadHeight;                //적재단수
+                            pr7.loadType = detailitem.LoadType;                    //적재방법
+                            pr7.loadCount = "";                                    //파렛트당 적재수량
                             if (box_count.Text.ToString().Length > 0)
                             {
-                                pr7.loadCount = box_count.Text;
+                                pr7.loadCount = box_count.Text; 
                             }
 
-
+                            pr7.pStockKey = result["pStockKey"].ToString();        //재고키
                             int keyLenth = 0;
                             keyLenth = 10 - pr7.pStockKey.Length;
 
@@ -394,11 +415,13 @@ namespace PopProject.MessageBox
                                 pr7.pStockKey = "0" + pr6.pStockKey;
                             }
 
+                            //총수량
+                            pr7.resultCount = consumerModel.orderCount.ToString();
                             if (Convert.ToInt32(mainModel.sumPworkCount) > 0)
                             {
                                 pr7.resultCount = mainModel.sumPworkCount == 0 ? "" : mainModel.sumPworkCount + "";
                             }
-
+                            //총수량 표현 미체크
                             if (!Properties.Settings.Default.count_check)
                             {
                                 pr7.resultCount = "";
@@ -411,57 +434,51 @@ namespace PopProject.MessageBox
 
 
                         }
-                        else
+                        else //일반생산
                         {
+                        pr6.customSName = result["customSName"].ToString();      //거래처명
+                        pr6.vendorName = detailitem.vendorName;                  //납품처명
+                        pr6.prodName = result["prodName"].ToString();            //품명
+                        pr6.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
+                        pr6.orderLast1 = pr6.orderLast.ToString("yyyy.MM.dd");   //납기일
+                        pr6.pSize = result["pSize"].ToString();                  //규격
 
-                        
-
-                        pr6.customSName = result["customSName"].ToString();
-                        pr6.vendorName = detailitem.vendorName;
-
-
-                        pr6.prodName = result["prodName"].ToString();
-                        pr6.orderLast = Convert.ToDateTime(result["orderLast"]);
-                        pr6.orderLast1 = pr6.orderLast.ToString("yyyy.MM.dd");
-                        pr6.pSize = result["pSize"].ToString();
-                        string memo = "";
-
-                        
-                        memo = getMemo(Properties.Settings.Default.printItem);
-                        
-
-                        // memo = getMemo(Properties.Settings.Default.printItem);
+                        string memo = "";                                        
+                        memo = getMemo(Properties.Settings.Default.printItem);   //프린트 출력정보
                         pr6.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
-                        pr6.pworkDate = DateTime.Today.ToString("yyyy/MM/dd");
-                        pr6.resultCount = result["resultCount"].ToString();
-                        pr6.pStockKey = result["pStockKey"].ToString();
-                        pr6.loadCount = "";
-                        pr6.LocationName = detailitem.LocationName;
-                        pr6.loadHeight = detailitem.LoadHeight;
-                        pr6.loadType = detailitem.LoadType;
+
+                        pr6.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); //작성일자
+                        pr6.pStockKey = result["pStockKey"].ToString();        //재고키
+                        pr6.loadCount = "";                                    //파렛트당 적재수량
+                        pr6.LocationName = detailitem.LocationName;            //적재위치
+                        pr6.loadHeight = detailitem.LoadHeight;                //적재단수
+
+                        pr6.loadType = detailitem.LoadType;                    //적재방법
                         if (box_count.Text.ToString().Length > 0)
                         {
                             pr6.loadCount = box_count.Text;
                         }
 
 
-                        int keyLenth = 0;
-                        keyLenth = 10 - pr6.pStockKey.Length;
+                        int keyLenth = 0;                                      //재고키
+                        keyLenth = 10 - pr6.pStockKey.Length;   
 
                         for (var index = 1; index <= keyLenth; index++)
                         {
                             pr6.pStockKey = "0" + pr6.pStockKey;
                         }
 
+                        pr6.resultCount = result["resultCount"].ToString();    //총수량
                         if (Convert.ToInt32(mainModel.sumPworkCount) > 0)
                         {
                             pr6.resultCount = mainModel.sumPworkCount == 0 ? "" : mainModel.sumPworkCount + "";
                         }
-
+                        //총수량 표현 미체크
                         if (!Properties.Settings.Default.count_check)
                         {
                             pr6.resultCount = "";
                         }
+
                         완제품명세서_구룡.ViewModel = pr6;
                         완제품명세서_구룡.Set_BarCode();
                         Grid.SetRow(완제품명세서_구룡, 1);
@@ -469,39 +486,36 @@ namespace PopProject.MessageBox
                         Set_FixedPage.Children.Add(명세서양식_uc6구룡 as UIElement);
                         }
                     }
-
-                    else
+                    else //(선호),유창,오주,두성,혜성,구룡 제외
                     {
-                        pr1.customSName = result["customSName"].ToString();
-                        pr1.prodName = result["prodName"].ToString();
-                        pr1.orderLast = Convert.ToDateTime(result["orderLast"]);
-                        pr1.pSize = result["pSize"].ToString();
-                        string memo = "";
-                    
+                        pr1.customSName = result["customSName"].ToString();      //거래처명
+                        pr1.prodName = result["prodName"].ToString();            //품명
+                        pr1.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
+                        pr1.pSize = result["pSize"].ToString();                  //규격
+                        
+                        string memo = ""; 
+                        //광무
                         if (Properties.Settings.Default.corp_name.Equals("광무포장"))
                         {
                             memo = detailitem.SpecialMemo + Environment.NewLine;
                             memo+= getMemo(Properties.Settings.Default.printItem);
                         }
-
-                        else
+                        else //그외 EX)성주,우리, 신우 등등
                         {
                             memo = getMemo(Properties.Settings.Default.printItem);
                         }
-
-                        // memo = getMemo(Properties.Settings.Default.printItem);
                         pr1.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
-                        pr1.pworkDate = DateTime.Today.ToString("yyyy/MM/dd");
-                        pr1.resultCount = result["resultCount"].ToString();
-                        pr1.pStockKey = result["pStockKey"].ToString();
-                        pr1.loadCount = "";
+                        
+                        pr1.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); //작성일자
+                        pr1.loadCount = "";                                    //파레트당 적재수량
                         if (box_count.Text.ToString().Length > 0)
                         {
                             pr1.loadCount = box_count.Text;
                         }
                        
                         
-                        int keyLenth = 0;
+                        pr1.pStockKey = result["pStockKey"].ToString();        //재고키
+                        int keyLenth = 0; 
                         keyLenth = 10 - pr1.pStockKey.Length;
 
                         for (var index = 1; index <= keyLenth; index++)
@@ -509,15 +523,17 @@ namespace PopProject.MessageBox
                             pr1.pStockKey = "0" + pr1.pStockKey;
                         }
 
+                        pr1.resultCount = result["resultCount"].ToString();    //총수량
                         if (Convert.ToInt32(mainModel.sumPworkCount) > 0)
                         {
                             pr1.resultCount = mainModel.sumPworkCount == 0 ? "" : mainModel.sumPworkCount + "";
                         }
-
+                        //총수량 표현 미체크
                         if (!Properties.Settings.Default.count_check)
                         {
                             pr1.resultCount = "";
                         }
+
                         완제품명세서_Uc1.ViewModel = pr1;
                         완제품명세서_Uc1.Set_BarCode();
                         Grid.SetRow(완제품명세서_Uc1, 1);
@@ -537,22 +553,22 @@ namespace PopProject.MessageBox
 
                     PrintWindow reportWindow = new PrintWindow();
                     reportWindow.PrintViewer.Document = FixedDocument;
-
                     reportWindow.가로세로 = 1;
-
                     reportWindow.방향.IsEnabled = false;
                     reportWindow.엑셀.IsEnabled = false;
                     reportWindow.Opacity = 0;
                     reportWindow.Show();
+
+                    //오주포장
                     if (Properties.Settings.Default.corp_id.Equals("3125247246"))
                     {
+                        //출력매수 1일때
                         if (int.Parse(copy_count.Text) == 1)
                         {
                             reportWindow.DirectPrint(int.Parse(copy_count.Text));
                             reportWindow.Close();
                         }
-
-                        else
+                        else //여러개 일때
                         {
                             reportWindow.DirectPrint(int.Parse(copy_count.Text) - 1);
                             reportWindow.Close();
@@ -566,25 +582,19 @@ namespace PopProject.MessageBox
                                 DateTime.Today.ToString("yyyy/MM/dd"),
                                 result["pStockKey"].ToString()
                                 );
-
                         }
-
                     }
-                    else
+                    else//오주포장 제외
                     {
                         reportWindow.DirectPrint(int.Parse(copy_count.Text));
                         reportWindow.Close();
                         Focus();
                         Close();
-
                     }
                 }
-
             }
-
             catch (Exception)
             {
-
             }
         }
 
@@ -663,84 +673,87 @@ namespace PopProject.MessageBox
 
         }
 
+        //닫기버튼
         private void Close_messagebox(object sender, MouseButtonEventArgs e)
         {
             Close();
         }
 
+        //비고란에 자재명세서 출력정보 순차 입력
         private string getMemo(string printItem)
         {
             string memo = "";
-            string[] print = printItem.Split(new string[] { "|" }, StringSplitOptions.None);
+            string[] print = printItem.Split(new string[] { "|" }, StringSplitOptions.None); //1|6|8|12
             for (int i = 0; i < print.Length; i++)
 
             {
-
-                if(i!=0 && i%3 == 0)
+                //3번째 마다 줄바꾸기(Enter)
+                if(i!=0 && i%3 == 0) 
                 {
                     memo += "\n";
                 }
 
                 switch (print[i])
                 {
-                    case "1":
+                    case "1": //필름 No
                         memo += string.IsNullOrEmpty(detailitem.filmNo) ? "" : detailitem.filmNo + " / ";
                         break;
-
-                    case "2":
+                    case "2": //코팅
                         memo += string.IsNullOrEmpty(detailitem.CoatingType) ? "" : detailitem.CoatingType + " / ";
                         break;
-
-                    case "3":
+                    case "3": //조판No
                         memo += string.IsNullOrEmpty(detailitem.PrintNo) ? "" : detailitem.PrintNo + " / ";
                         break;
-
-                    case "4":
+                    case "4": //조판위치
                         memo += string.IsNullOrEmpty(detailitem.Printposition) ? "" : detailitem.Printposition + " / "; ;
                         break;
-
-                    case "5":
+                    case "5": //목형No
                         memo += string.IsNullOrEmpty(detailitem.PushingNo) ? "" : detailitem.PushingNo + " / "; ;
                         break;
-
-                    case "6":
+                    case "6": //목형위치
                         memo += string.IsNullOrEmpty(detailitem.Pushingposition) ? "" : detailitem.Pushingposition + " / ";
                         break;
-
-                    case "7":
+                    case "7": //인쇄랙도
                         memo += string.IsNullOrEmpty(detailitem.ColorType) ? "" : detailitem.ColorType + " / ";
                         break;
-
-                    case "8":
+                    case "8": //접합방법
                         memo += string.IsNullOrEmpty(detailitem.ConnetingType) ? "" : detailitem.ConnetingType + " / ";
                         break;
-                    case "9":
+                    case "9": //손잡이
                         memo += string.IsNullOrEmpty(detailitem.handChk) ? "" : detailitem.handChk + " / ";
                         break;
-                    case "10":
+                    case "10": //포장매수
                         memo += string.IsNullOrEmpty(detailitem.PackCount + "") ? "" : detailitem.PackCount + "매 / ";
                         break;
-                    case "11":
+                    case "11": //포장방법
                         memo += string.IsNullOrEmpty(detailitem.PackType) ? "" : detailitem.PackType + " / ";
                         break;
-                    case "18":
+                    case "12": //적재단수
+                        memo += string.IsNullOrEmpty(detailitem.LoadHeight) ? "" : detailitem.LoadHeight + " / ";
+                        break;
+                    case "13": //적재방법
+                        memo += string.IsNullOrEmpty(detailitem.LoadType) ? "" : detailitem.LoadType + " / ";
+                        break;
+                    case "18": //파렛트 종류
                         memo += string.IsNullOrEmpty(detailitem.PalletType) ? "" : detailitem.PalletType + " / ";
                         break;
                 }
             }
-
             return memo;
         }
 
+
+        //파레트당 적재 수량클릭시 키보드 팝업
         private void pallet_count(object sender, MouseButtonEventArgs e)
         {
+            //키인사용 체크시
             if (Properties.Settings.Default.keyinCheck)
             {
                 box_count.Focusable = true;
                 _ = box_count.Focus();
                 _ = box_count.Dispatcher.BeginInvoke(new Action(() => { box_count.SelectAll(); }));
             }
-            else
+            else //미체크
             {
                 TextBox context = (TextBox)sender;
                 win_KeyBoard = new Win_KeyBoard(context) {
@@ -750,20 +763,19 @@ namespace PopProject.MessageBox
                 _ = win_KeyBoard.ShowDialog();
                 win_KeyBoard = null;
             }
-
-
-            
         }
 
+        //출력매수 수량 클릭시 키보드 팝업
         private void Copy_count_click(object sender, MouseButtonEventArgs e)
         {
+            //키인사용 체크시
             if (Properties.Settings.Default.keyinCheck)
             {
                 copy_count.Focusable = true;
                 _ = copy_count.Focus();
                 _ = copy_count.Dispatcher.BeginInvoke(new Action(() => { copy_count.SelectAll(); }));
             }
-            else
+            else //미체크
             {
                 TextBox context = (TextBox)sender;
                 win_KeyBoard = new Win_KeyBoard(context)
@@ -774,7 +786,6 @@ namespace PopProject.MessageBox
 
                 _ = win_KeyBoard.ShowDialog();
                 win_KeyBoard = null;
-
             }
         }
     }

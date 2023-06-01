@@ -233,17 +233,17 @@ namespace PopProject.Consumer_
                     {
                         ConsumerModel listitem = new ConsumerModel
                         {
-                            orderKey = result["orderKey"].ToString(),
-                            pworkKey = int.Parse(result["pworkKey"].ToString()),
-                            orderDate = result["orderDate"].ToString(),
-                            vendorID = result["vendorID"].ToString(),
-                            vendorName = result["vendorName"].ToString(),
-                            NoKey = result["NoKey"].ToString(),
-                            membID = result["membID"].ToString(),
-                            membName = result["membName"].ToString(),
-                            adress = result["adress"].ToString(),
-                            PhonNo = result["PhonNo"].ToString(),
-                            orderCount = int.Parse(result["orderCount"].ToString())
+                            orderKey = result["orderKey"].ToString(),               //오더키
+                            pworkKey = int.Parse(result["pworkKey"].ToString()),    //작업키
+                            orderDate = result["orderDate"].ToString(),             //수주일자
+                            vendorID = result["vendorID"].ToString(),               //납춤처ID
+                            vendorName = result["vendorName"].ToString(),           //납품처명
+                            NoKey = result["NoKey"].ToString(),                     //순번키
+                            membID = result["membID"].ToString(),                   //실수요자ID
+                            membName = result["membName"].ToString(),               //이름
+                            adress = result["adress"].ToString(),                   //주소
+                            PhonNo = result["PhonNo"].ToString(),                   //연락처
+                            orderCount = int.Parse(result["orderCount"].ToString()) //수주량
                         };
 
                         if (Properties.Settings.Default.boxCheck)

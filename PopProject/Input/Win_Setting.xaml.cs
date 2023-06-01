@@ -97,40 +97,46 @@ namespace PopProject.Input
             {
                 switch (print[i])
                 {
-                    case "1":
+                    case "1": //필름NO
                         _cb1.IsChecked = true;
                         break;
-                    case "2":
+                    case "2": //코팅
                         _cb2.IsChecked = true;
                         break;
-                    case "3":
+                    case "3": //조판NO
                         _cb3.IsChecked = true;
                         break;
-                    case "4":
+                    case "4": //조판위치
                         _cb4.IsChecked = true;
                         break;
-                    case "5":
+                    case "5": //목형NO
                         _cb5.IsChecked = true;
                         break;
-                    case "6":
+                    case "6": //목형위치
                         _cb6.IsChecked = true;
                         break;
-                    case "7":
+                    case "7": //인쇄색도
                         _cb7.IsChecked = true;
                         break;
-                    case "8":
+                    case "8": //접합방법
                         _cb8.IsChecked = true;
                         break;
-                    case "9":
+                    case "9": //손잡이
                         _cb9.IsChecked = true;
                         break;
-                    case "10":
+                    case "10": //포장매수
                         _cb10.IsChecked = true;
                         break;
-                    case "11":
+                    case "11": //포장방법
                         _cb11.IsChecked = true;
                         break;
-                    case "18":
+                    case "12": //적재단수
+                        _cb12.IsChecked = true;
+                        break;
+                    case "13": //적재방법
+                        _cb13.IsChecked = true;
+                        break;
+                    case "18"://파렛트 종류
                         _cb18.IsChecked = true;
                         break;
                     default:
@@ -159,49 +165,49 @@ namespace PopProject.Input
             {
                 switch (setting[i])
                 {
-                    case "1":
+                    case "1": //필름NO
                         cb1.IsChecked = true;
                         break;
-                    case "2":
+                    case "2": //코팅
                         cb2.IsChecked = true;
                         break;
-                    case "3":
+                    case "3": //조판NO
                         cb3.IsChecked = true;
                         break;
-                    case "4":
+                    case "4": //조판위치
                         cb4.IsChecked = true;
                         break;
-                    case "5":
+                    case "5": //목형NO
                         cb5.IsChecked = true;
                         break;
-                    case "6":
+                    case "6": //목형위치
                         cb6.IsChecked = true;
                         break;
-                    case "7":
+                    case "7": //인쇄색도
                         cb7.IsChecked = true;
                         break;
-                    case "8":
+                    case "8": //접합방법
                         cb8.IsChecked = true;
                         break;
-                    case "9":
+                    case "9": //손잡이
                         cb9.IsChecked = true;
                         break;
-                    case "10":
+                    case "10": //포장매수
                         cb10.IsChecked = true;
                         break;
-                    case "11":
+                    case "11": //포장방법
                         cb11.IsChecked = true;
                         break;
-                    case "14":
+                    case "14": //창고사항
                         cb12.IsChecked = true;
                         break;
-                    case "15":
+                    case "15": //공정별참고사항
                         cb13.IsChecked = true;
                         break;
-                    case "17":
+                    case "17": //납기일
                         cb15.IsChecked = true;
                         break;
-                    case "18":
+                    case "18": //파렛트종류
                         cb18.IsChecked = true;
                         break;
                     default:
@@ -308,44 +314,41 @@ namespace PopProject.Input
                     case "필름 NO":
                         setting = 1;
                         break;
-
                     case "코팅":
                         setting = 2;
                         break;
-
                     case "조판 NO":
                         setting = 3;
                         break;
-
                     case "조판 위치":
                         setting = 4;
                         break;
-
                     case "목형 NO":
                         setting = 5;
                         break;
-
                     case "목형 위치":
                         setting = 6;
                         break;
-
                     case "인쇄 색도":
                         setting = 7;
                         break;
-
                     case "접합 방법":
                         setting = 8;
                         break;
-
                     case "손잡이":
                         setting = 9;
                         break;
-
                     case "포장 매수":
                         setting = 10;
                         break;
                     case "포장 방법":
                         setting = 11;
+                        break;
+                    case "적재 단수":
+                        setting = 12;
+                        break;
+                    case "적재 방법":
+                        setting = 13;
                         break;
                     case "파렛트 종류":
                         setting = 18;
@@ -454,7 +457,6 @@ namespace PopProject.Input
             Properties.Settings.Default.Save();
         }
 
-
         //작업정보 설정 list에 담기
         private string GetSettingValue(List<string> list)
         {
@@ -537,7 +539,6 @@ namespace PopProject.Input
             string str = "";
             switch (senser)
             {
-
                 case "0":
                     str = "없음";
                     break;
@@ -553,7 +554,7 @@ namespace PopProject.Input
                 case "4":
                     str = "0.4초";
                     break;
-                case "5": //
+                case "5": 
                     str = "0.5초";
                     break;
                 case "9":
@@ -569,15 +570,13 @@ namespace PopProject.Input
         //창 닫을때 저장
         private void Window_Closed(object sender, EventArgs e)
         {
-
             //게더링 COM넘버
             if (cb_1.SelectedItem != null)
             {
                 Properties.Settings.Default.SerialName = cb_1.SelectedItem.ToString();
                 Properties.Settings.Default.Save();
-
             }
-
+            
             //게더링 COM넘버 두번째꺼
             if (cb_12.SelectedItem != null)
             {
@@ -629,7 +628,6 @@ namespace PopProject.Input
         //센서 딜레이 설정
         private void Cb_3_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
         }
 
         //상단,하단 정렬 버튼
