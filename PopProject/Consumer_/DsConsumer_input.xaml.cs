@@ -283,7 +283,7 @@ namespace PopProject.Consumer_
                 {
                     try
                     {
-                        Main.arduSerial.Write("B");
+                        Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                     }catch(Exception e1)
                     {
 
@@ -324,7 +324,7 @@ namespace PopProject.Consumer_
                         DSConsumer.product.imgSource = "/img/bn_03.png";
                         try
                         {
-                            Main.arduSerial.Write("A");
+                            Main.arduSerial.Write("A"); //아두이노 카운터 리셋
                         }catch(Exception ardu)
                         {
 //                            MessageBox_Dialog msg = new MessageBox_Dialog("아두이노 전송 에러")
@@ -392,7 +392,7 @@ namespace PopProject.Consumer_
             {
                 Properties.Settings.Default.consumCount += workcount;
                 Properties.Settings.Default.Save();
-                InvokeCount(Properties.Settings.Default.mercName, "E");
+                InvokeCount(Properties.Settings.Default.mercName, "E"); //현황판으로 생산종료 송신
                 Canvas.SetTop(box, 490);
                 Canvas.SetTop(box1, 570);
                
@@ -455,7 +455,7 @@ namespace PopProject.Consumer_
             if (returnData.결과 == 1)
             {
                 inlineCount = 0;
-                InvokeCount(Properties.Settings.Default.mercName, "E");
+                InvokeCount(Properties.Settings.Default.mercName, "E"); //현황판으로 생산종료 송신
                 Canvas.SetTop(box, 490);
                 Canvas.SetTop(box1, 570);
                 count = int.Parse(tbResult.Text.ToString());
@@ -519,13 +519,13 @@ namespace PopProject.Consumer_
 
                 //if (Main.production != null)
                 //{
-                //    Main.arduSerial.Write("A");
-                //    Main.arduSerial.Write("B");
+                //    Main.arduSerial.Write("A"); //아두이노 카운터 리셋
+                //    Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                 //}
 
                 //else
                 //{
-                //    Main.arduSerial.Write("A");
+                //    Main.arduSerial.Write("A"); //아두이노 카운터 리셋
                 //}
 
 
@@ -576,13 +576,13 @@ namespace PopProject.Consumer_
 
                 //if (Main.production != null)
                 //{
-                //    Main.arduSerial.Write("A");
-                //    Main.arduSerial.Write("B");
+                //    Main.arduSerial.Write("A"); //아두이노 카운터 리셋
+                //    Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                 //}
 
                 //else
                 //{
-                //    Main.arduSerial.Write("A");
+                //    Main.arduSerial.Write("A"); //아두이노 카운터 리셋
                 //}
 
 

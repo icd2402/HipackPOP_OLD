@@ -188,6 +188,21 @@ namespace PopProject.input
             }
         }
 
+        private string _Cutting2;
+
+        public string Cutting2
+        {
+            get
+            {
+                return _Cutting2;
+            }
+            set
+            {
+                _Cutting2 = value;
+                onPropertyChanged("Cutting2");
+            }
+        }
+
         private string _SaveDone;
 
         public string SaveDone

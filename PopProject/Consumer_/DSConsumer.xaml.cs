@@ -560,7 +560,7 @@ namespace PopProject.Consumer_
                 //        {
                 //            try
                 //            {
-                //                Main1.arduSerial.Write("B");
+                //                Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청
                 //            }
                 //            catch (Exception)
                 //            {
@@ -575,7 +575,7 @@ namespace PopProject.Consumer_
                 //        {
                 //            try
                 //            {
-                //                Main.arduSerial.Write("B");
+                //                Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                 //            }
                 //            catch (Exception)
                 //            {

@@ -20,19 +20,17 @@ namespace PopProject.Consumer_
 
     public partial class Consumer_input : Window
     {
-        private readonly string metrialitem = Properties.Settings.Default.meterialinfo;
-        private bool checkChangeButton = false;
+        private readonly string metrialitem = Properties.Settings.Default.meterialinfo; //작업정보 설정값 저장
 
-
-        private readonly ConsumerModel consumerModel;
+        private readonly ConsumerModel consumerModel; 
         private readonly MainModel mainModel;
-
         public readonly InputModel inputModel;
-        private float totalPerrCount = 0;
-
         public Win_KeyBoard win_KeyBoard;
-        public static bool check = false;
-        private int count = 0;
+
+        private bool checkChangeButton = false; //확장창 버튼 활성유뮤 
+        private float totalPerrCount = 0; //인풋 확장창 총불량 수량
+        public static bool check = false; //생산중??
+        private int count = 0; //생산수량
 
 
         public Consumer_input(ConsumerModel consumerModel, MainModel mainModel)
@@ -41,28 +39,29 @@ namespace PopProject.Consumer_
             this.consumerModel = consumerModel;
             this.mainModel = mainModel;
             inputModel = new InputModel();
+            ConvertModel();
 
+            //생산결과값 있을때만 이월버튼 활성화
             if (consumerModel.pWorkCount > 0 && consumerModel.sDatetime.Length > 3 && consumerModel.eDatetime.Length > 3)
             {
-                box1.Visibility = Visibility.Visible;
+                box1.Visibility = Visibility.Visible; //이월 버튼 활성화
                 Canvas.SetTop(box, 490);
                 Canvas.SetTop(box1, 570);
             }
-
             else
             {
-                box1.Visibility = Visibility.Collapsed;
+                box1.Visibility = Visibility.Collapsed; //이월버튼 비활성
                 Canvas.SetTop(box, 540);
             }
-
-            ConvertModel();
         }
 
+        //작업정보 설정
         public Consumer_input(string metrialitem)
         {
             this.metrialitem = metrialitem;
         }
 
+        
         private void ConvertModel()
         {
             inputModel.pCnt = mainModel.pCnt;
@@ -112,14 +111,14 @@ namespace PopProject.Consumer_
             mainModel.inputModel = inputModel;
             DataContext = inputModel;
 
-            PopResultSearchMember();
-            PopErrorSearch();
+            PopResultSearchMember(); //실수요자 결과조회
+            PopErrorSearch();        //불량 조회
 
         }
 
+        //실수요자 결과조회
         private void PopResultSearchMember()
         {
-
             float tempCount = inputModel.count;
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
@@ -137,7 +136,7 @@ namespace PopProject.Consumer_
                 {
                     ObservableCollection<ConsumerModel> ob = new ObservableCollection<ConsumerModel>();
                     inputModel.sumPworkCount = 0;
-                    tbEmpty.Visibility = Data_JArray.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
+                    tbEmpty.Visibility = Data_JArray.Count > 0 ? Visibility.Collapsed : Visibility.Visible; //확장창에 결과값에따른 표기
 
                     foreach (JObject result in Data_JArray)
                     {
@@ -186,7 +185,6 @@ namespace PopProject.Consumer_
                         }
 
                         ob.Add(listitem);
-
                     }
 
                     if (ob.Count > 0)
@@ -210,21 +208,16 @@ namespace PopProject.Consumer_
                             inputModel.pMemo = tempItem.Memo;
                             inputModel.sDatetime = tempItem.sDatetime;
                             inputModel.eDatetime = tempItem.eDatetime;
-                           
                         }
-
                         else
                         {
                             inputModel.imagePath = "/img/bn_05.png";
 
                             if (inputModel.eDatetime.Length > 3)
                             {
-
                                 Consumer.product.imgSource = "/img/bn_03.png";
                                 //mainModel.imagePath = "/img/bn_03.png";
-
                             }
-                            
                             else
                             {
                                 //  Consumer.product.imgSource = "/img/bn_02.png";
@@ -248,7 +241,6 @@ namespace PopProject.Consumer_
                         }
                         catch (Exception)
                         {
-
                         }
                     }
                     ic.ItemsSource = ob;
@@ -259,6 +251,7 @@ namespace PopProject.Consumer_
             sv.ScrollToVerticalOffset(ic.ActualHeight);
         }
 
+        //실수요자 불량 조회
         private ObservableCollection<errorModel> PopErrorListSearchMember(ConsumerModel listitem)
         {
             ObservableCollection<errorModel> ob = null;
@@ -312,6 +305,8 @@ namespace PopProject.Consumer_
             return ob;
         }
 
+
+        //불량조회
         private void PopErrorSearch()
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -338,7 +333,6 @@ namespace PopProject.Consumer_
                     inputModel.errorModel.memo = "";
                     combo.ItemsSource = ob;
                 }
-
             }
             else
             {
@@ -347,6 +341,7 @@ namespace PopProject.Consumer_
             }
         }
 
+        //확장창 리스트 더블클릭
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
@@ -358,8 +353,6 @@ namespace PopProject.Consumer_
                     Border border = (Border)sender;
                     errorModel context = (errorModel)border.DataContext;
 
-                    //Console.WriteLine("메모" + context.memo);
-
                     if (!context.memo.Equals("작업시작") && !context.memo.Equals("작업완료"))
                     {
                         //can.Visibility = Visibility.Visible;
@@ -368,19 +361,14 @@ namespace PopProject.Consumer_
 
                         //PopResultSearchMember();
                         //can.Visibility = Visibility.Collapsed;
-
                     }
-
                     else if (context.memo.Equals("작업완료"))
                     {
-
-                        can.Visibility = Visibility.Visible;
+                        can.Visibility = Visibility.Visible; //화면 회색처리
                         Win_resultUpdate win_resultUpdate = new Win_resultUpdate(context, inputModel,true);
-                        _ = win_resultUpdate.ShowDialog();
-                        PopResultSearchMember();
-                        can.Visibility = Visibility.Collapsed;
-
-
+                        _ = win_resultUpdate.ShowDialog(); //결과값 변경 창 팝업
+                        PopResultSearchMember(); //실수요자 결과 조회
+                        can.Visibility = Visibility.Collapsed; //화면 회색처리 해제
                     }
                 }
             }
@@ -391,22 +379,23 @@ namespace PopProject.Consumer_
             DragMove();
         }
 
+        //확장 버튼 클릭
         private void ChangeButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
+
             if (checkChangeButton)
             {
-                changeButtonIn.Visibility = Visibility.Collapsed;
-                changeButtonOut.Visibility = Visibility.Visible;
+                changeButtonOut.Visibility = Visibility.Visible;  // -> 버튼 활성화 
+                changeButtonIn.Visibility = Visibility.Collapsed; // <- 버튼 비활성화
                 checkChangeButton = false;
                 Width = 550;
                 Left =
                     (SystemParameters.WorkArea.Width / 2) - (Width / 2);
             }
-
             else
             {
-                changeButtonIn.Visibility = Visibility.Visible;
-                changeButtonOut.Visibility = Visibility.Collapsed;
+                changeButtonOut.Visibility = Visibility.Collapsed; // -> 버튼 ql활성화 
+                changeButtonIn.Visibility = Visibility.Visible;    // <- 버튼 활성화
                 checkChangeButton = true;
                 Width = 1105;
                 Left = (SystemParameters.WorkArea.Width / 2) - (Width / 2);
@@ -416,42 +405,36 @@ namespace PopProject.Consumer_
 
         private void Detail_item(object sender, MouseButtonEventArgs e)
         {
-
         }
+
         //작업 시작 버튼
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             //Console.WriteLine("Main.production.orderKey : " + Main.production.orderKey);
             Console.WriteLine("Consumer.orderkey : " + consumerModel.orderKey);
-            if (inputModel.imagePath.Equals("/img/bn_05.png"))
+            
+            if (inputModel.imagePath.Equals("/img/bn_05.png")) //시작버튼 확성화
             {
                 if (CheckConsumerWork())
                 {
                     MessageBox_Dialog messageBox = new MessageBox_Dialog("실수요자 작업중인 건이 있습니다.");
                     _ = messageBox.ShowDialog();
                 }
-
                 else
                 {
                     _ = new LogData("작업시작");
                     PopResultStartMember();
                     PopResultSearchMember();
-
                 }
-
             }
-
-            else if (inputModel.imagePath.Equals("/img/bn_06.png"))
+            else if (inputModel.imagePath.Equals("/img/bn_06.png")) //종료버튼 활성화
             {
-                MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장",
-                    MessageBoxButton.YesNo);
-
-                if (result == MessageBoxResult.No)
+                MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.No) //취소
                 {
                     Close();
                 }
-
-                else
+                else //확인
                 {
                     string metrialitem = Properties.Settings.Default.meterialinfo;
                     Console.WriteLine("end_count" + inputModel.count);
@@ -460,27 +443,23 @@ namespace PopProject.Consumer_
                         _ = new LogData("작업종료");
                         switch (metrialitem)
                         {
-                            case "12":
-                            case "13":
-
+                            case "12": //마닐라
+                            case "13": //원단
                                 Main1.production = null;
                                 try
                                 {
                                     if (Main1.production != null)
                                     {
-                                        Main1.arduSerial.Write("A");
-                                        Main1.arduSerial.Write("B");
+                                        Main1.arduSerial.Write("A"); //아두이노 카운터 리셋
+                                        Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청
                                     }
-
                                     else
                                     {
-                                        Main1.arduSerial.Write("B");
+                                        Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청
                                     }
-
                                 }
                                 catch (Exception)
                                 {
-
                                 }
                                 break;
 
@@ -490,18 +469,16 @@ namespace PopProject.Consumer_
                                 {
                                     if (Main.production != null)
                                     {
-                                        Main.arduSerial.Write("A");
-                                        Main.arduSerial.Write("B");
+                                        Main.arduSerial.Write("A"); //아두이노 카운터 리셋
+                                        Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                                     }
                                     else
                                     {
-                                        Main.arduSerial.Write("B");
+                                        Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                                     }
                                 }
-
                                 catch (Exception)
                                 {
-
                                 }
                                 break;
                         }
@@ -528,6 +505,7 @@ namespace PopProject.Consumer_
             }
         }
 
+        //실수요자 결과 조회
         private int PopResultEndMember()
         {
             int ChkAED;
@@ -586,6 +564,8 @@ namespace PopProject.Consumer_
             return returnData.결과;
         }
 
+        
+        
         private void PopResultStartMember()
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -628,72 +608,49 @@ namespace PopProject.Consumer_
                 switch (metrialitem)
                 {
 
-                    case "12":
-                    case "13":
+                    case "12": //마닐라
+                    case "13": //원단
                         Main1.production = mainModel;
-
                         try
                         {
-
                             if (Main1.production != null)
                             {
-                                Main1.arduSerial.Write("A");
-                                Main1.arduSerial.Write("B");
+                                Main1.arduSerial.Write("A"); //아두이노 카운터 리셋
+                                Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청
                             }
-
                             else
                             {
-                                Main1.arduSerial.Write("A");
+                                Main1.arduSerial.Write("A"); //아두이노 카운터 리셋
                             }
                         }
-
                         catch (Exception e)
                         {
                             MessageBox_Dialog msg = new MessageBox_Dialog("PopResultStart 오류발생 !!" + e.Message);
                             _ = msg.ShowDialog();
                         }
-
                         break;
+                    
                     default:
                         Main.production = mainModel;
                         try
                         {
-
                             if (Main.production != null)
                             {
-                                Main.arduSerial.Write("A");
-                                Main.arduSerial.Write("B");
+                                Main.arduSerial.Write("A"); //아두이노 카운터 리셋
+                                Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                             }
-
                             else
                             {
-                                Main.arduSerial.Write("A");
+                                Main.arduSerial.Write("A"); //아두이노 카운터 리셋
                             }
                         }
-
                         catch (Exception e)
                         {
                             MessageBox_Dialog msg = new MessageBox_Dialog("PopResultStart 오류발생 !!" + e.Message);
                             _ = msg.ShowDialog();
                         }
-
                         break;
                 }
-
-                /*
-                if (Main.production != null)
-                {
-                    Main.arduSerial.Write("A");
-                    Main.arduSerial.Write("B");
-                }
-
-                else
-                {
-                    Main.arduSerial.Write("A");
-                }
-               */
-                //
-
             }
         }
 
@@ -715,8 +672,7 @@ namespace PopProject.Consumer_
             return check;
         }
 
-
-
+        //불량수량 저장버튼 클릭
         private void Image_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
         {
             if (sender.GetType().Name.Equals("Image"))
@@ -733,13 +689,11 @@ namespace PopProject.Consumer_
                             context.errorModel.perrCount = 0;
                             PopResultSearchMember();
                         }
-
                         else
                         {
                             MessageBox_Dialog msg = new MessageBox_Dialog("불량 데이터 저장 오류 !!");
                             _ = msg.ShowDialog();
                         }
-
                     }
                 }
             }
@@ -776,6 +730,7 @@ namespace PopProject.Consumer_
             return returnData.결과 == 1 ? 1 : 0;
         }
 
+        //불량수량 - 버튼
         private void Result_badCount_minus(object sender, MouseButtonEventArgs e)
         {
 
@@ -790,6 +745,7 @@ namespace PopProject.Consumer_
             }
         }
 
+        //불량수량 + 버튼
         private void Result_badCount_plus(object sender, MouseButtonEventArgs e)
         {
 
@@ -802,9 +758,9 @@ namespace PopProject.Consumer_
 
         private void ScrollViewer_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-
         }
 
+        //결과수량 - 버튼
         private void Result_count_minus(object sender, MouseButtonEventArgs e)
         {
             if (sender.GetType().Name.Equals("Image"))
@@ -816,7 +772,6 @@ namespace PopProject.Consumer_
                 {
                     value = 1;
                 }
-
                 else
                 {
                     value = inputModel.pCnt;
@@ -828,11 +783,11 @@ namespace PopProject.Consumer_
                 if (context.pworkCount - value >= 0)
                 {
                     inputModel.count -= value;
-
                 }
             }
         }
 
+        //결과수량 + 버튼
         private void Result_count_plus(object sender, MouseButtonEventArgs e)
         {
             if (sender.GetType().Name.Equals("Image"))
@@ -842,7 +797,6 @@ namespace PopProject.Consumer_
                 {
                     value = 1;
                 }
-
                 else
                 {
                     value = inputModel.pCnt;
@@ -855,11 +809,12 @@ namespace PopProject.Consumer_
             }
         }
 
+        //바코드
         private void TbBarcode_KeyDown(object sender, KeyEventArgs e)
         {
-
         }
 
+        //실시간 생산수량 텍스트 클릭
         private void TbResult_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (sender.GetType().Name.Equals("TextBox"))
@@ -875,9 +830,7 @@ namespace PopProject.Consumer_
 
                     _ = win_KeyBoard.ShowDialog();
                     win_KeyBoard = null;
-
                 }
-
                 else
                 {
                     InputModel inputmodel = (InputModel)context.DataContext;
@@ -904,11 +857,10 @@ namespace PopProject.Consumer_
 
         }
 
+        //이월버튼 클릭
         private void 이월(object sender, MouseButtonEventArgs e)
         {
-            MessageBoxResult result = System.Windows.MessageBox.Show(mainModel.prodName + " 품목을 이월 하시겠습니까 ?", "이월",
-                    MessageBoxButton.YesNo);
-
+            MessageBoxResult result = System.Windows.MessageBox.Show(mainModel.prodName + " 품목을 이월 하시겠습니까 ?", "이월", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.No)
             {
                 Close();
@@ -923,16 +875,14 @@ namespace PopProject.Consumer_
                 {
                     MessageBox_Dialog dialog = new MessageBox_Dialog("이월 작업을 할 수 없습니다.");
                     _ = dialog.ShowDialog();
-
                 }
-
             }
             Console.WriteLine(mainModel.presultCount + "");
         }
 
+        //이월계획 DB저장
         private void SpAdd410processinfo_workplan()
         {
-
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
                 Properties.Settings.Default.serverIndex,
@@ -940,7 +890,6 @@ namespace PopProject.Consumer_
                 new string[] { "@오더Key", "@계획Key" },
                 new object[] { inputModel.orderKey, inputModel.pplanKey },
                 1
-
                 );
 
             if (returnData.결과 == 1)
@@ -952,14 +901,9 @@ namespace PopProject.Consumer_
             }
             else
             {
-
                 MessageBox_Dialog msg = new MessageBox_Dialog("spAdd410processinfo_workplan 조회 오류!!");
                 _ = msg.ShowDialog();
-
-
             }
-
-
         }
     }
 }

@@ -2520,7 +2520,7 @@ namespace PopProject.UserControl_
                         e.Handled = false;
                         DSConsumer dSConsumer = new DSConsumer(model, check);
                         dSConsumer.ShowDialog();
-                        InvokeCount(Properties.Settings.Default.mercName, "E");
+                        InvokeCount(Properties.Settings.Default.mercName, "E"); //현황판으로 생산종료 송신
                         SelectWorkList();
                         ResultSearchDate();
                     }

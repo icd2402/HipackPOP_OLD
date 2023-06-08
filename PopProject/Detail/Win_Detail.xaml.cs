@@ -1286,13 +1286,13 @@ namespace PopProject.Detail
         //로봇 세팅 버튼
         private void robot_setting(object sender, MouseButtonEventArgs e)
         {
-            if (Properties.Settings.Default.corp_name.Equals("오주포장"))
+            if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
             {
                 Main.robot_Setting = new Robot_Setting(mainModel.prodID, mainModel.customSName, mainModel.prodName);
                 Main.robot_Setting.ShowDialog();
                 Main.robot_Setting = null;
             }
-            else if(Properties.Settings.Default.corp_name.Equals("대세물산"))
+            else if(Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
             {
                 Main.robot_Setting2 = new Robot_Setting2(mainModel.prodID, mainModel.customSName, mainModel.prodName);
                 Main.robot_Setting2.ShowDialog();

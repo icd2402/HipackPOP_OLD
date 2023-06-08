@@ -216,7 +216,7 @@ namespace PopProject.Input
             }
 
             //오주 또는 대양포장일때 PLC 선택 체크박스 보이도록함
-            if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("대양포장"))
+            if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("대양포장") || Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
             {
                 plcText.Visibility = Visibility.Visible;
                 plc.Visibility = Visibility.Visible;

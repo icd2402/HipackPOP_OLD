@@ -170,41 +170,7 @@ namespace PopProject.Input
             }
         }
 
-        //CNS PLC 통신연결
-        private void ConnectSocket()
-        {
-            mainSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-            if (!mainSock.Connected)
-            {
-                int port = int.Parse(Properties.Settings.Default.port);
-                try
-                {
-                    IAsyncResult result = mainSock.BeginConnect(Properties.Settings.Default.ip, port, null, null);
-                    bool success = result.AsyncWaitHandle.WaitOne(1500, true);
-                    if (success)//연결 성공
-                    {
-                        mainSock.EndConnect(result);
-                        AsyncObject obj = new AsyncObject(2000);
-                        obj.WorkingSocket = mainSock;
-                        obj.ClearBuffer();
-                        mainSock.BeginReceive(obj.Buffer, 0, obj.BufferSize, 0, DataReceived, obj);
-                    }
-                    else //연결 실패
-                    {
-                        mainSock.Close();
-                        MessageBox_Dialog msg = new MessageBox_Dialog("Plc 연결 불가");
-                        msg.ShowDialog();
-                    }
-                    // mainSock.Connect(Properties.Settings.Default.ip, port); //서버ip,포트번호
-
-                }
-                catch (Exception e)
-                {
-                    //MessageBox_Dialog msg = new MessageBox_Dialog(e.Message);
-                    //msg.Show();
-                }
-            }
-        }
+        
 
         private void PopBeforeProcessItemCount()
         {
@@ -293,24 +259,24 @@ namespace PopProject.Input
                     case "13":
                         if (Main1.production != null)
                         {
-                            Main1.arduSerial.Write("B"); //종료
+                            Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청 //종료
                         }
                         else
                         {
-                            Main1.arduSerial.Write("A"); //시작
-                            Main1.arduSerial.Write("B"); //종료
+                            Main1.arduSerial.Write("A"); //아두이노 카운터 리셋 //시작
+                            Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청 //종료
                         }
                         break;
 
                     default: //기본
                         if (Main.production != null)
                         {
-                            Main.arduSerial.Write("B"); //종료
+                            Main.arduSerial.Write("B"); //아두이노 현재카운터 요청 //종료
                         }
                         else
                         {
-                            Main.arduSerial.Write("A"); //시작
-                            Main.arduSerial.Write("B"); //종료
+                            Main.arduSerial.Write("A"); //아두이노 카운터 리셋 //시작
+                            Main.arduSerial.Write("B"); //아두이노 현재카운터 요청 //종료
                         }
                         break;
                 }
@@ -332,24 +298,24 @@ namespace PopProject.Input
 
                             if (Main1.production != null)
                             {
-                                Main1.arduSerial.Write("B");
+                                Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청
                             }
                             else
                             {
-                                Main1.arduSerial.Write("A");
-                                Main1.arduSerial.Write("B");
+                                Main1.arduSerial.Write("A"); //아두이노 카운터 리셋
+                                Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청
                             }
                             break;
 
                         default:
                             if (Main.production != null)
                             {
-                                Main.arduSerial.Write("B");
+                                Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                             }
                             else
                             {
-                                Main.arduSerial.Write("A");
-                                Main.arduSerial.Write("B");
+                                Main.arduSerial.Write("A"); //아두이노 카운터 리셋
+                                Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                             }
                             break;
                     }
@@ -872,12 +838,12 @@ namespace PopProject.Input
                         {
                             if (Main1.production != null)
                             {
-                                Main1.arduSerial.Write("A");
-                                Main1.arduSerial.Write("B");
+                                Main1.arduSerial.Write("A"); //아두이노 카운터 리셋
+                                Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청
                             }
                             else
                             {
-                                Main1.arduSerial.Write("A");
+                                Main1.arduSerial.Write("A"); //아두이노 카운터 리셋
                             }
                         }
                         catch (Exception e)
@@ -893,13 +859,13 @@ namespace PopProject.Input
                         {
                             if (Main.production != null)
                             {
-                                Main.arduSerial.Write("A");
-                                Main.arduSerial.Write("B");
+                                Main.arduSerial.Write("A"); //아두이노 카운터 리셋
+                                Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                             }
 
                             else
                             {
-                                Main.arduSerial.Write("A");
+                                Main.arduSerial.Write("A"); //아두이노 카운터 리셋
                             }
                         }
 
@@ -1103,7 +1069,11 @@ namespace PopProject.Input
                 {
                     LogData logData = new LogData("작업종료");
                     PopResultEnd(); //결과값 조회
-                    CNSDataRead(); //CNS 데이터 읽기
+
+                    if (Properties.Settings.Default.Plc) //PLC 사용 체크일때
+                    {
+                        CNSDataRead(); //CNS 데이터 읽기
+                    }
 
                     inputModel.perrCount = 0;
                     inputModel.count = 0;
@@ -1115,7 +1085,6 @@ namespace PopProject.Input
 
         }
 
-
         bool cnsProcessing = false;
 
         private void CNSDataRead() //데이터 수신 요청
@@ -1124,7 +1093,7 @@ namespace PopProject.Input
             {
                 try
                 {
-                    ConnectSocket(); //통신 오픈
+                    ConnectSocket(); //CNS 통신 연결
                     Ls_Fenet wd = new Ls_Fenet(); //헤더
                     byte[] bDts = wd.Word_continuous_Read("%DB7804", 71); //연속읽기 D3902 ~ D3972 (71개)
 
@@ -1134,12 +1103,48 @@ namespace PopProject.Input
                     {
                         Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
                     }
-                    Console.WriteLine("PLC송신 데이터 : " + Send_Data); //송신값 확인
+                    Console.WriteLine("PLC송신 데이터 : " + Send_Data);
+
                     cnsProcessing = true;
                     mainSock.Send(bDts); //데이터 쓰기
                 }
                 catch (Exception)
                 {
+                }
+            }
+        }
+
+        //CNS PLC 통신연결
+        private void ConnectSocket()
+        {
+            mainSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+            if (!mainSock.Connected)
+            {
+                int port = int.Parse(Properties.Settings.Default.port); //포트 2004
+                try
+                {
+                    IAsyncResult result = mainSock.BeginConnect(Properties.Settings.Default.ip, port, null, null);
+                    bool success = result.AsyncWaitHandle.WaitOne(1500, true);
+                    if (success)//연결 성공
+                    {
+                        mainSock.EndConnect(result);
+                        AsyncObject obj = new AsyncObject(1000);
+                        obj.WorkingSocket = mainSock;
+                        obj.ClearBuffer();
+                        mainSock.BeginReceive(obj.Buffer, 0, obj.BufferSize, 0, DataReceived, obj);
+                    }
+                    else //연결 실패
+                    {
+                        mainSock.Close();
+                        MessageBox_Dialog msg = new MessageBox_Dialog("CNS PLC 연결 실패");
+                        msg.ShowDialog();
+                    }
+                }
+                catch (Exception e)
+                {
+                    mainSock.Close();
+                    MessageBox_Dialog msg = new MessageBox_Dialog("CNS PLC 연결 실패");
+                    msg.ShowDialog();
                 }
             }
         }
@@ -1162,6 +1167,8 @@ namespace PopProject.Input
                 //Word 연속읽기
                 string continuous_read = string.Empty;
                 string RD = Receive_Data.Substring(64); //앞에 데이터 지우고 데이터 정보부터 읽음
+                Console.WriteLine("PLC수신 데이터(input) : " + RD);
+
                 for (int i = 0; i < RD.Length; i++)
                 {
                     string high_data = RD.Substring(0, 2); //앞 두자리 추출
@@ -1169,217 +1176,217 @@ namespace PopProject.Input
 
                     switch (i)
                     {
-                        case 0:
+                        case 0: //작업모델 번호
                             itemModel.ModelNum = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 1:
+                        case 1: //작업지시 매수
                             itemModel.WorkPlan1 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 2:
+                        case 2: //작업지시 매수
                             itemModel.WorkPlan2 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 3:
+                        case 3: //박스타입
                             itemModel.BoxType = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 4:
+                        case 4: //폭
                             itemModel.Pock = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 5:
+                        case 5: //장
                             itemModel.Jang = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 6:
+                        case 6: //고
                             itemModel.Go = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 7:
+                        case 7: //갭
                             itemModel.Gap = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 8:
+                        case 8: //앞날개
                             itemModel.Wing = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 9:
+                        case 9: //미미
                             itemModel.Cutting = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 10:
+                        case 10: //저장 완료
                             itemModel.SaveDone = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 11:
+                        case 11: //생산속도
                             itemModel.WorkSpeed = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 12:
+                        case 12: //저장값 쓰기 가능상태
                             itemModel.SaveState = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 13:
+                        case 13: //spare
                             itemModel.spare = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 14:
+                        case 14: //A
                             itemModel.aRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 15:
+                        case 15: //B
                             itemModel.bRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 16:
+                        case 16: //C
                             itemModel.cRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 17:
+                        case 17: //D
                             itemModel.dRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 18:
+                        case 18: //E
                             itemModel.eRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 19:
+                        case 19: //F1
                             itemModel.f1Recipe = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 20:
+                        case 20: //F2
                             itemModel.f2Recipe = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 21:
+                        case 21: //G
                             itemModel.g2pRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 22:
+                        case 22: //O
                             itemModel.oRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 23:
+                        case 23: //P1
                             itemModel.p1Recipe = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 24:
+                        case 24: //P2
                             itemModel.p2pRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 25:
+                        case 25: //P3
                             itemModel.p3Recipe = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 26:
+                        case 26: //P4
                             itemModel.p4Recipe = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 27:
+                        case 27: //spare
                             itemModel.spare2 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 28:
+                        case 28: //spare
                             itemModel.spare3 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 29:
+                        case 29: //슬로타
                             itemModel.Slotter = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 30:
+                        case 30: //타이캇타
                             itemModel.DieCutter = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 31:
+                        case 31: //프린터1 풀 롤
                             itemModel.PrinterPull1 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 32:
+                        case 32: //프린터1 프레스 롤
                             itemModel.PrinterRoll1 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 33:
+                        case 33: //프린터2 풀 롤
                             itemModel.PrinterPull2 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 34:
+                        case 34: //프린터2 프레스 롤
                             itemModel.PrinterRoll2 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 35:
+                        case 35: //프린터3 풀 롤
                             itemModel.PrinterPull3 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 36:
+                        case 36: //프린터3 프레스 롤
                             itemModel.PrinterRoll3 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 37:
+                        case 37: //프린터4 풀 롤
                             itemModel.PrinterPull4 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 38:
+                        case 38: //프린터 프레스 롤
                             itemModel.PrinterRoll4 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 39:
+                        case 39: //spare
                             itemModel.spare4 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 40:
+                        case 40: //spare
                             itemModel.spare5 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 41:
+                        case 41: //spare
                             itemModel.spare6 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 42:
+                        case 42: //spare
                             itemModel.spare7 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 43:
+                        case 43: //피다진입 갭
                             itemModel.FeederGap = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 44:
+                        case 44: //피타진입 롤
                             itemModel.FeederRoll = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 45:
+                        case 45: //슬로타 보조쾌선 갭
                             itemModel.SlotterSubGap = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 46:
+                        case 46: //슬로타 본(중간) 갭
                             itemModel.SlotterMiddleGap = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 47:
+                        case 47: //슬로타 연결(배출) 갭
                             itemModel.SlotterConnection = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 48:
+                        case 48: //다이캇타 롤 갭
                             itemModel.DieCutterRollGap = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 49:
+                        case 49: //글루어벨트 진앱 갭 F1
                             itemModel.GluerbeltF1 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 50:
+                        case 50: //글루어벨트 진앱 갭 F2
                             itemModel.GluerbeltF2 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 51:
+                        case 51: //글루어 프레스롤 갭 A
                             itemModel.GluerPressA = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 52:
+                        case 52: //글루어 프레스롤 갭 B
                             itemModel.GluerPressB = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 53:
+                        case 53: //다이캇타 롤 갭A
                             itemModel.DieCutterRollA = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 54:
+                        case 54: //다이캇타 롤 갭B
                             itemModel.DieCutterRollB = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 55:
+                        case 55: //글루어 PE 가이드
                             itemModel.GluerPE = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 56:
+                        case 56: //R/B 보조괘선 진입 롤
                             itemModel.BRSub = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 57:
+                        case 57: //R/B 본괘선 중간 롤
                             itemModel.BRMain = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 58:
+                        case 58: //R/B 연결 배출 롤
                             itemModel.BRConnection = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 59:
+                        case 59: //R/B 연결 중간 롤
                             itemModel.BRmiddle = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 60:
+                        case 60: //spare
                             itemModel.spare8 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 61:
+                        case 61: //spare
                             itemModel.spare9 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 62:
+                        case 62: //spare
                             itemModel.spare10 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 63:
+                        case 63: //spare
                             itemModel.spare11 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 64:
+                        case 64: //spare
                             itemModel.spare12 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 65:
+                        case 65: //spare
                             itemModel.spare13 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 66:
+                        case 66: //spare
                             itemModel.spare14 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 67:
+                        case 67: //총생산량(하위) 
                             itemModel.TotalCount1 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 68:
+                        case 68: //총생산량(상위)
                             itemModel.TotalCount2 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 69:
+                        case 69: //현재생산량(하위)
                             itemModel.Count1 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
-                        case 70:
+                        case 70: //현재생산량(상위)
                             itemModel.Count2 = Convert.ToInt32(low_data + high_data, 16).ToString();
                             break;
 
@@ -1390,7 +1397,7 @@ namespace PopProject.Input
                     RD = RD.Substring(4); //변환 끝낸 4자리 데이터 자르기
                 }
 
-                Console.WriteLine("PLC수신 데이터 : " + continuous_read); //수신값 확인
+                Console.WriteLine("CNS PLC수신 데이터 확인(input) : " + continuous_read); //수신값 확인용
 
 
                 if (cnsProcessing)
@@ -1431,7 +1438,6 @@ namespace PopProject.Input
                     }
 
                     cnsProcessing = false;
-
                 }
 
                 obj.ClearBuffer();
@@ -1548,8 +1554,7 @@ namespace PopProject.Input
 
 
 
-                InvokeCount(Properties.Settings.Default.mercName, "E");
-
+                InvokeCount(Properties.Settings.Default.mercName, "E"); //현황판으로 생산종료 송신
                 //Console.WriteLine("metrialitem -> " + metrialitem);
                 if (Properties.Settings.Default.corp_name.Equals("오주포장")  &&
                     (Properties.Settings.Default.processType == 7
@@ -1607,8 +1612,8 @@ namespace PopProject.Input
 
                         try
                         {
-                            Main1.arduSerial.Write("A"); // 카운트값 초기화
-                            Main1.arduSerial.Write("B"); // 
+                            Main1.arduSerial.Write("A"); //아두이노 카운터 리셋 
+                            Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청 // 
                         }
                         catch (Exception)
                         {
@@ -1620,8 +1625,8 @@ namespace PopProject.Input
                         Main.production = null;
                         try
                         {
-                            Main.arduSerial.Write("A");
-                            Main.arduSerial.Write("B");
+                            Main.arduSerial.Write("A"); //아두이노 카운터 리셋
+                            Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                         }
 
                         catch (Exception e)
@@ -1641,7 +1646,6 @@ namespace PopProject.Input
                 Properties.Settings.Default.pworkkey = "";
                 Properties.Settings.Default.Save();
             }
-
             else
             {
                 MessageBox_Dialog msg = new MessageBox_Dialog("PopResultEnd 저장실패 !!");
@@ -1652,6 +1656,7 @@ namespace PopProject.Input
 
         }
 
+        //시작
         private int PopResultStart()
         {
 
@@ -1683,7 +1688,7 @@ namespace PopProject.Input
                 Properties.Settings.Default.Save();
                 //Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
                 mainModel.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                InvokeCount(Properties.Settings.Default.mercName, "S");
+                InvokeCount(Properties.Settings.Default.mercName, "S");//현황판으로 시작신호 송신
                 Properties.Settings.Default.count = 0;
                 Properties.Settings.Default.saveDate = "";
                 Properties.Settings.Default.pplanKey = 0;
@@ -1691,8 +1696,8 @@ namespace PopProject.Input
 
                 switch (metrialitem)
                 {
-                    case "12":
-                    case "13":
+                    case "12": //마닐라
+                    case "13": //원단
                         Main1.production = mainModel;
                         try
                         {
@@ -1704,13 +1709,13 @@ namespace PopProject.Input
                             {
                                 if (Main1.production != null)
                                 {
-                                    Main1.arduSerial.Write("A");
-                                    Main1.arduSerial.Write("B");
+                                    Main1.arduSerial.Write("A"); //아두이노 카운터 리셋
+                                    Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청
                                 }
 
                                 else
                                 {
-                                    Main1.arduSerial.Write("A");
+                                    Main1.arduSerial.Write("A"); //아두이노 카운터 리셋
                                 }
 
                             }         
@@ -1722,7 +1727,7 @@ namespace PopProject.Input
                         }
                         break;
 
-                    default:
+                    default: //일반
 
                         Main.production = mainModel;
 
@@ -1736,13 +1741,13 @@ namespace PopProject.Input
                             {
                                 if (Main.production != null)
                                 {
-                                    Main.arduSerial.Write("A");
-                                    Main.arduSerial.Write("B");
+                                    Main.arduSerial.Write("A"); //아두이노 카운터 리셋
+                                    Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                                 }
 
                                 else
                                 {
-                                    Main.arduSerial.Write("A");
+                                    Main.arduSerial.Write("A"); //아두이노 카운터 리셋
                                 }
                             }
                             
@@ -1818,7 +1823,7 @@ namespace PopProject.Input
                         {
                             try
                             {
-                                ConnectSocket();
+                                ConnectSocket(); //CNS 통신연결
                                 Ls_Fenet wd = new Ls_Fenet();
                                 //byte[] bDts = wd.continuous_Read("%DB7800", 70);
                                 List<int> items = new List<int>();
@@ -1833,7 +1838,7 @@ namespace PopProject.Input
                                 items.Add(Properties.Settings.Default.go); //고
                                 items.Add(Properties.Settings.Default.Gap); //갭
                                 items.Add(0); //앞날개
-                                items.Add(Properties.Settings.Default.mimi); //갭
+                                items.Add(Properties.Settings.Default.mimi); //미미
 
                                 //
                                 int WriteCount = items.Count() * 2;
@@ -2241,7 +2246,6 @@ namespace PopProject.Input
             Canvas.SetLeft(error_check_border, 153);
             ErrorCheck = true;
             error_check_border.Visibility = Visibility.Collapsed;
-
         }
 
         private void Plc_button(object sender, MouseButtonEventArgs e)
