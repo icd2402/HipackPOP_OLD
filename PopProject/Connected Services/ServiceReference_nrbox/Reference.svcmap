@@ -19,15 +19,15 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://nrbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://erboxtest.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Access_MiddleWare_CRUD.xsd" MetadataType="Schema" ID="7d3ed4a1-1841-49fb-b828-3e526753f710" SourceId="1" SourceUrl="http://nrbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd0" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD.disco" MetadataType="Disco" ID="a959d7d1-47b9-4e22-b2d0-0e773d1af14f" SourceId="1" SourceUrl="http://nrbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?disco" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD1.xsd" MetadataType="Schema" ID="ad751c31-a59a-4835-936c-e6878c569fc9" SourceId="1" SourceUrl="http://nrbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd2" />
-    <MetadataFile FileName="Service_CRUD.wsdl" MetadataType="Wsdl" ID="067b6079-8677-4373-848a-c182bff1beaa" SourceId="1" SourceUrl="http://nrbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?wsdl" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD2.xsd" MetadataType="Schema" ID="c701e9dc-1804-47bf-a7c8-0317fe52e1ab" SourceId="1" SourceUrl="http://nrbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd1" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD3.xsd" MetadataType="Schema" ID="2ab88649-0f33-4406-b531-add92f02b83e" SourceId="1" SourceUrl="http://nrbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd3" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD4.xsd" MetadataType="Schema" ID="50319124-f07e-473b-8b6c-a687f09b9d50" SourceId="1" SourceUrl="http://erboxtest.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd2" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD1.disco" MetadataType="Disco" ID="0695ad2c-705e-4216-a612-af36fca20ddd" SourceId="1" SourceUrl="http://erboxtest.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?disco" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD41.xsd" MetadataType="Schema" ID="2af30961-7d73-442d-bef0-bafbc798f5c1" SourceId="1" SourceUrl="http://erboxtest.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd1" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD42.xsd" MetadataType="Schema" ID="e127656d-4115-438e-b6cd-625b8c6070a4" SourceId="1" SourceUrl="http://erboxtest.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd3" />
+    <MetadataFile FileName="Service_CRUD1.wsdl" MetadataType="Wsdl" ID="85199c62-904b-4620-88f1-d115fe02a130" SourceId="1" SourceUrl="http://erboxtest.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?wsdl" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD43.xsd" MetadataType="Schema" ID="c14f6495-a30e-4dad-a8ed-4746e972d64a" SourceId="1" SourceUrl="http://erboxtest.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
