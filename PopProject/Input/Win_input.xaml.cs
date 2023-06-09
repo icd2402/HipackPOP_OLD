@@ -119,10 +119,12 @@ namespace PopProject.Input
             {
                 Can_plc.Visibility = Visibility.Collapsed;
                 plc_setting.Visibility = Visibility.Visible;
+                plc_setting2.Visibility = Visibility.Visible;
             }
             else
             {
                 plc_setting.Visibility = Visibility.Collapsed;
+                plc_setting2.Visibility = Visibility.Collapsed;
                 Can_plc.Visibility = Visibility.Visible;
             }
         }
@@ -1432,12 +1434,16 @@ namespace PopProject.Input
                     if (returnData.결과 == 1)
                     {
                         checkInput = true;
+
+
                     }
                     else
                     {
                     }
 
                     cnsProcessing = false;
+                    MessageBoxResult result = System.Windows.MessageBox.Show("저장이 완료되었습니다", "CNS 데이터 저장");
+
                 }
 
                 obj.ClearBuffer();
@@ -2248,62 +2254,34 @@ namespace PopProject.Input
             error_check_border.Visibility = Visibility.Collapsed;
         }
 
-        private void Plc_button(object sender, MouseButtonEventArgs e)
+        //CNS 데이터 저장 버튼
+        private void Plc_ButtonMouseDown(object sender, MouseButtonEventArgs e)
         {
-            Plc_Pop plc = new Plc_Pop(mainModel);
-            //ConnectSocket();
+            //Plc_Pop plc = new Plc_Pop(mainModel);
+            //plc.ShowDialog();
 
-            plc.ShowDialog();
-            //if (Properties.Settings.Default.corp_name.Equals("대양포장"))
-            //{
-            //    if (Properties.Settings.Default.plcCheck)
-            //    {
-            //        try
-            //        {
-            //            ConnectSocket();
-            //            Ls_Fenet wd = new Ls_Fenet();
-            //            List<int> items = new List<int>();
-            //            items.Add(99);  //설정 변경요구 (99로 요청하면 1로바뀜)
-            //            items.Add(0);   //설정 저장 요구 (0=> 신규설정요구, 1=>데이터 설정 변경요구
-            //            items.Add(1); //작업 모델 번호
-            //            items.Add(Properties.Settings.Default.setCount); //작업지시 매수(하위)
-            //            items.Add(0); //작업지시 매수(상위)
-            //            items.Add(Properties.Settings.Default.boxType); //BOX TYPE (1=>1합, 3=>2합, 5=>인쇄물, 6=>H형, 7=>H-Cover형 
-            //            items.Add(Properties.Settings.Default.pok); //폭
-            //            items.Add(Properties.Settings.Default.jang); //장
-            //            items.Add(Properties.Settings.Default.go); //고
-            //            items.Add(Properties.Settings.Default.Gap); //갭
+            MessageBoxResult result = System.Windows.MessageBox.Show("저장 하시겠습니까 ?", "CNS 데이터 저장", MessageBoxButton.YesNo);
 
-            //            int WriteCount = items.Count() * 2;
-            //            byte[] bDts = wd.continuous_Write("%DB7600", WriteCount, items);
-            //            //송신한 데이터 값 보는용도
-            //            string Send_Data = string.Empty;
-
-            //            for (int i = 0; i < bDts.Length; i++)
-            //            {
-            //                Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
-            //            }
-
-            //            Console.WriteLine("송신 데이터 : " + Send_Data);
-            //            mainSock.Send(bDts); //데이터 쓰기
-
-            //        }
-
-            //        catch (Exception)
-            //        {
-
-            //        }
-            //        finally
-            //        {
-            //            mainSock.Close();
-            //        }
-
-            //    }
-            //}
-
+            if (result == MessageBoxResult.Yes) //확인
+            {
+                if (Properties.Settings.Default.Plc) //PLC 사용 체크일때
+                {
+                    CNSDataRead(); //CNS 데이터 읽기
+                }
+            }
+            else //취소
+            {
+            }
         }
 
-        
+        //CNS 데이터 상세창 버튼
+        private void Plc_ButtonMouseDown2(object sender, MouseButtonEventArgs e)
+        {
+            Plc_Pop plc = new Plc_Pop(mainModel);
+            plc.ShowDialog();
+        }
+
+
     }
     public class MinusConverter : IValueConverter
     {

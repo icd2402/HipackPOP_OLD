@@ -48,8 +48,12 @@
             <TextBlock x:Name="tbCheck"  Foreground="Green" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="395" Canvas.Top="178" FontFamily="/font/#KoPubDotum Medium"></TextBlock>
 
         </Canvas>
-        <Border x:Name="plc_setting" Visibility="Collapsed" BorderThickness="2" Background="White" CornerRadius="10" BorderBrush="#FF747474" Width="130" Height="38"   VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="387" Canvas.Top="178" MouseLeftButtonDown="Plc_button">
-            <TextBlock Text="PLC 세팅" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontFamily="/font/#KoPubDotum Bold" Foreground="#FF565656" />
+        
+        <Border x:Name="plc_setting" Visibility="Collapsed" BorderThickness="2" Background="White" CornerRadius="10" BorderBrush="#FF747474" Width="150" Height="50"   VerticalAlignment="Center" HorizontalAlignment="Right" Canvas.Left="387" Canvas.Top="172"  MouseLeftButtonDown="Plc_ButtonMouseDown" >
+            <TextBlock Text="CNS 데이터 저장" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontFamily="/font/#KoPubDotum Bold" Foreground="#FF565656" />
+        </Border>
+        <Border x:Name="plc_setting2" Visibility="Collapsed" BorderThickness="2" Background="White" CornerRadius="10" BorderBrush="#FF747474" Width="150" Height="50"   VerticalAlignment="Center" HorizontalAlignment="Right" Canvas.Left="227" Canvas.Top="172"  MouseLeftButtonDown="Plc_ButtonMouseDown2" >
+            <TextBlock Text="CNS 데이터 보기" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontFamily="/font/#KoPubDotum Bold" Foreground="#FF565656" />
         </Border>
         <TextBlock Grid.Row="1" Text="계     획" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="60" Canvas.Top="227" FontFamily="/font/#KoPubDotum Medium"/>
         <TextBlock Grid.Row="1" Foreground="Blue" Text="재 공 품" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="60" Canvas.Top="265" FontFamily="/font/#KoPubDotum Medium"/>

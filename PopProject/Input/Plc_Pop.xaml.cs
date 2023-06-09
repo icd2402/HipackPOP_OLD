@@ -194,140 +194,194 @@ namespace PopProject.Input
                                 dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
                                 break;
                             case 14: //A
-                                tb1.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result1 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb1.Text = result1.ToString("N1");
                                 break;
                             case 15: //B
-                                tb2.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result2 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb2.Text = result2.ToString("N1");
                                 break;
                             case 16: //C
-                                tb3.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result3 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb3.Text = result3.ToString("N1");
                                 break;
                             case 17: //D
-                                tb4.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result4 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb4.Text = result4.ToString("N1");
                                 break;
                             case 18: //E
-                                tb5.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result5 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb5.Text = result5.ToString("N1");
                                 break;
                             case 19: //F1
-                                tb6.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result6 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb6.Text = result6.ToString("N1");
                                 break;
                             case 20: //F2
-                                tb7.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result7 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb7.Text = result7.ToString("N1");
                                 break;
                             case 21: //G
-                                tb8.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result8 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb8.Text = result8.ToString("N1");
                                 break;
                             case 22: //O
-                                tb9.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result9 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb9.Text = result9.ToString("N1");
                                 break;
                             case 23: //P1
-                                tb10.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result10 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb10.Text = result10.ToString("N1");
                                 break;
                             case 24: //P2
-                                tb11.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result11 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb11.Text = result11.ToString("N1");
                                 break;
                             case 25: //P3
-                                tb12.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result12 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb12.Text = result12.ToString("N1");
                                 break;
                             case 26: //P4
-                                tb13.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result13 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb13.Text = result13.ToString("N1");
                                 break;
                             case 27: //spare
-                                tb14.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result14 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb14.Text = result14.ToString("N1");
                                 break;
                             case 28: //슬로타
-                                tb15.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result15 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb15.Text = result15.ToString("N1");
                                 break;
                             case 29: //다이캇타
-                                tb16.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result16 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb16.Text = result16.ToString("N1");
                                 break;
                             case 30: //프린터1 풀 롤
-                                tb17.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result17 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb17.Text = result17.ToString("N1");
                                 break;
                             case 31: //프린터1 프레스 롤
-                                tb18.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result18 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb18.Text = result18.ToString("N1");
                                 break;
                             case 32: //프린터2 풀 롤
-                                tb19.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result19 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb19.Text = result19.ToString("N1");
                                 break;
                             case 33: //프린터2 프레스 롤
-                                tb20.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result20 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb20.Text = result20.ToString("N1");
                                 break;
                             case 34: //프린터3 풀 롤
-                                tb21.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result21 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb21.Text = result21.ToString("N1");
                                 break;
                             case 35: //프린터3 풀 롤
-                                tb22.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result22 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb22.Text = result22.ToString("N1");
                                 break;
                             case 36: //프린터4 풀 롤
-                                tb23.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result23 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb23.Text = result23.ToString("N1");
                                 break;
                             case 37: //프린터 프레스 롤
-                                tb24.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result24 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb24.Text = result24.ToString("N1");
                                 break;
                             case 38: //spare
-                                tb25.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result25 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb25.Text = result25.ToString("N1");
                                 break;
                             case 39: //spare
-                                tb26.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result26 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb26.Text = result26.ToString("N1");
                                 break;
                             case 40: //spare
-                                tb27.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result27 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb27.Text = result27.ToString("N1");
                                 break;
                             case 41: //spare
-                                tb28.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result28 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb28.Text = result28.ToString("N1");
                                 break;
                             case 42: //피다진입 갭
-                                tb29.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result29 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb29.Text = result29.ToString("N1");
                                 break;
                             case 43: //피타진입 롤
-                                tb30.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result30 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb30.Text = result30.ToString("N1");
                                 break;
                             case 44: //로타 보조쾌선 갭
-                                tb31.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result31 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb31.Text = result31.ToString("N1");
                                 break;
                             case 45: //슬로타 본(중간) 갭
-                                tb32.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result32 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb32.Text = result32.ToString("N1");
                                 break;
                             case 46: //슬로타 연결(배출) 갭
-                                tb33.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result33 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb33.Text = result33.ToString("N1");
                                 break;
                             case 47: //다이캇타 롤 갭
-                                tb34.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result34 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb34.Text = result34.ToString("N1");
                                 break;
                             case 48: //글루어벨트 진앱 갭 F1
-                                tb35.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result35 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb35.Text = result35.ToString("N1");
                                 break;
                             case 49: //글루어벨트 진앱 갭 F2
-                                tb36.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result36 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb36.Text = result36.ToString("N1");
                                 break;
                             case 50: //글루어 프레스롤 갭 A
-                                tb37.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result37 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb37.Text = result37.ToString("N1");
                                 break;
                             case 51: //글루어 프레스롤 갭 B
-                                tb38.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result38 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb38.Text = result38.ToString("N1");
                                 break;
                             case 52: //다이캇타 롤 갭A
-                                tb39.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result39 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb39.Text = result39.ToString("N1");
                                 break;
                             case 53: //다이캇타 롤 갭B
-                                tb40.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result40 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb40.Text = result40.ToString("N1");
                                 break;
                             case 54: //글루어 PE 가이드
-                                tb41.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result41 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb41.Text = result41.ToString("N1");
                                 break;
                             case 55: //R/B 보조괘선 진입 롤
-                                tb42.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result42 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb42.Text = result42.ToString("N1");
                                 break;
                             case 56: //R/B 본괘선 중간 롤
-                                tb43.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result43 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb43.Text = result43.ToString("N1");
                                 break;
                             case 57: //R/B 연결 배출 롤
-                                tb44.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result44 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb44.Text = result44.ToString("N1");
                                 break;
                             case 58: //R/B 연결 중간 롤
-                                tb45.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                double result45 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb45.Text = result45.ToString("N1");
                                 break;
+                            case 59: //R/B 연결 중간 롤
+                                double result46 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb46.Text = result46.ToString("N1");
+                                break;
+                            case 60: //R/B 연결 중간 롤
+                                double result47 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
+                                tb47.Text = result47.ToString("N1");
+                                break;
+
 
                             default:
                                 break;
