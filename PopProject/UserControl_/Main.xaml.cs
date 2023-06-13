@@ -57,7 +57,9 @@ namespace PopProject.UserControl_
         private Point scrollMousePoint = new Point();
         private double hOff = 1;
         private double vOff = 1;
-        public static bool passCheck = true;
+        public static bool passCheck = true; //넘기기
+        public static DateTime dt;
+        private bool CheckDateValue = true;
         public Main()
         {
             try
@@ -87,6 +89,13 @@ namespace PopProject.UserControl_
                 }
                 catch (Exception)
                 {
+                }
+
+                //날짜 이동버튼 활성화 (대세물산)
+                if (Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                {
+                    txtDate2.Visibility = Visibility.Visible;
+                    txtDate3.Visibility = Visibility.Visible;
                 }
 
                 //아두이노로부터 카운팅 값 받음
@@ -136,7 +145,7 @@ namespace PopProject.UserControl_
                     sv.PreviewMouseMove += Sv_PreviewMouseMove;
                 }
 
-                //네트워크 연결 확인
+                //인터넷 연결 확인
                 bool connected = NetworkInterface.GetIsNetworkAvailable();
                 if (connected)
                 {
@@ -156,8 +165,6 @@ namespace PopProject.UserControl_
             catch (Exception e)
             {
                 LogWrite(e.Message);
-                //MessageBox_Dialog msg = new MessageBox_Dialog(e.Message);
-                //msg.Show();
             }
         }
 
@@ -176,6 +183,7 @@ namespace PopProject.UserControl_
                         case "후렉소1호기":
 
                             Console.WriteLine(arg1 + " : " + arg2);
+
                             if (arg1.Equals(Properties.Settings.Default.mercName))
                             {
                                 string special = "";
@@ -468,9 +476,9 @@ namespace PopProject.UserControl_
                     try
                     {
                         str = int.Parse(arduSerial.ReadLine().Trim()); //아두이노 카운터값 공백 제거
-                        Console.WriteLine("값 : " + str); //실시간 값 확인용
+                        Console.WriteLine("아두이노 값(Main) : " + str); //실시간 값 확인용
                         
-                        //생산정보값이 정상일때
+                        //생산정보값이 있을때
                         if (production != null)
                         {
                             Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
@@ -508,6 +516,8 @@ namespace PopProject.UserControl_
                                     }
 
                                     InvokeCount(str, Properties.Settings.Default.mercName); //현황판으로 카운터 전송
+                                    Console.WriteLine("현황판 카운터(매수) 전송 값(Main) : " + Properties.Settings.Default.mercName + str); //실시간 값 확인용
+
                                 }
                                 else//통수일때
                                 {
@@ -539,6 +549,8 @@ namespace PopProject.UserControl_
                                                 // Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
                                             }
                                         InvokeCount(Convert.ToInt32(production.presultCount), Properties.Settings.Default.mercName); //현황판으로 카운터 전송
+                                        Console.WriteLine("현황판 카운터(통수) 전송 값(Main) : " + Properties.Settings.Default.mercName + Convert.ToInt32(production.presultCount)); //실시간 값 확인용
+
                                     }
                                 }
                             }));
@@ -578,13 +590,24 @@ namespace PopProject.UserControl_
         //시계 타이머
         private void Timer_Tick(object sender, EventArgs e)
         {
-            DateTime dt = DateTime.Now;
+            //var clock = DateTime.Now;
+            ////POP날짜와 현재 날짜가 일치할때에 현재시간 갱신
+            //if (CheckDateValue && !dt.ToString("D").Equals(DateTime.Now.ToString("D")))
+            //{
+            //    dt = DateTime.Now;
+            //}
+            //string datePart = dt.ToString("D");
+            //string datetime = string.Format("{0:D2}시 {1:D2}분 {2:D2}초", clock.Hour, clock.Minute, clock.Second);
+            //txtDate.Text = datePart;
+            //txtClock.Text = datetime;
+
+            dt = DateTime.Now;
             string datePart = DateTime.Today.ToString("D");
             string datetime = string.Format("{0:D2}시 {1:D2}분 {2:D2}초", dt.Hour, dt.Minute, dt.Second);
             txtDate.Text = datePart;
             txtClock.Text = datetime;
 
-            //지정된 시간에 프로그램을 종료
+            //지정된 시간에 컴퓨터를 종료
             if (dt.Hour == Properties.Settings.Default.hour)
             {
                 if (dt.Minute == Properties.Settings.Default.minute)
@@ -921,7 +944,8 @@ namespace PopProject.UserControl_
                Properties.Settings.Default.serverIndex,
                "[PopWorkList]",
                new string[] { "@pplanDate" },
-               new string[] { DateTime.Now.ToString("yyyy-MM-dd") },
+               new string[] { DateTime.Now.ToString("yyyy-MM-dd") }, //날짜 고정
+                                                                     //new string[] { dt.ToString("yyyy-MM-dd")}, //날짜 변경용
                0
                );
             if (returnData.결과 == 1)
@@ -2228,8 +2252,9 @@ namespace PopProject.UserControl_
                 Properties.Settings.Default.serverIndex,
                 "[PopResultSearchDate]",
                 new string[] { "@pworkDate" },
-                new string[] { DateTime.Now.ToString("yyyy-MM-dd") },
-                0
+                new string[] { DateTime.Now.ToString("yyyy-MM-dd") }, //날짜 고정
+                                                                      //new string[] { dt.ToString("yyyy-MM-dd") },  //날짜 변경용
+            0
         );
             if (returnData.결과 == 1)
             {
@@ -2524,10 +2549,11 @@ namespace PopProject.UserControl_
                         SelectWorkList();
                         ResultSearchDate();
                     }
-                    else
+                    else //일반생산
                     {
                         win_Input = new Win_input(model, workList, false);
                         _ = win_Input.ShowDialog();
+
                         if (Properties.Settings.Default.presultcount != 0)
                         {
                             model.presultCount = Properties.Settings.Default.presultcount;
@@ -3082,6 +3108,43 @@ namespace PopProject.UserControl_
             }
             SortedList();
         }
+
+        //날짜 뒤로 이동
+        private void Date_Click1(object sender, MouseButtonEventArgs e)
+        {
+            dt = dt.AddDays(-1);
+            txtDate.Text = dt.ToString("D");
+            if (dt.ToString("D").Equals(DateTime.Now.ToString("D")))
+            {
+                CheckDateValue = true;
+            }
+            else
+            {
+                CheckDateValue = false;
+            }
+
+            SelectWorkList(); //계획 조회
+            ResultSearchDate(); //결과 조회
+        }
+
+        //날짜 앞으로 이동
+        private void Date_Click2(object sender, MouseButtonEventArgs e)
+        {
+            dt = dt.AddDays(1);
+            txtDate.Text = dt.ToString("D");
+            if (dt.ToString("D").Equals(DateTime.Now.ToString("D")))
+            {
+                CheckDateValue = true;
+            }
+            else
+            {
+                CheckDateValue = false;
+            }
+
+            SelectWorkList(); //계획 조회
+            ResultSearchDate(); //결과 조회
+        }
+
     }
 
 

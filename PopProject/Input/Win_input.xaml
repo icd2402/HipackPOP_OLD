@@ -1,4 +1,4 @@
-﻿ <Window x:Class="PopProject.Input.Win_input"
+﻿<Window x:Class="PopProject.Input.Win_input"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,21 +6,22 @@
         xmlns:local="clr-namespace:PopProject.Input"
         mc:Ignorable="d"
         Title="Win_Input" Height="820" Width="550" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True">
-        
+
     <Window.Resources>
         <local:MinusConverter x:Key="converter"/>
         <Style TargetType="ScrollBar">
             <Setter Property="Width" Value="20"/>
         </Style>
     </Window.Resources>
-    
+
+
     <Canvas >
-                 
+
         <Border VerticalAlignment="Stretch" BorderBrush="Black" BorderThickness="1" Width="550" Height="820"></Border>
         <Image Source="/img/back_05.png" Width="550" MouseLeftButtonDown="Canvas_MouseDown" ></Image>
         <Image x:Name="changeButtonOut" Width="66" Height="66" Source="/img/open_01.png" HorizontalAlignment="Right" VerticalAlignment="Top" Canvas.Left="484" Canvas.Top="20" MouseLeftButtonDown="ChangeButton_MouseDown"/>
         <Image x:Name="changeButtonIn"  Visibility="Collapsed" Width="66" Height="66" Source="/img/close_01.png" HorizontalAlignment="Right" VerticalAlignment="Top" Canvas.Left="484" Canvas.Top="20" MouseDown="ChangeButton_MouseDown"/>
-                
+
         <!--<Image Visibility="{Binding newProd}" Width="48" Height="28" Source="/img/new.png" HorizontalAlignment="Left" VerticalAlignment="Bottom" Canvas.Left="47" Canvas.Top="119" ></Image>-->
         <TextBlock Text="{Binding customSName}" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="46" Canvas.Top="18" FontFamily="/font/#KoPubDotum Medium" />
         <TextBlock Text="{Binding prodName}" FontSize="38"  HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="46" Canvas.Top="54" FontFamily="/font/#KoPubDotum Bold"/>
@@ -46,37 +47,38 @@
             <TextBlock Text="{Binding workerName}" Foreground="Green" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="148" Canvas.Top="178" FontFamily="/font/#KoPubDotum Medium"></TextBlock>
             <TextBlock Text="원단체크:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="307" Canvas.Top="178" FontFamily="/font/#KoPubDotum Medium"></TextBlock>
             <TextBlock x:Name="tbCheck"  Foreground="Green" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="395" Canvas.Top="178" FontFamily="/font/#KoPubDotum Medium"></TextBlock>
-
         </Canvas>
-        
-        <Border x:Name="plc_setting" Visibility="Collapsed" BorderThickness="2" Background="White" CornerRadius="10" BorderBrush="#FF747474" Width="150" Height="50"   VerticalAlignment="Center" HorizontalAlignment="Right" Canvas.Left="387" Canvas.Top="172"  MouseLeftButtonDown="Plc_ButtonMouseDown" >
-            <TextBlock Text="CNS 데이터 저장" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontFamily="/font/#KoPubDotum Bold" Foreground="#FF565656" />
+
+        <Border x:Name="plc_Send" Visibility="Collapsed" BorderThickness="2" Background="White" CornerRadius="10" BorderBrush="#FF747474" Width="155" Height="45"   VerticalAlignment="Center" HorizontalAlignment="Right" Canvas.Left="30" Canvas.Top="172"  MouseLeftButtonDown="Plc_ButtonMouseDown1" >
+            <TextBlock Text="CNS로 데이터 전송" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontFamily="/font/#KoPubDotum Bold" Foreground="#FF565656" />
         </Border>
-        <Border x:Name="plc_setting2" Visibility="Collapsed" BorderThickness="2" Background="White" CornerRadius="10" BorderBrush="#FF747474" Width="150" Height="50"   VerticalAlignment="Center" HorizontalAlignment="Right" Canvas.Left="227" Canvas.Top="172"  MouseLeftButtonDown="Plc_ButtonMouseDown2" >
-            <TextBlock Text="CNS 데이터 보기" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontFamily="/font/#KoPubDotum Bold" Foreground="#FF565656" />
+        <Border x:Name="plc_Save" Visibility="Collapsed" BorderThickness="2" Background="White" CornerRadius="10" BorderBrush="#FF747474" Width="155" Height="45"   VerticalAlignment="Center" HorizontalAlignment="Right" Canvas.Left="200" Canvas.Top="172"  MouseLeftButtonDown="Plc_ButtonMouseDown2" >
+            <TextBlock Text="CNS데이터 저장" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontFamily="/font/#KoPubDotum Bold" Foreground="#FF565656" />
+        </Border>
+        <Border x:Name="plc_Search" Visibility="Collapsed" BorderThickness="2" Background="White" CornerRadius="10" BorderBrush="#FF747474" Width="155" Height="45"   VerticalAlignment="Center" HorizontalAlignment="Right" Canvas.Left="370" Canvas.Top="172"  MouseLeftButtonDown="Plc_ButtonMouseDown3" >
+            <TextBlock Text="데이터 보기" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontFamily="/font/#KoPubDotum Bold" Foreground="#FF565656" />
         </Border>
         <TextBlock Grid.Row="1" Text="계     획" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="60" Canvas.Top="227" FontFamily="/font/#KoPubDotum Medium"/>
         <TextBlock Grid.Row="1" Foreground="Blue" Text="재 공 품" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="60" Canvas.Top="265" FontFamily="/font/#KoPubDotum Medium"/>
-
         <TextBlock Grid.Row="1" Text="카 운 트"  FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="61" Canvas.Top="304" FontFamily="/font/#KoPubDotum Medium"/>
         <TextBlock Grid.Row="1" Text="불량수량"  FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="61" Canvas.Top="370" FontFamily="/font/#KoPubDotum Medium"/>
         <TextBlock Grid.Row="1" Text="생산수량"  FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="61" Canvas.Top="439" FontFamily="/font/#KoPubDotum Medium"/>
+
         <TextBlock Text="|" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="170" Canvas.Top="219"/>
         <TextBlock Text="|" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="170" Canvas.Top="257"/>
-
         <TextBlock Text="|" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="170" Canvas.Top="295"/>
         <TextBlock Text="|" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="170" Canvas.Top="361"/>
         <TextBlock Text="|" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="170" Canvas.Top="431"/>
-            
+
         <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="170" Height="1" Canvas.Left="239" Canvas.Top="340"></Border>
         <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="170" Height="1" Canvas.Left="239" Canvas.Top="406"/>
-        
+
         <TextBlock Grid.Row="1" Text="{Binding sumPlanCount ,Converter={StaticResource converter}}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="179" TextAlignment="Right" Width="183" Canvas.Top="226" Foreground="#26414A" FontFamily="/font/#KoPubDotum Bold"/>
         <TextBlock x:Name="Pre_Count" Grid.Row="1"  FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="179" TextAlignment="Right" Width="183" Canvas.Top="261" Foreground="Blue" FontFamily="/font/#KoPubDotum Bold"/>
 
 
         <TextBlock Name="pCnt" Visibility="{Binding pCntVisible}" Canvas.Left="426" Canvas.Top="236" FontSize="28" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
-        
+
         <!--<TextBlock Text="{Binding pCnt, StringFormat= X {0}}" Visibility="{Binding pCntVisible}" Canvas.Left="428" Canvas.Top="302" FontSize="28" FontFamily="/font/#KoPubDotum Bold"></TextBlock>-->
         <TextBox Grid.Row="1" Focusable="False" Text="{Binding count, UpdateSourceTrigger=PropertyChanged}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="100"  Canvas.Top="302" FontFamily="/font/#KoPubDotum Bold" BorderBrush="{x:Null}"/>
         <TextBlock x:Name="perrcount" Grid.Row="1"  FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="100"  Canvas.Top="368" Foreground="Red" FontFamily="/font/#KoPubDotum Bold"/>
@@ -84,7 +86,7 @@
         <TextBox x:Name="tbResult" Grid.Row="1" Focusable="false" BorderBrush="{x:Null}"  MouseLeftButtonDown="TbResult_MouseLeftButtonDown" Text="{Binding count, UpdateSourceTrigger=PropertyChanged}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="100" Canvas.Top="434" Foreground="#26414A" FontFamily="/font/#KoPubDotum Bold"/>
         <Image Height="50" Width="80" Source="/img/plus_01.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Canvas.Left="382" Canvas.Top="427" MouseLeftButtonDown="Result_count_minus"></Image>
         <Image  Height="50" Width="80" Source="/img/plus_02.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Canvas.Left="461" Canvas.Top="427" MouseLeftButtonDown="Result_count_plus"></Image>
-        
+
         <Image Source="{Binding imagePath}" Width="170" Height="96" Grid.Row="1" VerticalAlignment="Bottom" Canvas.Left="203" Canvas.Top="526" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
         <!--<Image Source="/img/out_01.png" Width="94" Height="68" Grid.Row="1" Stretch="Fill" VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="418" Canvas.Top="516" MouseDown="Image_MouseDown">
             <TextBlock Text="aa"></TextBlock>
@@ -107,11 +109,11 @@
             <TextBox x:Name="tbError" BorderBrush="{x:Null}"  Focusable="False" MouseLeftButtonDown="TbResult_MouseLeftButtonDown" FontSize="22" TextAlignment="Center" VerticalContentAlignment="Center" Text="{Binding errorModel.perrCount}"></TextBox>
         </Border>
         <TextBlock Text="불량사유" FontSize="22" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Canvas.Left="48" Canvas.Top="748" FontFamily="/font/#KoPubDotum Bold"/>
-        
+
         <Border BorderBrush="#abbfd9" BorderThickness="2" Width="280" Height="50" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="153" Canvas.Top="732" >
             <TextBlock x:Name="textbox_error" MouseLeftButtonDown="Error_mouseleftbuttonDown" Background="White" FontFamily="/font/#KoPubDotum Medium"  Focusable="True"  FontSize="22" TextAlignment="Center" Padding="0,10,0,0">
-                
-                
+
+
             </TextBlock>
             <!--<ComboBox x:Name="combo" BorderBrush="{x:Null}" Background="White" FontFamily="/font/#KoPubDotum Medium"  Focusable="True" Text="{Binding errorModel.memo}" MaxDropDownHeight="1000">
                 <ComboBox.ItemTemplate>
@@ -120,7 +122,7 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>-->
-            
+
         </Border>
         <Image Grid.Row="2" Height="50" Width="80" Source="/img/plus_01.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Canvas.Left="361" Canvas.Top="667" MouseLeftButtonDown="result_badCount_minus"></Image>
         <Image Grid.Row="2" Height="50" Width="80" Source="/img/plus_02.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Canvas.Left="441" Canvas.Top="667" MouseLeftButtonDown="Result_badCount_plus"></Image>
@@ -144,34 +146,34 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
-               
+
             </Canvas>
 
-            
+
         </Border>
         <Border x:Name="error_multi" Visibility="Collapsed" BorderBrush="#abbfd9" Background="white" BorderThickness="2" Width="240" Height="450" Grid.Row="2" Canvas.Left="293" Canvas.Top="282">
             <Canvas>
                 <TextBlock MouseLeftButtonDown="Error_multibuttondownexit" Background="Blue" Foreground="White" Text="닫기" Width="235" FontSize="20" TextAlignment="Center" Height="30" Padding="0,1,0,0"/>
 
                 <ScrollViewer Canvas.Top="31" Width="235" VerticalScrollBarVisibility="Auto" Height="415" x:Name="sv2" >
-                <ItemsControl x:Name="combo1" Focusable="false" AlternationCount="1000">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical" Focusable="False"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:Name="dt1">
+                    <ItemsControl x:Name="combo1" Focusable="false" AlternationCount="1000">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" Focusable="False"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:Name="dt1">
                                 <Canvas PreviewMouseLeftButtonDown ="PreCanvas_MouseDown" Height="38" >
                                     <TextBlock Text="{Binding}"  FontSize="18" Margin="10,5,0,10" Width="220"/>
                                 </Canvas>
                             </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
 
-    </Canvas>
-    </Border>
+            </Canvas>
+        </Border>
         <Image x:Name="errorBtn" Grid.Row="2" Height="50" Width="65" Source="/img/bn_07.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Canvas.Left="454" Canvas.Top="732" MouseLeftButtonDown="Image_MouseLeftButtonDown_1"></Image>
         <Image Source="/img/back_06.png"  Width="555" Height="70" Stretch="Fill" Canvas.Left="550"/>
         <Border BorderThickness="0,1,1,1" Width="555" Height="820" BorderBrush="Black" Canvas.Left="550"/>

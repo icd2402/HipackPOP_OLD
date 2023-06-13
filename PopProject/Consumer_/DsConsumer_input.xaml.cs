@@ -47,21 +47,25 @@ namespace PopProject.Consumer_
             this.mainModel = mainModel;
             inputModel = new InputModel();
 
+            //완료건 클릭시 (완료수량, 시작시간, 종료시간)
             if (consumerModel.pWorkCount > 0 && consumerModel.sDatetime.Length > 3 && consumerModel.eDatetime.Length > 3)
             {
-                box1.Visibility = Visibility.Visible;
+                box1.Visibility = Visibility.Visible;//이월버튼 활성화
                 Canvas.SetTop(box, 490);
                 Canvas.SetTop(box1, 570);
             }
-
+            //대기,작업중 클릭시
             else
             {
-                box1.Visibility = Visibility.Collapsed;
+                box1.Visibility = Visibility.Collapsed; //이월버튼 비활성화
                 Canvas.SetTop(box, 540);
             }
+
             ConvertModel();
             PopBeforeProcessItemCount();
         }
+
+
         private void PopBeforeProcessItemCount()
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -89,7 +93,6 @@ namespace PopProject.Consumer_
                     Pre_Count.Text = int.Parse(beforeCount).ToString();
                     // Pre_Count.Text = before.ToString("N0");
                 }
-
                 catch (Exception)
                 {
                     Pre_Count.Text = "0";
@@ -98,37 +101,47 @@ namespace PopProject.Consumer_
         }
         private void ConvertModel()
         {
-            inputModel.pCnt = mainModel.pCnt;
-            inputModel.orderWorkNo = mainModel.orderWorkNo;
-            inputModel.orderLast = mainModel.orderLast;
-            inputModel.orderCount = consumerModel.orderCount;
-            inputModel.pplanCount = consumerModel.orderCount;
-            inputModel.pSize = mainModel.pSize;
-            inputModel.customSName = mainModel.customSName;
-            inputModel.sumPlanCount = consumerModel.orderCount;
-            inputModel.errorModel = new errorModel();
-            inputModel.pplanKey = mainModel.pplanKey;
-            inputModel.orderKey = mainModel.orderKey;
-            inputModel.ProcessType = mainModel.ProcessType;
-            inputModel.newProd = mainModel.newProd;
-            inputModel.sDatetime = consumerModel.sDatetime;
-            inputModel.eDatetime = "";
-            inputModel.perrCount = 0;
-            inputModel.count = 0;
-            inputModel.pMemo = "";
-            inputModel.pworkCount = consumerModel.pWorkCount;
-            inputModel.imagePath = inputModel.sDatetime.Length > 3 && inputModel.eDatetime.Length <= 1 ? "/img/bn_06.png" : "/img/bn_05.png";
-            inputModel.prodName = mainModel.prodName + " \n(" + consumerModel.vendorName + "/" + consumerModel.membName + ")";
+            inputModel.pCnt = mainModel.pCnt;                   //통수
+            inputModel.orderWorkNo = mainModel.orderWorkNo;     //
+            inputModel.orderLast = mainModel.orderLast;         //납기일
+            inputModel.orderCount = consumerModel.orderCount;   //수주량
+            inputModel.pplanCount = consumerModel.orderCount;   //계획량
+            inputModel.pSize = mainModel.pSize;                 //규격
+            inputModel.customSName = mainModel.customSName;     //거래처명
+            inputModel.sumPlanCount = consumerModel.orderCount; //총계획수량
+            inputModel.errorModel = new errorModel();           //불량건
+            inputModel.pplanKey = mainModel.pplanKey;           //계획키
+            inputModel.orderKey = mainModel.orderKey;           //오더키
+            inputModel.ProcessType = mainModel.ProcessType;     //설비번호
+            inputModel.newProd = mainModel.newProd;             //
+            inputModel.sDatetime = consumerModel.sDatetime;     //시작시간
+            inputModel.eDatetime = "";                          //종료시간
+            inputModel.perrCount = 0;                           //불량수량
+            inputModel.count = 0;                               //생산수량
+            inputModel.pMemo = "";                              //비고
+            inputModel.pworkCount = consumerModel.pWorkCount;   //작업량
+            inputModel.prodName = mainModel.prodName + " \n(" + consumerModel.vendorName + "/" + consumerModel.membName + ")"; //품명
 
+            //시작시간이 있고 완료시간 없으면
+            if (inputModel.sDatetime.Length > 3 && inputModel.eDatetime.Length <= 1)
+            {
+                inputModel.imagePath = "/img/bn_06.png";//종료
+            }
+            else
+            {
+                inputModel.imagePath = "/img/bn_05.png";//시작
+            }
 
             mainModel.inputModel = inputModel;
             DataContext = inputModel;
 
-            PopResultSearchMember();
-            PopErrorSearch();
+            PopResultSearchMember();//생산 결과 조회
+            PopErrorSearch();//불량수량 조회
             TimerSet();
 
         }
+
+        //1초 타이머
         private void TimerSet()
         {
             timer = new DispatcherTimer
@@ -140,9 +153,12 @@ namespace PopProject.Consumer_
 
         }
 
+        //타이머 실행
         private void Timer_Tick(object sender, EventArgs e)
         {
             second++;
+
+            //10초마다 실행
             if(second == 10)
             {
                 mainModel.inputModel = inputModel;
@@ -152,6 +168,7 @@ namespace PopProject.Consumer_
            
         }
 
+        //불량건 조회
         private void PopErrorSearch()
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -168,7 +185,6 @@ namespace PopProject.Consumer_
                 JArray Data_Jarry = JArray.Parse(returnData.리턴값);
                 if (Data_Jarry != null)
                 {
-
                     ObservableCollection<string> ob = new ObservableCollection<string>();
                     foreach (JObject result in Data_Jarry)
                     {
@@ -178,7 +194,6 @@ namespace PopProject.Consumer_
                     inputModel.errorModel.memo = "";
                     combo.ItemsSource = ob;
                 }
-
             }
             else
             {
@@ -186,11 +201,12 @@ namespace PopProject.Consumer_
                 _ = msg.ShowDialog();
             }
         }
+
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
         }
 
+        //확장 창 클릭
         private void ChangeButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (checkChangeButton)
@@ -213,11 +229,13 @@ namespace PopProject.Consumer_
             }
         }
 
+        //바코드
         private void TbBarcode_KeyDown(object sender, KeyEventArgs e)
         {
 
         }
 
+        //생산수량 텍스트 클릭
         private void TbResult_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (sender.GetType().Name.Equals("TextBox"))
@@ -233,9 +251,7 @@ namespace PopProject.Consumer_
 
                     _ = win_KeyBoard.ShowDialog();
                     win_KeyBoard = null;
-
                 }
-
                 else
                 {
                     InputModel inputmodel = (InputModel)context.DataContext;
@@ -243,10 +259,10 @@ namespace PopProject.Consumer_
                     _ = win_KeyBoard.ShowDialog();
                     win_KeyBoard = null;
                 }
-
             }
         }
 
+        //생산수량 - 버튼
         private void Result_count_minus(object sender, MouseButtonEventArgs e)
         {
             if (sender.GetType().Name.Equals("Image"))
@@ -262,49 +278,49 @@ namespace PopProject.Consumer_
             }
         }
 
+        //생산수량 + 버튼
         private void Result_count_plus(object sender, MouseButtonEventArgs e)
         {
             float value = 1;
             inputModel.count += value;
         }
 
+        //시작,종료 버튼 클릭
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // 시작 버튼 일 경우
             if (inputModel.imagePath.Equals("/img/bn_05.png"))
             {
-                // 실수요자 작업 건 이 있을 경우
+                // 실수요자 작업중인건이 있을 경우
                 if (CheckConsumerWork())
                 {
                     MessageBox_Dialog messageBox = new MessageBox_Dialog("실수요자 작업중인 건이 있습니다.");
                     _ = messageBox.ShowDialog();
                 }
-                else
+                else //작업 중인건 없음
                 {
                     try
                     {
                         Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
-                    }catch(Exception e1)
+                    }
+                    catch
                     {
-
                     }
                    
-                    PopResultStartMember();
-                    PopResultSearchMember();
+                    PopResultStartMember(); //생산시작
+                    PopResultSearchMember(); //생산결과 건 조회
                 }
             }
             // 종료 버튼 일 경우
             else if (inputModel.imagePath.Equals("/img/bn_06.png"))
             {
-                MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장",
-                    MessageBoxButton.YesNo);
+                MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장", MessageBoxButton.YesNo);
 
                 if (result == MessageBoxResult.No)
                 {
                     Close();
                 }
-
-                else
+                else//yes
                 {
                     string metrialitem = Properties.Settings.Default.meterialinfo;
                     Console.WriteLine("end_count" + inputModel.count);
@@ -320,7 +336,7 @@ namespace PopProject.Consumer_
                         inputModel.count = 0;
                         inputModel.pMemo = "";
                         inputModel.pworkCount = 0;
-                        PopResultSearchMember();
+                        PopResultSearchMember(); //생산 결과 조회
                         DSConsumer.product.imgSource = "/img/bn_03.png";
                         try
                         {
@@ -352,6 +368,7 @@ namespace PopProject.Consumer_
             }
         }
 
+        //생산 결과 저장
         private int PopResultEndMember()
         {
             int count = 0;
@@ -366,6 +383,8 @@ namespace PopProject.Consumer_
             }
             inlineCount = int.Parse(tbResult.Text.ToString());
             int workcount = int.Parse(tbResult.Text.ToString());
+
+            //상자수 사용시 생산수량 * 통수
             if (Properties.Settings.Default.boxCheck)
             {
                 workcount *= (int)mainModel.pCnt;
@@ -533,13 +552,15 @@ namespace PopProject.Consumer_
             }
         }
 
+        //생산 시작건 DB 저장?
         private void PopResultStartMember()
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
               Properties.Settings.Default.serverIndex,
               "[PopResultStartMember]",
-              new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey", "@pworkKey", "@vendorID", "@membID" },
+              new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName",
+                             "@workerID", "@SCMKey", "@pworkKey", "@vendorID", "@membID" },
               new object[] {
                   DateTime.Now.ToString("yyyy-MM-dd"),
                   consumerModel.orderKey,
@@ -555,7 +576,6 @@ namespace PopProject.Consumer_
                   consumerModel.vendorID,
                   consumerModel.membID
               }, 1
-
             );
 
             if (returnData.결과 == 1)
@@ -571,37 +591,22 @@ namespace PopProject.Consumer_
 
                 Console.WriteLine("result[0]" + result[0]);
                 Console.WriteLine("result[0]" + result[1]);
-
-                //InvokeCount(Properties.Settings.Default.mercName, "S");
-
-                //if (Main.production != null)
-                //{
-                //    Main.arduSerial.Write("A"); //아두이노 카운터 리셋
-                //    Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
-                //}
-
-                //else
-                //{
-                //    Main.arduSerial.Write("A"); //아두이노 카운터 리셋
-                //}
-
-
-
             }
         }
+
+        //현황판으로 생산종료 송신
         private void InvokeCount(string mercName, string v)
         {
-            //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
             try
             {
                 SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
-
             }
             catch (Exception e)
             {
-
             }
         }
+
+        //불량건 조회
         private ObservableCollection<errorModel> PopErrorListSearchMember(ConsumerModel listitem)
         {
             ObservableCollection<errorModel> ob = null;
@@ -611,8 +616,8 @@ namespace PopProject.Consumer_
                Properties.Settings.Default.serverIndex,
                "[PopErrorListSearchMember]",
                new string[] { "@workMemberKey" },
-               new object[] { listitem.workMemberKey }, 0
-
+               new object[] { listitem.workMemberKey },
+               0
                );
 
             Console.WriteLine("WorkMemberKey -> " + listitem.workMemberKey);
@@ -654,6 +659,8 @@ namespace PopProject.Consumer_
             }
             return ob;
         }
+
+        //생산 결과 조회
         private void PopResultSearchMember()
         {
             float tempCount = inputModel.count;
@@ -679,25 +686,25 @@ namespace PopProject.Consumer_
                     {
                         ConsumerModel listitem = new ConsumerModel
                         {
-                            workMemberKey = result["workMemberKey"].ToString(),
-                            pworkDate = DateTime.Parse(result["pworkDate"].ToString()),
-                            pWorkCount = float.Parse(result["pworkCount"].ToString()),
-                            pworkKey = int.Parse(result["pworkKey"].ToString()),
-                            sDatetime = result["sDatetime"].ToString()
+                            workMemberKey = result["workMemberKey"].ToString(),         //실수요자 작업키
+                            pworkDate = DateTime.Parse(result["pworkDate"].ToString()), //작업일자
+                            pWorkCount = float.Parse(result["pworkCount"].ToString()),  //작업량
+                            pworkKey = int.Parse(result["pworkKey"].ToString()),        //작업키
+                            sDatetime = result["sDatetime"].ToString()                  //시작시간
                         };
-                        listitem.eDatetime = result["sDatetime"].ToString().Length > 2 ? result["eDatetime"].ToString() : "";
-                        listitem.orderKey = result["orderKey"].ToString();
-                        listitem.pplanKey = int.Parse(result["pplanKey"].ToString());
-                        listitem.ProcessType = int.Parse(result["ProcessType"].ToString());
-                        listitem.pworkKey = int.Parse(result["pworkKey"].ToString());
-                        listitem.perrCnt = float.Parse(result["perrCnt"].ToString());
-                        //listitem.pMemo = result["pMemo"].ToString();
+                        listitem.eDatetime = result["sDatetime"].ToString().Length > 2 ? result["eDatetime"].ToString() : ""; //종료시간
+                        listitem.orderKey = result["orderKey"].ToString();                  //오더키
+                        listitem.pplanKey = int.Parse(result["pplanKey"].ToString());       //계획키
+                        listitem.ProcessType = int.Parse(result["ProcessType"].ToString()); //설비번호
+                        listitem.pworkKey = int.Parse(result["pworkKey"].ToString());       //작업
+                        listitem.perrCnt = float.Parse(result["perrCnt"].ToString());       //불량수량
+                        //listitem.pMemo = result["pMemo"].ToString();                        //비고
                         if (consumerModel.membID.Equals(result["membID"].ToString()) && Properties.Settings.Default.processType.Equals(listitem.ProcessType))
                         {
-                            listitem.errorModelOb = PopErrorListSearchMember(listitem);
+                            listitem.errorModelOb = PopErrorListSearchMember(listitem); //불량 리스트 조회
                         }
-                        
 
+                        //종료시간이 있으면
                         if (listitem.eDatetime.Length > 2)
                         {
                             errorModel item2 = new errorModel
@@ -719,7 +726,6 @@ namespace PopProject.Consumer_
                         
 
                         }
-
                         // if (listitem.errorModelOb != null)
                         // {
                         //    foreach (errorModel item in listitem.errorModelOb)
@@ -732,9 +738,6 @@ namespace PopProject.Consumer_
                         {
                             ob.Add(listitem);
                         }
-
-                       
-
                     }
 
                     if (ob.Count > 0)
@@ -807,17 +810,19 @@ namespace PopProject.Consumer_
             sv.ScrollToVerticalOffset(ic.ActualHeight);
         }
 
+        //실수요자 작업중인건이 있는지 확인
         private bool CheckConsumerWork()
         {
             bool check = false;
             for (int i = 0; i < DSConsumer.consumerList.Count; i++)
             {
+                //시작시간 있고 완료시간 없으면
                 if (DSConsumer.consumerList[i].sDatetime.Length > 2 && DSConsumer.consumerList[i].eDatetime.Length <= 1)
                 {
                     check = true;
                     break;
                 }
-                else
+                else//작업중인 건 없으면
                 {
                     check = false;
                 }
@@ -892,6 +897,7 @@ namespace PopProject.Consumer_
             timer.Stop();
         }
 
+        //생산 완료수량 수정
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
@@ -913,19 +919,14 @@ namespace PopProject.Consumer_
 
                         //PopResultSearchMember();
                         //can.Visibility = Visibility.Collapsed;
-
                     }
-
                     else if (context.memo.Equals("작업완료"))
                     {
-
                         can.Visibility = Visibility.Visible;
                         Win_resultUpdate win_resultUpdate = new Win_resultUpdate(context, inputModel, true);
                         _ = win_resultUpdate.ShowDialog();
-                        PopResultSearchMember();
+                        PopResultSearchMember(); //생산 결과 조회
                         can.Visibility = Visibility.Collapsed;
-
-
                     }
                 }
             }

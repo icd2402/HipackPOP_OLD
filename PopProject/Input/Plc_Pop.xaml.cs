@@ -1,10 +1,14 @@
-﻿using PopProject.Detail;
+﻿using Newtonsoft.Json.Linq;
+using PopProject.Detail;
 using PopProject.input;
 using PopProject.KeyBoard;
+using PopProject.KeyBoard2;
 using PopProject.MessageBox;
 using PopProject.UserControl_;
 using PopProject.Util;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,7 +28,8 @@ namespace PopProject.Input
         MainModel mainModel;
         public InputModel inputModel;
         Socket mainSock;
-        Win_KeyBoard win_KeyBoard;
+        Win_KeyBoard win_KeyBoard; //일반 키보드
+        Win_KeyBoard2 win_KeyBoard2; //소숫점 키보드
         private bool checkChangeButton = false;
 
 
@@ -44,12 +49,42 @@ namespace PopProject.Input
             거래처.Text = mainModel.customSName; //거래처
             품명.Text = mainModel.prodName; //품명
             psize = mainModel.pSize.Split('*'); //규격
+            작업지시.Text = Properties.Settings.Default.setCount.ToString();
             장.Text = psize[0] == null ? "" : psize[0].Trim();
             폭.Text = psize[1] == null ? "" : psize[1].Trim();
             고.Text = psize[2] == null ? "" : psize[2].Trim();
-            갭.Text = Properties.Settings.Default.Gap.ToString();
-            작업지시.Text = Properties.Settings.Default.setCount.ToString();
+            
             미미.Text = Properties.Settings.Default.mimi.ToString();
+            switch (mainModel.paperGor.Replace("골", "").Trim())
+            {
+                case "AB":
+                case "BA":
+                    Properties.Settings.Default.Gap = 70;
+                    break;
+
+                case "BB":
+                    Properties.Settings.Default.Gap = 60;
+                    break;
+
+                case "A":
+                    Properties.Settings.Default.Gap = 50;
+                    break;
+
+                case "EB":
+                    Properties.Settings.Default.Gap = 40;
+                    break;
+
+                case "B":
+                    Properties.Settings.Default.Gap = 30;
+                    break;
+
+                case "E":
+                    Properties.Settings.Default.Gap = 20;
+                    break;
+                default:
+                    break;
+            }
+            갭.Text = Properties.Settings.Default.Gap.ToString();
 
         }
 
@@ -61,8 +96,245 @@ namespace PopProject.Input
             ip.Text = Properties.Settings.Default.ip + " / " + Properties.Settings.Default.port;
         }
 
+        //DB데이터 조회
+        private void DB_Read(object sender, MouseButtonEventArgs e)
+        {
+            Border clickedBorder = (Border)sender;
+            clickedBorder.Background = Brushes.Gray;
+
+            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ReturnModel returnData = ServiceModel.GetData(
+               Properties.Settings.Default.serverIndex,
+               "[PopCNSSearch]",
+               new string[] { "prodID", "MachineName" },
+               new object[] { this.mainModel.prodID, Properties.Settings.Default.mercName }, 0);
+
+            if (returnData.결과 == 1)
+            {
+                string ProdID = "";
+                string machineName = "";
+                int modelNum = 0;
+                int workPlan1 = 0;
+                int workPlan2 = 0;
+                int boxType = 0;
+                int pock = 0;
+                int jang = 0;
+                int go = 0;
+                int gap = 0;
+                int wing = 0;
+                int cutting = 0;
+                int saveDone = 0;
+                int workSpeed = 0;
+                int saveState = 0;
+                int spare = 0;
+                int aRecipe = 0;
+                int bRecipe = 0;
+                int cRecipe = 0;
+                int dRecipe = 0;
+                int eRecipe = 0;
+                int f1Recipe = 0;
+                int f2Recipe = 0;
+                int gRecipe = 0;
+                int oRecipe = 0;
+                int p1Recipe = 0;
+                int p2pRecipe = 0;
+                int p3Recipe = 0;
+                int p4Recipe = 0;
+                int spare2 = 0;
+                int spare3 = 0;
+                int spare4 = 0;
+                int dRagista = 0;
+                int printerPull1 = 0;
+                int printerRoll1 = 0;
+                int printerPull2 = 0;
+                int printerRoll2 = 0;
+                int printerPull3 = 0;
+                int printerRoll3 = 0;
+                int printerPull4 = 0;
+                int printerRoll4 = 0;
+                int spare6 = 0;
+                int spare7 = 0;
+                int spare8 = 0;
+                int spare9 = 0;
+                int feederGap = 0;
+                int feederRoll = 0;
+                int slotterSubGap = 0;
+                int slotterMiddleGap = 0;
+                int slotterConnection = 0;
+                int dieCutterRollGap = 0;
+                int dieCutterConnectionGap = 0;
+                int spare10 = 0;
+                int gluerbeltF1 = 0;
+                int gluerbeltF2 = 0;
+                int gluerPressA = 0;
+                int gluerPressB = 0;
+                int gluerPE = 0;
+                int spare11 = 0;
+                int bRSub = 0;
+                int bRMain = 0;
+                int bRConnection = 0;
+                int bRmiddle = 0;
+
+                JArray Data_Jarry = JArray.Parse(returnData.리턴값);
+                foreach (JObject result in Data_Jarry)
+                {
+                    ProdID = result["prodID"].ToString();
+                    machineName = result["MachineName"].ToString();
+
+                    modelNum = Convert.ToInt32(result["ModelNum"]);
+                    workPlan1 = Convert.ToInt32(result["WorkPlan1"]);
+                    workPlan2 = Convert.ToInt32(result["WorkPlan2"]);
+                    boxType = Convert.ToInt32(result["BoxType"]);
+                    pock = Convert.ToInt32(result["Pock"]);
+                    jang = Convert.ToInt32(result["Jang"]);
+                    go = Convert.ToInt32(result["Go"]);
+                    gap = Convert.ToInt32(result["Gap"]);
+                    wing = Convert.ToInt32(result["Wing"]);
+                    cutting = Convert.ToInt32(result["Cutting"]);
+                    saveDone = Convert.ToInt32(result["SaveDone"]);
+                    workSpeed = Convert.ToInt32(result["WorkSpeed"]);
+                    saveState = Convert.ToInt32(result["SaveState"]);
+                    spare = Convert.ToInt32(result["spare"]);
+
+                    aRecipe = Convert.ToInt32(result["aRecipe"]);     //A
+                    bRecipe = Convert.ToInt32(result["bRecipe"]);     //B
+                    cRecipe = Convert.ToInt32(result["cRecipe"]);     //C
+                    dRecipe = Convert.ToInt32(result["dRecipe"]);     //D
+                    eRecipe = Convert.ToInt32(result["eRecipe"]);     //E
+                    f1Recipe = Convert.ToInt32(result["f1Recipe"]);   //F1
+                    f2Recipe = Convert.ToInt32(result["f2Recipe"]);   //F2
+                    gRecipe = Convert.ToInt32(result["g2pRecipe"]);   //G
+                    oRecipe = Convert.ToInt32(result["oRecipe"]);     //O
+
+                    p1Recipe = Convert.ToInt32(result["p1Recipe"]);   //P1
+                    p2pRecipe = Convert.ToInt32(result["p2pRecipe"]); //P2
+                    p3Recipe = Convert.ToInt32(result["p3Recipe"]);   //P3
+                    p4Recipe = Convert.ToInt32(result["p4Recipe"]);   //P4
+
+                    dRagista = Convert.ToInt32(result["DieCutter"]);  //D레지스터
+
+                    printerPull1 = Convert.ToInt32(result["PrinterRoll1"]);  //1도 롤
+                    printerRoll1 = Convert.ToInt32(result["PrinterPull1"]);  //1도 
+                    printerPull2 = Convert.ToInt32(result["PrinterRoll2"]);  //2도 롤
+                    printerRoll2 = Convert.ToInt32(result["PrinterPull2"]);  //2도 
+                    printerPull3 = Convert.ToInt32(result["PrinterRoll3"]);  //3도 롤
+                    printerRoll3 = Convert.ToInt32(result["PrinterPull3"]);  //3도 
+                    printerPull4 = Convert.ToInt32(result["PrinterRoll4"]);  //4도 롤
+                    printerRoll4 = Convert.ToInt32(result["PrinterPull4"]);  //4도
+
+                    feederGap = Convert.ToInt32(result["FeederGap"]);        //급지부 진입 갭
+                    feederRoll = Convert.ToInt32(result["FeederRoll"]);      //급지부 진입 롤갭
+
+                    slotterSubGap = Convert.ToInt32(result["SlotterSubGap"]);         //슬로다 보조 갭
+                    slotterMiddleGap = Convert.ToInt32(result["SlotterMiddleGap"]);   //슬로다 본 갭
+                    slotterConnection = Convert.ToInt32(result["SlotterConnection"]); //슬로다 연결갭
+
+                    dieCutterRollGap = Convert.ToInt32(result["DieCutterRollGap"]);   //다이캇타 롤 갭
+                    dieCutterConnectionGap = Convert.ToInt32(result["GluerbeltF"]);   //다이캇타 연결 갭
+
+                    gluerbeltF1 = Convert.ToInt32(result["GluerPressA"]);     //글루어벨트 진입 갭 F1
+                    gluerbeltF2 = Convert.ToInt32(result["GluerPressB"]);     //글루어벨트 진입 갭 F2
+                    gluerPressA = Convert.ToInt32(result["DieCutterRollA"]);  //글루어 프레스롤 A
+                    gluerPressB = Convert.ToInt32(result["DieCutterRollB"]);  //글루어 프레스롤 B
+                    gluerPE = Convert.ToInt32(result["GluerPE"]);             //글루어 PE
+
+                    bRSub = Convert.ToInt32(result["BRMain"]);           //보조괘선 갭  
+                    bRMain = Convert.ToInt32(result["BRConnection"]);    //본괘선 갭
+                    bRConnection = Convert.ToInt32(result["BRmiddle"]);  //연결롤 갭
+                    bRmiddle = Convert.ToInt32(result["spare8"]);        //중간롤 갭
+                }
+
+                //박스타입 선택
+
+                
+                int a = boxType;
+                switch (a)
+                {
+                    case 1:
+                        combo.SelectedIndex = 0; //1합
+                        break;
+                    case 3:
+                        combo.SelectedIndex = 1; //2합
+                        break;
+                    case 5:
+                        combo.SelectedIndex = 2; //인쇄물
+                        break;
+                    case 6:
+                        combo.SelectedIndex = 3; //H형
+                        break;
+                    case 7:
+                        combo.SelectedIndex = 4; //H-Cover형
+                        break;
+                }
+
+                장.Text = jang.ToString();
+                폭.Text = pock.ToString();
+                고.Text = go.ToString();
+                갭.Text = gap.ToString();
+                미미.Text = cutting.ToString();
+
+                tb1.Text = (aRecipe / 10.0).ToString("N1");
+                tb2.Text = (bRecipe / 10.0).ToString("N1");
+                tb3.Text = (cRecipe / 10.0).ToString("N1");
+                tb4.Text = (dRecipe / 10.0).ToString("N1");
+                tb5.Text = (eRecipe / 10.0).ToString("N1");
+                tb6.Text = (f1Recipe / 10.0).ToString("N1");
+                tb7.Text = (f2Recipe / 10.0).ToString("N1");
+                tb8.Text = (gRecipe / 10.0).ToString("N1");
+                tb9.Text = (oRecipe / 10.0).ToString("N1");
+                tb10.Text = (p1Recipe / 10.0).ToString("N1");
+                tb11.Text = (p2pRecipe / 10.0).ToString("N1");
+                tb12.Text = (p3Recipe / 10.0).ToString("N1");
+
+                tb13.Text = (p4Recipe / 10.0).ToString("N1");
+                tb14.Text = "0";
+                tb15.Text = "0";
+                tb16.Text = "0";
+                tb17.Text = (dRagista / 10.0).ToString("N1");
+                tb18.Text = (printerPull1 / 10.0).ToString("N1");
+                tb19.Text = (printerRoll1 / 10.0).ToString("N1");
+                tb20.Text = (printerPull2 / 10.0).ToString("N1");
+                tb21.Text = (printerRoll2 / 10.0).ToString("N1");
+                tb22.Text = (printerPull3 / 10.0).ToString("N1");
+                tb23.Text = (printerRoll3 / 10.0).ToString("N1");
+                tb24.Text = (printerPull4 / 10.0).ToString("N1");
+
+                tb25.Text = (printerRoll4 / 10.0).ToString("N1");
+                tb26.Text = "0";
+                tb27.Text = "0";
+                tb28.Text = "0";
+                tb29.Text = "0";
+                tb30.Text = (feederGap / 10.0).ToString("N1");
+                tb31.Text = (feederRoll / 10.0).ToString("N1");
+                tb32.Text = (slotterSubGap / 10.0).ToString("N1");
+                tb33.Text = (slotterMiddleGap / 10.0).ToString("N1");
+                tb34.Text = (slotterConnection / 10.0).ToString("N1");
+                tb35.Text = (dieCutterRollGap / 10.0).ToString("N1");
+                tb36.Text = (dieCutterConnectionGap / 10.0).ToString("N1");
+
+                tb37.Text = "0";
+                tb38.Text = (gluerbeltF1 / 10.0).ToString("N1");
+                tb39.Text = (gluerbeltF2 / 10.0).ToString("N1");
+                tb40.Text = (gluerPressA / 10.0).ToString("N1");
+                tb41.Text = (gluerPressB / 10.0).ToString("N1");
+                tb42.Text = (gluerPE / 10.0).ToString("N1");
+                tb43.Text = "0";
+                tb44.Text = (bRSub / 10.0).ToString("N1");
+                tb45.Text = (bRMain / 10.0).ToString("N1");
+                tb46.Text = (bRConnection / 10.0).ToString("N1");
+                tb47.Text = (bRmiddle / 10.0).ToString("N1");
+            }
+            else
+            {
+            }
+        }
+
+        //CNS 데이터 조회
         private void PLC_Read(object sender, MouseButtonEventArgs e)
         {
+            Border clickedBorder = (Border)sender;
+            clickedBorder.Background = Brushes.Gray;
+
             if (Properties.Settings.Default.Plc) //PLC 사용 체크일때
             {
                 try
@@ -100,7 +372,7 @@ namespace PopProject.Input
                     if (success)//연결 성공
                     {
                         mainSock.EndConnect(result);
-                        AsyncObject obj = new AsyncObject(1000);
+                        AsyncObject obj = new AsyncObject(500);
                         obj.WorkingSocket = mainSock;
                         obj.ClearBuffer();
                         mainSock.BeginReceive(obj.Buffer, 0, obj.BufferSize, 0, DataReceived, obj);
@@ -108,15 +380,11 @@ namespace PopProject.Input
                     else //연결 실패
                     {
                         mainSock.Close();
-                        //MessageBox_Dialog msg = new MessageBox_Dialog("CNS PLC 연결 실패");
-                        //msg.ShowDialog();
                     }
                 }
                 catch (Exception e)
                 {
                     mainSock.Close();
-                    //MessageBox_Dialog msg = new MessageBox_Dialog("CNS PLC 연결 실패");
-                    //msg.ShowDialog();
                 }
             }
         }
@@ -148,7 +416,6 @@ namespace PopProject.Input
                         string high_data = RD.Substring(0, 2); //앞 두자리 추출
                         string low_data = RD.Substring(2, 2); //뒤 두자리 추출
 
-
                         switch (j)
                         {
                             case 0: //작업모델 번호
@@ -161,25 +428,45 @@ namespace PopProject.Input
                                 dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
                                 break;
                             case 3: //박스타입
-                                dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                int boxtype = Convert.ToInt32(low_data + high_data, 16);
+                                if (boxtype == 1)
+                                {
+                                    combo.SelectedIndex = 0;
+                                }
+                                else if (boxtype == 3)
+                                {
+                                    combo.SelectedIndex = 1;
+                                }
+                                else if (boxtype == 5)
+                                {
+                                    combo.SelectedIndex = 2;
+                                }
+                                else if (boxtype == 6)
+                                {
+                                    combo.SelectedIndex = 3;
+                                }
+                                else if (boxtype == 7)
+                                {
+                                    combo.SelectedIndex = 4;
+                                }
                                 break;
                             case 4: //폭
-                                dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                폭.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
                                 break;
                             case 5: //장
-                                dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                장.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
                                 break;
                             case 6: //고
-                                dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                고.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
                                 break;
                             case 7: //갭
-                                dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                갭.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
                                 break;
                             case 8: //앞날개
                                 dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
                                 break;
                             case 9: //미미
-                                dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                미미.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
                                 break;
                             case 10: //저장 완료
                                 dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
@@ -249,47 +536,47 @@ namespace PopProject.Input
                                 double result14 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb14.Text = result14.ToString("N1");
                                 break;
-                            case 28: //슬로타
+                            case 28: //spare
                                 double result15 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb15.Text = result15.ToString("N1");
                                 break;
-                            case 29: //다이캇타
+                            case 29: //spare
                                 double result16 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb16.Text = result16.ToString("N1");
                                 break;
-                            case 30: //프린터1 풀 롤
+                            case 30: //D레지스터
                                 double result17 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb17.Text = result17.ToString("N1");
                                 break;
-                            case 31: //프린터1 프레스 롤
+                            case 31: //프린터1 롤?
                                 double result18 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb18.Text = result18.ToString("N1");
                                 break;
-                            case 32: //프린터2 풀 롤
+                            case 32: //1도 프레스
                                 double result19 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb19.Text = result19.ToString("N1");
                                 break;
-                            case 33: //프린터2 프레스 롤
+                            case 33: //프린터2 롤?
                                 double result20 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb20.Text = result20.ToString("N1");
                                 break;
-                            case 34: //프린터3 풀 롤
+                            case 34: //2도 프레스
                                 double result21 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb21.Text = result21.ToString("N1");
                                 break;
-                            case 35: //프린터3 풀 롤
+                            case 35: //프린터3 롤?
                                 double result22 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb22.Text = result22.ToString("N1");
                                 break;
-                            case 36: //프린터4 풀 롤
+                            case 36: //3도 프레스
                                 double result23 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb23.Text = result23.ToString("N1");
                                 break;
-                            case 37: //프린터 프레스 롤
+                            case 37: //프린터4 롤?
                                 double result24 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb24.Text = result24.ToString("N1");
                                 break;
-                            case 38: //spare
+                            case 38: //4도 프레스
                                 double result25 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb25.Text = result25.ToString("N1");
                                 break;
@@ -305,79 +592,79 @@ namespace PopProject.Input
                                 double result28 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb28.Text = result28.ToString("N1");
                                 break;
-                            case 42: //피다진입 갭
+                            case 42: //spare
                                 double result29 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb29.Text = result29.ToString("N1");
                                 break;
-                            case 43: //피타진입 롤
+                            case 43: //피타진입 갭
                                 double result30 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb30.Text = result30.ToString("N1");
                                 break;
-                            case 44: //로타 보조쾌선 갭
+                            case 44: //급지부 롤 갭
                                 double result31 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb31.Text = result31.ToString("N1");
                                 break;
-                            case 45: //슬로타 본(중간) 갭
+                            case 45: //슬로타 보조괘선 갭
                                 double result32 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb32.Text = result32.ToString("N1");
                                 break;
-                            case 46: //슬로타 연결(배출) 갭
+                            case 46: //슬로타 본괘선 갭
                                 double result33 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb33.Text = result33.ToString("N1");
                                 break;
-                            case 47: //다이캇타 롤 갭
+                            case 47: //슬로타 연결 갭
                                 double result34 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb34.Text = result34.ToString("N1");
                                 break;
-                            case 48: //글루어벨트 진앱 갭 F1
+                            case 48: //다이캇타 롤 갭
                                 double result35 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb35.Text = result35.ToString("N1");
                                 break;
-                            case 49: //글루어벨트 진앱 갭 F2
+                            case 49: //다이캇타 연결 갭
                                 double result36 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb36.Text = result36.ToString("N1");
                                 break;
-                            case 50: //글루어 프레스롤 갭 A
+                            case 50: //spare
                                 double result37 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb37.Text = result37.ToString("N1");
                                 break;
-                            case 51: //글루어 프레스롤 갭 B
+                            case 51: //글루어벨트 진입갭 F1
                                 double result38 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb38.Text = result38.ToString("N1");
                                 break;
-                            case 52: //다이캇타 롤 갭A
+                            case 52: //글루어벨트 진입갭 F2
                                 double result39 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb39.Text = result39.ToString("N1");
                                 break;
-                            case 53: //다이캇타 롤 갭B
+                            case 53: //글루어 배출 갭 프레스 A
                                 double result40 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb40.Text = result40.ToString("N1");
                                 break;
-                            case 54: //글루어 PE 가이드
+                            case 54: //글루어 배출 갭 프레스 B
                                 double result41 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb41.Text = result41.ToString("N1");
                                 break;
-                            case 55: //R/B 보조괘선 진입 롤
+                            case 55: //PE가이드
                                 double result42 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb42.Text = result42.ToString("N1");
                                 break;
-                            case 56: //R/B 본괘선 중간 롤
+                            case 56: //spare
                                 double result43 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb43.Text = result43.ToString("N1");
                                 break;
-                            case 57: //R/B 연결 배출 롤
+                            case 57: //R/B 보조괘선 갭
                                 double result44 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb44.Text = result44.ToString("N1");
                                 break;
-                            case 58: //R/B 연결 중간 롤
+                            case 58: //R/B 본괘선 갭
                                 double result45 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb45.Text = result45.ToString("N1");
                                 break;
-                            case 59: //R/B 연결 중간 롤
+                            case 59: //R/B 연결롤 갭
                                 double result46 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb46.Text = result46.ToString("N1");
                                 break;
-                            case 60: //R/B 연결 중간 롤
+                            case 60: //R/B 중간연결 갭
                                 double result47 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
                                 tb47.Text = result47.ToString("N1");
                                 break;
@@ -408,41 +695,101 @@ namespace PopProject.Input
 
 
 
-        //저장 버튼
+        //신규 생산 버튼
         private void Done(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            //박스타입 선택
-            int a = combo.SelectedIndex;
-            int boxType = 1;
-            switch (a)
+
+
+            Border clickedBorder = (Border)sender;
+            clickedBorder.Background = Brushes.Gray;
+
+            MessageBoxResult result = System.Windows.MessageBox.Show(" 신규 생산시 기본정보만 전송됩니다.\n ※장,폭,고,갭,미미 외 세팅값은 0으로 처리됩니다." , "CNS 데이터 저장", MessageBoxButton.YesNo);
+
+            clickedBorder.Background = Brushes.White;
+
+            if (result == MessageBoxResult.Yes) //확인
             {
-                case 0:
-                    boxType = 1; //1합
-                    break;
-                case 1:
-                    boxType = 3; //2합
-                    break;
-                case 2:
-                    boxType = 5; //인쇄물
-                    break;
-                case 3:
-                    boxType = 6; //H형
-                    break;
-                case 4:
-                    boxType = 7; //H-Cover형
-                    break;
+                //박스타입 선택
+                int a = combo.SelectedIndex;
+                int boxType = 1;
+                switch (a)
+                {
+                    case 0:
+                        boxType = 1; //1합
+                        break;
+                    case 1:
+                        boxType = 3; //2합
+                        break;
+                    case 2:
+                        boxType = 5; //인쇄물
+                        break;
+                    case 3:
+                        boxType = 6; //H형
+                        break;
+                    case 4:
+                        boxType = 7; //H-Cover형
+                        break;
+                }
+
+                Properties.Settings.Default.Gap = int.Parse(갭.Text.ToString());
+                Properties.Settings.Default.mimi = int.Parse(미미.Text.ToString());
+                Properties.Settings.Default.jang = int.Parse(장.Text.ToString());
+                Properties.Settings.Default.pok = int.Parse(폭.Text.ToString());
+                Properties.Settings.Default.go = int.Parse(고.Text.ToString());
+                Properties.Settings.Default.setCount = int.Parse(작업지시.Text.ToString());
+                Properties.Settings.Default.boxType = int.Parse(boxType.ToString());
+                Properties.Settings.Default.plcCheck = true;
+                Properties.Settings.Default.Save();
+
+
+
+                try
+                {
+                    ConnectSocket(); //CNS 통신연결
+                    Ls_Fenet wd = new Ls_Fenet();
+                    List<int> items = new List<int>();
+                    items.Add(99);  //설정 변경요구 (99로 요청하면 1로바뀜)
+                    items.Add(0);   //설정 byte[] bDts = wd.continuous_Read("%DB7800", 70); 요구 (0=> 신규설정요구, 1=>데이터 설정 변경요구
+                    items.Add(1); //작업 모델 번호
+                    items.Add(10000); //작업지시 매수(하위)
+                    items.Add(0); //작업지시 매수(상위)
+                    items.Add(Properties.Settings.Default.boxType); //BOX TYPE (1=>1합, 3=>2합, 5=>인쇄물, 6=>H형, 7=>H-Cover형 
+                    items.Add(Properties.Settings.Default.pok);  //폭
+                    items.Add(Properties.Settings.Default.jang); //장
+                    items.Add(Properties.Settings.Default.go);   //고
+                    items.Add(Properties.Settings.Default.Gap);  //갭
+                    items.Add(0);                                //앞날개
+                    items.Add(Properties.Settings.Default.mimi); //미미
+
+                    int WriteCount = items.Count() * 2;
+                    byte[] bDts = wd.continuous_Write("%DB7600", WriteCount, items);
+                   
+                    //송신한 데이터 값 보는용도
+                    string Send_Data = string.Empty;
+                    for (int i = 0; i < bDts.Length; i++)
+                    {
+                        Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
+                    }
+                    Console.WriteLine("신규생산 송신데이터(Plc_Pop) : " + Send_Data);
+
+                    //데이터 쓰기
+                    mainSock.Send(bDts);
+                }
+                catch (Exception)
+                {
+                }
+                finally
+                {
+                    mainSock.Close();
+                }
+
+            }
+            else //취소
+            {
             }
 
-            Properties.Settings.Default.Gap = int.Parse(갭.Text.ToString());
-            Properties.Settings.Default.mimi = int.Parse(미미.Text.ToString());
-            Properties.Settings.Default.jang = int.Parse(장.Text.ToString());
-            Properties.Settings.Default.pok = int.Parse(폭.Text.ToString());
-            Properties.Settings.Default.go = int.Parse(고.Text.ToString());
-            Properties.Settings.Default.setCount = int.Parse(작업지시.Text.ToString());
-            Properties.Settings.Default.boxType = int.Parse(boxType.ToString());
-            Properties.Settings.Default.plcCheck = true;
-            Properties.Settings.Default.Save();
             Close();
+
         }
 
         //값 넣기 이벤트
@@ -482,14 +829,14 @@ namespace PopProject.Input
             if (sender.GetType().Name.Equals("TextBox"))
             {
                 TextBox context = (TextBox)sender;
-                win_KeyBoard = new Win_KeyBoard(context)
+                win_KeyBoard2 = new Win_KeyBoard2(context)
                 {
-                    Left = SystemParameters.WorkArea.Width - Width - 10,
+                    Left = SystemParameters.WorkArea.Width - Width - 400,
                     Top = (SystemParameters.WorkArea.Height / 2) - Top
                 };
-                _ = win_KeyBoard.Opacity = 1;
-                _ = win_KeyBoard.ShowDialog();
-                win_KeyBoard = null;
+                _ = win_KeyBoard2.Opacity = 1;
+                _ = win_KeyBoard2.ShowDialog();
+                win_KeyBoard2 = null;
             }
         }
 
@@ -519,12 +866,27 @@ namespace PopProject.Input
             DragMove();
         }
 
+        private void Border_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Border clickedBorder = (Border)sender;
+            clickedBorder.Background = Brushes.White;
+        }
+
         //닫기 버튼
         private void exit(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Properties.Settings.Default.plcCheck = false;
             Properties.Settings.Default.Save();
             Close();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            changeButtonIn.Visibility = Visibility.Visible;
+            changeButtonOut.Visibility = Visibility.Collapsed;
+            checkChangeButton = true;
+            Width = 1105;
+            Left = (SystemParameters.WorkArea.Width / 2) - (Width / 2);
         }
     }
 }

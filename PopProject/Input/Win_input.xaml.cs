@@ -50,8 +50,13 @@ namespace PopProject.Input
         private int result;
         private bool ErrorCheck = true;
         private bool MultiErrorCheck = true;
+        private bool CNS_Send = false;
 
-        public Win_input(MainModel mainModel, ObservableCollection<MainModel> workList, bool check)
+        private bool success = false; //CNS 통신연결 확인
+
+
+
+        public Win_input(MainModel mainModel, ObservableCollection<MainModel> workList, bool check) //check= 메인화면에서 들어오면 false, 디테일 화면에서 들어오면 true
         {
             InitializeComponent();
             
@@ -64,18 +69,8 @@ namespace PopProject.Input
             //오주포장 카운터 수신
             if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
             {
-                SignalRAdministrator.허브.On<string, string>("returnCount", recive);
+                SignalRAdministrator.허브.On<string, string>("returnCount", recive); //아두이노 통신
             }
-
-            //for (int i = 0; i < ma inModel.subOb.Count; i++)
-            //{
-            //    if (Properties.Settings.Default.processType == mainModel.subOb[i].processType)
-            //    {
-            //        result = i != 0 ? mainModel.subOb[i - 1].presultCount : 0;
-            //    }
-            //}
-            //    Pre_Count.Text = result.ToString();
-
 
             //이월버튼 
             if (mainModel.presultCount > 0 && mainModel.sDatetime.Length > 3 && mainModel.eDatetime.Length > 3)
@@ -83,27 +78,29 @@ namespace PopProject.Input
                 box1.Visibility = Visibility.Visible; //이월버튼 활성화
                 Canvas.SetTop(box, 490);
                 Canvas.SetTop(box1, 570);
-                //Result_Update.Visibility = Visibility.Visible;
             }
             else
             {
-                box1.Visibility = Visibility.Collapsed;
+                box1.Visibility = Visibility.Collapsed; //이월버튼 비활성화
                 Canvas.SetTop(box, 540);
             }
 
             ConvertModel();
             PopBeforeProcessItemCount();
+            CNS_DB확인();
 
             //키인사용 체크
             if (Properties.Settings.Default.keyinCheck)
             {
                 tbResult.Focusable = true;
-                _ = tbResult.Focus();
+                _ = tbResult.Focus(); //생산수량에 포커스
                 _ = tbResult.Dispatcher.BeginInvoke(new Action(() => { tbResult.SelectAll(); }));
             }
 
+            //디테일 화면에서 시작버튼을 누르면 실행
             if (check)
             {
+                //생산중이지 않을시 시작
                 if (Main.production == null && Main1.production == null)
                 {
                     if (inputModel.sDatetime.Length < 3 && inputModel.eDatetime.Length < 3)
@@ -118,21 +115,23 @@ namespace PopProject.Input
             if (Properties.Settings.Default.Plc)
             {
                 Can_plc.Visibility = Visibility.Collapsed;
-                plc_setting.Visibility = Visibility.Visible;
-                plc_setting2.Visibility = Visibility.Visible;
+                plc_Send.Visibility = Visibility.Visible;
+                plc_Save.Visibility = Visibility.Visible;
+                plc_Search.Visibility = Visibility.Visible;
             }
             else
             {
-                plc_setting.Visibility = Visibility.Collapsed;
-                plc_setting2.Visibility = Visibility.Collapsed;
                 Can_plc.Visibility = Visibility.Visible;
+                plc_Send.Visibility = Visibility.Collapsed;
+                plc_Save.Visibility = Visibility.Collapsed;
+                plc_Search.Visibility = Visibility.Collapsed;
             }
         }
 
         //오주포장 장비별 카운터 수신(아두이노)
-        private void recive(string arg1, string arg2) 
+        private void recive(string arg1, string arg2)  //설비명, 카운터
         {
-            Console.WriteLine("값" + " : " + arg2);
+            Console.WriteLine("오주 아두이노 값(input) : " +  arg2);
             try
             {
                 Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -155,12 +154,9 @@ namespace PopProject.Input
                                 }
                                 catch (Exception e)
                                 {
-                                    //MessageBox_Dialog msg = new MessageBox_Dialog(e.Message);
-                                    //msg.Show();
                                 }
                             }
                             break;
-
                     }
                 }), DispatcherPriority.ApplicationIdle);
             }
@@ -1105,7 +1101,7 @@ namespace PopProject.Input
                     {
                         Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
                     }
-                    Console.WriteLine("PLC송신 데이터 : " + Send_Data);
+                    Console.WriteLine("CNS송신 데이터(input) : " + Send_Data);
 
                     cnsProcessing = true;
                     mainSock.Send(bDts); //데이터 쓰기
@@ -1126,20 +1122,27 @@ namespace PopProject.Input
                 try
                 {
                     IAsyncResult result = mainSock.BeginConnect(Properties.Settings.Default.ip, port, null, null);
-                    bool success = result.AsyncWaitHandle.WaitOne(1500, true);
-                    if (success)//연결 성공
+                    success = result.AsyncWaitHandle.WaitOne(1500, true);
+
+                    if (CNS_Send) // CNS -> PC 버튼 활성화
                     {
-                        mainSock.EndConnect(result);
-                        AsyncObject obj = new AsyncObject(1000);
-                        obj.WorkingSocket = mainSock;
-                        obj.ClearBuffer();
-                        mainSock.BeginReceive(obj.Buffer, 0, obj.BufferSize, 0, DataReceived, obj);
                     }
-                    else //연결 실패
+                    else //일반적인 연결
                     {
-                        mainSock.Close();
-                        MessageBox_Dialog msg = new MessageBox_Dialog("CNS PLC 연결 실패");
-                        msg.ShowDialog();
+                        if (success)//연결 성공
+                        {
+                            mainSock.EndConnect(result);
+                            AsyncObject obj = new AsyncObject(500);
+                            obj.WorkingSocket = mainSock;
+                            obj.ClearBuffer();
+                            mainSock.BeginReceive(obj.Buffer, 0, obj.BufferSize, 0, DataReceived, obj);
+                        }
+                        else //연결 실패
+                        {
+                            mainSock.Close();
+                            MessageBox_Dialog msg = new MessageBox_Dialog("CNS PLC 연결 실패");
+                            msg.ShowDialog();
+                        }
                     }
                 }
                 catch (Exception e)
@@ -1169,7 +1172,7 @@ namespace PopProject.Input
                 //Word 연속읽기
                 string continuous_read = string.Empty;
                 string RD = Receive_Data.Substring(64); //앞에 데이터 지우고 데이터 정보부터 읽음
-                Console.WriteLine("PLC수신 데이터(input) : " + RD);
+                Console.WriteLine("CNS수신 데이터(input) : " + RD);
 
                 for (int i = 0; i < RD.Length; i++)
                 {
@@ -1399,7 +1402,7 @@ namespace PopProject.Input
                     RD = RD.Substring(4); //변환 끝낸 4자리 데이터 자르기
                 }
 
-                Console.WriteLine("CNS PLC수신 데이터 확인(input) : " + continuous_read); //수신값 확인용
+                Console.WriteLine("CNS수신 데이터(input) : " + continuous_read); //수신값 확인용
 
 
                 if (cnsProcessing)
@@ -1407,15 +1410,80 @@ namespace PopProject.Input
                     ReturnModel returnData = ServiceModel.GetData(
                         Properties.Settings.Default.serverIndex,
                         "[PopCNSUpdate]",
-                        new string[] { "@prodID", "@MachineName", "@ModelNum", "@WorkPlan1", "@WorkPlan2", "@BoxType", "@Pock", "@Jang", "@Go",
-                                   "@Gap", "@Wing", "@Cutting", "@SaveDone", "@WorkSpeed", "@SaveState", "@spare", "@aRecipe", "@bRecipe",
-                                   "@cRecipe", "@dRecipe", "@eRecipe", "@f1Recipe", "@f2Recipe", "@g2pRecipe", "@oRecipe", "@p1Recipe", "@p2pRecipe",
-                                   "@p3Recipe", "@p4Recipe", "@spare2", "@spare3", "@Slotter", "@DieCutter", "@PrinterPull1", "@PrinterRoll1",
-                                   "@PrinterPull2", "@PrinterRoll2", "@PrinterPull3", "@PrinterRoll3", "@PrinterPull4", "@PrinterRoll4", "@spare4",
-                                   "@spare5", "@spare6", "@spare7", "@FeederGap", "@FeederRoll", "@SlotterSubGap", "@SlotterMiddleGap", "@SlotterConnection",
-                                   "@DieCutterRollGap", "@GluerbeltF1", "@GluerbeltF2", "@GluerPressA", "@GluerPressB", "@DieCutterRollA", "@DieCutterRollB",
-                                   "@GluerPE", "@BRSub", "@BRMain", "@BRConnection", "@BRmiddle", "@spare8", "@spare9", "@spare10", "@spare11", "@spare12",
-                                   "@spare13", "@spare14", "@TotalCount1", "@TotalCount2", "@Count1", "@Count2" },
+                        new string[] { 
+                            "@prodID",
+                            "@MachineName",
+                            "@ModelNum",
+                            "@WorkPlan1",
+                            "@WorkPlan2",
+                            "@BoxType",
+                            "@Pock",
+                            "@Jang",
+                            "@Go",
+                            "Gap",
+                            "@Wing",
+                            "@Cutting",
+                            "@SaveDone",
+                            "@WorkSpeed", 
+                            "@SaveState",
+                            "@spare",
+                            "@aRecipe",
+                            "@bRecipe",
+                            "@cRecipe",
+                            "@dRecipe",
+                            "@eRecipe",
+                            "@f1Recipe",
+                            "@f2Recipe",
+                            "@g2pRecipe",
+                            "@oRecipe",
+                            "@p1Recipe", 
+                            "@p2pRecipe",
+                            "@p3Recipe", 
+                            "@p4Recipe", 
+                            "@spare2", 
+                            "@spare3", 
+                            "@Slotter", 
+                            "@DieCutter", 
+                            "@PrinterPull1", 
+                            "@PrinterRoll1",
+                            "@PrinterPull2",
+                            "@PrinterRoll2", 
+                            "@PrinterPull3",
+                            "@PrinterRoll3",
+                            "@PrinterPull4",
+                            "@PrinterRoll4",
+                            "@spare4",
+                            "@spare5", 
+                            "@spare6", 
+                            "@spare7", 
+                            "@FeederGap",
+                            "@FeederRoll", 
+                            "@SlotterSubGap",
+                            "@SlotterMiddleGap", 
+                            "@SlotterConnection",
+                            "@DieCutterRollGap", 
+                            "@GluerbeltF1",
+                            "@GluerbeltF2", 
+                            "@GluerPressA",
+                            "@GluerPressB", 
+                            "@DieCutterRollA", 
+                            "@DieCutterRollB",
+                            "@GluerPE", 
+                            "@BRSub",
+                            "@BRMain", 
+                            "@BRConnection", 
+                            "@BRmiddle",
+                            "@spare8", 
+                            "@spare9", 
+                            "@spare10", 
+                            "@spare11", 
+                            "@spare12",
+                            "@spare13", 
+                            "@spare14", 
+                            "@TotalCount1",
+                            "@TotalCount2",
+                            "@Count1", 
+                            "@Count2" },
                         new object[] { this.mainModel.prodID, Properties.Settings.Default.mercName, itemModel.ModelNum, itemModel.WorkPlan1, itemModel.WorkPlan2, itemModel.BoxType,
                                    itemModel.Pock, itemModel.Jang, itemModel.Go, itemModel.Gap, itemModel.Wing, itemModel.Cutting, itemModel.SaveDone, itemModel.WorkSpeed,
                                    itemModel.SaveState, itemModel.spare, itemModel.aRecipe, itemModel.bRecipe, itemModel.cRecipe, itemModel.dRecipe, itemModel.eRecipe,
@@ -1443,7 +1511,6 @@ namespace PopProject.Input
 
                     cnsProcessing = false;
                     MessageBoxResult result = System.Windows.MessageBox.Show("저장이 완료되었습니다", "CNS 데이터 저장");
-
                 }
 
                 obj.ClearBuffer();
@@ -1460,6 +1527,7 @@ namespace PopProject.Input
             }
         }
 
+        //생산 종료
         private int PopResultEnd()
         {
             string 전체공정 = "0";
@@ -1561,13 +1629,12 @@ namespace PopProject.Input
 
 
                 InvokeCount(Properties.Settings.Default.mercName, "E"); //현황판으로 생산종료 송신
-                //Console.WriteLine("metrialitem -> " + metrialitem);
+
                 if (Properties.Settings.Default.corp_name.Equals("오주포장")  &&
                     (Properties.Settings.Default.processType == 7
                     || Properties.Settings.Default.processType == 5
                     || Properties.Settings.Default.processType == 8
                     || Properties.Settings.Default.processType == 13
-
                     ))
                 {
                     for (int i = 0; i < mainModel.subOb.Count; i++)
@@ -1741,7 +1808,6 @@ namespace PopProject.Input
                         {
                             if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
                             {
-                               
                             }
                             else
                             {
@@ -1750,15 +1816,12 @@ namespace PopProject.Input
                                     Main.arduSerial.Write("A"); //아두이노 카운터 리셋
                                     Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                                 }
-
                                 else
                                 {
                                     Main.arduSerial.Write("A"); //아두이노 카운터 리셋
                                 }
                             }
-                            
                         }
-
                         catch (Exception)
                         {
                             // MessageBox_Dialog msg = new MessageBox_Dialog("PopResultStart 오류발생 !!" + e.Message);
@@ -1766,112 +1829,69 @@ namespace PopProject.Input
                         }
 
                         break;
-
                 }
+                //if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("대양포장"))
+                //{
+                //    if (Properties.Settings.Default.Plc)
+                //    {
+                //        try
+                //        {
+                //            string[] psize;
+                //            psize = mainModel.pSize.Split('*');
+                //            Properties.Settings.Default.mimi = 35;
+                //            Properties.Settings.Default.jang = int.Parse(psize[0].Trim());
+                //            Properties.Settings.Default.pok = int.Parse(psize[1].Trim());
+                //            Properties.Settings.Default.go = int.Parse(psize[2].Trim());
+                //            Properties.Settings.Default.setCount = (int)mainModel.pplanCount;
+                //            switch (mainModel.paperGor.Replace("골", "").Trim())
+                //            {
+                //                case "AB":
+                //                case "BA":
+                //                    Properties.Settings.Default.Gap = 70;
+                //                    break;
 
-                if (Properties.Settings.Default.corp_name.Equals("대양포장") || Properties.Settings.Default.corp_name.Equals("오주포장")|| Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
-                {
-                    try
-                    {
-                        string[] psize;
-                        psize = mainModel.pSize.Split('*');
-                        Properties.Settings.Default.mimi = 35;
-                        Properties.Settings.Default.jang = int.Parse(psize[0].Trim());
-                        Properties.Settings.Default.pok = int.Parse(psize[1].Trim());
-                        Properties.Settings.Default.go = int.Parse(psize[2].Trim());
-                        Properties.Settings.Default.setCount = (int)mainModel.pplanCount;
-                        switch (mainModel.paperGor.Replace("골", "").Trim())
-                        {
-                            case "AB":
-                            case "BA":
-                                Properties.Settings.Default.Gap = 70;
-                                break;
+                //                case "BB":
+                //                    Properties.Settings.Default.Gap = 60;
+                //                    break;
 
-                            case "BB":
-                                Properties.Settings.Default.Gap = 60;
-                                break;
+                //                case "A":
+                //                    Properties.Settings.Default.Gap = 50;
+                //                    break;
 
-                            case "A":
-                                Properties.Settings.Default.Gap = 50;
-                                break;
+                //                case "EB":
+                //                    Properties.Settings.Default.Gap = 40;
+                //                    break;
 
-                            case "EB":
-                                Properties.Settings.Default.Gap = 40;
-                                break;
+                //                case "B":
+                //                    Properties.Settings.Default.Gap = 30;
+                //                    break;
 
-                            case "B":
-                                Properties.Settings.Default.Gap = 30;
-                                break;
-
-                            case "E":
-                                Properties.Settings.Default.Gap = 20;
-                                break;
-                            default:
-                                break;
-                        }
-                        //Properties.Settings.Default.setCount = (int)mainModel.pplanCount + (int)(mainModel.pplanCount * 0.1);
-                        Properties.Settings.Default.Save();
-                    }
-                    catch (Exception)
-                    {
-                        Properties.Settings.Default.mimi = 35;
-                        Properties.Settings.Default.jang = 0;
-                        Properties.Settings.Default.pok = 0;
-                        Properties.Settings.Default.go = 0;
-                        Properties.Settings.Default.setCount = 99999;
-                        Properties.Settings.Default.Gap = 7;
-                        Properties.Settings.Default.Save();
-                    }
-                    finally
-                    {
-
-                        if (Properties.Settings.Default.Plc)
-                        {
-                            try
-                            {
-                                ConnectSocket(); //CNS 통신연결
-                                Ls_Fenet wd = new Ls_Fenet();
-                                //byte[] bDts = wd.continuous_Read("%DB7800", 70);
-                                List<int> items = new List<int>();
-                                items.Add(99);  //설정 변경요구 (99로 요청하면 1로바뀜)
-                                items.Add(0);   //설정 byte[] bDts = wd.continuous_Read("%DB7800", 70); 요구 (0=> 신규설정요구, 1=>데이터 설정 변경요구
-                                items.Add(1); //작업 모델 번호
-                                items.Add(10000); //작업지시 매수(하위)
-                                items.Add(0); //작업지시 매수(상위)
-                                items.Add(Properties.Settings.Default.boxType); //BOX TYPE (1=>1합, 3=>2합, 5=>인쇄물, 6=>H형, 7=>H-Cover형 
-                                items.Add(Properties.Settings.Default.pok); //폭
-                                items.Add(Properties.Settings.Default.jang); //장
-                                items.Add(Properties.Settings.Default.go); //고
-                                items.Add(Properties.Settings.Default.Gap); //갭
-                                items.Add(0); //앞날개
-                                items.Add(Properties.Settings.Default.mimi); //미미
-
-                                //
-                                int WriteCount = items.Count() * 2;
-                                byte[] bDts = wd.continuous_Write("%DB7600", WriteCount, items);
-                                //송신한 데이터 값 보는용도
-                                string Send_Data = string.Empty;
-
-                                for (int i = 0; i < bDts.Length; i++)
-                                {
-                                    Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
-                                }
-
-                                Console.WriteLine("송신 데이터 : " + Send_Data);
-                                mainSock.Send(bDts); //데이터 쓰기
-                            }
-
-                            catch (Exception)
-                            {
-                            }
-                            finally
-                            {
-                                mainSock.Close();
-                            }
-                        }
-                    }
-                }
-
+                //                case "E":
+                //                    Properties.Settings.Default.Gap = 20;
+                //                    break;
+                //                default:
+                //                    break;
+                //            }
+                //            Properties.Settings.Default.Save();
+                //        }
+                //        catch (Exception)
+                //        {
+                //            Properties.Settings.Default.mimi = 35;
+                //            Properties.Settings.Default.jang = 0;
+                //            Properties.Settings.Default.pok = 0;
+                //            Properties.Settings.Default.go = 0;
+                //            Properties.Settings.Default.setCount = 99999;
+                //            Properties.Settings.Default.Gap = 7;
+                //            Properties.Settings.Default.Save();
+                //        }
+                //        finally
+                //        {
+                //            if (Properties.Settings.Default.Plc)
+                //            {
+                //            }
+                //        }
+                //    }
+                //}
             }
             else
             {
@@ -2254,13 +2274,333 @@ namespace PopProject.Input
             error_check_border.Visibility = Visibility.Collapsed;
         }
 
-        //CNS 데이터 저장 버튼
-        private void Plc_ButtonMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            //Plc_Pop plc = new Plc_Pop(mainModel);
-            //plc.ShowDialog();
 
-            MessageBoxResult result = System.Windows.MessageBox.Show("저장 하시겠습니까 ?", "CNS 데이터 저장", MessageBoxButton.YesNo);
+        private void CNS_DB확인()
+        {
+
+        }
+
+
+
+        // DB -> CNS 저장 버튼
+        private void Plc_ButtonMouseDown1(object sender, MouseButtonEventArgs e)
+        {
+            bool DB_DataOK = false; //DB에 데이터 있는거 확인
+
+            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ReturnModel returnDataCheck = ServiceModel.GetData(
+               Properties.Settings.Default.serverIndex,
+               "[PopCNSSearch]",
+               new string[] { "prodID", "MachineName" },
+               new object[] { this.mainModel.prodID, Properties.Settings.Default.mercName }, 0);
+
+            if (returnDataCheck.결과 == 1)
+            {
+                string ProdID = "";
+                string machineName = "";
+                int pock = 0;
+                int jang = 0;
+                int go = 0;
+
+                JArray Data_Jarry = JArray.Parse(returnDataCheck.리턴값);
+                foreach (JObject result in Data_Jarry)
+                {
+                    ProdID = result["prodID"].ToString();
+                    machineName = result["MachineName"].ToString();
+                    pock = Convert.ToInt32(result["Pock"]);
+                    jang = Convert.ToInt32(result["Jang"]);
+                    go = Convert.ToInt32(result["Go"]);
+                }
+
+                if (ProdID != "" ||  pock * jang * go != 0)
+                {
+                    MessageBoxResult result2 = System.Windows.MessageBox.Show("PC데이터를 CNS로 전송 하시겠습니까 ?", "CNS로 데이터 전송", MessageBoxButton.YesNo);
+
+                    if (result2 == MessageBoxResult.Yes) //yes
+                    {
+                        DB_DataOK = true;
+                    }
+                    else //No
+                    {
+                        DB_DataOK = false;
+                    }
+                }
+                else
+                {
+                    MessageBoxResult result3 = System.Windows.MessageBox.Show(" 저장된 데이터가 없습니다.\n 먼저 CNS세팅 후 CNS데이터 저장을 눌러주세요.", "PC 데이터 없음");
+                }
+            }
+
+            //DB에 데이터 있는거 확인되면
+            if (DB_DataOK) 
+            {
+                CNS_Send = true;
+
+                ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+                ReturnModel returnData = ServiceModel.GetData(
+                   Properties.Settings.Default.serverIndex,
+                   "[PopCNSSearch]",
+                   new string[] { "prodID", "MachineName" },
+                   new object[] { this.mainModel.prodID, Properties.Settings.Default.mercName }, 0);
+
+                if (returnData.결과 == 1)
+                {
+                    string ProdID = "";
+                    string machineName = "";
+                    int modelNum = 0;
+                    int workPlan1 = 0;
+                    int workPlan2 = 0;
+                    int boxType = 0;
+                    int pock = 0;
+                    int jang = 0;
+                    int go = 0;
+                    int gap = 0;
+                    int wing = 0;
+                    int cutting = 0;
+                    int saveDone = 0;
+                    int workSpeed = 0;
+                    int saveState = 0;
+                    int spare = 0;
+                    int aRecipe = 0;
+                    int bRecipe = 0;
+                    int cRecipe = 0;
+                    int dRecipe = 0;
+                    int eRecipe = 0;
+                    int f1Recipe = 0;
+                    int f2Recipe = 0;
+                    int g2pRecipe = 0;
+                    int oRecipe = 0;
+                    int p1Recipe = 0;
+                    int p2pRecipe = 0;
+                    int p3Recipe = 0;
+                    int p4Recipe = 0;
+                    int spare2 = 0;
+                    int spare3 = 0;
+                    int spare4 = 0;
+                    int dRagista = 0;
+                    int printerPull1 = 0;
+                    int printerRoll1 = 0;
+                    int printerPull2 = 0;
+                    int printerRoll2 = 0;
+                    int printerPull3 = 0;
+                    int printerRoll3 = 0;
+                    int printerPull4 = 0;
+                    int printerRoll4 = 0;
+                    int spare6 = 0;
+                    int spare7 = 0;
+                    int spare8 = 0;
+                    int spare9 = 0;
+                    int feederGap = 0;
+                    int feederRoll = 0;
+                    int slotterSubGap = 0;
+                    int slotterMiddleGap = 0;
+                    int slotterConnection = 0;
+                    int dieCutterRollGap = 0;
+                    int dieCutterConnectionGap = 0;
+                    int spare10 = 0;
+                    int gluerbeltF1 = 0;
+                    int gluerbeltF2 = 0;
+                    int gluerPressA = 0;
+                    int gluerPressB = 0;
+                    int gluerPE = 0;
+                    int spare11 = 0;
+                    int bRSub = 0;
+                    int bRMain = 0;
+                    int bRConnection = 0;
+                    int bRmiddle = 0;
+
+                    JArray Data_Jarry = JArray.Parse(returnData.리턴값);
+                    foreach (JObject result in Data_Jarry)
+                    {
+                        ProdID = result["prodID"].ToString();
+                        machineName = result["MachineName"].ToString();
+
+                        modelNum = Convert.ToInt32(result["ModelNum"]);
+                        workPlan1 = Convert.ToInt32(result["WorkPlan1"]);
+                        workPlan2 = Convert.ToInt32(result["WorkPlan2"]);
+                        boxType = Convert.ToInt32(result["BoxType"]);
+                        pock = Convert.ToInt32(result["Pock"]);
+                        jang = Convert.ToInt32(result["Jang"]);
+                        go = Convert.ToInt32(result["Go"]);
+                        gap = Convert.ToInt32(result["Gap"]);
+                        wing = Convert.ToInt32(result["Wing"]);
+                        cutting = Convert.ToInt32(result["Cutting"]);
+                        saveDone = Convert.ToInt32(result["SaveDone"]);
+                        workSpeed = Convert.ToInt32(result["WorkSpeed"]);
+                        saveState = Convert.ToInt32(result["SaveState"]);
+                        spare = Convert.ToInt32(result["spare"]);
+
+                        aRecipe = Convert.ToInt32(result["aRecipe"]);     //A
+                        bRecipe = Convert.ToInt32(result["bRecipe"]);     //B
+                        cRecipe = Convert.ToInt32(result["cRecipe"]);     //C
+                        dRecipe = Convert.ToInt32(result["dRecipe"]);     //D
+                        eRecipe = Convert.ToInt32(result["eRecipe"]);     //E
+                        f1Recipe = Convert.ToInt32(result["f1Recipe"]);   //F1
+                        f2Recipe = Convert.ToInt32(result["f2Recipe"]);   //F2
+                        g2pRecipe = Convert.ToInt32(result["g2pRecipe"]); //G
+                        oRecipe = Convert.ToInt32(result["oRecipe"]);     //O
+
+                        p1Recipe = Convert.ToInt32(result["p1Recipe"]);   //P1
+                        p2pRecipe = Convert.ToInt32(result["p2pRecipe"]); //P2
+                        p3Recipe = Convert.ToInt32(result["p3Recipe"]);   //P3
+                        p4Recipe = Convert.ToInt32(result["p4Recipe"]);   //P4
+                        
+                        dRagista = Convert.ToInt32(result["@DieCutter"]); //D레지스타
+                       
+                        printerPull1 = Convert.ToInt32(result["PrinterPull1"]);  //1도 롤
+                        printerRoll1 = Convert.ToInt32(result["PrinterRoll1"]);  //1도 
+                        printerPull2 = Convert.ToInt32(result["PrinterPull2"]);  //2도 롤
+                        printerRoll2 = Convert.ToInt32(result["PrinterRoll2"]);  //2도 
+                        printerPull3 = Convert.ToInt32(result["PrinterPull3"]);  //3도 롤
+                        printerRoll3 = Convert.ToInt32(result["PrinterRoll3"]);  //3도 
+                        printerPull4 = Convert.ToInt32(result["PrinterPull4"]);  //4도 롤
+                        printerRoll4 = Convert.ToInt32(result["PrinterRoll4"]);  //4도
+
+                        feederGap = Convert.ToInt32(result["FeederGap"]);           //피다진입 갭
+                        feederRoll = Convert.ToInt32(result["FeederRoll"]);         //피다진입 롤
+
+                        slotterSubGap = Convert.ToInt32(result["SlotterSubGap"]);        //슬로다 보조 갭
+                        slotterMiddleGap = Convert.ToInt32(result["SlotterMiddleGap"]);  //슬로다 본 갭
+                        slotterConnection = Convert.ToInt32(result["SlotterConnection"]);//슬로다 연결갭
+
+                        dieCutterRollGap = Convert.ToInt32(result["DieCutterRollGap"]); //다이캇타 롤 갭
+                        dieCutterConnectionGap = Convert.ToInt32(result["GluerbeltF"]); //다이캇타 연결 갭
+
+                        gluerbeltF1 = Convert.ToInt32(result["GluerPressA"]);     //글루어벨트 진입 갭 F1
+                        gluerbeltF2 = Convert.ToInt32(result["GluerPressB"]);     //글루어벨트 진입 갭 F2
+                        gluerPressA = Convert.ToInt32(result["DieCutterRollA"]);  //글루어 프레스롤 A
+                        gluerPressB = Convert.ToInt32(result["DieCutterRollB"]);  //글루어 프레스롤 B
+                        gluerPE = Convert.ToInt32(result["GluerPE"]);             //글루어 PE
+
+                        bRSub = Convert.ToInt32(result["BRMain"]);           //보조괘선 갭  
+                        bRMain = Convert.ToInt32(result["BRConnection"]);    //본괘선 갭
+                        bRConnection = Convert.ToInt32(result["BRmiddle"]);  //연결롤 갭
+                        bRmiddle = Convert.ToInt32(result["spare8"]);        //중간롤 갭
+                    }
+
+                    try
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            ConnectSocket(); //CNS 통신연결
+
+                            if (success)//통신 연결 성공
+                            {
+                                Ls_Fenet wd = new Ls_Fenet();
+                                List<int> items = new List<int>();
+
+                                items.Add(99);  //설정 변경요구 (99로 요청하면 1로바뀜)
+                                items.Add(1);   //설정 byte[] bDts = wd.continuous_Read("%DB7800", 70); 요구 (0=> 신규설정요구, 1=>데이터 설정 변경요구
+                                items.Add(1); //작업 모델 번호
+                                items.Add(10000); //작업지시 매수(하위)
+                                items.Add(0); //작업지시 매수(상위)
+                                items.Add(boxType); //BOX TYPE (1=>1합, 3=>2합, 5=>인쇄물, 6=>H형, 7=>H-Cover형 
+                                items.Add(pock); //폭
+                                items.Add(jang); //장
+                                items.Add(go); //고
+                                items.Add(gap); //갭
+                                items.Add(wing); //앞날개
+                                items.Add(cutting); //미미 컷팅
+                                items.Add(0); //SaveDone
+                                items.Add(0); //WorkSpeed
+                                items.Add(0); //SaveState
+                                items.Add(0); //Spare
+                                items.Add(aRecipe);                //A
+                                items.Add(bRecipe);                //B
+                                items.Add(cRecipe);                //C
+                                items.Add(dRecipe);                //D
+                                items.Add(eRecipe);                //E
+                                items.Add(f1Recipe);               //F1
+                                items.Add(f2Recipe);               //F2
+                                items.Add(g2pRecipe);              //G
+                                items.Add(oRecipe);                //O
+                                items.Add(p1Recipe);               //P1
+                                items.Add(p2pRecipe);              //P2
+                                items.Add(p3Recipe);               //P3
+                                items.Add(p4Recipe);               //P4
+                                items.Add(0);                      //Spare
+                                items.Add(0);                      //Spare
+                                items.Add(0);                      //Spare
+                                items.Add(dRagista);               //D레지스타
+                                items.Add(printerPull1);           //1도 ?
+                                items.Add(printerRoll1);           //1도 프레스
+                                items.Add(printerPull2);           //2도 ?
+                                items.Add(printerRoll2);           //2도 프레스
+                                items.Add(printerPull3);           //3도 ?
+                                items.Add(printerRoll3);           //3도 프레스
+                                items.Add(printerPull4);           //4도 ?
+                                items.Add(printerRoll4);           //4도 프레스
+                                items.Add(0);                      //Spare
+                                items.Add(0);                      //Spare
+                                items.Add(0);                      //Spare
+                                items.Add(0);                      //Spare
+                                items.Add(feederGap);              //피다진입 갭
+                                items.Add(feederRoll);             //피다진입 롤
+                                items.Add(slotterSubGap);          //슬로다 보조 갭
+                                items.Add(slotterMiddleGap);       //슬로다 본 갭
+                                items.Add(slotterConnection);      //슬로다 연결갭
+                                items.Add(dieCutterRollGap);       //다이캇타 롤 갭
+                                items.Add(dieCutterConnectionGap); //다이캇타 연결 갭
+                                items.Add(0);                      //Spare
+                                items.Add(gluerbeltF1);            //글루어벨트 진입 갭 F1
+                                items.Add(gluerbeltF2);            //글루어벨트 진입 갭 F2
+                                items.Add(gluerPressA);            //글루어 프레스롤 A
+                                items.Add(gluerPressB);            //글루어 프레스롤 B
+                                items.Add(gluerPE);                //글루어 PE
+                                items.Add(0);                      //Spare
+                                items.Add(bRSub);                  //보조괘선 갭
+                                items.Add(bRMain);                 //본괘선 갭
+                                items.Add(bRConnection);           //연결롤 갭
+                                items.Add(bRmiddle);               //중간롤 갭
+
+                                int WriteCount = items.Count() * 2;
+                                byte[] bDts = wd.continuous_Write("%DB7600", WriteCount, items); //연속쓰기 시작점, 데이터 개수, 값
+
+                                //송신한 데이터 값 보는용도
+                                string Send_Data = string.Empty;
+                                for (int i = 0; i < bDts.Length; i++)
+                                {
+                                    Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
+                                }
+                                Console.WriteLine("CNS송신 데이터(input) : " + Send_Data);
+
+                                //데이터 쓰기
+                                mainSock.Send(bDts);
+                            }
+                        });
+
+                        MessageBoxResult result = System.Windows.MessageBox.Show("데이터 전송 완료", "CNS 데이터 전송");
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox_Dialog msg = new MessageBox_Dialog("데이터 전송 실패!");
+                        msg.ShowDialog();
+                        mainSock.Close();
+                    }
+                    finally
+                    {
+                        mainSock.Close();
+                        CNS_Send = false;
+                    }
+                }
+                else 
+                {
+                    MessageBox_Dialog msg = new MessageBox_Dialog("PopCNSSearch 조회 오류 !!");
+                    msg.ShowDialog();
+                    CNS_Send = false;
+                }
+            }
+            else//DB데이터 없음
+            {
+                CNS_Send = false;
+            }
+        }
+
+        //CNS 데이터 저장 버튼
+        //CNS 데이터를 읽고 DB에 저장함
+        private void Plc_ButtonMouseDown2(object sender, MouseButtonEventArgs e)
+        {
+            MessageBoxResult result = System.Windows.MessageBox.Show("데이터를 PC에저장 하시겠습니까 ?", "CNS 데이터 저장", MessageBoxButton.YesNo);
 
             if (result == MessageBoxResult.Yes) //확인
             {
@@ -2275,14 +2615,14 @@ namespace PopProject.Input
         }
 
         //CNS 데이터 상세창 버튼
-        private void Plc_ButtonMouseDown2(object sender, MouseButtonEventArgs e)
+        private void Plc_ButtonMouseDown3(object sender, MouseButtonEventArgs e)
         {
             Plc_Pop plc = new Plc_Pop(mainModel);
             plc.ShowDialog();
         }
 
-
     }
+
     public class MinusConverter : IValueConverter
     {
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -1,0 +1,30 @@
+﻿<Window x:Class="PopProject.KeyBoard2.Win_KeyBoard2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PopProject.KeyBoard2"
+        mc:Ignorable="d"
+       Title="Win_KeyBoard2" Height="524" Width="288" AllowsTransparency="True" WindowStyle="None"  Loaded="KeyBoard2_loaded">
+    <Border BorderThickness="1" BorderBrush="Black">
+        <Canvas>
+            <Image Source="/img/back_03-1.png" Stretch="Fill" Canvas.Left="-1" Width="287" Height="45" MouseLeftButtonDown="Image_MouseLeftButtonDown"></Image>
+
+            <Button x:Name="key_1" Width="80" Height="80" Content="1" FontSize="25" FontWeight="Bold" Canvas.Top="54" Canvas.Left="11" Click="Button_Click"/>
+            <Button x:Name="key_2" Width="80" Height="80" Content="2" FontSize="25" FontWeight="Bold" Canvas.Top="54" Canvas.Left="104" Click="Button_Click"/>
+            <Button x:Name="key_3" Width="80" Height="80" Content="3" FontSize="25" FontWeight="Bold" Canvas.Top="54" Canvas.Left="196" Click="Button_Click"/>
+            <Button x:Name="key_4" Width="80" Height="80" Content="4" FontSize="25" FontWeight="Bold" Canvas.Top="148" Canvas.Left="11" Click="Button_Click"/>
+            <Button x:Name="key_5" Width="80" Height="80" Content="5" FontSize="25" FontWeight="Bold" Canvas.Top="148" Canvas.Left="104" Click="Button_Click"/>
+            <Button x:Name="key_6" Width="80" Height="80" Content="6" FontSize="25" FontWeight="Bold" Canvas.Top="148" Canvas.Left="196" Click="Button_Click"/>
+            <Button x:Name="key_7" Width="80" Height="80" Content="7" FontSize="25" FontWeight="Bold" Canvas.Top="242" Canvas.Left="11" Click="Button_Click"/>
+            <Button x:Name="key_8" Width="80" Height="80" Content="8" FontSize="25" FontWeight="Bold" Canvas.Top="242" Canvas.Left="104" Click="Button_Click"/>
+            <Button x:Name="key_9" Width="80" Height="80" Content="9" FontSize="25" FontWeight="Bold" Canvas.Top="242" Canvas.Left="196" Click="Button_Click"/>
+            <Button x:Name="key_10" Width="80" Height="80" Content="0" FontSize="25" FontWeight="Bold" Canvas.Top="336" Canvas.Left="11" Click="Button_Click"/>
+            <Button x:Name="key_11" Width="80" Height="80" Content="지움" FontSize="25" FontWeight="Bold" Canvas.Top="336" Canvas.Left="196" Click="Button_Click"/>
+            <Button x:Name="key_12" Background="Red" Foreground="White" Width="160" Height="80" Content="확 인" FontSize="25" FontWeight="Bold" Canvas.Top="426" Canvas.Left="63" Click="Button_Click"/>
+            <Button x:Name="key_13" Width="80" Height="80" Content="ㆍ" FontSize="25" FontWeight="Bold" Canvas.Top="336" Canvas.Left="104" Click="Button_Click"/>
+
+        </Canvas>
+    </Border>
+
+</Window>

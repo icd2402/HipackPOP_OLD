@@ -185,13 +185,6 @@ namespace PopProject.Detail
                         Main.robot_Setting.ShowDialog();
                         Main.robot_Setting = null;
                     }
-                    if (Properties.Settings.Default.corp_name.Equals("대세물산"))
-                    {
-                        Main.robot_Setting2 = new Robot_Setting2(mainModel.prodID, mainModel.customSName, mainModel.prodName);
-                        Main.robot_Setting2.ShowDialog();
-                        Main.robot_Setting2 = null;
-                    }
-                    
                 }
             }
         }
@@ -1175,8 +1168,8 @@ namespace PopProject.Detail
             Close();
             switch (metrialitem)
             {
-                case "12":
-                case "13":
+                case "12": //원단 
+                case "13": //마닐라
                     Win_input input = new Win_input(mainModel, workList, true);
                     Main1.win_Input = input;
                     _ = input.ShowDialog();
@@ -1189,7 +1182,7 @@ namespace PopProject.Detail
                     Properties.Settings.Default.Save();
                     break;
 
-                default:
+                default: //일반
                     input = new Win_input(mainModel, workList, true);
                     Main.win_Input = input;
                     _ = input.ShowDialog();
@@ -1272,15 +1265,21 @@ namespace PopProject.Detail
 
         }
 
+        //넘기기 버튼
         private void Pass_detailInfo(object sender, MouseButtonEventArgs e)
         {
+            Border clickedBorder = (Border)sender;
+            clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D353D"));
+
             Main.passCheck = false;
             InvokeCount(Properties.Settings.Default.mercName, mainModel.orderKey.ToString() + "^@"); //설비명, 오더키, ^@
+            Console.WriteLine("넘기기 정보 : " + Properties.Settings.Default.mercName + mainModel.orderKey.ToString() + "^@");
         }
 
+        //오주 CNS전용 카운팅 집계 프로그램 통신 (현재 사용 안함)
         private void InvokeCount(string mercName, string v)
         {
-            SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
+            SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); // EX) invokeCount, 3125247246, 인라인3호기, 카운터
         }
 
         //로봇 세팅 버튼
@@ -1317,6 +1316,13 @@ namespace PopProject.Detail
             _ = win_GigUpdate.ShowDialog();
 
             MetrialIG();
+        }
+
+        //넘기기 버튼
+        private void Pass_detail_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Border clickedBorder = (Border)sender;
+            clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#485563"));
         }
     }
 }

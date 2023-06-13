@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.288</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.289</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>289</ApplicationRevision>
+    <ApplicationRevision>290</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -331,6 +331,9 @@
     <Compile Include="KeyBoard\Win_KeyBoard.xaml.cs">
       <DependentUpon>Win_KeyBoard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="KeyBoard\Win_KeyBoard2.xaml.cs">
+      <DependentUpon>Win_KeyBoard2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ls_Fenet.cs" />
     <Compile Include="MerList\MercList.xaml.cs">
       <DependentUpon>MercList.xaml</DependentUpon>
@@ -523,6 +526,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="KeyBoard\Win_KeyBoard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KeyBoard\Win_KeyBoard2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

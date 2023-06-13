@@ -5,46 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PopProject.Input"
         mc:Ignorable="d"
-        Title="Plc_Pop" Height="500" Width="320" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" KeyDown="Window_KeyDown">
+        Title="Plc_Pop" Height="500" Width="320" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" KeyDown="Window_KeyDown" Loaded="Window_Loaded">
 
     <Canvas >
-        <Border VerticalAlignment="Stretch" BorderBrush="Black" BorderThickness="1" Height="500"  Width="320" ></Border>
+        <Border VerticalAlignment="Stretch" BorderBrush="Black" BorderThickness="1" Height="506"  Width="320" Canvas.Top="-6" ></Border>
         <Image Source="/img/back_06.png" Width="320" Height="100" Stretch="Fill" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
         <Image x:Name="changeButtonOut" Width="42" Height="42" Source="/img/open_01.png" HorizontalAlignment="Right" VerticalAlignment="Top" Canvas.Left="278" Canvas.Top="12" MouseLeftButtonDown="ChangeButton_MouseDown"/>
         <Image x:Name="changeButtonIn"  Visibility="Collapsed" Width="42" Height="42" Source="/img/close_01.png" HorizontalAlignment="Right" VerticalAlignment="Top" Canvas.Left="278" Canvas.Top="12" MouseDown="ChangeButton_MouseDown"/>
         <TextBlock x:Name="ip" Text="192.168.7.7" TextAlignment="Left" Canvas.Top="5" Canvas.Left="10" Width="140" Height="25" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Background="#0000" MouseLeftButtonDown="ip_input"/>
 
         <TextBlock x:Name="거래처" Text="거래처" Canvas.Top="35" Canvas.Left="10" Width="260" Height="25" FontSize="19" TextAlignment="Left" Foreground="White" Background="#0000" FontFamily="/font/#KoPubDotum Bold"/>
-        <TextBlock x:Name="품명"  Text="품명" Canvas.Top="66" Canvas.Left="10" Width="260" Height="25" FontSize="19" TextAlignment="Left" Foreground="White" Background="#0000" FontFamily="/font/#KoPubDotum Bold"/>
+        <TextBlock x:Name="품명"  Text="품명" Canvas.Top="66" Canvas.Left="10" Width="310" Height="25" FontSize="19" TextAlignment="Left" Foreground="White" Background="#0000" FontFamily="/font/#KoPubDotum Bold"/>
 
-        <Border  BorderThickness="2" Background="White" CornerRadius="5" BorderBrush="#FF747474" Width="60" Height="40"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="258" Canvas.Top="58" MouseLeftButtonDown="PLC_Read" >
-            <TextBlock Text="읽 기" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF565656" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium"  />
+        <Border  BorderThickness="2" Background="White" CornerRadius="5" BorderBrush="#FF747474" Width="100" Height="40"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="181" Canvas.Top="104" MouseLeftButtonDown="PLC_Read" MouseLeftButtonUp="Border_MouseLeftButtonUp" >
+            <TextBlock Text="CNS 조회" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF565656" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium"  />
         </Border>
 
-        <TextBlock Text="작업모델" Canvas.Top="136" Canvas.Left="10" Width="80" Height="25" FontSize="20" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <ComboBox SelectedIndex="0" Canvas.Left="160" FontSize="16" VerticalContentAlignment="Center" Canvas.Top="132" Width="140" Height="30"  x:Name="combo" BorderBrush="{x:Null}" Background="White" FontFamily="/font/#KoPubDotum Medium"  Focusable="True">
+        <Border  BorderThickness="2" Background="White" CornerRadius="5" BorderBrush="#FF747474" Width="100" Height="40"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="44" Canvas.Top="104" MouseLeftButtonDown="DB_Read" MouseLeftButtonUp="Border_MouseLeftButtonUp">
+            <TextBlock Text="PC 조회" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF565656" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium"  />
+        </Border>
+
+        <TextBlock Text="작업모델" Canvas.Top="157" Canvas.Left="10" Width="80" Height="25" FontSize="20" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <ComboBox SelectedIndex="0" Canvas.Left="160" FontSize="16" VerticalContentAlignment="Center" Canvas.Top="153" Width="140" Height="30"  x:Name="combo" BorderBrush="{x:Null}" Background="White" FontFamily="/font/#KoPubDotum Medium"  Focusable="True">
             <ListBoxItem >1합 박스</ListBoxItem>
             <ListBoxItem>2합 박스</ListBoxItem>
             <ListBoxItem>인쇄물</ListBoxItem>
             <ListBoxItem>H형</ListBoxItem>
             <ListBoxItem>H-COVER형</ListBoxItem>
         </ComboBox>
-        <TextBlock Text="생산매수" Canvas.Top="182" Canvas.Left="10" Width="80" Height="25" FontSize="20" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="작업지시" Canvas.Top="180" Canvas.Left="160" FontSize="18" Width="140"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Focusable="false" Margin="1,0,0,1" MouseLeftButtonDown="Input_value"></TextBox>
-        <TextBlock Text="장" Canvas.Top="222" Canvas.Left="10" Width="80" Height="25" FontSize="20" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="장" Canvas.Top="220" Canvas.Left="160" FontSize="18" Width="140"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value" Focusable="false"></TextBox>
-        <TextBlock Text="폭" Canvas.Top="262" Canvas.Left="10" Width="80" Height="25" FontSize="20" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="폭" Canvas.Top="260" Canvas.Left="160" FontSize="18" Width="140"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value" Focusable="false"></TextBox>
-        <TextBlock Text="고" Canvas.Top="302" Canvas.Left="10" Width="80" Height="25" FontSize="20" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="고" Canvas.Top="300" Canvas.Left="160" FontSize="18" Width="140"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value" Focusable="false"></TextBox>
-        <TextBlock Text="갭" Canvas.Top="342" Canvas.Left="10" Width="80" Height="25" FontSize="20" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="갭" Canvas.Top="340" Canvas.Left="160" FontSize="18" Width="140"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value" Focusable="false"></TextBox>
-        <TextBlock Text="미미" Canvas.Top="382" Canvas.Left="10" Width="80" Height="25" FontSize="20" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="미미" Canvas.Top="380" Canvas.Left="160" FontSize="18" Width="140"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value" Focusable="false"></TextBox>
-        <Border  BorderThickness="2" Background="White" CornerRadius="5" BorderBrush="#FF747474" Width="80" Height="40"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="60" Canvas.Top="435" MouseLeftButtonDown="Done" >
-            <TextBlock Text="적 용" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF565656" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium"  />
+        <TextBlock Text="생산매수" Canvas.Top="203" Canvas.Left="10" Width="80" Height="25" FontSize="20" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="작업지시" Canvas.Top="201" Canvas.Left="161" FontSize="18" Width="140"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Focusable="false" MouseLeftButtonDown="Input_value"/>
+        <TextBlock Text="장" Canvas.Top="243" Canvas.Left="10" Width="80" Height="25" FontSize="20" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="장" Canvas.Top="241" Canvas.Left="161" FontSize="18" Width="140"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" MouseLeftButtonDown="Input_value" Focusable="false"/>
+        <TextBlock Text="폭" Canvas.Top="283" Canvas.Left="10" Width="80" Height="25" FontSize="20" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="폭" Canvas.Top="281" Canvas.Left="161" FontSize="18" Width="140"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" MouseLeftButtonDown="Input_value" Focusable="false"/>
+        <TextBlock Text="고" Canvas.Top="323" Canvas.Left="10" Width="80" Height="25" FontSize="20" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="고" Canvas.Top="321" Canvas.Left="161" FontSize="18" Width="140"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" MouseLeftButtonDown="Input_value" Focusable="false"/>
+        <TextBlock Text="갭" Canvas.Top="363" Canvas.Left="10" Width="80" Height="25" FontSize="20" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="갭" Canvas.Top="361" Canvas.Left="161" FontSize="18" Width="140"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" MouseLeftButtonDown="Input_value" Focusable="false"/>
+        <TextBlock Text="미미" Canvas.Top="403" Canvas.Left="10" Width="80" Height="25" FontSize="20" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="미미" Canvas.Top="401" Canvas.Left="161" FontSize="18" Width="140"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" MouseLeftButtonDown="Input_value" Focusable="false"/>
+        <Border  BorderThickness="2" Background="White" CornerRadius="5" BorderBrush="#FF747474" Width="95" Height="40"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="60" Canvas.Top="449" MouseLeftButtonDown="Done" MouseLeftButtonUp="Border_MouseLeftButtonUp">
+            <TextBlock Text="신규 생산" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF565656" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium"  />
         </Border>
-        <Border  BorderThickness="2" Background="White" CornerRadius="5" BorderBrush="#FF747474" Width="80" Height="40"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="180" Canvas.Top="435" MouseLeftButtonDown="exit" >
+        <Border  BorderThickness="2" Background="White" CornerRadius="5" BorderBrush="#FF747474" Width="80" Height="40"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="180" Canvas.Top="449" MouseLeftButtonDown="exit" MouseLeftButtonUp="Border_MouseLeftButtonUp">
             <TextBlock Text="닫 기" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF565656" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium"  />
         </Border>
 
@@ -78,29 +82,29 @@
         <TextBox x:Name="tb12" Canvas.Top="457" Canvas.Left="400" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
 
         <TextBlock Text="P4 위치" Canvas.Top="24" Canvas.Left="520" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="tb13" Canvas.Top="17" Canvas.Left="590" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
+        <TextBox x:Name="tb13" Canvas.Top="17" Canvas.Left="610" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
         <TextBlock Text="SPARE" Canvas.Top="64" Canvas.Left="520" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="tb14" Canvas.Top="57" Canvas.Left="590" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="슬로타" Canvas.Top="104" Canvas.Left="520" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="tb15" Canvas.Top="97" Canvas.Left="590" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="다이캇타" Canvas.Top="144" Canvas.Left="520" Width="90" Height="50" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="tb16" Canvas.Top="137" Canvas.Left="590" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="프린터1롤" Canvas.Top="184" Canvas.Left="520" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="tb17" Canvas.Top="177" Canvas.Left="590" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="1도 프레스&#x0a;롤" Canvas.Top="218" Canvas.Left="520" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="tb18" Canvas.Top="217" Canvas.Left="590" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="1도 프레스" Canvas.Top="264" Canvas.Left="520" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="tb19" Canvas.Top="257" Canvas.Left="590" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="2도 프레스&#x0a;롤" Canvas.Top="298" Canvas.Left="520" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="tb20" Canvas.Top="297" Canvas.Left="590" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="2도 프레스" Canvas.Top="344" Canvas.Left="520" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="tb21" Canvas.Top="337" Canvas.Left="590" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="3도 프레스&#x0a;롤" Canvas.Top="378" Canvas.Left="520" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="tb22" Canvas.Top="377" Canvas.Left="590" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="3도 프레스" Canvas.Top="424" Canvas.Left="520" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="tb23" Canvas.Top="417" Canvas.Left="590" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="4도 프레스&#x0a;롤" Canvas.Top="458" Canvas.Left="520" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
-        <TextBox x:Name="tb24" Canvas.Top="457" Canvas.Left="590" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
+        <TextBox x:Name="tb14" Canvas.Top="57" Canvas.Left="610" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
+        <TextBlock Text="SPARE" Canvas.Top="104" Canvas.Left="520" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="tb15" Canvas.Top="97" Canvas.Left="610" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
+        <TextBlock Text="SPARE" Canvas.Top="144" Canvas.Left="520" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="tb16" Canvas.Top="137" Canvas.Left="610" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
+        <TextBlock Text="D 레지스타" Canvas.Top="182" Canvas.Left="520" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="tb17" Canvas.Top="177" Canvas.Left="610" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
+        <TextBlock Text="1도 프레스롤" Canvas.Top="222" Canvas.Left="520" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="tb18" Canvas.Top="217" Canvas.Left="610" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
+        <TextBlock Text="1도 프레스" Canvas.Top="262" Canvas.Left="520" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="tb19" Canvas.Top="257" Canvas.Left="610" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
+        <TextBlock Text="2도 프레스 롤" Canvas.Top="302" Canvas.Left="520" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="tb20" Canvas.Top="297" Canvas.Left="610" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
+        <TextBlock Text="2도 프레스" Canvas.Top="342" Canvas.Left="520" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="tb21" Canvas.Top="337" Canvas.Left="610" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
+        <TextBlock Text="3도 프레스롤" Canvas.Top="382" Canvas.Left="520" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="tb22" Canvas.Top="377" Canvas.Left="610" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
+        <TextBlock Text="3도 프레스" Canvas.Top="422" Canvas.Left="520" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="tb23" Canvas.Top="417" Canvas.Left="610" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
+        <TextBlock Text="4도 프레스롤" Canvas.Top="462" Canvas.Left="520" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBox x:Name="tb24" Canvas.Top="457" Canvas.Left="610" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
 
         <TextBlock Text="4도 프레스" Canvas.Top="24" Canvas.Left="710" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
         <TextBox x:Name="tb25" Canvas.Top="17" Canvas.Left="790" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
@@ -112,30 +116,30 @@
         <TextBox x:Name="tb28" Canvas.Top="137" Canvas.Left="790" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
         <TextBlock Text="SPARE" Canvas.Top="184" Canvas.Left="710" Width="93" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
         <TextBox x:Name="tb29" Canvas.Top="177" Canvas.Left="790" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="피다진입 갭" Canvas.Top="224" Canvas.Left="710" Width="93" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBlock Text="급지부 진입" Canvas.Top="224" Canvas.Left="710" Width="93" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
         <TextBox x:Name="tb30" Canvas.Top="217" Canvas.Left="790" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="급지부 롤 갭" Canvas.Top="260" Canvas.Left="710" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBlock Text="급지부 롤 갭" Canvas.Top="262" Canvas.Left="710" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
         <TextBox x:Name="tb31" Canvas.Top="257" Canvas.Left="790" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
         <TextBlock Text="슬로다 &#x0a;보조괘선 갭" Canvas.Top="298" Canvas.Left="710" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
         <TextBox x:Name="tb32" Canvas.Top="297" Canvas.Left="790" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
         <TextBlock Text="슬로다 &#x0a;본괘선 갭" Canvas.Top="338" Canvas.Left="710" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
         <TextBox x:Name="tb33" Canvas.Top="337" Canvas.Left="790" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="슬로타 &#x0a;연결 갭" Canvas.Top="382" Canvas.Left="710" Width="93" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBlock Text="슬로다 &#x0a;연결 갭" Canvas.Top="378" Canvas.Left="710" Width="93" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
         <TextBox x:Name="tb34" Canvas.Top="377" Canvas.Left="790" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
         <TextBlock Text="다이캇타 &#x0a;롤 갭" Canvas.Top="418" Canvas.Left="710" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
         <TextBox x:Name="tb35" Canvas.Top="417" Canvas.Left="790" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
         <TextBlock Text="다이캇타 &#x0a;연결 갭" Canvas.Top="458" Canvas.Left="710" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
         <TextBox x:Name="tb36" Canvas.Top="457" Canvas.Left="790" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
 
-        <TextBlock Text="SPARE" Canvas.Top="20" Canvas.Left="910" Width="95" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBlock Text="SPARE" Canvas.Top="22" Canvas.Left="910" Width="95" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
         <TextBox x:Name="tb37" Canvas.Top="17" Canvas.Left="1020" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="글루어 벨트 &#x0a;진입 갭F1" Canvas.Top="58" Canvas.Left="910" Width="95" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBlock Text="글루어 벨트 &#x0a;진입 갭 F1" Canvas.Top="58" Canvas.Left="910" Width="95" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
         <TextBox x:Name="tb38" Canvas.Top="57" Canvas.Left="1020" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="글루어 벨트 &#x0a;진입 갭F2" Canvas.Top="98" Canvas.Left="910" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBlock Text="글루어 벨트 &#x0a;진입 갭 F2" Canvas.Top="98" Canvas.Left="910" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
         <TextBox x:Name="tb39" Canvas.Top="97" Canvas.Left="1020" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="글루어 배출 &#x0a;갭 프레스A" Canvas.Top="136" Canvas.Left="910" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBlock Text="글루어 배출 &#x0a;갭 프레스 A" Canvas.Top="136" Canvas.Left="910" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
         <TextBox x:Name="tb40" Canvas.Top="137" Canvas.Left="1020" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
-        <TextBlock Text="글루어 배출 &#x0a;갭 프레스B" Canvas.Top="178" Canvas.Left="910" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
+        <TextBlock Text="글루어 배출 &#x0a;갭 프레스 B" Canvas.Top="176" Canvas.Left="910" Width="90" Height="40" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
         <TextBox x:Name="tb41" Canvas.Top="177" Canvas.Left="1020" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
         <TextBlock Text="PE가이드" Canvas.Top="220" Canvas.Left="910" Width="90" Height="25" FontSize="15" TextAlignment="Left" Foreground="Black" Background="#0000" FontFamily="/font/#KoPubDotum Light"/>
         <TextBox x:Name="tb42" Canvas.Top="217" Canvas.Left="1020" FontSize="18" Width="70"  Height="28"  BorderBrush="Gray" VerticalContentAlignment="Center" Margin="1,0,0,1" MouseLeftButtonDown="Input_value2" Focusable="false"></TextBox>
