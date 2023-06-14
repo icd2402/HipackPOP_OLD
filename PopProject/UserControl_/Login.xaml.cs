@@ -43,10 +43,23 @@ namespace PopProject.UserControl_
             login_button.Background = Brushes.Bisque;
         }
 
+        //로그인 마우스 올렸을때
+        private void Exit_button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Mouse.OverrideCursor = Cursors.Hand;
+            Exit_button.Background = Brushes.Bisque;
+        }
+
         private void Login_button_MouseLeave(object sender, MouseEventArgs e)
         {
             Mouse.OverrideCursor = Cursors.Arrow;
             login_button.Background = new SolidColorBrush(Color.FromRgb(244, 148, 64));
+        }
+
+        private void Exit_button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Mouse.OverrideCursor = Cursors.Arrow;
+            Exit_button.Background = new SolidColorBrush(Color.FromRgb(244, 148, 64));
         }
 
         private void Login_button_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -241,6 +254,11 @@ namespace PopProject.UserControl_
         }
 
         private void Login_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void Exit_button_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Environment.Exit(0);
         }

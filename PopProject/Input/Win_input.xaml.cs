@@ -2605,8 +2605,6 @@ namespace PopProject.Input
 
             if (result == MessageBoxResult.Yes) //확인
             {
-
-
                 if (Properties.Settings.Default.Plc) //PLC 사용 체크일때
                 {
                     SingleWrite(); //현재 설정을 읽기 위해서는 D3814번에 0이 아닌 수를 넣어줘야함
@@ -2648,7 +2646,6 @@ namespace PopProject.Input
                     tbResult.Text = "0";
                 }
             }
-            
         }
     }
 

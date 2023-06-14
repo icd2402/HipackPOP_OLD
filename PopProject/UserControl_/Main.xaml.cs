@@ -473,7 +473,7 @@ namespace PopProject.UserControl_
                 default: //일반적인 경우
                     try
                     {
-                        str = int.Parse(arduSerial.ReadLine().Trim()); //아두이노 카운터값 공백 제거
+                        str = Math.Abs(int.Parse(arduSerial.ReadLine().Trim())); //아두이노 카운터값 공백 제거 후 절댓값으로 변경
                         Console.WriteLine("아두이노 값(Main) : " + str); //실시간 값 확인용
                         
                         //생산정보값이 있을때
@@ -855,7 +855,7 @@ namespace PopProject.UserControl_
             }
         }
 
-        //왼쪽 최상단 버튼 (현재 안씀)
+        //왼쪽 최상단 버튼
         private void Serial_click(object sender, RoutedEventArgs e)
         {
             /*
@@ -866,6 +866,9 @@ namespace PopProject.UserControl_
             ArduConn();
             can.Visibility = Visibility.Collapsed; 
             */
+
+            AuthCode auth = new AuthCode();
+            auth.ShowDialog();
         }
 
         //원격연결 버튼
