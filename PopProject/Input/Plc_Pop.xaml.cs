@@ -31,6 +31,7 @@ namespace PopProject.Input
         Win_KeyBoard win_KeyBoard; //일반 키보드
         Win_KeyBoard2 win_KeyBoard2; //소숫점 키보드
         private bool checkChangeButton = false;
+        private bool CNS_Send = false;
 
 
 
@@ -329,35 +330,54 @@ namespace PopProject.Input
             }
         }
 
-        //CNS 데이터 조회
+
+        private void SingleWrite() //데이터를 읽기 위한 쓰기
+        {
+            CNS_Send = true;
+
+            ConnectSocket(); //CNS 통신 연결
+            Ls_Fenet wd = new Ls_Fenet(); //헤더
+            byte[] bDts2 = wd.single_Write("%DW3814", 02, 1); //개별쓰기 (변수명, 데이터 타입, 쓸 데이터값) 
+            mainSock.Send(bDts2); //데이터 쓰기
+            mainSock.Close();
+
+            CNS_Send = false;
+        }
+
+
+        //CNS 데이터 조회 버튼
         private void PLC_Read(object sender, MouseButtonEventArgs e)
         {
             Border clickedBorder = (Border)sender;
             clickedBorder.Background = Brushes.Gray;
 
-            if (Properties.Settings.Default.Plc) //PLC 사용 체크일때
+            try
             {
-                try
-                {
-                    ConnectSocket(); //CNS 통신 연결
-                    Ls_Fenet wd = new Ls_Fenet(); //헤더
-                    byte[] bDts = wd.Word_continuous_Read("%DB7804", 71); //연속읽기 D3902 ~ D3972 (71개)
+                SingleWrite(); //현재 설정을 읽기 위해서는 D3814번에 0이 아닌 수를 넣어줘야함
+                ConnectSocket(); //CNS 통신 연결
+                Ls_Fenet wd = new Ls_Fenet(); //헤더
 
-                    //송신한 데이터 값 보는용도
-                    string Send_Data = string.Empty;
-                    for (int i = 0; i < bDts.Length; i++)
-                    {
-                        Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
-                    }
-                    Console.WriteLine("PLC송신 데이터(Plc_Pop) : " + Send_Data);
-
-                    mainSock.Send(bDts); //데이터 쓰기
-                }
-                catch (Exception)
+                byte[] bDts = wd.Word_continuous_Read("%DB7804", 71); //연속읽기 D3902 ~ D3972 (71개)
+                
+                //송신한 데이터 값 보는용도
+                string Send_Data = string.Empty;
+                for (int i = 0; i < bDts.Length; i++)
                 {
+                    Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
                 }
+                Console.WriteLine("PLC송신 데이터(Plc_Pop) : " + Send_Data);
+
+                mainSock.Send(bDts); //데이터 쓰기
             }
+            catch (Exception)
+            {
+                CNS_Send = false;
+
+            }
+            CNS_Send = false;
         }
+
+
 
         private void ConnectSocket()
         {
@@ -369,17 +389,25 @@ namespace PopProject.Input
                 {
                     IAsyncResult result = mainSock.BeginConnect(Properties.Settings.Default.ip, port, null, null);
                     bool success = result.AsyncWaitHandle.WaitOne(1500, true);
-                    if (success)//연결 성공
+
+                    if (CNS_Send)
                     {
-                        mainSock.EndConnect(result);
-                        AsyncObject obj = new AsyncObject(500);
-                        obj.WorkingSocket = mainSock;
-                        obj.ClearBuffer();
-                        mainSock.BeginReceive(obj.Buffer, 0, obj.BufferSize, 0, DataReceived, obj);
                     }
-                    else //연결 실패
+                    else
+
                     {
-                        mainSock.Close();
+                        if (success)//연결 성공
+                        {
+                            mainSock.EndConnect(result);
+                            AsyncObject obj = new AsyncObject(500);
+                            obj.WorkingSocket = mainSock;
+                            obj.ClearBuffer();
+                            mainSock.BeginReceive(obj.Buffer, 0, obj.BufferSize, 0, DataReceived, obj);
+                        }
+                        else //연결 실패
+                        {
+                            mainSock.Close();
+                        }
                     }
                 }
                 catch (Exception e)

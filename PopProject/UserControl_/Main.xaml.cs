@@ -168,6 +168,7 @@ namespace PopProject.UserControl_
             }
         }
 
+        //넘기기 신호 받는용
         private void recive(string arg1, string arg2) //설비명, 카운터
         {
             MainModel model = new MainModel();
@@ -184,6 +185,7 @@ namespace PopProject.UserControl_
 
                             Console.WriteLine(arg1 + " : " + arg2);
 
+                            //설비명 일치시
                             if (arg1.Equals(Properties.Settings.Default.mercName))
                             {
                                 string special = "";
@@ -199,11 +201,7 @@ namespace PopProject.UserControl_
                                             break;
                                         }
                                     }
-                                    /* Consumer consumer = new Consumer(context);
-                                     consumer_ = consumer;
-                                     consumer.ShowDialog();
-                                     consumer_ = null;
-                                    */
+
                                     if (passCheck)
                                     {
                                         try

@@ -83,7 +83,7 @@
         <TextBox Grid.Row="1" Focusable="False" Text="{Binding count, UpdateSourceTrigger=PropertyChanged}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="100"  Canvas.Top="302" FontFamily="/font/#KoPubDotum Bold" BorderBrush="{x:Null}"/>
         <TextBlock x:Name="perrcount" Grid.Row="1"  FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="100"  Canvas.Top="368" Foreground="Red" FontFamily="/font/#KoPubDotum Bold"/>
 
-        <TextBox x:Name="tbResult" Grid.Row="1" Focusable="false" BorderBrush="{x:Null}"  MouseLeftButtonDown="TbResult_MouseLeftButtonDown" Text="{Binding count, UpdateSourceTrigger=PropertyChanged}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="100" Canvas.Top="434" Foreground="#26414A" FontFamily="/font/#KoPubDotum Bold"/>
+        <TextBox x:Name="tbResult" Grid.Row="1" Focusable="false" BorderBrush="{x:Null}"  MouseLeftButtonDown="TbResult_MouseLeftButtonDown" Text="{Binding count, UpdateSourceTrigger=PropertyChanged}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="100" Canvas.Top="434" Foreground="#26414A" FontFamily="/font/#KoPubDotum Bold" KeyDown="TextBox_KeyDown"/>
         <Image Height="50" Width="80" Source="/img/plus_01.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Canvas.Left="382" Canvas.Top="427" MouseLeftButtonDown="Result_count_minus"></Image>
         <Image  Height="50" Width="80" Source="/img/plus_02.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Canvas.Left="461" Canvas.Top="427" MouseLeftButtonDown="Result_count_plus"></Image>
 

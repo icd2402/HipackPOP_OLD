@@ -1093,6 +1093,7 @@ namespace PopProject.Input
                 {
                     ConnectSocket(); //CNS 통신 연결
                     Ls_Fenet wd = new Ls_Fenet(); //헤더
+
                     byte[] bDts = wd.Word_continuous_Read("%DB7804", 71); //연속읽기 D3902 ~ D3972 (71개)
 
                     //송신한 데이터 값 보는용도
@@ -1124,7 +1125,7 @@ namespace PopProject.Input
                     IAsyncResult result = mainSock.BeginConnect(Properties.Settings.Default.ip, port, null, null);
                     success = result.AsyncWaitHandle.WaitOne(1500, true);
 
-                    if (CNS_Send) // CNS -> PC 버튼 활성화
+                    if (CNS_Send) // CNS -> PC(DB) 버튼 활성화
                     {
                     }
                     else //일반적인 연결
@@ -2282,7 +2283,7 @@ namespace PopProject.Input
 
 
 
-        // DB -> CNS 저장 버튼
+        // DB -> CNS 전송 버튼
         private void Plc_ButtonMouseDown1(object sender, MouseButtonEventArgs e)
         {
             bool DB_DataOK = false; //DB에 데이터 있는거 확인
@@ -2312,7 +2313,7 @@ namespace PopProject.Input
                     go = Convert.ToInt32(result["Go"]);
                 }
 
-                if (ProdID != "" ||  pock * jang * go != 0)
+                if (ProdID != "" ||  pock * jang != 0)
                 {
                     MessageBoxResult result2 = System.Windows.MessageBox.Show("PC데이터를 CNS로 전송 하시겠습니까 ?", "CNS로 데이터 전송", MessageBoxButton.YesNo);
 
@@ -2334,7 +2335,7 @@ namespace PopProject.Input
             //DB에 데이터 있는거 확인되면
             if (DB_DataOK) 
             {
-                CNS_Send = true;
+                CNS_Send = true; //데이터 쓰기
 
                 ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
                 ReturnModel returnData = ServiceModel.GetData(
@@ -2604,14 +2605,30 @@ namespace PopProject.Input
 
             if (result == MessageBoxResult.Yes) //확인
             {
+
+
                 if (Properties.Settings.Default.Plc) //PLC 사용 체크일때
                 {
+                    SingleWrite(); //현재 설정을 읽기 위해서는 D3814번에 0이 아닌 수를 넣어줘야함
                     CNSDataRead(); //CNS 데이터 읽기
                 }
             }
             else //취소
             {
             }
+        }
+
+        private void SingleWrite() //데이터를 읽기 위한 쓰기
+        {
+            CNS_Send = true;
+
+            ConnectSocket(); //CNS 통신 연결
+            Ls_Fenet wd = new Ls_Fenet(); //헤더
+            byte[] bDts2 = wd.single_Write("%DW3814", 02, 2); //개별쓰기 (변수명, 데이터 타입, 쓸 데이터값) 
+            mainSock.Send(bDts2); //데이터 쓰기
+            mainSock.Close();
+
+            CNS_Send = false;
         }
 
         //CNS 데이터 상세창 버튼
@@ -2621,6 +2638,18 @@ namespace PopProject.Input
             plc.ShowDialog();
         }
 
+        //키인 사용시 포커스가 생산수량으로 맞춰지면서 바코드 리드시 바코드값이 생산수량에 입력되는 현상을 보완
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Properties.Settings.Default.keyinCheck)
+            {
+                if (e.Key == Key.Enter)
+                {
+                    tbResult.Text = "0";
+                }
+            }
+            
+        }
     }
 
     public class MinusConverter : IValueConverter
