@@ -41,6 +41,62 @@ namespace PopProject.Input
             InitializeComponent();
             this.mainModel = mainModel;
             SetPlcData();
+
+
+            //if (Properties.Settings.Default.corp_name.Equals("오주포장") && Properties.Settings.Default.mercName.Equals("인라인2호기"))
+            //{
+            //    tb1_.Text = "A 위치";
+            //    tb2_.Text = "B 위치";
+            //    tb3_.Text = "C 위치";
+            //    tb4_.Text = "D 위치";
+            //    tb5_.Text = "E 위치";
+            //    tb6_.Text = "F1 위치";
+            //    tb7_.Text = "F2 위치";
+            //    tb8_.Text = "G 위치";
+            //    tb9_.Text = "O 위치";
+            //    tb10_.Text = "P1";
+            //    tb11_.Text = "P2";
+            //    tb12_.Text = "P3";
+
+            //    tb13_.Text = "P4";
+            //    tb14_.Text = "SPARE";
+            //    tb15_.Text = "SPARE";
+            //    tb16_.Text = "슬로타";
+            //    tb17_.Text = "다이캇타";
+            //    tb18_.Text = "예약";
+            //    tb19_.Text = "1도 프레스";
+            //    tb20_.Text = "예약";
+            //    tb21_.Text = "2도 프레스";
+            //    tb22_.Text = "예약";
+            //    tb23_.Text = "3도프레스";
+            //    tb24_.Text = "예약";
+                            
+            //    tb25_.Text = "4도 프레스";
+            //    tb26_.Text = "";
+            //    tb27_.Text = "";
+            //    tb28_.Text = "";
+            //    tb29_.Text = "";
+            //    tb30_.Text = "";
+            //    tb31_.Text = "";
+            //    tb32_.Text = "";
+            //    tb33_.Text = "";
+            //    tb34_.Text = "";
+            //    tb35_.Text = "";
+            //    tb36_.Text = "";
+                            
+            //    tb37_.Text = "";
+            //    tb38_.Text = "";
+            //    tb39_.Text = "";
+            //    tb40_.Text = "";
+            //    tb41_.Text = "";
+            //    tb42_.Text = "";
+            //    tb43_.Text = "";
+            //    tb44_.Text = "";
+            //    tb45_.Text = "";
+            //    tb46_.Text = "";
+            //    tb47_.Text = "";
+            //}
+
         }
 
         //초기화면 세팅

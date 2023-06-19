@@ -28,7 +28,7 @@
 
         </Grid.RowDefinitions>
 
-        <TextBlock x:Name="tbMercName" Text="공 정" Foreground="White" Width="280" FontSize="40" TextAlignment="Center" Height="50" HorizontalAlignment="Center" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="Mer_click"></TextBlock>
+        <TextBlock x:Name="tbMercName" Text="공 정" Foreground="White" Width="264" FontSize="38" TextAlignment="Center" Height="50" HorizontalAlignment="Center" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="Mer_click" Margin="516,30,500,30"></TextBlock>
 
         <Button x:Name="btrSerial" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="Serial_click" Margin="0,0,0,90"/>
 
@@ -44,8 +44,8 @@
         <TextBlock x:Name="txtDate"  FontSize="23" VerticalAlignment="Top" Text="2020년 10월 28일 화요일"  Margin="230,27,792,0"  FontFamily="/font/#KoPubBatang Medium" MouseLeftButtonDown="TxtDate_MouseLeftButtonDown"/>
         <TextBlock x:Name="txtClock"   FontSize="23" VerticalAlignment="Top" Text="오전 11:11" Margin="230,60,792,0"  FontFamily="/font/#KoPubBatang Medium" MouseLeftButtonDown="TxtTime_MouseLeftButtonDown"/>
 
-        <TextBlock x:Name="txtDate2" Text=" 《" FontSize="23" VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Center" Margin="200,24,1043,56" Width="30" MouseLeftButtonDown="Date_Click1"/>
-        <TextBlock x:Name="txtDate3" Text=" 》" FontSize="22" VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Center" Margin="465,24,768,56" Width="30" MouseLeftButtonDown="Date_Click2"/>
+        <TextBlock x:Name="txtDate2" Text="  《 " FontSize="23" VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Center" Margin="180,24,1020,56" Width="55" MouseLeftButtonDown="Date_Click1"/>
+        <TextBlock x:Name="txtDate3" Text="   》 " FontSize="22" VerticalAlignment="Center"  Visibility="Collapsed" HorizontalAlignment="Center" Margin="459,24,763,56" Width="55" MouseLeftButtonDown="Date_Click2"/>
 
         <Canvas Grid.Row="1" Background="White" Opacity="0.5"/>
         <Canvas x:Name="can1" Grid.Row="1" Margin="10,0,10,0">
@@ -150,7 +150,7 @@
         <TextBlock x:Name="txtNoPlan" Text="생산계획이 없습니다." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="35" Grid.Row="2" FontFamily="/font/#KoPubDotum Medium" Margin="471,329,471,501"></TextBlock>
         <Canvas x:Name="can" Background="Black" Opacity="0.35" Grid.RowSpan="3" Visibility="Collapsed">
         </Canvas>
-        <TextBox x:Name="tbBarcode" Text="" HorizontalAlignment="Left" Width="200" Height="50" Visibility="Visible" Opacity="0" KeyDown="TbBarcode_KeyDown"></TextBox>
+        <TextBox x:Name="tbBarcode" Text="" HorizontalAlignment="Left" Width="193" Height="50" Visibility="Visible" Opacity="0" KeyDown="TbBarcode_KeyDown" Margin="0,30"></TextBox>
 
 
         <Grid x:Name="ss" Grid.Row="3" Background="#87BDE5" Visibility="Collapsed">

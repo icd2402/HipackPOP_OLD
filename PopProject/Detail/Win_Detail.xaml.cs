@@ -50,34 +50,47 @@ namespace PopProject.Detail
             InitializeComponent();
 
             this.mainModel = mainModel;
-            monitorcheck = v;
             this.workList = workList;
+            monitorcheck = v;
             customSname.Text = mainModel.customSName;
-            boxType.Text = "형  태 : " + mainModel.boxType;
+            boxType.Text = "형  태 : " + mainModel.boxType; 
             pplanCount.Text = "계획량 : " + mainModel.pplanCount.ToString("N0");
-            if (Properties.Settings.Default.corp_name.Equals("오주포장"))
-            {
-                파렛트적재매수.Visibility = Visibility.Visible;
-                파렛트적재높이.Visibility = Visibility.Visible;
-                tb파렛트적재높이.Text = this.mainModel.PalletHeight;
-                tb파렛트적재매수.Text = this.mainModel.PalletCount;
-            }
-           
             prodName.Text = mainModel.prodName;
             subOb.ItemsSource = mainModel.subOb;
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
-            Pass_detail.Visibility = Properties.Settings.Default.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
+
+            //오주포장 일때 옵션
+            if (Properties.Settings.Default.corp_name.Equals("오주포장"))
+            {
+                tb파렛트적재높이.Text = this.mainModel.PalletHeight;
+                tb파렛트적재매수.Text = this.mainModel.PalletCount;
+                파렛트적재매수.Visibility = Visibility.Visible; //파렛트 적재매수 표시
+                파렛트적재높이.Visibility = Visibility.Visible; //파렛트 적재높이 표시
+                Pass_detail.Visibility = Visibility.Visible;    //넘기기 버튼 표시
+            }
+            else //그외 업체
+            {
+                Pass_detail.Visibility = Visibility.Collapsed; //넘기기 버튼 숨김
+            }
+            
+            //오주포장 로봇 체크시
+            if (Properties.Settings.Default.corp_name.Equals("오주포장") && Properties.Settings.Default.robotchecked)
+            {
+                serchRobotData();
+            }
+
+            //로봇사용 체크시 로봇설정 버튼 표시
             robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
+
+            //두성,혜성,지온 일때 적재창고 버튼 표시
             wharehouse.Visibility = Properties.Settings.Default.corp_name.Equals("두성포장테스트") || Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Contains("혜성") || Properties.Settings.Default.corp_name.Contains("지온") ? Visibility.Visible : Visibility.Collapsed;
+
             DetailSearch(); //세부정보 조회 (왼쪽화면)
             MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
             PopSearchPhoto(); //인쇄사양
 
-            if (Properties.Settings.Default.robotchecked && Properties.Settings.Default.corp_name.Equals("오주포장"))
-            {
-                serchRobotData();
-            }
+
         }
 
         public Win_Detail(MainModel mainModel, string special, bool detail_check)
@@ -135,6 +148,7 @@ namespace PopProject.Detail
 
         }
 
+        //오주 로봇 DB 조회
         private void serchRobotData()
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -173,34 +187,34 @@ namespace PopProject.Detail
                     string UpDatetime = result["UpDatetime"].ToString();
                 }
 
+                //DB에 데이터가 있으면
                 if (Data_Jarry.Count > 0)
                 {
+                    //로봇으로 데이터 전송
                     DataSend(BOX_W, BOX_H, BOX_D, BOX_DADAN, BOX_DANSU, BOX_PAT, PALLET_W, PALLET_H, PALLET_D);
                 }
-                else
+                else //저장된 데이터가 없으면 로봇설정 창 팝업
                 {
-                    if (Properties.Settings.Default.corp_name.Equals("오주포장"))
-                    {
-                        Main.robot_Setting = new Robot_Setting(mainModel.prodID, mainModel.customSName, mainModel.prodName);
-                        Main.robot_Setting.ShowDialog();
-                        Main.robot_Setting = null;
-                    }
+                    Main.robot_Setting = new Robot_Setting(mainModel.prodID, mainModel.customSName, mainModel.prodName);
+                    Main.robot_Setting.ShowDialog();
+                    Main.robot_Setting = null;
                 }
             }
         }
+
         public void DataReceived1(IAsyncResult ar) // 데이터 수신
         {
             try
             {
                 // BeginReceive에서 추가적으로 넘어온 데이터를 AsyncObject 형식으로 변환한다.
                 AsyncObject obj = (AsyncObject)ar.AsyncState;
+
                 // 수신한 데이터 16진수로 변환
                 string Receive_Data = string.Empty;
                 for (int i = 0; i < obj.Buffer.Length; i++)
                 {
                     Receive_Data += obj.Buffer[i].ToString("x2");
                 }
-                //MessageBox.Show(Receive_Data.ToString()); //수신 데이터값 보기(기본)
 
                 //연속읽기
                 string continuous_read = string.Empty;
@@ -232,12 +246,10 @@ namespace PopProject.Detail
             }
             catch (Exception)
             {
-
             }
-            // 수신 대기
-            // obj.WorkingSocket.BeginReceive(obj.Buffer, 0, 2000, 0, DataReceived, obj);
             mainSock.Close();
         }
+
         private Boolean ConnectSocket(string flag)
         {
             if (true)
@@ -245,6 +257,7 @@ namespace PopProject.Detail
                 bool success = false;
 
                 mainSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+
                 if (!mainSock.Connected)
                 {
                     int port = int.Parse(Properties.Settings.Default.robotPort);
@@ -271,7 +284,7 @@ namespace PopProject.Detail
             }
         }
 
-        //오주 로봇통신
+        //오주 로봇 통신(쓰기)
         private void DataSend(string bOX_W, string bOX_H, string bOX_D, string bOX_DADAN, string bOX_DANSU, string bOX_PAT, string pALLET_W, string pALLET_H, string pALLET_D)
         {
             MessageBox_Dialog msg;
@@ -294,12 +307,16 @@ namespace PopProject.Detail
                     byte[] bDts = wd.continuous_Write("%DB1200", WriteCount, items);
                     // byte[] bDts = wd.Byte_continuous_Read("D", "312", 2);
                     string Send_Data = string.Empty;
-                    //for (int i = 0; i < bDts.Length; i++)
-                    //{
-                    //    Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
-                    //}
-                    //Console.WriteLine("전송 데이터 : " + Send_Data);
+
+                    // 전송 데이터 확인용
+                    for (int i = 0; i < bDts.Length; i++)
+                    {
+                        Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
+                    }
+                    Console.WriteLine("오주 로봇 전송 데이터 : " + Send_Data);
+
                     mainSock.Send(bDts); //데이터 쓰기
+
                    // msg = new MessageBox_Dialog("전송되었습니다.");
                    // msg.Show();
                 }
@@ -316,7 +333,7 @@ namespace PopProject.Detail
             else
             {
                 mainSock.Close();
-                msg = new MessageBox_Dialog("Plc 연결 불가");
+                msg = new MessageBox_Dialog("로봇 연결 실패!!");
                 msg.ShowDialog();
             }
         }

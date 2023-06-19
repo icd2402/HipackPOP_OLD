@@ -60,12 +60,22 @@ namespace PopProject.UserControl_
         public static bool passCheck = true; //넘기기
         public static DateTime dt;
         private bool CheckDateValue = true;
+        private bool DateCheck = false;
+
         public Main()
         {
             try
             {
                 InitializeComponent();
                 production = null;
+
+                //왼쪽상단 업체명
+                corp_name.Text = Properties.Settings.Default.corp_name;
+                string metrialitem = Properties.Settings.Default.meterialinfo;
+
+                //중앙 설비명 텍스트
+                string merName = Properties.Settings.Default.mercName;
+                tbMercName.Text = merName;
 
                 // 설비명 변경 Lock / Unlock 설정
                 if (!Properties.Settings.Default.checkMerc)
@@ -78,10 +88,8 @@ namespace PopProject.UserControl_
                     merc_lock.Text = "LOCK";
                     btnLogout.Background = Brushes.Red;
                 }
-                
-                //중앙 설비명 텍스트
-                string merName = Properties.Settings.Default.mercName;
-                tbMercName.Text = merName;
+
+                //SignalR 연결
                 try
                 {
                     SignalRAdministrator conn = new SignalRAdministrator();
@@ -92,7 +100,7 @@ namespace PopProject.UserControl_
                 }
 
                 //날짜 이동버튼 활성화 (대세물산)
-                if (Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
                 {
                     txtDate2.Visibility = Visibility.Visible;
                     txtDate3.Visibility = Visibility.Visible;
@@ -110,13 +118,12 @@ namespace PopProject.UserControl_
                 Properties.Settings.Default.consumersumcount = 0;
                 Properties.Settings.Default.Save();
 
-                corp_name.Text = Properties.Settings.Default.corp_name;
-                string metrialitem = Properties.Settings.Default.meterialinfo;
+                
 
-                SetSetting(metrialitem);
-                ArduConn();
+                SetSetting(metrialitem); //작업정보 설장 값 저장
+                ArduConn(); //아두이노 통신연결
 
-                //신우,우리,누리,혜성,성주
+                //신우,우리,누리,혜성,성주 //통수 설비일때 텍스트 변경
                 if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("혜성수출포장") || Properties.Settings.Default.corp_name.Equals("신우포장테스트") || Properties.Settings.Default.corp_name.Equals("성주포장"))
                 {
                     //통수 설비일때
@@ -130,16 +137,17 @@ namespace PopProject.UserControl_
                     }
                 }
 
-                //옵션에서 스크롤바 사용 유/무
-                sv.VerticalScrollBarVisibility = Properties.Settings.Default.scrollvarCheck ? ScrollBarVisibility.Visible : ScrollBarVisibility.Hidden;
+                //옵션에서 스크롤바 사용 유/무 확인
                 if (Properties.Settings.Default.scrollvarCheck)
                 {
+                    sv.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
                     sv.PreviewMouseLeftButtonDown -= ScrollViewer_PreviewMouseLeftButtonDown;
                     sv.PreviewMouseLeftButtonUp -= Sv_PreviewMouseLeftButtonUp;
                     sv.PreviewMouseMove -= Sv_PreviewMouseMove;
                 }
                 else
                 {
+                    sv.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
                     sv.PreviewMouseLeftButtonDown += ScrollViewer_PreviewMouseLeftButtonDown;
                     sv.PreviewMouseLeftButtonUp += Sv_PreviewMouseLeftButtonUp;
                     sv.PreviewMouseMove += Sv_PreviewMouseMove;
@@ -149,11 +157,6 @@ namespace PopProject.UserControl_
                 bool connected = NetworkInterface.GetIsNetworkAvailable();
                 if (connected)
                 {
-                    if (win_Input == null || robot_Setting == null)
-                    {
-                        SelectWorkList(); //생산 계획 리스트 조회
-                    }
-                    ResultSearchDate(); //생산 결과 리스트 조회
                     TimerSet(); //시계 타이머 실행
                 }
                 else
@@ -574,7 +577,7 @@ namespace PopProject.UserControl_
             throw new NotImplementedException();
         }
 
-        // 시계 타이머
+        // 1초 타이머 실행
         private void TimerSet()
         {
             timer = new DispatcherTimer
@@ -585,25 +588,39 @@ namespace PopProject.UserControl_
             timer.Start();
         }
 
+
+        private bool isEventTriggered = false; //리스트 조회
         //시계 타이머
         private void Timer_Tick(object sender, EventArgs e)
         {
-            //var clock = DateTime.Now;
-            ////POP날짜와 현재 날짜가 일치할때에 현재시간 갱신
-            //if (CheckDateValue && !dt.ToString("D").Equals(DateTime.Now.ToString("D")))
-            //{
-            //    dt = DateTime.Now;
-            //}
-            //string datePart = dt.ToString("D");
-            //string datetime = string.Format("{0:D2}시 {1:D2}분 {2:D2}초", clock.Hour, clock.Minute, clock.Second);
+            
+            var clock = DateTime.Now; //현재 시간
+
+            //POP날짜와 현재 날짜가 일치할때에 현재시간 갱신
+            if (CheckDateValue && !dt.ToString("D").Equals(DateTime.Now.ToString("D")))
+            {
+                dt = DateTime.Now;
+            }
+            string datePart = dt.ToString("D"); //날짜
+            string datetime = string.Format("{0:D2}시 {1:D2}분 {2:D2}초", clock.Hour, clock.Minute, clock.Second);//시간
+            txtDate.Text = datePart;  //날짜
+            txtClock.Text = datetime; //시간
+
+            // 프로그램 실행 1초 후 리스트 조회
+            if (!isEventTriggered)
+            {
+                if (win_Input == null || robot_Setting == null)
+                {
+                    SelectWorkList(); //생산 계획 리스트 조회
+                }
+                ResultSearchDate(); //생산 결과 리스트 조회
+            }
+
+            //dt = DateTime.Now;
+            //string datePart = DateTime.Today.ToString("D");
+            //string datetime = string.Format("{0:D2}시 {1:D2}분 {2:D2}초", dt.Hour, dt.Minute, dt.Second);
             //txtDate.Text = datePart;
             //txtClock.Text = datetime;
-
-            dt = DateTime.Now;
-            string datePart = DateTime.Today.ToString("D");
-            string datetime = string.Format("{0:D2}시 {1:D2}분 {2:D2}초", dt.Hour, dt.Minute, dt.Second);
-            txtDate.Text = datePart;
-            txtClock.Text = datetime;
 
             //지정된 시간에 컴퓨터를 종료
             if (dt.Hour == Properties.Settings.Default.hour)
@@ -870,7 +887,7 @@ namespace PopProject.UserControl_
             AuthCode auth = new AuthCode();
             auth.ShowDialog();
         }
-
+        
         //원격연결 버튼
         private void Remote_click(object sender, MouseButtonEventArgs e)
         {
@@ -880,6 +897,19 @@ namespace PopProject.UserControl_
         //날짜 클릭
         private void TxtDate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            dt = DateTime.Now;
+            txtDate.Text = dt.ToString("D");
+            if (dt.ToString("D").Equals(DateTime.Now.ToString("D")))
+            {
+                CheckDateValue = true;
+            }
+            else
+            {
+                CheckDateValue = false;
+            }
+
+            SelectWorkList(); //계획 조회
+            ResultSearchDate(); //결과 조회
         }
 
         //설비명 클릭
@@ -945,8 +975,8 @@ namespace PopProject.UserControl_
                Properties.Settings.Default.serverIndex,
                "[PopWorkList]",
                new string[] { "@pplanDate" },
-               new string[] { DateTime.Now.ToString("yyyy-MM-dd") }, //날짜 고정
-                                                                     //new string[] { dt.ToString("yyyy-MM-dd")}, //날짜 변경용
+               //new string[] { DateTime.Now.ToString("yyyy-MM-dd") }, //날짜 고정
+               new string[] { dt.ToString("yyyy-MM-dd")}, //날짜 변경용
                0
                );
             if (returnData.결과 == 1)
@@ -2253,8 +2283,8 @@ namespace PopProject.UserControl_
                 Properties.Settings.Default.serverIndex,
                 "[PopResultSearchDate]",
                 new string[] { "@pworkDate" },
-                new string[] { DateTime.Now.ToString("yyyy-MM-dd") }, //날짜 고정
-                                                                      //new string[] { dt.ToString("yyyy-MM-dd") },  //날짜 변경용
+                //new string[] { DateTime.Now.ToString("yyyy-MM-dd") }, //날짜 고정
+                new string[] { dt.ToString("yyyy-MM-dd") },  //날짜 변경용
             0
         );
             if (returnData.결과 == 1)

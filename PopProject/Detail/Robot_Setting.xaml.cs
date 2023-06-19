@@ -33,14 +33,15 @@ namespace PopProject.Detail
         {
             try
             {
-
-            InitializeComponent();
-            LogWrite("로봇작업");
-            this.prodID = prodID;
-            serchRobotData();
-            workName.Text = customsName + " -" + prodName;
+                InitializeComponent();
+                LogWrite("로봇작업");
+                this.prodID = prodID;
+                workName.Text = customsName + " -" + prodName;
+                serchRobotData();
                 DataRead();
                 DataStartRead();
+
+                //1초 타이머 실행
                 timer = new DispatcherTimer
                 {
                     Interval = TimeSpan.FromSeconds(1)
@@ -48,8 +49,6 @@ namespace PopProject.Detail
                 timer.Tick += new EventHandler(Timer_Tick);
                 timer.Start();
             }
-
-
             catch(Exception e)
             {
                 LogWrite(e.Message);
@@ -92,39 +91,41 @@ namespace PopProject.Detail
             {
             }
         }
+
+        //1초마다 실행 타이머
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            DataRead(); //데이터 수신 요청
+            DataStartRead();
+        }
+
         private void DataStartRead()
         {
+            //ConnectSocket에 "S" 호출하여 소켓 오픈시
             if (ConnectSocket("S"))
             {
-                byte[] bDts = wd.Byte_continuous_Read("D", "312", 2);
+                byte[] bDts = wd.Byte_continuous_Read("D", "312", 2); //D312 
 
-                patSock.Send(bDts); //데이터 쓰기
+                patSock.Send(bDts); //읽기 dycjd
             }
 
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            DataRead();
-            DataStartRead();
-        }
-
+        //데이터 수신 요청
         private void DataRead()
         {
             if (ConnectSocket("R"))
             {
-                byte[] bDts = wd.Word_continuous_Read("%DB600", 18);
+                byte[] bDts = wd.Word_continuous_Read("%DB600", 18); //D300 ~ D308 까지
 
-                mainSock.Send(bDts); //데이터 쓰기
+                mainSock.Send(bDts); //읽기 요청
             }
-
-
-
         }
 
         private Boolean ConnectSocket(string flag)
         {
             bool success = false;
+
             if (flag.Equals("P") || flag.Equals("S"))
             {
                 patSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
@@ -133,7 +134,7 @@ namespace PopProject.Detail
                     int port = int.Parse(Properties.Settings.Default.robotPort);
                     IAsyncResult result = patSock.BeginConnect(Properties.Settings.Default.robotIP, port, null, null);
                     //IAsyncResult result = patSock.BeginConnect("192.168.7.7", port, null, null);
-                    success = result.AsyncWaitHandle.WaitOne(2000, true);
+                    success = result.AsyncWaitHandle.WaitOne(500, true);
 
                     if (success)
                     {
