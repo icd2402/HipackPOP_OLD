@@ -5,6 +5,7 @@ using PopProject.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -35,7 +36,6 @@ namespace PopProject.Consumer_
         public static ConsumerModel product;
         private float sumPworkCount = 0;
         int beforeCount = 0;
-        int consumbefore = 0;
         bool beforeCountCheck = true;
         string imgpath = "";
         private bool checkProcessing = false; //작업 진행건이 있는지 확인
@@ -69,8 +69,6 @@ namespace PopProject.Consumer_
             
         }
 
-
-
         //아두이노 통신
         private void InvokeCount(string mercName, string v)
         {
@@ -84,14 +82,11 @@ namespace PopProject.Consumer_
             }
         }
 
-
-
         //실수요자 생산계획 조회
         private void PopWorkListSearch()
         {
             checkProcessing = false;
             //consumerSumCount = 0;
-            consumbefore = 0;
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
 
@@ -124,6 +119,7 @@ namespace PopProject.Consumer_
                             PhonNo = result["PhonNo"].ToString(),                       //연락처
                             orderCount = int.Parse(result["orderCount"].ToString()),    //수주량
                             pworkDate = DateTime.Parse(result["pworkDate"].ToString()), //작업일자
+                            pplanKey = int.Parse(result["pplanKey"].ToString()),        //계획키
                         };
 
                         listitem.pWorkCount = float.Parse(result["pworkCount"].ToString()); //작업량
@@ -134,6 +130,7 @@ namespace PopProject.Consumer_
                             listitem.orderCount /= (int)mainModel.pCnt;  //수주량/통수
                             listitem.pWorkCount /= (int)mainModel.pCnt;  //작업량/통수
                         }
+
                         listitem.sDatetime = result["sDatetime"].ToString(); //시작시간
                         listitem.eDatetime = result["eDatetime"].ToString(); //종료시간
                         listitem.perrCnt = float.Parse(result["perrCnt"].ToString()); //불량수량
@@ -149,18 +146,9 @@ namespace PopProject.Consumer_
                         //}
 
                         //금일 실수요자 생산리스트 또는 수주량 - 작업량이 30초과인경우(작업이 남은경우) 리스트 등록
-                        if(listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.orderCount - listitem.pWorkCount > 30)
+                        if (listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.orderCount - listitem.pWorkCount > 30)
                         {
                             consumerList.Add(listitem);
-                        }
-                    }
-                    for(int i = 0; i < consumerList.Count; i++)
-                    {
-                        //리스트를 조회해서 작업중인 건이 있으면 
-                        if(consumerList[i].sDatetime.Length > 1 && consumerList[i].eDatetime.Length <= 1)
-                        {
-                            checkProcessing = true;
-                            break;
                         }
                     }
 
@@ -171,20 +159,27 @@ namespace PopProject.Consumer_
                         {
                             beforeCount += (int)Math.Ceiling(float.Parse(consumerList[i].pWorkCount.ToString())); //이미 완료된 생산량 더하기
                         }
-                        consumbefore += (int)Math.Ceiling(float.Parse(consumerList[i].pWorkCount.ToString())); //이미 완료된 생산량 더하기
 
-                        //작업키가 0이 아니고, 버튼이 완료또는 종료이면
-                        if (consumerList[i].pworkKey != 0 && (imgpath.Equals("/img/bn_03.png") || imgpath.Equals("/img/bn_06.png")))
+                        //리스트를 조회해서 작업중인 건이 있으면 
+                        if (consumerList[i].sDatetime.Length > 1 && consumerList[i].eDatetime.Length <= 1)
                         {
-                            Properties.Settings.Default.pworkkey = consumerList[i].pworkKey.ToString();
-                            Properties.Settings.Default.Save();
+                            checkProcessing = true;
+                            break;
                         }
+
+
                     }
                     Console.WriteLine("DSConsumerList.Count : " + consumerList.Count);
                     
                     //실수요자 리스트가 있으면
                     if (consumerList.Count > 0)
                     {
+                        if (consumerList.Where((x) => x.pplanKey == mainModel.pplanKey).Count() > 0)
+                        {
+                            Properties.Settings.Default.pworkkey = consumerList.Where((x) => x.pplanKey == mainModel.pplanKey).FirstOrDefault().pworkKey.ToString();
+                            Properties.Settings.Default.Save();
+                        }
+
                         ic.ItemsSource = consumerList; //리스트 등록
                         txtNoPlan.Visibility = Visibility.Collapsed; //데이터 없음 글자 숨김
                     }
@@ -222,91 +217,7 @@ namespace PopProject.Consumer_
 
         }
 
-        //창 종료 버튼
-        private void Program_exit(object sender, MouseButtonEventArgs e)
-        {
-
-            MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장", MessageBoxButton.YesNo);
-
-            if (result == MessageBoxResult.No)
-            {
-                
-            }
-            else
-            {
-                //작업중인 건 있으면
-                if (checkProcessing)
-                {
-                    MessageBox_Dialog msg = new MessageBox_Dialog("생산 작업중인 건이 있습니다.");
-                    msg.ShowDialog();
-                }
-                else//작업중인 건 없으면
-                {
-                    //PopWorkListSearch();
-                    
-                    Close();
-
-                    //if (PopresultEnd(totalCount, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey) == 1)
-                    //{
-                    //    //if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
-                    //    //{
-                    //    //    if (Properties.Settings.Default.mercName.Contains("인라인"))
-                    //    //    {
-                    //    //        if (mainModel.subOb.Count == 2)
-                    //    //        {
-                    //    //            PopInlineStart(mainModel.subOb[mainModel.subOb.Count - 1]);
-                    //    //        }
-                    //    //    }
-                    //    //}
-
-
-                    //    Close(); 
-                    //}
-                    //if ((mainModel.sumPworkCount == getCount()) && (mainModel.sumPworkCount > 0 || getCount() > 0))
-                    //{
-                    //    // Thread.Sleep(500);
-                    //    arrChkAED = "2|";
-                    //    if (PopresultEnd(totalCount, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey) == 1)
-                    //    {
-                    //        Close();
-                    //    };
-
-                    //}
-                    //else if ((int)Math.Ceiling(float.Parse(mainModel.sumPworkCount.ToString())) != 0 && getCount() > 0)
-                    //{
-                    //    // Thread.Sleep(500);
-                    //    arrChkAED = "2|";
-                    //    if (PopresultEnd(totalCount, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey) == 1)
-                    //    {
-                    //        Close();
-                    //    };
-                    //    // Thread.Sleep(1000);
-
-                    //}
-                    //else if (getCount() == 0)
-                    //{
-                    //    //  Thread.Sleep(500);
-                    //    arrChkAED = "3|";
-                    //    if (PopresultEnd(0, 0, arrChkAED, Properties.Settings.Default.pworkkey) == 1)
-                    //    {
-                    //        Close();
-                    //    };
-
-
-                    //}
-                    //else
-                    //{
-                    //    // Thread.Sleep(500);
-                    //    arrChkAED = "1|";
-                    //    if (PopresultEnd(totalCount, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey) == 1)
-                    //    {
-                    //        Close();
-                    //    };
-
-                    //}
-                }
-            }
-        }
+        
 
         //인라인 설비 DB저장
         private int PopInlineStart(SubModel subOb)
@@ -363,7 +274,7 @@ namespace PopProject.Consumer_
 
         }
 
-        //온라인 설비 종료
+        //인라인 설비 종료
         private void PopInlineEnd(SubModel subOb, int pWorkkey)
         {
             string 전체공정 = "0";
@@ -473,13 +384,12 @@ namespace PopProject.Consumer_
             {
                 Main.production = null;
 
-                //작업중 또는 완료 이고 beforeCountCheck true면
-                if ((imgpath.Equals("/img/bn_03.png")|| imgpath.Equals("/img/bn_01.png")) && beforeCountCheck)
-                {
-                    beforeCountCheck = false;
-                    PopresultEnd(0, 0, "3|", mainModel.ConsumWorkKey);
-
-                }
+                //작업중 또는 완료 버튼으로 들어왔고 beforeCountCheck true면
+                //if ((imgpath.Equals("/img/bn_03.png") || imgpath.Equals("/img/bn_01.png")) && beforeCountCheck)
+                //{
+                //    beforeCountCheck = false;
+                //    PopresultEnd(0, 0, "3|", mainModel.ConsumWorkKey);
+                //}
             }
             Properties.Settings.Default.pplanKey = 0;
             Properties.Settings.Default.pworkkey = ""; 
@@ -500,7 +410,7 @@ namespace PopProject.Consumer_
             return count;
         }
 
-        //전체 생산수량 집계
+        //완료 생산수량 집계
         private int getCount()
         {
             int count = 0;
@@ -580,7 +490,7 @@ namespace PopProject.Consumer_
                 //        }
                 //        break;
                 //}
-                can.Visibility = Visibility.Collapsed; //화면 어둡게 처리 없앰
+                can.Visibility = Visibility.Collapsed; //화면 어둡게 처리 끄기
             }
         }
 
@@ -600,7 +510,7 @@ namespace PopProject.Consumer_
             }
         }
 
-        //이월버튼
+        //이월 버튼
         private void 이월(object sender, MouseButtonEventArgs e)
         {
             이월체크 = true;
@@ -608,7 +518,6 @@ namespace PopProject.Consumer_
 
             if (result == MessageBoxResult.No)
             {
-                Close();
             }
             else //yes
             {
@@ -650,102 +559,111 @@ namespace PopProject.Consumer_
             }
         }
 
+        //창 종료 버튼
+        private void Program_exit(object sender, MouseButtonEventArgs e)
+        {
+            Close();
+
+            //MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장", MessageBoxButton.YesNo);
+
+            //if (result == MessageBoxResult.No)
+            //{
+            //}
+            //else
+            //{
+            //    //작업중인 건 있으면
+            //    if (checkProcessing)
+            //    {
+            //        MessageBox_Dialog msg = new MessageBox_Dialog("생산 작업중인 건이 있습니다.");
+            //        msg.ShowDialog();
+            //    }
+            //    else//작업중인 건 없으면
+            //    {
+            //        Close();
+            //    }
+            //}
+        }
+
         //실수요자 창 종료시
         private void consumClosed(object sender, EventArgs e)
-
         {
-            // 관리자 로그인이 아닐때
-            if (!Properties.Settings.Default.manager.Equals("1"))
-            {
-                totalCount = getCount(); //총 생산량
-                totalCount -= beforeCount; //총 생산량 - 이미 완료된 생산량
-                totalErrorCount = getErrorCount(); //총 불량수량
-                arrChkAED = "";
+            float TempTotalCount = 0;
+            float TempTotalErrorCount = 0;
 
-                //상자수 채크시
+            //pworkKey가 같으면
+            if (consumerList.Where((x) => x.pworkKey.ToString() == Properties.Settings.Default.pworkkey).Count() > 0)
+            {
+                //총 생산
+                TempTotalCount = consumerList.Where((x) => x.pworkKey.ToString() == Properties.Settings.Default.pworkkey).Sum((x) => x.pWorkCount);
+                //총 불량
+                TempTotalErrorCount = consumerList.Where((x) => x.pworkKey.ToString() == Properties.Settings.Default.pworkkey).Sum((x) => x.perrCnt);
+
+                //상자수 체크시
                 if (Properties.Settings.Default.boxCheck)
                 {
-                    totalCount *= int.Parse(mainModel.pCnt.ToString());
+                    TempTotalCount *= int.Parse(mainModel.pCnt.ToString());
+                    TempTotalErrorCount *= int.Parse(mainModel.pCnt.ToString());
                 }
 
-                //총 생산수량 0이면
-                if (totalCount == 0)
+                // 관리자 로그인이 아닐때
+                if (!Properties.Settings.Default.manager.Equals("1"))
                 {
-                    arrChkAED = "3|";
-
-                    //이전 생산 완료 수량 없으면
-                    if (beforeCount == 0)
+                    if (consumerList.Where((x) => x.pworkKey.ToString() == Properties.Settings.Default.pworkkey && (!string.IsNullOrEmpty(x.sDatetime.ToString()) && (string.IsNullOrEmpty(x.eDatetime.ToString())))).Count() > 0)
                     {
-                        PopresultEnd(0, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey);
-
+                        //실수요자 작업 진행 중일 때는 아무 작업 하지 않음
                     }
-                    else//완료 수량 있으면
+                    else
                     {
-                        PopresultEnd(0, totalErrorCount, arrChkAED, mainModel.ConsumWorkKey); 
-                    }
-                    return;
-                }
-                else
-                {
-                    //대기
-                    if (mainModel.imagePath.Equals("/img/bn_02.png")) 
-                    {
-                        arrChkAED = "1|";
-                    }
-                    //완료
-                    else if (mainModel.imagePath.Equals("/img/bn_03.png")) 
-                    {
-                        arrChkAED = "2|";
-                        PopresultEnd(getCount(), totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey);
-                        return;
-                        //if (Properties.Settings.Default.consumCount == 0)
-                        //{
-                        //    arrChkAED = "3|";
-                        //}
-                        //else
-                        //{
-                        //    arrChkAED = "1|";
-                        //}
-
-
-                    }
-                    //작업중
-                    else if (mainModel.imagePath.Equals("/img/bn_01.png")) 
-                    {
-                        if (Properties.Settings.Default.consumCount == 0)
+                        //생산 결과량 있을때
+                        if (TempTotalCount > 0 || TempTotalErrorCount > 0)
                         {
-                            arrChkAED = "3|";
+                            //대기 버튼으로 들어왔었으면
+                            if (mainModel.imagePath.Equals("/img/bn_02.png"))
+                            {
+                                arrChkAED = "1|"; //입력
+                            }
+                            //작업중 버튼으로 들어왔었으면
+                            else if (mainModel.imagePath.Equals("/img/bn_01.png"))
+                            {
+                                //input창 완료수량 있을때
+                                if (string.IsNullOrEmpty(mainModel.eDatetime.ToString()))
+                                {
+                                    arrChkAED = "1|"; //입력
+                                }
+                                else
+                                {
+                                    arrChkAED = "2|"; //수정
+                                }
+                            }
+                            //완료 버튼으로 들어왔었으면
+                            else if (mainModel.imagePath.Equals("/img/bn_03.png"))
+                            {
+                                arrChkAED = "2|"; //수정
+                            }
                         }
+                        //생산량 없을때
                         else
                         {
-                            if (beforeCount > 0)
-                            {
-                                arrChkAED = "2|";
-                            }
-                            else if (beforeCount == 0)
-                            {
-                                arrChkAED = "1|";
-                            }
-
+                            arrChkAED = "3|"; //삭제
                         }
                     }
-
                 }
-                if (이월체크)
-                {
-                    arrChkAED = "3|";
-                    PopresultEnd(totalCount, totalErrorCount, arrChkAED, mainModel.ConsumWorkKey);
-                    return;
-                }
-
-                PopresultEnd(totalCount, totalErrorCount, arrChkAED, Properties.Settings.Default.pworkkey);
             }
-            else //관리자 로그인일때
+            else
             {
+                arrChkAED = "3|"; //삭제
             }
-            
-            
-           
+
+            if (arrChkAED != "")
+            {
+                PopresultEnd(Convert.ToInt32(TempTotalCount), Convert.ToInt32(TempTotalErrorCount), arrChkAED, Properties.Settings.Default.pworkkey);
+            }
+        }
+
+        //원격연결 버튼
+        private void Remote_click(object sender, MouseButtonEventArgs e)
+        {
+            _ = Process.Start("http://onefax.co.kr/w_onefax/remotebox_view.aspx");
         }
     }
 }

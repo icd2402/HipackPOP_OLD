@@ -215,10 +215,8 @@ namespace PopProject.Consumer_
                 changeButtonOut.Visibility = Visibility.Visible;
                 checkChangeButton = false;
                 Width = 550;
-                Left =
-                    (SystemParameters.WorkArea.Width / 2) - (Width / 2);
+                Left = (SystemParameters.WorkArea.Width / 2) - (Width / 2);
             }
-
             else
             {
                 changeButtonIn.Visibility = Visibility.Visible;
@@ -291,24 +289,32 @@ namespace PopProject.Consumer_
             // 시작 버튼 일 경우
             if (inputModel.imagePath.Equals("/img/bn_05.png"))
             {
-                // 실수요자 작업중인건이 있을 경우
-                if (CheckConsumerWork())
+                if (Main.production != null)
                 {
-                    MessageBox_Dialog messageBox = new MessageBox_Dialog("실수요자 작업중인 건이 있습니다.");
+                    MessageBox_Dialog messageBox = new MessageBox_Dialog("작업중인 건이 있습니다.");
                     _ = messageBox.ShowDialog();
                 }
-                else //작업 중인건 없음
+                else
                 {
-                    try
+                    // 실수요자 작업중인건이 있을 경우
+                    if (CheckConsumerWork())
                     {
-                        Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
+                        MessageBox_Dialog messageBox = new MessageBox_Dialog("실수요자 작업중인 건이 있습니다.");
+                        _ = messageBox.ShowDialog();
                     }
-                    catch
+                    else //작업 중인건 없음
                     {
+                        try
+                        {
+                            Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
+                        }
+                        catch
+                        {
+                        }
+
+                        PopResultStartMember(); //생산시작
+                        PopResultSearchMember(); //생산결과 건 조회
                     }
-                   
-                    PopResultStartMember(); //생산시작
-                    PopResultSearchMember(); //생산결과 건 조회
                 }
             }
             // 종료 버튼 일 경우
@@ -318,34 +324,38 @@ namespace PopProject.Consumer_
 
                 if (result == MessageBoxResult.No)
                 {
-                    Close();
                 }
-                else//yes
+                else //yes
                 {
-                    string metrialitem = Properties.Settings.Default.meterialinfo;
-                    Console.WriteLine("end_count" + inputModel.count);
+                    string metrialitem = Properties.Settings.Default.meterialinfo; //작업정보 설정 저장
+                    Console.WriteLine("실수요자 결과수량 : " + inputModel.count);
+
                     if (PopResultEndMember() == 1)
                     {
-                        Properties.Settings.Default.consumersumcount = Properties.Settings.Default.consumersumcount + inputModel.pworkCount;
-                        Properties.Settings.Default.consumersumerrorcount = Properties.Settings.Default.consumersumerrorcount + inputModel.perrCount;
+                        Properties.Settings.Default.consumersumcount = Properties.Settings.Default.consumersumcount + inputModel.pworkCount; //생산
+                        Properties.Settings.Default.consumersumerrorcount = Properties.Settings.Default.consumersumerrorcount + inputModel.perrCount; //불량
                         Console.WriteLine("consumerCount : " + Properties.Settings.Default.consumersumcount);
                         Properties.Settings.Default.Save();
 
-                        Main.production = null;
-                        inputModel.perrCount = 0;
-                        inputModel.count = 0;
-                        inputModel.pMemo = "";
-                        inputModel.pworkCount = 0;
+                        Main.production = null; //생산정보 리셋
+                        inputModel.perrCount = 0; //불량수량 리셋
+                        inputModel.count = 0; //생산수량 리셋
+                        inputModel.pMemo = ""; //비고 리셋
+                        inputModel.pworkCount = 0; //방금 생산량 리셋
                         PopResultSearchMember(); //생산 결과 조회
-                        DSConsumer.product.imgSource = "/img/bn_03.png";
+                        DSConsumer.product.imgSource = "/img/bn_03.png"; //완료버튼으로 변경
+
+                        //아두이노 카운터 리셋
                         try
                         {
-                            Main.arduSerial.Write("A"); //아두이노 카운터 리셋
-                        }catch(Exception ardu)
+                            Main.arduSerial.Write("A"); 
+                        }
+                        catch(Exception ardu)
                         {
-//                            MessageBox_Dialog msg = new MessageBox_Dialog("아두이노 전송 에러")
+                            MessageBox_Dialog msg = new MessageBox_Dialog("아두이노 연결 오류!!");
                         }
 
+                        //구룡포장 
                         if(Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
                         {
                             if (Properties.Settings.Default.mercName.Contains("인라인"))
@@ -354,10 +364,8 @@ namespace PopProject.Consumer_
                                 {
                                     //PopResultInlineStartMember(mainModel.subOb[mainModel.subOb.Count - 1]);
                                 }
-
                             }
                         }
-                       
                     }
                     else
                     {
@@ -372,17 +380,20 @@ namespace PopProject.Consumer_
         private int PopResultEndMember()
         {
             int count = 0;
-            int ChkAED;
+            int ChkAED; //삭제상태
+
+            //작업건 없으면
             if (inputModel.pworkCount == 0 && inputModel.perrCount == 0)
             {
-                ChkAED = 3;
+                ChkAED = 3; //삭제상태 3
             }
-            else
+            else //작업건 있으면
             {
-                ChkAED = 1;
+                ChkAED = 1; //삭제상태 1
             }
-            inlineCount = int.Parse(tbResult.Text.ToString());
-            int workcount = int.Parse(tbResult.Text.ToString());
+
+            inlineCount = int.Parse(tbResult.Text.ToString());   //생산수량 담기
+            int workcount = int.Parse(tbResult.Text.ToString()); //생산수량 담기
 
             //상자수 사용시 생산수량 * 통수
             if (Properties.Settings.Default.boxCheck)
@@ -402,29 +413,26 @@ namespace PopProject.Consumer_
                 inputModel.workMemberKey,
                 workcount+"",
                 inputModel.perrCount,
-
                  }, 1
-
               );
 
             if (returnData.결과 == 1)
             {
-                Properties.Settings.Default.consumCount += workcount;
+                Properties.Settings.Default.consumCount += workcount; //생산수량 담기
                 Properties.Settings.Default.Save();
                 InvokeCount(Properties.Settings.Default.mercName, "E"); //현황판으로 생산종료 송신
                 Canvas.SetTop(box, 490);
                 Canvas.SetTop(box1, 570);
                
-                count = int.Parse(tbResult.Text.ToString());
+                count = int.Parse(tbResult.Text.ToString()); //생산수량 담기
 
+                //생산수량 있으면 이월버튼 활성화
                 if (count > 0)
                 {
                     box1.Visibility = Visibility.Visible;
                     Canvas.SetTop(box, 490);
                     Canvas.SetTop(box1, 570);
-
                 }
-
                 else
                 {
                     box1.Visibility = Visibility.Collapsed;
@@ -434,21 +442,24 @@ namespace PopProject.Consumer_
             return returnData.결과;
         }
 
-
+        //인라인설비 결과 저장
         private int PopResultInlineEndMember()
         {
             int count = 0;
-            int ChkAED;
+            int ChkAED; //삭제상태
+
+            //작업건 없으면
             if (inlineCount == 0 && inputModel.perrCount == 0)
             {
-                ChkAED = 3;
+                ChkAED = 3; //삭제상태 3
             }
             else
             {
-                ChkAED = 1;
+                ChkAED = 1; //삭제상태1
             }
 
-            int workcount = int.Parse(tbResult.Text.ToString());
+            int workcount = int.Parse(tbResult.Text.ToString()); //생산수량 담기
+            //상자수 사용시 생산수량 * 통수
             if (Properties.Settings.Default.boxCheck)
             {
                 workcount *= (int)mainModel.pCnt;
@@ -466,9 +477,7 @@ namespace PopProject.Consumer_
                 inputModel.workMemberKey,
                 inlineCount+"",
                 inputModel.perrCount,
-
                  }, 1
-
               );
 
             if (returnData.결과 == 1)
@@ -479,14 +488,13 @@ namespace PopProject.Consumer_
                 Canvas.SetTop(box1, 570);
                 count = int.Parse(tbResult.Text.ToString());
 
+                //생산수량 있으면 이월버튼 활성화
                 if (count > 0)
                 {
                     box1.Visibility = Visibility.Visible;
                     Canvas.SetTop(box, 490);
                     Canvas.SetTop(box1, 570);
-
                 }
-
                 else
                 {
                     box1.Visibility = Visibility.Collapsed;
@@ -495,6 +503,9 @@ namespace PopProject.Consumer_
             }
             return returnData.결과;
         }
+
+
+        //인라인설비 작업 시작
         private void PopResultInlineStartMember(SubModel subOb)
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -715,16 +726,16 @@ namespace PopProject.Consumer_
                                 updateTime = DateTime.Parse(listitem.eDatetime),
                                 fontColor = Brushes.Red
                             };
+
                             if (Properties.Settings.Default.boxCheck)
                             {
                                 item2.perrCount /= mainModel.pCnt;
                             }
+
                             if (consumerModel.membID.Equals(result["membID"].ToString()) && Properties.Settings.Default.processType.Equals(listitem.ProcessType))
                             {
                                 listitem.errorModelOb.Add(item2);
                             }
-                        
-
                         }
                         // if (listitem.errorModelOb != null)
                         // {
@@ -761,21 +772,16 @@ namespace PopProject.Consumer_
                             inputModel.pMemo = tempItem.Memo;
                             inputModel.sDatetime = tempItem.sDatetime;
                             inputModel.eDatetime = tempItem.eDatetime;
-
                         }
-
                         else
                         {
                             inputModel.imagePath = "/img/bn_05.png";
 
                             if (inputModel.eDatetime.Length > 3)
                             {
-
                                 DSConsumer.product.imgSource = "/img/bn_03.png";
                                 //mainModel.imagePath = "/img/bn_03.png";
-
                             }
-
                             else
                             {
                                 //  Consumer.product.imgSource = "/img/bn_02.png";
@@ -848,7 +854,8 @@ namespace PopProject.Consumer_
 
         private void 이월(object sender, MouseButtonEventArgs e)
         {
-
+            MessageBox_Dialog msg = new MessageBox_Dialog("계획화면에서 이월 해주세요.");
+            msg.ShowDialog();
         }
 
         private void Result_badCount_minus(object sender, MouseButtonEventArgs e)

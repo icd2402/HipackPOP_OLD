@@ -9,7 +9,7 @@
     <Canvas MouseLeftButtonDown="Image_MouseDown">
         <Border Background="Black"  Height="35" Width="350"  Canvas.Top="-4" />
         <Image Source="/img/out_02.png" Canvas.Left="305" Canvas.Top="2" MouseDown="Image_MouseDown_1" Height="27" Width="45"/>
-        <Label Content="인증코드 입력" FontSize="14" Foreground="White" Height="33" Width="190" Canvas.Top="2" Canvas.Left="13"/>
+        <Label Content="로그인 해제" FontSize="14" Foreground="White" Height="33" Width="190" Canvas.Top="2" Canvas.Left="13"/>
         <Label Content="인증코드" Height="28" HorizontalAlignment="Left"  VerticalAlignment="Top" Canvas.Left="20" Canvas.Top="36" FontWeight="Bold" />
         <!--<Label Content="설비 선택" Height="28" HorizontalAlignment="Left"  VerticalAlignment="Top" Canvas.Left="86" Canvas.Top="36" FontWeight="Bold" />
         <TextBlock x:Name="tbMercName" Text="공 정 선 택" TextAlignment="Center" Width="200" Foreground="Black"  FontSize="22" Canvas.Top="70" Canvas.Left="20"   MouseLeftButtonDown="Mer_click"></TextBlock>-->
