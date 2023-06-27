@@ -912,6 +912,7 @@ namespace PopProject.UserControl_
         private void Remote_click(object sender, MouseButtonEventArgs e)
         {
             _ = Process.Start("http://onefax.co.kr/w_onefax/remotebox_view.aspx");
+            MainModel production = null;
         }
 
         //날짜 클릭
@@ -2646,7 +2647,7 @@ namespace PopProject.UserControl_
                         else if (model.imagePath.Equals("/img/bn_01.png"))
                         {
                             check = false; //이월 버튼 비활성화
-                            model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            //model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                         }
                         
                         e.Handled = false;
@@ -2655,7 +2656,6 @@ namespace PopProject.UserControl_
 
                         //창 종료 후 
                         InvokeCount(Properties.Settings.Default.mercName, "E"); //현황판으로 생산종료 송신
-                        arduSerial.Write("A");//아두이노 카운터 리셋
                         SelectWorkList();   //생산계획 조회
                         ResultSearchDate(); //생산결과 조회
                     }
@@ -2757,6 +2757,7 @@ namespace PopProject.UserControl_
             }
             return returnData.결과;
         }
+
         private void InvokeCount(string mercName, string v) //설비명,카운터
         {
             //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);

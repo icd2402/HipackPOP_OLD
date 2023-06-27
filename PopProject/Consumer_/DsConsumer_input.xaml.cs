@@ -563,7 +563,7 @@ namespace PopProject.Consumer_
             }
         }
 
-        //생산 시작건 DB 저장?
+        //생산 시작
         private void PopResultStartMember()
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -602,6 +602,33 @@ namespace PopProject.Consumer_
 
                 Console.WriteLine("result[0]" + result[0]);
                 Console.WriteLine("result[0]" + result[1]);
+
+                PopResultEndTimeSetting();
+            }
+
+        }
+
+        private void PopResultEndTimeSetting()
+        {
+
+            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ReturnModel returnData = ServiceModel.GetData(
+                Properties.Settings.Default.serverIndex,
+                "[spUdt431processinfo_workTimeChange]",
+                new string[] { "@생산키", "@생산시작일시", "@생산종료일시" },
+                new object[] {
+                Properties.Settings.Default.pworkkey,
+                "",
+                ""},
+                1
+
+                );
+
+            if (returnData.결과 == 1)
+            {
+            }
+            else
+            {
             }
         }
 

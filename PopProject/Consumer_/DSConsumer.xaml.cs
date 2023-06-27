@@ -91,9 +91,12 @@ namespace PopProject.Consumer_
             ReturnModel returnData = ServiceModel.GetData(
 
                Properties.Settings.Default.serverIndex,
-              "[PopWorkListMember]",
-               new string[] { "@orderKey", "@ProcessType", "@pplanDate" },
-               new object[] { mainModel.orderKey, mainModel.ProcessType, DateTime.Now.ToString("yyyy-MM-dd") },
+              //"[PopWorkListMember]",
+              // new string[] { "@orderKey", "@ProcessType", "@pplanDate" },
+              // new object[] { mainModel.orderKey, mainModel.ProcessType, DateTime.Now.ToString("yyyy-MM-dd") },
+              "[PopWorkListMemberPlanKey]",
+               new string[] { "@orderKey", "@ProcessType", "@pplanDate", "@pplanKey" },
+               new object[] { mainModel.orderKey, mainModel.ProcessType, DateTime.Now.ToString("yyyy-MM-dd"), mainModel.pplanKey },
                0
                );
 
@@ -135,15 +138,6 @@ namespace PopProject.Consumer_
                         listitem.eDatetime = result["eDatetime"].ToString(); //종료시간
                         listitem.perrCnt = float.Parse(result["perrCnt"].ToString()); //불량수량
                         listitem.Memo = result["Memo"].ToString(); //비고
-
-                        //consumerSumCount += Properties.Settings.Default.pworkkey == listitem.pworkKey.ToString() ? listitem.pWorkCount : 0;
-                        //Properties.Settings.Default.consumersumcount = Properties.Settings.Default.consumersumcount + consumerSumCount;
-                        //consumerSumErrorCount += Properties.Settings.Default.pworkkey == listitem.pworkKey.ToString() ? listitem.perrCnt : 0;
-
-                        // 금일 실수요자 생산 리스트, 이월 실수요자 리스트만 보이도록 / 전날 생산 건은 삭제  
-                        //if(listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.pworkDate.ToString("yyyyMMdd").Equals("19000101"))
-                        //{
-                        //}
 
                         //금일 실수요자 생산리스트 또는 수주량 - 작업량이 30초과인경우(작업이 남은경우) 리스트 등록
                         if (listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.orderCount - listitem.pWorkCount > 30)
@@ -656,7 +650,38 @@ namespace PopProject.Consumer_
 
             if (arrChkAED != "")
             {
+                string refPworkKey = string.Format("{0}", Properties.Settings.Default.pworkkey);
                 PopresultEnd(Convert.ToInt32(TempTotalCount), Convert.ToInt32(TempTotalErrorCount), arrChkAED, Properties.Settings.Default.pworkkey);
+
+                if (arrChkAED == "2|")
+                {
+                    PopResultEndTimeSetting(refPworkKey);
+                }
+            }
+        }
+
+        private void PopResultEndTimeSetting(string pworkkey)
+        {
+
+            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ReturnModel returnData = ServiceModel.GetData(
+                Properties.Settings.Default.serverIndex,
+                "[spUdt431processinfo_workTimeChange]",
+                new string[] { "@생산키", "@생산시작일시", "@생산종료일시" },
+                new object[] {
+                pworkkey,
+                "",
+                DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
+                },
+                1
+
+                );
+
+            if (returnData.결과 == 1)
+            {
+            }
+            else
+            {
             }
         }
 
