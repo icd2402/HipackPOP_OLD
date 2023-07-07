@@ -9,8 +9,12 @@
 
     <Window.Resources>
         <local:IndexConverter x:Key="IndexConverter"/>
+        <Style TargetType="ScrollBar">
+            <Setter Property="Width" Value="22"/>
+        </Style>
     </Window.Resources>
 
+    
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/img/back_05.png"/>
@@ -35,17 +39,18 @@
         <Canvas Grid.Row="1" Margin="0,0,0,0">
             <Image Width="40" Height="40" Canvas.Left="13" Source="/img/title_01.png"/>
             <TextBlock x:Name="tbNo" Text="NO" TextAlignment="Center" Width="30" Canvas.Top="11" FontSize="18" Canvas.Left="19" FontWeight="Bold" Foreground="White" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock Canvas.Left="133" Canvas.Top="11" FontSize="18" Text="실수요자명/납품처명" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock Canvas.Left="370" Canvas.Top="11" FontSize="18" Text="전화번호" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock Canvas.Left="75" Canvas.Top="11" FontSize="18" Text="실수요자명/납품처명" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock Canvas.Left="273" Canvas.Top="11" FontSize="18" Text="전화번호" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
 
-            <TextBlock Canvas.Left="488" Canvas.Top="11" FontSize="18" Text="주문량" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock Canvas.Left="588" Canvas.Top="11" FontSize="18" Text="결과량" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock Canvas.Left="843" Canvas.Top="11" FontSize="18" Text="비고" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock Canvas.Left="400" Canvas.Top="11" FontSize="18" Text="주문량" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock Canvas.Left="500" Canvas.Top="11" FontSize="18" Text="생산량" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock Canvas.Left="600" Canvas.Top="11" FontSize="18" Text="결과량" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock Canvas.Left="850" Canvas.Top="11" FontSize="18" Text="비고" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock Canvas.Left="1124" Canvas.Top="11" FontSize="18" Text="상태" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
         </Canvas>
 
         <Border Grid.Row="2" Margin="5,10,5,5" BorderBrush="Black" BorderThickness="1,1,1,1" Background="WhiteSmoke" Focusable="False">
-            <ScrollViewer VerticalScrollBarVisibility="Hidden" x:Name="sv" PreviewMouseLeftButtonDown="ScrollViewer_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Sv_PreviewMouseLeftButtonUp" PreviewMouseMove="Sv_PreviewMouseMove">
+            <ScrollViewer VerticalScrollBarVisibility="Visible" x:Name="sv" PreviewMouseLeftButtonDown="ScrollViewer_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Sv_PreviewMouseLeftButtonUp" PreviewMouseMove="Sv_PreviewMouseMove">
                 <ItemsControl x:Name="ic" Grid.Row="3" Focusable="False"  AlternationCount="1000">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -55,26 +60,33 @@
                     <ItemsControl.ItemTemplate >
                         <DataTemplate>
                             <Canvas Height="77.8" PreviewMouseLeftButtonDown="Canvas_PreviewMouseDown" Background="White"  Focusable="False" >
+                                <!--No-->
                                 <TextBlock Width="51" TextAlignment="Center" Canvas.Left="2" Canvas.Top="28" FontSize="18" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},
                                       Path=(ItemsControl.AlternationIndex),Converter={StaticResource IndexConverter}}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
                                 <Border Canvas.Left="56" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
+                                <!--실숭자명/납품처명-->
                                 <TextBlock Foreground="Black" Canvas.Left="70" Canvas.Top="11" FontSize="18" Text="{Binding membName}" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
-                                <TextBlock Canvas.Left="335" Canvas.Top="28" FontSize="16" Text="{Binding PhonNo}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
-                                <Border Canvas.Left="324" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
-
                                 <TextBlock Canvas.Left="70" Canvas.Top="43" FontSize="18" Text="{Binding vendorName}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Medium"></TextBlock>
-                                <Border Canvas.Left="464" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
-                                <TextBlock Width="53" TextAlignment="Center" Canvas.Left="505" Canvas.Top="28" FontSize="18" Text="{Binding orderCount}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
-
-                                <Border Canvas.Left="557" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
+                                <Border Canvas.Left="365" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
+                               
+                                <!--전화번호-->
+                                <TextBlock Canvas.Left="235" Canvas.Top="28" FontSize="16" Text="{Binding PhonNo}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <Border Canvas.Left="224" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
+                                <!--주문량-->
+                                <TextBlock Width="53" TextAlignment="Center" Canvas.Left="405" Canvas.Top="28" FontSize="18" Text="{Binding orderCount}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <Border Canvas.Left="465" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
+                                <!--생산량-->
+                                <TextBlock Width="53" TextAlignment="Center" Canvas.Left="505" Canvas.Top="28" FontSize="18" Text="{Binding workCount}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <Border Canvas.Left="565" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
+                                <!--결과량-->
                                 <TextBlock Width="51" TextAlignment="Center" Canvas.Left="605" Canvas.Top="15" FontSize="18" Text="{Binding pWorkCount}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
                                 <TextBlock Width="51" TextAlignment="Center" Foreground="RED" Canvas.Left="605" Canvas.Top="45" FontSize="18" Text="{Binding perrCnt}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
-
-                                <Border Canvas.Left="655" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
-                                <TextBlock Width="380" TextAlignment="Center" Canvas.Left="665" Canvas.Top="28" FontSize="18" Text="{Binding Memo}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
-
-                                <Border Canvas.Left="1065" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
-                                <Image Canvas.Left="1069" Canvas.Top="2" Width="130" Height="73" Source="{Binding imgSource}" PreviewMouseLeftButtonDown="Image_MouseDown" ></Image>
+                                <Border Canvas.Left="665" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
+                                <!--비고-->
+                                <TextBlock Width="360" TextAlignment="Center" Canvas.Left="670" Canvas.Top="28" FontSize="18" Text="{Binding Memo}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <Border Canvas.Left="1035" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
+                                <!--상태-->
+                                <Image Canvas.Left="1045" Canvas.Top="2" Width="130" Height="73" Source="{Binding imgSource}" PreviewMouseLeftButtonDown="Image_MouseDown" ></Image>
                                 <Border BorderBrush="#2c3e50" BorderThickness="0,0,0,1" Width="1300" Canvas.Bottom="0"></Border>
 
                             </Canvas>

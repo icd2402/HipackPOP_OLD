@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Net;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
@@ -30,28 +31,44 @@ namespace PopProject.Detail
     {
         Ls_Fenet wd = new Ls_Fenet();
         private ObservableCollection<string> uriPathOB = new ObservableCollection<string>();
+        private ObservableCollection<string> localFilePath = new ObservableCollection<string>();
         private readonly MainModel mainModel;
         private int clickCount = 0;
         private readonly string metrialitem = Properties.Settings.Default.meterialinfo;
         public DetailModel Detailitem;
         private readonly ObservableCollection<MainModel> workList;
         private readonly bool monitorcheck = false;
+        private  bool Barcode_Enter = false;
         public Socket mainSock;
         private string special;
         private bool detail_check;
         private bool consumcheck;
         private ConsumerModel consumerModel;
         private bool v;
+        private bool Barcod;
         private Win_KeyBoard win_KeyBoard;
 
+        private string 거래처;
+        private string 품명;
+        private string[] 규격pSize;
+        private int 장;
+        private int 폭;
+        private int 고;
+        private int 갭;
+        private int 미미;
+        private bool success = false; //CNS 통신연결 확인
+        private bool CNS_Send = false;
 
-        public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v)
+        private int 작업지시;
+
+        public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v, bool Barcod)
         {
             InitializeComponent();
 
             this.mainModel = mainModel;
             this.workList = workList;
             monitorcheck = v;
+            Barcode_Enter = Barcod;
             customSname.Text = mainModel.customSName;
             boxType.Text = "형  태 : " + mainModel.boxType; 
             pplanCount.Text = "계획량 : " + mainModel.pplanCount.ToString("N0");
@@ -80,6 +97,55 @@ namespace PopProject.Detail
                 serchRobotData();
             }
 
+            //오주포장 바코드리드시 자동전송
+            if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트") && Properties.Settings.Default.Plc)
+            {
+                //바코드로 디테일창 팝업시 동작
+                //if (Properties.Settings.Default.mercName.Equals("인라인3호기") && Barcode_Enter)
+                //{
+                //    bool DB_DataOK = false; //DB에 데이터 있는거 확인
+
+                //    ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+                //    ReturnModel returnDataCheck = ServiceModel.GetData(
+                //       Properties.Settings.Default.serverIndex,
+                //       "[PopCNSSearch]",
+                //       new string[] { "prodID", "MachineName" },
+                //       new object[] { this.mainModel.prodID, Properties.Settings.Default.mercName }, 0);
+
+                //    if (returnDataCheck.결과 == 1)
+                //    {
+                //        string ProdID = "";
+                //        string machineName = "";
+                //        int pock = 0;
+                //        int jang = 0;
+                //        int go = 0;
+
+                //        JArray Data_Jarry = JArray.Parse(returnDataCheck.리턴값);
+                //        foreach (JObject result in Data_Jarry)
+                //        {
+                //            ProdID = result["prodID"].ToString();
+                //            machineName = result["MachineName"].ToString();
+                //            pock = Convert.ToInt32(result["Pock"]);
+                //            jang = Convert.ToInt32(result["Jang"]);
+                //            go = Convert.ToInt32(result["Go"]);
+                //        }
+
+                //        //DB에 데이터가 있을경우
+                //        if (ProdID != "" && pock * jang != 0)
+                //        {
+                //            DB_DataOK = true;
+                //            CNS_DB_Send(); //DB 데이터 전송
+                //        }
+                //        //DB에 데이터가 없을경우
+                //        else
+                //        {
+                //            DB_DataOK = false;
+                //            CNS_defaultData_Send(); //신규 데이터 전송
+                //        }
+                //    }
+                //}
+            }
+
             //로봇사용 체크시 로봇설정 버튼 표시
             robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
 
@@ -88,9 +154,7 @@ namespace PopProject.Detail
 
             DetailSearch(); //세부정보 조회 (왼쪽화면)
             MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
-            PopSearchPhoto(); //인쇄사양
-
-
+            PopSearchPhoto(); //인쇄사양 조회
         }
 
         public Win_Detail(MainModel mainModel, string special, bool detail_check)
@@ -148,7 +212,444 @@ namespace PopProject.Detail
 
         }
 
-        //오주 로봇 DB 조회
+        //DB데이터 CNS로 전송
+        private void CNS_DB_Send()
+        {
+            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ReturnModel returnData = ServiceModel.GetData(
+               Properties.Settings.Default.serverIndex,
+               "[PopCNSSearch]",
+               new string[] { "prodID", "MachineName" },
+               new object[] { this.mainModel.prodID, Properties.Settings.Default.mercName }, 0);
+
+            if (returnData.결과 == 1)
+            {
+                string ProdID = "";
+                string machineName = "";
+                int modelNum = 0;
+                int workPlan1 = 0;
+                int workPlan2 = 0;
+                int boxType = 0;
+                int pock = 0;
+                int jang = 0;
+                int go = 0;
+                int gap = 0;
+                int wing = 0;
+                int cutting = 0;
+                int saveDone = 0;
+                int workSpeed = 0;
+                int saveState = 0;
+                int spare = 0;
+                int aRecipe = 0;
+                int bRecipe = 0;
+                int cRecipe = 0;
+                int dRecipe = 0;
+                int eRecipe = 0;
+                int f1Recipe = 0;
+                int f2Recipe = 0;
+                int g2pRecipe = 0;
+                int oRecipe = 0;
+                int p1Recipe = 0;
+                int p2pRecipe = 0;
+                int p3Recipe = 0;
+                int p4Recipe = 0;
+                int spare2 = 0;
+                int spare3 = 0;
+                int spare4 = 0;
+                int dRagista = 0;
+                int printerPull1 = 0;
+                int printerRoll1 = 0;
+                int printerPull2 = 0;
+                int printerRoll2 = 0;
+                int printerPull3 = 0;
+                int printerRoll3 = 0;
+                int printerPull4 = 0;
+                int printerRoll4 = 0;
+                int spare6 = 0;
+                int spare7 = 0;
+                int spare8 = 0;
+                int spare9 = 0;
+                int feederGap = 0;
+                int feederRoll = 0;
+                int slotterSubGap = 0;
+                int slotterMiddleGap = 0;
+                int slotterConnection = 0;
+                int dieCutterRollGap = 0;
+                int dieCutterConnectionGap = 0;
+                int spare10 = 0;
+                int gluerbeltF1 = 0;
+                int gluerbeltF2 = 0;
+                int gluerPressA = 0;
+                int gluerPressB = 0;
+                int gluerPE = 0;
+                int spare11 = 0;
+                int bRSub = 0;
+                int bRMain = 0;
+                int bRConnection = 0;
+                int bRmiddle = 0;
+
+                JArray Data_Jarry = JArray.Parse(returnData.리턴값);
+                foreach (JObject result in Data_Jarry)
+                {
+                    ProdID = result["prodID"].ToString();
+                    machineName = result["MachineName"].ToString();
+
+                    modelNum = Convert.ToInt32(result["ModelNum"]);
+                    workPlan1 = Convert.ToInt32(result["WorkPlan1"]);
+                    workPlan2 = Convert.ToInt32(result["WorkPlan2"]);
+                    boxType = Convert.ToInt32(result["BoxType"]);
+                    pock = Convert.ToInt32(result["Pock"]);
+                    jang = Convert.ToInt32(result["Jang"]);
+                    go = Convert.ToInt32(result["Go"]);
+                    gap = Convert.ToInt32(result["Gap"]);
+                    wing = Convert.ToInt32(result["Wing"]);
+                    cutting = Convert.ToInt32(result["Cutting"]);
+                    saveDone = Convert.ToInt32(result["SaveDone"]);
+                    workSpeed = Convert.ToInt32(result["WorkSpeed"]);
+                    saveState = Convert.ToInt32(result["SaveState"]);
+                    spare = Convert.ToInt32(result["spare"]);
+
+                    aRecipe = Convert.ToInt32(result["aRecipe"]);     //A
+                    bRecipe = Convert.ToInt32(result["bRecipe"]);     //B
+                    cRecipe = Convert.ToInt32(result["cRecipe"]);     //C
+                    dRecipe = Convert.ToInt32(result["dRecipe"]);     //D
+                    eRecipe = Convert.ToInt32(result["eRecipe"]);     //E
+                    f1Recipe = Convert.ToInt32(result["f1Recipe"]);   //F1
+                    f2Recipe = Convert.ToInt32(result["f2Recipe"]);   //F2
+                    g2pRecipe = Convert.ToInt32(result["g2pRecipe"]); //G
+                    oRecipe = Convert.ToInt32(result["oRecipe"]);     //O
+
+                    p1Recipe = Convert.ToInt32(result["p1Recipe"]);   //P1
+                    p2pRecipe = Convert.ToInt32(result["p2pRecipe"]); //P2
+                    p3Recipe = Convert.ToInt32(result["p3Recipe"]);   //P3
+                    p4Recipe = Convert.ToInt32(result["p4Recipe"]);   //P4
+
+                    dRagista = Convert.ToInt32(result["@DieCutter"]); //D레지스타
+
+                    printerPull1 = Convert.ToInt32(result["PrinterPull1"]);  //1도 롤
+                    printerRoll1 = Convert.ToInt32(result["PrinterRoll1"]);  //1도 
+                    printerPull2 = Convert.ToInt32(result["PrinterPull2"]);  //2도 롤
+                    printerRoll2 = Convert.ToInt32(result["PrinterRoll2"]);  //2도 
+                    printerPull3 = Convert.ToInt32(result["PrinterPull3"]);  //3도 롤
+                    printerRoll3 = Convert.ToInt32(result["PrinterRoll3"]);  //3도 
+                    printerPull4 = Convert.ToInt32(result["PrinterPull4"]);  //4도 롤
+                    printerRoll4 = Convert.ToInt32(result["PrinterRoll4"]);  //4도
+
+                    feederGap = Convert.ToInt32(result["FeederGap"]);           //피다진입 갭
+                    feederRoll = Convert.ToInt32(result["FeederRoll"]);         //피다진입 롤
+
+                    slotterSubGap = Convert.ToInt32(result["SlotterSubGap"]);        //슬로다 보조 갭
+                    slotterMiddleGap = Convert.ToInt32(result["SlotterMiddleGap"]);  //슬로다 본 갭
+                    slotterConnection = Convert.ToInt32(result["SlotterConnection"]);//슬로다 연결갭
+
+                    dieCutterRollGap = Convert.ToInt32(result["DieCutterRollGap"]); //다이캇타 롤 갭
+                    dieCutterConnectionGap = Convert.ToInt32(result["GluerbeltF"]); //다이캇타 연결 갭
+
+                    gluerbeltF1 = Convert.ToInt32(result["GluerPressA"]);     //글루어벨트 진입 갭 F1
+                    gluerbeltF2 = Convert.ToInt32(result["GluerPressB"]);     //글루어벨트 진입 갭 F2
+                    gluerPressA = Convert.ToInt32(result["DieCutterRollA"]);  //글루어 프레스롤 A
+                    gluerPressB = Convert.ToInt32(result["DieCutterRollB"]);  //글루어 프레스롤 B
+                    gluerPE = Convert.ToInt32(result["GluerPE"]);             //글루어 PE
+
+                    bRSub = Convert.ToInt32(result["BRMain"]);           //보조괘선 갭  
+                    bRMain = Convert.ToInt32(result["BRConnection"]);    //본괘선 갭
+                    bRConnection = Convert.ToInt32(result["BRmiddle"]);  //연결롤 갭
+                    bRmiddle = Convert.ToInt32(result["spare8"]);        //중간롤 갭
+                }
+
+                try
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        ConnectSocket(); //CNS 통신연결
+                        Console.WriteLine("CNS통신(Detail) : " + success);
+
+                        if (success)//통신 연결 성공
+                        {
+                            Ls_Fenet wd = new Ls_Fenet();
+                            List<int> items = new List<int>();
+
+                            items.Add(99);  //설정 변경요구 (99로 요청하면 1로바뀜)
+                            items.Add(1);   //설정 byte[] bDts = wd.continuous_Read("%DB7800", 70); 요구 (0=> 신규설정요구, 1=>데이터 설정 변경요구
+                            items.Add(1); //작업 모델 번호
+                            items.Add(10000); //작업지시 매수(하위)
+                            items.Add(0); //작업지시 매수(상위)
+                            items.Add(boxType); //BOX TYPE (1=>1합, 3=>2합, 5=>인쇄물, 6=>H형, 7=>H-Cover형 
+                            items.Add(pock); //폭
+                            items.Add(jang); //장
+                            items.Add(go); //고
+                            items.Add(gap); //갭
+                            items.Add(wing); //앞날개
+                            items.Add(cutting); //미미 컷팅
+                            items.Add(0); //SaveDone
+                            items.Add(0); //WorkSpeed
+                            items.Add(0); //SaveState
+                            items.Add(0); //Spare
+                            items.Add(aRecipe);                //A
+                            items.Add(bRecipe);                //B
+                            items.Add(cRecipe);                //C
+                            items.Add(dRecipe);                //D
+                            items.Add(eRecipe);                //E
+                            items.Add(f1Recipe);               //F1
+                            items.Add(f2Recipe);               //F2
+                            items.Add(g2pRecipe);              //G
+                            items.Add(oRecipe);                //O
+                            items.Add(p1Recipe);               //P1
+                            items.Add(p2pRecipe);              //P2
+                            items.Add(p3Recipe);               //P3
+                            items.Add(p4Recipe);               //P4
+                            items.Add(0);                      //Spare
+                            items.Add(0);                      //Spare
+                            items.Add(0);                      //Spare
+                            items.Add(dRagista);               //D레지스타
+                            items.Add(printerPull1);           //1도 ?
+                            items.Add(printerRoll1);           //1도 프레스
+                            items.Add(printerPull2);           //2도 ?
+                            items.Add(printerRoll2);           //2도 프레스
+                            items.Add(printerPull3);           //3도 ?
+                            items.Add(printerRoll3);           //3도 프레스
+                            items.Add(printerPull4);           //4도 ?
+                            items.Add(printerRoll4);           //4도 프레스
+                            items.Add(0);                      //Spare
+                            items.Add(0);                      //Spare
+                            items.Add(0);                      //Spare
+                            items.Add(0);                      //Spare
+                            items.Add(feederGap);              //피다진입 갭
+                            items.Add(feederRoll);             //피다진입 롤
+                            items.Add(slotterSubGap);          //슬로다 보조 갭
+                            items.Add(slotterMiddleGap);       //슬로다 본 갭
+                            items.Add(slotterConnection);      //슬로다 연결갭
+                            items.Add(dieCutterRollGap);       //다이캇타 롤 갭
+                            items.Add(dieCutterConnectionGap); //다이캇타 연결 갭
+                            items.Add(0);                      //Spare
+                            items.Add(gluerbeltF1);            //글루어벨트 진입 갭 F1
+                            items.Add(gluerbeltF2);            //글루어벨트 진입 갭 F2
+                            items.Add(gluerPressA);            //글루어 프레스롤 A
+                            items.Add(gluerPressB);            //글루어 프레스롤 B
+                            items.Add(gluerPE);                //글루어 PE
+                            items.Add(0);                      //Spare
+                            items.Add(bRSub);                  //보조괘선 갭
+                            items.Add(bRMain);                 //본괘선 갭
+                            items.Add(bRConnection);           //연결롤 갭
+                            items.Add(bRmiddle);               //중간롤 갭
+
+                            int WriteCount = items.Count() * 2;
+                            byte[] bDts = wd.continuous_Write("%DB7600", WriteCount, items); //연속쓰기 시작점(D3800), 데이터 개수, 값
+
+                            //송신한 데이터 값 보는용도
+                            string Send_Data = string.Empty;
+                            for (int i = 0; i < bDts.Length; i++)
+                            {
+                                Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
+                            }
+                            Console.WriteLine("CNS송신 데이터(Detail) : " + Send_Data);
+
+                            //데이터 쓰기
+                            mainSock.Send(bDts);
+                        }
+                    });
+                }
+                catch (Exception)
+                {
+                    MessageBox_Dialog msg = new MessageBox_Dialog("데이터 전송 실패!");
+                    msg.ShowDialog();
+                    mainSock.Close();
+                }
+                finally
+                {
+                    mainSock.Close();
+                }
+            }
+            else
+            {
+                MessageBox_Dialog msg = new MessageBox_Dialog("PopCNSSearch 조회 오류 !!");
+                msg.ShowDialog();
+            }
+        }
+
+
+        //기본값만 CNS로 전송
+        private void CNS_defaultData_Send()
+        {
+            try
+            {
+                string ProdID = mainModel.prodID;
+                거래처 = mainModel.customSName; //거래처
+                품명 = mainModel.prodName; //품명
+
+                //생산매수
+                작업지시 = 10000;
+
+                //규격(장*폭*고)
+                규격pSize = mainModel.pSize.Split('*');
+
+                string s장 = 규격pSize[0] == null ? "" : 규격pSize[0].Trim();
+                string s폭 = 규격pSize[1] == null ? "" : 규격pSize[1].Trim();
+                string s고 = 규격pSize[2] == null ? "" : 규격pSize[2].Trim();
+                장 = int.Parse(s장.ToString());
+                폭 = int.Parse(s폭.ToString());
+                고 = int.Parse(s고.ToString());
+
+                //갭
+                switch (mainModel.paperGor.Replace("골", "").Trim())
+                {
+                    case "AB":
+                    case "BA":
+                        갭 = 70;
+                        break;
+
+                    case "BB":
+                        갭 = 60;
+                        break;
+
+                    case "A":
+                        갭 = 50;
+                        break;
+
+                    case "EB":
+                        갭 = 40;
+                        break;
+
+                    case "B":
+                        갭 = 30;
+                        break;
+
+                    case "E":
+                        갭 = 20;
+                        break;
+                    default:
+                        break;
+                }
+
+                //미미
+                미미 = 30;
+
+                Console.WriteLine("ProdID:" + ProdID + ", 거래처:" + 거래처 + ", 품명:" + 품명 + ", 장:" + 장 + ", 폭:" + 폭 + ", 고:" + 고 + ", 갭:" + 갭 + ", 미미:" + 미미);
+
+
+                ConnectSocket(); //CNS 통신연결
+                Ls_Fenet wd = new Ls_Fenet();
+                List<int> items = new List<int>();
+                items.Add(99);  //설정 변경요구 (99로 요청하면 1로바뀜)
+                items.Add(0);   //설정 byte[] bDts = wd.continuous_Read("%DB7800", 70); 요구 (0=> 신규설정요구, 1=>데이터 설정 변경요구
+                items.Add(1); //작업 모델 번호
+                items.Add(작업지시); //작업지시 매수(하위)
+                items.Add(0); //작업지시 매수(상위)
+                items.Add(1); //BOX TYPE (1=>1합, 3=>2합, 5=>인쇄물, 6=>H형, 7=>H-Cover형 3호기(1합철)
+                items.Add(폭);   //폭
+                items.Add(장);   //장
+                items.Add(고);   //고
+                items.Add(갭);   //갭
+                items.Add(0);    //앞날개
+                items.Add(미미); //미미
+
+                int WriteCount = items.Count() * 2;
+                byte[] bDts = wd.continuous_Write("%DB7600", WriteCount, items);
+
+                //송신한 데이터 값 보는용도
+                string Send_Data = string.Empty;
+                for (int i = 0; i < bDts.Length; i++)
+                {
+                    Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
+                }
+
+                Console.WriteLine("신규생산 송신데이터(Plc_Pop) : " + Send_Data);
+
+                //데이터 쓰기
+                mainSock.Send(bDts);
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                mainSock.Close();
+            }
+        }
+
+        private void ConnectSocket()
+        {
+            mainSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+            if (!mainSock.Connected)
+            {
+                int port = int.Parse(Properties.Settings.Default.port); //포트 2004
+                try
+                {
+                    IAsyncResult result = mainSock.BeginConnect(Properties.Settings.Default.ip, port, null, null);
+                    success = result.AsyncWaitHandle.WaitOne(1500, true);
+
+                    if (CNS_Send) // CNS -> PC(DB) 버튼 활성화
+                    {
+                    }
+                    else //일반적인 연결
+                    {
+                        if (success)//연결 성공
+                        {
+                            mainSock.EndConnect(result);
+                            AsyncObject obj = new AsyncObject(500);
+                            obj.WorkingSocket = mainSock;
+                            obj.ClearBuffer();
+                            mainSock.BeginReceive(obj.Buffer, 0, obj.BufferSize, 0, DataReceived, obj);
+                        }
+                        else //연결 실패
+                        {
+                            mainSock.Close();
+                            MessageBox_Dialog msg = new MessageBox_Dialog("CNS PLC 연결 실패");
+                            msg.ShowDialog();
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    mainSock.Close();
+                }
+            }
+        }
+
+        void DataReceived(IAsyncResult ar) // 데이터 수신
+        {
+            Resipe_Model itemModel = new Resipe_Model();
+
+            try
+            {
+                // BeginReceive에서 추가적으로 넘어온 데이터를 AsyncObject 형식으로 변환한다.
+                AsyncObject obj = (AsyncObject)ar.AsyncState;
+
+                // 수신한 데이터 16진수로 변환
+                string Receive_Data = string.Empty;
+                for (int i = 0; i < obj.Buffer.Length; i++)
+                {
+                    Receive_Data += obj.Buffer[i].ToString("x2");
+
+                }
+
+                //Word 연속읽기
+                string continuous_read = string.Empty;
+                string RD = Receive_Data.Substring(64); //앞에 데이터 지우고 데이터 정보부터 읽음
+                Console.WriteLine("PLC수신 데이터(Detail) : " + RD);
+
+                for (int i = 0; i < RD.Length; i++)
+                {
+                    string high_data = RD.Substring(0, 2); //앞 두자리 추출
+                    string low_data = RD.Substring(2, 2); //뒤 두자리 추출
+                    continuous_read += Convert.ToInt32(low_data + high_data, 16); //앞 뒤 자리바꾸고 10진수 변환
+                    RD = RD.Substring(4); //변환 끝낸 4자리 데이터 자르기
+                }
+
+                obj.ClearBuffer();
+
+            }
+            catch (Exception)
+            {
+                mainSock.Close();
+            }
+            finally
+            {
+                mainSock.Close();
+            }
+        }
+
+
         private void serchRobotData()
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -338,6 +839,10 @@ namespace PopProject.Detail
             }
         }
 
+
+        string ftpUri = "";
+        string ImagName = "";
+
         //인쇄사양 출력
         private void PopSearchPhoto()
         {
@@ -360,29 +865,72 @@ namespace PopProject.Detail
                     foreach (JObject result in Data_JArray)
                     {
                         string uri = Properties.Settings.Default.url + Properties.Settings.Default.corp_id + "/" + result["photoName"].ToString();
-                        Console.WriteLine("imageuri : " + uri);
+                        string imageName = result["photoName"].ToString();
+
+                        //ftp용 uri, 파일명 저장
+                        ftpUri = uri; 
+                        ImagName = result["photoName"].ToString();
+
+                        Console.WriteLine("인쇄사양 이미지 uri : " + uri);
                         ob.Add(uri);
                     }
                     uriPathOB = ob;
-                    if (uriPathOB.Count > 0)
+
+
+                    //FTP(가비아서버)
+                    if (Properties.Settings.Default.corp_name.Equals("대양포장"))
                     {
-                        tbNoCount.Visibility = Visibility.Collapsed;
-                        tbPicCount.Visibility = Visibility.Visible;
-                        picCount.Visibility = Visibility.Visible;
-                        tbPicCount.Text = "1/" + uriPathOB.Count;
-                        BitmapImage bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(uriPathOB[0], UriKind.Absolute);
-                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                        bitmap.DecodePixelWidth = 2000;
-                        bitmap.EndInit();
-                        pic.Source = bitmap;
+                        //이미지 있을때
+                        if (uriPathOB.Count > 0)
+                        {
+                            tbNoCount.Visibility = Visibility.Collapsed;
+                            tbPicCount.Visibility = Visibility.Visible;
+                            picCount.Visibility = Visibility.Visible;
+                            tbPicCount.Text = "1/" + uriPathOB.Count;
+
+                            string uri = ftpUri;
+                            string id = "BOXWAS";
+                            string pwd = "WAS2402!";
+                            string imageName = ImagName;
+
+                            //ftp 연결
+                            ftpConnection(uri, id, pwd, imageName);
+                        }
+                        //이미지 없을때
+                        else
+                        {
+                            tbNoCount.Visibility = Visibility.Visible;
+                            tbPicCount.Visibility = Visibility.Collapsed;
+                            picCount.Visibility = Visibility.Collapsed;
+                        }
                     }
+                    //HTTP(NAS)
                     else
                     {
-                        tbNoCount.Visibility = Visibility.Visible;
-                        tbPicCount.Visibility = Visibility.Collapsed;
-                        picCount.Visibility = Visibility.Collapsed;
+                        //이미지 있을때
+                        if (uriPathOB.Count > 0)
+                        {
+                            tbNoCount.Visibility = Visibility.Collapsed;
+                            tbPicCount.Visibility = Visibility.Visible;
+                            picCount.Visibility = Visibility.Visible;
+                            tbPicCount.Text = "1/" + uriPathOB.Count;
+
+                            BitmapImage bitmap = new BitmapImage();
+                            bitmap.BeginInit();
+                            bitmap.UriSource = new Uri(uriPathOB[0], UriKind.Absolute);
+                            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                            bitmap.DecodePixelWidth = 2000;
+                            bitmap.EndInit();
+
+                            pic.Source = bitmap;
+                        }
+                        //이미지 없을때
+                        else
+                        {
+                            tbNoCount.Visibility = Visibility.Visible;
+                            tbPicCount.Visibility = Visibility.Collapsed;
+                            picCount.Visibility = Visibility.Collapsed;
+                        }
                     }
                 }
             }
@@ -396,6 +944,48 @@ namespace PopProject.Detail
             }
         }
 
+        private void ftpConnection(string uri, string id, string pwd, string name)
+        {
+            string ftpUrl = uri;
+            string ID = id;
+            string Password = pwd;
+            string localFilePath = "C:\\Downloads\\"+ name; // C드라이버 Downloads파일에 이미지파일 저장
+
+            try
+            {
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpUrl);
+                request.Method = WebRequestMethods.Ftp.DownloadFile;
+                request.Credentials = new NetworkCredential(ID, Password);
+
+                //FTP Request 결과
+                using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
+                using (Stream ftpStream = response.GetResponseStream())
+                using (Stream fileStream = File.Create(localFilePath))
+                {
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = ftpStream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        fileStream.Write(buffer, 0, bytesRead);
+                    }
+                }
+
+                // 파일 다운로드 후 BitmapImage 생성 및 할당
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(localFilePath, UriKind.Absolute);
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.DecodePixelWidth = 2000;
+                bitmap.EndInit();
+
+                // pic.Source에 할당
+                pic.Source = bitmap;
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
         
         //원단입고 내역, 원단발주 내역
         private void MetrialIG()
@@ -1080,6 +1670,7 @@ namespace PopProject.Detail
             {
                 Main.passCheck = true;
                 pic.Source = null;
+                Barcode_Enter = false;
                 Close();
             }
             catch(Exception e1)
@@ -1219,21 +1810,40 @@ namespace PopProject.Detail
         // 인쇄사양 다음 이미지 
         private void Image_next(object sender, MouseButtonEventArgs e)
         {
-
-            if (clickCount + 1 > uriPathOB.Count - 1)
+            //ftp이미지
+            if (Properties.Settings.Default.corp_name.Equals("대양포장"))
             {
-                clickCount = 0;
+                if (clickCount + 1 > uriPathOB.Count - 1)
+                {
+                    clickCount = 0;
+                }
+                else
+                {
+                    clickCount += 1;
+                }
+                tbPicCount.Text = clickCount + 1 + "/" + uriPathOB.Count;
+
             }
+            //http이미지
             else
             {
-                clickCount += 1;
+                if (clickCount + 1 > uriPathOB.Count - 1)
+                {
+                    clickCount = 0;
+                }
+                else
+                {
+                    clickCount += 1;
+                }
+                tbPicCount.Text = clickCount + 1 + "/" + uriPathOB.Count;
+
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(uriPathOB[clickCount], UriKind.Absolute);
+                bitmap.EndInit();
+
+                pic.Source = bitmap;
             }
-            tbPicCount.Text = clickCount + 1 + "/" + uriPathOB.Count;
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri(uriPathOB[clickCount], UriKind.Absolute);
-            bitmap.EndInit();
-            pic.Source = bitmap;
         }
 
         private void Sv_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

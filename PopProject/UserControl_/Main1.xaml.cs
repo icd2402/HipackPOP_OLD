@@ -50,6 +50,7 @@ namespace PopProject.UserControl_
         private Point scrollMousePoint = new Point();
         private double hOff = 1;
         private double vOff = 1;
+        private bool CNS_Barcode_Send = false; //true이면 바코드 읽으면 CNS로 데이터 전송
 
         public Main1()
         {
@@ -1437,7 +1438,7 @@ namespace PopProject.UserControl_
                             special += workList[i].ProcessTypeName + " 참고 사항 :" + workList[i].ProcessMemo + "|";
                         }
                     }
-                    Win_Detail win_detail = new Win_Detail(context, special, workList, Properties.Settings.Default.detail_check);
+                    Win_Detail win_detail = new Win_Detail(context, special, workList, Properties.Settings.Default.detail_check, CNS_Barcode_Send);
                     _ = win_detail.ShowDialog();
                     if (Properties.Settings.Default.corp_name.Equals("유창포장"))
                     {
@@ -1525,7 +1526,7 @@ namespace PopProject.UserControl_
                 }
                 tbBarcode.Text = "";
                 can.Visibility = Visibility.Visible;
-                Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, Properties.Settings.Default.detail_check);
+                Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, Properties.Settings.Default.detail_check, CNS_Barcode_Send);
                 _ = win_Detail.ShowDialog();
                 SelectWorkList();
                 ResultSearchDate();

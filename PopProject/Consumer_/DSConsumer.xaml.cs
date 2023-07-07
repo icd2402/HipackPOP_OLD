@@ -66,7 +66,23 @@ namespace PopProject.Consumer_
             PopWorkListSearch(); //실수요자 생산계획 조회
             Properties.Settings.Default.consumCount = 0;
             Properties.Settings.Default.Save();
-            
+
+            //스크롤바 사용으로 고정(대세요청)
+            if (true)
+            {
+                sv.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+                sv.PreviewMouseLeftButtonDown -= ScrollViewer_PreviewMouseLeftButtonDown;
+                sv.PreviewMouseLeftButtonUp -= Sv_PreviewMouseLeftButtonUp;
+                sv.PreviewMouseMove -= Sv_PreviewMouseMove;
+            }
+            else
+            {
+                sv.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                sv.PreviewMouseLeftButtonDown += ScrollViewer_PreviewMouseLeftButtonDown;
+                sv.PreviewMouseLeftButtonUp += Sv_PreviewMouseLeftButtonUp;
+                sv.PreviewMouseMove += Sv_PreviewMouseMove;
+            }
+
         }
 
         //아두이노 통신
@@ -94,9 +110,9 @@ namespace PopProject.Consumer_
               //"[PopWorkListMember]",
               // new string[] { "@orderKey", "@ProcessType", "@pplanDate" },
               // new object[] { mainModel.orderKey, mainModel.ProcessType, DateTime.Now.ToString("yyyy-MM-dd") },
-              "[PopWorkListMemberPlanKey]",
-               new string[] { "@orderKey", "@ProcessType", "@pplanDate", "@pplanKey" },
-               new object[] { mainModel.orderKey, mainModel.ProcessType, DateTime.Now.ToString("yyyy-MM-dd"), mainModel.pplanKey },
+               "[PopWorkListMemberPlanKey]",
+                new string[] { "@orderKey", "@ProcessType", "@pplanDate", "@pplanKey" },
+                new object[] { mainModel.orderKey, mainModel.ProcessType, DateTime.Now.ToString("yyyy-MM-dd"), mainModel.pplanKey },
                0
                );
 
@@ -110,22 +126,27 @@ namespace PopProject.Consumer_
                     {
                         ConsumerModel listitem = new ConsumerModel
                         {
-                            orderKey = result["orderKey"].ToString(),                   //오더키
-                            pworkKey = int.Parse(result["pworkKey"].ToString()),        //작업키
-                            orderDate = result["orderDate"].ToString(),                 //수주일자
-                            vendorID = result["vendorID"].ToString(),                   //납춤처ID
-                            vendorName = result["vendorName"].ToString(),               //납품처명
-                            NoKey = result["NoKey"].ToString(),                         //순번키
-                            membID = result["membID"].ToString(),                       //실수요자ID
-                            membName = result["membName"].ToString(),                   //이름
-                            adress = result["adress"].ToString(),                       //주소
-                            PhonNo = result["PhonNo"].ToString(),                       //연락처
-                            orderCount = int.Parse(result["orderCount"].ToString()),    //수주량
-                            pworkDate = DateTime.Parse(result["pworkDate"].ToString()), //작업일자
-                            pplanKey = int.Parse(result["pplanKey"].ToString()),        //계획키
+                            orderKey = result["orderKey"].ToString(),                       //오더키
+                            pworkKey = int.Parse(result["pworkKey"].ToString()),            //작업키
+                            orderDate = result["orderDate"].ToString(),                     //수주일자
+                            vendorID = result["vendorID"].ToString(),                       //납춤처ID
+                            vendorName = result["vendorName"].ToString(),                   //납품처명
+                            NoKey = result["NoKey"].ToString(),                             //순번키
+                            membID = result["membID"].ToString(),                           //실수요자ID
+                            membName = result["membName"].ToString(),                       //이름
+                            adress = result["adress"].ToString(),                           //주소
+                            PhonNo = result["PhonNo"].ToString(),                           //연락처
+                            orderCount = int.Parse(result["orderCount"].ToString()),        //수주량
+                            workCount = int.Parse(result["workCount"].ToString()),        //수주량
+                            pworkDate = DateTime.Parse(result["pworkDate"].ToString()),     //작업일자
+                            pplanKey = int.Parse(result["pplanKey"].ToString()),            //계획키
                         };
 
                         listitem.pWorkCount = float.Parse(result["pworkCount"].ToString()); //작업량
+                        listitem.sDatetime = result["sDatetime"].ToString();                //시작시간
+                        listitem.eDatetime = result["eDatetime"].ToString();                //종료시간
+                        listitem.perrCnt = float.Parse(result["perrCnt"].ToString());       //불량수량
+                        listitem.Memo = result["Memo"].ToString();                          //비고
                         
                         //상자수 사용 체크
                         if (Properties.Settings.Default.boxCheck)
@@ -134,13 +155,13 @@ namespace PopProject.Consumer_
                             listitem.pWorkCount /= (int)mainModel.pCnt;  //작업량/통수
                         }
 
-                        listitem.sDatetime = result["sDatetime"].ToString(); //시작시간
-                        listitem.eDatetime = result["eDatetime"].ToString(); //종료시간
-                        listitem.perrCnt = float.Parse(result["perrCnt"].ToString()); //불량수량
-                        listitem.Memo = result["Memo"].ToString(); //비고
+                        ////금일 실수요자 생산리스트 또는 수주량 - 작업량이 30개 초과인경우(작업이 남은경우) 리스트 등록
+                        //if (listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.orderCount - listitem.pWorkCount - listitem.workCount > 30)
+                        //{
+                        //    consumerList.Add(listitem);
+                        //}
 
-                        //금일 실수요자 생산리스트 또는 수주량 - 작업량이 30초과인경우(작업이 남은경우) 리스트 등록
-                        if (listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.orderCount - listitem.pWorkCount > 30)
+                        if (listitem.pplanKey > 0 || listitem.orderCount - listitem.pWorkCount - listitem.workCount > 30)
                         {
                             consumerList.Add(listitem);
                         }

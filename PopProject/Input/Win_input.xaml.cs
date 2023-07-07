@@ -988,7 +988,7 @@ namespace PopProject.Input
                 }
             }
 
-            Win_Detail win_Detail = new Win_Detail(mainModel, special, workList, Properties.Settings.Default.detail_check);
+            Win_Detail win_Detail = new Win_Detail(mainModel, special, workList, Properties.Settings.Default.detail_check, CNS_Send);
             win_Detail.ShowDialog();
         }
 
@@ -1055,7 +1055,8 @@ namespace PopProject.Input
                 }
 
             }
-            else if (inputModel.imagePath.Equals("/img/bn_06.png")) //종료버튼 활성화 일때
+            //종료버튼 활성화 일때
+            else if (inputModel.imagePath.Equals("/img/bn_06.png")) 
             {
                 MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장", MessageBoxButton.YesNo);
 
@@ -1070,7 +1071,7 @@ namespace PopProject.Input
 
                     if (Properties.Settings.Default.Plc) //PLC 사용 체크일때
                     {
-                        CNSDataRead(); //CNS 데이터 읽기
+                        //CNSDataRead(); //CNS 데이터 읽기
                     }
 
                     inputModel.perrCount = 0;

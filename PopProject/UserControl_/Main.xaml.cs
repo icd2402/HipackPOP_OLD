@@ -19,7 +19,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Net.NetworkInformation;
 using System.Windows.Threading;
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -61,6 +60,7 @@ namespace PopProject.UserControl_
         public static DateTime dt;
         private bool CheckDateValue = true;
         private bool DateCheck = false;
+        private bool CNS_Barcode_Send = false; //true이면 바코드 읽으면 CNS로 데이터 전송
 
         public Main()
         {
@@ -210,7 +210,7 @@ namespace PopProject.UserControl_
                                         try
                                         {
                                             can.Visibility = Visibility.Visible;
-                                            Win_Detail win_detail = new Win_Detail(model, special, workList, Properties.Settings.Default.detail_check);
+                                            Win_Detail win_detail = new Win_Detail(model, special, workList, Properties.Settings.Default.detail_check, false);
                                             win_detail.ShowDialog();
 
                                             // selectWorkList();
@@ -1154,7 +1154,6 @@ namespace PopProject.UserControl_
                             //int a = int.Parse(result["WDIGCount"].ToString());
                             //if (a == 0)
                             //{
-
                             //    listitem.WDIGCount = result["metCustomSName"].ToString();
                             //}
                             //else
@@ -1203,10 +1202,10 @@ namespace PopProject.UserControl_
                         {
                             listitem.corpName = result["corpName"].ToString();
                         }
-                        listitem.handChk = result["handChk"].ToString();
-                        listitem.PackType = result["PackType"].ToString();
-                        listitem.filmNo = result["filmNo"].ToString();
-                        listitem.CoatingType = result["CoatingType"].ToString();
+                        listitem.handChk = result["handChk"].ToString(); //손잡이 사용
+                        listitem.PackType = result["PackType"].ToString(); //포장매수
+                        listitem.filmNo = result["filmNo"].ToString(); //필름No
+                        listitem.CoatingType = result["CoatingType"].ToString(); //코팅방법
                         listitem.PackCount = result["PackCount"].ToString();
                         listitem.pplanCount = int.Parse(result["pplanCount"].ToString());
 
@@ -1347,7 +1346,8 @@ namespace PopProject.UserControl_
                             }
                         }
 
-                        //오주포장
+                        //메인화면 [공정]
+                        //오주포장 (인라인)
                         if (Properties.Settings.Default.mercName.Equals("인라인2호기") || Properties.Settings.Default.mercName.Equals("인라인3호기"))
                         {
                             if (listitem.ProcessType == 8) //풀접합
@@ -1429,47 +1429,44 @@ namespace PopProject.UserControl_
                                     }
                                 }
 
-                                foreach (JObject resultSub in Data_Jarry)
+                                foreach (JObject resultSub in Data_Jarry.Where((x) => (listitem.orderKey + listitem.orderWorkNo).Equals(x["orderKey"].ToString() + x["orderWorkNo"].ToString())))
                                 {
                                     SubModel subItem = new SubModel();
 
-                                    if ((listitem.orderKey + listitem.orderWorkNo).Equals(resultSub["orderKey"].ToString() + resultSub["orderWorkNo"].ToString()))
+                                    subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();
+                                    subItem.ProcessTypeName = resultSub["ProcessTypeName"].ToString();
+                                    subItem.processType = int.Parse(resultSub["ProcessType"].ToString());
+                                    subItem.orderKey = resultSub["orderKey"].ToString();
+                                    subItem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());
+                                    if (int.Parse(resultSub["presultCount"].ToString()) > 0)
                                     {
-                                        if (resultSub["ProcessTypeName"].ToString().Equals("톰슨"))
-                                        {
-                                            continue;
-                                        }
-                                        subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();
-                                        subItem.ProcessTypeName = resultSub["ProcessTypeName"].ToString();
-                                        subItem.processType = int.Parse(resultSub["ProcessType"].ToString());
-                                        subItem.orderKey = resultSub["orderKey"].ToString();
-                                        subItem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());
-                                        if (int.Parse(resultSub["presultCount"].ToString()) > 0)
-                                        {
-                                            subItem.stateColor = Brushes.Black;
-                                            subItem.stateFontColor = Brushes.White;
-                                            subItem.presultCount = int.Parse(resultSub["presultCount"].ToString());
+                                        subItem.stateColor = Brushes.Black;
+                                        subItem.stateFontColor = Brushes.White;
+                                        subItem.presultCount = int.Parse(resultSub["presultCount"].ToString());
 
-                                            if (!resultSub["perrCount"].ToString().Equals(""))
-                                            {
-                                                subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
-                                            }
-                                        }
-                                        else
+                                        if (!resultSub["perrCount"].ToString().Equals(""))
                                         {
-                                            subItem.stateColor = Brushes.White;
-                                            subItem.stateFontColor = Brushes.Black;
+                                            subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
                                         }
-                                        listitem.subOb.Add(subItem);
                                     }
+                                    else
+                                    {
+                                        subItem.stateColor = Brushes.White;
+                                        subItem.stateFontColor = Brushes.Black;
+                                    }
+                                    listitem.subOb.Add(subItem);
                                 }
                                 listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
                                 if (listitem.subOb.Count == 2)
                                 {
-                                    workList.Add(listitem);
+                                    if (listitem.subOb.Where((x) => x.ProcessTypeName.ToString().Equals("톰슨") || x.ProcessTypeName.ToString().Contains("2")).Count() == 0)
+                                    {
+                                        workList.Add(listitem);
+                                    }
                                 }
                             }
                         }
+                        //오주포장 (풀접합)
                         else if (Properties.Settings.Default.mercName.Equals("풀접합") && Properties.Settings.Default.corp_name.Equals("오주포장"))
                         {
                             if (listitem.ProcessType == 8 || listitem.ProcessType == 7 || listitem.ProcessType == 5) //7:철접합  8: 풀접합
@@ -1602,9 +1599,10 @@ namespace PopProject.UserControl_
                                 workList.Add(listitem);
                             }
                         }
+                        //오주포장 (베가)
                         else if (Properties.Settings.Default.mercName.Equals("베가") && Properties.Settings.Default.corp_name.Equals("오주포장"))
                         {
-                            if (listitem.ProcessType == 8)
+                            if (listitem.ProcessType == 8) //풀접합
                             {
                                 string[] setting = Properties.Settings.Default.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
                                 for (int i = 0; i < setting.Length; i++)
@@ -1867,6 +1865,7 @@ namespace PopProject.UserControl_
                         //        workList.Add(listitem);
                         //    }
                         //}
+                        //오주포장 (2공장인쇄기)
                         else if (Properties.Settings.Default.mercName.Equals("2공장인쇄기") && Properties.Settings.Default.corp_name.Equals("오주포장"))
                         {
                             if (listitem.mercName.Equals("2공장인쇄기"))
@@ -1984,8 +1983,10 @@ namespace PopProject.UserControl_
                                 }
                             }
                         }
+                        //일반 공정
                         else
                         {
+                            //공정명 없을때
                             if (listitem.mercName.Equals(""))
                             {
                                 if (listitem.ProcessType == Properties.Settings.Default.processType)
@@ -2100,6 +2101,7 @@ namespace PopProject.UserControl_
                                     workList.Add(listitem);
                                 }
                             }
+                            //공정명 있을때
                             else
                             {
                                 if (listitem.mercName.Equals(Properties.Settings.Default.mercName))
@@ -2168,13 +2170,11 @@ namespace PopProject.UserControl_
                                         {
                                             listitem.item1 = item.Replace("\r\n", "");
                                         }
-
                                         else if (i == 1)
                                         {
                                             listitem.item2 = item.Replace("\r\n", "");
 
                                         }
-
                                         else if (i == 2)
                                         {
                                             listitem.item3 = item.Replace("\r\n", "");
@@ -2183,7 +2183,6 @@ namespace PopProject.UserControl_
 
                                     foreach (JObject resultSub in Data_Jarry)
                                     {
-
                                         SubModel subitem = new SubModel();
 
                                         if ((listitem.orderKey + listitem.orderWorkNo).Equals(resultSub["orderKey"].ToString() + resultSub["orderWorkNo"].ToString()))
@@ -2231,7 +2230,7 @@ namespace PopProject.UserControl_
             실적현황조회();
         }
 
-        //신우,우리,누리
+        //신우,우리,누리 사용중
         private void 실적현황조회()
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -2637,17 +2636,17 @@ namespace PopProject.UserControl_
                                 PopResultStart(model);
                             }
                         }
-                        //완료 버튼
-                        else if (model.imagePath.Equals("/img/bn_03.png"))
-                        {
-                            check = true; //이월 버튼 활성화
-                            arduSerial.Write("A");//아두이노 카운터 리셋
-                        }
                         //작업중 버튼
                         else if (model.imagePath.Equals("/img/bn_01.png"))
                         {
                             check = false; //이월 버튼 비활성화
                             //model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        }
+                        //완료 버튼
+                        else if (model.imagePath.Equals("/img/bn_03.png"))
+                        {
+                            check = true; //이월 버튼 활성화
+                            arduSerial.Write("A");//아두이노 카운터 리셋
                         }
                         
                         e.Handled = false;
@@ -2792,7 +2791,7 @@ namespace PopProject.UserControl_
             }
         }
 
-        //디테일 창 
+        //디테일 창 팝업
         private void ShowDetail(object sender)
         {
             try
@@ -2814,8 +2813,10 @@ namespace PopProject.UserControl_
 
                     try
                     {
-                        Win_Detail win_detail = new Win_Detail(context, special, workList, Properties.Settings.Default.detail_check);
+                        CNS_Barcode_Send = false;
+                        Win_Detail win_detail = new Win_Detail(context, special, workList, Properties.Settings.Default.detail_check, false);
                         _ = win_detail.ShowDialog();
+
                         if (Properties.Settings.Default.corp_name.Equals("유창포장"))
                         {
                             if (workList.Count < 30)
@@ -2824,8 +2825,7 @@ namespace PopProject.UserControl_
                                 ResultSearchDate();
                             }
                         }
-                        // selectWorkList();
-                        // resultSearchDate();
+
                         win_Input = null;
                         win_detail = null;
                     }
@@ -2856,59 +2856,28 @@ namespace PopProject.UserControl_
             }
         }
 
+        //바코드 읽기
         private void TbBarcode_KeyDown(object sender, KeyEventArgs e)
         {
             MainModel tempItem = null;
-            string code = tbBarcode.Text;
-            _ = int.TryParse(code, out int pCode);
 
+            CNS_Barcode_Send = false;
+            string code = tbBarcode.Text; //바코드 값 저장 
+            _ = int.TryParse(code, out int pCode); //바코드 값  정수로 변환
+
+            //바코드 정보 있으면
             if (pCode > 0)
             {
+                //workList.orderKey와 pCode값과 같은지 검사
                 if (workList.Count(x => x.orderKey == pCode.ToString()) > 0)
                 {
                     tempItem = workList.FirstOrDefault(x => x.orderKey == pCode.ToString());
-
                 }
             }
-
-            //    foreach (MainModel item in workList)
-            //    {
-            //        St0000064751
-            //        ring tempStr = "";
-            //        for (int i = 0; i < 4 - item.orderWorkNo.ToString().Length; i++)
-            //        {
-            //            tempStr += "0";
-
-            //        }
-
-            //        tempStr += item.orderWorkNo;
-
-            //        String tempOrderKey = "";
-            //        for (int i = 0; i < 10 - item.orderKey.ToString().Length; i++)
-            //        {
-            //            tempOrderKey += "0";
-            //        }
-
-
-            //    tempOrderKey += item.orderKey;
-
-            //        if ((tempOrderKey + tempStr).Equals(code))
-            //        {
-            //            tempItem = item;
-            //            break;
-            //        }
-
-            //        else if ((tempOrderKey + "0000").Equals(code))
-            //        {
-            //            tempItem = item;
-            //            break;
-            //        }
-
-            //}
-
+           
             if (tempItem != null)
             {
-                tbBarcode.Text = "";
+                tbBarcode.Text = ""; 
                 can.Visibility = Visibility.Visible;
                 string special = "";
                 for (int i = 0; i < workList.Count; i++)
@@ -2918,12 +2887,17 @@ namespace PopProject.UserControl_
                         special += workList[i].ProcessTypeName + " 참고 사항 : " + workList[i].ProcessMemo + "|";
                     }
                 }
+
                 try
                 {
-                    Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, Properties.Settings.Default.detail_check);
+                    //PLC 사용시 
+                    if (Properties.Settings.Default.Plc)
+                    {
+                        CNS_Barcode_Send = true;
+                    }
+
+                    Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, Properties.Settings.Default.detail_check, CNS_Barcode_Send);
                     _ = win_Detail.ShowDialog();
-                    //  selectWorkList();
-                    //  resultSearchDate();
                     win_Input = null;
                     win_Detail = null;
                 }
@@ -2933,13 +2907,13 @@ namespace PopProject.UserControl_
                     LogWrite(e1.StackTrace);
                 }
 
+                //생산중이면
                 if (production != null)
                 {
                     try
                     {
-                        arduSerial.Write("B");
+                        arduSerial.Write("B"); //아두이노 현재카운터 요청
                     }
-
                     catch (Exception ex)
                     {
                         string exception = ex.Message;

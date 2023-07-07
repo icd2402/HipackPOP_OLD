@@ -449,5 +449,21 @@ namespace PopProject.Consumer_
                 onPropertyChanged("Memo");
             }
         }
+
+
+        private int _workCount;
+        public int workCount
+        {
+            get
+            {
+                return _workCount;
+            }
+            set
+            {
+                _workCount = value;
+                onPropertyChanged("workCount");
+            }
+        }
+
     }
 }

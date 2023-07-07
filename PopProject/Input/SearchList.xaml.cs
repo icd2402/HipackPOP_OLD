@@ -21,6 +21,8 @@ namespace PopProject.Input
         private double hOff = 1;
         private double vOff = 1;
         private bool changeCheck = false;
+        private bool CNS_Barcode_Send = false; //true이면 바코드 읽으면 CNS로 데이터 전송
+
         ObservableCollection<MainModel> searchList;
 
         public SearchList(ObservableCollection<MainModel> workList)
@@ -200,7 +202,7 @@ namespace PopProject.Input
              consumer_ = null;
             */
             string special = "";
-            Win_Detail win_detail = new Win_Detail(context, special, worklist, Properties.Settings.Default.detail_check);
+            Win_Detail win_detail = new Win_Detail(context, special, worklist, Properties.Settings.Default.detail_check, CNS_Barcode_Send);
             _ = win_detail.ShowDialog();
         }
 
