@@ -953,6 +953,13 @@ namespace PopProject.Detail
 
             try
             {
+                //Downloads 폴더 생성
+                string downloadFolderPath = @"C:\Downloads";
+                if (!Directory.Exists(downloadFolderPath))
+                {
+                    Directory.CreateDirectory(downloadFolderPath);
+                }
+
                 FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpUrl);
                 request.Method = WebRequestMethods.Ftp.DownloadFile;
                 request.Credentials = new NetworkCredential(ID, Password);
