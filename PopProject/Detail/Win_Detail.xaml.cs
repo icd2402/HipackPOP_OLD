@@ -101,49 +101,49 @@ namespace PopProject.Detail
             if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트") && Properties.Settings.Default.Plc)
             {
                 //바코드로 디테일창 팝업시 동작
-                //if (Properties.Settings.Default.mercName.Equals("인라인3호기") && Barcode_Enter)
-                //{
-                //    bool DB_DataOK = false; //DB에 데이터 있는거 확인
+                if (Properties.Settings.Default.mercName.Equals("인라인3호기") && Barcode_Enter)
+                {
+                    bool DB_DataOK = false; //DB에 데이터 있는거 확인
 
-                //    ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
-                //    ReturnModel returnDataCheck = ServiceModel.GetData(
-                //       Properties.Settings.Default.serverIndex,
-                //       "[PopCNSSearch]",
-                //       new string[] { "prodID", "MachineName" },
-                //       new object[] { this.mainModel.prodID, Properties.Settings.Default.mercName }, 0);
+                    ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+                    ReturnModel returnDataCheck = ServiceModel.GetData(
+                       Properties.Settings.Default.serverIndex,
+                       "[PopCNSSearch]",
+                       new string[] { "prodID", "MachineName" },
+                       new object[] { this.mainModel.prodID, Properties.Settings.Default.mercName }, 0);
 
-                //    if (returnDataCheck.결과 == 1)
-                //    {
-                //        string ProdID = "";
-                //        string machineName = "";
-                //        int pock = 0;
-                //        int jang = 0;
-                //        int go = 0;
+                    if (returnDataCheck.결과 == 1)
+                    {
+                        string ProdID = "";
+                        string machineName = "";
+                        int pock = 0;
+                        int jang = 0;
+                        int go = 0;
 
-                //        JArray Data_Jarry = JArray.Parse(returnDataCheck.리턴값);
-                //        foreach (JObject result in Data_Jarry)
-                //        {
-                //            ProdID = result["prodID"].ToString();
-                //            machineName = result["MachineName"].ToString();
-                //            pock = Convert.ToInt32(result["Pock"]);
-                //            jang = Convert.ToInt32(result["Jang"]);
-                //            go = Convert.ToInt32(result["Go"]);
-                //        }
+                        JArray Data_Jarry = JArray.Parse(returnDataCheck.리턴값);
+                        foreach (JObject result in Data_Jarry)
+                        {
+                            ProdID = result["prodID"].ToString();
+                            machineName = result["MachineName"].ToString();
+                            pock = Convert.ToInt32(result["Pock"]);
+                            jang = Convert.ToInt32(result["Jang"]);
+                            go = Convert.ToInt32(result["Go"]);
+                        }
 
-                //        //DB에 데이터가 있을경우
-                //        if (ProdID != "" && pock * jang != 0)
-                //        {
-                //            DB_DataOK = true;
-                //            CNS_DB_Send(); //DB 데이터 전송
-                //        }
-                //        //DB에 데이터가 없을경우
-                //        else
-                //        {
-                //            DB_DataOK = false;
-                //            CNS_defaultData_Send(); //신규 데이터 전송
-                //        }
-                //    }
-                //}
+                        //DB에 데이터가 있을경우
+                        if (ProdID != "" && pock * jang != 0)
+                        {
+                            DB_DataOK = true;
+                            CNS_DB_Send(); //DB 데이터 전송
+                        }
+                        //DB에 데이터가 없을경우
+                        else
+                        {
+                            DB_DataOK = false;
+                            CNS_defaultData_Send(); //신규 데이터 전송
+                        }
+                    }
+                }
             }
 
             //로봇사용 체크시 로봇설정 버튼 표시
@@ -953,7 +953,7 @@ namespace PopProject.Detail
 
             try
             {
-                //Downloads 폴더 생성
+                //Downloads 폴더없으면 생성
                 string downloadFolderPath = @"C:\Downloads";
                 if (!Directory.Exists(downloadFolderPath))
                 {

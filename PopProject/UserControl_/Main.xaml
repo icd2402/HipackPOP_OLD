@@ -35,6 +35,9 @@
         <TextBlock x:Name="merc_lock" Foreground="White" Text="lock" Padding="5,0,0,0" TextAlignment="Justify" FontSize="15"  Margin="18,0,0,0" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" MouseLeftButtonDown="Logout_click"></TextBlock>
         <Button x:Name="btnLogout" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="Logout_click"/>
 
+        <!--<TextBlock x:Name="versionTextBlock" Foreground="White" Text="Ver."  TextAlignment="Justify" FontSize="15"  Margin="101,0,0,90" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" MouseLeftButtonDown="Logout_click"></TextBlock>-->
+
+
         <!--업체명, 설비명-->
         <TextBlock x:Name="corp_name" Foreground="White" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="24,36,0,0" ></TextBlock>
         <TextBlock x:Name="tbMercName" Text="공 정" Foreground="White" Width="264" FontSize="38" TextAlignment="Center" Height="50" HorizontalAlignment="Center" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="Mer_click" Margin="516,30,500,30"></TextBlock>

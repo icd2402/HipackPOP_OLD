@@ -52,7 +52,7 @@
         <Border x:Name="plc_Send" Visibility="Collapsed" BorderThickness="2" Background="White" CornerRadius="10" BorderBrush="#FF747474" Width="155" Height="45"   VerticalAlignment="Center" HorizontalAlignment="Right" Canvas.Left="30" Canvas.Top="172"  MouseLeftButtonDown="Plc_ButtonMouseDown1" >
             <TextBlock Text="CNS로 데이터 전송" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontFamily="/font/#KoPubDotum Bold" Foreground="#FF565656" />
         </Border>
-        <Border x:Name="plc_Save" Visibility="Collapsed" BorderThickness="2" Background="White" CornerRadius="10" BorderBrush="#FF747474" Width="155" Height="45"   VerticalAlignment="Center" HorizontalAlignment="Right" Canvas.Left="200" Canvas.Top="172"  MouseLeftButtonDown="Plc_ButtonMouseDown2" >
+        <Border x:Name="plc_Save" Visibility="Collapsed" BorderThickness="2" Background="#65F1F5" CornerRadius="10" BorderBrush="#FF747474" Width="155" Height="45"   VerticalAlignment="Center" HorizontalAlignment="Right" Canvas.Left="200" Canvas.Top="172"  MouseLeftButtonDown="Plc_ButtonMouseDown2" >
             <TextBlock Text="CNS데이터 저장" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontFamily="/font/#KoPubDotum Bold" Foreground="#FF565656" />
         </Border>
         <Border x:Name="plc_Search" Visibility="Collapsed" BorderThickness="2" Background="White" CornerRadius="10" BorderBrush="#FF747474" Width="155" Height="45"   VerticalAlignment="Center" HorizontalAlignment="Right" Canvas.Left="370" Canvas.Top="172"  MouseLeftButtonDown="Plc_ButtonMouseDown3" >

@@ -27,6 +27,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Text;
 using System.IO;
+using System.Reflection;
 
 namespace PopProject.UserControl_
 {
@@ -68,6 +69,10 @@ namespace PopProject.UserControl_
             {
                 InitializeComponent();
                 production = null;
+
+                // 버전 번호를 텍스트 블록에 할당
+                //string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                //versionTextBlock.Text += version;
 
                 //왼쪽상단 업체명
                 corp_name.Text = Properties.Settings.Default.corp_name;
