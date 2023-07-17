@@ -2628,7 +2628,7 @@ namespace PopProject.UserControl_
                     //실수요자 일때
                     if (model.bMember)
                     {
-                        //대기 버튼
+                        //대기 버튼 진입
                         if (model.imagePath.Equals("/img/bn_02.png"))
                         {
                             check = true; //이월 버튼 활성화
@@ -2641,13 +2641,12 @@ namespace PopProject.UserControl_
                                 PopResultStart(model);
                             }
                         }
-                        //작업중 버튼
+                        //작업중 버튼 진입
                         else if (model.imagePath.Equals("/img/bn_01.png"))
                         {
                             check = false; //이월 버튼 비활성화
-                            //model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                         }
-                        //완료 버튼
+                        //완료 버튼 진입
                         else if (model.imagePath.Equals("/img/bn_03.png"))
                         {
                             check = true; //이월 버튼 활성화

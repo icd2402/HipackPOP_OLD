@@ -124,7 +124,7 @@
                                 <Border Canvas.Left="635" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
 
                                 <!--공정-->
-                                <Grid  Canvas.Left="640" Canvas.Top="2"  Width="191" Height="72"   Focusable="False" >
+                                <Grid  Canvas.Left="637" Canvas.Top="2"  Width="191" Height="72"   Focusable="False" >
 
                                     <ItemsControl ItemsSource="{Binding subOb}" Canvas.Left="555" Canvas.Top="17"   Height="72"  Focusable="False">
                                         <ItemsControl.ItemsPanel>
@@ -141,7 +141,7 @@
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
                                 </Grid>
-                                <Border Canvas.Left="825" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
+                                <Border Canvas.Left="828" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
                                 <!--<TextBlock Canvas.Left="755" Canvas.Top="11" FontSize="18" Text="색도" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>-->
 
                                 <!--작업정보-->

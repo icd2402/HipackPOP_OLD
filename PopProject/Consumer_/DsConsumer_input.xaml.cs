@@ -286,7 +286,7 @@ namespace PopProject.Consumer_
         //시작,종료 버튼 클릭
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // 시작 버튼 일 경우
+            // 시작 버튼 클릭
             if (inputModel.imagePath.Equals("/img/bn_05.png"))
             {
                 if (Main.production != null)
@@ -317,7 +317,7 @@ namespace PopProject.Consumer_
                     }
                 }
             }
-            // 종료 버튼 일 경우
+            // 종료 버튼 클릭
             else if (inputModel.imagePath.Equals("/img/bn_06.png"))
             {
                 MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장", MessageBoxButton.YesNo);
@@ -382,7 +382,7 @@ namespace PopProject.Consumer_
             int count = 0;
             int ChkAED; //삭제상태
 
-            //작업건 없으면
+            //생산수량,불량수량 없으면
             if (inputModel.pworkCount == 0 && inputModel.perrCount == 0)
             {
                 ChkAED = 3; //삭제상태 3

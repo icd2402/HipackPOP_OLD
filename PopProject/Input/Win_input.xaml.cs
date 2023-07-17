@@ -992,9 +992,11 @@ namespace PopProject.Input
             win_Detail.ShowDialog();
         }
 
+        //시작 & 종료 버튼
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (inputModel.imagePath.Equals("/img/bn_05.png")) //시작 버튼 활성화 일때
+            //시작 버튼 활성화 일때
+            if (inputModel.imagePath.Equals("/img/bn_05.png")) 
             {
                 string metrialitem = Properties.Settings.Default.meterialinfo;
                 //Console.WriteLine("metrialitem -> " + metrialitem);
@@ -1537,31 +1539,30 @@ namespace PopProject.Input
             {
                 if (Properties.Settings.Default.mercName.Contains("인라인"))
                 {
-                    //if (mainModel.subOb.Count == 2)
-                    //{
-                    //    전체공정 = "1";
-                    //}
-                    //else
-                    //{
-                    //    전체공정 = "0";
-                    //}
                     전체공정 = "1";
                 }
             }
 
+            //결과수량
             inputModel.pworkCount = int.Parse(tbResult.Text.ToString());
+
+            //생산,불량수량 0이면 3| 경과수량 있으면 1|
             string arrChkAED = inputModel.pworkCount == 0 && inputModel.perrCount == 0 ? "3|" : "1|";
+
+            //상자 수 사용 체크시 통수 곱해줌
             if (Properties.Settings.Default.boxCheck)
             {
                 inputModel.pworkCount = (int)(this.inputModel.pworkCount * this.inputModel.pCnt);
             }
+
+            //통수일때
             if (Properties.Settings.Default.CountType == 1)
             {
+                //신우, 누리, 우리
                 if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("우리포장산업"))
                 {
                     inputModel.pworkCount = (int)(this.inputModel.pworkCount * this.inputModel.pCnt);
                 }
-
             }
 
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -1611,8 +1612,8 @@ namespace PopProject.Input
                 }
 
                 checkInput = true;
-                inputModel.imagePath = "/img/bn_05.png";
-                mainModel.imagePath = "/img/bn_02.png";
+                inputModel.imagePath = "/img/bn_05.png"; //시작
+                mainModel.imagePath = "/img/bn_02.png"; //대기
                 mainModel.sumPworkCount = inputModel.pworkCount + inputModel.perrCount;
 
                 mainModel.presultCount = inputModel.pworkCount + inputModel.perrCount;
@@ -1628,12 +1629,10 @@ namespace PopProject.Input
                     }
                 }
 
-
-
                 InvokeCount(Properties.Settings.Default.mercName, "E"); //현황판으로 생산종료 송신
 
-                if (Properties.Settings.Default.corp_name.Equals("오주포장")  &&
-                    (Properties.Settings.Default.processType == 7
+                //오주포장, 철접합(7),베가(8),인라인2,3호기(13), 5는 없음
+                if (Properties.Settings.Default.corp_name.Equals("오주포장") && (Properties.Settings.Default.processType == 7
                     || Properties.Settings.Default.processType == 5
                     || Properties.Settings.Default.processType == 8
                     || Properties.Settings.Default.processType == 13
@@ -1641,7 +1640,6 @@ namespace PopProject.Input
                 {
                     for (int i = 0; i < mainModel.subOb.Count; i++)
                     {
-
                         if (mainModel.subOb[i].ProcessTypeName.Equals("인쇄"))
                         {
                             if (mainModel.subOb[i].presultCount < 1)
@@ -1651,8 +1649,9 @@ namespace PopProject.Input
                         }
                     }
                 }
-                if (Properties.Settings.Default.corp_name.Equals("성주포장") && Properties.Settings.Default.mercName.Equals("후렉소") &&
-                    (Properties.Settings.Default.processType == 1))
+
+                //성주포장 후렉소
+                if (Properties.Settings.Default.corp_name.Equals("성주포장") && Properties.Settings.Default.mercName.Equals("후렉소") && (Properties.Settings.Default.processType == 1))
                 {
                     for (int i = 0; i < mainModel.subOb.Count; i++)
                     {
@@ -1666,6 +1665,8 @@ namespace PopProject.Input
                         }
                     }
                 }
+
+                //구룡산업
                 if(Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
                 {
                     //if (Properties.Settings.Default.mercName.Contains("인라인"))
@@ -1678,7 +1679,7 @@ namespace PopProject.Input
                     //}
                 }
 
-
+                //아두이노 리셋
                 switch (metrialitem)
                 {
                     case "12":
@@ -1712,8 +1713,6 @@ namespace PopProject.Input
                         break;
                 }
 
-
-
                 Properties.Settings.Default.consumersumcount = 0;
                 Properties.Settings.Default.count = 0;
                 Properties.Settings.Default.saveDate = "";
@@ -1728,7 +1727,6 @@ namespace PopProject.Input
             }
 
             return returnData.결과;
-
         }
 
         //시작

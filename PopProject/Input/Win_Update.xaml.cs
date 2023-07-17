@@ -26,11 +26,13 @@ namespace PopProject.Input
             beforePerrorCount = errorModel.perrCount;
         }
 
+        //드래그
         private void Image_MouseLeftButtonDown_4(object sender, MouseButtonEventArgs e)
         {
             DragMove();
         }
 
+        //불량 수량 저장
         private void Image_MouseLeftButtonDown_2(object sender, MouseButtonEventArgs e)
         {
             Console.WriteLine("combo" + combo.SelectedItem);
@@ -39,7 +41,6 @@ namespace PopProject.Input
             {
                 context.memo = combo.SelectedItem == null ? "" : combo.SelectedItem.ToString();
             }
-
             catch (Exception)
             {
                 context.memo = "";
@@ -49,16 +50,15 @@ namespace PopProject.Input
             {
                 Close();
             }
-
             else
             {
                 MessageBox_Dialog dialog = new MessageBox_Dialog("불량 수정 실패");
                 _ = dialog.ShowDialog();
             }
-
             e.Handled = false;
         }
 
+        //불량 수량 저장
         private int PopErrorUpdate()
         {
             errorModel context = (errorModel)DataContext;
@@ -95,14 +95,15 @@ namespace PopProject.Input
                 );
 
             return returnData.결과 == 1 ? 1 : 0;
-
         }
 
+        //닫기
         private void Image_MouseLeftButtonDown_3(object sender, MouseButtonEventArgs e)
         {
             Close();
         }
 
+        // - 버튼
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (sender.GetType().Name.Equals("Image"))
@@ -113,6 +114,7 @@ namespace PopProject.Input
             }
         }
 
+        // + 버튼
         private void Image_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
         {
             if (sender.GetType().Name.Equals("Image"))
@@ -121,7 +123,6 @@ namespace PopProject.Input
                 errorModel context = (errorModel)img.DataContext;
                 context.perrCount += 1;
             }
-
         }
     }
 }

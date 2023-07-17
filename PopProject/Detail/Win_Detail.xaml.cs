@@ -61,6 +61,8 @@ namespace PopProject.Detail
 
         private int 작업지시;
 
+
+
         public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v, bool Barcod)
         {
             InitializeComponent();
@@ -76,6 +78,14 @@ namespace PopProject.Detail
             subOb.ItemsSource = mainModel.subOb;
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
+
+            //우리6사 가입도 버튼 사용 유/무에 따른 자재상태 창 너비 조절
+            if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("지온"))
+            {
+            }
+            else
+            {
+            }
 
             //오주포장 일때 옵션
             if (Properties.Settings.Default.corp_name.Equals("오주포장"))
@@ -180,7 +190,6 @@ namespace PopProject.Detail
             DetailSearch(); //세부정보 조회 (왼쪽화면)
             MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
             PopSearchPhoto(); //인쇄사양
-
         }
 
         public Win_Detail(MainModel mainModel, string special, ConsumerModel consumerModel, bool detail_check, bool v)
@@ -205,7 +214,7 @@ namespace PopProject.Detail
             Pass_detail.Visibility = Properties.Settings.Default.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
             robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
             consumcheck = v;
-
+            
             DetailSearch(); //세부정보 조회 (왼쪽화면)
             MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
             PopSearchPhoto(); //인쇄사양
@@ -1088,14 +1097,13 @@ namespace PopProject.Detail
                             listitem.metrialBJKey = int.Parse(result["metrialBJKey"].ToString());                //원단발주키
                             listitem.wdjs = (result["Wdjs"] != null) ? int.Parse(result["Wdjs"].ToString()) : 1; //원단절수
                             listitem.SubscriptionBJCount = int.Parse(result["SubscriptionBJCount"].ToString());  //가입고수량
+
                             listitem.GigText = listitem.SubscriptionBJCount == 0 ? "가입고" : listitem.SubscriptionBJCount.ToString();  //가입고 버튼 텍스트
+                            listitem.BtVisibility = "Visible"; //가입고 버튼 표시
 
-                            listitem.BtVisibility = "Visible";             //가입고 버튼
                             listitem.SubscriptionBJCount *= listitem.wdjs; //가입고 수량에 절수 곱함
-
                             listitem.SCMServerIndex = scmServerIndex;
                             listitem.SCMDBName = scmDBName;
-
 
                             ob.Add(listitem);
                         }
@@ -1136,9 +1144,10 @@ namespace PopProject.Detail
 
                         listitem.paperGor = (result["paperGor"] != null) ? result["paperGor"].ToString() : "";                      //골재질
                         listitem.metCount = (result["metBJCount"] != null) ? int.Parse(result["metBJCount"].ToString()) : 0;        //입고수량
-                        listitem.GigText = listitem.SubscriptionBJCount == 0 ? "가입고" : listitem.SubscriptionBJCount.ToString();  //가입고 버튼 텍스트
 
-                        listitem.BtVisibility = "Visible";             //가입고 버튼
+                        listitem.GigText = listitem.SubscriptionBJCount == 0 ? "가입고" : listitem.SubscriptionBJCount.ToString();  //가입고 버튼 텍스트
+                        listitem.BtVisibility = "Visible";             //가입고 버튼 표시
+                        
                         listitem.metCount *= listitem.wdjs;            //발주 수량에 절수 곱함
                         listitem.SubscriptionBJCount *= listitem.wdjs; //가입고 수량에 절수 곱함
                         listitem.fontColor = Brushes.ForestGreen;
@@ -1210,6 +1219,7 @@ namespace PopProject.Detail
                         }
 
                         ob.Add(listitem);
+                        
                         tbWdCount.Text = wdCount + "";
                         tbScCount.Text = scCount + "";
                     }
@@ -1278,7 +1288,6 @@ namespace PopProject.Detail
                             listitem.BtVisibility = "Collapsed";
                         }
 
-
                         ob.Add(listitem);
                     }
 
@@ -1286,7 +1295,18 @@ namespace PopProject.Detail
                     tbWdCount.Foreground = float.Parse(tbWdCount.Text) >= 0 ? Brushes.ForestGreen : Brushes.Red;
                     tbScCount.Text = (float.Parse(tbScCount.Text) + scCount).ToString();
                     tbScCount.Foreground = float.Parse(tbScCount.Text) >= 0 ? Brushes.ForestGreen : Brushes.Red;
-                    ic.ItemsSource = ob;
+
+                    //우리6사 가입고 버튼 사용
+                    if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("지온") || Properties.Settings.Default.corp_name.Equals("유램"))
+                    {
+                        //가입고 버튼 있는 창
+                        ic.ItemsSource = ob;
+                    }
+                    else
+                    {
+                        //가입고 버튼 없는 창
+                        ic2.ItemsSource = ob;
+                    }
                 }
             }
             else

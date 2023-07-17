@@ -729,5 +729,20 @@ namespace PopProject.Detail
                 onPropertyChanged("SCMDBName");
             }
         }
+
+        private double _MetCanvas;
+        public double MetCanvas
+        {
+            get
+            {
+                return _MetCanvas;
+            }
+
+            set
+            {
+                _MetCanvas = value;
+                onPropertyChanged("MetCanvas");
+            }
+        }
     }
 }

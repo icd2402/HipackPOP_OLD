@@ -147,7 +147,7 @@ namespace PopProject.Consumer_
                         listitem.eDatetime = result["eDatetime"].ToString();                //종료시간
                         listitem.perrCnt = float.Parse(result["perrCnt"].ToString());       //불량수량
                         listitem.Memo = result["Memo"].ToString();                          //비고
-                        
+
                         //상자수 사용 체크
                         if (Properties.Settings.Default.boxCheck)
                         {
@@ -161,12 +161,27 @@ namespace PopProject.Consumer_
                         //    consumerList.Add(listitem);
                         //}
 
+                        //계획키 있거나 계획량 - 결과량 - 생산량 > 30
                         if (listitem.pplanKey > 0 || listitem.orderCount - listitem.pWorkCount - listitem.workCount > 30)
                         {
                             consumerList.Add(listitem);
                         }
-                    }
 
+                        //if (Properties.Settings.Default.corp_name.Equals("선호칼라팩") || Properties.Settings.Default.corp_name.Equals("선호칼라팩테스트"))
+                        //{
+                        //    if (listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.orderCount - listitem.pWorkCount - listitem.workCount > 30)
+                        //    {
+                        //        consumerList.Add(listitem);
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    if (listitem.pplanKey > 0 || listitem.orderCount - listitem.pWorkCount - listitem.workCount > 30)
+                        //    {
+                        //        consumerList.Add(listitem);
+                        //    }
+                        //}
+                    }
                     for (int i = 0; i < consumerList.Count; i++)
                     {
                         //실수요자 창 켰을시 한번만 실행

@@ -21,21 +21,24 @@ namespace PopProject.Input
         public Win_resultUpdate(errorModel errorModel, InputModel inputModel)
         {
             InitializeComponent();
+
             pworkCount.Text = errorModel.perrCount.ToString();
             this.inputModel = inputModel;
             this.errorModel = errorModel;
+
+            //키인 체크시
             if (Properties.Settings.Default.keyinCheck)
             {
                 pworkCount.Focusable = true;
                 _ = pworkCount.Focus();
                 _ = pworkCount.Dispatcher.BeginInvoke(new Action(() => { pworkCount.SelectAll(); }));
             }
-
         }
 
         public Win_resultUpdate(errorModel errorModel, InputModel inputModel, bool v)
         {
             InitializeComponent();
+
             consumerCheck = v;
             pworkCount.Text = errorModel.perrCount.ToString();
             this.inputModel = inputModel;
@@ -65,18 +68,19 @@ namespace PopProject.Input
         }
 
 
-
+        // 드래그
         private void Image_MouseLeftButtonDown_4(object sender, MouseButtonEventArgs e)
         {
             DragMove();
         }
 
-        //수정 저장
+        //저장 버튼
         private void Image_MouseLeftButtonDown_2(object sender, MouseButtonEventArgs e)
         {
             PopresultUpdate();
         }
 
+        //저장 버튼
         private void PopresultUpdate()
         {
 
@@ -96,6 +100,8 @@ namespace PopProject.Input
 
             string arrChkAED = "";
             string workCount = "";
+
+            //실수요자 intput에서 실행시
             if (consumerCheck)
             {
                 arrChkAED = pworkCount.Text.ToString().Equals("0") ? "3" : "2";
@@ -134,8 +140,10 @@ namespace PopProject.Input
                     Close();
                 }
             }
+            //일반 intput에서 실행시
             else
             {
+                //대세물산은 생산수량 수정시 통수를 곱해줌
                 if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
                 {
                     workCount = (int.Parse(pworkCount.Text) * inputModel.pCnt).ToString();
@@ -143,16 +151,17 @@ namespace PopProject.Input
                 else
                 {
                     workCount = pworkCount.Text;
-
                 }
+
                 if (pworkCount.Text.ToString().Equals("0"))
                 {
-                    arrChkAED = "3|";
+                    arrChkAED = "3|"; //삭제
                 }
                 else
                 {
-                    arrChkAED = "2|";
+                    arrChkAED = "2|"; //수정
                 }
+
                 ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
                 string parameter = "[" + Properties.Settings.Default.mercName + "] " + inputModel.customSName + Environment.NewLine + inputModel.prodName + " " + inputModel.pworkCount.ToString("N0") + "개";
                 ReturnModel returnData = ServiceModel.GetData(
@@ -181,16 +190,16 @@ namespace PopProject.Input
                     Properties.Settings.Default.Save();
                     Close();
                 }
-
             }
-
         }
 
+        //닫기
         private void Image_MouseLeftButtonDown_3(object sender, MouseButtonEventArgs e)
         {
             Close();
         }
 
+        //수량 칸 클릭시 키보드 팝업
         private void pworkCount_buttondown(object sender, MouseButtonEventArgs e)
         {
 
@@ -203,7 +212,6 @@ namespace PopProject.Input
 
             _ = win_KeyBoard.ShowDialog();
             win_KeyBoard = null;
-
         }
     }
 }

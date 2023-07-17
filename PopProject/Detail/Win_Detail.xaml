@@ -241,6 +241,7 @@
          
             <TextBlock Text="|" FontSize="20" Canvas.Left="108" Canvas.Top="676" Height="29" Width="5"/>-->
 
+            <!--가입고 버튼 있는 창-->
             <ScrollViewer x:Name="sv" Width="595" Height="225" Canvas.Left="618" Canvas.Top="540" VerticalScrollBarVisibility="Hidden" PreviewMouseLeftButtonDown="Sv_PreviewMouseLeftButtonDown" 
                       PreviewMouseLeftButtonUp="Sv_PreviewMouseLeftButtonUp" PreviewMouseMove="Sv_PreviewMouseMove">
                 <ItemsControl x:Name="ic" Width="595" Height="225" Canvas.Left="618" Canvas.Top="540" >
@@ -260,7 +261,6 @@
                                     <TextBlock x:Name="납기일" Text="{Binding metBJLast, StringFormat='{}{0:MM.dd.예정}'}"   Width="80" TextAlignment="Right" Canvas.Top="9" Canvas.Left="365" FontSize="16"  FontFamily="/font/#KoPubBatang Bold"></TextBlock>
                                     <TextBlock Text="{Binding metPreCountString}" Foreground="Red" Width="70" TextAlignment="Right" Canvas.Top="9" Canvas.Left="430" FontSize="16"  FontFamily="/font/#KoPubBatang Bold"></TextBlock>
 
-                                    <!--<TextBlock Text="{Binding SubscriptionBJCountString}" Foreground="Green" Width="70" TextAlignment="Right" Canvas.Top="9" Canvas.Left="430" FontSize="16"  FontFamily="/font/#KoPubBatang Bold"></TextBlock>-->
                                     <Button x:Name="GIGButton" Content="{Binding GigText}" Width="70" Height="31" Canvas.Top="2" Canvas.Left="521" FontSize="16" Visibility="{Binding BtVisibility}" Background="SkyBlue" FontFamily="/font/#KoPubBatang Bold" Click="GIGButton_Click" >
                                         <Button.Resources>
                                             <Style TargetType="Border">
@@ -268,6 +268,41 @@
                                             </Style>
                                         </Button.Resources>
                                     </Button>
+                                </Canvas>
+                            </Border>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding metBJLast}" Value="0001-01-01">
+                                    <Setter TargetName="납기일" Property="Visibility" Value="Hidden" />
+                                    <Setter TargetName="발주일" Property="Visibility" Value="Hidden" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding metBJLast}" Value="9999-12-31">
+                                    <Setter TargetName="납기일" Property="TextBlock.Text" Value="납기없음" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <!--가입고 버튼 없는 창-->
+            <ScrollViewer x:Name="sv2" Width="595" Height="225" Canvas.Left="618" Canvas.Top="540" VerticalScrollBarVisibility="Hidden" PreviewMouseLeftButtonDown="Sv_PreviewMouseLeftButtonDown" 
+                      PreviewMouseLeftButtonUp="Sv_PreviewMouseLeftButtonUp" PreviewMouseMove="Sv_PreviewMouseMove">
+                <ItemsControl x:Name="ic2" Width="595" Height="225" Canvas.Left="618" Canvas.Top="540" >
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"></StackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="#FFB6B6B6" BorderThickness="1" CornerRadius="3" Height="37" Margin="0,0,0,8"  Background="WhiteSmoke">
+                                <Canvas>
+                                    <TextBlock x:Name="발주일" Text="{Binding metDate, StringFormat='{}{0:yy.MM.dd}',FallbackValue=''}" Canvas.Top="9" FontSize="16" Canvas.Left="10" FontFamily="/font/#KoPubBatang Bold"/>
+                                    <TextBlock Text="{Binding customSName}"  Width="100" Canvas.Top="9" Canvas.Left="90" FontSize="16"  FontFamily="/font/#KoPubBatang Bold"></TextBlock>
+                                    <TextBlock Text="{Binding metrialName}"  TextTrimming="CharacterEllipsis" Width="195"  Canvas.Top="9" Canvas.Left="190" FontSize="16"  FontFamily="/font/#KoPubBatang Bold"></TextBlock>
+                                    <TextBlock Text="{Binding metCountString}" Foreground="{Binding fontColor}"  Width="50"  TextAlignment="Left" Canvas.Top="9" Canvas.Left="390" FontSize="16"  FontFamily="/font/#KoPubBatang Bold"></TextBlock>
+                                    <TextBlock x:Name="납기일" Text="{Binding metBJLast, StringFormat='{}{0:MM.dd.예정}'}"   Width="80" TextAlignment="Right" Canvas.Top="9" Canvas.Left="435" FontSize="16"  FontFamily="/font/#KoPubBatang Bold"></TextBlock>
+                                    <TextBlock Text="{Binding metPreCountString}" Foreground="Red" Width="70" TextAlignment="Right" Canvas.Top="9" Canvas.Left="510" FontSize="16"  FontFamily="/font/#KoPubBatang Bold"></TextBlock>
                                 </Canvas>
                             </Border>
                             <DataTemplate.Triggers>
