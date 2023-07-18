@@ -1078,6 +1078,7 @@ namespace PopProject.Detail
                     }
                 }
 
+                //////////////////////////////////////////////////////////////////SCM발주/////////////////////////////////////////////////////////////////////////
                 ServiceModel.ServiceModelClean(scmServerIndex, scmDBName);
                 ReturnModel returnDataSCM가입고 = ServiceModel.GetData(
                     scmServerIndex,
@@ -1162,6 +1163,7 @@ namespace PopProject.Detail
                     _ = msg.ShowDialog();
                 }
             }
+
             //////////////////////////////////////////////////////////////////////////입고/////////////////////////////////////////////////////////////////////
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(

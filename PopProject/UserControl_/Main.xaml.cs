@@ -1059,7 +1059,7 @@ namespace PopProject.UserControl_
                         {
                             case "오주포장":
                             case "대양포장":
-                                div.Text = "[수주날짜][납품일자] 거래처/품명";
+                                div.Text = "[수주날짜] [납품일자] 거래처/품명";
                                 Canvas.SetLeft(div, 106);
                                 listitem.visibility = Visibility.Visible;  //ScrollViewer 수주날짜
                                 listitem.visibility1 = Visibility.Visible; //ScrollViewer 납품일자
@@ -1302,13 +1302,13 @@ namespace PopProject.UserControl_
                         listitem.bMember = bool.Parse(result["bMember"].ToString());
                         listitem.workMemo = result["workMemo"].ToString();
 
-                        //오주,대양
+                        //오주,대양 제외
                         if (!Properties.Settings.Default.corp_name.Equals("오주포장") && !Properties.Settings.Default.corp_name.Equals("대양포장") && !Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
                         {
                             listitem.icback = listitem.bMember ? "#AFE1FF" : "White"; //실수요자
                             listitem.pStateVisi = Visibility.Collapsed;
                         }
-                        else //그외 업체
+                        else //오주,대양 일때
                         {
                             listitem.pStateVisi = Visibility.Visible;
                             listitem.icback = result["WDIGCount"].ToString().Equals("0") || result["WDIGCount"].ToString().Equals("0.0") ? "White" : "#AFE1FF";
@@ -1870,10 +1870,11 @@ namespace PopProject.UserControl_
                         //        workList.Add(listitem);
                         //    }
                         //}
+
                         //오주포장 (2공장인쇄기)
                         else if (Properties.Settings.Default.mercName.Equals("2공장인쇄기") && Properties.Settings.Default.corp_name.Equals("오주포장"))
                         {
-                            if (listitem.mercName.Equals("2공장인쇄기"))
+                            if (listitem.ProcessType == 27) //2공장 인쇄기
                             {
                                 if (listitem.ProcessType == Properties.Settings.Default.processType)
                                 {
