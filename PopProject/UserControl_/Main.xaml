@@ -102,8 +102,12 @@
                                 <TextBlock Visibility="{Binding visibility1}" FontWeight="Bold" Foreground="BLUE"  Canvas.Left="160" Width="300" Canvas.Top="6" FontSize="17" Text="{Binding orderLast}" ></TextBlock>
                                 <!--거래처-->
                                 <TextBlock Foreground="Black" Canvas.Left="{Binding left}" Width="400" Canvas.Top="11" FontSize="15" Text="{Binding customSName}" FontFamily="/font/#KoPubDotum Medium"></TextBlock>
-                                <!--품명-->
-                                <TextBlock Canvas.Left="70" Canvas.Top="43" Width="300" FontSize="16" Text="{Binding prodName}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <!--품명 Cnavas.Top = 43-->
+                                <TextBlock Canvas.Left="70" Canvas.Top="{Binding Canvas}" Width="300" FontSize="16"  FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold">
+                                    <Run Text="{Binding prodName}"/>
+                                    <LineBreak/>
+                                    <Run Text="{Binding prodName2}"/>
+                                </TextBlock>
                                 <Border Canvas.Left="375" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
                                 
                                 <!-- <TextBlock Canvas.Left="380" Canvas.Top="28" FontSize="18" Width="41" TextAlignment="Center" Text="{Binding paperGor}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>!-->

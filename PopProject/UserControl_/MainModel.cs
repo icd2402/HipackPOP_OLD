@@ -771,7 +771,35 @@ namespace PopProject.UserControl_
                 onPropertyChanged("prodName");
             }
         }
-          
+
+        private string _prodName2;
+        public string prodName2
+        {
+            get
+            {
+                return _prodName2;
+            }
+            set
+            {
+                _prodName2 = value;
+                onPropertyChanged("prodName2");
+            }
+        }
+
+        private string _Canvas;
+        public string Canvas
+        {
+            get
+            {
+                return _Canvas;
+            }
+            set
+            {
+                _Canvas = value;
+                onPropertyChanged("Canvas");
+            }
+        }
+
         private String _paperGor;
         public String paperGor {
             get

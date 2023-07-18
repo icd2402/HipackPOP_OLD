@@ -1059,7 +1059,7 @@ namespace PopProject.UserControl_
                         {
                             case "오주포장":
                             case "대양포장":
-                                div.Text = "[수주날짜] [납품일자] 거래처/품명";
+                                div.Text = "[수주날짜] [납품일자] 거래처/품명 ";
                                 Canvas.SetLeft(div, 106);
                                 listitem.visibility = Visibility.Visible;  //ScrollViewer 수주날짜
                                 listitem.visibility1 = Visibility.Visible; //ScrollViewer 납품일자
@@ -1183,11 +1183,27 @@ namespace PopProject.UserControl_
                             }
                         }
 
-                        listitem.pplanKey = int.Parse(result["pplanKey"].ToString());
-                        listitem.orderKey = result["orderKey"].ToString();
-                        listitem.ProcessType = int.Parse(result["ProcessType"].ToString());
-                        listitem.pplanDate = "[" + result["pplanDate"].ToString().Replace("-", "/").Substring(2, 8) + "]";
-                        listitem.prodName = result["prodName"].ToString();
+                        listitem.pplanKey = int.Parse(result["pplanKey"].ToString()); //계획키
+                        listitem.orderKey = result["orderKey"].ToString(); //오더키
+                        listitem.ProcessType = int.Parse(result["ProcessType"].ToString()); //설비번호
+                        listitem.pplanDate = "[" + result["pplanDate"].ToString().Replace("-", "/").Substring(2, 8) + "]"; //수주일자
+
+
+                        //품명 길이가 넘어갈 경우 두줄 표현 (오주 요청)
+                        string prodNames = result["prodName"].ToString();
+                        if (prodNames.Length > 32)
+                        {
+                            listitem.prodName = prodNames.Substring(0, 32); //첫번째 줄
+                            listitem.prodName2 = prodNames.Substring(32); //두번째 줄
+                            listitem.Canvas = "35"; //높이 조절
+                        }
+                        //안넘어 가면 한줄 표현 (기본)
+                        else
+                        {
+                            listitem.Canvas = "43"; //높이 조절
+                            listitem.prodName = result["prodName"].ToString(); //품명
+                        }
+
                         listitem.customSName = result["customSName"].ToString();
                         listitem.paperGor = result["paperGor"].ToString() + " 골";
                         listitem.orderWorkNo = int.Parse(result["orderWorkNo"].ToString());
@@ -1995,7 +2011,7 @@ namespace PopProject.UserControl_
                             //공정명 없을때
                             if (listitem.mercName.Equals(""))
                             {
-                                if (listitem.ProcessType == Properties.Settings.Default.processType)
+                                if (listitem.ProcessType == Properties.Settings.Default.processType)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                                 {
                                     string[] setting = Properties.Settings.Default.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
                                     for (int i = 0; i < setting.Length; i++)

@@ -241,7 +241,7 @@
          
             <TextBlock Text="|" FontSize="20" Canvas.Left="108" Canvas.Top="676" Height="29" Width="5"/>-->
 
-            <!--가입고 버튼 있는 창-->
+            <!--가입고 버튼 있는 창 (우리6사)-->
             <ScrollViewer x:Name="sv" Width="595" Height="225" Canvas.Left="618" Canvas.Top="540" VerticalScrollBarVisibility="Hidden" PreviewMouseLeftButtonDown="Sv_PreviewMouseLeftButtonDown" 
                       PreviewMouseLeftButtonUp="Sv_PreviewMouseLeftButtonUp" PreviewMouseMove="Sv_PreviewMouseMove">
                 <ItemsControl x:Name="ic" Width="595" Height="225" Canvas.Left="618" Canvas.Top="540" >

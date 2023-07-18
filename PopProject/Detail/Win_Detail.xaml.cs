@@ -1303,11 +1303,14 @@ namespace PopProject.Detail
                     {
                         //가입고 버튼 있는 창
                         ic.ItemsSource = ob;
+                        sv2.Visibility = Visibility.Collapsed;
                     }
                     else
                     {
                         //가입고 버튼 없는 창
                         ic2.ItemsSource = ob;
+                        sv.Visibility = Visibility.Collapsed;
+
                     }
                 }
             }
