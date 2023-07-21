@@ -499,7 +499,7 @@ namespace PopProject.Detail
                 폭 = int.Parse(s폭.ToString());
                 고 = int.Parse(s고.ToString());
 
-                //갭
+                //갭 (3호기)
                 switch (mainModel.paperGor.Replace("골", "").Trim())
                 {
                     case "AB":
@@ -508,21 +508,15 @@ namespace PopProject.Detail
                         break;
 
                     case "BB":
-                        갭 = 60;
-                        break;
-
-                    case "A":
                         갭 = 50;
                         break;
 
+                    case "A":
                     case "EB":
                         갭 = 40;
                         break;
 
                     case "B":
-                        갭 = 30;
-                        break;
-
                     case "E":
                         갭 = 20;
                         break;
