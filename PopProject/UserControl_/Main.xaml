@@ -62,7 +62,13 @@
         <Canvas x:Name="can1" Grid.Row="1" Margin="10,0,10,0" >
             <Image Width="40" Height="40" Canvas.Left="8" Source="/img/title_01.png" MouseLeftButtonDown="Refresh"/>
             <TextBlock x:Name="tbNo" Text="NO" TextAlignment="Center" Width="32" Canvas.Top="11" FontSize="18" Canvas.Left="14" MouseLeftButtonDown="Refresh" FontWeight="Bold" Foreground="White" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock x:Name="div"  Canvas.Left="133" Canvas.Top="10" FontSize="18" Text="거래처/품명" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="sort" />
+            <TextBlock x:Name="div"  Canvas.Left="90" Canvas.Top="10" FontSize="18"  FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="sort" >
+                <Run x:Name="run수주일자" Text="[수주일자]"/>
+                <Run x:Name="run납품일자" Text="[납품일자]"/>
+                <Run x:Name="run거래처" Text="거래처"/>
+                <Run Text="/"/>
+                <Run x:Name="run품명" Text="품명"/>
+            </TextBlock>
             <TextBlock x:Name="info" Canvas.Left="395" Canvas.Top="10" FontSize="18" Text="마닐라정보" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="Search_"/>
             <TextBlock x:Name="hide5" Canvas.Left="535" Canvas.Top="10" FontSize="18" Text="원단정보" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock Canvas.Left="716" Canvas.Top="10" FontSize="18" Text="공정" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>

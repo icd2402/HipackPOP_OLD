@@ -79,13 +79,6 @@ namespace PopProject.Detail
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
 
-            //우리6사 가입도 버튼 사용 유/무에 따른 자재상태 창 너비 조절
-            if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("지온"))
-            {
-            }
-            else
-            {
-            }
 
             //오주포장 일때 옵션
             if (Properties.Settings.Default.corp_name.Equals("오주포장"))
@@ -95,10 +88,13 @@ namespace PopProject.Detail
                 파렛트적재매수.Visibility = Visibility.Visible; //파렛트 적재매수 표시
                 파렛트적재높이.Visibility = Visibility.Visible; //파렛트 적재높이 표시
                 Pass_detail.Visibility = Visibility.Visible;    //넘기기 버튼 표시
+                wharehouse.Visibility = Visibility.Collapsed; //창고적재 버튼 숨김
+                CNS_Save.Visibility = Visibility.Visible; //CNS 레시피 저장버튼 표시
             }
             else //그외 업체
             {
                 Pass_detail.Visibility = Visibility.Collapsed; //넘기기 버튼 숨김
+                CNS_Save.Visibility = Visibility.Collapsed; //CNS 레시피 저장버튼 숨김
             }
             
             //오주포장 로봇 체크시
@@ -605,6 +601,8 @@ namespace PopProject.Detail
                 catch (Exception e)
                 {
                     mainSock.Close();
+                    MessageBox_Dialog msg = new MessageBox_Dialog("CNS PLC 연결 실패");
+                    msg.ShowDialog();
                 }
             }
         }
@@ -635,8 +633,336 @@ namespace PopProject.Detail
                 {
                     string high_data = RD.Substring(0, 2); //앞 두자리 추출
                     string low_data = RD.Substring(2, 2); //뒤 두자리 추출
-                    continuous_read += Convert.ToInt32(low_data + high_data, 16); //앞 뒤 자리바꾸고 10진수 변환
+
+                    switch (i)
+                    {
+                        case 0: //작업모델 번호
+                            itemModel.ModelNum = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 1: //작업지시 매수
+                            itemModel.WorkPlan1 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 2: //작업지시 매수
+                            itemModel.WorkPlan2 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 3: //박스타입
+                            itemModel.BoxType = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 4: //폭
+                            itemModel.Pock = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 5: //장
+                            itemModel.Jang = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 6: //고
+                            itemModel.Go = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 7: //갭
+                            itemModel.Gap = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 8: //앞날개
+                            itemModel.Wing = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 9: //미미
+                            itemModel.Cutting = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 10: //저장 완료
+                            itemModel.SaveDone = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 11: //생산속도
+                            itemModel.WorkSpeed = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 12: //저장값 쓰기 가능상태
+                            itemModel.SaveState = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 13: //spare
+                            itemModel.spare = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 14: //A
+                            itemModel.aRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 15: //B
+                            itemModel.bRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 16: //C
+                            itemModel.cRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 17: //D
+                            itemModel.dRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 18: //E
+                            itemModel.eRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 19: //F1
+                            itemModel.f1Recipe = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 20: //F2
+                            itemModel.f2Recipe = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 21: //G
+                            itemModel.g2pRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 22: //O
+                            itemModel.oRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 23: //P1
+                            itemModel.p1Recipe = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 24: //P2
+                            itemModel.p2pRecipe = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 25: //P3
+                            itemModel.p3Recipe = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 26: //P4
+                            itemModel.p4Recipe = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 27: //spare
+                            itemModel.spare2 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 28: //spare
+                            itemModel.spare3 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 29: //슬로타
+                            itemModel.Slotter = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 30: //타이캇타
+                            itemModel.DieCutter = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 31: //프린터1 풀 롤
+                            itemModel.PrinterPull1 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 32: //프린터1 프레스 롤
+                            itemModel.PrinterRoll1 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 33: //프린터2 풀 롤
+                            itemModel.PrinterPull2 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 34: //프린터2 프레스 롤
+                            itemModel.PrinterRoll2 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 35: //프린터3 풀 롤
+                            itemModel.PrinterPull3 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 36: //프린터3 프레스 롤
+                            itemModel.PrinterRoll3 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 37: //프린터4 풀 롤
+                            itemModel.PrinterPull4 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 38: //프린터 프레스 롤
+                            itemModel.PrinterRoll4 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 39: //spare
+                            itemModel.spare4 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 40: //spare
+                            itemModel.spare5 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 41: //spare
+                            itemModel.spare6 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 42: //spare
+                            itemModel.spare7 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 43: //피다진입 갭
+                            itemModel.FeederGap = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 44: //피타진입 롤
+                            itemModel.FeederRoll = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 45: //슬로타 보조쾌선 갭
+                            itemModel.SlotterSubGap = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 46: //슬로타 본(중간) 갭
+                            itemModel.SlotterMiddleGap = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 47: //슬로타 연결(배출) 갭
+                            itemModel.SlotterConnection = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 48: //다이캇타 롤 갭
+                            itemModel.DieCutterRollGap = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 49: //글루어벨트 진앱 갭 F1
+                            itemModel.GluerbeltF1 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 50: //글루어벨트 진앱 갭 F2
+                            itemModel.GluerbeltF2 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 51: //글루어 프레스롤 갭 A
+                            itemModel.GluerPressA = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 52: //글루어 프레스롤 갭 B
+                            itemModel.GluerPressB = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 53: //다이캇타 롤 갭A
+                            itemModel.DieCutterRollA = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 54: //다이캇타 롤 갭B
+                            itemModel.DieCutterRollB = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 55: //글루어 PE 가이드
+                            itemModel.GluerPE = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 56: //R/B 보조괘선 진입 롤
+                            itemModel.BRSub = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 57: //R/B 본괘선 중간 롤
+                            itemModel.BRMain = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 58: //R/B 연결 배출 롤
+                            itemModel.BRConnection = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 59: //R/B 연결 중간 롤
+                            itemModel.BRmiddle = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 60: //spare
+                            itemModel.spare8 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 61: //spare
+                            itemModel.spare9 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 62: //spare
+                            itemModel.spare10 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 63: //spare
+                            itemModel.spare11 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 64: //spare
+                            itemModel.spare12 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 65: //spare
+                            itemModel.spare13 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 66: //spare
+                            itemModel.spare14 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 67: //총생산량(하위) 
+                            itemModel.TotalCount1 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 68: //총생산량(상위)
+                            itemModel.TotalCount2 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 69: //현재생산량(하위)
+                            itemModel.Count1 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+                        case 70: //현재생산량(상위)
+                            itemModel.Count2 = Convert.ToInt32(low_data + high_data, 16).ToString();
+                            break;
+
+                        default:
+                            break;
+                    }
+                    continuous_read += Convert.ToInt32(low_data + high_data, 16) + "/"; //앞 뒤 자리바꾸고 10진수 변환
                     RD = RD.Substring(4); //변환 끝낸 4자리 데이터 자르기
+                }
+
+                Console.WriteLine("CNS수신 데이터(input) : " + continuous_read); //수신값 확인용
+
+
+                if (cnsProcessing)
+                {
+                    ReturnModel returnData = ServiceModel.GetData(
+                        Properties.Settings.Default.serverIndex,
+                        "[PopCNSUpdate]",
+                        new string[] {
+                            "@prodID",
+                            "@MachineName",
+                            "@ModelNum",
+                            "@WorkPlan1",
+                            "@WorkPlan2",
+                            "@BoxType",
+                            "@Pock",
+                            "@Jang",
+                            "@Go",
+                            "Gap",
+                            "@Wing",
+                            "@Cutting",
+                            "@SaveDone",
+                            "@WorkSpeed",
+                            "@SaveState",
+                            "@spare",
+                            "@aRecipe",
+                            "@bRecipe",
+                            "@cRecipe",
+                            "@dRecipe",
+                            "@eRecipe",
+                            "@f1Recipe",
+                            "@f2Recipe",
+                            "@g2pRecipe",
+                            "@oRecipe",
+                            "@p1Recipe",
+                            "@p2pRecipe",
+                            "@p3Recipe",
+                            "@p4Recipe",
+                            "@spare2",
+                            "@spare3",
+                            "@Slotter",
+                            "@DieCutter",
+                            "@PrinterPull1",
+                            "@PrinterRoll1",
+                            "@PrinterPull2",
+                            "@PrinterRoll2",
+                            "@PrinterPull3",
+                            "@PrinterRoll3",
+                            "@PrinterPull4",
+                            "@PrinterRoll4",
+                            "@spare4",
+                            "@spare5",
+                            "@spare6",
+                            "@spare7",
+                            "@FeederGap",
+                            "@FeederRoll",
+                            "@SlotterSubGap",
+                            "@SlotterMiddleGap",
+                            "@SlotterConnection",
+                            "@DieCutterRollGap",
+                            "@GluerbeltF1",
+                            "@GluerbeltF2",
+                            "@GluerPressA",
+                            "@GluerPressB",
+                            "@DieCutterRollA",
+                            "@DieCutterRollB",
+                            "@GluerPE",
+                            "@BRSub",
+                            "@BRMain",
+                            "@BRConnection",
+                            "@BRmiddle",
+                            "@spare8",
+                            "@spare9",
+                            "@spare10",
+                            "@spare11",
+                            "@spare12",
+                            "@spare13",
+                            "@spare14",
+                            "@TotalCount1",
+                            "@TotalCount2",
+                            "@Count1",
+                            "@Count2" },
+                        new object[] { this.mainModel.prodID, Properties.Settings.Default.mercName, itemModel.ModelNum, itemModel.WorkPlan1, itemModel.WorkPlan2, itemModel.BoxType,
+                                   itemModel.Pock, itemModel.Jang, itemModel.Go, itemModel.Gap, itemModel.Wing, itemModel.Cutting, itemModel.SaveDone, itemModel.WorkSpeed,
+                                   itemModel.SaveState, itemModel.spare, itemModel.aRecipe, itemModel.bRecipe, itemModel.cRecipe, itemModel.dRecipe, itemModel.eRecipe,
+                                   itemModel.f1Recipe, itemModel.f2Recipe, itemModel.g2pRecipe, itemModel.oRecipe, itemModel.p1Recipe, itemModel.p2pRecipe,
+                                   itemModel.p3Recipe, itemModel.p4Recipe, itemModel.spare2, itemModel.spare3, itemModel.Slotter, itemModel.DieCutter, itemModel.PrinterPull1,
+                                   itemModel.PrinterRoll1, itemModel.PrinterPull2, itemModel.PrinterRoll2, itemModel.PrinterPull3, itemModel.PrinterRoll3, itemModel.PrinterPull4,
+                                   itemModel.PrinterRoll4, itemModel.spare4, itemModel.spare5, itemModel.spare6, itemModel.spare7, itemModel.FeederGap, itemModel.FeederRoll,
+                                   itemModel.SlotterSubGap, itemModel.SlotterMiddleGap, itemModel.SlotterConnection, itemModel.DieCutterRollGap, itemModel.GluerbeltF1,
+                                   itemModel.GluerbeltF2, itemModel.GluerPressA, itemModel.GluerPressB, itemModel.DieCutterRollA, itemModel.DieCutterRollB, itemModel.GluerPE,
+                                   itemModel.BRSub, itemModel.BRMain, itemModel.BRConnection, itemModel.BRmiddle, itemModel.spare8, itemModel.spare9, itemModel.spare10,
+                                   itemModel.spare11, itemModel.spare12, itemModel.spare13, itemModel.spare14, itemModel.TotalCount1, itemModel.TotalCount2, itemModel.Count1,
+                                   itemModel.Count2 },
+                        1
+                        );
+
+                    if (returnData.결과 == 1)
+                    {
+                    }
+                    else
+                    {
+                    }
+
+                    cnsProcessing = false;
+                    MessageBoxResult result = System.Windows.MessageBox.Show("저장이 완료되었습니다", "CNS 데이터 저장");
                 }
 
                 obj.ClearBuffer();
@@ -1375,7 +1701,44 @@ namespace PopProject.Detail
 
                         };
 
-                        if(Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Equals("두성포장테스트"))
+
+                        
+                        if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
+                        {
+                            //프린트넘버에 CNS 넘버가 있어서 가져옴
+                            string CNS_No = result["PrintNo"].ToString(); //프린트 넘버
+
+                            if (Properties.Settings.Default.mercName.Equals("인라인1호기"))
+                            {
+                                Match match = Regex.Match(CNS_No, @"1호기\s*:\s*(\d+)"); // 정규식 패턴을 사용하여 "1호기 : " 이후의 숫자 값을 추출
+
+                                if (match.Success)
+                                {
+                                    string extractedValue = match.Groups[1].Value;
+                                    int CSN레시피번호 = int.Parse(extractedValue);
+                                }
+                            }
+                            else if (Properties.Settings.Default.mercName.Equals("인라인2호기"))
+                            {
+                                Match match = Regex.Match(CNS_No, @"1호기\s*:\s*(\d+)"); // 정규식 패턴을 사용하여 "2호기 : " 이후의 숫자 값을 추출
+
+                                if (match.Success)
+                                {
+                                    string extractedValue = match.Groups[1].Value;
+                                    int CSN레시피번호 = int.Parse(extractedValue);
+                                }
+                            }
+                        }
+                        else
+                        {
+
+                        }
+
+
+
+
+
+                        if (Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Equals("두성포장테스트"))
                         {
                             JToken token = result["LocationName"];
                             if (token != null)
@@ -1976,6 +2339,67 @@ namespace PopProject.Detail
         {
             Border clickedBorder = (Border)sender;
             clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#485563"));
+        }
+
+        //CNS 레시피 저장 버튼
+        private void CNS_Save_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Border clickedBorder = (Border)sender;
+            clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D353D"));
+
+            SingleWrite(); //현재 설정을 읽기 위해서는 D3814번에 0이 아닌 수를 넣어줘야함
+            CNSDataRead(); //CNS 데이터 읽기
+        }
+
+        //CNS 레시피 저장 버튼
+        private void CNS_Save_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Border clickedBorder = (Border)sender;
+            clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#485563"));
+        }
+
+        private void SingleWrite() //데이터를 읽기 위한 쓰기
+        {
+            CNS_Send = true;
+
+            ConnectSocket(); //CNS 통신 연결
+            Ls_Fenet wd = new Ls_Fenet(); //헤더
+            byte[] bDts2 = wd.single_Write("%DW3814", 02, 2); //개별쓰기 (변수명, 데이터 타입, 쓸 데이터값) 
+            mainSock.Send(bDts2); //데이터 쓰기
+            mainSock.Close();
+
+            CNS_Send = false;
+        }
+
+
+        bool cnsProcessing = false;
+        //데이터 수신 요청
+        private void CNSDataRead() //데이터 수신 요청
+        {
+            if (Properties.Settings.Default.Plc) //PLC 사용 체크일때
+            {
+                try
+                {
+                    ConnectSocket(); //CNS 통신 연결
+                    Ls_Fenet wd = new Ls_Fenet(); //헤더
+
+                    byte[] bDts = wd.Word_continuous_Read("%DB7804", 71); //연속읽기 D3902 ~ D3972 (71개)
+
+                    //송신한 데이터 값 보는용도
+                    string Send_Data = string.Empty;
+                    for (int i = 0; i < bDts.Length; i++)
+                    {
+                        Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
+                    }
+                    Console.WriteLine("CNS송신 데이터(Detail) : " + Send_Data);
+
+                    cnsProcessing = true;
+                    mainSock.Send(bDts); //데이터 쓰기
+                }
+                catch (Exception)
+                {
+                }
+            }
         }
     }
 }
