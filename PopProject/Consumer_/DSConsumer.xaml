@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PopProject.Consumer_"
         mc:Ignorable="d"
-        Title="DSConsumer" Height="890" Width="1230" WindowStyle="None" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" MouseLeftButtonDown="Window_MouseLeftButtonDown" Closed="consumClosed">
+        Title="DSConsumer" Height="1024" Width="1280" WindowStyle="None" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" MouseLeftButtonDown="Window_MouseLeftButtonDown" Closed="consumClosed">
 
     <Window.Resources>
         <local:IndexConverter x:Key="IndexConverter"/>
@@ -27,7 +27,7 @@
         <TextBlock x:Name="tbMercName" Margin="0,0,0,0" Text="실수요자 리스트" Foreground="White" Width="600" FontSize="35" TextAlignment="Center" Height="50" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="/font/#KoPubDotum Bold" ></TextBlock>
         <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_exit.png" Margin="0,0,5,0" MouseLeftButtonDown="Program_exit"/>
 
-        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_01.png" Margin="0,0,95,0" MouseLeftButtonDown="Remote_click"/>
+        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_01.png" Margin="0,0,107,0" MouseLeftButtonDown="Remote_click"/>
 
         <Border x:Name="box1"  BorderThickness="2" Background="White" CornerRadius="5" BorderBrush="#FF747474" Width="78" Height="70"   VerticalAlignment="Center"  Margin="941,19,193,20" MouseLeftButtonDown="이월">
             <TextBlock Text="이 월" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="/font/#KoPubDotum Bold" Foreground="#FF565656"/>
@@ -46,11 +46,19 @@
             <TextBlock Canvas.Left="500" Canvas.Top="11" FontSize="18" Text="생산량" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock Canvas.Left="600" Canvas.Top="11" FontSize="18" Text="결과량" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock Canvas.Left="850" Canvas.Top="11" FontSize="18" Text="비고" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock Canvas.Left="1124" Canvas.Top="11" FontSize="18" Text="상태" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock Canvas.Left="1104" Canvas.Top="11" FontSize="18" Text="상태" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
         </Canvas>
 
         <Border Grid.Row="2" Margin="5,10,5,5" BorderBrush="Black" BorderThickness="1,1,1,1" Background="WhiteSmoke" Focusable="False">
             <ScrollViewer VerticalScrollBarVisibility="Visible" x:Name="sv" PreviewMouseLeftButtonDown="ScrollViewer_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Sv_PreviewMouseLeftButtonUp" PreviewMouseMove="Sv_PreviewMouseMove">
+                <ScrollViewer.Resources>
+                    <Style TargetType="{x:Type ScrollBar}">
+                        <Setter Property="Width" Value="60" />
+                        <!-- Set the width you desire here -->
+                    </Style>
+                </ScrollViewer.Resources>
+
+
                 <ItemsControl x:Name="ic" Grid.Row="3" Focusable="False"  AlternationCount="1000">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -86,7 +94,7 @@
                                 <TextBlock Width="360" TextAlignment="Center" Canvas.Left="670" Canvas.Top="28" FontSize="18" Text="{Binding Memo}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
                                 <Border Canvas.Left="1035" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
                                 <!--상태-->
-                                <Image Canvas.Left="1045" Canvas.Top="2" Width="130" Height="73" Source="{Binding imgSource}" PreviewMouseLeftButtonDown="Image_MouseDown" ></Image>
+                                <Image Canvas.Left="1050" Canvas.Top="2" Width="130" Height="73" Source="{Binding imgSource}" PreviewMouseLeftButtonDown="Image_MouseDown" ></Image>
                                 <Border BorderBrush="#2c3e50" BorderThickness="0,0,0,1" Width="1300" Canvas.Bottom="0"></Border>
 
                             </Canvas>

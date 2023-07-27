@@ -277,7 +277,7 @@ namespace PopProject.Detail
             string data = "";
             switch (Convert.ToInt32(WriteData6.Text))
             {
-                case 1:
+                case 11:
                     data = WriteData6.Text;
                     if (data.Equals("11"))
                     {
@@ -290,7 +290,7 @@ namespace PopProject.Detail
 
                     break;
 
-                case 2:
+                case 21:
                     data = WriteData6.Text;
                     if (data.Equals("21"))
                     {
@@ -302,7 +302,7 @@ namespace PopProject.Detail
                     }
                     break;
 
-                case 3:
+                case 31:
                     data = WriteData6.Text;
                     if (data.Equals("31"))
                     {
@@ -314,7 +314,7 @@ namespace PopProject.Detail
                     }
                     break;
 
-                case 4:
+                case 32:
                     data = WriteData6.Text;
                     if (data.Equals("32"))
                     {
@@ -326,7 +326,7 @@ namespace PopProject.Detail
                     }
                     break;
 
-                case 5:
+                case 41:
                     data = WriteData6.Text;
                     if (data.Equals("41"))
                     {
@@ -338,7 +338,7 @@ namespace PopProject.Detail
                     }
                     break;
 
-                case 6:
+                case 42:
                     data = WriteData6.Text;
                     if (data.Equals("42"))
                     {
@@ -350,7 +350,7 @@ namespace PopProject.Detail
                     }
                     break;
 
-                case 7:
+                case 51:
                     data = WriteData6.Text;
                     if (data.Equals("51"))
                     {
@@ -362,7 +362,7 @@ namespace PopProject.Detail
                     }
                     break;
 
-                case 8:
+                case 61:
                     data = WriteData6.Text;
                     if (data.Equals("61"))
                     {
@@ -374,7 +374,7 @@ namespace PopProject.Detail
                     }
                     break;
 
-                case 9:
+                case 62:
                     data = WriteData6.Text;
                     if (data.Equals("62"))
                     {
@@ -386,7 +386,7 @@ namespace PopProject.Detail
                     }
                     break;
 
-                case 10:
+                case 71:
                     data = WriteData6.Text;
                     if (data.Equals("71"))
                     {
@@ -398,7 +398,7 @@ namespace PopProject.Detail
                     }
                     break;
 
-                case 11:
+                case 81:
                     data = WriteData6.Text;
                     if (data.Equals("81"))
                     {

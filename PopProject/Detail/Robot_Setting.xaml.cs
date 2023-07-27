@@ -99,6 +99,7 @@ namespace PopProject.Detail
             DataStartRead();
         }
 
+
         private void DataStartRead()
         {
             //ConnectSocket에 "S" 호출하여 소켓 오픈시
@@ -108,7 +109,6 @@ namespace PopProject.Detail
 
                 patSock.Send(bDts); //읽기 dycjd
             }
-
         }
 
         //데이터 수신 요청
@@ -133,7 +133,6 @@ namespace PopProject.Detail
                 {
                     int port = int.Parse(Properties.Settings.Default.robotPort);
                     IAsyncResult result = patSock.BeginConnect(Properties.Settings.Default.robotIP, port, null, null);
-                    //IAsyncResult result = patSock.BeginConnect("192.168.7.7", port, null, null);
                     success = result.AsyncWaitHandle.WaitOne(500, true);
 
                     if (success)
@@ -142,6 +141,7 @@ namespace PopProject.Detail
                         AsyncObject obj = new AsyncObject(150);
                         obj.WorkingSocket = mainSock;
                         obj.ClearBuffer();
+
                         switch (flag)
                         {
                             case "S":
@@ -152,9 +152,7 @@ namespace PopProject.Detail
                                 patSock.BeginReceive(obj.Buffer, 0, obj.BufferSize, 0, DataReceivedP, obj);
                                 break;
                         }
-
                     }
-
                 }
             }
             else
@@ -294,6 +292,8 @@ namespace PopProject.Detail
             // 수신 대기
             // obj.WorkingSocket.BeginReceive(obj.Buffer, 0, 2000, 0, DataReceived, obj);
         }
+
+
         public void DataReceivedS(IAsyncResult ar) // 데이터 수신
         {
             // BeginReceive에서 추가적으로 넘어온 데이터를 AsyncObject 형식으로 변환한다.
@@ -322,23 +322,12 @@ namespace PopProject.Detail
                 continuous_read += new String(Convert.ToString(Convert.ToInt32(low_data + high_data, 16), 2).PadLeft(16, pad).Reverse().ToArray()); // 2진수 변환 후 빈공간0처리
                 RD = RD.Substring(4); //변환 끝낸 4자리 데이터 자르기
             }
-
-            ///MessageBox_Dialog msg = new MessageBox_Dialog(continuous_read.ToString());
-            // msg.ShowDialog();//수신 데이터값 보기
-
-            //개별읽기
-            //string RD = Receive_Data.Substring(64); //앞에 데이터 지우고 데이터 정보부터 읽음
-            //string high_data = RD.Substring(0, 2); //앞 두자리 추출
-            //string low_data = RD.Substring(2, 2); //뒤 두자리 추출
-            //int single_read = Convert.ToInt32(low_data + high_data, 16); //앞 뒤 자리바꾸고 10진수 변환
-            //MessageBox.Show(single_read.ToString()); //수신 데이터값 보기
-
-            // 데이터를 받은 후엔 다시 버퍼를 비워주고 같은 방법으로 수신을 대기한다.
-
             Console.WriteLine("패턴데이터 : " + continuous_read.FirstOrDefault().ToString());
+
             string patdata = continuous_read.Substring(16, 1);
             string startpat = continuous_read.Substring(17, 1);
             string pat_d = continuous_read.Substring(0, 16);
+
             Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
             {
                 if (startpat.Equals("1"))
@@ -370,13 +359,13 @@ namespace PopProject.Detail
                     pat_grid3.Visibility = Visibility.Collapsed;
                     pat_span.Visibility = Visibility.Visible;
                 }
+
                 if (!WriteData6.Equals("") || !WriteData6.Equals("0"))
                 {
                     switch (WriteData6.Text)
                     {
                         case "1":
-                            boximage.Source = new BitmapImage(new Uri(@"/img/box1.png", UriKind.Relative));
-                            break;
+                            boximage.Source = new BitmapImage(new Uri(@"/img/box1.png", UriKind.Relative)); break;
                         case "2"://
                             boximage.Source = new BitmapImage(new Uri(@"/img/box2.png", UriKind.Relative)); break;
                         case "3"://
@@ -413,26 +402,6 @@ namespace PopProject.Detail
                     }
                 }
 
-
-                //{
-                //if (!WriteData6.Equals("") || !WriteData6.Equals("0"))
-                //{
-
-                //    switch (WriteData6.Text)
-                //    {
-                //        case "6":
-                //            box1.Visibility = Visibility.Collapsed;
-                //            box2.Visibility = Visibility.Collapsed;
-                //            box3.Visibility = Visibility.Collapsed;
-                //            box4.Visibility = Visibility.Collapsed;
-                //            box5.Visibility = Visibility.Collapsed;
-                //            pat_grid1.Visibility = Visibility.Visible;
-                //            pat_span.Visibility = Visibility.Collapsed;
-                //            box6.Visibility = Visibility.Visible;
-                //            break;
-                //    }
-                //}
-
                 for (int i = 0; i < pat_d.Length; i++)
                 {
                     string data = "";
@@ -440,180 +409,82 @@ namespace PopProject.Detail
                     {
                         case 0:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box1.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box1.Background = Brushes.White;
-                            }
-
+                            box1.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
+
                         case 1:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box2.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box2.Background = Brushes.White;
-                            }
+                            box2.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
+
                         case 2:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box3.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box3.Background = Brushes.White;
-                            }
+                            box3.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
+
                         case 3:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box4.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box4.Background = Brushes.White;
-                            }
+                            box4.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
+
                         case 4:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box5.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box5.Background = Brushes.White;
-                            }
+                            box5.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
+
                         case 5:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box6.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box6.Background = Brushes.White;
-                            }
+                            box6.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
+
                         case 6:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box7.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box7.Background = Brushes.White;
-                            }
+                            box7.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
+
                         case 7:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box8.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box8.Background = Brushes.White;
-                            }
+                            box8.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
+
                         case 8:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box9.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box9.Background = Brushes.White;
-                            }
+                            box9.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
+
                         case 9:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box10.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box10.Background = Brushes.White;
-                            }
+                            box10.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
+
                         case 10:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box11.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box11.Background = Brushes.White;
-                            }
+                            box11.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
+
                         case 11:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box12.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box12.Background = Brushes.White;
-                            }
+                            box12.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
+
                         case 12:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box13.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box13.Background = Brushes.White;
-                            }
+                            box13.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
+
                         case 13:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box14.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box14.Background = Brushes.White;
-                            }
+                            box14.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
+
                         case 14:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box15.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box15.Background = Brushes.White;
-                            }
+                            box15.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
+
                         case 15:
                             data = pat_d.Substring(i, 1);
-                            if (data.Equals("1"))
-                            {
-                                box16.Background = Brushes.Green;
-                            }
-                            else
-                            {
-                                box16.Background = Brushes.White;
-                            }
+                            box16.Background = data.Equals("1") ? Brushes.Green : Brushes.White;
                             break;
                     }
                 }
@@ -621,17 +492,12 @@ namespace PopProject.Detail
 
             obj.ClearBuffer();
             patSock.Close();
-            // 수신 대기
-            // obj.WorkingSocket.BeginReceive(obj.Buffer, 0, 2000, 0, DataReceived, obj);
         }
 
         public void DataReceived1(IAsyncResult ar) // 데이터 수신
         {
-
             try
             {
-
-
                 // BeginReceive에서 추가적으로 넘어온 데이터를 AsyncObject 형식으로 변환한다.
                 AsyncObject obj = (AsyncObject)ar.AsyncState;
 
@@ -658,17 +524,6 @@ namespace PopProject.Detail
                     RD = RD.Substring(4); //변환 끝낸 4자리 데이터 자르기
                 }
 
-                ///MessageBox_Dialog msg = new MessageBox_Dialog(continuous_read.ToString());
-                // msg.ShowDialog();//수신 데이터값 보기
-
-                //개별읽기
-                //string RD = Receive_Data.Substring(64); //앞에 데이터 지우고 데이터 정보부터 읽음
-                //string high_data = RD.Substring(0, 2); //앞 두자리 추출
-                //string low_data = RD.Substring(2, 2); //뒤 두자리 추출
-                //int single_read = Convert.ToInt32(low_data + high_data, 16); //앞 뒤 자리바꾸고 10진수 변환
-                //MessageBox.Show(single_read.ToString()); //수신 데이터값 보기
-
-                // 데이터를 받은 후엔 다시 버퍼를 비워주고 같은 방법으로 수신을 대기한다.
                 Console.WriteLine(continuous_read.Substring(0, 36).ToString());
                 obj.ClearBuffer();
             }
@@ -681,7 +536,8 @@ namespace PopProject.Detail
             mainSock.Close();
         }
 
-        public static void DataReceivedP(IAsyncResult ar) // 데이터 수신
+        // 패턴 데이터 수신
+        public static void DataReceivedP(IAsyncResult ar) 
         {
             // BeginReceive에서 추가적으로 넘어온 데이터를 AsyncObject 형식으로 변환한다.
             AsyncObject obj = (AsyncObject)ar.AsyncState;
@@ -715,6 +571,7 @@ namespace PopProject.Detail
 
         }
 
+        //DB 조회하여 화면에 표시
         private void serchRobotData()
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -768,9 +625,8 @@ namespace PopProject.Detail
             {
                 switch (WriteData6.Text)
                 {
-                    case "1":
-                        boximage.Source = new BitmapImage(new Uri(@"/img/box1.png", UriKind.Relative));
-                        break;
+                    case "1"://
+                        boximage.Source = new BitmapImage(new Uri(@"/img/box1.png", UriKind.Relative)); break;
                     case "2"://
                         boximage.Source = new BitmapImage(new Uri(@"/img/box2.png", UriKind.Relative)); break;
                     case "3"://
@@ -806,10 +662,9 @@ namespace PopProject.Detail
                         break;
                 }
             }
-
-
         }
 
+        //닫기
         private void Exit_window(object sender, MouseButtonEventArgs e)
         {
             try
@@ -827,7 +682,6 @@ namespace PopProject.Detail
 
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
         }
 
         private void Drag(object sender, MouseButtonEventArgs e)
@@ -835,19 +689,19 @@ namespace PopProject.Detail
             DragMove();
         }
 
-
+        //키인으로 예정데이터 입력시 발생 이벤트
         private void Input_data(object sender, MouseButtonEventArgs e)
         {
             if (sender.GetType().Name.Equals("TextBox"))
             {
                 TextBox context = (TextBox)sender;
-
                 Win_KeyBoard keyBoard = new Win_KeyBoard(context)
                 {
                     Left = SystemParameters.WorkArea.Width - SystemParameters.WorkArea.Width + 950,
                     Top = (SystemParameters.WorkArea.Height / 2) - this.Top
                 };
                 keyBoard.ShowDialog();
+
                 int value;
                 MessageBox_Dialog msg;
                 switch (((TextBox)sender).Name)
@@ -861,8 +715,8 @@ namespace PopProject.Detail
                             msg.Show();
                             WriteData1.Text = "0";
                         }
-
                         break;
+
                     case "WriteData2":
                     case "ReadData2":
                         value = int.Parse(WriteData2.Text.ToString());
@@ -872,8 +726,8 @@ namespace PopProject.Detail
                             msg.Show();
                             WriteData2.Text = "0";
                         }
-
                         break;
+
                     case "WriteData3":
                     case "ReadData3":
                         value = int.Parse(WriteData3.Text.ToString());
@@ -883,8 +737,8 @@ namespace PopProject.Detail
                             msg.Show();
                             WriteData3.Text = "0";
                         }
-
                         break;
+
                     case "WriteData4":
                     case "ReadData4":
                         value = int.Parse(WriteData4.Text.ToString());
@@ -894,8 +748,8 @@ namespace PopProject.Detail
                             msg.Show();
                             WriteData4.Text = "0";
                         }
-
                         break;
+
                     case "WriteData5":
                     case "ReadData5":
                         value = int.Parse(WriteData5.Text.ToString());
@@ -905,7 +759,6 @@ namespace PopProject.Detail
                             msg.Show();
                             WriteData5.Text = "0";
                         }
-
                         break;
 
                     case "WriteData7":
@@ -917,10 +770,11 @@ namespace PopProject.Detail
                             msg.Show();
                             WriteData7.Text = "0";
                         }
-
                         break;
+
                     case "WriteData8":
                     case "ReadData8":
+
                         value = int.Parse(WriteData8.Text.ToString());
                         if (value < 700 || value > 1500)
                         {
@@ -928,8 +782,8 @@ namespace PopProject.Detail
                             msg.Show();
                             WriteData8.Text = "0";
                         }
-
                         break;
+
                     case "WriteData9":
                     case "ReadData9":
                         value = int.Parse(WriteData9.Text.ToString());
@@ -939,13 +793,12 @@ namespace PopProject.Detail
                             msg.Show();
                             WriteData9.Text = "0";
                         }
-
                         break;
                 }
             }
-
         }
 
+        //로봇 현재 테이터를 DB에 저장
         private void Save_robotdata(object sender, RoutedEventArgs e)
         {
             MessageBox_Dialog msg;
@@ -979,16 +832,16 @@ namespace PopProject.Detail
                 msg = new MessageBox_Dialog("저장 실패");
                 msg.Show();
             }
-
         }
 
+        //IP 세팅 창 팝업
         private void IP_setting(object sender, MouseButtonEventArgs e)
         {
             IP_Setting ip = new IP_Setting();
             ip.Show();
-
         }
 
+        //로봇으로 예정 데이터 전송
         private void Data_Send(object sender, RoutedEventArgs e)
         {
             MessageBox_Dialog msg;
@@ -997,37 +850,27 @@ namespace PopProject.Detail
             {
                 try
                 {
-
-
                     List<int> items = new List<int>();
                     items.Add(int.Parse(WriteData1.Text)); //박스가로
-                    items.Add(int.Parse(WriteData2.Text));  //박스세로 
-                    items.Add(int.Parse(WriteData3.Text));  // 박스높이
-                    items.Add(int.Parse(WriteData4.Text));  // 다단
-                    items.Add(int.Parse(WriteData5.Text));  // 단수
+                    items.Add(int.Parse(WriteData2.Text)); //박스세로 
+                    items.Add(int.Parse(WriteData3.Text)); //박스높이
+                    items.Add(int.Parse(WriteData4.Text)); //다단
+                    items.Add(int.Parse(WriteData5.Text)); //단수
                     items.Add(int.Parse(WriteData6.Text)); //패턴
                     items.Add(int.Parse(WriteData7.Text)); //파렛트가로
                     items.Add(int.Parse(WriteData8.Text)); //파렛트세로
                     items.Add(int.Parse(WriteData9.Text)); //파렛트높이
-
-
                     int WriteCount = items.Count() * 2;
+
                     byte[] bDts = wd.continuous_Write("%DB1200", WriteCount, items);
-                    // byte[] bDts = wd.Byte_continuous_Read("D", "312", 2);
                     string Send_Data = string.Empty;
 
-                    //for (int i = 0; i < bDts.Length; i++)
-                    //{
-                    //    Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
-                    //}
-
-                    //Console.WriteLine("전송 데이터 : " + Send_Data);
+                    //데이터 리미트 체크
                     if (dataCheck())
                     {
                         mainSock.Send(bDts); //데이터 쓰기
 
                         msg = new MessageBox_Dialog("전송되었습니다.");
-
                         msg.Show();
                     }
                     else
@@ -1035,8 +878,6 @@ namespace PopProject.Detail
                         msg = new MessageBox_Dialog("전송 예정 데이터를 확인 해 주세요");
                         msg.Show();
                     }
-
-
                 }
                 catch (Exception)
                 {
@@ -1047,27 +888,7 @@ namespace PopProject.Detail
                 finally
                 {
                     mainSock.Close();
-
-
-
                 }
-                //if (WriteData6.Text.ToString().Equals("0"))
-                //{
-                //    Thread.Sleep(1000);
-                //    if (ConnectSocket("P"))
-                //    {
-                //        byte[] bDts = wd.Byte_continuous_Read("D", "312", 2);
-                //        string Send_Data = string.Empty;
-                //        for (int i = 0; i < bDts.Length; i++)
-                //        {
-                //            Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
-                //        }
-                //        Console.WriteLine(Send_Data);
-
-                //        patSock.Send(bDts);
-                //    }
-
-                //}
             }
             else
             {
@@ -1075,10 +896,9 @@ namespace PopProject.Detail
                 msg = new MessageBox_Dialog("Plc 연결 불가");
                 msg.ShowDialog();
             }
-
-
         }
 
+        //데이터 리미트 체크
         private bool dataCheck()
         {
             bool check = false;
@@ -1092,33 +912,33 @@ namespace PopProject.Detail
             int value8 = int.Parse(WriteData8.Text.ToString());
             int value9 = int.Parse(WriteData9.Text.ToString());
             check = value1 >= 350 && value1 <= 1400 &&
-                value2 >= 250 && value2 <= 1200 &&
-                value3 >= 50 && value3 <= 350 &&
-                value4 >= 1 && value4 <= 2 &&
-                value5 >= 1 && value5 <= 25 &&
-                value7 >= 700 && value7 <= 1200 &&
-                value8 >= 700 && value8 <= 1500 &&
-                value9 >= 90 && value9 <= 150 &&
-                value3 * value5 < 2200
-
-                ;
+                    value2 >= 250 && value2 <= 1200 &&
+                    value3 >= 50  && value3 <= 350  &&
+                    value4 >= 1   && value4 <= 2    &&
+                    value5 >= 1   && value5 <= 25   &&
+                    value7 >= 700 && value7 <= 1200 &&
+                    value8 >= 700 && value8 <= 1500 &&
+                    value9 >= 90  && value9 <= 150  &&
+                    value3 * value5 < 2200;
 
             return check;
-
         }
 
+        //시작버튼
         private void start_button(object sender, RoutedEventArgs e)
         {
             MessageBox_Dialog msg;
             if (startFlag)
             {
+                //D613.0에 Pulse
                 if (ConnectSocket("W"))
                 {
                     byte[] bDts = wd.Word_single_Write("%DW613", 02, 1);
                     mainSock.Send(bDts);
                 }
 
-                Thread.Sleep(1000);
+                Thread.Sleep(1000); //1초 딜레이
+
                 if (ConnectSocket("W"))
                 {
                     byte[] bDts = wd.Word_single_Write("%DW613", 02, 0);
@@ -1438,6 +1258,7 @@ namespace PopProject.Detail
             }
         }
 
+        //예정데이터를 현재데이터로 변경
         private void Data_Move(object sender, RoutedEventArgs e)
         {
             MessageBox_Dialog msg;

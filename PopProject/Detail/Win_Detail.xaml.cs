@@ -97,8 +97,8 @@ namespace PopProject.Detail
                 CNS_Save.Visibility = Visibility.Collapsed; //CNS 레시피 저장버튼 숨김
             }
             
-            //오주포장 로봇 체크시
-            if (Properties.Settings.Default.corp_name.Equals("오주포장") && Properties.Settings.Default.robotchecked)
+            //오주포장 로봇 체크시 로봇 제어창 팝업
+            if (Properties.Settings.Default.corp_name.Equals("오주포장") && Properties.Settings.Default.robotchecked && Barcode_Enter)
             {
                 serchRobotData();
             }
@@ -966,7 +966,6 @@ namespace PopProject.Detail
                 }
 
                 obj.ClearBuffer();
-
             }
             catch (Exception)
             {
@@ -979,6 +978,7 @@ namespace PopProject.Detail
         }
 
 
+        //로봇데이터 DB조회
         private void serchRobotData()
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -1132,8 +1132,9 @@ namespace PopProject.Detail
                     items.Add(int.Parse(pALLET_W));  //파렛트가로
                     items.Add(int.Parse(pALLET_H));  //파렛트세로
                     items.Add(int.Parse(pALLET_D));  //파렛트높이
-
                     int WriteCount = items.Count() * 2;
+
+                    //D600부터 데이터 전송
                     byte[] bDts = wd.continuous_Write("%DB1200", WriteCount, items);
                     // byte[] bDts = wd.Byte_continuous_Read("D", "312", 2);
                     string Send_Data = string.Empty;
@@ -1147,8 +1148,6 @@ namespace PopProject.Detail
 
                     mainSock.Send(bDts); //데이터 쓰기
 
-                   // msg = new MessageBox_Dialog("전송되었습니다.");
-                   // msg.Show();
                 }
                 catch (Exception)
                 {
