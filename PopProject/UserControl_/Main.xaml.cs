@@ -49,6 +49,7 @@ namespace PopProject.UserControl_
         public static Robot_Setting2 robot_Setting2 = null;
         public ObservableCollection<MainModel> workList;
         public ObservableCollection<MainModel> workList1;
+        public ObservableCollection<MainModel> MachineCheck;
         public static Consumer consumer_;
         public static MainModel production = null;
         private int minuite = 0;
@@ -159,6 +160,22 @@ namespace PopProject.UserControl_
                     sv.PreviewMouseLeftButtonUp += Sv_PreviewMouseLeftButtonUp;
                     sv.PreviewMouseMove += Sv_PreviewMouseMove;
                 }
+
+                //설비점검 버튼 유/무
+
+                //if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트") || Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+                //{
+                //    TextBlock tb계획순서변경 = this.계획순서변경;
+                //    tb계획순서변경.Margin = new Thickness(850, 10, 0, 0);
+
+                //    TextBlock tb설비점검 = this.설비점검;
+                //    tb설비점검.Margin = new Thickness(850, 60, 0, 0);
+
+                //    설비점검.Visibility = Visibility.Visible;
+                //}
+                //else
+                //{
+                //}
 
                 //인터넷 연결 확인
                 bool connected = NetworkInterface.GetIsNetworkAvailable();
@@ -597,6 +614,7 @@ namespace PopProject.UserControl_
 
 
         private bool isEventTriggered = false; //리스트 조회
+        bool 설비점검중 = false;
         //시계 타이머
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -636,9 +654,16 @@ namespace PopProject.UserControl_
                 }
             }
 
-            //바코드
-            _ = tbBarcode.Focus();
-            tbBarcode.SelectAll();
+            //대세,광성은 바코드 동작 x
+            if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("광성수출포장"))
+            {
+            }
+            else
+            {
+                //바코드
+                _ = tbBarcode.Focus();
+                tbBarcode.SelectAll();
+            }
 
             //1분마다 실행
             if (minuite1 == 60)
@@ -1134,15 +1159,6 @@ namespace PopProject.UserControl_
                         else
                         {
                             listitem.WDBJCount = "발주   " + string.Format("{0:n0}", result["WDBJCount"]);
-                            //int a = int.Parse(result["WDIGCount"].ToString());
-                            //if (a == 0) {
-
-                            //    listitem.WDIGCount = result["metCustomSName"].ToString();
-                            //}
-                            //else
-                            //{
-                            //    listitem.WDIGCount = "입고   " + string.Format("{0:n0}", result["WDIGCount"]);
-                            //}
                             listitem.WDIGCount = "입고   " + string.Format("{0:n0}", result["WDIGCount"]);
                             if (result["WDIGCount"].ToString().Equals("0") && !result["WDBJCount"].ToString().Equals("0"))
                             {
@@ -1392,22 +1408,22 @@ namespace PopProject.UserControl_
                                         case "11":
                                             item = result["PackType"].ToString();
                                             break;
-                                        case "14":
+                                        case "12":
                                             item = result["workMemo"].ToString();
                                             break;
-                                        case "15":
+                                        case "13":
                                             item = result["pplanMemo"].ToString();
                                             break;
-                                        case "16":
-                                            item = result["ProcessMemo"].ToString();
-                                            break;
-                                        case "17":
+                                        case "14":
                                             item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
                                                    ? "-"
                                                    : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
                                             break;
-                                        case "18":
+                                        case "15":
                                             item = result["PalletType"].ToString();
+                                            break;
+                                        case "16":
+                                            item = result["SpecialMemo"].ToString();
                                             break;
 
                                         default:
@@ -1522,22 +1538,22 @@ namespace PopProject.UserControl_
                                         case "11":
                                             item = result["PackType"].ToString();
                                             break;
-                                        case "14":
+                                        case "12":
                                             item = result["workMemo"].ToString();
                                             break;
-                                        case "15":
+                                        case "13":
                                             item = result["pplanMemo"].ToString();
                                             break;
-                                        case "16":
-                                            item = result["ProcessMemo"].ToString();
-                                            break;
-                                        case "17":
+                                        case "14":
                                             item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
                                                ? "-"
                                                : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
                                             break;
-                                        case "18":
+                                        case "15":
                                             item = result["PalletType"].ToString();
+                                            break;
+                                        case "16":
+                                            item = result["SpecialMemo"].ToString();
                                             break;
 
                                         default:
@@ -1650,22 +1666,22 @@ namespace PopProject.UserControl_
                                         case "11":
                                             item = result["PackType"].ToString();
                                             break;
-                                        case "14":
+                                        case "12":
                                             item = result["workMemo"].ToString();
                                             break;
-                                        case "15":
+                                        case "13":
                                             item = result["pplanMemo"].ToString();
                                             break;
-                                        case "16":
-                                            item = result["ProcessMemo"].ToString();
-                                            break;
-                                        case "17":
+                                        case "14":
                                             item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
                                                ? "-"
                                                : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
                                             break;
-                                        case "18":
+                                        case "15":
                                             item = result["PalletType"].ToString();
+                                            break;
+                                        case "16":
+                                            item = result["SpecialMemo"].ToString();
                                             break;
 
                                         default:
@@ -1781,22 +1797,22 @@ namespace PopProject.UserControl_
                                             case "11":
                                                 item = result["PackType"].ToString();
                                                 break;
-                                            case "14":
+                                            case "12":
                                                 item = result["workMemo"].ToString();
                                                 break;
-                                            case "15":
+                                            case "13":
                                                 item = result["pplanMemo"].ToString();
                                                 break;
-                                            case "16":
-                                                item = result["ProcessMemo"].ToString();
-                                                break;
-                                            case "17":
+                                            case "14":
                                                 item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
                                                 ? "-"
                                                 : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
                                                 break;
-                                            case "18":
+                                            case "15":
                                                 item = result["PalletType"].ToString();
+                                                break;
+                                            case "16":
+                                                item = result["SpecialMemo"].ToString();
                                                 break;
 
                                             default:
@@ -1855,6 +1871,7 @@ namespace PopProject.UserControl_
                                 }
                             }
                         }
+
                         //일반 공정
                         else
                         {
@@ -1904,22 +1921,22 @@ namespace PopProject.UserControl_
                                             case "11":
                                                 item = result["PackType"].ToString();
                                                 break;
-                                            case "14":
+                                            case "12":
                                                 item = result["workMemo"].ToString();
                                                 break;
-                                            case "15":
+                                            case "13":
                                                 item = result["pplanMemo"].ToString();
                                                 break;
-                                            case "16":
-                                                item = result["ProcessMemo"].ToString();
-                                                break;
-                                            case "17":
+                                            case "14":
                                                 item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
                                                 ? "-"
                                                 : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
                                                 break;
-                                            case "18":
+                                            case "15":
                                                 item = result["PalletType"].ToString();
+                                                break;
+                                            case "16":
+                                                item = result["SpecialMemo"].ToString();
                                                 break;
 
                                             default:
@@ -2024,23 +2041,24 @@ namespace PopProject.UserControl_
                                             case "11":
                                                 item = result["PackType"].ToString();
                                                 break;
-                                            case "14":
+                                            case "12":
                                                 item = result["workMemo"].ToString();
                                                 break;
-                                            case "15":
+                                            case "13":
                                                 item = result["pplanMemo"].ToString();
                                                 break;
-                                            case "16":
-                                                item = result["ProcessMemo"].ToString();
-                                                break;
-                                            case "17":
+                                            case "14":
                                                 item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
                                                ? "-"
                                                : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
                                                 break;
-                                            case "18":
+                                            case "15":
                                                 item = result["PalletType"].ToString();
                                                 break;
+                                            case "16":
+                                                item = result["SpecialMemo"].ToString();
+                                                break;
+
                                             default:
                                                 break;
                                         }
@@ -2757,14 +2775,18 @@ namespace PopProject.UserControl_
             }
         }
 
+        int Barcode_Scan = 0;
         //바코드 읽기
         private void TbBarcode_KeyDown(object sender, KeyEventArgs e)
         {
+            Barcode_Scan++;
+
             MainModel tempItem = null;
 
             CNS_Barcode_Send = false;
             string code = tbBarcode.Text; //바코드 값 저장 
             _ = int.TryParse(code, out int pCode); //바코드 값  정수로 변환
+
 
             //바코드 정보 있으면
             if (pCode > 0)
@@ -2774,20 +2796,22 @@ namespace PopProject.UserControl_
                 {
                     tempItem = workList.FirstOrDefault(x => x.orderKey == pCode.ToString());
                 }
-                else
-                {
-                    MessageBox_Dialog box = new MessageBox_Dialog("일치하는 생산 계획건이 없습니다.");
-                    _ = box.ShowDialog();
-                }
             }
-            else
+
+            //일치하는 계획이 없으면 실행
+            if (Barcode_Scan == 11 && tempItem == null)
             {
-                MessageBox_Dialog box = new MessageBox_Dialog("일치하는 생산 계획건이 없습니다.");
+                Barcode_Scan = 0;
+
+                MessageBox_Dialog box = new MessageBox_Dialog("일치하는 생산 계획이 없습니다.");
                 _ = box.ShowDialog();
             }
 
+            //일치하는 계획건 찾으면 실행
             if (tempItem != null)
             {
+                Barcode_Scan = 0;
+
                 tbBarcode.Text = "";
                 can.Visibility = Visibility.Visible;
                 string special = "";
@@ -2802,10 +2826,7 @@ namespace PopProject.UserControl_
                 try
                 {
                     //PLC 사용시 
-                    if (Properties.Settings.Default.Plc)
-                    {
-                        CNS_Barcode_Send = true;
-                    }
+                    CNS_Barcode_Send = Properties.Settings.Default.Plc ? true : false;
 
                     Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, Properties.Settings.Default.detail_check, CNS_Barcode_Send);
                     _ = win_Detail.ShowDialog();
@@ -2833,8 +2854,8 @@ namespace PopProject.UserControl_
                 }
                 can.Visibility = Visibility.Collapsed;
             }
-            e.Handled = false;
 
+            e.Handled = false;
         }
 
         private void BarcodeCheck()
@@ -3177,6 +3198,14 @@ namespace PopProject.UserControl_
             ResultSearchDate(); //결과 조회
         }
 
+        //설비점검 클릭
+        private void Machine_Check(object sender, MouseButtonEventArgs e)
+        {
+           
+
+            MachineCheck machineCheck = new MachineCheck();
+            machineCheck.Show();
+        }
     }
 
 

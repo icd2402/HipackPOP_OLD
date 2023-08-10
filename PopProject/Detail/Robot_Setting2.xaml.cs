@@ -91,21 +91,24 @@ namespace PopProject.Detail
             int StationNumber = int.Parse(Properties.Settings.Default.robotPort);
             try
             {
+                //통신 셋팅
                 ActUtlType = new ActUtlTypeLib.ActUtlType();
                 ActUtlType.ActLogicalStationNumber = StationNumber; //PLC 국번
 
+                //1초마다 실시간 통신
                 Read_Timer = new System.Timers.Timer();
                 Read_Timer.Interval = 1000;
                 Read_Timer.Elapsed += Read_Timer_Tick;
 
-
-                if (ActUtlType.Open().Equals(0)) //미쯔비시 통신 오픈 요청
+                //미쯔비시 통신 오픈 요청
+                if (ActUtlType.Open().Equals(0)) 
                 {
                     PLC_Connection = true;
                     Read_Timer.Start();
                     State3.BorderBrush = Brushes.Green; //통신 상태
                 }
-                else //실패시
+                //실패시
+                else
                 {
                     ActUtlType.Close();
                     Read_Timer.Stop();
@@ -121,18 +124,20 @@ namespace PopProject.Detail
 
         }
 
-        public void Read_Timer_Tick(object sender, System.Timers.ElapsedEventArgs e) //실시간 로봇데이터 수신
+        //실시간 로봇데이터 수신
+        public void Read_Timer_Tick(object sender, System.Timers.ElapsedEventArgs e) 
         {
+            //통신 연결되면
             if (PLC_Connection)
             {
-                int rda1 = 0;
-                int rda2 = 0;
-                int rda3 = 0;
-                int rda4 = 0;
-                int rda5 = 0;
-                int rda6 = 0;
-                int rda7 = 0;
-                int rda8 = 0;
+                int rda1 = 0; //가로
+                int rda2 = 0; //세로
+                int rda3 = 0; //높이
+                int rda4 = 0; //단수
+                int rda5 = 0; //간지
+                int rda6 = 0; //패턴
+                int rda7 = 0; //로봇상태
+                int rda8 = 0; //통신상태
 
                 ActUtlType.GetDevice("D12000", out rda1); //가로
                 ActUtlType.GetDevice("D12001", out rda2); //세로
@@ -154,8 +159,8 @@ namespace PopProject.Detail
                         ReadData4.Text = rda4.ToString(); //단수
                         ReadData5.Text = rda5.ToString(); //간지
                         ReadData6.Text = rda6.ToString(); //패턴
-                        Robot_State = rda7.ToString(); //로봇상태
-                        Con_State = rda8.ToString(); //통신상태
+                        Robot_State = rda7.ToString();    //로봇상태
+                        Con_State = rda8.ToString();      //통신상태
 
                         State1.BorderBrush = rda7.Equals(1) ? Brushes.Green : Brushes.Red; //설비 가동상태
                         State2.BorderBrush = rda8.Equals(1) ? Brushes.Green : Brushes.Red; //설비 통신상태
@@ -167,15 +172,14 @@ namespace PopProject.Detail
                                                  WriteData4.Text.Length > 0 & //단수
                                                  WriteData5.Text.Length > 0 & //간지
                                                  WriteData6.Text.Length > 0 & //패턴
-                        rda8.Equals(1)) ? Brushes.Green : Brushes.Red; //데이터 전송버튼 활성화
 
+                        rda8.Equals(1)) ? Brushes.Green : Brushes.Red; //데이터 전송버튼 활성화
 
                         // 현재 로봇 패턴 표시
                         switch (ReadData6.Text)
                         {
                             case "11"://
-                                boximage.Source = new BitmapImage(new Uri(@"/img/1종.png", UriKind.Relative));
-                                break;
+                                boximage.Source = new BitmapImage(new Uri(@"/img/1종.png", UriKind.Relative)); break;
                             case "21"://
                                 boximage.Source = new BitmapImage(new Uri(@"/img/2종.png", UriKind.Relative)); break;
                             case "31"://
@@ -196,16 +200,6 @@ namespace PopProject.Detail
                                 boximage.Source = new BitmapImage(new Uri(@"/img/7종.png", UriKind.Relative)); break;
                             case "81"://
                                 boximage.Source = new BitmapImage(new Uri(@"/img/8종.png", UriKind.Relative)); break;
-                            //case "12"://
-                            //    boximage.Source = new BitmapImage(new Uri(@"/img/box12.png", UriKind.Relative)); break;
-                            //case "13"://
-                            //    boximage.Source = new BitmapImage(new Uri(@"/img/box13.png", UriKind.Relative)); break;
-                            //case "14"://
-                            //    boximage.Source = new BitmapImage(new Uri(@"/img/box14.png", UriKind.Relative)); break;
-                            //case "15"://
-                            //    boximage.Source = new BitmapImage(new Uri(@"/img/box15.png", UriKind.Relative)); break;
-                            //case "16"://
-                            //    boximage.Source = new BitmapImage(new Uri(@"/img/box16.png", UriKind.Relative)); break;
                             default:
                                 boximage.Visibility = Visibility.Collapsed; //패턴값 없으면 공백
                                 break;
@@ -214,11 +208,11 @@ namespace PopProject.Detail
             }
             else
             {
-
             }
         }
 
-        private void serchRobotData() //DB에서 데이터 조회
+        //DB에서 데이터 조회
+        private void serchRobotData()
         {
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
@@ -238,6 +232,8 @@ namespace PopProject.Detail
                 string PALLET_W = "";
                 string PALLET_H = "";
                 string PALLET_D = "";
+                string StartDT = "";
+                string EndDT = "";
                 string UpDatetime = "";
 
                 JArray Data_Jarry = JArray.Parse(returnData.리턴값);
@@ -252,22 +248,17 @@ namespace PopProject.Detail
                     PALLET_W = result["PALLET_W"].ToString();     //팔렛 가로 (안씀)
                     PALLET_H = result["PALLET_H"].ToString();     //팔렛 세로 (안씀)
                     PALLET_D = result["PALLET_D"].ToString();     //팔렛 높이 (안씀)
+                    StartDT = result["StartDT"].ToString();       //시작시간
+                    EndDT = result["EndDT"].ToString();           //종료시간
                     UpDatetime = result["UpDatetime"].ToString(); //업데이트 시간 (안씀)
                 }
 
-                WriteData1.Text = BOX_W == "" ? "0" : BOX_W;     //가로
-                WriteData2.Text = BOX_H == "" ? "0" : BOX_H;     //세로
-                WriteData3.Text = BOX_D == "" ? "0" : BOX_D;     //높이
+                WriteData1.Text = BOX_W == "" ? "0" : BOX_W;         //가로
+                WriteData2.Text = BOX_H == "" ? "0" : BOX_H;         //세로
+                WriteData3.Text = BOX_D == "" ? "0" : BOX_D;         //높이
                 WriteData4.Text = BOX_DADAN == "" ? "0" : BOX_DADAN; //단수
                 WriteData5.Text = BOX_DANSU == "" ? "0" : BOX_DANSU; //간지
-                WriteData6.Text = BOX_PAT == "" ? "0" : BOX_PAT;   //패턴
-
-                //WriteData1.Text = BOX_W;     //가로
-                //WriteData2.Text = BOX_H;     //세로
-                //WriteData3.Text = BOX_D;     //높이
-                //WriteData4.Text = BOX_DADAN; //단수
-                //WriteData5.Text = BOX_DANSU; //간지
-                //WriteData6.Text = BOX_PAT;   //패턴
+                WriteData6.Text = BOX_PAT == "" ? "0" : BOX_PAT;     //패턴
             }
             else
             {
@@ -279,15 +270,7 @@ namespace PopProject.Detail
             {
                 case 11:
                     data = WriteData6.Text;
-                    if (data.Equals("11"))
-                    {
-                        box1.Background = Brushes.Green;
-                    }
-                    else
-                    {
-                        box1.Background = Brushes.White;
-                    }
-
+                    box1.Background = data.Equals("11") ? Brushes.Green : Brushes.White;
                     break;
 
                 case 21:
@@ -409,69 +392,7 @@ namespace PopProject.Detail
                         box11.Background = Brushes.White;
                     }
                     break;
-
-                    //case 12:
-                    //    data = WriteData6.ToString();
-                    //    if (data.Equals("12"))
-                    //    {
-                    //        box12.Background = Brushes.Green;
-                    //    }
-                    //    else
-                    //    {
-                    //        box12.Background = Brushes.White;
-                    //    }
-                    //    break;
-
-                    //case 13:
-                    //    data = WriteData6.Text;
-                    //    if (data.Equals("13"))
-                    //    {
-                    //        box13.Background = Brushes.Green;
-                    //    }
-                    //    else
-                    //    {
-                    //        box13.Background = Brushes.White;
-                    //    }
-                    //    break;
-
-                    //case 14:
-                    //    data = WriteData6.Text;
-                    //    if (data.Equals("14"))
-                    //    {
-                    //        box14.Background = Brushes.Green;
-                    //    }
-                    //    else
-                    //    {
-                    //        box14.Background = Brushes.White;
-                    //    }
-                    //    break;
-
-                    //case 15:
-                    //    data = WriteData6.Text;
-                    //    if (data.Equals("15"))
-                    //    {
-                    //        box15.Background = Brushes.Green;
-                    //    }
-                    //    else
-                    //    {
-                    //        box15.Background = Brushes.White;
-                    //    }
-                    //    break;
-
-                    //case 16:
-                    //    data = WriteData6.Text;
-                    //    if (data.Equals("16"))
-                    //    {
-                    //        box16.Background = Brushes.Green;
-                    //    }
-                    //    else
-                    //    {
-                    //        box16.Background = Brushes.White;
-                    //    }
-                    //    break;
             }
-
-
         }
 
         private void pat_select(object sender, MouseButtonEventArgs e) //활성화된 패턴 선택
@@ -835,7 +756,8 @@ namespace PopProject.Detail
 
         }
 
-        private void Save_robotdata1(object sender, RoutedEventArgs e) //DB 저장 (로봇데이터)
+        //DB 저장 (로봇데이터)
+        private void Save_robotdata1(object sender, RoutedEventArgs e) 
         {
             MessageBox_Dialog msg;
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -843,7 +765,7 @@ namespace PopProject.Detail
                Properties.Settings.Default.serverIndex,
                "[spAEDIFrobotdata_info]",
                new string[] { "@prodID", "@BOX_W", "@BOX_H", "@BOX_D", "@BOX_DADAN", "@BOX_DANSU",
-                "@BOX_PAT", "@PALLET_W", "@PALLET_H", "@PALLET_D"},
+                "@BOX_PAT", "@PALLET_W", "@PALLET_H", "@PALLET_D", "@StartDT", "EndDT"},
                new object[] {
                 prodID,
                 ReadData1.Text.ToString(), //가로
@@ -852,10 +774,11 @@ namespace PopProject.Detail
                 ReadData4.Text.ToString(), //오주: 다단 / 대세 : 단수
                 ReadData5.Text.ToString(), //오주: 단수 / 대세 : 간지
                 ReadData6.Text.ToString(), //패턴
-                "0", //오주: 파레트 가로 / 대세 안씀
-                "0", //오주: 파레트 세로 / 대세 안씀
-                "0"  //오주: 파레트 높이 / 대세 안씀
-
+                "0",                       //오주: 파레트 가로 / 대세 안씀
+                "0",                       //오주: 파레트 세로 / 대세 안씀
+                "0",                       //오주: 파레트 높이 / 대세 안씀
+                DateTime.Now,              //시작시간
+                DateTime.Now               //종료시간
                }, 1
              );
             if (returnData.결과 == 1)
@@ -870,7 +793,8 @@ namespace PopProject.Detail
             }
         }
 
-        private void Save_robotdata2(object sender, RoutedEventArgs e) //DB 저장 (전송데이터)
+        //DB 저장 (전송예정 데이터)
+        private void Save_robotdata2(object sender, RoutedEventArgs e) 
         {
             MessageBox_Dialog msg;
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -887,10 +811,11 @@ namespace PopProject.Detail
                 WriteData4.Text.ToString(), //오주: 다단 / 대세 : 단수
                 WriteData5.Text.ToString(), //오주: 단수 / 대세 : 간지
                 WriteData6.Text.ToString(), //패턴
-                "0", //오주: 파레트 가로 / 대세 안씀
-                "0", //오주: 파레트 세로 / 대세 안씀
-                "0"  //오주: 파레트 높이 / 대세 안씀
-
+                "0",                        //오주: 파레트 가로 / 대세 안씀
+                "0",                        //오주: 파레트 세로 / 대세 안씀
+                "0",                        //오주: 파레트 높이 / 대세 안씀
+                DateTime.Now,               //시작시간
+                DateTime.Now                //종료시간
                }, 1
              );
             if (returnData.결과 == 1)

@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.315</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.317</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>316</ApplicationRevision>
+    <ApplicationRevision>318</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -276,6 +276,9 @@
     <Compile Include="Detail\IP_Setting.xaml.cs">
       <DependentUpon>IP_Setting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Detail\MachineCheck.xaml.cs">
+      <DependentUpon>MachineCheck.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Detail\Robot_Setting.xaml.cs">
       <DependentUpon>Robot_Setting.xaml</DependentUpon>
     </Compile>
@@ -387,6 +390,9 @@
       <DependentUpon>UserSetting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Detail\Wharehouse_LocationModel.cs" />
+    <Compile Include="Util\ClsUc_명세서_Report8대세.xaml.cs">
+      <DependentUpon>ClsUc_명세서_Report8대세.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Util\ClsUc_명세서_Report7구룡실수요자.xaml.cs">
       <DependentUpon>ClsUc_명세서_Report7구룡실수요자.xaml</DependentUpon>
     </Compile>
@@ -407,6 +413,9 @@
     </Compile>
     <Compile Include="Util\ClsUc_명세서_Report4.xaml.cs">
       <DependentUpon>ClsUc_명세서_Report4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ClsUc_완제품명세서_Control8대세.xaml.cs">
+      <DependentUpon>ClsUc_완제품명세서_Control8대세.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\ClsUc_완제품명세서_Control7구룡실수요자.xaml.cs">
       <DependentUpon>ClsUc_완제품명세서_Control7구룡실수요자.xaml</DependentUpon>
@@ -458,6 +467,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Detail\IP_Setting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Detail\MachineCheck.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -609,6 +622,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Util\ClsUc_명세서_Report8대세.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Util\ClsUc_명세서_Report7구룡실수요자.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -634,6 +651,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Util\ClsUc_명세서_Report4.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Util\ClsUc_완제품명세서_Control8대세.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

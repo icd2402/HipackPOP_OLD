@@ -115,13 +115,13 @@ namespace PopProject.Detail
                     ReturnModel returnDataCheck = ServiceModel.GetData(
                        Properties.Settings.Default.serverIndex,
                        "[PopCNSSearch]",
-                       new string[] { "prodID", "MachineName" },
-                       new object[] { this.mainModel.prodID, Properties.Settings.Default.mercName }, 0);
+                       new string[] { "MachineName", "prodID" },
+                       new object[] { Properties.Settings.Default.mercName, this.mainModel.prodID }, 0);
 
                     if (returnDataCheck.결과 == 1)
                     {
-                        string ProdID = "";
                         string machineName = "";
+                        string ProdID = "";
                         int pock = 0;
                         int jang = 0;
                         int go = 0;
@@ -129,8 +129,8 @@ namespace PopProject.Detail
                         JArray Data_Jarry = JArray.Parse(returnDataCheck.리턴값);
                         foreach (JObject result in Data_Jarry)
                         {
-                            ProdID = result["prodID"].ToString();
                             machineName = result["MachineName"].ToString();
+                            ProdID = result["prodID"].ToString();
                             pock = Convert.ToInt32(result["Pock"]);
                             jang = Convert.ToInt32(result["Jang"]);
                             go = Convert.ToInt32(result["Go"]);
@@ -495,30 +495,69 @@ namespace PopProject.Detail
                 폭 = int.Parse(s폭.ToString());
                 고 = int.Parse(s고.ToString());
 
-                //갭 (3호기)
-                switch (mainModel.paperGor.Replace("골", "").Trim())
+                if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.mercName.Equals("인라인3호기"))
                 {
-                    case "AB":
-                    case "BA":
-                        갭 = 70;
-                        break;
+                    //갭 (3호기)
+                    switch (mainModel.paperGor.Replace("골", "").Trim())
+                    {
+                        case "AB":
+                        case "BA":
+                            갭 = 70;
+                            break;
 
-                    case "BB":
-                        갭 = 50;
-                        break;
+                        case "BB":
+                            갭 = 50;
+                            break;
 
-                    case "A":
-                    case "EB":
-                        갭 = 40;
-                        break;
+                        case "A":
+                        case "EB":
+                            갭 = 40;
+                            break;
 
-                    case "B":
-                    case "E":
-                        갭 = 20;
-                        break;
-                    default:
-                        break;
+                        case "B":
+                        case "E":
+                            갭 = 20;
+                            break;
+                        default:
+                            break;
+                    }
                 }
+
+                if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.mercName.Equals("후렉소기"))
+                {
+                    //갭 (3호기)
+                    switch (mainModel.paperGor.Replace("골", "").Trim())
+                    {
+                        case "AB":
+                        case "BA":
+                            갭 = 70;
+                            break;
+
+                        case "BB":
+                            갭 = 60;
+                            break;
+
+                        case "A":
+                            갭 = 50;
+                            break;
+
+                        case "EB":
+                            갭 = 40;
+                            break;
+
+                        case "B":
+                            갭 = 30;
+                            break;
+
+                        case "E":
+                            갭 = 20;
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+
 
                 //미미
                 미미 = 30;
@@ -866,9 +905,9 @@ namespace PopProject.Detail
                         Properties.Settings.Default.serverIndex,
                         "[PopCNSUpdate]",
                         new string[] {
-                            "@prodID",
                             "@MachineName",
                             "@ModelNum",
+                            "@prodID",
                             "@WorkPlan1",
                             "@WorkPlan2",
                             "@BoxType",
@@ -939,7 +978,7 @@ namespace PopProject.Detail
                             "@TotalCount2",
                             "@Count1",
                             "@Count2" },
-                        new object[] { this.mainModel.prodID, Properties.Settings.Default.mercName, itemModel.ModelNum, itemModel.WorkPlan1, itemModel.WorkPlan2, itemModel.BoxType,
+                        new object[] { Properties.Settings.Default.mercName, itemModel.ModelNum, this.mainModel.prodID, itemModel.WorkPlan1, itemModel.WorkPlan2, itemModel.BoxType,
                                    itemModel.Pock, itemModel.Jang, itemModel.Go, itemModel.Gap, itemModel.Wing, itemModel.Cutting, itemModel.SaveDone, itemModel.WorkSpeed,
                                    itemModel.SaveState, itemModel.spare, itemModel.aRecipe, itemModel.bRecipe, itemModel.cRecipe, itemModel.dRecipe, itemModel.eRecipe,
                                    itemModel.f1Recipe, itemModel.f2Recipe, itemModel.g2pRecipe, itemModel.oRecipe, itemModel.p1Recipe, itemModel.p2pRecipe,
@@ -1318,7 +1357,6 @@ namespace PopProject.Detail
             }
             catch (WebException ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
             }
         }
         

@@ -161,7 +161,6 @@ namespace PopProject.Input
                 }), DispatcherPriority.ApplicationIdle);
             }
             catch (Exception e)
-
             {
                 //MessageBox_Dialog msg = new MessageBox_Dialog(e.Message);
                 //msg.Show();
@@ -322,6 +321,7 @@ namespace PopProject.Input
                 {
                 }
             }
+
             PopResultSearch(); //결과 조회
             PopErrorSearch(); //불량 조회
             TimerSet(); //바코드 타이머
@@ -999,13 +999,11 @@ namespace PopProject.Input
             if (inputModel.imagePath.Equals("/img/bn_05.png")) 
             {
                 string metrialitem = Properties.Settings.Default.meterialinfo;
-                //Console.WriteLine("metrialitem -> " + metrialitem);
+
                 switch (metrialitem)
                 {
                     case "12":
                     case "13":
-                        //if (!Properties.Settings.Default.corp_id.Equals("icdtest99"))
-                        //{
                         if (Main1.production != null)
                         {
                             MessageBox_Dialog messageBox = new MessageBox_Dialog("작업중인 건이 있습니다.");
@@ -1017,21 +1015,10 @@ namespace PopProject.Input
                             _ = PopResultStart();
                             PopResultSearch();
                         }
-                        //}
-                        //else
-                        //{
-                        //    LogData logData = new LogData("작업시작");
-                        //    popResultStart();
-                        //    popResultSearch();
-
-                        //}
 
                         break;
 
                     default:
-                        //if (!Properties.Settings.Default.corp_id.Equals("icdtest99"))
-                        //{
-
                         if (Main.production != null)
                         {
                             MessageBox_Dialog messageBox = new MessageBox_Dialog("작업중인 건이 있습니다.");
@@ -1044,15 +1031,6 @@ namespace PopProject.Input
                             _ = PopResultStart();
                             PopResultSearch();
                         }
-                        
-                        //}
-                        //else
-                        //{
-                        //    LogData logData = new LogData("작업시작");
-                        //    popResultStart();
-                        //    popResultSearch();
-
-                        //}
                         break;
                 }
 
@@ -2606,7 +2584,7 @@ namespace PopProject.Input
             {
                 if (Properties.Settings.Default.Plc) //PLC 사용 체크일때
                 {
-                    SingleWrite(); //현재 설정을 읽기 위해서는 D3814번에 0이 아닌 수를 넣어줘야함
+                    SingleWrite(); //현재 설정을 저장하기 위해서는 D3814번에 0이 아닌 수를 넣어줘야함
                     CNSDataRead(); //CNS 데이터 읽기
                 }
             }

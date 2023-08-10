@@ -152,6 +152,7 @@ namespace PopProject.MessageBox
                     ClsUc_완제품명세서_Control3.ProductReport pr3 = new ClsUc_완제품명세서_Control3.ProductReport();
                     ClsUc_완제품명세서_Control5두성.ProductReport pr5 = new ClsUc_완제품명세서_Control5두성.ProductReport();
                     ClsUc_완제품명세서_Control6구룡.ProductReport pr6 = new ClsUc_완제품명세서_Control6구룡.ProductReport();
+                    ClsUc_완제품명세서_Control8대세.ProductReport pr8 = new ClsUc_완제품명세서_Control8대세.ProductReport();
                     JToken result = SignCorpinfo_Base_JArray.First;
 
                     //선호칼라팩
@@ -204,11 +205,13 @@ namespace PopProject.MessageBox
                     ClsUc_완제품명세서_Control3 완제품명세서_Uc3 = new ClsUc_완제품명세서_Control3();
                     ClsUc_완제품명세서_Control5두성 완제품명세서_두성 = new ClsUc_완제품명세서_Control5두성();
                     ClsUc_완제품명세서_Control6구룡 완제품명세서_구룡 = new ClsUc_완제품명세서_Control6구룡();
+                    ClsUc_완제품명세서_Control8대세 완제품명세서_대세 = new ClsUc_완제품명세서_Control8대세();
                     ClsUc_명세서_Report 명세서양식_Uc = new ClsUc_명세서_Report();
                     ClsUc_명세서_Report2 명세서양식_Uc2 = new ClsUc_명세서_Report2();
                     ClsUc_명세서_Report3 명세서양식_Uc3 = new ClsUc_명세서_Report3();
                     ClsUc_명세서_Report5두성 명세서양식_uc5두성 = new ClsUc_명세서_Report5두성();
                     ClsUc_명세서_Report6구룡 명세서양식_uc6구룡 = new ClsUc_명세서_Report6구룡();
+                    ClsUc_명세서_Report8대세 명세서양식_uc8대세 = new ClsUc_명세서_Report8대세();
 
                     FixedDocument FixedDocument = new FixedDocument();
                     double Dbl_HeightReportPageWidthSize = 8.2 * 96;
@@ -486,6 +489,53 @@ namespace PopProject.MessageBox
                         Set_FixedPage.Children.Add(명세서양식_uc6구룡 as UIElement);
                         }
                     }
+                    //else if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                    //{
+                    //    pr8.customSName = result["customSName"].ToString();      //거래처명
+                    //    pr8.prodName = result["prodName"].ToString();            //품명
+                    //    pr8.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
+                    //    pr8.pSize = result["pSize"].ToString();                  //규격
+                    //    pr8.MycustomSName =  Properties.Settings.Default.corp_name; //생산처
+                    //    pr8.corpName = Properties.Settings.Default.accountCheck ? "" : mainModel.corpName; //거래처 상호
+                    //    string memo = "";
+                    //    memo = getMemo(Properties.Settings.Default.printItem);
+                      
+                    //    pr8.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
+
+                    //    pr8.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); //작성일자
+                    //    pr8.loadCount = "";                                    //파레트당 적재수량
+                    //    if (box_count.Text.ToString().Length > 0)
+                    //    {
+                    //        pr8.loadCount = box_count.Text;
+                    //    }
+
+
+                    //    pr8.pStockKey = result["pStockKey"].ToString();        //재고키
+                    //    int keyLenth = 0;
+                    //    keyLenth = 10 - pr8.pStockKey.Length;
+
+                    //    for (var index = 1; index <= keyLenth; index++)
+                    //    {
+                    //        pr8.pStockKey = "0" + pr8.pStockKey;
+                    //    }
+
+                    //    pr8.resultCount = result["resultCount"].ToString();    //총수량
+                    //    if (Convert.ToInt32(mainModel.sumPworkCount) > 0)
+                    //    {
+                    //        pr8.resultCount = mainModel.sumPworkCount == 0 ? "" : mainModel.sumPworkCount + "";
+                    //    }
+                    //    //총수량 표현 미체크
+                    //    if (!Properties.Settings.Default.count_check)
+                    //    {
+                    //        pr8.resultCount = "";
+                    //    }
+
+                    //    완제품명세서_대세.ViewModel = pr8;
+                    //    완제품명세서_대세.Set_BarCode();
+                    //    Grid.SetRow(완제품명세서_대세, 1);
+                    //    명세서양식_uc8대세.ItemPanel.Children.Add(완제품명세서_대세);
+                    //    Set_FixedPage.Children.Add(명세서양식_uc8대세 as UIElement);
+                    //}
                     else //(선호),유창,오주,두성,혜성,구룡 제외
                     {
                         pr1.customSName = result["customSName"].ToString();      //거래처명

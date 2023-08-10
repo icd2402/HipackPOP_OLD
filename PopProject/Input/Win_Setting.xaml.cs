@@ -198,16 +198,25 @@ namespace PopProject.Input
                     case "11": //포장방법
                         cb11.IsChecked = true;
                         break;
-                    case "14": //창고사항
+                    case "12": //참고사항
                         cb12.IsChecked = true;
                         break;
-                    case "15": //공정별참고사항
+                    case "13": //공정별참고사항
                         cb13.IsChecked = true;
                         break;
-                    case "17": //납기일
+                    case "14": //납기일
+                        cb14.IsChecked = true;
+                        break;
+                    case "15": //파렛트종류
                         cb15.IsChecked = true;
                         break;
-                    case "18": //파렛트종류
+                    case "16": //특별지시사항
+                        cb16.IsChecked = true;
+                        break;
+                    case "17": //spare
+                        cb17.IsChecked = true;
+                        break;
+                    case "18": //spare2
                         cb18.IsChecked = true;
                         break;
                     default:
@@ -499,22 +508,25 @@ namespace PopProject.Input
                     case "포장 방법":
                         setting = 11;
                         break;
-                    case "마닐라 정보":
+                    case "참고 사항":
                         setting = 12;
                         break;
-                    case "원단 정보":
+                    case "공정별참고사항":
                         setting = 13;
                         break;
-                    case "참고 사항":
+                    case "납기일":
                         setting = 14;
                         break;
-                    case "공정별참고사항":
+                    case "파렛트 종류":
                         setting = 15;
                         break;
-                    case "납기일":
+                    case "특별지시사항":
+                        setting = 16;
+                        break;
+                    case "spare":
                         setting = 17;
                         break;
-                    case "파렛트 종류":
+                    case "spare2":
                         setting = 18;
                         break;
                     default:

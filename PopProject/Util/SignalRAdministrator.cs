@@ -28,7 +28,6 @@ namespace PopProject.Util
             {
                 연결.Start().Wait();
                 SignalRAdministrator.허브.Invoke("JoinCompany", Properties.Settings.Default.corp_id);
-                //SignalRAdministrator.허브.Invoke("JoinCompany", "C4E5132036");
                 Console.WriteLine("연결 => " + Properties.Settings.Default.corp_id);
                 Console.WriteLine("연결상태 => " + 연결.State);
                 Console.WriteLine("연결상태 => " + ConnectionState.Connected);
@@ -37,14 +36,16 @@ namespace PopProject.Util
 
             catch (Exception)
             {
-                //MessageBox_Dialog dialog = new MessageBox_Dialog("SignalR 서버 접속 불가");
-                //dialog.ShowDialog();
+                MessageBox_Dialog dialog = new MessageBox_Dialog("SignalR 서버 접속 실패");
+                dialog.ShowDialog();
             }
         }
 
         private void 연결_Closed()
         {
             Connect();
+            MessageBox_Dialog dialog = new MessageBox_Dialog("SignalR 서버 닫기");
+            dialog.ShowDialog();
         }
     }
 }

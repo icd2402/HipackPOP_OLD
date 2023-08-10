@@ -54,7 +54,14 @@
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                             </CheckBox.LayoutTransform>
                         </CheckBox>
-                        <CheckBox x:Name="cb18" Content="파렛트 종류"  Width="140" Margin="10" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked">
+                        
+                        <CheckBox x:Name="cb15" Content="파렛트 종류"  Width="140" Margin="10" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked">
+                            <CheckBox.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                            </CheckBox.LayoutTransform>
+                        </CheckBox>
+
+                        <CheckBox x:Name="cb17" Content="spare"  Width="140" Margin="10" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Visibility="Collapsed">
                             <CheckBox.LayoutTransform>
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                             </CheckBox.LayoutTransform>
@@ -99,13 +106,23 @@
                             </CheckBox.LayoutTransform>
                         </CheckBox>
 
-                        <CheckBox x:Name="cb15" Content="납기일"  Width="140" Margin="10" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked">
+                        <CheckBox x:Name="cb14" Content="납기일"  Width="140" Margin="10" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked">
                             <CheckBox.LayoutTransform>
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                             </CheckBox.LayoutTransform>
                         </CheckBox>
 
+                        <CheckBox x:Name="cb16" Content="특별지시사항"  Width="140" Margin="10" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked">
+                            <CheckBox.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                            </CheckBox.LayoutTransform>
+                        </CheckBox>
 
+                        <CheckBox x:Name="cb18" Content="spare2"  Width="140" Margin="10" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Visibility="Collapsed">
+                            <CheckBox.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                            </CheckBox.LayoutTransform>
+                        </CheckBox>
 
                     </StackPanel>
                     <Border BorderBrush="#2c3e50" BorderThickness="0,0,0,1" Canvas.Top="565" Canvas.Left="15" Width="570" Canvas.Bottom="0"></Border>
