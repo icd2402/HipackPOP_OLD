@@ -372,7 +372,7 @@ namespace PopProject.Input
             return settindValue;
         }
 
-        // 기본설정1 작업 정보 설정 체크
+        // 기본설정1 작업 정보 설정 체크 수량
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
 
@@ -384,7 +384,7 @@ namespace PopProject.Input
                 if (cbx.IsChecked == true)
                 {
                     count++;
-                    if (count < 4)
+                    if (count < 5)
                     {
                         list.Add(cbx.Content.ToString());
                     }
@@ -401,7 +401,7 @@ namespace PopProject.Input
                 if (cbx.IsChecked == true)
                 {
                     count++;
-                    if (count < 4)
+                    if (count < 5)
                     {
                         list.Add(cbx.Content.ToString());
                     }
@@ -413,7 +413,7 @@ namespace PopProject.Input
                 }
             }
 
-            if (count > 3)
+            if (count > 4)
             {
                 CheckBox chb = (CheckBox)sender;
                 chb.IsChecked = false;

@@ -1345,7 +1345,6 @@ namespace PopProject.UserControl_
                                     listitem.pStateString = "보류";
                                     listitem.pStateSColor = "GREEN";
                                     break;
-
                                 case "2":
                                     listitem.pStateString = "지급";
                                     listitem.pStateSColor = "BLUE";
@@ -1443,6 +1442,11 @@ namespace PopProject.UserControl_
                                     {
                                         listitem.item3 = item.Replace("\r\n", ""); //셋째줄
                                     }
+                                    else if (i == 3)
+                                    {
+                                        listitem.item4 = item.Replace("\r\n", ""); //넷째줄
+                                    }
+
                                 }
 
                                 //orderKey와 orderWorkNo일치 값 찾기
@@ -1573,6 +1577,10 @@ namespace PopProject.UserControl_
                                     {
                                         listitem.item3 = item.Replace("\r\n", ""); //셋째줄
                                     }
+                                    else if (i == 3)
+                                    {
+                                        listitem.item4 = item.Replace("\r\n", ""); //넷째줄
+                                    }
                                 }
 
                                 foreach (JObject resultSub in Data_Jarry)
@@ -1700,6 +1708,10 @@ namespace PopProject.UserControl_
                                     else if (i == 2)
                                     {
                                         listitem.item3 = item.Replace("\r\n", ""); //셋째줄
+                                    }
+                                    else if (i == 3)
+                                    {
+                                        listitem.item4 = item.Replace("\r\n", ""); //넷째줄
                                     }
                                 }
 
@@ -1832,6 +1844,10 @@ namespace PopProject.UserControl_
                                         {
                                             listitem.item3 = item.Replace("\r\n", ""); //셋째줄
                                         }
+                                        else if (i == 3)
+                                        {
+                                            listitem.item4 = item.Replace("\r\n", ""); //넷째줄
+                                        }
                                     }
 
                                     foreach (JObject resultSub in Data_Jarry)
@@ -1956,6 +1972,10 @@ namespace PopProject.UserControl_
                                         {
                                             listitem.item3 = item.Replace("\r\n", ""); //셋째줄
                                         }
+                                        else if (i == 3)
+                                        {
+                                            listitem.item4 = item.Replace("\r\n", ""); //넷째줄
+                                        }
                                     }
 
                                     foreach (JObject resultSub in Data_Jarry)
@@ -2076,6 +2096,7 @@ namespace PopProject.UserControl_
                                         {
                                             listitem.item3 = item.Replace("\r\n", ""); //셋째줄
                                         }
+
                                     }
 
                                     foreach (JObject resultSub in Data_Jarry)

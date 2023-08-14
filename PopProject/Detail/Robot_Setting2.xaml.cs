@@ -114,8 +114,8 @@ namespace PopProject.Detail
                     Read_Timer.Stop();
                     Read_Timer.Dispose();
 
-                    msg = new MessageBox_Dialog("로봇 통신 상태를 확인해 주세요.");
-                    msg.ShowDialog();
+                    //msg = new MessageBox_Dialog("로봇 통신 상태를 확인해 주세요.");
+                    //msg.ShowDialog();
                 }
             }
             catch (Exception e)
@@ -178,27 +178,27 @@ namespace PopProject.Detail
                         // 현재 로봇 패턴 표시
                         switch (ReadData6.Text)
                         {
-                            case "11"://
+                            case "11":
                                 boximage.Source = new BitmapImage(new Uri(@"/img/1종.png", UriKind.Relative)); break;
-                            case "21"://
+                            case "21":
                                 boximage.Source = new BitmapImage(new Uri(@"/img/2종.png", UriKind.Relative)); break;
-                            case "31"://
+                            case "31":
                                 boximage.Source = new BitmapImage(new Uri(@"/img/3종.png", UriKind.Relative)); break;
-                            case "32"://
+                            case "32":
                                 boximage.Source = new BitmapImage(new Uri(@"/img/3-1종.png", UriKind.Relative)); break;
-                            case "41"://
+                            case "41":
                                 boximage.Source = new BitmapImage(new Uri(@"/img/4종.png", UriKind.Relative)); break;
-                            case "42"://
+                            case "42":
                                 boximage.Source = new BitmapImage(new Uri(@"/img/4-1종.png", UriKind.Relative)); break;
-                            case "51"://
+                            case "51":
                                 boximage.Source = new BitmapImage(new Uri(@"/img/5종.png", UriKind.Relative)); break;
-                            case "61"://
+                            case "61":
                                 boximage.Source = new BitmapImage(new Uri(@"/img/6종.png", UriKind.Relative)); break;
-                            case "62"://
+                            case "62":
                                 boximage.Source = new BitmapImage(new Uri(@"/img/6-1종.png", UriKind.Relative)); break;
-                            case "71"://
+                            case "71":
                                 boximage.Source = new BitmapImage(new Uri(@"/img/7종.png", UriKind.Relative)); break;
-                            case "81"://
+                            case "81":
                                 boximage.Source = new BitmapImage(new Uri(@"/img/8종.png", UriKind.Relative)); break;
                             default:
                                 boximage.Visibility = Visibility.Collapsed; //패턴값 없으면 공백
@@ -218,11 +218,12 @@ namespace PopProject.Detail
             ReturnModel returnData = ServiceModel.GetData(
                Properties.Settings.Default.serverIndex,
                "[spSelIFrobotdata_info]",
-               new string[] { "@prodID" },
-               new object[] { prodID }, 0);
+               new string[] { "@prodID", "@mercName" },
+               new object[] { prodID, Properties.Settings.Default.mercName }, 0);
 
             if (returnData.결과 == 1)
             {
+                string mercName = "";
                 string BOX_W = "";
                 string BOX_H = "";
                 string BOX_D = "";
@@ -272,125 +273,44 @@ namespace PopProject.Detail
                     data = WriteData6.Text;
                     box1.Background = data.Equals("11") ? Brushes.Green : Brushes.White;
                     break;
-
                 case 21:
                     data = WriteData6.Text;
-                    if (data.Equals("21"))
-                    {
-                        box2.Background = Brushes.Green;
-                    }
-                    else
-                    {
-                        box2.Background = Brushes.White;
-                    }
+                    box2.Background = data.Equals("21") ? Brushes.Green : Brushes.White;
                     break;
-
                 case 31:
                     data = WriteData6.Text;
-                    if (data.Equals("31"))
-                    {
-                        box3.Background = Brushes.Green;
-                    }
-                    else
-                    {
-                        box3.Background = Brushes.White;
-                    }
+                    box3.Background = data.Equals("31") ? Brushes.Green : Brushes.White;
                     break;
-
                 case 32:
                     data = WriteData6.Text;
-                    if (data.Equals("32"))
-                    {
-                        box4.Background = Brushes.Green;
-                    }
-                    else
-                    {
-                        box4.Background = Brushes.White;
-                    }
+                    box4.Background = data.Equals("32") ? Brushes.Green : Brushes.White;
                     break;
-
                 case 41:
                     data = WriteData6.Text;
-                    if (data.Equals("41"))
-                    {
-                        box5.Background = Brushes.Green;
-                    }
-                    else
-                    {
-                        box5.Background = Brushes.White;
-                    }
+                    box5.Background = data.Equals("41") ? Brushes.Green : Brushes.White;
                     break;
-
                 case 42:
                     data = WriteData6.Text;
-                    if (data.Equals("42"))
-                    {
-                        box6.Background = Brushes.Green;
-                    }
-                    else
-                    {
-                        box6.Background = Brushes.White;
-                    }
+                    box6.Background = data.Equals("42") ? Brushes.Green : Brushes.White;
                     break;
-
                 case 51:
                     data = WriteData6.Text;
-                    if (data.Equals("51"))
-                    {
-                        box7.Background = Brushes.Green;
-                    }
-                    else
-                    {
-                        box7.Background = Brushes.White;
-                    }
+                    box7.Background = data.Equals("51") ? Brushes.Green : Brushes.White;
                     break;
-
                 case 61:
                     data = WriteData6.Text;
-                    if (data.Equals("61"))
-                    {
-                        box8.Background = Brushes.Green;
-                    }
-                    else
-                    {
-                        box8.Background = Brushes.White;
-                    }
+                    box8.Background = data.Equals("61") ? Brushes.Green : Brushes.White;
                     break;
-
                 case 62:
                     data = WriteData6.Text;
-                    if (data.Equals("62"))
-                    {
-                        box9.Background = Brushes.Green;
-                    }
-                    else
-                    {
-                        box9.Background = Brushes.White;
-                    }
+                    box9.Background = data.Equals("62") ? Brushes.Green : Brushes.White;
                     break;
-
                 case 71:
-                    data = WriteData6.Text;
-                    if (data.Equals("71"))
-                    {
-                        box10.Background = Brushes.Green;
-                    }
-                    else
-                    {
-                        box10.Background = Brushes.White;
-                    }
+                    box10.Background = data.Equals("71") ? Brushes.Green : Brushes.White;
                     break;
-
                 case 81:
                     data = WriteData6.Text;
-                    if (data.Equals("81"))
-                    {
-                        box11.Background = Brushes.Green;
-                    }
-                    else
-                    {
-                        box11.Background = Brushes.White;
-                    }
+                    box11.Background = data.Equals("81") ? Brushes.Green : Brushes.White;
                     break;
             }
         }
@@ -408,11 +328,6 @@ namespace PopProject.Detail
             box9.Background = Brushes.White;
             box10.Background = Brushes.White;
             box11.Background = Brushes.White;
-            //box12.Background = Brushes.White;
-            //box13.Background = Brushes.White;
-            //box14.Background = Brushes.White;
-            //box15.Background = Brushes.White;
-            //box16.Background = Brushes.White;
 
             if (sender.GetType().Name.Equals("Grid"))
             {
@@ -421,16 +336,10 @@ namespace PopProject.Detail
                 switch (context.Name)
                 {
                     case "box1":
-
                         if (context.Background == Brushes.White)
                         {
                             context.Background = Brushes.Green;
                             WriteData6.Text = "11";
-                        }
-                        else
-                        {
-                            dialog = new MessageBox_Dialog("이미 선택 되었습니다.");
-                            dialog.Show();
                         }
                         break;
 
@@ -440,9 +349,6 @@ namespace PopProject.Detail
                             context.Background = Brushes.Green;
                             WriteData6.Text = "21";
                         }
-                        else
-                        {
-                        }
                         break;
 
                     case "box3":
@@ -450,9 +356,6 @@ namespace PopProject.Detail
                         {
                             context.Background = Brushes.Green;
                             WriteData6.Text = "31";
-                        }
-                        else
-                        {
                         }
                         break;
 
@@ -462,9 +365,6 @@ namespace PopProject.Detail
                             context.Background = Brushes.Green;
                             WriteData6.Text = "32";
                         }
-                        else
-                        {
-                        }
                         break;
 
                     case "box5":
@@ -472,9 +372,6 @@ namespace PopProject.Detail
                         {
                             context.Background = Brushes.Green;
                             WriteData6.Text = "41";
-                        }
-                        else
-                        {
                         }
                         break;
 
@@ -484,9 +381,6 @@ namespace PopProject.Detail
                             context.Background = Brushes.Green;
                             WriteData6.Text = "42";
                         }
-                        else
-                        {
-                        }
                         break;
 
                     case "box7":
@@ -494,9 +388,6 @@ namespace PopProject.Detail
                         {
                             context.Background = Brushes.Green;
                             WriteData6.Text = "51";
-                        }
-                        else
-                        {
                         }
                         break;
 
@@ -506,9 +397,6 @@ namespace PopProject.Detail
                             context.Background = Brushes.Green;
                             WriteData6.Text = "61";
                         }
-                        else
-                        {
-                        }
                         break;
 
                     case "box9":
@@ -516,9 +404,6 @@ namespace PopProject.Detail
                         {
                             context.Background = Brushes.Green;
                             WriteData6.Text = "62";
-                        }
-                        else
-                        {
                         }
                         break;
 
@@ -528,9 +413,6 @@ namespace PopProject.Detail
                             context.Background = Brushes.Green;
                             WriteData6.Text = "71";
                         }
-                        else
-                        {
-                        }
                         break;
 
                     case "box11":
@@ -539,65 +421,7 @@ namespace PopProject.Detail
                             context.Background = Brushes.Green;
                             WriteData6.Text = "81";
                         }
-                        else
-                        {
-                        }
                         break;
-
-                    //case "box12":
-                    //    if (context.Background == Brushes.White)
-                    //    {
-                    //        context.Background = Brushes.Green;
-                    //        WriteData6.Text = "12";
-                    //    }
-                    //    else
-                    //    {
-                    //    }
-                    //    break;
-
-                    //case "box13":
-                    //    if (context.Background == Brushes.White)
-                    //    {
-                    //        context.Background = Brushes.Green;
-                    //        WriteData6.Text = "13";
-                    //    }
-                    //    else
-                    //    {
-                    //    }
-                    //    break;
-
-                    //case "box14":
-                    //    if (context.Background == Brushes.White)
-                    //    {
-                    //        context.Background = Brushes.Green;
-                    //        WriteData6.Text = "14";
-                    //    }
-                    //    else
-                    //    {
-                    //    }
-                    //    break;
-
-                    //case "box15":
-                    //    if (context.Background == Brushes.White)
-                    //    {
-                    //        context.Background = Brushes.Green;
-                    //        WriteData6.Text = "15";
-                    //    }
-                    //    else
-                    //    {
-                    //    }
-                    //    break;
-
-                    //case "box16":
-                    //    if (context.Background == Brushes.White)
-                    //    {
-                    //        context.Background = Brushes.Green;
-                    //        WriteData6.Text = "16";
-                    //    }
-                    //    else
-                    //    {
-                    //    }
-                    //    break;
                 }
             }
         }
@@ -652,11 +476,10 @@ namespace PopProject.Detail
                 msg = new MessageBox_Dialog("로봇이 준비 중입니다.");
                 msg.ShowDialog();
             }
-
-
         }
-
-        private bool dataCheck() //전송전 범위값 재확인
+        
+        //전송전 범위값 재확인
+        private bool dataCheck()
         {
             bool check = false;
             int value1 = int.Parse(WriteData1.Text.ToString()); //가로
@@ -675,7 +498,8 @@ namespace PopProject.Detail
             return check;
         }
 
-        private void Input_data(object sender, MouseButtonEventArgs e) //데이터 값 키인(클릭)
+        //데이터 값 키인(클릭)
+        private void Input_data(object sender, MouseButtonEventArgs e) 
         {
             if (sender.GetType().Name.Equals("TextBox"))
             {
@@ -729,7 +553,6 @@ namespace PopProject.Detail
                             msg.Show();
                             WriteData4.Text = "0";
                         }
-
                         break;
 
                     case "WriteData5": //간지
@@ -753,7 +576,6 @@ namespace PopProject.Detail
                         break;
                 }
             }
-
         }
 
         //DB 저장 (로봇데이터)
@@ -764,10 +586,10 @@ namespace PopProject.Detail
             ReturnModel returnData = ServiceModel.GetData(
                Properties.Settings.Default.serverIndex,
                "[spAEDIFrobotdata_info]",
-               new string[] { "@prodID", "@BOX_W", "@BOX_H", "@BOX_D", "@BOX_DADAN", "@BOX_DANSU",
-                "@BOX_PAT", "@PALLET_W", "@PALLET_H", "@PALLET_D", "@StartDT", "EndDT"},
+               new string[] { "@prodID", "@mercName", "@BOX_W", "@BOX_H", "@BOX_D", "@BOX_DADAN", "@BOX_DANSU", "@BOX_PAT", "@PALLET_W", "@PALLET_H", "@PALLET_D", "@StartDT", "EndDT"},
                new object[] {
                 prodID,
+                Properties.Settings.Default.mercName,
                 ReadData1.Text.ToString(), //가로
                 ReadData2.Text.ToString(), //세로
                 ReadData3.Text.ToString(), //높이
@@ -801,10 +623,10 @@ namespace PopProject.Detail
             ReturnModel returnData = ServiceModel.GetData(
                Properties.Settings.Default.serverIndex,
                "[spAEDIFrobotdata_info]",
-               new string[] { "@prodID", "@BOX_W", "@BOX_H", "@BOX_D", "@BOX_DADAN", "@BOX_DANSU",
-                "@BOX_PAT", "@PALLET_W", "@PALLET_H", "@PALLET_D"},
+               new string[] { "@prodID", "@mercName", "@BOX_W", "@BOX_H", "@BOX_D", "@BOX_DADAN", "@BOX_DANSU", "@BOX_PAT", "@PALLET_W", "@PALLET_H", "@PALLET_D", "@StartDT", "EndDT" },
                new object[] {
                 prodID,
+                Properties.Settings.Default.mercName,
                 WriteData1.Text.ToString(), //가로
                 WriteData2.Text.ToString(), //세로
                 WriteData3.Text.ToString(), //높이

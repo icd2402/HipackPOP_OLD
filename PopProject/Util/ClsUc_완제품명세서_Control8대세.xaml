@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PopProject.Util"
              mc:Ignorable="d" 
-             Height="1070" Width="787">
+             Height="730" Width="1120">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -21,7 +21,7 @@
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="HorizontalContentAlignment" Value="Left" />
                 <!--<Setter Property="FontFamily" Value="{StaticResource FontName}"/>-->
-                <Setter Property="FontSize" Value="27"/>
+                <Setter Property="FontSize" Value="20"/>
                 <Setter Property="FontWeight" Value="Bold"  />
                 <Setter Property="Foreground" Value="Black"/>
                 <Setter Property="Template">
@@ -39,7 +39,7 @@
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="HorizontalContentAlignment" Value="Left" />
                 <!--<Setter Property="FontFamily" Value="{StaticResource FontName}"/>-->
-                <Setter Property="FontSize" Value="27"/>
+                <Setter Property="FontSize" Value="23"/>
                 <Setter Property="FontWeight" Value="Bold"  />
                 <Setter Property="Foreground" Value="Black"/>
                 <Setter Property="Template">
@@ -62,21 +62,21 @@
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="HorizontalContentAlignment" Value="Left" />
                 <!--<Setter Property="FontFamily" Value="{StaticResource FontName}"/>-->
-                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="FontSize" Value="23"/>
                 <Setter Property="FontWeight" Value="Bold"  />
                 <Setter Property="Foreground" Value="Black"/>
             </Style>
-            
+
             <Style TargetType="Label" x:Key="ValueLabel1">
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="HorizontalContentAlignment" Value="Left" />
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <!--<Setter Property="FontFamily" Value="{StaticResource FontName}"/>-->
-                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="FontSize" Value="23"/>
                 <Setter Property="FontWeight" Value="Bold"  />
                 <Setter Property="Foreground" Value="Black"/>
             </Style>
-            
+
             <Style TargetType="Label" x:Key="ValueLabel">
                 <Setter Property="VerticalAlignment" Value="Center"  />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -85,125 +85,134 @@
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="BorderBrush" Value="#B7B7B7"/>
                 <Setter Property="MinWidth" Value="100"/>
-                <Setter Property="MinHeight" Value="28"/>
+                <Setter Property="MinHeight" Value="23"/>
                 <Setter Property="Padding" Value="5,0"/>
                 <Setter Property="Foreground" Value="Black"/>
             </Style>
-            
+
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Background="White" Margin="20,0" >
-        <Grid>
-            <Grid.RowDefinitions >
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="10"/>
-                <RowDefinition Height="365" />
-                <RowDefinition Height="55" />
-                
-                <RowDefinition Height="50" />
+    <Grid Background="White" Margin="20,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="10"/>
-                <RowDefinition Height="365" />
-                <RowDefinition Height="55" />
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions >
+                <RowDefinition Height="110"/>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="475" />
+                <RowDefinition Height="52" />
             </Grid.RowDefinitions>
 
-            <DockPanel Grid.Row="0" HorizontalAlignment="Center" LastChildFill="False"  Margin="0,20,0,0"   >
-                <Label DockPanel.Dock="Top" Style="{StaticResource 명세서Label}" Content="제  품  명  세  서" HorizontalContentAlignment="Center" x:Name="title"  />
+            <DockPanel HorizontalAlignment="Center" LastChildFill="False" Margin="145,0,154,0" Grid.Row="1" Width="231">
+                <Label DockPanel.Dock="Top" Style="{StaticResource 명세서Label}" Content="제  품  명  세  서" HorizontalContentAlignment="Center" x:Name="title1" Width="231"  />
                 <Rectangle DockPanel.Dock="Top" Style="{StaticResource BoldRectangle}" Height="1"    />
                 <Rectangle DockPanel.Dock="Top" Style="{StaticResource BoldRectangle}" Height="1" Margin="0,2,0,0"  />
             </DockPanel>
 
-            <StackPanel Grid.Row="2" >
+            <Image x:Name="barcodeImage" Width="130" HorizontalAlignment="Right" Height="35" VerticalAlignment="Bottom" Margin="0,0,5,11" Grid.Row="1" />
+
+            <StackPanel Grid.Row="3" >
 
                 <DockPanel>
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="작성일자" HorizontalContentAlignment="Center" Height="55"  Width="152" x:Name="title1" />
+
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="작성일자" HorizontalContentAlignment="Center" Height="70"  Width="152" x:Name="title2" />
                     <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding pworkDate}" ContentStringFormat="yyyy/MM/dd"  Width="auto" HorizontalContentAlignment="Left"  />
                 </DockPanel>
 
                 <DockPanel>
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="거 래 처" HorizontalContentAlignment="Center" Height="55"  Width="152" />
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="거 래 처" HorizontalContentAlignment="Center" Height="70"  Width="152" />
                     <Label Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource 명세서value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding corpName}" />
+
                 </DockPanel>
-                
                 <DockPanel >
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="품      명" HorizontalContentAlignment="Center" Height="55"  Width="152" />
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="품      명" HorizontalContentAlignment="Center" Height="70"  Width="152" />
                     <Label DockPanel.Dock="Right" Style="{StaticResource 명세서value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding prodName}" />
                 </DockPanel>
 
                 <DockPanel >
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="규      격" HorizontalContentAlignment="Center" Height="55"  Width="152" />
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="규      격" HorizontalContentAlignment="Center" Height="70"  Width="152" />
                     <Label DockPanel.Dock="Right" Style="{StaticResource 명세서Label}" BorderThickness="1,1,1,0" BorderBrush="Black" Content="{Binding pSize}" HorizontalContentAlignment="Left" Padding="20,0" />
                 </DockPanel>
-                
                 <DockPanel >
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="총  수  량" HorizontalContentAlignment="Center" Height="55"  Width="152" />
-                    <Label x:Name="result_count" DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding resultCount}" ContentStringFormat="N0" Width="230" HorizontalContentAlignment="Right"  />
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="0,1,0,0" BorderBrush="Black" Content="적재 수량" HorizontalContentAlignment="Center" Height="55"  Width="144" />
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="총  수  량" HorizontalContentAlignment="Center" Height="70"  Width="152" />
+                    <Label x:Name="result_count" DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding resultCount}" ContentStringFormat="N0" Width="140" HorizontalContentAlignment="Right"  />
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="0,1,0,0" BorderBrush="Black" Content="적     재      수     량" HorizontalContentAlignment="Center" Height="70"  Width="98" />
                     <Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0"   HorizontalContentAlignment="Center" Content="{Binding loadCount}" />
                 </DockPanel>
-                
                 <DockPanel >
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,1" BorderBrush="Black" Content="비      고" HorizontalContentAlignment="Center" Height="90"  Width="152" />
-                    <Label DockPanel.Dock="Left" Style="{StaticResource ValueLabel1}" BorderThickness="1,1,1,1"  BorderBrush="Black" Padding="10,0" Content="{Binding pMemo}" Height="90" VerticalContentAlignment="Top">
-                    </Label>
-                </DockPanel>
-                
-            </StackPanel>
-
-            <DockPanel Grid.Row="3" LastChildFill="False" Visibility="Visible" x:Name="dock1" >
-                <Label DockPanel.Dock="Right" Style="{StaticResource 명세서Label}" Content="{Binding MycustomSName}" Margin="30,0"   />
-            </DockPanel>
-
-            <DockPanel Grid.Row="5" HorizontalAlignment="Center" LastChildFill="False"  Margin="263,30,263,1" Grid.RowSpan="2"   >
-                <Label DockPanel.Dock="Top" Style="{StaticResource 명세서Label}" Content="제  품  명  세  서" HorizontalContentAlignment="Center" x:Name="title0"  />
-                <Rectangle DockPanel.Dock="Top" Style="{StaticResource BoldRectangle}" Height="1"    />
-                <Rectangle DockPanel.Dock="Top" Style="{StaticResource BoldRectangle}" Height="1" Margin="0,2,0,0"  />
-            </DockPanel>
-
-            <StackPanel Grid.Row="7" >
-
-                <DockPanel>
-
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="작성일자" HorizontalContentAlignment="Center" Height="55"  Width="152" x:Name="title10" />
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding pworkDate}" ContentStringFormat="yyyy/MM/dd"  Width="auto" HorizontalContentAlignment="Left"  />
-                </DockPanel>
-
-                <DockPanel>
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="거 래 처" HorizontalContentAlignment="Center" Height="55"  Width="152" />
-                    <Label Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource 명세서value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding corpName}" />
-                </DockPanel>
-                
-                <DockPanel >
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="품      명" HorizontalContentAlignment="Center" Height="55"  Width="152" />
-                    <Label DockPanel.Dock="Right" Style="{StaticResource 명세서value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding prodName}" />
-                </DockPanel>
-
-                <DockPanel >
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="규      격" HorizontalContentAlignment="Center" Height="55"  Width="152" />
-                    <Label DockPanel.Dock="Right" Style="{StaticResource 명세서Label}" BorderThickness="1,1,1,0" BorderBrush="Black" Content="{Binding pSize}" HorizontalContentAlignment="Left" Padding="20,0" />
-                </DockPanel>
-                
-                <DockPanel >
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="총  수  량" HorizontalContentAlignment="Center" Height="55"  Width="152" />
-                    <Label x:Name="result_count0" DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding resultCount}" ContentStringFormat="N0" Width="230" HorizontalContentAlignment="Right"  />
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="0,1,0,0" BorderBrush="Black" Content="적재 수량" HorizontalContentAlignment="Center" Height="55"  Width="144" />
-                    <Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0"   HorizontalContentAlignment="Center" Content="{Binding loadCount}" />
-                </DockPanel>
-                
-                <DockPanel >
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,1" BorderBrush="Black" Content="비      고" HorizontalContentAlignment="Center" Height="90"  Width="152" />
-                    <Label DockPanel.Dock="Left" Style="{StaticResource ValueLabel1}" BorderThickness="1,1,1,1"  BorderBrush="Black" Padding="10,0" Content="{Binding pMemo}" Height="90" VerticalContentAlignment="Top">
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,1" BorderBrush="Black" Content="비      고" HorizontalContentAlignment="Center" Height="125"  Width="152" />
+                    <Label DockPanel.Dock="Left" Style="{StaticResource ValueLabel1}" BorderThickness="1,1,1,1"  BorderBrush="Black" Padding="10,0" Content="{Binding pMemo}" Height="125" VerticalContentAlignment="Top">
 
                     </Label>
                 </DockPanel>
             </StackPanel>
 
-            <DockPanel Grid.Row="8" LastChildFill="False" Visibility="Visible" x:Name="dock10" >
-                <Label DockPanel.Dock="Right" Style="{StaticResource 명세서Label}" Content="{Binding MycustomSName}" Margin="30,0"   />
+            <DockPanel Grid.Row="4" LastChildFill="False" Visibility="Visible" x:Name="dock1" >
+                <Label DockPanel.Dock="Right" Style="{StaticResource 명세서Label}" Content="대세물산" Margin="20,0,20,0"/>
+            </DockPanel>
+        </Grid>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions >
+                <RowDefinition Height="110"/>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="475" />
+                <RowDefinition Height="52" />
+            </Grid.RowDefinitions>
+
+            <DockPanel HorizontalAlignment="Center" LastChildFill="False" Margin="144,0,118,0" Grid.Row="1" Width="258">
+                <Label DockPanel.Dock="Top" Style="{StaticResource 명세서Label}" Content="제  품  명  세  서" HorizontalContentAlignment="Center" x:Name="title3" Width="231"  />
+                <Rectangle DockPanel.Dock="Top" Style="{StaticResource BoldRectangle}" Height="1"    />
+                <Rectangle DockPanel.Dock="Top" Style="{StaticResource BoldRectangle}" Height="1" Margin="0,2,0,0"  />
             </DockPanel>
 
+            <StackPanel Grid.Row="3" >
+
+                <DockPanel>
+
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="작성일자" HorizontalContentAlignment="Center" Height="70"  Width="152" x:Name="title4" />
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding pworkDate}" ContentStringFormat="yyyy/MM/dd"  Width="auto" HorizontalContentAlignment="Left"  />
+                </DockPanel>
+
+                <DockPanel>
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="거 래 처" HorizontalContentAlignment="Center" Height="70"  Width="152" />
+                    <Label Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource 명세서value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding corpName}" />
+
+                </DockPanel>
+                <DockPanel >
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="품      명" HorizontalContentAlignment="Center" Height="70"  Width="152" />
+                    <Label DockPanel.Dock="Right" Style="{StaticResource 명세서value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding prodName}" />
+                </DockPanel>
+
+                <DockPanel >
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="규      격" HorizontalContentAlignment="Center" Height="70"  Width="152" />
+                    <Label DockPanel.Dock="Right" Style="{StaticResource 명세서Label}" BorderThickness="1,1,1,0" BorderBrush="Black" Content="{Binding pSize}" HorizontalContentAlignment="Left" Padding="20,0" />
+                </DockPanel>
+                <DockPanel >
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="총  수  량" HorizontalContentAlignment="Center" Height="70"  Width="152" />
+                    <Label x:Name="result_count2" DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding resultCount}" ContentStringFormat="N0" Width="140" HorizontalContentAlignment="Right"  />
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="0,1,0,0" BorderBrush="Black" Content="적     재      수     량" HorizontalContentAlignment="Center" Height="70"  Width="98" />
+                    <Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0"   HorizontalContentAlignment="Center" Content="{Binding loadCount}" />
+                </DockPanel>
+                <DockPanel >
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,1" BorderBrush="Black" Content="비      고" HorizontalContentAlignment="Center" Height="125"  Width="152" />
+                    <Label DockPanel.Dock="Left" Style="{StaticResource ValueLabel1}" BorderThickness="1,1,1,1"  BorderBrush="Black" Padding="10,0" Content="{Binding pMemo}" Height="125" VerticalContentAlignment="Top">
+
+                    </Label>
+                </DockPanel>
+            </StackPanel>
+
+            <DockPanel Grid.Row="4" LastChildFill="False" Visibility="Visible" x:Name="dock2" >
+                <Label DockPanel.Dock="Right" Style="{StaticResource 명세서Label}" Content="대세물산" Margin="20,0,20,0"/>
+            </DockPanel>
         </Grid>
     </Grid>
 </UserControl>
+

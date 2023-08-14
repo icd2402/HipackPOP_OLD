@@ -156,9 +156,10 @@
                                 <!--<TextBlock Canvas.Left="755" Canvas.Top="11" FontSize="18" Text="색도" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>-->
 
                                 <!--작업정보-->
-                                <TextBlock Canvas.Left="830" Canvas.Top="5" FontSize="15"  Text="{Binding item1}" Foreground="Red"  Width="175"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
-                                <TextBlock Canvas.Left="830" Canvas.Top="29" FontSize="15" Text="{Binding item2}" Foreground="DarkGreen"  Width="175"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
-                                <TextBlock Canvas.Left="830" Canvas.Top="53" FontSize="15" Text="{Binding item3}" Foreground="DarkBlue"  Width="175"  FontFamily="/font/#KoPubDotum Medium"></TextBlock>
+                                <TextBlock Canvas.Left="833" Canvas.Top="1" FontSize="15"  Text="{Binding item1}" Foreground="Green"  Width="170"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <TextBlock Canvas.Left="833" Canvas.Top="20" FontSize="15" Text="{Binding item2}" Foreground="Black"  Width="170"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <TextBlock Canvas.Left="833" Canvas.Top="40" FontSize="15" Text="{Binding item3}" Foreground="Green"  Width="170"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <TextBlock Canvas.Left="833" Canvas.Top="60" FontSize="15" Text="{Binding item4}" Foreground="Black"  Width="170"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
                                 <Border    Canvas.Left="1010" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
 
                                 <!--계획-->

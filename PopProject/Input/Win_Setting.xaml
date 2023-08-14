@@ -13,7 +13,7 @@
 
             <TabItem Header="기본 설정1"  FontSize="15" Height="50" Width="100" Margin="0,-1,0,1">
                 <Canvas>
-                    <TextBlock Text="작업정보 설정 (최대 3개 선택가능)" FontSize="22" Foreground="Black" Canvas.Left="20" Canvas.Top="15" FontFamily="/font/#KoPubDotum Medium"/>
+                    <TextBlock Text="작업정보 설정 (최대 4개 선택가능)" FontSize="22" Foreground="Black" Canvas.Left="20" Canvas.Top="15" FontFamily="/font/#KoPubDotum Medium"/>
                     <StackPanel x:Name="str" Canvas.Left="30" Canvas.Top="45" Width="270">
                         <CheckBox x:Name="cb1" Content="필름 NO"  Width="140" Margin="10" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked">
                             <CheckBox.LayoutTransform>
@@ -349,10 +349,10 @@
                 </Canvas>
             </TabItem>
 
-            <TabItem Header="자재명세서 출력정보 설정" FontSize="15" Height="50" Width="155">
+            <TabItem Header="제품명세서 출력정보 설정" FontSize="15" Height="50" Width="155">
 
                 <Canvas>
-                    <TextBlock Text="자재명세서 비고 란 출력 설정 " FontSize="22" Foreground="Black" Canvas.Left="20" Canvas.Top="15" FontFamily="/font/#KoPubDotum Medium"/>
+                    <TextBlock Text="제품명세서 비고 란 출력 설정 " FontSize="22" Foreground="Black" Canvas.Left="20" Canvas.Top="15" FontFamily="/font/#KoPubDotum Medium"/>
                     <StackPanel x:Name="str3" Canvas.Left="30" Canvas.Top="50"  Width="265">
                         <CheckBox x:Name="_cb1" Content="필름 NO"  Width="140" Margin="10" Checked="Setting_print" Unchecked="Setting_print">
                             <CheckBox.LayoutTransform>
