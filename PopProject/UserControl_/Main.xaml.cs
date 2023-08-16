@@ -2096,6 +2096,10 @@ namespace PopProject.UserControl_
                                         {
                                             listitem.item3 = item.Replace("\r\n", ""); //셋째줄
                                         }
+                                        else if (i == 3)
+                                        {
+                                            listitem.item4 = item.Replace("\r\n", ""); //넷째줄
+                                        }
 
                                     }
 

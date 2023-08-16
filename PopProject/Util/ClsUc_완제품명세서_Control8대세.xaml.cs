@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using ZXing;
 
 namespace PopProject.Util
 {
@@ -21,33 +23,33 @@ namespace PopProject.Util
             this.DataContext = ViewModel;
         }
 
-        //public void Set_BarCode(string id)
-        //{
-        //    barcodeImage.Visibility = System.Windows.Visibility.Visible;
+        public void Set_BarCode(string id)
+        {
+            //barcodeImage.Visibility = System.Windows.Visibility.Visible;
 
-        //    BarCode barcodeFont;
+            //BarCode barcodeFont;
 
-        //    barcodeFont = new BarCode();
-        //    barcodeFont.SymbologyType = SymbologyType.Code128c;
-        //    barcodeFont.X = 3;
-        //    // barcodeFont.BarCodeWidth = 450
-        //    // barcodeFont.BarCodeHeight = 90
-        //    barcodeFont.BarCodeWidth = 200;
-        //    barcodeFont.BarCodeHeight = 20;
+            //barcodeFont = new BarCode();
+            //barcodeFont.SymbologyType = SymbologyType.Code128c;
+            //barcodeFont.X = 3;
+            //// barcodeFont.BarCodeWidth = 450
+            //// barcodeFont.BarCodeHeight = 90
+            //barcodeFont.BarCodeWidth = 200;
+            //barcodeFont.BarCodeHeight = 20;
 
-        //    barcodeFont.CodeText = id;
+            //barcodeFont.CodeText = id;
 
-        //    System.IO.Stream stream = new System.IO.MemoryStream();
-        //    barcodeFont.drawBarcode(stream);
+            //System.IO.Stream stream = new System.IO.MemoryStream();
+            //barcodeFont.drawBarcode(stream);
 
-        //    var imageSource = new BitmapImage();
-        //    imageSource.BeginInit();
-        //    imageSource.StreamSource = stream;
-        //    imageSource.EndInit();
+            //var imageSource = new BitmapImage();
+            //imageSource.BeginInit();
+            //imageSource.StreamSource = stream;
+            //imageSource.EndInit();
 
-        //    barcodeImage.Source = imageSource;
-        //    barcodeImage2.Source = imageSource;
-        //}
+            //barcodeImage.Source = imageSource;
+            //barcodeImage2.Source = imageSource;
+        }
 
 
         public class ProductReport
