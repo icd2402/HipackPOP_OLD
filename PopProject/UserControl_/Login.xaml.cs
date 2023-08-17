@@ -197,8 +197,8 @@ namespace PopProject.UserControl_
             //마닐라,원단 or 기본 화면 확면 구분
             switch (metrialitem)
             {
-                case "12": //마닐라
-                case "13": //원단
+                case "19": //마닐라
+                case "20": //원단
                     if (Properties.Settings.Default.authKey.Equals(Properties.Settings.Default.corp_id))
                     {
                         _ = new LogData("로그인");

@@ -2202,8 +2202,8 @@ namespace PopProject.Detail
             Close();
             switch (metrialitem)
             {
-                case "12": //원단 
-                case "13": //마닐라
+                case "19": //마닐라 
+                case "20": //원단
                     Win_input input = new Win_input(mainModel, workList, true);
                     Main1.win_Input = input;
                     _ = input.ShowDialog();

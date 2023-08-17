@@ -149,10 +149,10 @@ namespace PopProject.Input
             {
                 switch (metrial[i])
                 {
-                    case "12": //마닐라 정보
+                    case "19": //마닐라 정보
                         scinfo.IsChecked = true;
                         break;
-                    case "13": //원단 정보
+                    case "20": //원단 정보
                         wdinfo.IsChecked = true;
                         break;
                     default:
@@ -249,11 +249,75 @@ namespace PopProject.Input
             Close();
         }
 
+         // 기본설정1 [작업 정보] 설정 체크 수량
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+            List<string> list = new List<string>();
+            int count = 0;
+
+            //왼쪽줄 확인
+            foreach (CheckBox cbx in str.Children.OfType<CheckBox>())
+            {
+                if (cbx.IsChecked == true)
+                {
+                    count++;
+                    if (count < 5)
+                    {
+                        list.Add(cbx.Content.ToString());
+                    }
+                }
+
+                else
+                {
+                    _ = list.Remove(cbx.Content.ToString());
+                }
+
+            }
+
+            //오른쪽줄 확인
+            foreach (CheckBox cbx in str1.Children.OfType<CheckBox>())
+            {
+                if (cbx.IsChecked == true)
+                {
+                    count++;
+                    if (count < 5)
+                    {
+                        list.Add(cbx.Content.ToString());
+                    }
+                }
+                else
+                {
+                    _ = list.Remove(cbx.Content.ToString());
+                }
+            }
+
+            //체크수량 4개 넘으면 체크안되게함
+            if (count > 4)
+            {
+                CheckBox chb = (CheckBox)sender;
+                chb.IsChecked = false;
+            }
+
+            string settingValue = GetSettingValue(list);
+            if (settingValue.Length != 0)
+            {
+                settingValue = settingValue.Substring(0, settingValue.Length - 1);
+            }
+
+            Console.WriteLine("작업정보 체크수량 ->" + count);
+            Console.WriteLine("SettingValue(작업정보) : " + settingValue);
+            Properties.Settings.Default.searchCheck = !settingValue.Equals(Properties.Settings.Default.settingitem);
+            Properties.Settings.Default.settingitem = settingValue;
+            Properties.Settings.Default.Save();
+        }
+
         //마닐라,원단정보 체크
         private void CheckBox_Checked1(object sender, RoutedEventArgs e)
         {
             List<string> list = new List<string>();
 
+            //체크항목 확인
             foreach (CheckBox cbx in str2.Children.OfType<CheckBox>())
             {
                 if (cbx.IsChecked == true)
@@ -272,6 +336,8 @@ namespace PopProject.Input
             {
                 settingValue = "";
             }
+
+            Console.WriteLine("마닐라,원단 체크 : " + settingValue);
             Properties.Settings.Default.searchCheck = !settingValue.Equals(Properties.Settings.Default.meterialinfo); //저장값이 변경되어있으면
             Properties.Settings.Default.meterialinfo = settingValue;
             Properties.Settings.Default.Save();
@@ -372,63 +438,7 @@ namespace PopProject.Input
             return settindValue;
         }
 
-        // 기본설정1 작업 정보 설정 체크 수량
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-
-            List<string> list = new List<string>();
-            int count = 0;
-
-            foreach (CheckBox cbx in str.Children.OfType<CheckBox>())
-            {
-                if (cbx.IsChecked == true)
-                {
-                    count++;
-                    if (count < 5)
-                    {
-                        list.Add(cbx.Content.ToString());
-                    }
-                }
-
-                else
-                {
-                    _ = list.Remove(cbx.Content.ToString());
-                }
-
-            }
-            foreach (CheckBox cbx in str1.Children.OfType<CheckBox>())
-            {
-                if (cbx.IsChecked == true)
-                {
-                    count++;
-                    if (count < 5)
-                    {
-                        list.Add(cbx.Content.ToString());
-                    }
-                }
-
-                else
-                {
-                    _ = list.Remove(cbx.Content.ToString());
-                }
-            }
-
-            if (count > 4)
-            {
-                CheckBox chb = (CheckBox)sender;
-                chb.IsChecked = false;
-            }
-            string settingValue = GetSettingValue(list);
-            if (settingValue.Length != 0)
-            {
-                settingValue = settingValue.Substring(0, settingValue.Length - 1);
-            }
-            Console.WriteLine("체크함 ->" + count);
-            Console.WriteLine("SettingValue : " + settingValue);
-            Properties.Settings.Default.searchCheck = !settingValue.Equals(Properties.Settings.Default.settingitem);
-            Properties.Settings.Default.settingitem = settingValue;
-            Properties.Settings.Default.Save();
-        }
+       
 
         // 기본설정1 작업정보 설정 체크 해제
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -466,7 +476,7 @@ namespace PopProject.Input
             Properties.Settings.Default.Save();
         }
 
-        //작업정보 설정 list에 담기
+        //작업정보 설정 list에 담기위한 번호 부여
         private string GetSettingValue(List<string> list)
         {
             string settindValue = "";
@@ -528,6 +538,12 @@ namespace PopProject.Input
                         break;
                     case "spare2":
                         setting = 18;
+                        break;
+                    case "마닐라 정보":
+                        setting = 19;
+                        break;
+                    case "원단 정보":
+                        setting = 20;
                         break;
                     default:
                         break;

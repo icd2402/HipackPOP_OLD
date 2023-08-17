@@ -41,7 +41,7 @@ namespace PopProject.Detail
             try
             {
                 SignalRAdministrator conn = new SignalRAdministrator();
-                conn.Setconnection();
+                //conn.Setconnection();
             }
             catch (Exception)
             {

@@ -47,8 +47,8 @@ namespace PopProject.Consumer_
             //설정에서 세팅 정보
             switch (metrialitem)
             {
-                case "12": //마닐라
-                case "13": //원단
+                case "19": //마닐라
+                case "20": //원단
                     if (Main1.production != null)
                     {
                         try
@@ -104,9 +104,9 @@ namespace PopProject.Consumer_
             PopWorkListSearch(); //생산계획 리스트 조회
             switch (metrialitem)
             {
-                case "12": //마닐라
-                case "13": //원단
                 case "14":
+                case "19": //마닐라
+                case "20": //원단
                     if (Main1.arduSerial.IsOpen)
                     {
                         Main1.arduSerial.DataReceived += ArduReReceive;
@@ -126,8 +126,8 @@ namespace PopProject.Consumer_
         {
             switch (metrialitem)
             {
-                case "12": //마닐라
-                case "13": //원단
+                case "19": //마닐라
+                case "20": //원단
                     str = Main1.str;
                     break;
 
@@ -308,8 +308,8 @@ namespace PopProject.Consumer_
         {
             switch (metrialitem)
             {
-                case "12": //마닐라
-                case "13": //원단
+                case "19": //마닐라
+                case "20": //원단
                     Main1.production = null;
                     Popresultend();
                     if (Main1.production != null)
@@ -422,8 +422,8 @@ namespace PopProject.Consumer_
 
                 switch (metrialitem)
                 {
-                    case "12": //마닐라
-                    case "13": //원단
+                    case "19": //마닐라
+                    case "20": //원단
 
                         Main1.production = null;
                         try
@@ -490,8 +490,8 @@ namespace PopProject.Consumer_
 
                 switch (metrialitem)
                 {
-                    case "12": //마니라
-                    case "13": //원단
+                    case "19": //마니라
+                    case "20": //원단
                         //생산중일때
                         if (Main1.production != null)
                         {

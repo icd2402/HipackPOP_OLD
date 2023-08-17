@@ -252,8 +252,8 @@ namespace PopProject.Input
                 switch (metrialitem)
                 {
                     //둘중 하나 선택하면
-                    case "12":
-                    case "13":
+                    case "19":
+                    case "20":
                         if (Main1.production != null)
                         {
                             Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청 //종료
@@ -290,8 +290,8 @@ namespace PopProject.Input
                     switch (metrialitem)
                     {
                         //마닐라,원단 설정
-                        case "12": //마닐라
-                        case "13": //원단
+                        case "19": //마닐라
+                        case "20": //원단
 
                             if (Main1.production != null)
                             {
@@ -829,8 +829,8 @@ namespace PopProject.Input
                 PopInlineEnd(subOb, int.Parse(returnData.리턴값));
                 switch (metrialitem)
                 {
-                    case "12":
-                    case "13":
+                    case "19":
+                    case "20":
                         Main1.production = mainModel;
                         try
                         {
@@ -1002,8 +1002,8 @@ namespace PopProject.Input
 
                 switch (metrialitem)
                 {
-                    case "12":
-                    case "13":
+                    case "19":
+                    case "20":
                         if (Main1.production != null)
                         {
                             MessageBox_Dialog messageBox = new MessageBox_Dialog("작업중인 건이 있습니다.");
@@ -1660,8 +1660,8 @@ namespace PopProject.Input
                 //아두이노 리셋
                 switch (metrialitem)
                 {
-                    case "12":
-                    case "13":
+                    case "19":
+                    case "20":
                         Main1.production = null;
 
                         try
@@ -1747,8 +1747,8 @@ namespace PopProject.Input
 
                 switch (metrialitem)
                 {
-                    case "12": //마닐라
-                    case "13": //원단
+                    case "19": //마닐라
+                    case "20": //원단
                         Main1.production = mainModel;
                         try
                         {

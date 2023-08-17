@@ -493,8 +493,8 @@ namespace PopProject.Consumer_
                 //인풋화면 호출과 동시에 아두이노 카운팅 시작
                 //switch (metrialitem)
                 //{
-                //    case "12":
-                //    case "13":
+                //    case "19":
+                //    case "20":
                 //        if (Main1.production != null)
                 //        {
                 //            try

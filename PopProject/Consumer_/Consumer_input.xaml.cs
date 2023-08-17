@@ -443,8 +443,8 @@ namespace PopProject.Consumer_
                         _ = new LogData("작업종료");
                         switch (metrialitem)
                         {
-                            case "12": //마닐라
-                            case "13": //원단
+                            case "19": //마닐라
+                            case "20": //원단
                                 Main1.production = null;
                                 try
                                 {
@@ -608,8 +608,8 @@ namespace PopProject.Consumer_
                 switch (metrialitem)
                 {
 
-                    case "12": //마닐라
-                    case "13": //원단
+                    case "19": //마닐라
+                    case "20": //원단
                         Main1.production = mainModel;
                         try
                         {

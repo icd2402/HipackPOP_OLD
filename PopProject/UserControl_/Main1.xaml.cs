@@ -66,7 +66,7 @@ namespace PopProject.UserControl_
             {
                 SignalRAdministrator conn = new SignalRAdministrator();
 
-                conn.Setconnection();
+                conn.Setconnection(true);
             }
             catch (Exception)
             {
@@ -490,25 +490,15 @@ namespace PopProject.UserControl_
             {
                 _ = SignalRAdministrator.허브.Invoke("invokeCount", Properties.Settings.Default.corp_id, Properties.Settings.Default.mercName, str + "");
             }
-
             catch (Exception)
             {
-
             }
         }
 
         private void Serial_click(object sender, RoutedEventArgs e)
         {
-            //ChangeWorkList ch = new ChangeWorkList();
-            // ch.ShowDialog();
-            /*
-             e.Handled = true;
-             string[] portName = SerialPort.GetPortNames();
-             SerialList.SerialList serial = new SerialList.SerialList(portName);
-             serial.ShowDialog();
-             ArduConn();
-             can.Visibility = Visibility.Collapsed;*/
         }
+
         private void Remote_click(object sender, MouseButtonEventArgs e)
         {
             _ = Process.Start("http://onefax.co.kr/w_onefax/remotebox_view.aspx");
@@ -641,7 +631,7 @@ namespace PopProject.UserControl_
                             listitem.mLmW = result["pSize"].ToString();
                         }
 
-                        else if (Properties.Settings.Default.meterialinfo.Equals("12"))
+                        else if (Properties.Settings.Default.meterialinfo.Equals("19"))
                         {
                             info.Text = "마닐라정보";
                             listitem.aLaW = result["SCmW"].ToString() + "*" + result["SCmL"].ToString();
@@ -782,63 +772,54 @@ namespace PopProject.UserControl_
                                         case "1":
                                             item = result["filmNo"].ToString();
                                             break;
-
                                         case "2":
                                             item = result["CoatingType"].ToString();
                                             break;
-
                                         case "3":
                                             item = result["PrintNo"].ToString();
                                             break;
-
                                         case "4":
                                             item = result["Printposition"].ToString();
                                             break;
-
                                         case "5":
                                             item = result["PushingNo"].ToString();
                                             break;
-
                                         case "6":
                                             item = result["Pushingposition"].ToString();
                                             break;
-
                                         case "7":
                                             item = Properties.Settings.Default.color_check
                                                 ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ")
                                                 : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
-
                                             break;
-
                                         case "8":
                                             item = result["ConnetingType"].ToString();
                                             break;
-
                                         case "9":
                                             item = result["handChk"].ToString();
                                             break;
-
                                         case "10":
                                             item = result["PackCount"].ToString();
                                             break;
-
                                         case "11":
                                             item = result["PackType"].ToString();
                                             break;
-
-                                        case "14":
+                                        case "12":
                                             item = result["workMemo"].ToString();
                                             break;
-                                        case "15":
+                                        case "13":
                                             item = result["pplanMemo"].ToString();
                                             break;
-                                        case "16":
-                                            item = result["ProcessMemo"].ToString();
-                                            break;
-                                        case "17":
+                                        case "14":
                                             item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
-                                               ? "-"
-                                               : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
+                                           ? "-"
+                                           : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
+                                            break;
+                                        case "15":
+                                            item = result["PalletType"].ToString();
+                                            break;
+                                        case "16":
+                                            item = result["SpecialMemo"].ToString();
                                             break;
                                         default:
                                             break;
@@ -846,17 +827,21 @@ namespace PopProject.UserControl_
 
                                     if (i == 0)
                                     {
-                                        listitem.item1 = item.Replace("\r\n", "");
+                                        listitem.item1 = item.Replace("\r\n", ""); //첫째줄
                                     }
                                     else if (i == 1)
                                     {
-
-                                        listitem.item2 = item.Replace("\r\n", "");
+                                        listitem.item2 = item.Replace("\r\n", ""); //둘째줄
                                     }
                                     else if (i == 2)
                                     {
-                                        listitem.item3 = item.Replace("\r\n", "");
+                                        listitem.item3 = item.Replace("\r\n", ""); //셋째줄
                                     }
+                                    else if (i == 3)
+                                    {
+                                        listitem.item4 = item.Replace("\r\n", ""); //넷째줄
+                                    }
+
                                 }
 
                                 foreach (JObject resultSub in Data_Jarry)
@@ -877,9 +862,7 @@ namespace PopProject.UserControl_
                                             {
                                                 subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
                                             }
-
                                         }
-
                                         else
                                         {
                                             subItem.stateColor = Brushes.White;
@@ -892,7 +875,6 @@ namespace PopProject.UserControl_
                                 workList.Add(listitem);
                             }
                         }
-
                         else
                         {
                             if (listitem.mercName.Equals(""))
@@ -931,36 +913,34 @@ namespace PopProject.UserControl_
                                                     : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
 
                                                 break;
-
                                             case "8":
                                                 item = result["ConnetingType"].ToString();
                                                 break;
-
                                             case "9":
                                                 item = result["handChk"].ToString();
                                                 break;
-
                                             case "10":
                                                 item = result["PackCount"].ToString();
                                                 break;
-
                                             case "11":
                                                 item = result["PackType"].ToString();
                                                 break;
-
-                                            case "14":
+                                            case "12":
                                                 item = result["workMemo"].ToString();
                                                 break;
-                                            case "15":
+                                            case "13":
                                                 item = result["pplanMemo"].ToString();
                                                 break;
-                                            case "16":
-                                                item = result["ProcessMemo"].ToString();
-                                                break;
-                                            case "17":
+                                            case "14":
                                                 item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
                                                ? "-"
                                                : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
+                                                break;
+                                            case "15":
+                                                item = result["PalletType"].ToString();
+                                                break;
+                                            case "16":
+                                                item = result["SpecialMemo"].ToString();
                                                 break;
                                             default:
                                                 break;
@@ -972,12 +952,15 @@ namespace PopProject.UserControl_
                                         }
                                         else if (i == 1)
                                         {
-
                                             listitem.item2 = item.Replace("\r\n", "");
                                         }
                                         else if (i == 2)
                                         {
                                             listitem.item3 = item.Replace("\r\n", "");
+                                        }
+                                        else if (i == 3)
+                                        {
+                                            listitem.item4 = item.Replace("\r\n", "");
                                         }
                                     }
 
@@ -1002,7 +985,6 @@ namespace PopProject.UserControl_
                                                     subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
                                                 }
                                             }
-
                                             else
                                             {
                                                 subItem.stateColor = Brushes.White;
@@ -1031,59 +1013,52 @@ namespace PopProject.UserControl_
                                             case "1":
                                                 item = result["filmNo"].ToString();
                                                 break;
-
                                             case "2":
                                                 item = result["CoatingType"].ToString();
                                                 break;
-
                                             case "3":
                                                 item = result["PrintNo"].ToString();
                                                 break;
-
                                             case "4":
                                                 item = result["Printposition"].ToString();
                                                 break;
-
                                             case "5":
                                                 item = result["PushingNo"].ToString();
                                                 break;
-
                                             case "6":
                                                 item = result["Pushingposition"].ToString();
                                                 break;
-
                                             case "7":
                                                 item = result["ColorType"].ToString().Replace("|", "");
                                                 break;
-
                                             case "8":
                                                 item = result["ConnetingType"].ToString();
                                                 break;
-
                                             case "9":
                                                 item = result["handChk"].ToString();
                                                 break;
-
                                             case "10":
                                                 item = result["PackCount"].ToString();
                                                 break;
-
                                             case "11":
                                                 item = result["PackType"].ToString();
                                                 break;
-                                            case "14":
+                                            case "12":
                                                 item = result["workMemo"].ToString();
                                                 break;
-                                            case "15":
+                                            case "13":
                                                 item = result["pplanMemo"].ToString();
                                                 break;
-                                            case "16":
-                                                item = result["ProcessMemo"].ToString();
-                                                break;
-                                            case "17":
+                                            case "14":
                                                 item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
                                                ? "-"
                                                : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
+                                                break;
+                                            case "15":
+                                                item = result["PalletType"].ToString();
+                                                break;
+                                            case "16":
+                                                item = result["SpecialMemo"].ToString();
                                                 break;
                                             default:
                                                 break;
@@ -1095,12 +1070,15 @@ namespace PopProject.UserControl_
                                         }
                                         else if (i == 1)
                                         {
-
                                             listitem.item2 = item.Replace("\r\n", "");
                                         }
                                         else if (i == 2)
                                         {
                                             listitem.item3 = item.Replace("\r\n", "");
+                                        }
+                                        else if (i == 3)
+                                        {
+                                            listitem.item4 = item.Replace("\r\n", "");
                                         }
                                     }
                                     foreach (JObject resultSub in Data_Jarry)
@@ -1144,7 +1122,6 @@ namespace PopProject.UserControl_
                     this.workList = workList;
                     ic.ItemsSource = workList;
                 }
-
                 else
                 {
                     //MessageBox_Dialog box = new MessageBox_Dialog("PopWorkList 조회 오류!!");
@@ -1627,13 +1604,13 @@ namespace PopProject.UserControl_
         {
             switch (metrialitem)
             {
-                case "12":
+                case "19":
                     info.Text = "마닐라정보";
                     // div.Text = "자재종류";
                     //Canvas.SetLeft(info, 446);
                     break;
 
-                case "13":
+                case "20":
                     info.Text = "원단정보";
                     // Canvas.SetLeft(info, 446);
                     break;

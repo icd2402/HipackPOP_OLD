@@ -101,7 +101,7 @@ namespace PopProject.UserControl_
                 try
                 {
                     SignalRAdministrator conn = new SignalRAdministrator();
-                    conn.Setconnection();
+                    conn.Setconnection(true);
                 }
                 catch (Exception)
                 {
@@ -2991,8 +2991,8 @@ namespace PopProject.UserControl_
         {
             switch (metrialitem)
             {
-                case "13":
-                case "12":
+                case "19":
+                case "20":
                     arduSerial.Close();
                     Content = null;
                     timer.Stop();
@@ -3230,6 +3230,19 @@ namespace PopProject.UserControl_
 
             MachineCheck machineCheck = new MachineCheck();
             machineCheck.Show();
+        }
+
+        //상태버튼 클릭시 SignalR 재연결
+        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                SignalRAdministrator conn = new SignalRAdministrator();
+                conn.Setconnection(false);
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 
