@@ -1738,8 +1738,7 @@ namespace PopProject.Detail
 
                         };
 
-
-                        
+                        //오주
                         if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
                         {
                             //프린트넘버에 CNS 넘버가 있어서 가져옴
@@ -1771,10 +1770,7 @@ namespace PopProject.Detail
 
                         }
 
-
-
-
-
+                        //두성
                         if (Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Equals("두성포장테스트"))
                         {
                             JToken token = result["LocationName"];
@@ -1789,6 +1785,7 @@ namespace PopProject.Detail
                             
                         }
 
+                        //오주
                         if (Properties.Settings.Default.corp_name.Equals("오주포장"))
                         {
                             if (Detailitem.PrintNo.Contains("무인쇄") || Detailitem.PrintNo.Contains("X"))
@@ -1804,12 +1801,21 @@ namespace PopProject.Detail
 
 
                         //메모
-                        if (result["prodMemo"] != null)
+                        //우리6사는 메소 사용 안함 (박소연대리? 요청)
+                        if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("우리포장") || Properties.Settings.Default.corp_name.Equals("유램"))
                         {
-                            tb공정별.Text = tb공정별.Text.ToString() + "\n" + "메  모 : " + result["prodMemo"].ToString();
+                            tb공정별.Text = tb공정별.Text.ToString();
                         }
-
+                        else
+                        {
+                            if (result["prodMemo"] != null)
+                            {
+                                tb공정별.Text = tb공정별.Text.ToString() + "\n" + "메  모 : " + result["prodMemo"].ToString();
+                            }
+                        }
                         int count = 17;
+
+
 
                         //파렛트 사이즈
                         if (Detailitem.PalletSize.Equals(""))
@@ -1895,6 +1901,7 @@ namespace PopProject.Detail
                             }
                         }
 
+                        //적재단수
                         if (Detailitem.LoadHeight.Equals(""))
                         {
                             //적재단수.Visibility = Visibility.Collapsed;
@@ -1905,6 +1912,7 @@ namespace PopProject.Detail
                             tb적재단수.Text = Detailitem.LoadHeight;
                         }
 
+                        //손잡이 위치
                         if (Detailitem.HandPosition.Equals(""))
                         {
                             //손잡이위치.Visibility = Visibility.Collapsed;
@@ -1915,6 +1923,7 @@ namespace PopProject.Detail
                             tb손잡이위치.Text = Detailitem.HandPosition;
                         }
 
+                        //디자인No.
                         if (Detailitem.DesignNO.Equals(""))
                         {
                             //디자인NO.Visibility = Visibility.Collapsed;
@@ -1925,7 +1934,7 @@ namespace PopProject.Detail
                             tb디자인NO.Text = Detailitem.DesignNO;
                         }
 
-
+                        //조판번호
                         if (Detailitem.PrintNo.Equals(""))
                         {
                             //조판번호.Visibility = Visibility.Collapsed;
@@ -1936,6 +1945,7 @@ namespace PopProject.Detail
                             tb조판번호.Text = Detailitem.PrintNo;
                         }
 
+                        //조판위치
                         if (Detailitem.Printposition.Equals(""))
                         {
                             //조판위치.Visibility = Visibility.Collapsed;
@@ -1946,6 +1956,7 @@ namespace PopProject.Detail
                             tb조판위치.Text = Detailitem.Printposition;
                         }
 
+                        //인쇄색도
                         if (Detailitem.ColorType.Equals(""))
                         {
                             //인쇄색도.Visibility = Visibility.Collapsed;
@@ -1956,6 +1967,7 @@ namespace PopProject.Detail
                             tb인쇄색도.Text = Detailitem.ColorType;
                         }
 
+                        //필름번호
                         if (Detailitem.filmNo.Equals(""))
                         {
                             // 필름번호.Visibility = Visibility.Collapsed;
@@ -1966,7 +1978,7 @@ namespace PopProject.Detail
                             tb필름번호.Text = Detailitem.filmNo;
                         }
 
-
+                        //코팅방법
                         if (Detailitem.CoatingType.Equals(""))
                         {
                             코팅.Visibility = Visibility.Collapsed;
@@ -1977,6 +1989,7 @@ namespace PopProject.Detail
                             tb코팅.Text = Detailitem.CoatingType;
                         }
 
+                        //목형번호
                         if (Detailitem.PushingNo.Equals(""))
                         {
                             목형번호.Visibility = Visibility.Collapsed;
@@ -1987,6 +2000,7 @@ namespace PopProject.Detail
                             tb목형번호.Text = Detailitem.PushingNo;
                         }
 
+                        //목형위치
                         if (Detailitem.Pushingposition.Equals(""))
                         {
                             목형위치.Visibility = Visibility.Collapsed;
@@ -1997,6 +2011,7 @@ namespace PopProject.Detail
                             tb목형위치.Text = Detailitem.Pushingposition;
                         }
 
+                        //손잡이
                         if (Detailitem.handChk.Equals(""))
                         {
                             손잡이.Visibility = Visibility.Collapsed;
@@ -2007,6 +2022,7 @@ namespace PopProject.Detail
                             tb손잡이.Text = Detailitem.handChk;
                         }
 
+                        //접합방법
                         if (Detailitem.ConnetingType.Equals(""))
                         {
                             접합방법.Visibility = Visibility.Collapsed;
@@ -2017,17 +2033,18 @@ namespace PopProject.Detail
                             tb접합방법.Text = Detailitem.ConnetingType;
                         }
 
+                        //밴딩매수
                         if (Detailitem.PackCount < 0)
                         {
                             밴딩매수.Visibility = Visibility.Collapsed;
                             count -= 1;
                         }
-
                         else
                         {
                             tb밴딩매수.Text = Detailitem.PackCount + "";
                         }
 
+                        //밴딩방법
                         if (Detailitem.PackType.Equals(""))
                         {
                             밴딩방법.Visibility = Visibility.Collapsed;
@@ -2038,22 +2055,32 @@ namespace PopProject.Detail
                             tb밴딩방법.Text = Detailitem.PackType;
                         }
 
+                        //작업지시
                         tb작업지시.Text = Detailitem.jobMemo;
+                        
+                        //특별지시
                         tb특별지시.Text = Detailitem.SpecialMemo;
 
+                        //자재구분
                         if (Detailitem.metType == 1)
                         {
+                            if (Properties.Settings.Default.corp_name.Equals("누리팩"))
+                            {
+                                canSC.Visibility = Visibility.Visible;
+
+                            }
+
                             txtSc.Text = Detailitem.metrialName;
                             txtScSize.Text = Detailitem.mL + " * " + Detailitem.mW;
                         }
-
+                        //마닐라 정보삭제
                         else
                         {
                             canSC.Visibility = Visibility.Collapsed;
                             txtBh.Text = Detailitem.metrialName + "    (" + mainModel.paperGor + ")";
                             txtBhSize.Text = Detailitem.mL + " * " + Detailitem.mW;
-                            //Detailitem.WDScore = "123*456*789";
                             string[] split = Detailitem.WDScore.Split('*');
+
                             if (split.Length > 0 && split.Length != 1)
                             {
                                 if (!split[0].Equals(split[2]))

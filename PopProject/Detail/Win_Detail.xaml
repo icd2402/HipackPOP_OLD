@@ -96,10 +96,10 @@
                 </Canvas>
 
                 <Canvas x:Name="canSC" DockPanel.Dock="Top" Height="50" VerticalAlignment="Top" >
-                    <TextBlock Text="마닐라" FontSize="17" Canvas.Left="33" Canvas.Top="5" FontFamily="/font/#KoPubBatang Light"/>
-                    <TextBlock Text="|" FontSize="17" Canvas.Left="108" Canvas.Top="-1"/>
-                    <TextBlock x:Name="txtSc" Text="마닐라" FontSize="17" Canvas.Left="133" Canvas.Top="4" FontFamily="/font/#KoPubDotum Medium"/>
-                    <TextBlock x:Name="txtScSize" Text="마닐라" FontSize="17" Canvas.Left="133" Canvas.Top="30" FontFamily="/font/#KoPubDotum Medium"/>
+                    <TextBlock Text="마    닐    라" FontSize="16" Canvas.Left="28" Canvas.Top="5" FontFamily="/font/#KoPubBatang Light"/>
+                    <TextBlock Text="|" FontSize="16" Canvas.Left="150" Canvas.Top="-1"/>
+                    <TextBlock x:Name="txtSc" Text="마닐라" FontSize="16" Canvas.Left="165" Canvas.Top="4" FontFamily="/font/#KoPubDotum Medium"/>
+                    <TextBlock x:Name="txtScSize" Text="마닐라 규격" FontSize="16" Canvas.Left="165" Canvas.Top="30" FontFamily="/font/#KoPubDotum Medium"/>
                 </Canvas>
 
                 <Image Source="/img/Dot.png" DockPanel.Dock="Top" VerticalAlignment="Top" Width="556" Height="8"/>

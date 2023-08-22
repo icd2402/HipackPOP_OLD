@@ -497,6 +497,8 @@ namespace PopProject.MessageBox
                         pr8.pSize = result["pSize"].ToString();                  //규격
                         pr8.MycustomSName = Properties.Settings.Default.corp_name; //생산처
                         pr8.corpName = Properties.Settings.Default.accountCheck ? "" : mainModel.corpName; //거래처 상호
+
+
                         string memo = "";
                         memo = getMemo(Properties.Settings.Default.printItem);
 
@@ -531,7 +533,7 @@ namespace PopProject.MessageBox
                         }
 
                         완제품명세서_대세.ViewModel = pr8;
-                        완제품명세서_대세.Set_BarCode();
+                        완제품명세서_대세.Set_BarCode(mainModel.pplanKey.ToString());
                         Grid.SetRow(완제품명세서_대세, 1);
                         명세서양식_uc8대세.ItemPanel.Children.Add(완제품명세서_대세);
                         Set_FixedPage.Children.Add(명세서양식_uc8대세 as UIElement);

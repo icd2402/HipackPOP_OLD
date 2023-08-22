@@ -40,11 +40,11 @@ namespace PopProject.Util
                 }
                 catch (Exception)
                 {
-                    //if (연결.State == ConnectionState.Disconnected)
-                    //{
-                    //    MessageBox_Dialog dialog = new MessageBox_Dialog("SignalR 서버 접속 실패!");
-                    //    dialog.ShowDialog();
-                    //}
+                    if (연결.State == ConnectionState.Disconnected)
+                    {
+                        MessageBox_Dialog dialog = new MessageBox_Dialog("SignalR 서버 접속 실패!");
+                        dialog.ShowDialog();
+                    }
                 }
             }
             //닫기 요청

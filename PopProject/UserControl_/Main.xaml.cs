@@ -161,21 +161,20 @@ namespace PopProject.UserControl_
                     sv.PreviewMouseMove += Sv_PreviewMouseMove;
                 }
 
-                //설비점검 버튼 유/무
+                //설비점검 버튼 
+                if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트") || Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+                {
+                    TextBlock tb계획순서변경 = this.계획순서변경;
+                    tb계획순서변경.Margin = new Thickness(850, 10, 0, 0);
 
-                //if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트") || Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
-                //{
-                //    TextBlock tb계획순서변경 = this.계획순서변경;
-                //    tb계획순서변경.Margin = new Thickness(850, 10, 0, 0);
+                    TextBlock tb설비점검 = this.설비점검;
+                    tb설비점검.Margin = new Thickness(850, 60, 0, 0);
 
-                //    TextBlock tb설비점검 = this.설비점검;
-                //    tb설비점검.Margin = new Thickness(850, 60, 0, 0);
-
-                //    설비점검.Visibility = Visibility.Visible;
-                //}
-                //else
-                //{
-                //}
+                    설비점검.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                }
 
                 //인터넷 연결 확인
                 bool connected = NetworkInterface.GetIsNetworkAvailable();

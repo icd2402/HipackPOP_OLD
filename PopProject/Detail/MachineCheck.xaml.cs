@@ -167,6 +167,15 @@ namespace PopProject.Detail
                     //구분,점검명 선택시 동작
                     if (!string.IsNullOrEmpty(구분combo.Text) && !string.IsNullOrEmpty(점검명combo.Text))
                     {
+                        //관리자 계정이 아닐때만 (현황판 전송)
+                        if (!Properties.Settings.Default.manager.Equals("1"))
+                        {
+                            s구분 = 구분combo.Text;
+                            s점검명 = 점검명combo.Text;
+                            string s시간 = DateTime.Now.ToString("HH:mm");
+                            점검내용 = "C" + "/" + s구분 + "/" + s점검명 + "/" + s시간;
+                        }
+
                         // MercID 조회
                         ServiceModel.ServiceModelClean(ServerIndex, DBName);
                         ReturnModel returnData = ServiceModel.GetData(
@@ -266,13 +275,9 @@ namespace PopProject.Detail
                         //관리자 계정이 아닐때만 (현황판 전송)
                         if (!Properties.Settings.Default.manager.Equals("1"))
                         {
-                            s구분 = 구분combo.Text;
-                            s점검명 = 점검명combo.Text;
-                            string s시간 = DateTime.Now.ToString("HH:mm");
-                            점검내용 = "C" + "/" + s구분 + "/" + s점검명 + "/" + s시간;
-
                             InvokeMercName(Properties.Settings.Default.mercName, 점검내용); //설비명, 상태, 내용
                             Console.WriteLine("SignalR : " + Properties.Settings.Default.mercName + ", " + 점검내용);
+
                         }
                     }
                     else

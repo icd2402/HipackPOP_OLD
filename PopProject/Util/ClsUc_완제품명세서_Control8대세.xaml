@@ -115,7 +115,7 @@
                 <Rectangle DockPanel.Dock="Top" Style="{StaticResource BoldRectangle}" Height="1" Margin="0,2,0,0"  />
             </DockPanel>
 
-            <Image x:Name="barcodeImage" Width="130" HorizontalAlignment="Right" Height="35" VerticalAlignment="Bottom" Margin="0,0,5,11" Grid.Row="1" />
+            <Image x:Name="barcodeImage" Width="149" HorizontalAlignment="Right" Height="46" VerticalAlignment="Bottom" Margin="0,0,0,10" Grid.Row="1" />
 
             <StackPanel Grid.Row="3" >
 
@@ -167,11 +167,14 @@
                 <RowDefinition Height="52" />
             </Grid.RowDefinitions>
 
-            <DockPanel HorizontalAlignment="Center" LastChildFill="False" Margin="144,0,118,0" Grid.Row="1" Width="258">
+            <DockPanel HorizontalAlignment="Center" LastChildFill="False" Margin="145,0,154,0" Grid.Row="1" Width="231">
                 <Label DockPanel.Dock="Top" Style="{StaticResource 명세서Label}" Content="제  품  명  세  서" HorizontalContentAlignment="Center" x:Name="title3" Width="231"  />
                 <Rectangle DockPanel.Dock="Top" Style="{StaticResource BoldRectangle}" Height="1"    />
                 <Rectangle DockPanel.Dock="Top" Style="{StaticResource BoldRectangle}" Height="1" Margin="0,2,0,0"  />
             </DockPanel>
+
+            <Image x:Name="barcodeImage2" Width="149" HorizontalAlignment="Right" Height="46" VerticalAlignment="Bottom" Margin="0,0,0,10" Grid.Row="1" />
+
 
             <StackPanel Grid.Row="3" >
 
