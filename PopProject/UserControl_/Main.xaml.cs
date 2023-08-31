@@ -108,7 +108,7 @@ namespace PopProject.UserControl_
                 }
 
                 //날짜 이동버튼 활성화 (대세물산)
-                if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트") || (Properties.Settings.Default.corp_name.Equals("선호칼라팩")))
                 {
                     txtDate2.Visibility = Visibility.Visible;
                     txtDate3.Visibility = Visibility.Visible;
@@ -2537,6 +2537,7 @@ namespace PopProject.UserControl_
             }
         }
 
+        
 
         // 프로그램 종료 버튼 클릭
         private void Program_exit(object sender, MouseButtonEventArgs e)
@@ -2549,6 +2550,105 @@ namespace PopProject.UserControl_
             {
                 InvokeMercName(Properties.Settings.Default.mercName, "B");
             }
+
+            //인증코드 저장(로그인 정보)
+            try
+            {
+                string filePath = @"C:\ICD\settings.json";
+
+                if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.login_id) && !string.IsNullOrWhiteSpace(Properties.Settings.Default.login_password))
+                {
+                    //인증코드 파일경로가 존재하는지 확인 후 경로 생성
+                    if (!Directory.Exists(Path.GetDirectoryName(filePath)))
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+                    }
+
+                    //파일 내용
+                    var settings = new Dictionary<string, string>
+                    {
+                        {"login_id", Properties.Settings.Default.login_id},
+                        {"login_password", Properties.Settings.Default.login_password},
+                        {"corp_name", Properties.Settings.Default.corp_name},
+                        {"corp_id", Properties.Settings.Default.corp_id},
+                        {"login_check", Properties.Settings.Default.login_check.ToString()},
+                        {"mercName", Properties.Settings.Default.mercName},
+                        {"SerialName", Properties.Settings.Default.SerialName},
+                        {"processType", Properties.Settings.Default.processType.ToString()},
+                        {"hour", Properties.Settings.Default.hour.ToString()},
+                        {"minute", Properties.Settings.Default.minute.ToString()},
+                        {"url", Properties.Settings.Default.url},
+                        {"saveDate", Properties.Settings.Default.saveDate},
+                        {"pplanKey", Properties.Settings.Default.pplanKey.ToString()},
+                        {"count", Properties.Settings.Default.count.ToString()},
+                        {"UserID", Properties.Settings.Default.UserID},
+                        {"UserName", Properties.Settings.Default.UserName},
+                        {"signalR", Properties.Settings.Default.signalR},
+                        {"serverIndex", Properties.Settings.Default.serverIndex},
+                        {"pworkkey", Properties.Settings.Default.pworkkey},
+                        {"consumersumcount", Properties.Settings.Default.consumersumcount.ToString()},
+                        {"consumpWorkKey", Properties.Settings.Default.consumpWorkKey.ToString()},
+                        {"consumersumerrorcount", Properties.Settings.Default.consumersumerrorcount.ToString()},
+                        {"TypeIndex", Properties.Settings.Default.TypeIndex.ToString()},
+                        {"CountType", Properties.Settings.Default.CountType.ToString()},
+                        {"settingitem", Properties.Settings.Default.settingitem},
+                        {"meterialinfo", Properties.Settings.Default.meterialinfo},
+                        {"setting_check", Properties.Settings.Default.setting_check.ToString()},
+                        {"baudrate", Properties.Settings.Default.baudrate.ToString()},
+                        {"SensorRate", Properties.Settings.Default.SensorRate},
+                        {"RadioChecked", Properties.Settings.Default.RadioChecked.ToString()},
+                        {"printItem", Properties.Settings.Default.printItem},
+                        {"samework", Properties.Settings.Default.samework.ToString()},
+                        {"color_check", Properties.Settings.Default.color_check.ToString()},
+                        {"count_check", Properties.Settings.Default.count_check.ToString()},
+                        {"boxCheck", Properties.Settings.Default.boxCheck.ToString()},
+                        {"searchCheck", Properties.Settings.Default.searchCheck.ToString()},
+                        {"keyinCheck", Properties.Settings.Default.keyinCheck.ToString()},
+                        {"detail_check", Properties.Settings.Default.detail_check.ToString()},
+                        {"option1", Properties.Settings.Default.option1.ToString()},
+                        {"presultcount", Properties.Settings.Default.presultcount.ToString()},
+                        {"twoSum", Properties.Settings.Default.twoSum.ToString()},
+                        {"accountCheck", Properties.Settings.Default.accountCheck.ToString()},
+                        {"productionCheck", Properties.Settings.Default.productionCheck.ToString()},
+                        {"scrollvarCheck", Properties.Settings.Default.scrollvarCheck.ToString()},
+                        {"index", Properties.Settings.Default.index.ToString()},
+                        {"error", Properties.Settings.Default.error},
+                        {"error1", Properties.Settings.Default.error1},
+                        {"Plc", Properties.Settings.Default.Plc.ToString()},
+                        {"ChangeCheck", Properties.Settings.Default.ChangeCheck.ToString()},
+                        {"ip", Properties.Settings.Default.ip},
+                        {"port", Properties.Settings.Default.port},
+                        {"Gap", Properties.Settings.Default.Gap.ToString()},
+                        {"mimi", Properties.Settings.Default.mimi.ToString()},
+                        {"jang", Properties.Settings.Default.jang.ToString()},
+                        {"pok", Properties.Settings.Default.pok.ToString()},
+                        {"go", Properties.Settings.Default.go.ToString()},
+                        {"setCount", Properties.Settings.Default.setCount.ToString()},
+                        {"boxType", Properties.Settings.Default.boxType.ToString()},
+                        {"plcCheck", Properties.Settings.Default.plcCheck.ToString()},
+                        {"completeValue_checked", Properties.Settings.Default.completeValue_checked.ToString()},
+                        {"checkMerc", Properties.Settings.Default.checkMerc.ToString()},
+                        {"robotchecked", Properties.Settings.Default.robotchecked.ToString()},
+                        {"robotIP", Properties.Settings.Default.robotIP},
+                        {"robotPort", Properties.Settings.Default.robotPort},
+                        {"manager", Properties.Settings.Default.manager},
+                        {"authKey", Properties.Settings.Default.authKey},
+                        {"SerialName1", Properties.Settings.Default.SerialName1},
+                        {"consumCount", Properties.Settings.Default.consumCount.ToString()}
+                    };
+
+                    //인증코드 파일 작성
+                    string json = Newtonsoft.Json.JsonConvert.SerializeObject(settings);
+
+                    //인증코드 파일이 있는지 확인 후 해당 파일을 숨김 처리 (숨김 이후 수정되지 않음)
+                    File.WriteAllText(filePath, json);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            //프로그램 종료
             Environment.Exit(0);
         }
 

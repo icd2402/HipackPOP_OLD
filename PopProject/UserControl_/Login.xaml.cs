@@ -25,33 +25,39 @@ namespace PopProject.UserControl_
             InitializeComponent();
             _ = Keyboard.Focus(textbox_login_id);
 
-            //인증코드 확인
-            //Is_GetCompanyCodeFile();
+            //인증코드 조회+
+            Is_GetCompanyCodeFile();
 
-            ////인증코드 불러 왔으면
-            //if (Is_GetCompanyCodeFile())
-            //{
-
-            //}
-            ////인증코드 로드 실패
-            //else
-            //{
-
-            //}
-
-            //자동로그인 체크시
-            if (Properties.Settings.Default.login_check)
+            //인증코드를 정상적으로 불러 왔으면
+            if (Is_GetCompanyCodeFile())
             {
-                login_check.IsChecked = true;
-                textbox_login_id.Text = Properties.Settings.Default.login_id;
-                textbox_login_password.Password = Properties.Settings.Default.login_password;
-                Login_(); 
+                //자동로그인체크 , ID, P/W 정보가 있으면 자동 로그인 
+                if (Properties.Settings.Default.login_check && !string.IsNullOrWhiteSpace(Properties.Settings.Default.login_id) && !string.IsNullOrWhiteSpace(Properties.Settings.Default.login_password))
+                {
+                    login_check.IsChecked = true;
+                    textbox_login_id.Text = Properties.Settings.Default.login_id;
+                    textbox_login_password.Password = Properties.Settings.Default.login_password;
+                    Login_();
+                }
+
             }
+            //인증코드 로드 실패시
             else
             {
-                login_check.IsChecked = false;
-                textbox_login_id.Text = "";
-                textbox_login_password.Password = "";
+                //자동로그인 체크시
+                if (Properties.Settings.Default.login_check)
+                {
+                    login_check.IsChecked = true;
+                    textbox_login_id.Text = Properties.Settings.Default.login_id;
+                    textbox_login_password.Password = Properties.Settings.Default.login_password;
+                    Login_();
+                }
+                else
+                {
+                    login_check.IsChecked = false;
+                    textbox_login_id.Text = "";
+                    textbox_login_password.Password = "";
+                }
             }
         }
         //로그인 마우스 올렸을때
@@ -300,161 +306,161 @@ namespace PopProject.UserControl_
         private static string filePath = @"C:\ICD\settings.json";
 
         //인증코드 파일 읽어오기
-        //static bool Is_GetCompanyCodeFile()
-        //{
-        //    try
-        //    {
-        //        string loadedSettings = File.ReadAllText(filePath);
-        //        JObject jObject = JObject.Parse(loadedSettings);
+        static bool Is_GetCompanyCodeFile()
+        {
+            try
+            {
+                string loadedSettings = File.ReadAllText(filePath);
+                JObject jObject = JObject.Parse(loadedSettings);
 
-        //        string login_id = jObject["login_id"].ToString();
-        //        string login_password = jObject["login_password"].ToString();
-        //        string corp_name = jObject["corp_name"].ToString();
-        //        string corp_id = jObject["corp_id"].ToString();
-        //        bool login_check = bool.Parse(jObject["login_check"].ToString());
-        //        string mercName = jObject["mercName"].ToString();
-        //        string SerialName = jObject["SerialName"].ToString();
-        //        int processType = Convert.ToInt32(jObject["processType"]);
-        //        int hour = Convert.ToInt32(jObject["hour"]);
-        //        int minute = Convert.ToInt32(jObject["minute"]);
-        //        string url = jObject["url"].ToString();
-        //        string saveDate = jObject["saveDate"].ToString();
-        //        int pplanKey = Convert.ToInt32(jObject["pplanKey"]);
-        //        int count = Convert.ToInt32(jObject["count"]);
-        //        string UserID = jObject["UserID"].ToString();
-        //        string UserName = jObject["UserName"].ToString();
-        //        string signalR = jObject["signalR"].ToString();
-        //        string serverIndex = jObject["serverIndex"].ToString();
-        //        string pworkkey = jObject["pworkkey"].ToString();
-        //        float consumersumcount = float.Parse(jObject["pworkkey"].ToString());
-        //        int consumpWorkKey = Convert.ToInt32(jObject["consumpWorkKey"]);
-        //        float consumersumerrorcount = float.Parse(jObject["pworkkey"].ToString());
-        //        int TypeIndex = Convert.ToInt32(jObject["TypeIndex"]);
-        //        int CountType = Convert.ToInt32(jObject["CountType"]);
-        //        string settingitem = jObject["settingitem"].ToString();
-        //        string meterialinfo = jObject["meterialinfo"].ToString();
-        //        int setting_check = Convert.ToInt32(jObject["setting_check"]);
-        //        int baudrate = Convert.ToInt32(jObject["baudrate"]);
-        //        string SensorRate = jObject["SensorRate"].ToString();
-        //        bool RadioChecked = bool.Parse(jObject["RadioChecked"].ToString());
-        //        string printItem = jObject["printItem"].ToString();
-        //        bool samework = bool.Parse(jObject["samework"].ToString());
-        //        bool color_check = bool.Parse(jObject["color_check"].ToString());
-        //        bool count_check = bool.Parse(jObject["count_check"].ToString());
-        //        bool boxCheck = bool.Parse(jObject["boxCheck"].ToString());
-        //        bool searchCheck = bool.Parse(jObject["searchCheck"].ToString());
-        //        bool keyinCheck = bool.Parse(jObject["keyinCheck"].ToString());
-        //        bool detail_check = bool.Parse(jObject["detail_check"].ToString());
-        //        bool option1 = bool.Parse(jObject["option1"].ToString());
-        //        float presultcount = float.Parse(jObject["presultcount"].ToString());
-        //        bool twoSum = bool.Parse(jObject["twoSum"].ToString());
-        //        bool accountCheck = bool.Parse(jObject["accountCheck"].ToString());
-        //        bool productionCheck = bool.Parse(jObject["productionCheck"].ToString());
-        //        bool scrollvarCheck = bool.Parse(jObject["scrollvarCheck"].ToString());
-        //        int index = Convert.ToInt32(jObject["index"]);
-        //        string error = jObject["error"].ToString();
-        //        string error1 = jObject["error1"].ToString();
-        //        bool Plc = bool.Parse(jObject["Plc"].ToString());
-        //        bool ChangeCheck = bool.Parse(jObject["ChangeCheck"].ToString());
-        //        string ip = jObject["ip"].ToString();
-        //        string port = jObject["port"].ToString();
-        //        int Gap = Convert.ToInt32(jObject["Gap"]);
-        //        int mimi = Convert.ToInt32(jObject["mimi"]);
-        //        int jang = Convert.ToInt32(jObject["jang"]);
-        //        int pok = Convert.ToInt32(jObject["pok"]);
-        //        int go = Convert.ToInt32(jObject["go"]);
-        //        int setCount = Convert.ToInt32(jObject["setCount"]);
-        //        int boxType = Convert.ToInt32(jObject["boxType"]);
-        //        bool plcCheck = bool.Parse(jObject["plcCheck"].ToString());
-        //        bool completeValue_checked = bool.Parse(jObject["completeValue_checked"].ToString());
-        //        bool checkMerc = bool.Parse(jObject["checkMerc"].ToString());
-        //        bool robotchecked = bool.Parse(jObject["robotchecked"].ToString());
-        //        string robotIP = jObject["robotIP"].ToString();
-        //        string robotPort = jObject["robotPort"].ToString();
-        //        string manager = jObject["manager"].ToString();
-        //        string authKey = jObject["authKey"].ToString();
-        //        string SerialName1 = jObject["SerialName1"].ToString();
-        //        int consumCount = Convert.ToInt32(jObject["consumCount"]);
+                string login_id = jObject["login_id"].ToString();
+                string login_password = jObject["login_password"].ToString();
+                string corp_name = jObject["corp_name"].ToString();
+                string corp_id = jObject["corp_id"].ToString();
+                bool login_check = bool.Parse(jObject["login_check"].ToString());
+                string mercName = jObject["mercName"].ToString();
+                string SerialName = jObject["SerialName"].ToString();
+                int processType = Convert.ToInt32(jObject["processType"]);
+                int hour = Convert.ToInt32(jObject["hour"]);
+                int minute = Convert.ToInt32(jObject["minute"]);
+                string url = jObject["url"].ToString();
+                string saveDate = jObject["saveDate"].ToString();
+                int pplanKey = Convert.ToInt32(jObject["pplanKey"]);
+                int count = Convert.ToInt32(jObject["count"]);
+                string UserID = jObject["UserID"].ToString();
+                string UserName = jObject["UserName"].ToString();
+                string signalR = jObject["signalR"].ToString();
+                string serverIndex = jObject["serverIndex"].ToString();
+                string pworkkey = jObject["pworkkey"].ToString();
+                float consumersumcount = float.Parse(jObject["consumersumcount"].ToString());
+                int consumpWorkKey = Convert.ToInt32(jObject["consumpWorkKey"]);
+                float consumersumerrorcount = float.Parse(jObject["consumersumerrorcount"].ToString());
+                int TypeIndex = Convert.ToInt32(jObject["TypeIndex"]);
+                int CountType = Convert.ToInt32(jObject["CountType"]);
+                string settingitem = jObject["settingitem"].ToString();
+                string meterialinfo = jObject["meterialinfo"].ToString();
+                int setting_check = Convert.ToInt32(jObject["setting_check"]);
+                int baudrate = Convert.ToInt32(jObject["baudrate"]);
+                string SensorRate = jObject["SensorRate"].ToString();
+                bool RadioChecked = bool.Parse(jObject["RadioChecked"].ToString());
+                string printItem = jObject["printItem"].ToString();
+                bool samework = bool.Parse(jObject["samework"].ToString());
+                bool color_check = bool.Parse(jObject["color_check"].ToString());
+                bool count_check = bool.Parse(jObject["count_check"].ToString());
+                bool boxCheck = bool.Parse(jObject["boxCheck"].ToString());
+                bool searchCheck = bool.Parse(jObject["searchCheck"].ToString());
+                bool keyinCheck = bool.Parse(jObject["keyinCheck"].ToString());
+                bool detail_check = bool.Parse(jObject["detail_check"].ToString());
+                bool option1 = bool.Parse(jObject["option1"].ToString());
+                float presultcount = float.Parse(jObject["presultcount"].ToString());
+                bool twoSum = bool.Parse(jObject["twoSum"].ToString());
+                bool accountCheck = bool.Parse(jObject["accountCheck"].ToString());
+                bool productionCheck = bool.Parse(jObject["productionCheck"].ToString());
+                bool scrollvarCheck = bool.Parse(jObject["scrollvarCheck"].ToString());
+                int index = Convert.ToInt32(jObject["index"]);
+                string error = jObject["error"].ToString();
+                string error1 = jObject["error1"].ToString();
+                bool Plc = bool.Parse(jObject["Plc"].ToString());
+                bool ChangeCheck = bool.Parse(jObject["ChangeCheck"].ToString());
+                string ip = jObject["ip"].ToString();
+                string port = jObject["port"].ToString();
+                int Gap = Convert.ToInt32(jObject["Gap"]);
+                int mimi = Convert.ToInt32(jObject["mimi"]);
+                int jang = Convert.ToInt32(jObject["jang"]);
+                int pok = Convert.ToInt32(jObject["pok"]);
+                int go = Convert.ToInt32(jObject["go"]);
+                int setCount = Convert.ToInt32(jObject["setCount"]);
+                int boxType = Convert.ToInt32(jObject["boxType"]);
+                bool plcCheck = bool.Parse(jObject["plcCheck"].ToString());
+                bool completeValue_checked = bool.Parse(jObject["completeValue_checked"].ToString());
+                bool checkMerc = bool.Parse(jObject["checkMerc"].ToString());
+                bool robotchecked = bool.Parse(jObject["robotchecked"].ToString());
+                string robotIP = jObject["robotIP"].ToString();
+                string robotPort = jObject["robotPort"].ToString();
+                string manager = jObject["manager"].ToString();
+                string authKey = jObject["authKey"].ToString();
+                string SerialName1 = jObject["SerialName1"].ToString();
+                int consumCount = Convert.ToInt32(jObject["consumCount"]);
 
-        //        if (!string.IsNullOrWhiteSpace(login_id) && !string.IsNullOrWhiteSpace(login_password))
-        //        {
-        //            Properties.Settings.Default.login_id = login_id;
-        //            Properties.Settings.Default.login_password = login_password;
-        //            Properties.Settings.Default.corp_name = corp_name;
-        //            Properties.Settings.Default.corp_id = corp_id;
-        //            Properties.Settings.Default.login_check = login_check;
-        //            Properties.Settings.Default.mercName = mercName;
-        //            Properties.Settings.Default.SerialName = SerialName;
-        //            Properties.Settings.Default.processType = processType;
-        //            Properties.Settings.Default.hour = hour;
-        //            Properties.Settings.Default.minute = minute;
-        //            Properties.Settings.Default.url = url;
-        //            Properties.Settings.Default.saveDate = saveDate;
-        //            Properties.Settings.Default.pplanKey = pplanKey;
-        //            Properties.Settings.Default.count = count;
-        //            Properties.Settings.Default.UserID = UserID;
-        //            Properties.Settings.Default.UserName = UserName;
-        //            Properties.Settings.Default.signalR = signalR;
-        //            Properties.Settings.Default.serverIndex = serverIndex;
-        //            Properties.Settings.Default.pworkkey = pworkkey;
-        //            Properties.Settings.Default.consumersumcount = consumersumcount;
-        //            Properties.Settings.Default.consumpWorkKey = consumpWorkKey;
-        //            Properties.Settings.Default.consumersumerrorcount = consumersumerrorcount;
-        //            Properties.Settings.Default.TypeIndex = TypeIndex;
-        //            Properties.Settings.Default.CountType = CountType;
-        //            Properties.Settings.Default.settingitem = settingitem;
-        //            Properties.Settings.Default.meterialinfo = meterialinfo;
-        //            Properties.Settings.Default.setting_check = setting_check;
-        //            Properties.Settings.Default.baudrate = baudrate;
-        //            Properties.Settings.Default.SensorRate = SensorRate;
-        //            Properties.Settings.Default.RadioChecked = RadioChecked;
-        //            Properties.Settings.Default.printItem = printItem;
-        //            Properties.Settings.Default.samework = samework;
-        //            Properties.Settings.Default.color_check = color_check;
-        //            Properties.Settings.Default.count_check = count_check;
-        //            Properties.Settings.Default.boxCheck = boxCheck;
-        //            Properties.Settings.Default.searchCheck = searchCheck;
-        //            Properties.Settings.Default.keyinCheck = keyinCheck;
-        //            Properties.Settings.Default.detail_check = detail_check;
-        //            Properties.Settings.Default.option1 = option1;
-        //            Properties.Settings.Default.presultcount = presultcount;
-        //            Properties.Settings.Default.twoSum = twoSum;
-        //            Properties.Settings.Default.accountCheck = accountCheck;
-        //            Properties.Settings.Default.productionCheck = productionCheck;
-        //            Properties.Settings.Default.scrollvarCheck = scrollvarCheck;
-        //            Properties.Settings.Default.index = index;
-        //            Properties.Settings.Default.error = error;
-        //            Properties.Settings.Default.error1 = error1;
-        //            Properties.Settings.Default.Plc = Plc;
-        //            Properties.Settings.Default.ChangeCheck = ChangeCheck;
-        //            Properties.Settings.Default.ip = ip;
-        //            Properties.Settings.Default.port = port;
-        //            Properties.Settings.Default.Gap = Gap;
-        //            Properties.Settings.Default.mimi = mimi;
-        //            Properties.Settings.Default.jang = jang;
-        //            Properties.Settings.Default.pok = pok;
-        //            Properties.Settings.Default.go = go;
-        //            Properties.Settings.Default.setCount = setCount;
-        //            Properties.Settings.Default.boxType = boxType;
-        //            Properties.Settings.Default.plcCheck = plcCheck;
-        //            Properties.Settings.Default.completeValue_checked = completeValue_checked;
-        //            Properties.Settings.Default.checkMerc = checkMerc;
-        //            Properties.Settings.Default.robotchecked = robotchecked;
-        //            Properties.Settings.Default.robotIP = robotIP;
-        //            Properties.Settings.Default.robotPort = robotPort;
-        //            Properties.Settings.Default.manager = manager;
-        //            Properties.Settings.Default.authKey = authKey;
-        //            Properties.Settings.Default.SerialName1 = SerialName1;
-        //            Properties.Settings.Default.consumCount = consumCount;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return false;
-        //    }
+                if (!string.IsNullOrWhiteSpace(login_id) && !string.IsNullOrWhiteSpace(login_password))
+                {
+                    Properties.Settings.Default.login_id = login_id;
+                    Properties.Settings.Default.login_password = login_password;
+                    Properties.Settings.Default.corp_name = corp_name;
+                    Properties.Settings.Default.corp_id = corp_id;
+                    Properties.Settings.Default.login_check = login_check;
+                    Properties.Settings.Default.mercName = mercName;
+                    Properties.Settings.Default.SerialName = SerialName;
+                    Properties.Settings.Default.processType = processType;
+                    Properties.Settings.Default.hour = hour;
+                    Properties.Settings.Default.minute = minute;
+                    Properties.Settings.Default.url = url;
+                    Properties.Settings.Default.saveDate = saveDate;
+                    Properties.Settings.Default.pplanKey = pplanKey;
+                    Properties.Settings.Default.count = count;
+                    Properties.Settings.Default.UserID = UserID;
+                    Properties.Settings.Default.UserName = UserName;
+                    Properties.Settings.Default.signalR = signalR;
+                    Properties.Settings.Default.serverIndex = serverIndex;
+                    Properties.Settings.Default.pworkkey = pworkkey;
+                    Properties.Settings.Default.consumersumcount = consumersumcount;
+                    Properties.Settings.Default.consumpWorkKey = consumpWorkKey;
+                    Properties.Settings.Default.consumersumerrorcount = consumersumerrorcount;
+                    Properties.Settings.Default.TypeIndex = TypeIndex;
+                    Properties.Settings.Default.CountType = CountType;
+                    Properties.Settings.Default.settingitem = settingitem;
+                    Properties.Settings.Default.meterialinfo = meterialinfo;
+                    Properties.Settings.Default.setting_check = setting_check;
+                    Properties.Settings.Default.baudrate = baudrate;
+                    Properties.Settings.Default.SensorRate = SensorRate;
+                    Properties.Settings.Default.RadioChecked = RadioChecked;
+                    Properties.Settings.Default.printItem = printItem;
+                    Properties.Settings.Default.samework = samework;
+                    Properties.Settings.Default.color_check = color_check;
+                    Properties.Settings.Default.count_check = count_check;
+                    Properties.Settings.Default.boxCheck = boxCheck;
+                    Properties.Settings.Default.searchCheck = searchCheck;
+                    Properties.Settings.Default.keyinCheck = keyinCheck;
+                    Properties.Settings.Default.detail_check = detail_check;
+                    Properties.Settings.Default.option1 = option1;
+                    Properties.Settings.Default.presultcount = presultcount;
+                    Properties.Settings.Default.twoSum = twoSum;
+                    Properties.Settings.Default.accountCheck = accountCheck;
+                    Properties.Settings.Default.productionCheck = productionCheck;
+                    Properties.Settings.Default.scrollvarCheck = scrollvarCheck;
+                    Properties.Settings.Default.index = index;
+                    Properties.Settings.Default.error = error;
+                    Properties.Settings.Default.error1 = error1;
+                    Properties.Settings.Default.Plc = Plc;
+                    Properties.Settings.Default.ChangeCheck = ChangeCheck;
+                    Properties.Settings.Default.ip = ip;
+                    Properties.Settings.Default.port = port;
+                    Properties.Settings.Default.Gap = Gap;
+                    Properties.Settings.Default.mimi = mimi;
+                    Properties.Settings.Default.jang = jang;
+                    Properties.Settings.Default.pok = pok;
+                    Properties.Settings.Default.go = go;
+                    Properties.Settings.Default.setCount = setCount;
+                    Properties.Settings.Default.boxType = boxType;
+                    Properties.Settings.Default.plcCheck = plcCheck;
+                    Properties.Settings.Default.completeValue_checked = completeValue_checked;
+                    Properties.Settings.Default.checkMerc = checkMerc;
+                    Properties.Settings.Default.robotchecked = robotchecked;
+                    Properties.Settings.Default.robotIP = robotIP;
+                    Properties.Settings.Default.robotPort = robotPort;
+                    Properties.Settings.Default.manager = manager;
+                    Properties.Settings.Default.authKey = authKey;
+                    Properties.Settings.Default.SerialName1 = SerialName1;
+                    Properties.Settings.Default.consumCount = consumCount;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
 
-        //    return true;
-        //}
+            return true;
+        }
 
 
         //인증코드를 파일로 저장

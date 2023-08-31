@@ -156,8 +156,19 @@ namespace PopProject.Detail
             robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
 
             //두성,혜성,지온 일때 적재창고 버튼 표시
-            wharehouse.Visibility = Properties.Settings.Default.corp_name.Equals("두성포장테스트") || Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Contains("혜성") || Properties.Settings.Default.corp_name.Contains("지온") ? Visibility.Visible : Visibility.Collapsed;
-
+            if (Properties.Settings.Default.corp_name.Equals("두성포장테스트") ||
+                Properties.Settings.Default.corp_name.Equals("두성포장") ||
+                Properties.Settings.Default.corp_name.Contains("혜성") ||
+                Properties.Settings.Default.corp_name.Contains("광성수출포장") ||
+                Properties.Settings.Default.corp_name.Contains("대세물산") ||
+                Properties.Settings.Default.corp_name.Contains("지온"))
+            {
+                wharehouse.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                wharehouse.Visibility = Visibility.Collapsed;
+            }
             DetailSearch(); //세부정보 조회 (왼쪽화면)
             MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
             PopSearchPhoto(); //인쇄사양 조회

@@ -28,7 +28,7 @@ namespace PopProject.Util
             {
                 연결 = new HubConnection(주소);
                 허브 = 연결.CreateHubProxy("broadcasting");
-                연결.StateChanged += Connection_StateChanged;
+                //연결.StateChanged += Connection_StateChanged;
                 try
                 {
                     연결.Start().Wait();
@@ -58,16 +58,16 @@ namespace PopProject.Util
         }
 
         //연결상태 조회
-        private void Connection_StateChanged(StateChange stateChange)
-        {
-            // 연결 상태 변화 감지 시 실행될 코드
-            Console.WriteLine("연결 상태 변화: 이전 상태 - " + stateChange.OldState + " / 새로운 상태 - " + stateChange.NewState);
+        //private void Connection_StateChanged(StateChange stateChange)
+        //{
+        //    // 연결 상태 변화 감지 시 실행될 코드
+        //    Console.WriteLine("연결 상태 변화: 이전 상태 - " + stateChange.OldState + " / 새로운 상태 - " + stateChange.NewState);
 
-            if (연결.State == ConnectionState.Disconnected)
-            {
-                Connect(true);
-            }
-        }
+        //    if (연결.State == ConnectionState.Disconnected)
+        //    {
+        //        Connect(true);
+        //    }
+        //}
 
         //연결실패시 다시 시도
         private void 연결_Closed()

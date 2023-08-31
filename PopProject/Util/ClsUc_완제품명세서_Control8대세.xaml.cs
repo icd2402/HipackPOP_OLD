@@ -76,7 +76,7 @@ namespace PopProject.Util
 
         //    // 바코드 X(너비 비율) 설정
         //    barcodeFont.X = 3;
-
+        
         //    // 바코드 너비와 높이 설정
         //    barcodeFont.BarCodeWidth = 140;
         //    barcodeFont.BarCodeHeight = 35;
