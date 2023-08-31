@@ -2328,18 +2328,22 @@ namespace PopProject.Detail
         //디테일 창 로드시 듀얼 모니터인지 확인
         private void Detail_Loaded(object sender, RoutedEventArgs e)
         {
+            //듀얼 상세화면 사용시
             if (monitorcheck)
             {
                 //듀얼모니터 이면
                 if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
                 {
                     System.Drawing.Rectangle rec;
-                    if (Properties.Settings.Default.mercName.Equals("인라인3호기") || Properties.Settings.Default.mercName.Equals("인라인2호기"))
+
+                    if (Properties.Settings.Default.mercName.Equals("인라인2호기") || Properties.Settings.Default.mercName.Equals("인라인3호기"))
                     {
+                        //메인화면 팝업
                         rec = System.Windows.Forms.Screen.AllScreens[0].WorkingArea;
                     }
                     else
                     {
+                        //듀얼화면 팝업
                         rec = System.Windows.Forms.Screen.AllScreens[1].WorkingArea;
                     }
 
@@ -2353,7 +2357,6 @@ namespace PopProject.Detail
                     WindowState = WindowState.Normal;
                 }
             }
-
         }
 
         //넘기기 버튼

@@ -650,11 +650,37 @@ namespace PopProject.Input
         //생산 수량 버튼 클릭 (실시간/결과값)
         private void TbResult_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+
             if (sender.GetType().Name.Equals("TextBox")) //텍스트박스 클릭
             {
                 TextBox context = (TextBox)sender;
-                if (context.Name.Equals("tbResult")) //결과 카운터 텍스트 클릭
+
+                //결과 카운터 텍스트 클릭
+                if (context.Name.Equals("tbResult")) 
                 {
+                    //Point clickPoint = e.GetPosition(null);
+
+                    //// 클릭한 위치의 모니터 정보를 가져옵니다.
+                    //foreach (var screen in System.Windows.Forms.Screen.AllScreens)
+                    //{
+                    //    Rect bounds = new Rect(screen.Bounds.Left, screen.Bounds.Top, screen.Bounds.Width, screen.Bounds.Height);
+                    //    if (bounds.Contains(clickPoint))
+                    //    {
+                    //        Win_KeyBoard win_KeyBoard = new Win_KeyBoard(context, context.DataContext, inputModel);
+
+                    //        // 클릭한 모니터의 작업 영역 중앙 좌표를 찾습니다.
+                    //        double centerX = screen.WorkingArea.Left + (screen.WorkingArea.Width / 2);
+                    //        double centerY = screen.WorkingArea.Top + (screen.WorkingArea.Height / 2);
+
+                    //        // 윈도우를 해당 모니터에 표시합니다.
+                    //        win_KeyBoard.WindowStartupLocation = WindowStartupLocation.Manual;
+                    //        win_KeyBoard.Topmost = true; // 윈도우를 최상위로 표시
+
+                    //        win_KeyBoard.ShowDialog();
+                    //        win_KeyBoard = null;
+                    //    }
+                    //}
+
                     win_KeyBoard = new Win_KeyBoard(context, context.DataContext, inputModel)
                     {
                         Left = SystemParameters.WorkArea.Width - this.Width - 10,
@@ -672,7 +698,8 @@ namespace PopProject.Input
                         _ = tbError.Focus();
                         _ = tbError.Dispatcher.BeginInvoke(new Action(() => { tbError.SelectAll(); }));
                     }
-                    else //미체크
+                    //미체크
+                    else 
                     {
                         InputModel inputmodel = (InputModel)context.DataContext;
                         win_KeyBoard = new Win_KeyBoard(context, inputmodel.errorModel, inputmodel)

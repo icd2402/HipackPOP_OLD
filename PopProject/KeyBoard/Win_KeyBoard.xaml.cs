@@ -233,31 +233,44 @@ namespace PopProject.KeyBoard
             DragMove();
         }
 
+        //키보드 팝업위치 커스터마이징
         private void Keyboard_loaded(object sender, RoutedEventArgs e)
         {
-          
-            if (Properties.Settings.Default.detail_check)
+            //오주포장 2,3호기는 메인/서브모니터를 반대로 사용중이라 듀얼 화면 체크시에도 메인화면에 키보드를 팝업되도록 수정됨
+            if (Properties.Settings.Default.corp_name.Equals("오주포장"))
             {
-                if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+                if (Properties.Settings.Default.mercName.Equals("인라인2호기") || Properties.Settings.Default.mercName.Equals("인라인3호기"))
                 {
-
-                    System.Drawing.Rectangle rec = System.Windows.Forms.Screen.AllScreens[1].WorkingArea; 
+                    System.Drawing.Rectangle rec = System.Windows.Forms.Screen.AllScreens[0].WorkingArea;//메인화면
                     Left = rec.Left + 40;
                     Top = rec.Top + 380;
                     WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     WindowState = WindowState.Normal;
-
                 }
-
                 else
                 {
 
-                    WindowState = WindowState.Normal;
-
                 }
-
-                
-                
+            }
+            else //기본
+            {
+                //설정>듀얼모니터 사용 체크시
+                if (Properties.Settings.Default.detail_check)
+                {
+                    //실제로 듀얼 모니터일때
+                    if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+                    {
+                        System.Drawing.Rectangle rec = System.Windows.Forms.Screen.AllScreens[1].WorkingArea;
+                        Left = rec.Left + 40;
+                        Top = rec.Top + 380;
+                        WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                        WindowState = WindowState.Normal;
+                    }
+                    else
+                    {
+                        WindowState = WindowState.Normal;
+                    }
+                }
             }
         }
     }

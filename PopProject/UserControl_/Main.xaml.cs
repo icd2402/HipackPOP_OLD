@@ -2815,7 +2815,7 @@ namespace PopProject.UserControl_
         //계획리스트 클릭
         private void Canvas_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            //디테일 창 열려있으면
+            //듀얼상세화면 체크시
             if (Properties.Settings.Default.detail_check)
             {
                 //더블클릭시 디테일 창 호출
@@ -2824,7 +2824,7 @@ namespace PopProject.UserControl_
                     ShowDetail(sender);
                 }
             }
-            else //디테일 창 닫혀있으면
+            else 
             {
                 //더블클릭시 디테일 창 호출
                 if (e.ClickCount == 2)
