@@ -11,6 +11,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using log4net;
+using log4net.Config;
+
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
+
 
 namespace PopProject.UserControl_
 {
@@ -25,8 +30,15 @@ namespace PopProject.UserControl_
             InitializeComponent();
             _ = Keyboard.Focus(textbox_login_id);
 
+            //로그폴더 생성
+            로그폴더생성();
+
             //인증코드 조회+
             Is_GetCompanyCodeFile();
+
+            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
+            ILog log = LogManager.GetLogger(typeof(SignalRAdministrator));
+
 
             //인증코드를 정상적으로 불러 왔으면
             if (Is_GetCompanyCodeFile())
@@ -37,9 +49,9 @@ namespace PopProject.UserControl_
                     login_check.IsChecked = true;
                     textbox_login_id.Text = Properties.Settings.Default.login_id;
                     textbox_login_password.Password = Properties.Settings.Default.login_password;
+                    log.Info("인증코드 확인 성공 후 로그인");
                     Login_();
                 }
-
             }
             //인증코드 로드 실패시
             else
@@ -50,6 +62,7 @@ namespace PopProject.UserControl_
                     login_check.IsChecked = true;
                     textbox_login_id.Text = Properties.Settings.Default.login_id;
                     textbox_login_password.Password = Properties.Settings.Default.login_password;
+                    log.Info("인증코드 확인 실패 후 로그인");
                     Login_();
                 }
                 else
@@ -112,8 +125,33 @@ namespace PopProject.UserControl_
             }
             Login_();
         }
+
+        //로그 폴더 생성
+        public void 로그폴더생성()
+        {
+            string folderPath = @"C:\POP_LOG";
+
+            if (!Directory.Exists(folderPath))
+            {
+                try
+                {
+                    Directory.CreateDirectory(folderPath);
+                    Console.WriteLine("폴더가 생성되었습니다.");
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            else
+            {
+            }
+        }
+
         public void Login_()
         {
+            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
+            ILog log = LogManager.GetLogger(typeof(SignalRAdministrator));
+
             bool connected = NetworkInterface.GetIsNetworkAvailable();
             if (connected)
             {
@@ -214,6 +252,7 @@ namespace PopProject.UserControl_
             }
             else
             {
+                log.Error("인터넷 연결상태 불량");
                 MessageBox_Dialog dialog = new MessageBox_Dialog("인터넷 연결 상태를 확인해 주세요");
                 _ = dialog.ShowDialog();
             }
@@ -308,6 +347,9 @@ namespace PopProject.UserControl_
         //인증코드 파일 읽어오기
         static bool Is_GetCompanyCodeFile()
         {
+            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
+            ILog log = LogManager.GetLogger(typeof(SignalRAdministrator));
+
             try
             {
                 string loadedSettings = File.ReadAllText(filePath);
@@ -452,13 +494,16 @@ namespace PopProject.UserControl_
                     Properties.Settings.Default.authKey = authKey;
                     Properties.Settings.Default.SerialName1 = SerialName1;
                     Properties.Settings.Default.consumCount = consumCount;
+                    
                 }
             }
             catch (Exception ex)
             {
+                log.Error("인증코드 불러오기 실패: " + ex.Message);
                 return false;
             }
 
+            log.Info("인증코드 불러오기 성공");
             return true;
         }
 
@@ -466,6 +511,9 @@ namespace PopProject.UserControl_
         //인증코드를 파일로 저장
         private void Create_CompanyCodeFile()
         {
+            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
+            ILog log = LogManager.GetLogger(typeof(SignalRAdministrator));
+
             try
             {
                 if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.login_id) && !string.IsNullOrWhiteSpace(Properties.Settings.Default.login_password))
@@ -554,10 +602,13 @@ namespace PopProject.UserControl_
 
                     //인증코드 파일이 있는지 확인 후 해당 파일을 숨김 처리 (숨김 이후 수정되지 않음)
                     File.WriteAllText(filePath, json);
+
+                    log.Info("인증코드 저장 성공");
                 }
             }
             catch (Exception ex)
             {
+                log.Error("인증코드 저장 실패: " + ex.Message);
             }
         }
     }

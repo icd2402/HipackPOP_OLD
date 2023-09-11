@@ -249,7 +249,23 @@ namespace PopProject.KeyBoard
                 }
                 else
                 {
-
+                    //설정>듀얼모니터 사용 체크시
+                    if (Properties.Settings.Default.detail_check)
+                    {
+                        //실제로 듀얼 모니터일때
+                        if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+                        {
+                            System.Drawing.Rectangle rec = System.Windows.Forms.Screen.AllScreens[1].WorkingArea;
+                            Left = rec.Left + 40;
+                            Top = rec.Top + 380;
+                            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                            WindowState = WindowState.Normal;
+                        }
+                        else
+                        {
+                            WindowState = WindowState.Normal;
+                        }
+                    }
                 }
             }
             else //기본

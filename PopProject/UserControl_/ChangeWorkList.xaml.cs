@@ -76,19 +76,22 @@ namespace PopProject.UserControl_
                         case "11":
                             item = list[i].PackType;
                             break;
-                        case "14":
+                        case "12":
                             item = list[i].workMemo;
                             break;
-                        case "15":
+                        case "13":
                             item = list[i].pplanMemo;
                             break;
-                        case "16":
-                            item = list[i].ProcessMemo;
-                            break;
-                        case "17":
+                        case "14":
                             item = list[i].orderLast.Substring(0, 4).Equals("9999")
-                                                ? "-"
-                                                : "납기 : " + list[i].orderLast.Replace("[", "").Replace("]", "").Replace("-", "/");
+                            ? "-"
+                            : "납기 : " + list[i].orderLast.Replace("[", "").Replace("]", "").Replace("-", "/");
+                            break;
+                        case "15":
+                            item = list[i].PalletType;
+                            break;
+                        case "16":
+                            item = list[i].SpecialMemo;
                             break;
                         default:
                             break;
@@ -96,19 +99,23 @@ namespace PopProject.UserControl_
 
                     if (j == 0)
                     {
-                        list[i].item4 = item.Replace("\r\n", "");
+                        if (item != null)
+                            list[i].item5 = item.Replace("\r\n", "");
                     }
-
                     else if (j == 1)
                     {
                         if(item!=null)
-                        list[i].item5 = item.Replace("\r\n", "");
+                            list[i].item6 = item.Replace("\r\n", "");
                     }
-
                     else if (j == 2)
                     {
-                        if (item != null)
-                            list[i].item6 = item.Replace("\r\n", "");
+                        if(item != null)
+                            list[i].item7 = item.Replace("\r\n", "");
+                    }
+                    else if (j == 3)
+                    {
+                        if(item != null)
+                            list[i].item8 = item.Replace("\r\n", "");
                     }
                 }
                 workList.Add(list[i]);

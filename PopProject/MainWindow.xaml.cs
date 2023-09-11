@@ -55,12 +55,10 @@ namespace PopProject
             //InitializeComponent();
             //MainCP.Content = new Login();
 
-
             try
             {
                 mutex = new Mutex(false, mutexName);
             }
-
             catch (Exception)
             {
                 _ = System.Windows.MessageBox.Show("프로그램이 이미 실행 중입니다!", "", MessageBoxButton.OK);
@@ -72,13 +70,13 @@ namespace PopProject
                 InitializeComponent();
                 MainCP.Content = new Login();
             }
-
             else
             {
                 _ = System.Windows.MessageBox.Show("프로그램이 이미 실행 중입니다!", "", MessageBoxButton.OK);
-                // MessageBox.Show("Application already startet.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
                 Application.Current.Shutdown();
             }
+
+            
         }
 
         private void MainCP_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -107,7 +105,6 @@ namespace PopProject
             {
                 SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
             }
-
             catch (Exception )
             {
                

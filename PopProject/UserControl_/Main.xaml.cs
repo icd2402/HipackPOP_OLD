@@ -28,6 +28,8 @@ using System.Threading;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using log4net;
+using log4net.Config;
 
 namespace PopProject.UserControl_
 {
@@ -63,8 +65,9 @@ namespace PopProject.UserControl_
         private bool CheckDateValue = true;
         private bool DateCheck = false;
         private bool CNS_Barcode_Send = false; //true이면 바코드 읽으면 CNS로 데이터 전송
-        private bool oderLast_Sort = false; 
+        private bool oderLast_Sort = false;
 
+        bool SignalR_Tick = false;
 
         public Main()
         {
@@ -76,6 +79,8 @@ namespace PopProject.UserControl_
                 // 버전 번호를 텍스트 블록에 할당
                 //string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
                 //versionTextBlock.Text += version;
+
+                
 
                 //왼쪽상단 업체명
                 corp_name.Text = Properties.Settings.Default.corp_name;
@@ -112,6 +117,14 @@ namespace PopProject.UserControl_
                 {
                     txtDate2.Visibility = Visibility.Visible;
                     txtDate3.Visibility = Visibility.Visible;
+                }
+
+                //광성 시그널R 테스트
+                //ksboxTest();
+
+                if (Properties.Settings.Default.corp_name.Equals("대세물산"))
+                {
+                    TimerSetting(); // 시간 갱신 타이머
                 }
 
                 //아두이노로부터 카운팅 값 받음
@@ -181,6 +194,7 @@ namespace PopProject.UserControl_
                 if (connected)
                 {
                     TimerSet(); //시계 타이머 실행
+                    TimerSet2(); //SignalR 송신 타이머 실행(1초)
                 }
                 else
                 {
@@ -193,6 +207,38 @@ namespace PopProject.UserControl_
                 LogWrite(e.Message);
             }
         }
+
+
+        //광성 시그널R 테스트
+        public void ksboxTest()
+        {
+            if (Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+            {
+                while (true)
+                {
+                    counting();
+                    Thread.Sleep(300); // 
+                }
+            }
+        }
+
+        int counter = 0;
+
+        private void counting()
+        {
+            counter += 1;
+            Console.WriteLine("테스트 카운터: " + counter);
+            InvokeCount(counter, "합지1"); //현황판으로 카운터 전송
+            InvokeCount(counter, "합지2"); //현황판으로 카운터 전송
+            InvokeCount(counter, "코팅기"); //현황판으로 카운터 전송
+            InvokeCount(counter, "톰슨1"); //현황판으로 카운터 전송
+            InvokeCount(counter, "톰슨2"); //현황판으로 카운터 전송
+            InvokeCount(counter, "베가"); //현황판으로 카운터 전송
+            InvokeCount(counter, "베가2"); //현황판으로 카운터 전송
+            InvokeCount(counter, "접합기"); //현황판으로 카운터 전송
+            InvokeCount(counter, "제함기"); //현황판으로 카운터 전송
+        }
+
 
         //넘기기 신호 받는용
         private void recive(string arg1, string arg2) //설비명, 카운터
@@ -374,16 +420,21 @@ namespace PopProject.UserControl_
         //로그 기록
         private void LogWrite(string str)
         {
+            // 현재 작업 디렉토리와 로그 파일 및 디렉토리 경로 지정
             string DirPath = Environment.CurrentDirectory + @"\Log";
             string FilePath = DirPath + "\\Log_" + DateTime.Today.ToString("yyyyMMdd") + ".log";
             string temp;
 
+            // 작업 디렉토리와 파일 정보 가져오기
             DirectoryInfo di = new DirectoryInfo(DirPath);
             FileInfo fi = new FileInfo(FilePath);
 
             try
             {
+                // 디렉토리가 없으면 생성
                 if (!di.Exists) Directory.CreateDirectory(DirPath);
+
+                // 파일이 없으면 생성하고 로그 기록
                 if (!fi.Exists)
                 {
                     using (StreamWriter sw = new StreamWriter(FilePath))
@@ -393,6 +444,7 @@ namespace PopProject.UserControl_
                         sw.Close();
                     }
                 }
+                // 파일이 있으면 로그 기록 추가
                 else
                 {
                     using (StreamWriter sw = File.AppendText(FilePath))
@@ -468,6 +520,7 @@ namespace PopProject.UserControl_
                                     win_Input.inputModel.count = str;
                                 }
                                 InvokeCount(str, ArdumercName); //현황판으로 카운터 전송
+                                Console.WriteLine("production != null 일때(매수): " + str + ArdumercName);
                             }
                             else//통수
                             {
@@ -490,7 +543,9 @@ namespace PopProject.UserControl_
                                 {
                                     win_Input.inputModel.count = production.presultCount;
                                 }
+
                                 InvokeCount(Convert.ToInt32(production.presultCount), ArdumercName); //현황판으로 카운터 전송
+                                Console.WriteLine("production != null 일때(통수): " + Convert.ToInt32(production.presultCount) + ArdumercName);
                             }
                         }));
                     }
@@ -534,14 +589,28 @@ namespace PopProject.UserControl_
                                     production.sumPworkCount = str;
                                     production.presultCount = str;
                                     production.presultCount1 = str;
+
                                     if (win_Input != null)
                                     {
                                         win_Input.inputModel.count = str;
                                     }
 
-                                    InvokeCount(str, Properties.Settings.Default.mercName); //현황판으로 카운터 전송
-                                    Console.WriteLine("현황판으로 카운터(매수) 전송 값(Main) : " + Properties.Settings.Default.mercName + str); //실시간 값 확인용
-
+                                    //광성은 1초마다 신호를 보내도록 수정
+                                    if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+                                    {
+                                        //1초 틱
+                                        if (SignalR_Tick)
+                                        {
+                                            InvokeCount(str, Properties.Settings.Default.mercName); //현황판으로 카운터 전송
+                                            Console.WriteLine("현황판으로 카운터(매수) 전송 값(Main) : " + Properties.Settings.Default.mercName + ", " + str); //실시간 값 확인용
+                                            SignalR_Tick = false;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        InvokeCount(str, Properties.Settings.Default.mercName); //현황판으로 카운터 전송
+                                        Console.WriteLine("현황판으로 카운터(매수) 전송 값(Main) : " + Properties.Settings.Default.mercName + ", " + str); //실시간 값 확인용
+                                    }
                                 }
                                 else //통수일때
                                 {
@@ -573,8 +642,22 @@ namespace PopProject.UserControl_
                                             win_Input.inputModel.count = production.presultCount;
                                         }
 
-                                        InvokeCount(Convert.ToInt32(production.presultCount), Properties.Settings.Default.mercName); //현황판으로 카운터 전송
-                                        Console.WriteLine("현황판으로 카운터(통수) 전송 값(Main) : " + Properties.Settings.Default.mercName + ", " + Convert.ToInt32(production.presultCount)); //실시간 값 확인용
+                                        //광성은 1초마다 신호를 보내도록 수정
+                                        if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+                                        {
+                                            //1초 틱
+                                            if (SignalR_Tick)
+                                            {
+                                                InvokeCount(Convert.ToInt32(production.presultCount), Properties.Settings.Default.mercName); //현황판으로 카운터 전송
+                                                Console.WriteLine("현황판으로 카운터(통수) 전송 값(Main) : " + Properties.Settings.Default.mercName + ", " + Convert.ToInt32(production.presultCount)); //실시간 값 확인용
+                                                SignalR_Tick = false;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            InvokeCount(Convert.ToInt32(production.presultCount), Properties.Settings.Default.mercName); //현황판으로 카운터 전송
+                                            Console.WriteLine("현황판으로 카운터(통수) 전송 값(Main) : " + Properties.Settings.Default.mercName + ", " + Convert.ToInt32(production.presultCount)); //실시간 값 확인용
+                                        }
                                     }
                                 }
                             }));
@@ -599,6 +682,23 @@ namespace PopProject.UserControl_
         {
             throw new NotImplementedException();
         }
+
+        private void TimerSet2()
+        {
+            timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            timer.Tick += new EventHandler(Timer_Tick2);
+            timer.Start();
+        }
+
+        private void Timer_Tick2(object sender, EventArgs e)
+        {
+            SignalR_Tick = true;
+        }
+
+
 
         // 1초 타이머 실행
         private void TimerSet()
@@ -1220,6 +1320,7 @@ namespace PopProject.UserControl_
                         listitem.PackType = result["PackType"].ToString();
                         listitem.filmNo = result["filmNo"].ToString();
                         listitem.CoatingType = result["CoatingType"].ToString();
+                        listitem.PalletType = result["PalletType"].ToString();
                         listitem.PackCount = result["PackCount"].ToString();
                         listitem.pplanCount = int.Parse(result["pplanCount"].ToString());
 
@@ -3334,12 +3435,48 @@ namespace PopProject.UserControl_
         //상태버튼 클릭시 SignalR 재연결
         private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            //Log4net
+            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
+            ILog log = LogManager.GetLogger(typeof(SignalRAdministrator));
+
+            try
+            {
+                MessageBox_Dialog dialog = new MessageBox_Dialog("SignalR 서버에 재연결 합니다.");
+                dialog.ShowDialog();
+                log.Info("SignalR 재연결 요청");
+                
+                SignalRAdministrator conn = new SignalRAdministrator();
+                conn.Setconnection(false);
+            }
+            catch (Exception ex)
+            {
+                log.Error("SignalR 재연결 요청 실패: " + ex.Message);
+            }
+        }
+
+        //SIgnalR 재연결 
+        public void TimerSetting() 
+        {
+            try
+            {
+                DispatcherTimer Timer = new DispatcherTimer();
+                Timer.Interval = new TimeSpan(0, 30, 0);
+                Timer.Tick += Timer_Ticks;
+                Timer.Start();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void Timer_Ticks(object sender, EventArgs e)// 작동 시간 갱신
+        {
             try
             {
                 SignalRAdministrator conn = new SignalRAdministrator();
                 conn.Setconnection(false);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }

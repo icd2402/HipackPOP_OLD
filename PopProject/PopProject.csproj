@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.329</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.332</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>330</ApplicationRevision>
+    <ApplicationRevision>333</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -91,6 +91,9 @@
     </Reference>
     <Reference Include="KeepDynamic.BarCode.Windows">
       <HintPath>.\KeepDynamic.BarCode.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.4.3\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
@@ -451,6 +454,7 @@
       <DependentUpon>ClsUc_완제품명세서_Control4.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\HttpClient_util.cs" />
+    <Compile Include="Util\log4net.cs" />
     <Compile Include="Util\LogData.cs" />
     <Compile Include="Util\PrintWindow.xaml.cs">
       <DependentUpon>PrintWindow.xaml</DependentUpon>
@@ -1041,7 +1045,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\back_02.png" />

@@ -61,7 +61,7 @@
                             </CheckBox.LayoutTransform>
                         </CheckBox>
 
-                        <CheckBox x:Name="cb17" Content="spare"  Width="140" Margin="10" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Visibility="Collapsed">
+                        <CheckBox x:Name="cb17" Content=""  Width="140" Margin="10" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Visibility="Collapsed">
                             <CheckBox.LayoutTransform>
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                             </CheckBox.LayoutTransform>
@@ -118,7 +118,7 @@
                             </CheckBox.LayoutTransform>
                         </CheckBox>
 
-                        <CheckBox x:Name="cb18" Content="spare2"  Width="140" Margin="10" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Visibility="Collapsed">
+                        <CheckBox x:Name="cb18" Content=""  Width="140" Margin="10" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Visibility="Collapsed">
                             <CheckBox.LayoutTransform>
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                             </CheckBox.LayoutTransform>

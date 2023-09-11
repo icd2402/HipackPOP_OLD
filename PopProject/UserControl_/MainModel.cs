@@ -38,6 +38,34 @@ namespace PopProject.UserControl_
             }
         }
 
+        private String _item8 = "";
+        public String item8
+        {
+            get
+            {
+                return _item8;
+            }
+            set
+            {
+                _item8 = value;
+                onPropertyChanged("item8");
+            }
+        }
+
+        private String _item7 = "";
+        public String item7
+        {
+            get
+            {
+                return _item7;
+            }
+            set
+            {
+                _item7 = value;
+                onPropertyChanged("item7");
+            }
+        }
+
         private String _item6 = "";
         public String item6
         {
@@ -878,6 +906,7 @@ namespace PopProject.UserControl_
                 onPropertyChanged("aLaW");
             }
         }
+
         private String _ConnetingType;
         public String ConnetingType
         {
@@ -1011,6 +1040,20 @@ namespace PopProject.UserControl_
         }
 
 
+        private String _PalletType;
+        public String PalletType
+        {
+            get
+            {
+                return _PalletType;
+            }
+            set
+            {
+                _PalletType = value;
+                onPropertyChanged("PalletType");
+            }
+        }
+
         private String _SpecialMemo;
         public String SpecialMemo
         {
@@ -1024,6 +1067,7 @@ namespace PopProject.UserControl_
                 onPropertyChanged("SpecialMemo");
             }
         }
+
         private String _pSize;
         public String pSize
         {
