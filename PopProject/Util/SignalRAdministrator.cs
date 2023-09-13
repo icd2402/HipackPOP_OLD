@@ -55,8 +55,11 @@ namespace PopProject.Util
 
                     if (연결.State == ConnectionState.Disconnected)
                     {
-                        MessageBox_Dialog dialog = new MessageBox_Dialog("SignalR 서버 접속 실패!");
-                        dialog.ShowDialog();
+                        if (!Properties.Settings.Default.corp_name.Equals("오주포장") || !Properties.Settings.Default.corp_name.Equals("광성수출포장"))
+                        {
+                            MessageBox_Dialog dialog = new MessageBox_Dialog("SignalR 서버 접속 실패!");
+                            dialog.ShowDialog();
+                        }
                     }
                 }
             }
@@ -82,7 +85,10 @@ namespace PopProject.Util
         //연결 실패시 다시 시도
         private void 연결_Closed()
         {
-            Connect(true);
+            //if (!Properties.Settings.Default.corp_name.Equals("오주포장") || !Properties.Settings.Default.corp_name.Equals("유창포장"))
+            //{
+            //    Connect(true);
+            //}
         }
     }
 }

@@ -3447,6 +3447,7 @@ namespace PopProject.UserControl_
                 
                 SignalRAdministrator conn = new SignalRAdministrator();
                 conn.Setconnection(false);
+                conn.Setconnection(true);
             }
             catch (Exception ex)
             {

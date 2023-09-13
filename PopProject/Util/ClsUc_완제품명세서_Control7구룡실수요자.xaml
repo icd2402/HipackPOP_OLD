@@ -106,6 +106,8 @@
                 <Rectangle DockPanel.Dock="Top" Style="{StaticResource BoldRectangle}" Height="1" Margin="0,2,0,0"  />
             </DockPanel>
 
+            <Image x:Name="barcodeImage" Width="149" HorizontalAlignment="Left" Height="45" VerticalAlignment="Bottom" Margin="539,0,0,5" />
+
             <StackPanel Grid.Row="2" >
                
 

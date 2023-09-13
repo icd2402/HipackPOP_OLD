@@ -6,6 +6,8 @@ using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
+using log4net;
+using log4net.Config;
 
 namespace PopProject
 {
@@ -22,6 +24,9 @@ namespace PopProject
 
         public MainWindow()
         {
+
+            InitializeComponent();
+
             try
             {
                 //Properties.Settings.Default.Reset();
@@ -37,7 +42,7 @@ namespace PopProject
                 {
                     Properties.Settings.Default.meterialinfo = "";
                 }
-                // Properties.Settings.Default.boxCheck = false;
+
                 Properties.Settings.Default.Save();
                 Duplicate_execution("PopProject");
 
@@ -54,25 +59,28 @@ namespace PopProject
         {
             //InitializeComponent();
             //MainCP.Content = new Login();
+            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
+            ILog log = LogManager.GetLogger(typeof(SignalRAdministrator));
 
             try
             {
                 mutex = new Mutex(false, mutexName);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                _ = System.Windows.MessageBox.Show("프로그램이 이미 실행 중입니다!", "", MessageBoxButton.OK);
+                log.Error(e.Message);
+                _ = System.Windows.MessageBox.Show("프로그램이 이미 실행 중입니다!", "알림1", MessageBoxButton.OK);
                 Application.Current.Shutdown();
             }
 
             if (mutex.WaitOne(0, false))
             {
-                InitializeComponent();
                 MainCP.Content = new Login();
             }
             else
             {
-                _ = System.Windows.MessageBox.Show("프로그램이 이미 실행 중입니다!", "", MessageBoxButton.OK);
+                log.Error("오류2");
+                _ = System.Windows.MessageBox.Show("프로그램이 이미 실행 중입니다!", "알림2", MessageBoxButton.OK);
                 Application.Current.Shutdown();
             }
 
@@ -89,25 +97,21 @@ namespace PopProject
                     DragMove();
                 }
             }
-
             catch (Exception h)
             {
                 string message = h.Message;
                 Console.WriteLine("Exception message : " + message);
-                // String message = h.Message();   
             }
         }
 
         private void invokeMercName(string mercName, string v)
         {
-            //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
             try
             {
                 SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
             }
             catch (Exception )
             {
-               
             }
         }
 
@@ -134,7 +138,6 @@ namespace PopProject
             {
                 invokeMercName(Properties.Settings.Default.mercName, "B");
             }
-            
         }
 
         private void LogWrite(string str)

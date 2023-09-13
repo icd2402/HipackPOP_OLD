@@ -430,7 +430,7 @@ namespace PopProject.MessageBox
                                 pr7.resultCount = "";
                             }
                             완제품명세서_구룡실수요자.ViewModel = pr7;
-                            완제품명세서_구룡실수요자.Set_BarCode();
+                            완제품명세서_구룡실수요자.Set_BarCode(mainModel.orderKey.ToString());
                             Grid.SetRow(완제품명세서_구룡실수요자, 1);
                             명세서양식_uc7구룡실수요자.ItemPanel.Children.Add(완제품명세서_구룡실수요자);
                             Set_FixedPage.Children.Add(명세서양식_uc7구룡실수요자 as UIElement);
@@ -483,7 +483,7 @@ namespace PopProject.MessageBox
                         }
 
                         완제품명세서_구룡.ViewModel = pr6;
-                        완제품명세서_구룡.Set_BarCode();
+                        완제품명세서_구룡.Set_BarCode(mainModel.orderKey.ToString());
                         Grid.SetRow(완제품명세서_구룡, 1);
                         명세서양식_uc6구룡.ItemPanel.Children.Add(완제품명세서_구룡);
                         Set_FixedPage.Children.Add(명세서양식_uc6구룡 as UIElement);
@@ -533,7 +533,7 @@ namespace PopProject.MessageBox
                         }
 
                         완제품명세서_대세.ViewModel = pr8;
-                        완제품명세서_대세.Set_BarCode(mainModel.pplanKey.ToString());
+                        완제품명세서_대세.Set_BarCode(mainModel.orderKey.ToString());
                         Grid.SetRow(완제품명세서_대세, 1);
                         명세서양식_uc8대세.ItemPanel.Children.Add(완제품명세서_대세);
                         Set_FixedPage.Children.Add(명세서양식_uc8대세 as UIElement);
