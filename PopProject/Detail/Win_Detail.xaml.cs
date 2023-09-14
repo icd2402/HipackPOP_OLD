@@ -60,7 +60,7 @@ namespace PopProject.Detail
         private bool CNS_Send = false;
 
         private int 작업지시;
-
+        private bool consumer = false;
 
 
         public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v, bool Barcod)
@@ -79,6 +79,8 @@ namespace PopProject.Detail
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
 
+            //실수요자
+            consumer = mainModel.bMember;
 
             //오주포장 일때 옵션
             if (Properties.Settings.Default.corp_name.Equals("오주포장"))
@@ -2237,11 +2239,13 @@ namespace PopProject.Detail
         //시작 버튼
         private void Image_MouseLeftButtonDown_2(object sender, MouseButtonEventArgs e)
         {
-            Close();
+            //Close();
             switch (metrialitem)
             {
                 case "19": //마닐라 
                 case "20": //원단
+                    Close();
+
                     Win_input input = new Win_input(mainModel, workList, true);
                     Main1.win_Input = input;
                     _ = input.ShowDialog();
@@ -2255,17 +2259,29 @@ namespace PopProject.Detail
                     break;
 
                 default: //일반
-                    input = new Win_input(mainModel, workList, true);
-                    Main.win_Input = input;
-                    _ = input.ShowDialog();
 
-                    Main.win_Input = null;
-                    if (Properties.Settings.Default.presultcount != 0)
+                    //실수요자 건 일때
+                    if (consumer)
                     {
-                        mainModel.presultCount = Properties.Settings.Default.presultcount;
+                        MessageBox_Dialog msg = new MessageBox_Dialog("정상적인 경로가 아닙니다.");
+                        _ = msg.ShowDialog();
                     }
-                    Properties.Settings.Default.presultcount = 0;
-                    Properties.Settings.Default.Save();
+                    //일반 생산 건 일때
+                    else
+                    {
+                        Close();
+
+                        input = new Win_input(mainModel, workList, true);
+                        Main.win_Input = input;
+                        _ = input.ShowDialog();
+                        Main.win_Input = null;
+                        if (Properties.Settings.Default.presultcount != 0)
+                        {
+                            mainModel.presultCount = Properties.Settings.Default.presultcount;
+                        }
+                        Properties.Settings.Default.presultcount = 0;
+                        Properties.Settings.Default.Save();
+                    }
                     break;
             }
             pic.Source = null;

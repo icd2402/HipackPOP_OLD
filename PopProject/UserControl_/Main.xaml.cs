@@ -68,6 +68,7 @@ namespace PopProject.UserControl_
         private bool oderLast_Sort = false;
 
         bool SignalR_Tick = false;
+        private string SignalR_State = "";
 
         public Main()
         {
@@ -195,6 +196,7 @@ namespace PopProject.UserControl_
                 {
                     TimerSet(); //시계 타이머 실행
                     TimerSet2(); //SignalR 송신 타이머 실행(1초)
+                    TimerSet3(); //SignalR 통신 모니터링(5초)
                 }
                 else
                 {
@@ -596,7 +598,7 @@ namespace PopProject.UserControl_
                                     }
 
                                     //광성은 1초마다 신호를 보내도록 수정
-                                    if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+                                    if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트") || Properties.Settings.Default.corp_name.Equals("대세물산"))
                                     {
                                         //1초 틱
                                         if (SignalR_Tick)
@@ -643,7 +645,7 @@ namespace PopProject.UserControl_
                                         }
 
                                         //광성은 1초마다 신호를 보내도록 수정
-                                        if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+                                        if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트") || Properties.Settings.Default.corp_name.Equals("대세물산"))
                                         {
                                             //1초 틱
                                             if (SignalR_Tick)
@@ -683,6 +685,39 @@ namespace PopProject.UserControl_
             throw new NotImplementedException();
         }
 
+        //SignalR 연결상태 모니터링용
+        private void TimerSet3()
+        {
+            timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(5)
+            };
+            timer.Tick += new EventHandler(Timer_Tick3);
+            timer.Start();
+        }
+
+        //SignalR 연결상태 모니터링용
+        private void Timer_Tick3(object sender, EventArgs e)
+        {
+            SignalRAdministrator conn = new SignalRAdministrator();
+            Console.WriteLine("SignalR 연결상태: " + conn.GetState());
+
+            SignalR_State = conn.GetState().ToString();
+
+            //연결됨
+            if (SignalR_State.Equals("Connected"))
+            {
+                SState.Foreground = Brushes.Green;
+            }
+            //연결 끊김
+            else
+            {
+                SState.Foreground = Brushes.Black;
+
+            }
+        }
+
+        //1초로 묶어서 생산수량 전송용
         private void TimerSet2()
         {
             timer = new DispatcherTimer
@@ -693,12 +728,11 @@ namespace PopProject.UserControl_
             timer.Start();
         }
 
+        //1초로 묶어서 생산수량 전송용
         private void Timer_Tick2(object sender, EventArgs e)
         {
             SignalR_Tick = true;
         }
-
-
 
         // 1초 타이머 실행
         private void TimerSet()
@@ -2777,7 +2811,13 @@ namespace PopProject.UserControl_
                             //관리자 로그인 아닐때 키 생성
                             if (!Properties.Settings.Default.manager.Equals("1"))
                             {
-                                arduSerial.Write("A");//아두이노 카운터 리셋
+                                //아두이노 연결 안되어있으면 무시
+                                if (!Properties.Settings.Default.SerialName.Equals(""))
+                                {
+                                    arduSerial.Write("A");//아두이노 카운터 리셋
+                                }
+
+                                //실수요자 창 팝업
                                 PopResultStart(model);
                             }
                         }
@@ -2802,7 +2842,8 @@ namespace PopProject.UserControl_
                         SelectWorkList();   //생산계획 조회
                         ResultSearchDate(); //생산결과 조회
                     }
-                    else //일반생산
+                    //일반생산
+                    else
                     {
                         win_Input = new Win_input(model, workList, false);
                         _ = win_Input.ShowDialog(); //인풋창 팝업
@@ -3470,16 +3511,8 @@ namespace PopProject.UserControl_
             }
         }
 
-        private void Timer_Ticks(object sender, EventArgs e)// 작동 시간 갱신
+        private void Timer_Ticks(object sender, EventArgs e)
         {
-            try
-            {
-                SignalRAdministrator conn = new SignalRAdministrator();
-                conn.Setconnection(false);
-            }
-            catch (Exception ex)
-            {
-            }
         }
     }
 

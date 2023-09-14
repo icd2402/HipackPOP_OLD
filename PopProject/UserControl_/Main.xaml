@@ -77,7 +77,7 @@
             <TextBlock x:Name="work" Canvas.Left="1018" Canvas.Top="10" FontSize="18" Text="계획" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock x:Name="box" Foreground="Blue" Visibility="Collapsed" Canvas.Left="1018" Canvas.Top="20" FontSize="16" Text="작업수" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock Canvas.Left="1076" Canvas.Top="10" FontSize="18" Text="결과" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock Canvas.Left="1168" Canvas.Top="10" FontSize="18" Text="상태" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" />
+            <TextBlock x:Name="SState" Canvas.Left="1168" Canvas.Top="10" FontSize="18" Text="상태" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" />
             <Image Source="/img/plan.png" x:Name="pop_Noty" Visibility="Collapsed" Canvas.Left="1220" Canvas.Top="3" MouseLeftButtonDown="Pop_noty"></Image>
         </Canvas>
 

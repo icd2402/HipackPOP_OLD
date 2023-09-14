@@ -28,6 +28,12 @@ namespace PopProject.Util
             Connect(Request);
         }
 
+        //메인화면에서 통신상태 확인
+        public ConnectionState GetState()
+        {
+            return 연결.State;
+        }
+
         //연결
         private void Connect(bool request)
         {
@@ -57,8 +63,8 @@ namespace PopProject.Util
                     {
                         if (!Properties.Settings.Default.corp_name.Equals("오주포장") || !Properties.Settings.Default.corp_name.Equals("광성수출포장"))
                         {
-                            MessageBox_Dialog dialog = new MessageBox_Dialog("SignalR 서버 접속 실패!");
-                            dialog.ShowDialog();
+                            //MessageBox_Dialog dialog = new MessageBox_Dialog("SignalR 서버 접속 실패!");
+                            //dialog.ShowDialog();
                         }
                     }
                 }
