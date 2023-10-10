@@ -59,45 +59,10 @@ namespace PopProject.Util
             // 이미지 소스를 Image 컨트롤에 설정하여 바코드 이미지 표시
             barcodeImage.Source = imageSource;
             barcodeImage2.Source = imageSource;
+
+
+
         }
-
-        //public void BarCode(string id)
-        //{
-        //    // 바코드 이미지를 표시할 Image 컨트롤을 보이도록 설정
-        //    barcodeImage.Visibility = System.Windows.Visibility.Visible;
-
-        //    // BarCode 객체 생성
-        //    BarCode barcodeFont = new BarCode();
-
-        //    // 바코드 심볼러지 타입 설정 (여기서는 CODE128C)
-        //    barcodeFont.SymbologyType = SymbologyType.Code128c;
-
-        //    // 바코드 X(너비 비율) 설정
-        //    barcodeFont.X = 3;
-        
-        //    // 바코드 너비와 높이 설정
-        //    barcodeFont.BarCodeWidth = 140;
-        //    barcodeFont.BarCodeHeight = 35;
-
-        //    // 바코드에 인코딩할 텍스트 설정
-        //    barcodeFont.CodeText = id;
-
-        //    // 바코드 이미지를 그릴 스트림 생성
-        //    System.IO.Stream stream = new System.IO.MemoryStream();
-
-        //    // 바코드를 스트림에 그리기
-        //    barcodeFont.drawBarcode(stream);
-
-        //    // 스트림에서 이미지 소스 생성
-        //    var imageSource = new BitmapImage();
-        //    imageSource.BeginInit();
-        //    imageSource.StreamSource = stream;
-        //    imageSource.EndInit();
-
-        //    // 이미지 소스를 Image 컨트롤에 설정하여 바코드 이미지 표시
-        //    barcodeImage.Source = imageSource;
-        //    barcodeImage2.Source = imageSource;
-        //}
 
         public class ProductReport
         {

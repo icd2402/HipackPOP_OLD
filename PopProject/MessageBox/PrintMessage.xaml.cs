@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using PopProject.Consumer_;
 using PopProject.Detail;
+using PopProject.Input;
 using PopProject.KeyBoard;
 using PopProject.UserControl_;
 using PopProject.Util;
@@ -25,6 +26,7 @@ namespace PopProject.MessageBox
         private Win_KeyBoard win_KeyBoard;
         private ConsumerModel consumerModel;
         bool consumCheck;
+
         public PrintMessage(MainModel main, DetailModel detailitem)
         {
             InitializeComponent();
@@ -123,6 +125,13 @@ namespace PopProject.MessageBox
         private void Messagebox_exit(object sender, MouseButtonEventArgs e)
         {
             Close();
+        }
+
+        //비고란 입력 버튼
+        private void Memo_button(object sender, MouseButtonEventArgs e)
+        {
+            PrintMemoBox printMemoBox = new PrintMemoBox(mainModel, this.detailitem);
+            printMemoBox.ShowDialog();
         }
 
         //인쇄 버튼
@@ -489,14 +498,16 @@ namespace PopProject.MessageBox
                         Set_FixedPage.Children.Add(명세서양식_uc6구룡 as UIElement);
                         }
                     }
+                    //대세물산
                     else if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
                     {
                         pr8.customSName = result["customSName"].ToString();      //거래처명
                         pr8.prodName = result["prodName"].ToString();            //품명
                         pr8.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
                         pr8.pSize = result["pSize"].ToString();                  //규격
-                        pr8.MycustomSName = Properties.Settings.Default.corp_name; //생산처
-                        pr8.corpName = Properties.Settings.Default.accountCheck ? "" : mainModel.corpName; //거래처 상호
+                        //pr8.MycustomSName = Properties.Settings.Default.corp_name; //생산처
+                        pr8.MycustomSName = Properties.Settings.Default.productionCheck ? "" : Properties.Settings.Default.corp_name; //생산처 상호
+                        pr8.corpName = Properties.Settings.Default.accountCheck ? "" : mainModel.customSName; //거래처 상호
 
 
                         string memo = "";
@@ -788,14 +799,17 @@ namespace PopProject.MessageBox
                     case "11": //포장방법
                         memo += string.IsNullOrEmpty(detailitem.PackType) ? "" : detailitem.PackType + " / ";
                         break;
-                    case "12": //적재단수
+                    case "12": //파렛트 종류
+                        memo += string.IsNullOrEmpty(detailitem.PalletType) ? "" : detailitem.PalletType + " / ";
+                        break;
+                    case "13": //적재단수
                         memo += string.IsNullOrEmpty(detailitem.LoadHeight) ? "" : detailitem.LoadHeight + " / ";
                         break;
-                    case "13": //적재방법
+                    case "14": //적재방법
                         memo += string.IsNullOrEmpty(detailitem.LoadType) ? "" : detailitem.LoadType + " / ";
                         break;
-                    case "18": //파렛트 종류
-                        memo += string.IsNullOrEmpty(detailitem.PalletType) ? "" : detailitem.PalletType + " / ";
+                    case "15": //메모
+                        memo += string.IsNullOrEmpty(detailitem.UserMemo) ? "" : detailitem.LoadType + " / ";
                         break;
                 }
             }

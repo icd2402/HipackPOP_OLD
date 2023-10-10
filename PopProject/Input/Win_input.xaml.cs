@@ -1026,6 +1026,8 @@ namespace PopProject.Input
             if (inputModel.imagePath.Equals("/img/bn_05.png")) 
             {
                 string metrialitem = Properties.Settings.Default.meterialinfo;
+                string sCustomSName = "";
+                string sProdName = "";
 
                 switch (metrialitem)
                 {
@@ -1033,7 +1035,12 @@ namespace PopProject.Input
                     case "20":
                         if (Main1.production != null)
                         {
-                            MessageBox_Dialog messageBox = new MessageBox_Dialog("작업중인 건이 있습니다.");
+                            //생상중이 거래서/품명 표현
+                            sCustomSName = Main.production.customSName;
+                            sProdName = Main.production.prodName;
+                            MessageBox_Dialog messageBox = new MessageBox_Dialog("거래처: " + sCustomSName + "\n" +
+                                                                                 "품명: " + sProdName + "\n" +
+                                                                                 "해당 건이 작업중입니다.");
                             _ = messageBox.ShowDialog();
                         }
                         else
@@ -1048,9 +1055,14 @@ namespace PopProject.Input
                     default:
                         if (Main.production != null)
                         {
-                            MessageBox_Dialog messageBox = new MessageBox_Dialog("작업중인 건이 있습니다.");
-                            _ = messageBox.ShowDialog();
+                            //생상중이 거래서/품명 표현
+                            sCustomSName = Main.production.customSName;
+                            sProdName= Main.production.prodName;
 
+                            MessageBox_Dialog messageBox = new MessageBox_Dialog("거래처: " + sCustomSName + "\n" +
+                                                                                 "품명: " + sProdName + "\n" + 
+                                                                                 "해당 건이 작업중입니다.");
+                            _ = messageBox.ShowDialog();
                         }
                         else
                         {

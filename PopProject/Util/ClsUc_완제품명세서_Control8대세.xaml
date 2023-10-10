@@ -154,7 +154,7 @@
             </StackPanel>
 
             <DockPanel Grid.Row="4" LastChildFill="False" Visibility="Visible" x:Name="dock1" >
-                <Label DockPanel.Dock="Right" Style="{StaticResource 명세서Label}" Content="대세물산" Margin="20,0,20,0"/>
+                <Label DockPanel.Dock="Right" Style="{StaticResource 명세서Label}" Content="{Binding MycustomSName}" Margin="20,0,20,0"/>
             </DockPanel>
         </Grid>
 
@@ -213,7 +213,7 @@
             </StackPanel>
 
             <DockPanel Grid.Row="4" LastChildFill="False" Visibility="Visible" x:Name="dock2" >
-                <Label DockPanel.Dock="Right" Style="{StaticResource 명세서Label}" Content="대세물산" Margin="20,0,20,0"/>
+                <Label DockPanel.Dock="Right" Style="{StaticResource 명세서Label}" Content="{Binding MycustomSName}" Margin="20,0,20,0"/>
             </DockPanel>
         </Grid>
     </Grid>

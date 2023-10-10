@@ -130,14 +130,17 @@ namespace PopProject.Input
                     case "11": //포장방법
                         _cb11.IsChecked = true;
                         break;
-                    case "12": //적재단수
+                    case "12"://파렛트 종류
                         _cb12.IsChecked = true;
                         break;
-                    case "13": //적재방법
+                    case "13": //적재단수
                         _cb13.IsChecked = true;
                         break;
-                    case "18"://파렛트 종류
-                        _cb18.IsChecked = true;
+                    case "14": //적재방법
+                        _cb14.IsChecked = true;
+                        break;
+                    case "15": //메모
+                        _cb15.IsChecked = true;
                         break;
                     default:
                         break;
@@ -419,14 +422,17 @@ namespace PopProject.Input
                     case "포장 방법":
                         setting = 11;
                         break;
-                    case "적재 단수":
+                    case "파렛트 종류":
                         setting = 12;
                         break;
-                    case "적재 방법":
+                    case "적재 단수":
                         setting = 13;
                         break;
-                    case "파렛트 종류":
-                        setting = 18;
+                    case "적재 방법":
+                        setting = 14;
+                        break;
+                    case "메모":
+                        setting = 15;
                         break;
                     default:
                         break;

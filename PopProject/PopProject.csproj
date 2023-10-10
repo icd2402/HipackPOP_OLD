@@ -360,6 +360,9 @@
     <Compile Include="MessageBox\MessageBox_Robot.xaml.cs">
       <DependentUpon>MessageBox_Robot.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MessageBox\PrintMemoBox.xaml.cs">
+      <DependentUpon>PrintMemoBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MessageBox\PrintMessage.xaml.cs">
       <DependentUpon>PrintMessage.xaml</DependentUpon>
     </Compile>
@@ -580,6 +583,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MessageBox\MessageBox_Robot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessageBox\PrintMemoBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

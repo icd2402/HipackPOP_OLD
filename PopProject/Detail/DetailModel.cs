@@ -38,6 +38,20 @@ namespace PopProject.Detail
             }
         }
 
+        private string _UserMemo;
+        public string UserMemo
+        {
+            get
+            {
+                return _UserMemo;
+            }
+            set
+            {
+                _UserMemo = value;
+                onPropertyChanged("UserMemo");
+            }
+        }
+
         private string _vendorName;
         public string vendorName
         {

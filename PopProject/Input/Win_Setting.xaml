@@ -390,11 +390,18 @@
                             </CheckBox.LayoutTransform>
                         </CheckBox>
 
-                        <CheckBox x:Name="_cb12" Content="적재 단수"  Width="140" Margin="10" Checked="Setting_print" Unchecked="Setting_print">
+                        <CheckBox x:Name="_cb13" Content="적재 단수"  Width="140" Margin="10" Checked="Setting_print" Unchecked="Setting_print">
                             <CheckBox.LayoutTransform>
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                             </CheckBox.LayoutTransform>
                         </CheckBox>
+
+                        <CheckBox x:Name="_cb15" Content="메모"  Width="140" Margin="10" Checked="Setting_print" Unchecked="Setting_print">
+                            <CheckBox.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                            </CheckBox.LayoutTransform>
+                        </CheckBox>
+                        
                     </StackPanel>
 
                     <StackPanel x:Name="str4" Canvas.Top="50" Canvas.Left="330" Width="265">
@@ -428,13 +435,13 @@
                             </CheckBox.LayoutTransform>
                         </CheckBox>
 
-                        <CheckBox x:Name="_cb18" Content="파렛트 종류"  Width="140" Margin="10" Checked="Setting_print" Unchecked="Setting_print">
+                        <CheckBox x:Name="_cb12" Content="파렛트 종류"  Width="140" Margin="10" Checked="Setting_print" Unchecked="Setting_print">
                             <CheckBox.LayoutTransform>
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                             </CheckBox.LayoutTransform>
                         </CheckBox>
 
-                        <CheckBox x:Name="_cb13" Content="적재 방법"  Width="140" Margin="10" Checked="Setting_print" Unchecked="Setting_print">
+                        <CheckBox x:Name="_cb14" Content="적재 방법"  Width="140" Margin="10" Checked="Setting_print" Unchecked="Setting_print">
                             <CheckBox.LayoutTransform>
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                             </CheckBox.LayoutTransform>
