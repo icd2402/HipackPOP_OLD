@@ -714,7 +714,7 @@ namespace PopProject.Detail
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
         }
-
+        
         private void kk_Click(object sender, RoutedEventArgs e)
         {
 

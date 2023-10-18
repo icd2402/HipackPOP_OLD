@@ -503,6 +503,16 @@ namespace PopProject.MessageBox
                     {
                         pr8.customSName = result["customSName"].ToString();      //거래처명
                         pr8.prodName = result["prodName"].ToString();            //품명
+                        //if (result["prodName"].ToString().Length > 5)
+                        //{
+                        //    pr8.prodName = result["prodName"].ToString().Insert(5, " &#x0a; ");
+
+                        //}
+                        //else
+                        //{
+                        //    pr8.prodName = result["prodName"].ToString();
+                        //}
+
                         pr8.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
                         pr8.pSize = result["pSize"].ToString();                  //규격
                         //pr8.MycustomSName = Properties.Settings.Default.corp_name; //생산처

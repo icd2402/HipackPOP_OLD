@@ -1579,7 +1579,7 @@ namespace PopProject.Input
                 if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("우리포장산업"))
                 {
                     inputModel.pworkCount = (int)(this.inputModel.pworkCount * this.inputModel.pCnt);
-                }
+                }       
             }
 
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);

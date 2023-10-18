@@ -95,7 +95,7 @@ namespace PopProject.Detail
             else if ((구분combo.SelectedItem as ComboBoxItem)?.Content.ToString() == "부품교체")
             {
                 Opt_Num = 3;
-                columnName = "ReplcName";
+                columnName = "RplcName";
             }
 
             //DB 조회

@@ -24,7 +24,6 @@ namespace PopProject.Util
         {
             this.DataContext = ViewModel;
 
-
             // 바코드 이미지를 표시할 Image 컨트롤을 보이도록 설정
             barcodeImage.Visibility = System.Windows.Visibility.Visible;
 
@@ -103,7 +102,7 @@ namespace PopProject.Util
                 }
             
             }
-
+            
             private string _prodName;
             public string prodName
             {
