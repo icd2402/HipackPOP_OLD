@@ -3467,9 +3467,8 @@ namespace PopProject.UserControl_
         //설비점검 클릭
         private void Machine_Check(object sender, MouseButtonEventArgs e)
         {
-           
-
             MachineCheck machineCheck = new MachineCheck();
+            //machineCheck.Owner = this;
             machineCheck.Show();
         }
 

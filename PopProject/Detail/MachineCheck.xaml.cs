@@ -67,7 +67,7 @@ namespace PopProject.Detail
         //창 맨위로 고정
         private void BringWindowToTop()
         {
-            //this.Topmost = true;
+            this.Topmost = true;
         }
 
 
