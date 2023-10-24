@@ -209,7 +209,6 @@ namespace PopProject.UserControl_
                                 Properties.Settings.Default.login_check = true;
                                 Properties.Settings.Default.Save();
                             }
-
                             else
                             {
                                 Properties.Settings.Default.login_check = false;

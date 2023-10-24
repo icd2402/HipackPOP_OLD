@@ -439,7 +439,7 @@ namespace PopProject.Input
                 }
 
                 settindValue = settindValue + setting + "|";
-                Console.WriteLine("printlist" + i + " :" + list[i].ToString());
+                Console.WriteLine("printlist : " + i + ", " + list[i].ToString());
             }
             return settindValue;
         }

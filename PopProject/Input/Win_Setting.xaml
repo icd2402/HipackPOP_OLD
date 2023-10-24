@@ -396,7 +396,7 @@
                             </CheckBox.LayoutTransform>
                         </CheckBox>
 
-                        <CheckBox x:Name="_cb15" Content="메모"  Width="140" Margin="10" Checked="Setting_print" Unchecked="Setting_print">
+                        <CheckBox x:Name="_cb15" Content="메모"  Width="140" Margin="10" Checked="Setting_print" Unchecked="Setting_print" Visibility="Collapsed">
                             <CheckBox.LayoutTransform>
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                             </CheckBox.LayoutTransform>

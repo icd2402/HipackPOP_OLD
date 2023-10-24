@@ -66,9 +66,10 @@ namespace PopProject.UserControl_
         private bool DateCheck = false;
         private bool CNS_Barcode_Send = false; //true이면 바코드 읽으면 CNS로 데이터 전송
         private bool oderLast_Sort = false;
-
         bool SignalR_Tick = false;
         private string SignalR_State = "";
+        public ILog log;
+
 
         public Main()
         {
@@ -114,7 +115,7 @@ namespace PopProject.UserControl_
                 }
 
                 //날짜 이동버튼 활성화 (대세물산)
-                if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트") || (Properties.Settings.Default.corp_name.Equals("선호칼라팩")))
+                if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트") || Properties.Settings.Default.corp_name.Equals("유창포장테스트"))
                 {
                     txtDate2.Visibility = Visibility.Visible;
                     txtDate3.Visibility = Visibility.Visible;
@@ -123,10 +124,11 @@ namespace PopProject.UserControl_
                 //광성 시그널R 테스트
                 //ksboxTest();
 
-                if (Properties.Settings.Default.corp_name.Equals("대세물산"))
-                {
-                    TimerSetting(); // 시간 갱신 타이머
-                }
+                //
+                //if (Properties.Settings.Default.corp_name.Equals("대세물산"))
+                //{
+                //    TimerSetting(); // 시간 갱신 타이머
+                //}
 
                 //아두이노로부터 카운팅 값 받음
                 SignalRAdministrator.허브.On<string, string>("returnCount", recive);
@@ -197,6 +199,7 @@ namespace PopProject.UserControl_
                     TimerSet(); //시계 타이머 실행
                     TimerSet2(); //SignalR 송신 타이머 실행(1초)
                     TimerSet3(); //SignalR 통신 모니터링(5초)
+                    TimerSet4(); //SignalR 통신 로그(1분)
                 }
                 else
                 {
@@ -702,19 +705,31 @@ namespace PopProject.UserControl_
             SignalRAdministrator conn = new SignalRAdministrator();
             Console.WriteLine("SignalR 연결상태: " + conn.GetState());
 
+            //상태에 따른 글자 변환
             SignalR_State = conn.GetState().ToString();
+            SState.Foreground = SignalR_State.Equals("Connected") ? Brushes.Green : Brushes.Black;
+        }
 
-            //연결됨
-            if (SignalR_State.Equals("Connected"))
+        //SignalR 연결상태 로그
+        private void TimerSet4()
+        {
+            timer = new DispatcherTimer
             {
-                SState.Foreground = Brushes.Green;
-            }
-            //연결 끊김
-            else
-            {
-                SState.Foreground = Brushes.Black;
+                Interval = TimeSpan.FromSeconds(60)
+            };
+            timer.Tick += new EventHandler(Timer_Tick4);
+            timer.Start();
+        }
 
-            }
+        //SignalR 연결상태 로그
+        private void Timer_Tick4(object sender, EventArgs e)
+        {
+            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
+            log = LogManager.GetLogger(typeof(SignalRAdministrator));
+
+            SignalRAdministrator conn = new SignalRAdministrator();
+            SignalR_State = conn.GetState().ToString();
+            log.Info(SignalR_State);
         }
 
         //1초로 묶어서 생산수량 전송용
