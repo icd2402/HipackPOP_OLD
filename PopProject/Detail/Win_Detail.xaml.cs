@@ -2382,14 +2382,14 @@ namespace PopProject.Detail
             clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D353D"));
 
             Main.passCheck = false;
-            InvokeCount(Properties.Settings.Default.mercName, mainModel.orderKey.ToString() + "^@"); //설비명, 오더키, ^@
+            InvokeCount(Properties.Settings.Default.mercName, mainModel.orderKey.ToString() + "^@"); //넘기기 (설비명, 오더키, ^@)
             Console.WriteLine("넘기기 정보 : " + Properties.Settings.Default.mercName + mainModel.orderKey.ToString() + "^@");
         }
 
-        //오주 CNS전용 카운팅 집계 프로그램 통신 (현재 사용 안함)
+        //오주 CNS전용 넘기기 기능
         private void InvokeCount(string mercName, string v)
         {
-            SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); // EX) invokeCount, 3125247246, 인라인3호기, 카운터
+            SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); // EX) invokeCount, 3125247246, 인라인3호기, 오더키
         }
 
         //로봇 세팅 버튼

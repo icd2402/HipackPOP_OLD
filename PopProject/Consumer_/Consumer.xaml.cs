@@ -122,6 +122,7 @@ namespace PopProject.Consumer_
             }
         }
 
+        //아두이노 값 받으면 이벤트 실행
         private void ArduReReceive(object sender, SerialDataReceivedEventArgs e)
         {
             switch (metrialitem)
@@ -136,10 +137,8 @@ namespace PopProject.Consumer_
                     break;
             }
 
-            // Console.WriteLine("imageSource" + consumer_input.inputModel.imagePath);
             switch (Properties.Settings.Default.processType)
             {
-
                 case 5:
                 case 8:
                 case 9:
@@ -179,6 +178,7 @@ namespace PopProject.Consumer_
             }
         }
 
+        //현황판으로 데이터 송신
         public void InvokeCount(float str)
         {
             _ = SignalRAdministrator.허브.Invoke("invokeCount", Properties.Settings.Default.corp_id, Properties.Settings.Default.mercName, str + "");

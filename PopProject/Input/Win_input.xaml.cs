@@ -18,6 +18,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace PopProject.Input
 {
@@ -1778,7 +1780,7 @@ namespace PopProject.Input
                 Properties.Settings.Default.Save();
                 //Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
                 mainModel.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                InvokeCount(Properties.Settings.Default.mercName, "S");//현황판으로 시작신호 송신
+                InvokeCount(Properties.Settings.Default.mercName, "S");//현황판으로 시작신호 송신 (설비명,S)
                 Properties.Settings.Default.count = 0;
                 Properties.Settings.Default.saveDate = "";
                 Properties.Settings.Default.pplanKey = 0;
@@ -1918,14 +1920,51 @@ namespace PopProject.Input
             return returnData.결과;
         }
 
+        //현황판 전송
         private void InvokeCount(string mercName, string v)
         {
             //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
             try
             {
-                SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
+                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+                {
+                    popService(mercName, v);
+                }
+                else
+                {
+                    SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
+                }
             }
             catch (Exception e)
+            {
+            }
+        }
+
+        //신규 서비스 Http 셋팅
+        private static HttpClient client = new HttpClient();
+        async Task popService(string mercName, string str)
+        {
+            string Url = "http://localhost:18888/pop/gathering"; //주소
+            //string Url = Properties.Settings.Default.signalR; //주소
+            string CompanyCode = Properties.Settings.Default.corp_id; //업체코드
+            string MercName = mercName; //설비명
+            string Data = str.ToString(); //데이터
+
+            await workCnt(Url, CompanyCode, MercName, Data);
+        }
+
+        ////신규 서비스 Http Get
+        async Task workCnt(string url, string companyCode, string mercName, string data)
+        {
+            try
+            {
+                // 파라미터를 포함한 URL 생성
+                string urlWithParameters = $"{url}/{companyCode}/{mercName}/{data}";
+                // HTTP GET 요청 보내기
+                HttpResponseMessage response = await client.GetAsync(urlWithParameters);
+                Console.WriteLine(urlWithParameters);
+            }
+            catch (Exception)
             {
             }
         }

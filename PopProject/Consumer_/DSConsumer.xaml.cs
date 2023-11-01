@@ -85,7 +85,7 @@ namespace PopProject.Consumer_
 
         }
 
-        //아두이노 통신
+        //현황판으로 시작신호 보냄
         private void InvokeCount(string mercName, string v)
         {
             //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
@@ -283,7 +283,7 @@ namespace PopProject.Consumer_
                 //시작시간 저장
                 mainModel.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-                //아두이노로 시작신호 송신
+                //현황판으로 시작신호 보냄
                 InvokeCount(Properties.Settings.Default.mercName, "S");
 
                 //값 리셋

@@ -30,6 +30,7 @@ using System.IO;
 using System.Reflection;
 using log4net;
 using log4net.Config;
+using System.Net.Http;
 
 namespace PopProject.UserControl_
 {
@@ -69,7 +70,7 @@ namespace PopProject.UserControl_
         bool SignalR_Tick = false;
         private string SignalR_State = "";
         public ILog log;
-
+        public float testCount = 0;
 
         public Main()
         {
@@ -82,7 +83,6 @@ namespace PopProject.UserControl_
                 //string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
                 //versionTextBlock.Text += version;
 
-                
 
                 //왼쪽상단 업체명
                 corp_name.Text = Properties.Settings.Default.corp_name;
@@ -115,20 +115,11 @@ namespace PopProject.UserControl_
                 }
 
                 //날짜 이동버튼 활성화 (대세물산)
-                if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트") || Properties.Settings.Default.corp_name.Equals("유창포장테스트"))
+                if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트") || Properties.Settings.Default.corp_name.Equals("유창포장") || Properties.Settings.Default.corp_name.Equals("유창포장테스트"))
                 {
                     txtDate2.Visibility = Visibility.Visible;
                     txtDate3.Visibility = Visibility.Visible;
                 }
-
-                //광성 시그널R 테스트
-                //ksboxTest();
-
-                //
-                //if (Properties.Settings.Default.corp_name.Equals("대세물산"))
-                //{
-                //    TimerSetting(); // 시간 갱신 타이머
-                //}
 
                 //아두이노로부터 카운팅 값 받음
                 SignalRAdministrator.허브.On<string, string>("returnCount", recive);
@@ -136,13 +127,11 @@ namespace PopProject.UserControl_
                 //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 
                 if (!Properties.Settings.Default.manager.Equals("1"))
                 {
-                    InvokeMercName(Properties.Settings.Default.mercName, "A");
+                    InvokeMercName(Properties.Settings.Default.mercName, "A"); //설비명, 켜짐신호
                 }
 
                 Properties.Settings.Default.consumersumcount = 0;
                 Properties.Settings.Default.Save();
-
-
 
                 SetSetting(metrialitem); //작업정보 설장 값 저장
                 ArduConn(); //아두이노 통신연결
@@ -213,40 +202,8 @@ namespace PopProject.UserControl_
             }
         }
 
-
-        //광성 시그널R 테스트
-        public void ksboxTest()
-        {
-            if (Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
-            {
-                while (true)
-                {
-                    counting();
-                    Thread.Sleep(300); // 
-                }
-            }
-        }
-
-        int counter = 0;
-
-        private void counting()
-        {
-            counter += 1;
-            Console.WriteLine("테스트 카운터: " + counter);
-            InvokeCount(counter, "합지1"); //현황판으로 카운터 전송
-            InvokeCount(counter, "합지2"); //현황판으로 카운터 전송
-            InvokeCount(counter, "코팅기"); //현황판으로 카운터 전송
-            InvokeCount(counter, "톰슨1"); //현황판으로 카운터 전송
-            InvokeCount(counter, "톰슨2"); //현황판으로 카운터 전송
-            InvokeCount(counter, "베가"); //현황판으로 카운터 전송
-            InvokeCount(counter, "베가2"); //현황판으로 카운터 전송
-            InvokeCount(counter, "접합기"); //현황판으로 카운터 전송
-            InvokeCount(counter, "제함기"); //현황판으로 카운터 전송
-        }
-
-
         //넘기기 신호 받는용
-        private void recive(string arg1, string arg2) //설비명, 카운터
+        private void recive(string arg1, string arg2) //설비명, 데이터
         {
             MainModel model = new MainModel();
             try
@@ -260,7 +217,7 @@ namespace PopProject.UserControl_
                         case "인라인2호기":
                         case "후렉소1호기":
 
-                            Console.WriteLine(arg1 + " : " + arg2);
+                            Console.WriteLine("넘기기 받은 신호" + arg1 + " : " + arg2);
 
                             //설비명 일치시
                             if (arg1.Equals(Properties.Settings.Default.mercName))
@@ -279,12 +236,13 @@ namespace PopProject.UserControl_
                                         }
                                     }
 
+                                    //넘기기 데이터로 디테일창 팝업
                                     if (passCheck)
                                     {
                                         try
                                         {
-                                            can.Visibility = Visibility.Visible;
-                                            Win_Detail win_detail = new Win_Detail(model, special, workList, Properties.Settings.Default.detail_check, false);
+                                            can.Visibility = Visibility.Visible; //화면 어둡게 처리
+                                            Win_Detail win_detail = new Win_Detail(model, special, workList, Properties.Settings.Default.detail_check, false); //모델,참고사항,workList,듀얼모니터,바코드
                                             win_detail.ShowDialog();
 
                                             // selectWorkList();
@@ -298,6 +256,7 @@ namespace PopProject.UserControl_
                                             LogWrite(e1.Message);
                                         }
 
+                                        //생산데이터 있으면 아두이노한테 현재값 요청
                                         try
                                         {
                                             if (production != null)
@@ -409,18 +368,7 @@ namespace PopProject.UserControl_
             }
         }
 
-        // POP 프로그램 켜짐/꺼짐 상태 송신
-        private void InvokeMercName(string mercName, string v)
-        {
-            //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
-            try
-            {
-                SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); //DB명, 설비명, POP켜짐 유/무
-            }
-            catch (Exception)
-            {
-            }
-        }
+        
 
         //로그 기록
         private void LogWrite(string str)
@@ -616,6 +564,8 @@ namespace PopProject.UserControl_
                                         InvokeCount(str, Properties.Settings.Default.mercName); //현황판으로 카운터 전송
                                         Console.WriteLine("현황판으로 카운터(매수) 전송 값(Main) : " + Properties.Settings.Default.mercName + ", " + str); //실시간 값 확인용
                                     }
+
+                                    testCount = str;
                                 }
                                 else //통수일때
                                 {
@@ -664,11 +614,14 @@ namespace PopProject.UserControl_
                                             Console.WriteLine("현황판으로 카운터(통수) 전송 값(Main) : " + Properties.Settings.Default.mercName + ", " + Convert.ToInt32(production.presultCount)); //실시간 값 확인용
                                         }
                                     }
+                                    //5초마다 현재값을 보냄
+                                    //testCount = production.presultCount;
                                 }
                             }));
                             //  int lastcount = str;
                             //  double 분당생산수 = str - lastcount;
                         }
+
                     }
                     catch (Exception e1)
                     {
@@ -708,6 +661,21 @@ namespace PopProject.UserControl_
             //상태에 따른 글자 변환
             SignalR_State = conn.GetState().ToString();
             SState.Foreground = SignalR_State.Equals("Connected") ? Brushes.Green : Brushes.Black;
+
+            //광성은 5초마다 현재의 카운터값을 현황판으로 송신
+            //if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+            //{
+            //    //생산중이 아니면 카운터값 초기화
+            //    if (production != null)
+            //    {
+            //    }
+            //    else
+            //    {
+            //        testCount = 0;
+            //    }
+            //    InvokeCount(Convert.ToInt32(testCount), Properties.Settings.Default.mercName); //현황판으로 카운터 전송
+            //    //Console.WriteLine("testCount : " + testCount);
+            //}
         }
 
         //SignalR 연결상태 로그
@@ -773,7 +741,7 @@ namespace PopProject.UserControl_
             {
                 dt = DateTime.Now;
             }
-            string datePart = dt.ToString("D"); //날짜
+            string datePart = dt.ToString("yyyy년 MM월 dd일 dddd"); //날짜
             string datetime = string.Format("{0:D2}시 {1:D2}분 {2:D2}초", clock.Hour, clock.Minute, clock.Second);//시간
             txtDate.Text = datePart;  //날짜
             txtClock.Text = datetime; //시간
@@ -803,7 +771,7 @@ namespace PopProject.UserControl_
             }
 
             //대세,광성은 바코드 동작 x
-            if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("광성수출포장"))
+            if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트") || Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
             {
             }
             else
@@ -1035,12 +1003,70 @@ namespace PopProject.UserControl_
             // Console.WriteLine("minuite - " + minuite);
         }
 
+        // POP 프로그램 켜짐/꺼짐 상태 송신
+        private void InvokeMercName(string mercName, string v)
+        {
+            try
+            {
+                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+                {
+                    popService(mercName, v);
+                }
+                else 
+                {
+                    SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); //invokeCount, DB명, 설비명, 문자
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+        }
+
         // 현황판으로 카운터 전송
         public void InvokeCount(int str, string mercName)
         {
             try
             {
-                _ = SignalRAdministrator.허브.Invoke("invokeCount", Properties.Settings.Default.corp_id, mercName, str + ""); //DB명, 설비명, 카운터
+                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+                {
+                    popService(mercName, str.ToString());
+                }
+                else
+                {
+                _ = SignalRAdministrator.허브.Invoke("invokeCount", Properties.Settings.Default.corp_id, mercName, str + ""); //invokeCount, DB명, 설비명, 문자(카운터값)
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+            //신규
+        }
+
+        //신규 서비스 Http 셋팅
+        private static HttpClient client = new HttpClient();
+        async Task popService(string mercName, string str)
+        {
+            string Url = "http://localhost:18888/pop/gathering"; //주소
+            //string Url = Properties.Settings.Default.signalR; //주소
+            string CompanyCode = Properties.Settings.Default.corp_id; //업체코드
+            string MercName = mercName; //설비명
+            string Data = str.ToString(); //데이터
+
+            await workCnt(Url, CompanyCode, MercName, Data);
+        }
+
+        //신규 서비스 Http Get
+        async Task workCnt(string url, string companyCode, string mercName, string data)
+        {
+            try
+            {
+                // 파라미터를 포함한 URL 생성
+                string urlWithParameters = $"{url}/{companyCode}/{mercName}/{data}";
+                // HTTP GET 요청 보내기
+                HttpResponseMessage response = await client.GetAsync(urlWithParameters);
+                Console.WriteLine(urlWithParameters);
             }
             catch (Exception)
             {
@@ -2698,7 +2724,7 @@ namespace PopProject.UserControl_
             //관리자 계정이 아닐때만 현황판으로 꺼짐 신호 보냄 
             if (!Properties.Settings.Default.manager.Equals("1"))
             {
-                InvokeMercName(Properties.Settings.Default.mercName, "B");
+                InvokeMercName(Properties.Settings.Default.mercName, "B"); //설비명, 꺼짐신호
             }
 
             //인증코드 저장(로그인 정보)
@@ -2959,10 +2985,16 @@ namespace PopProject.UserControl_
 
         private void InvokeCount(string mercName, string v) //설비명,카운터
         {
-            //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
             try
             {
-                SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
+                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+                {
+                    popService(mercName, v);
+                }
+                else
+                {
+                    SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); //invokeCount, DB명, 설비명, 문자
+                }
             }
             catch (Exception e)
             {
