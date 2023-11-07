@@ -20,6 +20,8 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using System.Net.Http;
 using System.Threading.Tasks;
+using log4net;
+using log4net.Config;
 
 namespace PopProject.Input
 {
@@ -55,18 +57,20 @@ namespace PopProject.Input
         private bool CNS_Send = false;
 
         private bool success = false; //CNS 통신연결 확인
-
+        public ILog log = LogManager.GetLogger(typeof(Win_input)); //로그
 
 
         public Win_input(MainModel mainModel, ObservableCollection<MainModel> workList, bool check) //check= 메인화면에서 들어오면 false, 디테일 화면에서 들어오면 true
         {
             InitializeComponent();
             
-          
             this.workList = workList;
             inputModel = new InputModel();
             this.mainModel = mainModel;
             boxType.Text = "형 태 : " + mainModel.boxType;
+
+            //Log4net
+            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
 
             //오주포장 카운터 수신
             if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
@@ -128,6 +132,8 @@ namespace PopProject.Input
                 plc_Save.Visibility = Visibility.Collapsed;
                 plc_Search.Visibility = Visibility.Collapsed;
             }
+
+
         }
 
         //오주포장 장비별 카운터 수신(아두이노)
@@ -202,6 +208,10 @@ namespace PopProject.Input
                 {
                     Pre_Count.Text = "0";
                 }
+            }
+            else
+            {
+                log.Error("PopBeforeProcessItemCount 조회 실패");
             }
         }
 
@@ -424,6 +434,7 @@ namespace PopProject.Input
             {
                 MessageBox_Dialog msg = new MessageBox_Dialog("PopErrorSearch 조회 오류");
                 _ = msg.ShowDialog();
+                log.Error("불량사유 리스트 조회 실패");
             }
         }
 
@@ -572,6 +583,11 @@ namespace PopProject.Input
                 txtTotalPerrCount.Text = totalPerrCount.ToString(); //총불량 수량 텍스트
                 perrcount.Text = totalPerrCount.ToString(); //불량 수량 텍스트(중앙)
             }
+            else
+            {
+                log.Error("생산결과 조회 실패");
+
+            }
             sv.ScrollToVerticalOffset(ic.ActualHeight);
         }
 
@@ -618,6 +634,10 @@ namespace PopProject.Input
                         ob.Add(item);
                     }
                 }
+            }
+            else
+            {
+                log.Error("불량리스트 조회 실패");
             }
             return ob;
         }
@@ -818,6 +838,7 @@ namespace PopProject.Input
             }
         }
 
+        //인라인설비 시작
         private int PopInlineStart(SubModel subOb)
         {
 
@@ -910,6 +931,7 @@ namespace PopProject.Input
             {
                 MessageBox_Dialog msg = new MessageBox_Dialog("저장실패");
                 msg.ShowDialog();
+                log.Error("불량리스트 조회 실패");
             }
             return returnData.결과;
 
@@ -1033,6 +1055,7 @@ namespace PopProject.Input
 
                 switch (metrialitem)
                 {
+                    //마닐라
                     case "19":
                     case "20":
                         if (Main1.production != null)
@@ -1050,10 +1073,12 @@ namespace PopProject.Input
                             _ = new LogData("작업시작");
                             _ = PopResultStart();
                             PopResultSearch();
+                            log.Info(Main.production.customSName + " / " + Main.production.prodName + " [생산시작]");
                         }
 
                         break;
 
+                    //일반
                     default:
                         if (Main.production != null)
                         {
@@ -1071,6 +1096,7 @@ namespace PopProject.Input
                             _ = new LogData("작업시작");
                             _ = PopResultStart();
                             PopResultSearch();
+                            log.Info(Main.production.customSName + " / " + Main.production.prodName + " [생산시작]");
                         }
                         break;
                 }
@@ -1100,6 +1126,8 @@ namespace PopProject.Input
                     inputModel.pMemo = "";
                     inputModel.pworkCount = 0;
                     PopResultSearch();
+
+                    log.Info(inputModel.customSName + " / " + inputModel.prodName + " [생산종료] " + inputModel.sumPworkCount + "개");
                 }
             }
 

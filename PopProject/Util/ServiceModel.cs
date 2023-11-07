@@ -114,7 +114,11 @@ namespace PopProject.Util
         public static ServiceReference_jobox.Access_Model jo_Access_Model;
         public static ServiceReference_jobox.Return_Model jo_Return_Model;
 
-
+        //로컬
+        public static ServiceReference_jobox.Service_CRUDClient local_Service;
+        public static ServiceReference_jobox.DBHandle_Model local_DB_Handle_Model;
+        public static ServiceReference_jobox.Access_Model local_Access_Model;
+        public static ServiceReference_jobox.Return_Model local_Return_Model;
 
         public static void ServiceModelClean(string serverIndex, string dbName = "")
         {
@@ -415,6 +419,22 @@ namespace PopProject.Util
                     };
 
                     break;
+
+                //case "local":
+
+                //    local_Service = new ServiceReference_ycbox.Service_CRUDClient();
+                //    local_Access_Model = new ServiceReference_ycbox.Access_Model();
+                //    local_Return_Model = new ServiceReference_ycbox.Return_Model();
+                //    local_DB_Handle_Model = new ServiceReference_ycbox.DBHandle_Model
+                //    {
+                //        접속정보 = 접속정보,
+                //        BroadCasting = 0,
+                //        BroadCastingName = string.Empty,
+                //        inputPkey = "0",
+                //        inputContent = string.Empty,
+                //        inputProcessContent = string.Empty
+                //    };
+                //    break;
                 default:
                     break;
             }

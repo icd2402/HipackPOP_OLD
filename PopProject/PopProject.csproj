@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.349</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.351</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>350</ApplicationRevision>
+    <ApplicationRevision>351</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -405,6 +405,7 @@
       <DependentUpon>UserSetting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Detail\Wharehouse_LocationModel.cs" />
+    <Compile Include="Util\LocalDBManager.cs" />
     <Compile Include="Util\ClsUc_명세서_Report8대세.xaml.cs">
       <DependentUpon>ClsUc_명세서_Report8대세.xaml</DependentUpon>
     </Compile>

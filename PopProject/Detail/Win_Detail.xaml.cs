@@ -19,7 +19,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PopProject.KeyBoard;
 using PopProject.input;
-
+using log4net;
+using log4net.Config;
 
 namespace PopProject.Detail
 {
@@ -61,11 +62,15 @@ namespace PopProject.Detail
 
         private int 작업지시;
         private bool consumer = false;
+        public ILog log = LogManager.GetLogger(typeof(Win_Detail)); //로그
 
 
         public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v, bool Barcod)
         {
             InitializeComponent();
+
+            //Log4net
+            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
 
             this.mainModel = mainModel;
             this.workList = workList;
@@ -2259,7 +2264,6 @@ namespace PopProject.Detail
                     break;
 
                 default: //일반
-
                     //실수요자 건 일때
                     if (consumer)
                     {
@@ -2269,11 +2273,15 @@ namespace PopProject.Detail
                     //일반 생산 건 일때
                     else
                     {
+                        log.Info(mainModel.customSName + " / " + mainModel.prodName + " [생산시작]");
+
                         Close();
 
                         input = new Win_input(mainModel, workList, true);
                         Main.win_Input = input;
                         _ = input.ShowDialog();
+
+                        
                         Main.win_Input = null;
                         if (Properties.Settings.Default.presultcount != 0)
                         {
@@ -2281,6 +2289,7 @@ namespace PopProject.Detail
                         }
                         Properties.Settings.Default.presultcount = 0;
                         Properties.Settings.Default.Save();
+
                     }
                     break;
             }

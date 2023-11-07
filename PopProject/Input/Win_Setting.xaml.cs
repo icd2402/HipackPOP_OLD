@@ -10,6 +10,9 @@ using System.Net.NetworkInformation;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using log4net;
+using log4net.Config;
+
 namespace PopProject.Input
 {
 
@@ -21,13 +24,17 @@ namespace PopProject.Input
         private Point scrollMousePoint1 = new Point();
         private double hOff1 = 1;
         private double vOff1 = 1;
+        public ILog log = LogManager.GetLogger(typeof(Win_Setting)); //로그
+
 
         public Win_Setting()
         {
             InitializeComponent();
             PopErrorSearch();
             Win_Set();
-            
+
+            //Log4net
+            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
         }
 
         private void Win_Set()
@@ -313,6 +320,8 @@ namespace PopProject.Input
             Properties.Settings.Default.searchCheck = !settingValue.Equals(Properties.Settings.Default.settingitem);
             Properties.Settings.Default.settingitem = settingValue;
             Properties.Settings.Default.Save();
+
+            log.Info("작업정보 설정 변경 : " + settingValue);
         }
 
         //마닐라,원단정보 체크
@@ -344,6 +353,8 @@ namespace PopProject.Input
             Properties.Settings.Default.searchCheck = !settingValue.Equals(Properties.Settings.Default.meterialinfo); //저장값이 변경되어있으면
             Properties.Settings.Default.meterialinfo = settingValue;
             Properties.Settings.Default.Save();
+
+            log.Info("자재정보 설정 변경 : " + settingValue);
         }
 
         // 자재명세서 출력 정보 설정 체크시
@@ -380,7 +391,7 @@ namespace PopProject.Input
             Properties.Settings.Default.Save();
         }
 
-        //자재명세서 출력 정보 체크값 저장
+        //제품명세서 출력 정보 체크값 저장
         private string GetPringItem(List<string> list)
         {
             string settindValue = "";
@@ -441,6 +452,7 @@ namespace PopProject.Input
                 settindValue = settindValue + setting + "|";
                 Console.WriteLine("printlist : " + i + ", " + list[i].ToString());
             }
+            log.Info("제품명세서 설정 변경 : " + settindValue);
             return settindValue;
         }
 
@@ -597,6 +609,7 @@ namespace PopProject.Input
                 default:
                     break;
             }
+            log.Info("게더링 센서딜레이 변경 : " + str);
             return str;
         }
 
@@ -657,6 +670,8 @@ namespace PopProject.Input
                 }
                 Properties.Settings.Default.Save();
             }
+
+            log.Info("설정창 닫기");
         }
 
         //센서 딜레이 설정
@@ -964,6 +979,7 @@ namespace PopProject.Input
                 }
                 Properties.Settings.Default.Save();
                 Console.WriteLine("체크 :" + Properties.Settings.Default.error);
+                log.Info("공통 불량사유 체크 : " + Properties.Settings.Default.error);
             }
             
         }
@@ -1021,6 +1037,8 @@ namespace PopProject.Input
                 }
                 Properties.Settings.Default.Save();
                 Console.WriteLine("체크 :" + Properties.Settings.Default.error1);
+                log.Info("설비 불량사유 체크 : " + Properties.Settings.Default.error1);
+
             }
         }
 

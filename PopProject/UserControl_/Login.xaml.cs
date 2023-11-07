@@ -25,6 +25,8 @@ namespace PopProject.UserControl_
 
     public partial class Login : UserControl
     {
+        public ILog log = LogManager.GetLogger(typeof(Login)); //로그
+
         public Login()
         {
             InitializeComponent();
@@ -36,9 +38,8 @@ namespace PopProject.UserControl_
             //인증코드 조회+
             Is_GetCompanyCodeFile();
 
+            //Log4net
             XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
-            ILog log = LogManager.GetLogger(typeof(SignalRAdministrator));
-
 
             //인증코드를 정상적으로 불러 왔으면
             if (Is_GetCompanyCodeFile())
@@ -49,7 +50,7 @@ namespace PopProject.UserControl_
                     login_check.IsChecked = true;
                     textbox_login_id.Text = Properties.Settings.Default.login_id;
                     textbox_login_password.Password = Properties.Settings.Default.login_password;
-                    log.Info("인증코드 확인 성공 후 로그인");
+                    log.Info("인증코드 확인 성공");
                     Login_();
                 }
             }
@@ -62,7 +63,7 @@ namespace PopProject.UserControl_
                     login_check.IsChecked = true;
                     textbox_login_id.Text = Properties.Settings.Default.login_id;
                     textbox_login_password.Password = Properties.Settings.Default.login_password;
-                    log.Info("인증코드 확인 실패 후 로그인");
+                    log.Info("인증코드 확인 실패");
                     Login_();
                 }
                 else
@@ -149,9 +150,6 @@ namespace PopProject.UserControl_
 
         public void Login_()
         {
-            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
-            ILog log = LogManager.GetLogger(typeof(SignalRAdministrator));
-
             bool connected = NetworkInterface.GetIsNetworkAvailable();
             if (connected)
             {
@@ -229,6 +227,8 @@ namespace PopProject.UserControl_
                             Console.WriteLine("json : " + json.ToString());
                             httpClient_Util = new HttpClient_util("login_time_update");
                             result = httpClient_Util.SendHttp(json.ToString());
+
+                            log.Info("로그인 정보 정상");
                         }
                         else
                         {
@@ -347,7 +347,7 @@ namespace PopProject.UserControl_
         static bool Is_GetCompanyCodeFile()
         {
             XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
-            ILog log = LogManager.GetLogger(typeof(SignalRAdministrator));
+            ILog log = LogManager.GetLogger(typeof(Login));
 
             try
             {
@@ -510,9 +510,6 @@ namespace PopProject.UserControl_
         //인증코드를 파일로 저장
         private void Create_CompanyCodeFile()
         {
-            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
-            ILog log = LogManager.GetLogger(typeof(SignalRAdministrator));
-
             try
             {
                 if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.login_id) && !string.IsNullOrWhiteSpace(Properties.Settings.Default.login_password))

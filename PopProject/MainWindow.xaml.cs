@@ -10,6 +10,8 @@ using log4net;
 using log4net.Config;
 using System.Net.Http;
 using System.Threading.Tasks;
+using log4net;
+using log4net.Config;
 
 namespace PopProject
 {
@@ -23,11 +25,16 @@ namespace PopProject
         private Mutex mutex = null;
         public static string userID = "0";
         public static string userName = "0";
+        public ILog log = LogManager.GetLogger(typeof(MainWindow)); //로그
+        string Url; //서비스 주소
 
         public MainWindow()
         {
-
             InitializeComponent();
+
+            //Log4net
+            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
+            log.Info("----------------------------Program Start------------------------------");
 
             try
             {
@@ -44,33 +51,31 @@ namespace PopProject
                 {
                     Properties.Settings.Default.meterialinfo = "";
                 }
-
                 Properties.Settings.Default.Save();
+                log.Info("아두이노 설정 세팅 저장 완료");
+
+
+                //POP프로그램이 이미 실행중인지 확인
                 Duplicate_execution("PopProject");
 
             }
             catch (Exception e)
             {
-                LogWrite(e.Message);
-
+                log.Error("메인화면 업로드 실패 : " + e.Message);
             }
 
         }
 
+        //POP프로그램이 이미 실행중인지 확인
         private void Duplicate_execution(string mutexName)
         {
-            //InitializeComponent();
-            //MainCP.Content = new Login();
-            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
-            ILog log = LogManager.GetLogger(typeof(SignalRAdministrator));
-
             try
             {
                 mutex = new Mutex(false, mutexName);
             }
             catch (Exception e)
             {
-                log.Error(e.Message);
+                log.Error("POP프로그램이 이미 실행 중입니다. 알림1");
                 _ = System.Windows.MessageBox.Show("프로그램이 이미 실행 중입니다!", "알림1", MessageBoxButton.OK);
                 Application.Current.Shutdown();
             }
@@ -78,15 +83,14 @@ namespace PopProject
             if (mutex.WaitOne(0, false))
             {
                 MainCP.Content = new Login();
+                log.Info("POP 프로그램 중복체크 완료");
             }
             else
             {
-                log.Error("오류2");
+                log.Error("POP 프로그램 중복 사용으로 실행 실패. 알림2");
                 _ = System.Windows.MessageBox.Show("프로그램이 이미 실행 중입니다!", "알림2", MessageBoxButton.OK);
                 Application.Current.Shutdown();
             }
-
-            
         }
 
         private void MainCP_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -102,15 +106,15 @@ namespace PopProject
             catch (Exception h)
             {
                 string message = h.Message;
-                Console.WriteLine("Exception message : " + message);
             }
         }
 
+        //화면켜짐 신호 송신
         private void invokeMercName(string mercName, string v)
         {
             try
             {
-                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+                if (Properties.Settings.Default.corp_name.Equals("광성수출포장"))
                 {
                     popService(mercName, v);
                 }
@@ -125,12 +129,21 @@ namespace PopProject
             }
         }
 
+
         //신규 서비스 Http 셋팅
         private static HttpClient client = new HttpClient();
         async Task popService(string mercName, string str)
         {
-            string Url = "http://localhost:18888/pop/gathering"; //주소
-            //string Url = Properties.Settings.Default.signalR; //주소
+            //주소
+            if (Properties.Settings.Default.corp_name.Equals("광성수출포장"))
+            {
+                Url = "http://ksbox.iptime.org:18888/pop/gathering"; //광성
+            }
+            else if (Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+            {
+                Url = "http://localhost:18888/pop/gathering"; //테스트용 주소(개인PC)
+            }
+
             string CompanyCode = Properties.Settings.Default.corp_id; //업체코드
             string MercName = mercName; //설비명
             string Data = str.ToString(); //데이터
@@ -138,7 +151,7 @@ namespace PopProject
             await workCnt(Url, CompanyCode, MercName, Data);
         }
 
-        ////신규 서비스 Http Get
+        //신규 서비스 Http Get
         async Task workCnt(string url, string companyCode, string mercName, string data)
         {
             try
@@ -147,13 +160,19 @@ namespace PopProject
                 string urlWithParameters = $"{url}/{companyCode}/{mercName}/{data}";
                 // HTTP GET 요청 보내기
                 HttpResponseMessage response = await client.GetAsync(urlWithParameters);
-                Console.WriteLine(urlWithParameters);
+
+                if (response.IsSuccessStatusCode == false)
+                {
+                    log.Error("서비스로 데이터 전송 실패");
+                }
             }
             catch (Exception)
             {
             }
         }
 
+
+        //키보드 이벤트
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key.ToString())
@@ -168,51 +187,15 @@ namespace PopProject
 
         private void Win_closed(object sender, EventArgs e)
         {
-            Console.WriteLine("종료됨");
-            //Properties.Settings.Default.pworkkey = "";
-            //Properties.Settings.Default.Save();
-
             //관리자 계정이 아닐때만 현황판으로 꺼짐 신호 보냄 
             if (!Properties.Settings.Default.manager.Equals("1"))
             {
                 invokeMercName(Properties.Settings.Default.mercName, "B");
             }
+
+            log.Info("프로그램 종료");
         }
 
-        private void LogWrite(string str)
-        {
-            string DirPath = Environment.CurrentDirectory + @"\Log";
-            string FilePath = DirPath + "\\Log_" + DateTime.Today.ToString("yyyyMMdd") + ".log";
-            string temp;
 
-            DirectoryInfo di = new DirectoryInfo(DirPath);
-            FileInfo fi = new FileInfo(FilePath);
-
-            try
-            {
-                if (!di.Exists) Directory.CreateDirectory(DirPath);
-                if (!fi.Exists)
-                {
-                    using (StreamWriter sw = new StreamWriter(FilePath))
-                    {
-                        temp = string.Format("[{0}] {1}", DateTime.Now, str);
-                        sw.WriteLine(temp);
-                        sw.Close();
-                    }
-                }
-                else
-                {
-                    using (StreamWriter sw = File.AppendText(FilePath))
-                    {
-                        temp = string.Format("[{0}] {1}", DateTime.Now, str);
-                        sw.WriteLine(temp);
-                        sw.Close();
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-            }
-        }
     }
 }

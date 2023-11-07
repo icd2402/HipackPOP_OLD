@@ -14,12 +14,13 @@ namespace PopProject.Util
         public static HubConnection 연결;
         public static IHubProxy 허브;
         public static string 주소 = Properties.Settings.Default.signalR.ToString();
-        public ILog log;
+        public ILog log = LogManager.GetLogger(typeof(SignalRAdministrator));
 
 
         public SignalRAdministrator()
         {
-            Console.WriteLine("Signalr 주소 : " + Properties.Settings.Default.signalR.ToString());
+            //Console.WriteLine("Signalr 주소 : " + Properties.Settings.Default.signalR.ToString());
+            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
         }
 
         //SignalR 연결 요청
@@ -37,8 +38,6 @@ namespace PopProject.Util
         //연결
         private void Connect(bool request)
         {
-            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
-            log = LogManager.GetLogger(typeof(SignalRAdministrator));
 
             //연결 요청
             if (request)
@@ -57,15 +56,10 @@ namespace PopProject.Util
                 }
                 catch (Exception e)
                 {
-                    log.Error(e.Message);
+                    log.Error("SignalR 연결 실패 : " + e.Message);
 
                     if (연결.State == ConnectionState.Disconnected)
                     {
-                        if (!Properties.Settings.Default.corp_name.Equals("오주포장") || !Properties.Settings.Default.corp_name.Equals("광성수출포장"))
-                        {
-                            //MessageBox_Dialog dialog = new MessageBox_Dialog("SignalR 서버 접속 실패!");
-                            //dialog.ShowDialog();
-                        }
                     }
                 }
             }

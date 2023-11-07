@@ -52,8 +52,8 @@
         <!--날짜-->
         <TextBlock x:Name="txtDate"  FontSize="23" VerticalAlignment="Top" Text="2020년 10월 28일 화요일"  Margin="220,27,792,0"  FontFamily="/font/#KoPubBatang Medium" MouseLeftButtonDown="TxtDate_MouseLeftButtonDown"/>
         <TextBlock x:Name="txtClock"   FontSize="23" VerticalAlignment="Top" Text="오전 11:11" Margin="220,60,792,0"  FontFamily="/font/#KoPubBatang Medium" MouseLeftButtonDown="TxtTime_MouseLeftButtonDown"/>
-        <TextBlock x:Name="txtDate2" Text="  《 " FontSize="23" VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Center" Margin="165,24,1020,56" Width="55" MouseLeftButtonDown="Date_Click1"/>
-        <TextBlock x:Name="txtDate3" Text="   》 " FontSize="22" VerticalAlignment="Center"  Visibility="Collapsed" HorizontalAlignment="Center" Margin="460,24,763,56" Width="55" MouseLeftButtonDown="Date_Click2"/>
+        <TextBlock x:Name="txtDate2" Text="  《 " FontSize="23" FontWeight="Bold" VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Center" Margin="165,24,1020,56" Width="55" MouseLeftButtonDown="Date_Click1"/>
+        <TextBlock x:Name="txtDate3" Text="   》 " FontSize="22" FontWeight="Bold" VerticalAlignment="Center"  Visibility="Collapsed" HorizontalAlignment="Center" Margin="460,24,763,56" Width="55" MouseLeftButtonDown="Date_Click2"/>
 
         <!--바코드-->
         <TextBox x:Name="tbBarcode" Text="00000000000" Background="#DE3D52" HorizontalAlignment="Left" Width="80" Height="20" Visibility="Visible" Opacity="0.2" KeyDown="TbBarcode_KeyDown" Margin="20,-90,0,0"></TextBox>
