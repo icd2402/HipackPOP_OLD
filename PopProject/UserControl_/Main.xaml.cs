@@ -72,7 +72,7 @@ namespace PopProject.UserControl_
         private string SignalR_State = ""; //시그널R 상태
         public ILog log = LogManager.GetLogger(typeof(Main)); //로그
         string Url; //서비스 주소
-
+        private bool rawData = false;
 
 
         public Main()
@@ -120,7 +120,12 @@ namespace PopProject.UserControl_
                 }
 
                 //날짜 변경 버튼 활성화 (대세물산)
-                if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트") || Properties.Settings.Default.corp_name.Equals("유창포장") || Properties.Settings.Default.corp_name.Equals("유창포장테스트"))
+                if (Properties.Settings.Default.corp_name.Equals("대세물산") || 
+                    Properties.Settings.Default.corp_name.Equals("대세물산테스트") || 
+                    Properties.Settings.Default.corp_name.Equals("유창포장") || 
+                    Properties.Settings.Default.corp_name.Equals("유창포장테스트") ||
+                    Properties.Settings.Default.corp_name.Equals("광성수출포장") ||
+                    Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
                 {
                     txtDate2.Visibility = Visibility.Visible;
                     txtDate3.Visibility = Visibility.Visible;
@@ -469,7 +474,7 @@ namespace PopProject.UserControl_
                             InvokeCount(str, Properties.Settings.Default.mercName); //현황판으로 카운터 전송
                             Console.WriteLine("현황판으로 카운터(매수) 전송 값(Main) : " + Properties.Settings.Default.mercName + ", " + str); //실시간 값 확인용
 
-                            if (Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+                            if (Properties.Settings.Default.corp_name.Equals("광성수출포장") && rawData)
                             {
                                 //RawData 저장(업체코드,설비명,데이터,오더키,수주키,제품ID)
                                 new LocalDBManager().SetRawData(Properties.Settings.Default.corp_id, Properties.Settings.Default.mercName, str.ToString(), production.orderKey, production.prodID);
@@ -510,7 +515,7 @@ namespace PopProject.UserControl_
                                 InvokeCount(Convert.ToInt32(production.presultCount), Properties.Settings.Default.mercName); //현황판으로 카운터 전송
                                 Console.WriteLine("현황판으로 카운터(통수) 전송 값(Main) : " + Properties.Settings.Default.mercName + ", " + Convert.ToInt32(production.presultCount)); //실시간 값 확인용
 
-                                if (Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+                                if(Properties.Settings.Default.corp_name.Equals("광성수출포장") && rawData)
                                 {
                                     //RawData 저장(업체코드,설비명,데이터,오더키,수주키,제품ID)
                                     new LocalDBManager().SetRawData(Properties.Settings.Default.corp_id, Properties.Settings.Default.mercName, production.presultCount.ToString(), production.orderKey, production.prodID);
@@ -3091,6 +3096,20 @@ namespace PopProject.UserControl_
             hOff = sv.HorizontalOffset;
             vOff = sv.VerticalOffset;
             _ = sv.CaptureMouse();
+        }
+
+        private void btnRawData_click(object sender, RoutedEventArgs e)
+        {
+            if (rawData)
+            {
+                rawData = false;
+                tbRawData.Text = "N";
+            }
+            else
+            {
+                rawData = true;
+                tbRawData.Text = "Y";
+            }
         }
 
         private void Logout_click(object sender, RoutedEventArgs e)
