@@ -115,10 +115,10 @@ namespace PopProject.Util
         public static ServiceReference_jobox.Return_Model jo_Return_Model;
 
         //금화
-        //public static ServiceReference_jobox.Service_CRUDClient kh_Service;
-        //public static ServiceReference_jobox.DBHandle_Model kh_DB_Handle_Model;
-        //public static ServiceReference_jobox.Access_Model kh_Access_Model;
-        //public static ServiceReference_jobox.Return_Model kh_Return_Model;
+        public static ServiceReference_khbox.Service_CRUDClient kh_Service;
+        public static ServiceReference_khbox.DBHandle_Model kh_DB_Handle_Model;
+        public static ServiceReference_khbox.Access_Model kh_Access_Model;
+        public static ServiceReference_khbox.Return_Model kh_Return_Model;
 
         //로컬
         public static ServiceReference_jobox.Service_CRUDClient local_Service;
@@ -141,23 +141,23 @@ namespace PopProject.Util
 
             switch (serverIndex)
             {
-                    //금화
-                //case "khbox":
-                //    kh_Service = new ServiceReference_khbox.Service_CRUDClient();
-                //    kh_Access_Model = new ServiceReference_khbox.Access_Model();
-                //    kh_Return_Model = new ServiceReference_khbox.Return_Model();
-                //    kh_DB_Handle_Model = new ServiceReference_khbox.DBHandle_Model
-                //    {
-                //        접속정보 = 접속정보,
-                //        BroadCasting = 0,
-                //        BroadCastingName = string.Empty,
-                //        inputPkey = "0",
-                //        inputContent = string.Empty,
-                //        inputProcessContent = string.Empty
-                //    };
-                //    break;
+                //금화
+                case "khbox":
+                    kh_Service = new ServiceReference_khbox.Service_CRUDClient();
+                    kh_Access_Model = new ServiceReference_khbox.Access_Model();
+                    kh_Return_Model = new ServiceReference_khbox.Return_Model();
+                    kh_DB_Handle_Model = new ServiceReference_khbox.DBHandle_Model
+                    {
+                        접속정보 = 접속정보,
+                        BroadCasting = 0,
+                        BroadCastingName = string.Empty,
+                        inputPkey = "0",
+                        inputContent = string.Empty,
+                        inputProcessContent = string.Empty
+                    };
+                    break;
 
-                    //주)혜성
+                //주)혜성
                 case "hssbox":
                     hss_Service = new ServiceReference_hssbox.Service_CRUDClient();
                     hss_Access_Model = new ServiceReference_hssbox.Access_Model();
@@ -474,20 +474,20 @@ namespace PopProject.Util
                 switch (serverIndex)
                 {
                     //금화
-                    //case "khbox":
-                    //    kh_Access_Model.SP명 = SP명;
-                    //    kh_Access_Model.파라미터 = 파라미터;
-                    //    kh_Access_Model.값 = 값;
-                    //    kh_DB_Handle_Model.프로시저 = new ServiceReference_khbox.Access_Model[1] { kh_Access_Model };
-                    //    kh_DB_Handle_Model.BroadCasting = 0;
-                    //    kh_Return_Model = 갱신 == 1 ? kh_Service.갱신(kh_DB_Handle_Model, 갱신) : kh_Service.조회(kh_DB_Handle_Model);
+                    case "khbox":
+                        kh_Access_Model.SP명 = SP명;
+                        kh_Access_Model.파라미터 = 파라미터;
+                        kh_Access_Model.값 = 값;
+                        kh_DB_Handle_Model.프로시저 = new ServiceReference_khbox.Access_Model[1] { kh_Access_Model };
+                        kh_DB_Handle_Model.BroadCasting = 0;
+                        kh_Return_Model = 갱신 == 1 ? kh_Service.갱신(kh_DB_Handle_Model, 갱신) : kh_Service.조회(kh_DB_Handle_Model);
 
-                    //    returnModel.결과 = kh_Return_Model.결과;
-                    //    returnModel.리턴값 = kh_Return_Model.Retrun값;
-                   
-                    //    Console.WriteLine(SP명 + " 리턴결과 : " + kh_Return_Model.결과);
-                    //    Console.WriteLine(SP명 + " 리턴값 : " + kh_Return_Model.Retrun값);
-                    //    break;
+                        returnModel.결과 = kh_Return_Model.결과;
+                        returnModel.리턴값 = kh_Return_Model.Retrun값;
+
+                        Console.WriteLine(SP명 + " 리턴결과 : " + kh_Return_Model.결과);
+                        Console.WriteLine(SP명 + " 리턴값 : " + kh_Return_Model.Retrun값);
+                        break;
 
                     //주)혜성
                     case "hssbox":
@@ -796,25 +796,25 @@ namespace PopProject.Util
         {
             ReturnModel returnModel = new ReturnModel();
             switch (serverIndex)
-            {        
+            {
                 //금화
-                //case "khbox":
-                //    kh_Access_Model.SP명 = SP명;
-                //    kh_Access_Model.파라미터 = 파라미터;
-                //    kh_Access_Model.값 = 값;
+                case "khbox":
+                    kh_Access_Model.SP명 = SP명;
+                    kh_Access_Model.파라미터 = 파라미터;
+                    kh_Access_Model.값 = 값;
 
-                //    kh_DB_Handle_Model.프로시저 = new ServiceReference_khbox.Access_Model[1] { kh_Access_Model };
-                //    kh_DB_Handle_Model.BroadCasting = 1;
-                //    kh_DB_Handle_Model.BroadCastingName = "생산입력완료";
-                //    kh_DB_Handle_Model.inputPkey = "14201";
-                //    kh_DB_Handle_Model.inputContent = parameter;
-                //    kh_Return_Model = 갱신 == 1 ? kh_Service.갱신(kh_DB_Handle_Model, 갱신) : kh_Service.조회(kh_DB_Handle_Model);
+                    kh_DB_Handle_Model.프로시저 = new ServiceReference_khbox.Access_Model[1] { kh_Access_Model };
+                    kh_DB_Handle_Model.BroadCasting = 1;
+                    kh_DB_Handle_Model.BroadCastingName = "생산입력완료";
+                    kh_DB_Handle_Model.inputPkey = "14201";
+                    kh_DB_Handle_Model.inputContent = parameter;
+                    kh_Return_Model = 갱신 == 1 ? kh_Service.갱신(kh_DB_Handle_Model, 갱신) : kh_Service.조회(kh_DB_Handle_Model);
 
-                //    returnModel.결과 = kh_Return_Model.결과;
-                //    returnModel.리턴값 = kh_Return_Model.Retrun값;
-                //    break;
+                    returnModel.결과 = kh_Return_Model.결과;
+                    returnModel.리턴값 = kh_Return_Model.Retrun값;
+                    break;
 
-                    //주)혜성
+                //주)혜성
                 case "hssbox":
                     hss_Access_Model.SP명 = SP명;
                     hss_Access_Model.파라미터 = 파라미터;

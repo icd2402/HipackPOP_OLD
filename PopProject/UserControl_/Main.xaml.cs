@@ -988,6 +988,11 @@ namespace PopProject.UserControl_
             ResultSearchDate(); //결과 조회
         }
 
+                  
+
+         //if
+         
+
         //설비명 클릭
         private void Mer_click(object sender, MouseButtonEventArgs e)
         {
