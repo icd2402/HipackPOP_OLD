@@ -114,7 +114,7 @@ namespace PopProject
         {
             try
             {
-                if (Properties.Settings.Default.corp_name.Equals("광성수출포장"))
+                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("대세물산"))
                 {
                     popService(mercName, v);
                 }
@@ -139,9 +139,14 @@ namespace PopProject
             {
                 Url = "http://ksbox.iptime.org:18888/pop/gathering"; //광성
             }
-            else if (Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+            else if (Properties.Settings.Default.corp_name.Equals("대세물산"))
             {
-                Url = "http://localhost:18888/pop/gathering"; //테스트용 주소(개인PC)
+                Url = "http://dsbox.iptime.org:18888/pop/gathering"; //대세
+            }
+            else if (Properties.Settings.Default.corp_name.Equals("광성수출포장테스트") ||
+                    Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+            {
+                Url = "http://localhost:18888/pop/gathering"; //테스트용 주소(개인 DeskTop)
             }
 
             string CompanyCode = Properties.Settings.Default.corp_id; //업체코드
