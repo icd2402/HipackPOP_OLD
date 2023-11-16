@@ -109,15 +109,25 @@ namespace PopProject.UserControl_
                     btnLogout.Background = Brushes.Red;
                 }
 
-                //SignalR 연결
-                try
+                //SignalR 연결 요청
+                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") ||
+                    Properties.Settings.Default.corp_name.Equals("대세물산"))
                 {
-                    SignalRAdministrator conn = new SignalRAdministrator();
-                    conn.Setconnection(true);
+
                 }
-                catch (Exception)
+                else
                 {
+                    try
+                    {
+                        SignalRAdministrator conn = new SignalRAdministrator();
+                        conn.Setconnection(true);
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
+
+                
 
                 //날짜 변경 버튼 활성화 (대세물산)
                 if (Properties.Settings.Default.corp_name.Equals("대세물산") || 
@@ -564,7 +574,7 @@ namespace PopProject.UserControl_
         private void Timer_Tick3(object sender, EventArgs e)
         {
             SignalRAdministrator conn = new SignalRAdministrator();
-            Console.WriteLine("SignalR 연결상태: " + conn.GetState());
+            //Console.WriteLine("SignalR 연결상태: " + conn.GetState());
 
             //상태에 따른 글자 변환
             SignalR_State = conn.GetState().ToString();
@@ -899,7 +909,7 @@ namespace PopProject.UserControl_
         {
             try
             {
-                if (Properties.Settings.Default.corp_name.Equals("광성수출포장"))
+                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
                 {
                     popService(mercName, str.ToString());
                 }
@@ -922,9 +932,14 @@ namespace PopProject.UserControl_
             {
                 Url = "http://ksbox.iptime.org:18888/pop/gathering"; //광성
             }
-            else if (Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+            else if (Properties.Settings.Default.corp_name.Equals("대세물산"))
             {
-                Url = "http://localhost:18888/pop/gathering"; //테스트용 주소(개인PC)
+                Url = "http://dsbox.iptime.org:18888/pop/gathering"; //대세
+            }
+            else if (Properties.Settings.Default.corp_name.Equals("광성수출포장테스트") ||
+                    Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+            {
+                Url = "http://localhost:18888/pop/gathering"; //테스트용 주소(개인 DeskTop)
             }
 
             string CompanyCode = Properties.Settings.Default.corp_id; //업체코드

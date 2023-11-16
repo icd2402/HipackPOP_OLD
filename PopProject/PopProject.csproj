@@ -82,9 +82,10 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ActUtlTypeLib">
-      <HintPath>..\..\..\..\Documents\카카오톡 받은 파일\ActEther\ActUtlTypeLib.dll</HintPath>
+    <Reference Include="ActUtlTypeLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=627cb188e78f967a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>.\ActUtlTypeLib.dll</HintPath>
     </Reference>
     <Reference Include="Hangfire.Core, Version=1.7.28.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hangfire.Core.1.7.28\lib\net45\Hangfire.Core.dll</HintPath>
