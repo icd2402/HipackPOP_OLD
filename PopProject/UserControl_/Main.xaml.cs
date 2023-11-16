@@ -981,7 +981,7 @@ namespace PopProject.UserControl_
         //원격연결 버튼
         private void Remote_click(object sender, MouseButtonEventArgs e)
         {
-            _ = Process.Start("http://2007.asw.co.kr/client/index.jsp?cpcode=icd&autostart=true");
+            _ = Process.Start("http://onefax.co.kr/w_onefax/remotebox_view.aspx");
             MainModel production = null;
         }
 
