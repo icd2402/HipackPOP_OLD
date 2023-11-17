@@ -109,22 +109,13 @@ namespace PopProject.UserControl_
                     btnLogout.Background = Brushes.Red;
                 }
 
-                //SignalR 연결 요청
-                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") ||
-                    Properties.Settings.Default.corp_name.Equals("대세물산"))
+                try
                 {
-
+                    SignalRAdministrator conn = new SignalRAdministrator();
+                    conn.Setconnection(true);
                 }
-                else
+                catch (Exception)
                 {
-                    try
-                    {
-                        SignalRAdministrator conn = new SignalRAdministrator();
-                        conn.Setconnection(true);
-                    }
-                    catch (Exception)
-                    {
-                    }
                 }
 
                 
