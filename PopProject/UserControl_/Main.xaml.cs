@@ -73,7 +73,7 @@ namespace PopProject.UserControl_
         public ILog log = LogManager.GetLogger(typeof(Main)); //로그
         string Url; //서비스 주소
         private bool rawData = false;
-
+        private double LastConunt;
 
         public Main()
         {
@@ -132,7 +132,7 @@ namespace PopProject.UserControl_
                     txtDate3.Visibility = Visibility.Visible;
                 }
 
-                //아두이노로부터 카운팅 값 받음
+                //오주포장 넘기기 정보 받기위한 SiganlR recive
                 SignalRAdministrator.허브.On<string, string>("returnCount", recive);
 
                 //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 
@@ -669,7 +669,7 @@ namespace PopProject.UserControl_
             }
 
             //5분마다 실행
-            if (minuite == 300)
+            if (minuite == 30)
             {
                 bool connected = NetworkInterface.GetIsNetworkAvailable(); //네트워크 연결 여부 확인
                 if (!arduSerial.IsOpen) //아두이노 오픈 안되어 있으면 다시 오픈 요청
@@ -680,7 +680,7 @@ namespace PopProject.UserControl_
 
                 if (connected) //네트워크 연결되어 있으면
                 {
-                    if (production != null)
+                    if (production != null && production.presultCount != 0)
                     {
                         InvokeCount(Convert.ToInt32(production.presultCount), Properties.Settings.Default.mercName); //현황판으로 카운터 전송
                     }
@@ -880,7 +880,7 @@ namespace PopProject.UserControl_
         {
             try
             {
-                if (Properties.Settings.Default.corp_name.Equals("광성수출포장"))
+                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("대세물산"))
                 {
                     popService(mercName, v);
                 }
@@ -900,7 +900,7 @@ namespace PopProject.UserControl_
         {
             try
             {
-                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("대세물산"))
+                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트") || Properties.Settings.Default.corp_name.Equals("대세물산"))
                 {
                     popService(mercName, str.ToString());
                 }
