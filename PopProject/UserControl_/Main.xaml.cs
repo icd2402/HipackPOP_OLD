@@ -900,7 +900,7 @@ namespace PopProject.UserControl_
         {
             try
             {
-                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("대세물산"))
                 {
                     popService(mercName, str.ToString());
                 }
@@ -972,7 +972,7 @@ namespace PopProject.UserControl_
         //원격연결 버튼
         private void Remote_click(object sender, MouseButtonEventArgs e)
         {
-            _ = Process.Start("http://onefax.co.kr/w_onefax/remotebox_view.aspx");
+            _ = Process.Start("http://2007.asw.co.kr/client/index.jsp?cpcode=icd&autostart=true");
             MainModel production = null;
         }
 
