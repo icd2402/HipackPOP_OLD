@@ -669,7 +669,7 @@ namespace PopProject.UserControl_
             }
 
             //5분마다 실행
-            if (minuite == 30)
+            if (minuite == 300)
             {
                 bool connected = NetworkInterface.GetIsNetworkAvailable(); //네트워크 연결 여부 확인
                 if (!arduSerial.IsOpen) //아두이노 오픈 안되어 있으면 다시 오픈 요청
