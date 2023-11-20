@@ -48,7 +48,7 @@ namespace PopProject.Input
         private Win_KeyBoard win_KeyBoard;
         private double hOff = 1;
         private double vOff = 1;
-
+        
         private double hOff1 = 1;
         private double vOff1 = 1;
         private int result;
