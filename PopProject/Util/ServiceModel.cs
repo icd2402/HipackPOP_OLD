@@ -128,7 +128,7 @@ namespace PopProject.Util
 
         public static void ServiceModelClean(string serverIndex, string dbName = "")
         {
-            Console.WriteLine("serverIndex : " + serverIndex);
+            //Console.WriteLine("serverIndex : " + serverIndex);
 
             if (string.IsNullOrEmpty(dbName))
             {
@@ -485,8 +485,8 @@ namespace PopProject.Util
                         returnModel.결과 = kh_Return_Model.결과;
                         returnModel.리턴값 = kh_Return_Model.Retrun값;
 
-                        Console.WriteLine(SP명 + " 리턴결과 : " + kh_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + kh_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + kh_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + kh_Return_Model.Retrun값);
                         break;
 
                     //주)혜성
@@ -501,8 +501,8 @@ namespace PopProject.Util
                         returnModel.결과 = hss_Return_Model.결과;
                         returnModel.리턴값 = hss_Return_Model.Retrun값;
                         
-                        Console.WriteLine(SP명 + " 리턴결과 : " + hss_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + hss_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + hss_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + hss_Return_Model.Retrun값);
                         break;
 
                         //구룡
@@ -517,8 +517,8 @@ namespace PopProject.Util
                         returnModel.결과 = gr_Return_Model.결과;
                         returnModel.리턴값 = gr_Return_Model.Retrun값;
                         
-                        Console.WriteLine(SP명 + " 리턴결과 : " + gr_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + gr_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + gr_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + gr_Return_Model.Retrun값);
                         break;
 
                         //대세
@@ -533,8 +533,8 @@ namespace PopProject.Util
                         returnModel.결과 = ds_Return_Model.결과;
                         returnModel.리턴값 = ds_Return_Model.Retrun값;
                         
-                        Console.WriteLine(SP명 + " 리턴결과 : " + ds_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + ds_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + ds_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + ds_Return_Model.Retrun값);
                         break;
 
                         //두성
@@ -549,8 +549,8 @@ namespace PopProject.Util
                         returnModel.결과 = du_Return_Model.결과;
                         returnModel.리턴값 = du_Return_Model.Retrun값;
                         
-                        Console.WriteLine(SP명 + " 리턴결과 : " + du_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + du_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + du_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + du_Return_Model.Retrun값);
                         break;
 
                         //성주
@@ -565,8 +565,8 @@ namespace PopProject.Util
                         returnModel.결과 = sj_Return_Model.결과;
                         returnModel.리턴값 = sj_Return_Model.Retrun값;
                         
-                        Console.WriteLine(SP명 + " 리턴결과 : " + sj_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + sj_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + sj_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + sj_Return_Model.Retrun값);
                         break;
 
                         //대양
@@ -581,8 +581,8 @@ namespace PopProject.Util
                         returnModel.결과 = dy_Return_Model.결과;
                         returnModel.리턴값 = dy_Return_Model.Retrun값;
                         
-                        Console.WriteLine(SP명 + " 리턴결과 : " + dy_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + dy_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + dy_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + dy_Return_Model.Retrun값);
                         break;
 
                         //우리
@@ -597,8 +597,8 @@ namespace PopProject.Util
                         returnModel.결과 = wr_Return_Model.결과;
                         returnModel.리턴값 = wr_Return_Model.Retrun값;
                         
-                        Console.WriteLine(SP명 + " 리턴결과 : " + wr_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + wr_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + wr_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + wr_Return_Model.Retrun값);
                         break;
 
                         //지온
@@ -613,8 +613,8 @@ namespace PopProject.Util
                         returnModel.결과 = jo_Return_Model.결과;
                         returnModel.리턴값 = jo_Return_Model.Retrun값;
                         
-                        Console.WriteLine(SP명 + " 리턴결과 : " + jo_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + jo_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + jo_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + jo_Return_Model.Retrun값);
                         break;
 
                         //누리
@@ -629,8 +629,8 @@ namespace PopProject.Util
                         returnModel.결과 = nr_Return_Model.결과;
                         returnModel.리턴값 = nr_Return_Model.Retrun값;
 
-                        Console.WriteLine(SP명 + " 리턴결과 : " + nr_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + nr_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + nr_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + nr_Return_Model.Retrun값);
                         break;
 
                         //신우
@@ -645,8 +645,8 @@ namespace PopProject.Util
                         returnModel.결과 = sw_Return_Model.결과;
                         returnModel.리턴값 = sw_Return_Model.Retrun값;
 
-                        Console.WriteLine(SP명 + " 리턴결과 : " + sw_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + sw_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + sw_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + sw_Return_Model.Retrun값);
                         break;
 
                         //혜성
@@ -662,8 +662,8 @@ namespace PopProject.Util
                         returnModel.결과 = hs_Return_Model.결과;
                         returnModel.리턴값 = hs_Return_Model.Retrun값;
                        
-                        Console.WriteLine(SP명 + " 리턴결과 : " + hs_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + hs_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + hs_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + hs_Return_Model.Retrun값);
                         break;
 
                         //오주
@@ -678,8 +678,8 @@ namespace PopProject.Util
                         returnModel.결과 = oj_Return_Model.결과;
                         returnModel.리턴값 = oj_Return_Model.Retrun값;
                         
-                        Console.WriteLine(SP명 + " 리턴결과 : " + oj_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + oj_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + oj_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + oj_Return_Model.Retrun값);
                         break;
 
                         //미래
@@ -694,8 +694,8 @@ namespace PopProject.Util
                         returnModel.결과 = mirae_Return_Model.결과;
                         returnModel.리턴값 = mirae_Return_Model.Retrun값;
                         
-                        Console.WriteLine(SP명 + " 리턴결과 : " + mirae_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + mirae_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + mirae_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + mirae_Return_Model.Retrun값);
                         break;
 
                         //광성
@@ -710,8 +710,8 @@ namespace PopProject.Util
                         returnModel.결과 = ks_Return_Model.결과;
                         returnModel.리턴값 = ks_Return_Model.Retrun값;
 
-                        Console.WriteLine(SP명 + " 리턴결과 : " + ks_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + ks_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + ks_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + ks_Return_Model.Retrun값);
                         break;
                         
                         //하나
@@ -726,8 +726,8 @@ namespace PopProject.Util
                         returnModel.결과 = hn_Return_Model.결과;
                         returnModel.리턴값 = hn_Return_Model.Retrun값;
 
-                         Console.WriteLine(SP명 + " 리턴결과 : " + hn_Return_Model.결과);
-                         Console.WriteLine(SP명 + " 리턴값 : " + hn_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + hn_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + hn_Return_Model.Retrun값);
                         break;
 
                         //선호
@@ -742,8 +742,8 @@ namespace PopProject.Util
                         returnModel.결과 = sh_Return_Model.결과;
                         returnModel.리턴값 = sh_Return_Model.Retrun값;
 
-                         Console.WriteLine(SP명 + " 리턴결과 : " + sh_Return_Model.결과);
-                         Console.WriteLine(SP명 + " 리턴값 : " + sh_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + sh_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + sh_Return_Model.Retrun값);
                         break;
 
                         //광무
@@ -758,8 +758,8 @@ namespace PopProject.Util
                         returnModel.결과 = km_Return_Model.결과;
                         returnModel.리턴값 = km_Return_Model.Retrun값;
 
-                        Console.WriteLine(SP명 + " 리턴결과 : " + km_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + km_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + km_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + km_Return_Model.Retrun값);
                         break;
 
                         //유창
@@ -774,8 +774,8 @@ namespace PopProject.Util
                         returnModel.결과 = yc_Return_Model.결과;
                         returnModel.리턴값 = yc_Return_Model.Retrun값;
 
-                        Console.WriteLine(SP명 + " 리턴결과 : " + yc_Return_Model.결과);
-                        Console.WriteLine(SP명 + " 리턴값 : " + yc_Return_Model.Retrun값);
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + yc_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + yc_Return_Model.Retrun값);
                         break;
                    
                     default:

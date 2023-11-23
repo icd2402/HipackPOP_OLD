@@ -110,13 +110,17 @@ namespace PopProject.Detail
                 serchRobotData();
             }
 
-            //오주포장 바코드리드시 자동전송
-            if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트") && Properties.Settings.Default.Plc)
+            //오주포장 PLC사용 체크되었으면 바코드 리드시 CNS로 자동 전송
+            if (Properties.Settings.Default.corp_name.Equals("오주포장") ||
+                Properties.Settings.Default.corp_name.Equals("오주포장테스트") && Properties.Settings.Default.Plc)
             {
                 //바코드로 디테일창 팝업시 동작
-                if (Properties.Settings.Default.mercName.Equals("인라인3호기") && Barcode_Enter)
+                if (Properties.Settings.Default.mercName.Equals("후렉소1호기") || 
+                    Properties.Settings.Default.mercName.Equals("인라인2호기") || 
+                    Properties.Settings.Default.mercName.Equals("인라인3호기") && Barcode_Enter)
                 {
-                    bool DB_DataOK = false; //DB에 데이터 있는거 확인
+                    //DB에 데이터 있는거 확인
+                    bool DB_DataOK = false; 
 
                     ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
                     ReturnModel returnDataCheck = ServiceModel.GetData(
@@ -513,68 +517,121 @@ namespace PopProject.Detail
                 폭 = int.Parse(s폭.ToString());
                 고 = int.Parse(s고.ToString());
 
-                if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.mercName.Equals("인라인3호기"))
+                if (Properties.Settings.Default.corp_name.Equals("오주포장"))
                 {
-                    //갭 (3호기)
-                    switch (mainModel.paperGor.Replace("골", "").Trim())
+                    if (Properties.Settings.Default.mercName.Equals("후렉소1호기"))
                     {
-                        case "AB":
-                        case "BA":
-                            갭 = 70;
-                            break;
+                        switch (mainModel.paperGor.Replace("골", "").Trim())
+                        {
+                            case "AB":
+                            case "BA":
+                                갭 = 70;
+                                break;
 
-                        case "BB":
-                            갭 = 50;
-                            break;
+                            case "BB":
+                                갭 = 50;
+                                break;
 
-                        case "A":
-                        case "EB":
-                            갭 = 40;
-                            break;
+                            case "A":
+                            case "EB":
+                                갭 = 40;
+                                break;
 
-                        case "B":
-                        case "E":
-                            갭 = 20;
-                            break;
-                        default:
-                            break;
+                            case "B":
+                            case "E":
+                                갭 = 20;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else if (Properties.Settings.Default.mercName.Equals("인라인2호기"))
+                    {
+                        switch (mainModel.paperGor.Replace("골", "").Trim())
+                        {
+                            case "AB":
+                            case "BA":
+                                갭 = 70;
+                                break;
+
+                            case "BB":
+                                갭 = 50;
+                                break;
+
+                            case "A":
+                            case "EB":
+                                갭 = 40;
+                                break;
+
+                            case "B":
+                            case "E":
+                                갭 = 20;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else if (Properties.Settings.Default.mercName.Equals("인라인3호기"))
+                    {
+                        switch (mainModel.paperGor.Replace("골", "").Trim())
+                        {
+                            case "AB":
+                            case "BA":
+                                갭 = 70;
+                                break;
+
+                            case "BB":
+                                갭 = 50;
+                                break;
+
+                            case "A":
+                            case "EB":
+                                갭 = 40;
+                                break;
+
+                            case "B":
+                            case "E":
+                                갭 = 20;
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
 
-                if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.mercName.Equals("후렉소기"))
-                {
-                    //갭 (3호기)
-                    switch (mainModel.paperGor.Replace("골", "").Trim())
-                    {
-                        case "AB":
-                        case "BA":
-                            갭 = 70;
-                            break;
+                //if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.mercName.Equals("후렉소기"))
+                //{
+                //    switch (mainModel.paperGor.Replace("골", "").Trim())
+                //    {
+                //        case "AB":
+                //        case "BA":
+                //            갭 = 70;
+                //            break;
 
-                        case "BB":
-                            갭 = 60;
-                            break;
+                //        case "BB":
+                //            갭 = 60;
+                //            break;
 
-                        case "A":
-                            갭 = 50;
-                            break;
+                //        case "A":
+                //            갭 = 50;
+                //            break;
 
-                        case "EB":
-                            갭 = 40;
-                            break;
+                //        case "EB":
+                //            갭 = 40;
+                //            break;
 
-                        case "B":
-                            갭 = 30;
-                            break;
+                //        case "B":
+                //            갭 = 30;
+                //            break;
 
-                        case "E":
-                            갭 = 20;
-                            break;
+                //        case "E":
+                //            갭 = 20;
+                //            break;
 
-                        default:
-                            break;
-                    }
-                }
+                //        default:
+                //            break;
+                //    }
+                //}
 
 
                 //미미
