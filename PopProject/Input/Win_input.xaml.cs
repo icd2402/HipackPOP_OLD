@@ -57,6 +57,7 @@ namespace PopProject.Input
         private bool CNS_Send = false;
 
         private bool success = false; //CNS 통신연결 확인
+
         public ILog log = LogManager.GetLogger(typeof(Win_input)); //로그
 
 
@@ -1049,6 +1050,7 @@ namespace PopProject.Input
             //시작 버튼 활성화 일때
             if (inputModel.imagePath.Equals("/img/bn_05.png")) 
             {
+                Console.WriteLine("생산 시작한 prodID : " + this.mainModel.prodID);
                 string metrialitem = Properties.Settings.Default.meterialinfo;
                 string sCustomSName = "";
                 string sProdName = "";
@@ -1137,29 +1139,26 @@ namespace PopProject.Input
 
         private void CNSDataRead() //데이터 수신 요청
         {
-            if (Properties.Settings.Default.Plc) //PLC 사용 체크일때
+            try
             {
-                try
+                ConnectSocket(); //CNS 통신 연결
+                Ls_Fenet wd = new Ls_Fenet(); //헤더
+
+                byte[] bDts = wd.Word_continuous_Read("%DB7804", 71); //연속읽기 D3902 ~ D3972 (71개)
+
+                //송신한 데이터 값 보는용도
+                string Send_Data = string.Empty;
+                for (int i = 0; i < bDts.Length; i++)
                 {
-                    ConnectSocket(); //CNS 통신 연결
-                    Ls_Fenet wd = new Ls_Fenet(); //헤더
-
-                    byte[] bDts = wd.Word_continuous_Read("%DB7804", 71); //연속읽기 D3902 ~ D3972 (71개)
-
-                    //송신한 데이터 값 보는용도
-                    string Send_Data = string.Empty;
-                    for (int i = 0; i < bDts.Length; i++)
-                    {
-                        Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
-                    }
-                    Console.WriteLine("CNS송신 데이터(input) : " + Send_Data);
-
-                    cnsProcessing = true;
-                    mainSock.Send(bDts); //데이터 쓰기
+                    Send_Data += bDts[i].ToString("x2"); //Byte값을 16진수로 변환
                 }
-                catch (Exception)
-                {
-                }
+                Console.WriteLine("CNS송신 데이터(input) : " + Send_Data);
+
+                cnsProcessing = true;
+                mainSock.Send(bDts); //데이터 쓰기
+            }
+            catch (Exception)
+            {
             }
         }
 
@@ -1170,6 +1169,7 @@ namespace PopProject.Input
             if (!mainSock.Connected)
             {
                 int port = int.Parse(Properties.Settings.Default.port); //포트 2004
+
                 try
                 {
                     IAsyncResult result = mainSock.BeginConnect(Properties.Settings.Default.ip, port, null, null);
@@ -1205,6 +1205,7 @@ namespace PopProject.Input
             }
         }
 
+        //CNS데이터 DB에 저장
         public void DataReceived(IAsyncResult ar) // 데이터 수신
         {
             Resipe_Model itemModel = new Resipe_Model();
@@ -1553,8 +1554,6 @@ namespace PopProject.Input
                     if (returnData.결과 == 1)
                     {
                         checkInput = true;
-
-
                     }
                     else
                     {
@@ -1565,6 +1564,7 @@ namespace PopProject.Input
                 }
 
                 obj.ClearBuffer();
+                Console.WriteLine("CNS => DB 저장완료 prodID :  " + this.mainModel.prodID);
             }
             catch (Exception)
             {
@@ -2369,6 +2369,7 @@ namespace PopProject.Input
         // DB -> CNS 전송 버튼
         private void Plc_ButtonMouseDown1(object sender, MouseButtonEventArgs e)
         {
+            log.Info("CNS로 데이터 전송 버튼 클릭(DB => CNS)");
             bool DB_DataOK = false; //DB에 데이터 있는거 확인
 
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
@@ -2411,6 +2412,7 @@ namespace PopProject.Input
                 }
                 else
                 {
+                    log.Error("DB에 데이터가 없어 전송할 수 없음");
                     MessageBoxResult result3 = System.Windows.MessageBox.Show(" 저장된 데이터가 없습니다.\n 먼저 CNS세팅 후 CNS데이터 저장을 눌러주세요.", "PC 데이터 없음");
                 }
             }
@@ -2653,10 +2655,12 @@ namespace PopProject.Input
                             }
                         });
 
+                        log.Info("데이터 전송 완료 (DB => CNS)");
                         MessageBoxResult result = System.Windows.MessageBox.Show("데이터 전송 완료", "CNS 데이터 전송");
                     }
                     catch (Exception)
                     {
+                        log.Error("데이터 전송 실패 (DB => CNS)");
                         MessageBox_Dialog msg = new MessageBox_Dialog("데이터 전송 실패!");
                         msg.ShowDialog();
                         mainSock.Close();
@@ -2688,10 +2692,18 @@ namespace PopProject.Input
 
             if (result == MessageBoxResult.Yes) //확인
             {
+                log.Info("CNS 데이터 저장 버튼 클릭 (CNS => DB)");
+
                 if (Properties.Settings.Default.Plc) //PLC 사용 체크일때
                 {
+                    Console.WriteLine("CNS => DB 저장 prodID : " + this.mainModel.prodID);
                     SingleWrite(); //현재 설정을 저장하기 위해서는 D3814번에 0이 아닌 수를 넣어줘야함
                     CNSDataRead(); //CNS 데이터 읽기
+                }
+                else
+                {
+                    log.Error("CNS 데이터 저장 실패 (CNS사용 미체크)");
+                    MessageBox_Dialog msg = new MessageBox_Dialog("설정에서 CNS사용을 체크해주세요.");
                 }
             }
             else //취소
@@ -2707,6 +2719,7 @@ namespace PopProject.Input
             Ls_Fenet wd = new Ls_Fenet(); //헤더
             byte[] bDts2 = wd.single_Write("%DW3814", 02, 2); //개별쓰기 (변수명, 데이터 타입, 쓸 데이터값) 
             mainSock.Send(bDts2); //데이터 쓰기
+            Console.WriteLine("데이터를 읽기위한 데이터 전송 : " + bDts2);
             mainSock.Close();
 
             CNS_Send = false;
@@ -2715,6 +2728,8 @@ namespace PopProject.Input
         //CNS 데이터 상세창 버튼
         private void Plc_ButtonMouseDown3(object sender, MouseButtonEventArgs e)
         {
+            log.Info("CNS 데이터 보기 버튼 클릭");
+
             Plc_Pop plc = new Plc_Pop(mainModel);
             plc.ShowDialog();
         }
