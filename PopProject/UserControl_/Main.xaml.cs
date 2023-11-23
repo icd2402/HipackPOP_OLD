@@ -196,10 +196,12 @@ namespace PopProject.UserControl_
                 bool connected = NetworkInterface.GetIsNetworkAvailable();
                 if (connected)
                 {
+
+
                     TimerSet(); //시계
-                    TimerSet2(); //미사용
+                    //TimerSet2(); //미사용
                     TimerSet3(); //SignalR 통신 모니터링(5초)
-                    TimerSet4(); //SignalR 통신 로그(1분)
+                    //TimerSet4(); //SignalR 통신 로그(1분)
                 }
                 else
                 {
@@ -557,12 +559,12 @@ namespace PopProject.UserControl_
             {
                 Interval = TimeSpan.FromSeconds(5)
             };
-            timer.Tick += new EventHandler(Timer_Tick3);
+            timer.Tick += new EventHandler(SignalR_Com_Status);
             timer.Start();
         }
 
         //SignalR 연결상태 모니터링용
-        private void Timer_Tick3(object sender, EventArgs e)
+        private void SignalR_Com_Status(object sender, EventArgs e)
         {
             SignalRAdministrator conn = new SignalRAdministrator();
             //Console.WriteLine("SignalR 연결상태: " + conn.GetState());
@@ -2374,6 +2376,22 @@ namespace PopProject.UserControl_
                                         else
                                         {
                                             production = workItem;
+
+                                            // DB Load
+                                            if (rawData)
+                                            {
+                                                DataTable temp = new LocalDBManager().GetRawData("Last");
+                                                
+                                                // 설비명 동일 && 제품 orderKey 동일 && 메세지 타입은 N
+                                                if(temp.Rows[0]["MercName"].ToString().Equals(Properties.Settings.Default.mercName)
+                                                    && temp.Rows[0]["OrderKey"].ToString().Equals(production.orderKey)
+                                                    && temp.Rows[0]["MsgType"].ToString().Equals("N"))
+                                                {
+                                                    production.sumPworkCount = Convert.ToInt32(temp.Rows[0]["Msg"]) + production.sumPworkCount;
+                                                    production.presultCount = Convert.ToInt32(temp.Rows[0]["Msg"]);
+                                                    // 계속해서 아두이노로 들어오는 카운터 값에 + 방법 연구 필요
+                                                }
+                                            }
                                         }
                                     }
                                 }
