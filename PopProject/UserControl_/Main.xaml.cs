@@ -900,17 +900,22 @@ namespace PopProject.UserControl_
         {
             try
             {
-                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트") || Properties.Settings.Default.corp_name.Equals("대세물산"))
+                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || 
+                    Properties.Settings.Default.corp_name.Equals("광성수출포장테스트") || 
+                    Properties.Settings.Default.corp_name.Equals("대세물산") ||
+                    Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
                 {
                     popService(mercName, str.ToString());
                 }
                 else
                 {
                 _ = SignalRAdministrator.허브.Invoke("invokeCount", Properties.Settings.Default.corp_id, mercName, str + ""); //invokeCount, DB명, 설비명, 문자(카운터값)
+                    Console.WriteLine("SignalR 전송값(main): invokeCount, " + Properties.Settings.Default.corp_id  + ", " + mercName + ", " + str);
                 }
             }
             catch (Exception)
             {
+                Console.WriteLine("SignalR 전송실패(main)");
             }
         }
 

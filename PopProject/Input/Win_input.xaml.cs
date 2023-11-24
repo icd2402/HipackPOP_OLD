@@ -134,7 +134,12 @@ namespace PopProject.Input
                 plc_Search.Visibility = Visibility.Collapsed;
             }
 
-
+            Console.WriteLine("품명: "     + inputModel.prodName + ", " +
+                              "orderkey: " + inputModel.orderKey + ", " +
+                              "pplanKey: " + inputModel.pplanKey + ", " +
+                              "prodID: "   + inputModel.prodID + ", " +
+                              "시작시간: " + inputModel.sDatetime
+                              );
         }
 
         //오주포장 장비별 카운터 수신(아두이노)
