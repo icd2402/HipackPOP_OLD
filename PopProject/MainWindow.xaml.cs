@@ -35,10 +35,6 @@ namespace PopProject
             XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
             log.Info("----------------------------Program Start------------------------------");
 
-            // 이정훈: Settings.Settings (user.config) 테스트 - 추후 삭제 예정
-            //ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath = 
-            //Console.WriteLine(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath);
-
             try
             {
                 //POP프로그램이 이미 실행중인지 확인
@@ -90,8 +86,8 @@ namespace PopProject
             }
             catch (Exception e)
             {
-                log.Error("POP프로그램이 이미 실행 중입니다. 알림1");
-                _ = System.Windows.MessageBox.Show("프로그램이 이미 실행 중입니다!", "알림1", MessageBoxButton.OK);
+                log.Error("로그인 실패.");
+                _ = System.Windows.MessageBox.Show("로그인 실패.", "알림1", MessageBoxButton.OK);
                 Application.Current.Shutdown();
             }
 
