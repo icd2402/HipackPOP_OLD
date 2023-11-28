@@ -10,6 +10,7 @@ using log4net;
 using log4net.Config;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Configuration;
 using log4net;
 using log4net.Config;
 
@@ -36,6 +37,10 @@ namespace PopProject
             XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
             log.Info("----------------------------Program Start------------------------------");
 
+            //ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath = 
+
+            //Console.WriteLine(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath);
+
             try
             {
                 ////Properties.Settings.Default.Reset();
@@ -53,6 +58,7 @@ namespace PopProject
                 //}
                 //Properties.Settings.Default.Save();
                 //log.Info("아두이노 설정 세팅 저장 완료");
+
 
 
                 //POP프로그램이 이미 실행중인지 확인

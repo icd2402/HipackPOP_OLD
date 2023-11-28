@@ -381,6 +381,7 @@
     <Compile Include="SerialList\SerialList.xaml.cs">
       <DependentUpon>SerialList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="Time_pick\Time_pick.xaml.cs">
       <DependentUpon>Time_pick.xaml</DependentUpon>
     </Compile>
