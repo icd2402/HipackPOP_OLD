@@ -90,9 +90,6 @@ namespace PopProject
                 _ = System.Windows.MessageBox.Show("로그인 실패.", "알림1", MessageBoxButton.OK);
                 Application.Current.Shutdown();
             }
-
-
-            
         }
 
         private void MainCP_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -184,7 +181,6 @@ namespace PopProject
             {
             }
         }
-
 
         //키보드 이벤트
         private void Window_KeyDown(object sender, KeyEventArgs e)
