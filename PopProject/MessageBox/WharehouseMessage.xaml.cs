@@ -51,10 +51,10 @@ namespace PopProject.MessageBox
             }
             else
             {
-                ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+                ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
                 ReturnModel returnData = ServiceModel.GetData(
 
-                   Properties.Settings.Default.serverIndex,
+                   SettingJsonManager.serverIndex,
                   "[PopStockLocation]",
                    new string[] { "@orderKey", "@LocationName" },
                    new object[] { mainModel.orderKey, model.LocationName },

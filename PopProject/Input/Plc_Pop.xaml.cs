@@ -47,7 +47,7 @@ namespace PopProject.Input
             SetPlcData();
 
 
-            //if (Properties.Settings.Default.corp_name.Equals("오주포장") && Properties.Settings.Default.mercName.Equals("인라인2호기"))
+            //if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("인라인2호기"))
             //{
             //    tb1_.Text = "A 위치";
             //    tb2_.Text = "B 위치";
@@ -106,46 +106,46 @@ namespace PopProject.Input
         //초기화면 세팅
         private void SetPlcData()
         {
-            ip.Text = Properties.Settings.Default.ip + " / " + Properties.Settings.Default.port; //IP
+            ip.Text = SettingJsonManager.ip + " / " + SettingJsonManager.port; //IP
             거래처.Text = mainModel.customSName; //거래처
             품명.Text = mainModel.prodName; //품명
             psize = mainModel.pSize.Split('*'); //규격
-            작업지시.Text = Properties.Settings.Default.setCount.ToString();
+            작업지시.Text = SettingJsonManager.setCount.ToString();
             장.Text = psize[0] == null ? "" : psize[0].Trim();
             폭.Text = psize[1] == null ? "" : psize[1].Trim();
             고.Text = psize[2] == null ? "" : psize[2].Trim();
             
-            미미.Text = Properties.Settings.Default.mimi.ToString();
+            미미.Text = SettingJsonManager.mimi.ToString();
             switch (mainModel.paperGor.Replace("골", "").Trim())
             {
                 case "AB":
                 case "BA":
-                    Properties.Settings.Default.Gap = 70;
+                    SettingJsonManager.Gap = 70;
                     break;
 
                 case "BB":
-                    Properties.Settings.Default.Gap = 60;
+                    SettingJsonManager.Gap = 60;
                     break;
 
                 case "A":
-                    Properties.Settings.Default.Gap = 50;
+                    SettingJsonManager.Gap = 50;
                     break;
 
                 case "EB":
-                    Properties.Settings.Default.Gap = 40;
+                    SettingJsonManager.Gap = 40;
                     break;
 
                 case "B":
-                    Properties.Settings.Default.Gap = 30;
+                    SettingJsonManager.Gap = 30;
                     break;
 
                 case "E":
-                    Properties.Settings.Default.Gap = 20;
+                    SettingJsonManager.Gap = 20;
                     break;
                 default:
                     break;
             }
-            갭.Text = Properties.Settings.Default.Gap.ToString();
+            갭.Text = SettingJsonManager.Gap.ToString();
 
         }
 
@@ -154,7 +154,7 @@ namespace PopProject.Input
         {
             Ip_input ip_Input = new Ip_input();
             ip_Input.ShowDialog();
-            ip.Text = Properties.Settings.Default.ip + " / " + Properties.Settings.Default.port;
+            ip.Text = SettingJsonManager.ip + " / " + SettingJsonManager.port;
         }
 
         //DB데이터 조회
@@ -165,12 +165,12 @@ namespace PopProject.Input
             Border clickedBorder = (Border)sender;
             clickedBorder.Background = Brushes.Gray;
 
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-               Properties.Settings.Default.serverIndex,
+               SettingJsonManager.serverIndex,
                "[PopCNSSearch]",
                new string[] { "prodID", "MachineName" },
-               new object[] { this.mainModel.prodID, Properties.Settings.Default.mercName }, 0);
+               new object[] { this.mainModel.prodID, SettingJsonManager.mercName }, 0);
 
             if (returnData.결과 == 1)
             {
@@ -450,10 +450,10 @@ namespace PopProject.Input
             mainSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
             if (!mainSock.Connected)
             {
-                int port = int.Parse(Properties.Settings.Default.port); //포트 2004
+                int port = int.Parse(SettingJsonManager.port); //포트 2004
                 try
                 {
-                    IAsyncResult result = mainSock.BeginConnect(Properties.Settings.Default.ip, port, null, null);
+                    IAsyncResult result = mainSock.BeginConnect(SettingJsonManager.ip, port, null, null);
                     bool success = result.AsyncWaitHandle.WaitOne(1500, true);
 
                     if (CNS_Send)
@@ -825,15 +825,15 @@ namespace PopProject.Input
                         break;
                 }
 
-                Properties.Settings.Default.Gap = int.Parse(갭.Text.ToString());
-                Properties.Settings.Default.mimi = int.Parse(미미.Text.ToString());
-                Properties.Settings.Default.jang = int.Parse(장.Text.ToString());
-                Properties.Settings.Default.pok = int.Parse(폭.Text.ToString());
-                Properties.Settings.Default.go = int.Parse(고.Text.ToString());
-                Properties.Settings.Default.setCount = int.Parse(작업지시.Text.ToString());
-                Properties.Settings.Default.boxType = int.Parse(boxType.ToString());
-                Properties.Settings.Default.plcCheck = true;
-                Properties.Settings.Default.Save();
+                SettingJsonManager.Gap = int.Parse(갭.Text.ToString());
+                SettingJsonManager.mimi = int.Parse(미미.Text.ToString());
+                SettingJsonManager.jang = int.Parse(장.Text.ToString());
+                SettingJsonManager.pok = int.Parse(폭.Text.ToString());
+                SettingJsonManager.go = int.Parse(고.Text.ToString());
+                SettingJsonManager.setCount = int.Parse(작업지시.Text.ToString());
+                SettingJsonManager.boxType = int.Parse(boxType.ToString());
+                SettingJsonManager.plcCheck = true;
+                SettingJsonManager.SaveJsonFile();
 
 
 
@@ -847,13 +847,13 @@ namespace PopProject.Input
                     items.Add(1); //작업 모델 번호
                     items.Add(10000); //작업지시 매수(하위)
                     items.Add(0); //작업지시 매수(상위)
-                    items.Add(Properties.Settings.Default.boxType); //BOX TYPE (1=>1합, 3=>2합, 5=>인쇄물, 6=>H형, 7=>H-Cover형 
-                    items.Add(Properties.Settings.Default.pok);  //폭
-                    items.Add(Properties.Settings.Default.jang); //장
-                    items.Add(Properties.Settings.Default.go);   //고
-                    items.Add(Properties.Settings.Default.Gap);  //갭
+                    items.Add(SettingJsonManager.boxType); //BOX TYPE (1=>1합, 3=>2합, 5=>인쇄물, 6=>H형, 7=>H-Cover형 
+                    items.Add(SettingJsonManager.pok);  //폭
+                    items.Add(SettingJsonManager.jang); //장
+                    items.Add(SettingJsonManager.go);   //고
+                    items.Add(SettingJsonManager.Gap);  //갭
                     items.Add(0);                                //앞날개
-                    items.Add(Properties.Settings.Default.mimi); //미미
+                    items.Add(SettingJsonManager.mimi); //미미
 
                     int WriteCount = items.Count() * 2;
                     byte[] bDts = wd.continuous_Write("%DB7600", WriteCount, items);
@@ -910,7 +910,7 @@ namespace PopProject.Input
                 case "F1":
                     Ip_input ip_Input = new Ip_input();
                     ip_Input.ShowDialog();
-                    ip.Text = Properties.Settings.Default.ip + " / " + Properties.Settings.Default.port;
+                    ip.Text = SettingJsonManager.ip + " / " + SettingJsonManager.port;
                     break;
                 default:
                     break;
@@ -971,8 +971,8 @@ namespace PopProject.Input
         {
             log.Info("CNS 상세창 종료");
 
-            Properties.Settings.Default.plcCheck = false;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.plcCheck = false;
+            SettingJsonManager.SaveJsonFile();
             Close();
         }
 

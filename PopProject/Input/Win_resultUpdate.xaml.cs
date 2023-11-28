@@ -27,7 +27,7 @@ namespace PopProject.Input
             this.errorModel = errorModel;
 
             //키인 체크시
-            if (Properties.Settings.Default.keyinCheck)
+            if (SettingJsonManager.keyinCheck)
             {
                 pworkCount.Focusable = true;
                 _ = pworkCount.Focus();
@@ -44,7 +44,7 @@ namespace PopProject.Input
             this.inputModel = inputModel;
             this.errorModel = errorModel;
 
-            if (Properties.Settings.Default.keyinCheck)
+            if (SettingJsonManager.keyinCheck)
             {
                 pworkCount.Focusable = true;
                 _ = pworkCount.Focus();
@@ -59,7 +59,7 @@ namespace PopProject.Input
             this.inputModel = inputModel;
             pworkCount.Text = inputModel.sumPworkCount.ToString();
 
-            if (Properties.Settings.Default.keyinCheck)
+            if (SettingJsonManager.keyinCheck)
             {
                 pworkCount.Focusable = true;
                 _ = pworkCount.Focus();
@@ -85,9 +85,9 @@ namespace PopProject.Input
         {
 
             string 전체공정 = "0";
-            if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
+            if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
             {
-                if (Properties.Settings.Default.mercName.Contains("인라인"))
+                if (SettingJsonManager.mercName.Contains("인라인"))
                 {
                    전체공정 = "1";
 
@@ -106,7 +106,7 @@ namespace PopProject.Input
             {
                 arrChkAED = pworkCount.Text.ToString().Equals("0") ? "3" : "2";
                 
-                if(Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                if(SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
                 {
                     workCount = (int.Parse(pworkCount.Text) * inputModel.pCnt).ToString();
                 }
@@ -117,9 +117,9 @@ namespace PopProject.Input
 
                 }
 
-                ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+                ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
                 ReturnModel returnData = ServiceModel.GetData(
-                    Properties.Settings.Default.serverIndex,
+                    SettingJsonManager.serverIndex,
                     "[PopResultEndMember]",
                     new string[] { "@작업일자", "@오더Key", "@ChkAED", "@실수요자생산Key", "@작업량", "@불량" },
                     new object[] {
@@ -144,7 +144,7 @@ namespace PopProject.Input
             else
             {
                 //대세물산은 생산수량 수정시 통수를 곱해줌
-                if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
                 {
                     workCount = (int.Parse(pworkCount.Text) * inputModel.pCnt).ToString();
                 }
@@ -162,10 +162,10 @@ namespace PopProject.Input
                     arrChkAED = "2|"; //수정
                 }
 
-                ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
-                string parameter = "[" + Properties.Settings.Default.mercName + "] " + inputModel.customSName + Environment.NewLine + inputModel.prodName + " " + inputModel.pworkCount.ToString("N0") + "개";
+                ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+                string parameter = "[" + SettingJsonManager.mercName + "] " + inputModel.customSName + Environment.NewLine + inputModel.prodName + " " + inputModel.pworkCount.ToString("N0") + "개";
                 ReturnModel returnData = ServiceModel.GetData(
-                    Properties.Settings.Default.serverIndex,
+                    SettingJsonManager.serverIndex,
                     "[PopResultEnd]",
                     new string[] { "@AllChkAED", "@작업일자", "@오더Key", "@arrChkAED", "@arr공정구분", "@arr계획Key",
                 "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@전체공정"},
@@ -186,8 +186,8 @@ namespace PopProject.Input
 
                 if (returnData.결과 == 1)
                 {
-                    Properties.Settings.Default.presultcount = float.Parse(pworkCount.Text);
-                    Properties.Settings.Default.Save();
+                    SettingJsonManager.presultcount = float.Parse(pworkCount.Text);
+                    SettingJsonManager.SaveJsonFile();
                     Close();
                 }
             }

@@ -64,8 +64,8 @@ namespace PopProject.Consumer_
             imgpath = mainModel.imagePath; //버튼 상태 확인
             sumPworkCount = mainModel.sumPworkCount; //생산 합계
             PopWorkListSearch(); //실수요자 생산계획 조회
-            Properties.Settings.Default.consumCount = 0;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.consumCount = 0;
+            SettingJsonManager.SaveJsonFile();
 
             //스크롤바 사용으로 고정(대세요청)
             if (true)
@@ -103,10 +103,10 @@ namespace PopProject.Consumer_
         {
             checkProcessing = false;
             //consumerSumCount = 0;
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
 
-               Properties.Settings.Default.serverIndex,
+               SettingJsonManager.serverIndex,
               //"[PopWorkListMember]",
               // new string[] { "@orderKey", "@ProcessType", "@pplanDate" },
               // new object[] { mainModel.orderKey, mainModel.ProcessType, DateTime.Now.ToString("yyyy-MM-dd") },
@@ -149,7 +149,7 @@ namespace PopProject.Consumer_
                         listitem.Memo = result["Memo"].ToString();                          //비고
 
                         //상자수 사용 체크
-                        if (Properties.Settings.Default.boxCheck)
+                        if (SettingJsonManager.boxCheck)
                         {
                             listitem.orderCount /= (int)mainModel.pCnt;  //수주량/통수
                             listitem.pWorkCount /= (int)mainModel.pCnt;  //작업량/통수
@@ -167,7 +167,7 @@ namespace PopProject.Consumer_
                             consumerList.Add(listitem);
                         }
 
-                        //if (Properties.Settings.Default.corp_name.Equals("선호칼라팩") || Properties.Settings.Default.corp_name.Equals("선호칼라팩테스트"))
+                        //if (SettingJsonManager.corp_name.Equals("선호칼라팩") || SettingJsonManager.corp_name.Equals("선호칼라팩테스트"))
                         //{
                         //    if (listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.orderCount - listitem.pWorkCount - listitem.workCount > 30)
                         //    {
@@ -206,8 +206,8 @@ namespace PopProject.Consumer_
                     {
                         if (consumerList.Where((x) => x.pplanKey == mainModel.pplanKey).Count() > 0)
                         {
-                            Properties.Settings.Default.pworkkey = consumerList.Where((x) => x.pplanKey == mainModel.pplanKey).FirstOrDefault().pworkKey.ToString();
-                            Properties.Settings.Default.Save();
+                            SettingJsonManager.pworkkey = consumerList.Where((x) => x.pplanKey == mainModel.pplanKey).FirstOrDefault().pworkKey.ToString();
+                            SettingJsonManager.SaveJsonFile();
                         }
 
                         ic.ItemsSource = consumerList; //리스트 등록
@@ -253,9 +253,9 @@ namespace PopProject.Consumer_
         private int PopInlineStart(SubModel subOb)
         {
             Console.WriteLine("인라인시작");
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopResultStart]",
                 new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey" },
                 new object[] {
@@ -277,20 +277,20 @@ namespace PopProject.Consumer_
                 
                 //리턴값 저장,확인
                 Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
-                Properties.Settings.Default.pworkkey = returnData.리턴값;
-                Properties.Settings.Default.Save();
+                SettingJsonManager.pworkkey = returnData.리턴값;
+                SettingJsonManager.SaveJsonFile();
 
                 //시작시간 저장
                 mainModel.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                 //현황판으로 시작신호 보냄
-                InvokeCount(Properties.Settings.Default.mercName, "S");
+                InvokeCount(SettingJsonManager.mercName, "S");
 
                 //값 리셋
-                Properties.Settings.Default.count = 0;
-                Properties.Settings.Default.saveDate = "";
-                Properties.Settings.Default.pplanKey = 0;
-                Properties.Settings.Default.Save();
+                SettingJsonManager.count = 0;
+                SettingJsonManager.saveDate = "";
+                SettingJsonManager.pplanKey = 0;
+                SettingJsonManager.SaveJsonFile();
 
                 //온라인 설비 종료 실행 
                 PopInlineEnd(subOb, int.Parse(returnData.리턴값));
@@ -308,9 +308,9 @@ namespace PopProject.Consumer_
         private void PopInlineEnd(SubModel subOb, int pWorkkey)
         {
             string 전체공정 = "0";
-            if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
+            if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
             {
-                if (Properties.Settings.Default.mercName.Contains("인라인"))
+                if (SettingJsonManager.mercName.Contains("인라인"))
                 {
                     if (mainModel.subOb.Count == 2)
                     {
@@ -325,10 +325,10 @@ namespace PopProject.Consumer_
             }
             string arrChkAED = "1|";
 
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
-            string parameter = "[" + subOb.ProcessTypeName + "] " + mainModel.customSName + Environment.NewLine + mainModel.prodName + " " + Properties.Settings.Default.consumCount.ToString("N0") + "개";
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            string parameter = "[" + subOb.ProcessTypeName + "] " + mainModel.customSName + Environment.NewLine + mainModel.prodName + " " + SettingJsonManager.consumCount.ToString("N0") + "개";
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopResultEnd]",
                 new string[] { "@AllChkAED","@작업일자","@오더Key","@arrChkAED","@arr공정구분","@arr계획Key","@arr작업Key","@arr작업량","@arr불량","@arr비고","@시작시간","@설비명","@전체공정"},
                 new object[] {
@@ -339,7 +339,7 @@ namespace PopProject.Consumer_
                 subOb.processType + "|",
                 subOb.pplanKey + "|",
                 pWorkkey + "|",
-                Properties.Settings.Default.consumCount + "|",
+                SettingJsonManager.consumCount + "|",
                 getErrorCount() + "|",
                 "" + "|",
                 mainModel.sDatetime,
@@ -354,12 +354,12 @@ namespace PopProject.Consumer_
             }
 
             //값 초기화
-            Properties.Settings.Default.consumersumcount = 0;
-            Properties.Settings.Default.count = 0;
-            Properties.Settings.Default.saveDate = "";
-            Properties.Settings.Default.pplanKey = 0;
-            Properties.Settings.Default.pworkkey = "";
-            Properties.Settings.Default.Save();
+            SettingJsonManager.consumersumcount = 0;
+            SettingJsonManager.count = 0;
+            SettingJsonManager.saveDate = "";
+            SettingJsonManager.pplanKey = 0;
+            SettingJsonManager.pworkkey = "";
+            SettingJsonManager.SaveJsonFile();
         }
 
 
@@ -367,9 +367,9 @@ namespace PopProject.Consumer_
         private int PopresultEnd(int totalCount, int totalErrorCount, string arrChkAED, string pWorkKey)
         {
             string 전체공정 = "0";
-            if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
+            if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
             {
-                if (Properties.Settings.Default.mercName.Contains("인라인"))
+                if (SettingJsonManager.mercName.Contains("인라인"))
                 {
                     //if (mainModel.subOb.Count == 2)
                     //{
@@ -383,10 +383,10 @@ namespace PopProject.Consumer_
                 }
             }
             //Thread.Sleep(1000);
-            string parameter = "[" + Properties.Settings.Default.mercName + "] " + this.mainModel.customSName + Environment.NewLine + mainModel.prodName + " " + totalCount.ToString("N0") + "개";
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            string parameter = "[" + SettingJsonManager.mercName + "] " + this.mainModel.customSName + Environment.NewLine + mainModel.prodName + " " + totalCount.ToString("N0") + "개";
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-               Properties.Settings.Default.serverIndex,
+               SettingJsonManager.serverIndex,
 
                "[PopResultEnd]",
                new string[] { "@AllChkAED", "@작업일자", "@오더Key", "@arrChkAED", "@arr공정구분", "@arr계획Key",
@@ -403,7 +403,7 @@ namespace PopProject.Consumer_
                 totalErrorCount+ "|",
                 ""+"|",
                 mainModel.sDatetime,
-                Properties.Settings.Default.mercName,
+                SettingJsonManager.mercName,
                 전체공정
 
                 }, 1, parameter
@@ -421,9 +421,9 @@ namespace PopProject.Consumer_
                 //    PopresultEnd(0, 0, "3|", mainModel.ConsumWorkKey);
                 //}
             }
-            Properties.Settings.Default.pplanKey = 0;
-            Properties.Settings.Default.pworkkey = ""; 
-            Properties.Settings.Default.Save();
+            SettingJsonManager.pplanKey = 0;
+            SettingJsonManager.pworkkey = ""; 
+            SettingJsonManager.SaveJsonFile();
             return returnData.결과;
         }
 
@@ -568,9 +568,9 @@ namespace PopProject.Consumer_
         //생산계획 이월
         private void spAdd410processinfo_workplan()
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[spAdd410processinfo_workplan]",
                 new string[] { "@오더Key", "@계획Key" },
                 new object[] { mainModel.orderKey, mainModel.pplanKey },
@@ -621,24 +621,24 @@ namespace PopProject.Consumer_
             float TempTotalErrorCount = 0;
 
             //pworkKey가 같으면
-            if (consumerList.Where((x) => x.pworkKey.ToString() == Properties.Settings.Default.pworkkey).Count() > 0)
+            if (consumerList.Where((x) => x.pworkKey.ToString() == SettingJsonManager.pworkkey).Count() > 0)
             {
                 //총 생산
-                TempTotalCount = consumerList.Where((x) => x.pworkKey.ToString() == Properties.Settings.Default.pworkkey).Sum((x) => x.pWorkCount);
+                TempTotalCount = consumerList.Where((x) => x.pworkKey.ToString() == SettingJsonManager.pworkkey).Sum((x) => x.pWorkCount);
                 //총 불량
-                TempTotalErrorCount = consumerList.Where((x) => x.pworkKey.ToString() == Properties.Settings.Default.pworkkey).Sum((x) => x.perrCnt);
+                TempTotalErrorCount = consumerList.Where((x) => x.pworkKey.ToString() == SettingJsonManager.pworkkey).Sum((x) => x.perrCnt);
 
                 //상자수 체크시
-                if (Properties.Settings.Default.boxCheck)
+                if (SettingJsonManager.boxCheck)
                 {
                     TempTotalCount *= int.Parse(mainModel.pCnt.ToString());
                     TempTotalErrorCount *= int.Parse(mainModel.pCnt.ToString());
                 }
 
                 // 관리자 로그인이 아닐때
-                if (!Properties.Settings.Default.manager.Equals("1"))
+                if (!SettingJsonManager.manager.Equals("1"))
                 {
-                    if (consumerList.Where((x) => x.pworkKey.ToString() == Properties.Settings.Default.pworkkey && (!string.IsNullOrEmpty(x.sDatetime.ToString()) && (string.IsNullOrEmpty(x.eDatetime.ToString())))).Count() > 0)
+                    if (consumerList.Where((x) => x.pworkKey.ToString() == SettingJsonManager.pworkkey && (!string.IsNullOrEmpty(x.sDatetime.ToString()) && (string.IsNullOrEmpty(x.eDatetime.ToString())))).Count() > 0)
                     {
                         //실수요자 작업 진행 중일 때는 아무 작업 하지 않음
                     }
@@ -686,8 +686,8 @@ namespace PopProject.Consumer_
 
             if (arrChkAED != "")
             {
-                string refPworkKey = string.Format("{0}", Properties.Settings.Default.pworkkey);
-                PopresultEnd(Convert.ToInt32(TempTotalCount), Convert.ToInt32(TempTotalErrorCount), arrChkAED, Properties.Settings.Default.pworkkey);
+                string refPworkKey = string.Format("{0}", SettingJsonManager.pworkkey);
+                PopresultEnd(Convert.ToInt32(TempTotalCount), Convert.ToInt32(TempTotalErrorCount), arrChkAED, SettingJsonManager.pworkkey);
 
                 if (arrChkAED == "2|")
                 {
@@ -699,9 +699,9 @@ namespace PopProject.Consumer_
         private void PopResultEndTimeSetting(string pworkkey)
         {
 
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[spUdt431processinfo_workTimeChange]",
                 new string[] { "@생산키", "@생산시작일시", "@생산종료일시" },
                 new object[] {

@@ -49,7 +49,7 @@ namespace PopProject.Detail
             }
 
             //DB접속정보 변경
-            switch (Properties.Settings.Default.corp_name)
+            switch (SettingJsonManager.corp_name)
             {
                 case "대세물산":
                 case "대세물산테스트":
@@ -143,7 +143,7 @@ namespace PopProject.Detail
             //string DBName = ""; //접속정보(DB명)
 
             ////MES DB 설정
-            //switch (Properties.Settings.Default.corp_name)
+            //switch (SettingJsonManager.corp_name)
             //{
             //    case "대세물산":
             //        ServerIndex = "dsbox";
@@ -171,18 +171,18 @@ namespace PopProject.Detail
                     if (!string.IsNullOrEmpty(구분combo.Text) && !string.IsNullOrEmpty(점검명combo.Text))
                     {
                         //관리자 계정이 아닐때만 (현황판 전송)
-                        if (!Properties.Settings.Default.manager.Equals("1"))
+                        if (!SettingJsonManager.manager.Equals("1"))
                         {
                             s구분 = 구분combo.Text;
                             s점검명 = 점검명combo.Text;
                             string s시간 = DateTime.Now.ToString("HH:mm");
 
-                            if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+                            if (SettingJsonManager.corp_name.Equals("광성수출포장") || SettingJsonManager.corp_name.Equals("광성수출포장테스트"))
                             {
                                 점검내용 = "C" + "," + s구분 + "," + s점검명 + "," + s시간;
 
                             }
-                            else if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                            else if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
                             {
                                 점검내용 = "C" + "/" + s구분 + "/" + s점검명 + "/" + s시간;
 
@@ -195,7 +195,7 @@ namespace PopProject.Detail
                            ServerIndex,
                            "[TBL_MERC_MGT].[spSel001_MercProc]",
                            new string[] { "@Opt", "@mercName" },
-                           new object[] { 5, Properties.Settings.Default.mercName },
+                           new object[] { 5, SettingJsonManager.mercName },
                            0);
 
                         if (returnData.결과 == 1)
@@ -258,7 +258,7 @@ namespace PopProject.Detail
                                 DateTime.Now,
                                 "",
                                 merchinID,
-                                Properties.Settings.Default.mercName,
+                                SettingJsonManager.mercName,
                                 inspectCode,
                                 s점검명,
                                 "",
@@ -286,10 +286,10 @@ namespace PopProject.Detail
                         점검중 = true;
 
                         //관리자 계정이 아닐때만 (현황판 전송)
-                        if (!Properties.Settings.Default.manager.Equals("1"))
+                        if (!SettingJsonManager.manager.Equals("1"))
                         {
-                            InvokeMercName(Properties.Settings.Default.mercName, 점검내용); //설비명, 상태, 내용
-                            Console.WriteLine("SignalR : " + Properties.Settings.Default.mercName + ", " + 점검내용);
+                            InvokeMercName(SettingJsonManager.mercName, 점검내용); //설비명, 상태, 내용
+                            Console.WriteLine("SignalR : " + SettingJsonManager.mercName + ", " + 점검내용);
 
                         }
                     }
@@ -310,9 +310,9 @@ namespace PopProject.Detail
                     clickedButton.Content = "시   작";
 
                     //관리자 계정이 아닐때만 (현황판 전송)
-                    if (!Properties.Settings.Default.manager.Equals("1"))
+                    if (!SettingJsonManager.manager.Equals("1"))
                     {
-                        InvokeMercName(Properties.Settings.Default.mercName, "D"); //설비명, 상태, 내용
+                        InvokeMercName(SettingJsonManager.mercName, "D"); //설비명, 상태, 내용
                     }
 
                 }
@@ -329,7 +329,7 @@ namespace PopProject.Detail
                ServerIndex,
                "[TBL_MERC_MGT].[spSel521_MainDG]",
                new string[] { "@type", "@startDate", "@endDate", "@mercName" },
-               new object[] { s구분, DateTime.Now.AddDays(-7), DateTime.Now, Properties.Settings.Default.mercName },
+               new object[] { s구분, DateTime.Now.AddDays(-7), DateTime.Now, SettingJsonManager.mercName },
                0);
 
             if (returnData.결과 == 1)
@@ -378,13 +378,13 @@ namespace PopProject.Detail
         {
             try
             {
-                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("광성수출포장테스트"))
+                if (SettingJsonManager.corp_name.Equals("광성수출포장") || SettingJsonManager.corp_name.Equals("광성수출포장테스트"))
                 {
                     popService(mercName, 상태);
                 }
                 else
                 {
-                    _ = SignalRAdministrator.허브.Invoke("invokeCount", Properties.Settings.Default.corp_id, mercName, 상태); //DB명, 설비명, 카운터
+                    _ = SignalRAdministrator.허브.Invoke("invokeCount", SettingJsonManager.corp_id, mercName, 상태); //DB명, 설비명, 카운터
                 }
             }
             catch (Exception)
@@ -397,8 +397,8 @@ namespace PopProject.Detail
         async Task popService(string mercName, string str)
         {
             string Url = "http://localhost:18888/pop/gathering"; //주소
-            //string Url = Properties.Settings.Default.signalR; //주소
-            string CompanyCode = Properties.Settings.Default.corp_id; //업체코드
+            //string Url = SettingJsonManager.signalR; //주소
+            string CompanyCode = SettingJsonManager.corp_id; //업체코드
             string MercName = mercName; //설비명
             string Data = str.ToString(); //데이터
 
@@ -444,9 +444,9 @@ namespace PopProject.Detail
                 tb2.Visibility = Visibility.Collapsed; //설비 점검 중 숨기기
 
                 //관리자 계정이 아닐때만 (현황판 전송)
-                if (!Properties.Settings.Default.manager.Equals("1"))
+                if (!SettingJsonManager.manager.Equals("1"))
                 {
-                    InvokeMercName(Properties.Settings.Default.mercName, "D"); //설비명, 상태, 내용
+                    InvokeMercName(SettingJsonManager.mercName, "D"); //설비명, 상태, 내용
                 }
             }
             //비정상 종료
@@ -456,9 +456,9 @@ namespace PopProject.Detail
                 tb2.Visibility = Visibility.Collapsed; //설비 점검 중 숨기기
 
                 //관리자 계정이 아닐때만 (현황판 전송)
-                if (!Properties.Settings.Default.manager.Equals("1"))
+                if (!SettingJsonManager.manager.Equals("1"))
                 {
-                    InvokeMercName(Properties.Settings.Default.mercName, "D"); //설비명, 상태, 내용
+                    InvokeMercName(SettingJsonManager.mercName, "D"); //설비명, 상태, 내용
                 }
             }
         }

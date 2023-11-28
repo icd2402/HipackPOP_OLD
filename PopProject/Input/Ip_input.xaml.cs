@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using PopProject.Util;
 
 namespace PopProject.Input
 {
@@ -12,16 +13,16 @@ namespace PopProject.Input
         public Ip_input()
         {
             InitializeComponent();
-            ip.Text = Properties.Settings.Default.ip;
-            port.Text = Properties.Settings.Default.port;
+            ip.Text = SettingJsonManager.ip;
+            port.Text = SettingJsonManager.port;
 
         }
 
         private void Done(object sender, MouseButtonEventArgs e)
         {
-            Properties.Settings.Default.ip = ip.Text.Trim();
-            Properties.Settings.Default.port = port.Text.Trim();
-            Properties.Settings.Default.Save();
+            SettingJsonManager.ip = ip.Text.Trim();
+            SettingJsonManager.port = port.Text.Trim();
+            SettingJsonManager.SaveJsonFile();
             Close();
         }
     }

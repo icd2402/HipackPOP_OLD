@@ -40,10 +40,10 @@ namespace PopProject.Input
         private void Win_Set()
         {
             //설비명
-            Setting_mercName.Text = Properties.Settings.Default.mercName;
+            Setting_mercName.Text = SettingJsonManager.mercName;
 
             //기본 설정2 화면
-            if (Properties.Settings.Default.RadioChecked)//상단,하단 정렬
+            if (SettingJsonManager.RadioChecked)//상단,하단 정렬
             {
                 radio2.IsChecked = true; //상단
             }
@@ -53,22 +53,22 @@ namespace PopProject.Input
             }
 
             //기본 설정2 화면
-            keyinCheck.IsChecked = Properties.Settings.Default.keyinCheck;//키인 사용
-            robotcheck.IsChecked = Properties.Settings.Default.robotchecked; //로봇사용
-            detail_check.IsChecked = Properties.Settings.Default.detail_check; //듀얼 모니터 상세화면 표현
-            option1.IsChecked = Properties.Settings.Default.option1; //상자수 자동계산
-            samework.IsChecked = Properties.Settings.Default.samework; //동시작업 설정
-            color_check.IsChecked = Properties.Settings.Default.color_check; //인쇄 색도 표현
-            twoSum.IsChecked = Properties.Settings.Default.twoSum; //이합설비
-            scrollvar_Check.IsChecked = Properties.Settings.Default.scrollvarCheck; //스크롤바 사용
-            plc.IsChecked = Properties.Settings.Default.Plc; // PLC사용
-            boxCheck.IsChecked = Properties.Settings.Default.boxCheck; //상자수 사용
-            completeValue.IsChecked = Properties.Settings.Default.completeValue_checked; //완료항목 제거
+            keyinCheck.IsChecked = SettingJsonManager.keyinCheck;//키인 사용
+            robotcheck.IsChecked = SettingJsonManager.robotchecked; //로봇사용
+            detail_check.IsChecked = SettingJsonManager.detail_check; //듀얼 모니터 상세화면 표현
+            option1.IsChecked = SettingJsonManager.option1; //상자수 자동계산
+            samework.IsChecked = SettingJsonManager.samework; //동시작업 설정
+            color_check.IsChecked = SettingJsonManager.color_check; //인쇄 색도 표현
+            twoSum.IsChecked = SettingJsonManager.twoSum; //이합설비
+            scrollvar_Check.IsChecked = SettingJsonManager.scrollvarCheck; //스크롤바 사용
+            plc.IsChecked = SettingJsonManager.Plc; // PLC사용
+            boxCheck.IsChecked = SettingJsonManager.boxCheck; //상자수 사용
+            completeValue.IsChecked = SettingJsonManager.completeValue_checked; //완료항목 제거
 
             //자재명세서 출력정보 화면
-            count_check.IsChecked = Properties.Settings.Default.count_check; //총수량 표현
-            account_check.IsChecked = Properties.Settings.Default.accountCheck; //거래처 표현
-            production_check.IsChecked = Properties.Settings.Default.productionCheck; //생산처 표현
+            count_check.IsChecked = SettingJsonManager.count_check; //총수량 표현
+            account_check.IsChecked = SettingJsonManager.accountCheck; //거래처 표현
+            production_check.IsChecked = SettingJsonManager.productionCheck; //생산처 표현
 
             
 
@@ -78,22 +78,22 @@ namespace PopProject.Input
             //포트넘버
             cb_1.ItemsSource = port; 
             cb_12.ItemsSource = port; 
-            cb_1.Text = Properties.Settings.Default.SerialName;
-            cb_12.Text = Properties.Settings.Default.SerialName1; 
+            cb_1.Text = SettingJsonManager.SerialName;
+            cb_12.Text = SettingJsonManager.SerialName1; 
             
             //통신속도
             int[] baudrate = new int[1] { 9600 }; //통신속도
             cb_2.ItemsSource = baudrate;
-            cb_2.Text = Properties.Settings.Default.baudrate.ToString();
+            cb_2.Text = SettingJsonManager.baudrate.ToString();
 
             //센서 딜레이
             string[] SensorRate = new string[7] { "없음", "0.1초", "0.2초", "0.3초", "0.4초", "0.5초", "1초" };
             cb_3.ItemsSource = SensorRate;
-            cb_3.Text = GetSenserRate(Properties.Settings.Default.SensorRate);
+            cb_3.Text = GetSenserRate(SettingJsonManager.SensorRate);
 
-            string settingItem = Properties.Settings.Default.settingitem;  //작업정보
-            string metrialinfo = Properties.Settings.Default.meterialinfo; //마닐라,원단정보
-            string printItem = Properties.Settings.Default.printItem; //자재명세서 출정 정보
+            string settingItem = SettingJsonManager.settingitem;  //작업정보
+            string metrialinfo = SettingJsonManager.meterialinfo; //마닐라,원단정보
+            string printItem = SettingJsonManager.printItem; //자재명세서 출정 정보
 
             string[] setting = settingItem.Split(new string[] { "|" }, StringSplitOptions.None); //작업정보 배열 생성
             string[] metrial = metrialinfo.Split(new string[] { "|" }, StringSplitOptions.None); //마닐라,원단정보 배열 생성
@@ -235,7 +235,7 @@ namespace PopProject.Input
             }
 
             //오주 또는 대양포장일때 PLC 선택 체크박스 보이도록함
-            if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트") || Properties.Settings.Default.corp_name.Equals("대양포장") || Properties.Settings.Default.corp_name.Equals("대양포장테스트") || Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") || SettingJsonManager.corp_name.Equals("대양포장") || SettingJsonManager.corp_name.Equals("대양포장테스트") || SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
             {
                 plcText.Visibility = Visibility.Visible;
                 plc.Visibility = Visibility.Visible;
@@ -317,9 +317,9 @@ namespace PopProject.Input
 
             Console.WriteLine("작업정보 체크수량 ->" + count);
             Console.WriteLine("SettingValue(작업정보) : " + settingValue);
-            Properties.Settings.Default.searchCheck = !settingValue.Equals(Properties.Settings.Default.settingitem);
-            Properties.Settings.Default.settingitem = settingValue;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.searchCheck = !settingValue.Equals(SettingJsonManager.settingitem);
+            SettingJsonManager.settingitem = settingValue;
+            SettingJsonManager.SaveJsonFile();
 
             log.Info("작업정보 설정 변경 : " + settingValue);
         }
@@ -350,9 +350,9 @@ namespace PopProject.Input
             }
 
             Console.WriteLine("마닐라,원단 체크 : " + settingValue);
-            Properties.Settings.Default.searchCheck = !settingValue.Equals(Properties.Settings.Default.meterialinfo); //저장값이 변경되어있으면
-            Properties.Settings.Default.meterialinfo = settingValue;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.searchCheck = !settingValue.Equals(SettingJsonManager.meterialinfo); //저장값이 변경되어있으면
+            SettingJsonManager.meterialinfo = settingValue;
+            SettingJsonManager.SaveJsonFile();
 
             log.Info("자재정보 설정 변경 : " + settingValue);
         }
@@ -387,8 +387,8 @@ namespace PopProject.Input
             {
                 printItem = printItem.Substring(0, printItem.Length - 1);
             }
-            Properties.Settings.Default.printItem = printItem;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.printItem = printItem;
+            SettingJsonManager.SaveJsonFile();
         }
 
         //제품명세서 출력 정보 체크값 저장
@@ -489,9 +489,9 @@ namespace PopProject.Input
             }
             string settingValue = GetSettingValue(list);
             settingValue = settingValue.Length > 1 ? settingValue.Substring(0, settingValue.Length - 1) : "";
-            Properties.Settings.Default.searchCheck = !settingValue.Equals(Properties.Settings.Default.settingitem);
-            Properties.Settings.Default.settingitem = settingValue;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.searchCheck = !settingValue.Equals(SettingJsonManager.settingitem);
+            SettingJsonManager.settingitem = settingValue;
+            SettingJsonManager.SaveJsonFile();
         }
 
         //작업정보 설정 list에 담기위한 번호 부여
@@ -620,23 +620,23 @@ namespace PopProject.Input
             //게더링 COM넘버
             if (cb_1.SelectedItem != null)
             {
-                Properties.Settings.Default.SerialName = cb_1.SelectedItem.ToString();
-                Properties.Settings.Default.Save();
+                SettingJsonManager.SerialName = cb_1.SelectedItem.ToString();
+                SettingJsonManager.SaveJsonFile();
             }
             
             //게더링 COM넘버 두번째꺼
             if (cb_12.SelectedItem != null)
             {
-                Properties.Settings.Default.SerialName1 = cb_12.SelectedItem.ToString();
-                Properties.Settings.Default.Save();
+                SettingJsonManager.SerialName1 = cb_12.SelectedItem.ToString();
+                SettingJsonManager.SaveJsonFile();
 
             }
 
             //게더링 BaudRate
             if (cb_2.SelectedItem != null)
             {
-                Properties.Settings.Default.baudrate = int.Parse(cb_2.SelectedItem.ToString());
-                Properties.Settings.Default.Save();
+                SettingJsonManager.baudrate = int.Parse(cb_2.SelectedItem.ToString());
+                SettingJsonManager.SaveJsonFile();
             }
 
             //센서 딜레이
@@ -645,30 +645,30 @@ namespace PopProject.Input
                 switch (cb_3.Text)
                 {
                     case "없음":
-                        Properties.Settings.Default.SensorRate = "0";
+                        SettingJsonManager.SensorRate = "0";
                         break;
                     case "0.1초":
-                        Properties.Settings.Default.SensorRate = "1";
+                        SettingJsonManager.SensorRate = "1";
                         break;
                     case "0.2초":
-                        Properties.Settings.Default.SensorRate = "2";
+                        SettingJsonManager.SensorRate = "2";
                         break;
                     case "0.3초":
-                        Properties.Settings.Default.SensorRate = "3";
+                        SettingJsonManager.SensorRate = "3";
                         break;
                     case "0.4초":
-                        Properties.Settings.Default.SensorRate = "4";
+                        SettingJsonManager.SensorRate = "4";
                         break;
                     case "0.5초":
-                        Properties.Settings.Default.SensorRate = "5";
+                        SettingJsonManager.SensorRate = "5";
                         break;
                     case "1초":
-                        Properties.Settings.Default.SensorRate = "9";
+                        SettingJsonManager.SensorRate = "9";
                         break;
                     default:
                         break;
                 }
-                Properties.Settings.Default.Save();
+                SettingJsonManager.SaveJsonFile();
             }
 
             log.Info("설정창 닫기");
@@ -682,76 +682,76 @@ namespace PopProject.Input
         //상단,하단 정렬 버튼
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.RadioChecked = !radio1.IsChecked.Value;
+            SettingJsonManager.RadioChecked = !radio1.IsChecked.Value;
             Console.WriteLine("radio1.IsChecked.Value" + radio1.IsChecked.Value);
-            Properties.Settings.Default.Save();
+            SettingJsonManager.SaveJsonFile();
         }
 
         //동시작업 
         private void SameCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.samework = samework.IsChecked.Value;
-            Properties.Settings.Default.searchCheck = Properties.Settings.Default.samework != samework.IsChecked.Value;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.samework = samework.IsChecked.Value;
+            SettingJsonManager.searchCheck = SettingJsonManager.samework != samework.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
         }
 
         //인쇄색도 표현
         private void ColorCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.color_check = color_check.IsChecked.Value;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.color_check = color_check.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
         }
 
         //총수량 표현
         private void CountCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.count_check = count_check.IsChecked.Value;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.count_check = count_check.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
         }
 
         //상자수 사용
         private void BoxCountChecked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.boxCheck = boxCheck.IsChecked.Value;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.boxCheck = boxCheck.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
 
         }
 
         //키인 사용
         private void KeyinChecked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.keyinCheck = keyinCheck.IsChecked.Value;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.keyinCheck = keyinCheck.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
         }
 
         //듀얼 모니터 상세화면 표현
         private void Detail_checked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.detail_check = detail_check.IsChecked.Value;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.detail_check = detail_check.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
         }
 
         //상자수 자동계산
         private void Optionchecked(object sender, RoutedEventArgs e)
         {
 
-            Properties.Settings.Default.option1 = option1.IsChecked.Value;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.option1 = option1.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
 
         }
 
         //이합설비
         private void TwoSumCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.twoSum = twoSum.IsChecked.Value;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.twoSum = twoSum.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
         }
 
         // 불량사유 화면
         private void PopErrorSearch()
         {
-            string[] error = Properties.Settings.Default.error.Split(','); //공통
-            string[] error1 = Properties.Settings.Default.error1.Split(','); //설비
+            string[] error = SettingJsonManager.error.Split(','); //공통
+            string[] error1 = SettingJsonManager.error1.Split(','); //설비
             List<string> errorlist = new List<string>();
             List<string> errorlist1 = new List<string>();
 
@@ -768,12 +768,12 @@ namespace PopProject.Input
             }
 
             _ = new LogData("불량사유조회");
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                "[PopErrorSearch]",
                 new string[] { "@ProcessType" },
-                new object[] { Properties.Settings.Default.processType },
+                new object[] { SettingJsonManager.processType },
                 0
                 );
 
@@ -786,7 +786,7 @@ namespace PopProject.Input
                     ObservableCollection<Error_Model> ob1 = new ObservableCollection<Error_Model>();
                     foreach (JObject result in Data_Jarry)
                     {
-                        if (Properties.Settings.Default.processType != int.Parse(result["ProcessType"].ToString())) //공통
+                        if (SettingJsonManager.processType != int.Parse(result["ProcessType"].ToString())) //공통
                         {
                             Error_Model model = new Error_Model()
                             {
@@ -909,22 +909,22 @@ namespace PopProject.Input
         private void AccountCheckBox_Checked(object sender, RoutedEventArgs e)
         {
 
-            Properties.Settings.Default.accountCheck = account_check.IsChecked.Value;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.accountCheck = account_check.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
         }
 
         //자재명세서 생산처
         private void ProductionCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.productionCheck = production_check.IsChecked.Value;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.productionCheck = production_check.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
         }
 
         //스크롤바 사용
         private void scrollvar_Checked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.scrollvarCheck = scrollvar_Check.IsChecked.Value;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.scrollvarCheck = scrollvar_Check.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
         }
 
         //공통 불량사유 체크박스
@@ -933,7 +933,7 @@ namespace PopProject.Input
             if((sender as CheckBox).IsChecked == true) //체크해제 
             {
                 string errorValue = "";
-                string[] error = Properties.Settings.Default.error.Split(',');
+                string[] error = SettingJsonManager.error.Split(',');
                 List<string> errorlist = new List<string>();
                 for(int i = 0; i < error.Length; i++)
                 {
@@ -961,25 +961,25 @@ namespace PopProject.Input
                     }
                 }
                 (sender as CheckBox).IsChecked = false;
-                Properties.Settings.Default.error = "";
-                Properties.Settings.Default.error = errorValue;
-                Properties.Settings.Default.Save();
-                Console.WriteLine("체크해제 :" + Properties.Settings.Default.error);
+                SettingJsonManager.error = "";
+                SettingJsonManager.error = errorValue;
+                SettingJsonManager.SaveJsonFile();
+                Console.WriteLine("체크해제 :" + SettingJsonManager.error);
             }
             else //체크
             {
                 (sender as CheckBox).IsChecked = true;
-                if (Properties.Settings.Default.error.Length == 0)
+                if (SettingJsonManager.error.Length == 0)
                 {
-                    Properties.Settings.Default.error = (sender as CheckBox).Content.ToString();
+                    SettingJsonManager.error = (sender as CheckBox).Content.ToString();
                 }
                 else
                 {
-                    Properties.Settings.Default.error += "," + (sender as CheckBox).Content.ToString();
+                    SettingJsonManager.error += "," + (sender as CheckBox).Content.ToString();
                 }
-                Properties.Settings.Default.Save();
-                Console.WriteLine("체크 :" + Properties.Settings.Default.error);
-                log.Info("공통 불량사유 체크 : " + Properties.Settings.Default.error);
+                SettingJsonManager.SaveJsonFile();
+                Console.WriteLine("체크 :" + SettingJsonManager.error);
+                log.Info("공통 불량사유 체크 : " + SettingJsonManager.error);
             }
             
         }
@@ -990,7 +990,7 @@ namespace PopProject.Input
             if ((sender as CheckBox).IsChecked == true) //체크해제
             {
                 string errorValue = "";
-                string[] error = Properties.Settings.Default.error1.Split(',');
+                string[] error = SettingJsonManager.error1.Split(',');
                 List<string> errorlist = new List<string>();
                 for (int i = 0; i < error.Length; i++)
                 {
@@ -1018,26 +1018,26 @@ namespace PopProject.Input
                     }
                 }
                 (sender as CheckBox).IsChecked = false;
-                Properties.Settings.Default.error1 = "";
-                Properties.Settings.Default.error1 = errorValue;
-                Properties.Settings.Default.Save();
-                Console.WriteLine("체크해제 :" + Properties.Settings.Default.error1);
+                SettingJsonManager.error1 = "";
+                SettingJsonManager.error1 = errorValue;
+                SettingJsonManager.SaveJsonFile();
+                Console.WriteLine("체크해제 :" + SettingJsonManager.error1);
             }
             else //체크
             {
 
                 (sender as CheckBox).IsChecked = true;
-                if (Properties.Settings.Default.error1.Length == 0)
+                if (SettingJsonManager.error1.Length == 0)
                 {
-                    Properties.Settings.Default.error1 = (sender as CheckBox).Content.ToString();
+                    SettingJsonManager.error1 = (sender as CheckBox).Content.ToString();
                 }
                 else
                 {
-                    Properties.Settings.Default.error1 += "," + (sender as CheckBox).Content.ToString();
+                    SettingJsonManager.error1 += "," + (sender as CheckBox).Content.ToString();
                 }
-                Properties.Settings.Default.Save();
-                Console.WriteLine("체크 :" + Properties.Settings.Default.error1);
-                log.Info("설비 불량사유 체크 : " + Properties.Settings.Default.error1);
+                SettingJsonManager.SaveJsonFile();
+                Console.WriteLine("체크 :" + SettingJsonManager.error1);
+                log.Info("설비 불량사유 체크 : " + SettingJsonManager.error1);
 
             }
         }
@@ -1045,15 +1045,15 @@ namespace PopProject.Input
         //PLC사용
         private void PlcCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.Plc = plc.IsChecked.Value;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.Plc = plc.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
         }
 
         //완료항목 제거
         private void completeValue_checked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.completeValue_checked = completeValue.IsChecked.Value;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.completeValue_checked = completeValue.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
         }
 
         //설정값 업로드 버튼 (DB저장)
@@ -1062,18 +1062,18 @@ namespace PopProject.Input
             string macAddress = NetworkInterface.GetAllNetworkInterfaces().Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
             .Select(nic => nic.GetPhysicalAddress().ToString()).FirstOrDefault();
 
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[Pop_machinfo_update]",
                 new string[] { "@설비명", "@작업정보", "@상자수", "@동시작업", "@이합설비", "@상자수계산", "@맥주소" },
                 new object[] {
-                    Properties.Settings.Default.mercName,    //설비명
-                    Properties.Settings.Default.settingitem, //자재정보
-                    Properties.Settings.Default.boxCheck,    //상자수 사용
-                    Properties.Settings.Default.samework,    //동시작업
-                    Properties.Settings.Default.twoSum,      //이합설비
-                    Properties.Settings.Default.option1,     //상자수 자동계산
+                    SettingJsonManager.mercName,    //설비명
+                    SettingJsonManager.settingitem, //자재정보
+                    SettingJsonManager.boxCheck,    //상자수 사용
+                    SettingJsonManager.samework,    //동시작업
+                    SettingJsonManager.twoSum,      //이합설비
+                    SettingJsonManager.option1,     //상자수 자동계산
                     macAddress
                 },
                 1
@@ -1094,13 +1094,13 @@ namespace PopProject.Input
         //설정값 로드 버튼 (DB불러오기)
         private void load_setting(object sender, MouseButtonEventArgs e)
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[Pop_sel_settingValue]",
                 new string[] { "@설비명"},
                 new object[] {
-                    Properties.Settings.Default.mercName,
+                    SettingJsonManager.mercName,
                 },
                 0
                 );
@@ -1109,12 +1109,12 @@ namespace PopProject.Input
                 JArray Data_Jarry = JArray.Parse(returnData.리턴값);
                 foreach(JObject result in Data_Jarry)
                 {
-                   Properties.Settings.Default.settingitem = result["작업정보"].ToString();
-                   Properties.Settings.Default.boxCheck = bool.Parse(result["상자수사용"].ToString());
-                   Properties.Settings.Default.samework = bool.Parse(result["동시작업"].ToString());
-                   Properties.Settings.Default.twoSum = bool.Parse(result["이합설비"].ToString());
-                   Properties.Settings.Default.option1 = bool.Parse(result["상자수자동계산"].ToString());
-                   Properties.Settings.Default.Save();
+                   SettingJsonManager.settingitem = result["작업정보"].ToString();
+                   SettingJsonManager.boxCheck = bool.Parse(result["상자수사용"].ToString());
+                   SettingJsonManager.samework = bool.Parse(result["동시작업"].ToString());
+                   SettingJsonManager.twoSum = bool.Parse(result["이합설비"].ToString());
+                   SettingJsonManager.option1 = bool.Parse(result["상자수자동계산"].ToString());
+                   SettingJsonManager.SaveJsonFile();
                 }
 
                 Win_Set();
@@ -1129,8 +1129,8 @@ namespace PopProject.Input
         //로봇사용 
         private void robotChecked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.robotchecked = robotcheck.IsChecked.Value;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.robotchecked = robotcheck.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
         }
     }
 

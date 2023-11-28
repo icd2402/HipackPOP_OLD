@@ -4,7 +4,7 @@ namespace PopProject.Util
 {
     internal class ServiceModel
     {
-        public static string[] 접속정보 = new string[] { Properties.Settings.Default.corp_id, Properties.Settings.Default.UserID, Properties.Settings.Default.UserName };
+        public static string[] 접속정보 = new string[] { SettingJsonManager.corp_id, SettingJsonManager.UserID, SettingJsonManager.UserName };
         //두성
         public static ServiceReference_dubox.Service_CRUDClient du_Service;
         public static ServiceReference_dubox.DBHandle_Model du_DB_Handle_Model;
@@ -132,7 +132,7 @@ namespace PopProject.Util
 
             if (string.IsNullOrEmpty(dbName))
             {
-                접속정보[0] = Properties.Settings.Default.corp_id;
+                접속정보[0] = SettingJsonManager.corp_id;
             }
             else
             {

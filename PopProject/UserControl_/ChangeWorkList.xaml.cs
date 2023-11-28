@@ -27,7 +27,7 @@ namespace PopProject.UserControl_
         public ChangeWorkList(ObservableCollection<MainModel> list)
         {
             InitializeComponent();
-            string merName = Properties.Settings.Default.mercName;
+            string merName = SettingJsonManager.mercName;
             tbMercName.Text = merName;
             workList = new ObservableCollection<MainModel>();
             for (int i = 0; i < list.Count; i++)
@@ -37,7 +37,7 @@ namespace PopProject.UserControl_
                 {
                     list[i].WDIGCount1 =  string.Format("{0:n0}", list[i].WDBJCount);
                 }
-                string[] setting = Properties.Settings.Default.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
+                string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
                 for (int j = 0; j < setting.Length; j++)
                 {
                     string item = "";
@@ -62,7 +62,7 @@ namespace PopProject.UserControl_
                             item = list[i].Pushingposition;
                             break;
                         case "7":
-                            item = Properties.Settings.Default.color_check ? list[i].ColorType.Replace("|", "").Replace("색", "색 ") : ExtractKorean(list[i].ColorType.Replace("|", "")).Replace("색", "색 ");
+                            item = SettingJsonManager.color_check ? list[i].ColorType.Replace("|", "").Replace("색", "색 ") : ExtractKorean(list[i].ColorType.Replace("|", "")).Replace("색", "색 ");
                             break;
                         case "8":
                             item = list[i].ConnetingType;
@@ -268,7 +268,7 @@ namespace PopProject.UserControl_
 
             for (int i = 0; i < workList.Count; i++)
             {
-                if (Properties.Settings.Default.processType.Equals(workList[i].ProcessType))
+                if (SettingJsonManager.processType.Equals(workList[i].ProcessType))
                 {
                     orderkey = orderkey + workList[i].orderKey + "|";
                     orderWorkNo = orderWorkNo + workList[i].orderWorkNo + "|";
@@ -276,13 +276,13 @@ namespace PopProject.UserControl_
                 }
             }
 
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             _ = ServiceModel.GetData(
 
-               Properties.Settings.Default.serverIndex,
+               SettingJsonManager.serverIndex,
                "[spUdt410processinfo_workSeq]",
                new string[] { "@공정구분", "@arr오더키", "@arr생산계획번호" },
-               new string[] { Properties.Settings.Default.processType + "", orderkey, orderWorkNo },
+               new string[] { SettingJsonManager.processType + "", orderkey, orderWorkNo },
                1
                );
 
@@ -291,8 +291,8 @@ namespace PopProject.UserControl_
         private void Exit_mouse(object sender, MouseButtonEventArgs e)
         {
             Close();
-            Properties.Settings.Default.ChangeCheck = true;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.ChangeCheck = true;
+            SettingJsonManager.SaveJsonFile();
         }
 
         private void TopUp_mouse(object sender, MouseButtonEventArgs e)
@@ -342,11 +342,11 @@ namespace PopProject.UserControl_
                 item.check = false;
                 item.icback = "White";
             }
-            workList[Properties.Settings.Default.index].check = true;
-            workList[Properties.Settings.Default.index].icback = "#6799FF";
+            workList[SettingJsonManager.index].check = true;
+            workList[SettingJsonManager.index].icback = "#6799FF";
             indexCheck = true;
-            icsv.ScrollToVerticalOffset((Properties.Settings.Default.index * 77.8) - 171);
-            index = Properties.Settings.Default.index;
+            icsv.ScrollToVerticalOffset((SettingJsonManager.index * 77.8) - 171);
+            index = SettingJsonManager.index;
 
 
         }

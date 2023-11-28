@@ -58,7 +58,7 @@ namespace PopProject.Detail
 
             if (string.IsNullOrEmpty(scmServerIndex))
             {
-                destSCMServerIndex = Properties.Settings.Default.serverIndex;
+                destSCMServerIndex = SettingJsonManager.serverIndex;
             }
             else
             {

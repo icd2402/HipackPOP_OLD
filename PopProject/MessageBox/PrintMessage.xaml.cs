@@ -34,7 +34,7 @@ namespace PopProject.MessageBox
             mainModel = main;
             this.detailitem = detailitem;
 
-            if (Properties.Settings.Default.keyinCheck)
+            if (SettingJsonManager.keyinCheck)
             {
                 copy_count.Focusable = true;
                 _ = copy_count.Focus();
@@ -46,7 +46,7 @@ namespace PopProject.MessageBox
             }
 
             //오주, 대세, 구룡
-            if (Properties.Settings.Default.corp_id.Equals("3125247246") || Properties.Settings.Default.corp_id.Equals("C91950615") || Properties.Settings.Default.corp_id.Equals("766562426")) // 오주포장
+            if (SettingJsonManager.corp_id.Equals("3125247246") || SettingJsonManager.corp_id.Equals("C91950615") || SettingJsonManager.corp_id.Equals("766562426")) // 오주포장
             {
                 //팔레트당 적재수량 표기 
                 pallet.Visibility = Visibility.Visible;
@@ -73,7 +73,7 @@ namespace PopProject.MessageBox
             this.detailitem = detailitem;
 
             //설정에서 키인사용 체크시
-            if (Properties.Settings.Default.keyinCheck)
+            if (SettingJsonManager.keyinCheck)
             {
                 copy_count.Focusable = true;
                 _ = copy_count.Focus();
@@ -85,7 +85,7 @@ namespace PopProject.MessageBox
             }
 
             //오주, 대세, 구룡
-            if (Properties.Settings.Default.corp_id.Equals("3125247246") || Properties.Settings.Default.corp_id.Equals("C91950615") || Properties.Settings.Default.corp_id.Equals("766562426")) // 오주포장
+            if (SettingJsonManager.corp_id.Equals("3125247246") || SettingJsonManager.corp_id.Equals("C91950615") || SettingJsonManager.corp_id.Equals("766562426")) // 오주포장
             {
                 //팔레트당 적재수량 표기 
                 pallet.Visibility = Visibility.Visible;
@@ -139,9 +139,9 @@ namespace PopProject.MessageBox
         {
             try
             {
-                ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+                ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
                 ReturnModel returnData = ServiceModel.GetData(
-                    Properties.Settings.Default.serverIndex,
+                    SettingJsonManager.serverIndex,
                      "[sp200PrintReport_Product]",
                       new string[] { "@생산계획키" },
                       new object[] { mainModel.pplanKey },
@@ -165,7 +165,7 @@ namespace PopProject.MessageBox
                     JToken result = SignCorpinfo_Base_JArray.First;
 
                     //선호칼라팩
-                    if (Properties.Settings.Default.corp_id.Equals("75BB212362"))
+                    if (SettingJsonManager.corp_id.Equals("75BB212362"))
                     {
                         pr2.MycustomSName = "";                                       //업체명
                         pr2.corpName = "";                                            //거래처 상호
@@ -173,7 +173,7 @@ namespace PopProject.MessageBox
                         pr2.prodName = result["prodName"].ToString();                 //품명
                         pr2.orderLast = Convert.ToDateTime(result["orderLast"]);      //납기일
                         pr2.pSize = result["pSize"].ToString();                       //규격
-                        string memo = getMemo(Properties.Settings.Default.printItem); //출력정보
+                        string memo = getMemo(SettingJsonManager.printItem); //출력정보
                         pr2.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo); //비고 + 출력정보 
                         pr2.pworkDate = DateTime.Now; //작성일자
                         pr2.resultCount = result["resultCount"].ToString(); //총수량
@@ -193,7 +193,7 @@ namespace PopProject.MessageBox
                         }
 
                         //총수량 표현 미체크시
-                        if (!Properties.Settings.Default.count_check)
+                        if (!SettingJsonManager.count_check)
                         {
                             pr2.resultCount = "";
                         }
@@ -201,12 +201,12 @@ namespace PopProject.MessageBox
                     else //선호 제외 업체
                     {
                         //거래처 표현 체크시 표현x
-                        pr1.corpName = Properties.Settings.Default.accountCheck ? "" : mainModel.corpName;
+                        pr1.corpName = SettingJsonManager.accountCheck ? "" : mainModel.corpName;
 
                         //생산처 표현 미체시 표현x
                         //생산처 표현 미체크시 우측 최하단에 업체명 기입
                         //대양포장은 생산처 미체크라도 무조건 안보이게
-                        pr1.MycustomSName = Properties.Settings.Default.productionCheck ? "" : Properties.Settings.Default.corp_name.Equals("대양포장") ? "    " : Properties.Settings.Default.corp_name;
+                        pr1.MycustomSName = SettingJsonManager.productionCheck ? "" : SettingJsonManager.corp_name.Equals("대양포장") ? "    " : SettingJsonManager.corp_name;
                     }
 
                     ClsUc_완제품명세서_Control1 완제품명세서_Uc1 = new ClsUc_완제품명세서_Control1();
@@ -242,16 +242,16 @@ namespace PopProject.MessageBox
                     };
 
                     //유창포장
-                    if (Properties.Settings.Default.corp_name.Equals("유창포장"))
+                    if (SettingJsonManager.corp_name.Equals("유창포장"))
                     {
-                        pr2.corpName = Properties.Settings.Default.accountCheck ? "" : mainModel.corpName; //거래처 상호
-                        pr2.MycustomSName = Properties.Settings.Default.productionCheck ? "" : Properties.Settings.Default.corp_name; //생산처
+                        pr2.corpName = SettingJsonManager.accountCheck ? "" : mainModel.corpName; //거래처 상호
+                        pr2.MycustomSName = SettingJsonManager.productionCheck ? "" : SettingJsonManager.corp_name; //생산처
                         pr2.customSName = result["customSName"].ToString();      //거래처명
                         pr2.prodName = result["prodName"].ToString();            //품명
                         pr2.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
                         pr2.pSize = result["pSize"].ToString();                  //규격
 
-                        string memo = getMemo(Properties.Settings.Default.printItem); //프린트 출력정보
+                        string memo = getMemo(SettingJsonManager.printItem); //프린트 출력정보
                         pr2.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo); //비고 + 출력정보
                         pr2.pworkDate = Convert.ToDateTime(result["pworkDate"]); //작업일자
                         pr2.pworkDate = DateTime.Now;                            //작성일자
@@ -273,7 +273,7 @@ namespace PopProject.MessageBox
                         }
 
                         //총수량 표현 미체크
-                        if (!Properties.Settings.Default.count_check)
+                        if (!SettingJsonManager.count_check)
                         {
                             pr2.resultCount = "";
                         }
@@ -287,18 +287,18 @@ namespace PopProject.MessageBox
                     }
 
                     //오주포장
-                    else if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
+                    else if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
                     {
 
-                        pr3.corpName = Properties.Settings.Default.accountCheck ? "" : mainModel.corpName; //거래처 상호
-                        pr3.MycustomSName = Properties.Settings.Default.productionCheck ? "" : Properties.Settings.Default.corp_name; //생산처
+                        pr3.corpName = SettingJsonManager.accountCheck ? "" : mainModel.corpName; //거래처 상호
+                        pr3.MycustomSName = SettingJsonManager.productionCheck ? "" : SettingJsonManager.corp_name; //생산처
                         pr3.customSName = result["customSName"].ToString();           //거래처명
                         pr3.prodName = result["prodName"].ToString();                 //품명
                         pr3.orderLast = Convert.ToDateTime(result["orderLast"]);      //납기일
                         pr3.pSize = result["pSize"].ToString();                       //규격
                         pr3.pGol = mainModel.paperGor;                                //골
                         pr3.PalletType = detailitem.PalletType;                       //파렛트 종류
-                        string memo = getMemo(Properties.Settings.Default.printItem); //프린트 출력정보
+                        string memo = getMemo(SettingJsonManager.printItem); //프린트 출력정보
                         pr3.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo); //비고 + 출력정보
                         //pr3.pworkDate = Convert.ToDateTime(result["pworkDate"]).ToString("yyyy/MM/dd"); //작업일자
                         pr3.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); //작성일자
@@ -331,7 +331,7 @@ namespace PopProject.MessageBox
                     }
 
                     //두성포장, 혜성수출포장
-                    else if(Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Equals("두성포장테스트") || Properties.Settings.Default.corp_name.Contains("혜성"))
+                    else if(SettingJsonManager.corp_name.Equals("두성포장") || SettingJsonManager.corp_name.Equals("두성포장테스트") || SettingJsonManager.corp_name.Contains("혜성"))
                     {
 
                         pr5.customSName = result["customSName"].ToString();      //거래처명
@@ -340,7 +340,7 @@ namespace PopProject.MessageBox
                         pr5.pSize = result["pSize"].ToString();                  //규격
                         
                         string memo = "";
-                        memo = getMemo(Properties.Settings.Default.printItem);   //프린트 출력정보  
+                        memo = getMemo(SettingJsonManager.printItem);   //프린트 출력정보  
 
                         pr5.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo); //비고 + 출력정보
                         pr5.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); //작성일자
@@ -372,7 +372,7 @@ namespace PopProject.MessageBox
                         }
 
                         //총수량 표현 미체크
-                        if (!Properties.Settings.Default.count_check)
+                        if (!SettingJsonManager.count_check)
                         {
                             pr5.resultCount = "";
                         }
@@ -384,7 +384,7 @@ namespace PopProject.MessageBox
                     }
 
                     //구룡산업
-                    else if (Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
+                    else if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
                     {
                         //실수요자
                         if (consumCheck)
@@ -404,7 +404,7 @@ namespace PopProject.MessageBox
                             pr7.pSize = result["pSize"].ToString();                  //규격
                             
                             string memo = "";
-                            memo = getMemo(Properties.Settings.Default.printItem);   //프린트 출력정보
+                            memo = getMemo(SettingJsonManager.printItem);   //프린트 출력정보
                             pr7.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
                             pr7.pMemo = pr7.pMemo + Environment.NewLine + consumerModel.Memo;
 
@@ -434,7 +434,7 @@ namespace PopProject.MessageBox
                                 pr7.resultCount = mainModel.sumPworkCount == 0 ? "" : mainModel.sumPworkCount + "";
                             }
                             //총수량 표현 미체크
-                            if (!Properties.Settings.Default.count_check)
+                            if (!SettingJsonManager.count_check)
                             {
                                 pr7.resultCount = "";
                             }
@@ -456,7 +456,7 @@ namespace PopProject.MessageBox
                         pr6.pSize = result["pSize"].ToString();                  //규격
 
                         string memo = "";                                        
-                        memo = getMemo(Properties.Settings.Default.printItem);   //프린트 출력정보
+                        memo = getMemo(SettingJsonManager.printItem);   //프린트 출력정보
                         pr6.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
 
                         pr6.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); //작성일자
@@ -486,7 +486,7 @@ namespace PopProject.MessageBox
                             pr6.resultCount = mainModel.sumPworkCount == 0 ? "" : mainModel.sumPworkCount + "";
                         }
                         //총수량 표현 미체크
-                        if (!Properties.Settings.Default.count_check)
+                        if (!SettingJsonManager.count_check)
                         {
                             pr6.resultCount = "";
                         }
@@ -499,7 +499,7 @@ namespace PopProject.MessageBox
                         }
                     }
                     //대세물산
-                    else if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                    else if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
                     {
                         pr8.customSName = result["customSName"].ToString();      //거래처명
                         pr8.prodName = result["prodName"].ToString();            //품명
@@ -515,13 +515,13 @@ namespace PopProject.MessageBox
 
                         pr8.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
                         pr8.pSize = result["pSize"].ToString();                  //규격
-                        //pr8.MycustomSName = Properties.Settings.Default.corp_name; //생산처
-                        pr8.MycustomSName = Properties.Settings.Default.productionCheck ? "" : Properties.Settings.Default.corp_name; //생산처 상호
-                        pr8.corpName = Properties.Settings.Default.accountCheck ? "" : mainModel.customSName; //거래처 상호
+                        //pr8.MycustomSName = SettingJsonManager.corp_name; //생산처
+                        pr8.MycustomSName = SettingJsonManager.productionCheck ? "" : SettingJsonManager.corp_name; //생산처 상호
+                        pr8.corpName = SettingJsonManager.accountCheck ? "" : mainModel.customSName; //거래처 상호
 
 
                         string memo = "";
-                        memo = getMemo(Properties.Settings.Default.printItem);
+                        memo = getMemo(SettingJsonManager.printItem);
 
                         pr8.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
 
@@ -548,7 +548,7 @@ namespace PopProject.MessageBox
                             pr8.resultCount = mainModel.sumPworkCount == 0 ? "" : mainModel.sumPworkCount + "";
                         }
                         //총수량 표현 미체크
-                        if (!Properties.Settings.Default.count_check)
+                        if (!SettingJsonManager.count_check)
                         {
                             pr8.resultCount = "";
                         }
@@ -568,14 +568,14 @@ namespace PopProject.MessageBox
                         
                         string memo = ""; 
                         //광무
-                        if (Properties.Settings.Default.corp_name.Equals("광무포장"))
+                        if (SettingJsonManager.corp_name.Equals("광무포장"))
                         {
                             memo = detailitem.SpecialMemo + Environment.NewLine;
-                            memo+= getMemo(Properties.Settings.Default.printItem);
+                            memo+= getMemo(SettingJsonManager.printItem);
                         }
                         else //그외 EX)성주,우리, 신우 등등
                         {
-                            memo = getMemo(Properties.Settings.Default.printItem);
+                            memo = getMemo(SettingJsonManager.printItem);
                         }
                         pr1.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
                         
@@ -602,7 +602,7 @@ namespace PopProject.MessageBox
                             pr1.resultCount = mainModel.sumPworkCount == 0 ? "" : mainModel.sumPworkCount + "";
                         }
                         //총수량 표현 미체크
-                        if (!Properties.Settings.Default.count_check)
+                        if (!SettingJsonManager.count_check)
                         {
                             pr1.resultCount = "";
                         }
@@ -627,7 +627,7 @@ namespace PopProject.MessageBox
                     PrintWindow reportWindow = new PrintWindow();
                     reportWindow.PrintViewer.Document = FixedDocument;
 
-                    if (Properties.Settings.Default.corp_name.Equals("대세물산"))
+                    if (SettingJsonManager.corp_name.Equals("대세물산"))
                     {
                         reportWindow.가로세로 = 0; //가로 인쇄
                     }
@@ -641,7 +641,7 @@ namespace PopProject.MessageBox
                     reportWindow.Show();
 
                     //오주포장
-                    if (Properties.Settings.Default.corp_id.Equals("3125247246"))
+                    if (SettingJsonManager.corp_id.Equals("3125247246"))
                     {
                         //출력매수 1일때
                         if (int.Parse(copy_count.Text) == 1)
@@ -703,13 +703,13 @@ namespace PopProject.MessageBox
             Set_FixedPage.Height = Dbl_HeightReportPageHeightSize;
 
             pr3.corpName = mainModel.corpName;
-            pr3.MycustomSName = Properties.Settings.Default.productionCheck ? "" : Properties.Settings.Default.corp_name;
+            pr3.MycustomSName = SettingJsonManager.productionCheck ? "" : SettingJsonManager.corp_name;
             pr3.customSName = customSName;
             pr3.prodName = prodName;
             pr3.orderLast = Convert.ToDateTime(orderLast);
             pr3.pSize = pSize;
             pr3.pGol = mainModel.paperGor;
-            string memo = getMemo(Properties.Settings.Default.printItem);
+            string memo = getMemo(SettingJsonManager.printItem);
             pr3.pMemo = pMemo + (string.IsNullOrEmpty(pMemo) ? memo : Environment.NewLine + memo);
             pr3.pworkDate = Convert.ToDateTime(pworkDate).ToString("yyyy/MM/dd");
 
@@ -831,7 +831,7 @@ namespace PopProject.MessageBox
         private void pallet_count(object sender, MouseButtonEventArgs e)
         {
             //키인사용 체크시
-            if (Properties.Settings.Default.keyinCheck)
+            if (SettingJsonManager.keyinCheck)
             {
                 box_count.Focusable = true;
                 _ = box_count.Focus();
@@ -853,7 +853,7 @@ namespace PopProject.MessageBox
         private void Copy_count_click(object sender, MouseButtonEventArgs e)
         {
             //키인사용 체크시
-            if (Properties.Settings.Default.keyinCheck)
+            if (SettingJsonManager.keyinCheck)
             {
                 copy_count.Focusable = true;
                 _ = copy_count.Focus();

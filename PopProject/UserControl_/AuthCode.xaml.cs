@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using PopProject.Util;
 
 namespace PopProject.UserControl_
 {
@@ -29,8 +30,8 @@ namespace PopProject.UserControl_
         {
             if (authCode.Password.Equals("icd4662402"))
             {
-                Properties.Settings.Default.authKey = "";
-                Properties.Settings.Default.Save();
+                SettingJsonManager.authKey = "";
+                SettingJsonManager.SaveJsonFile();
             }
         
             Close();
@@ -46,8 +47,8 @@ namespace PopProject.UserControl_
             switch (e.Key.ToString())
             {
                 case "F1":
-                    Properties.Settings.Default.authKey = "";
-                    Properties.Settings.Default.Save();
+                    SettingJsonManager.authKey = "";
+                    SettingJsonManager.SaveJsonFile();
                     Close();
                     break;
             }

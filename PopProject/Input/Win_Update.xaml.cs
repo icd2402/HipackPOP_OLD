@@ -62,9 +62,9 @@ namespace PopProject.Input
         private int PopErrorUpdate()
         {
             errorModel context = (errorModel)DataContext;
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopErrorUpdate]",
                 new string[] {
                 "@perrKey",

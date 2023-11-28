@@ -22,9 +22,9 @@ namespace PopProject.Util
         public LogData(string useSe)
         {
             this.useSe = useSe;
-            crtfcKey = CrtfcKey(Properties.Settings.Default.corp_id); //업체코드
+            crtfcKey = CrtfcKey(SettingJsonManager.corp_id); //업체코드
             logDt = GetTime(); //시간
-            sysUser = Properties.Settings.Default.mercName; //설비명
+            sysUser = SettingJsonManager.mercName; //설비명
 
             conectIp = GetIP();
             dataUsgqty = 0;
@@ -178,9 +178,9 @@ namespace PopProject.Util
     //private async void sendlog(string session)
     //{
 
-    //    crtfcKey = CrtfcKey(Properties.Settings.Default.corp_id);
+    //    crtfcKey = CrtfcKey(SettingJsonManager.corp_id);
     //    logDt = GetTime();
-    //    sysUser = Properties.Settings.Default.mercName;
+    //    sysUser = SettingJsonManager.mercName;
 
     //    conectIp = GetIP();
 

@@ -57,9 +57,9 @@ namespace PopProject.UserControl_
             InitializeComponent();
             production = null;
             setLock();
-            string metrialitem = Properties.Settings.Default.meterialinfo;
+            string metrialitem = SettingJsonManager.meterialinfo;
             SetSetting(metrialitem);
-            string merName = Properties.Settings.Default.mercName;
+            string merName = SettingJsonManager.mercName;
             tbMercName.Text = merName;
 
             try
@@ -72,14 +72,14 @@ namespace PopProject.UserControl_
             {
 
             }
-            Properties.Settings.Default.consumersumcount = 0;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.consumersumcount = 0;
+            SettingJsonManager.SaveJsonFile();
 
-            corp_name.Text = Properties.Settings.Default.corp_name;
+            corp_name.Text = SettingJsonManager.corp_name;
             ArduConn();
-            sv.VerticalScrollBarVisibility = Properties.Settings.Default.scrollvarCheck ? ScrollBarVisibility.Visible : ScrollBarVisibility.Hidden;
+            sv.VerticalScrollBarVisibility = SettingJsonManager.scrollvarCheck ? ScrollBarVisibility.Visible : ScrollBarVisibility.Hidden;
 
-            if (Properties.Settings.Default.scrollvarCheck)
+            if (SettingJsonManager.scrollvarCheck)
             {
                 
                 sv.PreviewMouseLeftButtonDown -= ScrollViewer_PreviewMouseLeftButtonDown;
@@ -124,11 +124,11 @@ namespace PopProject.UserControl_
                     arduSerial.Close();
                 }
 
-                arduSerial.PortName = Properties.Settings.Default.SerialName;
-                arduSerial.BaudRate = Properties.Settings.Default.baudrate;
+                arduSerial.PortName = SettingJsonManager.SerialName;
+                arduSerial.BaudRate = SettingJsonManager.baudrate;
                 arduSerial.DataReceived += ArduReReceive;
                 arduSerial.Open();
-                arduSerial.Write(Properties.Settings.Default.SensorRate);
+                arduSerial.Write(SettingJsonManager.SensorRate);
                 btrSerial.Background = Brushes.Green;
 
             }
@@ -162,16 +162,16 @@ namespace PopProject.UserControl_
                 float pCnt;
 
 
-                pCnt = Properties.Settings.Default.twoSum ? production.pCnt * 2 : production.pCnt;
-                if (!Properties.Settings.Default.saveDate.Equals("") && !Properties.Settings.Default.saveDate.Equals(DateTime.Now.ToString("yyyy-MM-dd")))
+                pCnt = SettingJsonManager.twoSum ? production.pCnt * 2 : production.pCnt;
+                if (!SettingJsonManager.saveDate.Equals("") && !SettingJsonManager.saveDate.Equals(DateTime.Now.ToString("yyyy-MM-dd")))
                 {
-                    if (production.pplanKey == Properties.Settings.Default.pplanKey)
+                    if (production.pplanKey == SettingJsonManager.pplanKey)
                     {
-                        str = Properties.Settings.Default.count + str;
+                        str = SettingJsonManager.count + str;
                     }
                 }
 
-                switch (Properties.Settings.Default.processType)
+                switch (SettingJsonManager.processType)
                 {
 
                     /*
@@ -195,7 +195,7 @@ namespace PopProject.UserControl_
                     */
 
                     default:
-                        if (Properties.Settings.Default.CountType == 0)
+                        if (SettingJsonManager.CountType == 0)
                         {
                             production.sumPworkCount = str;
                             production.presultCount = str;
@@ -215,7 +215,7 @@ namespace PopProject.UserControl_
                         {
 
                             production.sumPworkCount = Convert.ToInt32(Math.Floor(str * pCnt));
-                            if (Properties.Settings.Default.boxCheck)
+                            if (SettingJsonManager.boxCheck)
                             {
                                 if (pCnt >= 1)
                                 {
@@ -284,9 +284,9 @@ namespace PopProject.UserControl_
             txtDate.Text = datePart;
             txtClock.Text = datetime;
 
-            if (dt.Hour == Properties.Settings.Default.hour)
+            if (dt.Hour == SettingJsonManager.hour)
             {
-                if (dt.Minute == Properties.Settings.Default.minute)
+                if (dt.Minute == SettingJsonManager.minute)
                 {
                     if (dt.Second == 0)
                     {
@@ -308,7 +308,7 @@ namespace PopProject.UserControl_
                     if (win_Input == null)
                     {
 
-                        if (!Properties.Settings.Default.corp_name.Equals("유창포장"))
+                        if (!SettingJsonManager.corp_name.Equals("유창포장"))
                         {
 
                             SelectWorkList();
@@ -328,9 +328,9 @@ namespace PopProject.UserControl_
 
             }
 
-            if (Properties.Settings.Default.corp_name.Equals("유창포장"))
+            if (SettingJsonManager.corp_name.Equals("유창포장"))
             {
-                switch (Properties.Settings.Default.processType)
+                switch (SettingJsonManager.processType)
                 {
                     case 1:
                         if (dt.Minute == 0 && dt.Second == 0)
@@ -488,7 +488,7 @@ namespace PopProject.UserControl_
         {
             try
             {
-                _ = SignalRAdministrator.허브.Invoke("invokeCount", Properties.Settings.Default.corp_id, Properties.Settings.Default.mercName, str + "");
+                _ = SignalRAdministrator.허브.Invoke("invokeCount", SettingJsonManager.corp_id, SettingJsonManager.mercName, str + "");
             }
             catch (Exception)
             {
@@ -513,29 +513,29 @@ namespace PopProject.UserControl_
         private void Mer_click(object sender, MouseButtonEventArgs e)
         {
 
-            if (!Properties.Settings.Default.checkMerc)
+            if (!SettingJsonManager.checkMerc)
             {
-                string before = Properties.Settings.Default.mercName;
+                string before = SettingJsonManager.mercName;
                 MercList mercList = new MercList();
                 _ = mercList.ShowDialog();
-                tbMercName.Text = Properties.Settings.Default.mercName;
-                if (!before.Equals(Properties.Settings.Default.mercName))
+                tbMercName.Text = SettingJsonManager.mercName;
+                if (!before.Equals(SettingJsonManager.mercName))
                 {
                     //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 
-                    if (!Properties.Settings.Default.manager.Equals("1"))
+                    if (!SettingJsonManager.manager.Equals("1"))
                     {
                         invokeMercName(before, "B");
-                        Properties.Settings.Default.error = "";
-                        Properties.Settings.Default.error1 = "";
-                        Properties.Settings.Default.Save();
+                        SettingJsonManager.error = "";
+                        SettingJsonManager.error1 = "";
+                        SettingJsonManager.SaveJsonFile();
                     }
                 }
                 else
                 {
                     //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 
-                    if (!Properties.Settings.Default.manager.Equals("1"))
+                    if (!SettingJsonManager.manager.Equals("1"))
                     {
-                        invokeMercName(Properties.Settings.Default.mercName, "A");
+                        invokeMercName(SettingJsonManager.mercName, "A");
                     }
                 }
                 //setTbPintNo();
@@ -547,26 +547,26 @@ namespace PopProject.UserControl_
         }
         private void setLock()
         {
-            if (Properties.Settings.Default.checkMerc)
+            if (SettingJsonManager.checkMerc)
             {
                 btnLogout.Background = Brushes.Green;
                 merc_lock.Text = "UNLOCK";
-                Properties.Settings.Default.checkMerc = false;
+                SettingJsonManager.checkMerc = false;
             }
             else
             {
                 merc_lock.Text = "LOCK";
                 btnLogout.Background = Brushes.Red;
-                Properties.Settings.Default.checkMerc = true;
+                SettingJsonManager.checkMerc = true;
             }
-            Properties.Settings.Default.Save();
+            SettingJsonManager.SaveJsonFile();
         }
         public void SelectWorkList()
         {
             LogData logData = new LogData("조회");
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-               Properties.Settings.Default.serverIndex,
+               SettingJsonManager.serverIndex,
                "[PopWorkList]",
                new string[] { "@pplanDate" },
                new string[] { DateTime.Now.ToString("yyyy-MM-dd") },
@@ -596,8 +596,8 @@ namespace PopProject.UserControl_
                         {
                             listitem.givSC = result["givSC"].ToString();
                         }
-                        // Console.WriteLine("meterialinfo --> " + Properties.Settings.Default.meterialinfo);
-                        switch (Properties.Settings.Default.corp_name)
+                        // Console.WriteLine("meterialinfo --> " + SettingJsonManager.meterialinfo);
+                        switch (SettingJsonManager.corp_name)
                         {
 
                             case "오주포장":
@@ -622,7 +622,7 @@ namespace PopProject.UserControl_
 
                         }
 
-                        if (Properties.Settings.Default.meterialinfo.Equals(""))
+                        if (SettingJsonManager.meterialinfo.Equals(""))
                         {
                             info.Text = "장 * 폭 * 고";
                             listitem.SCBJCount = result["WDScore"].ToString();
@@ -631,7 +631,7 @@ namespace PopProject.UserControl_
                             listitem.mLmW = result["pSize"].ToString();
                         }
 
-                        else if (Properties.Settings.Default.meterialinfo.Equals("19"))
+                        else if (SettingJsonManager.meterialinfo.Equals("19"))
                         {
                             info.Text = "마닐라정보";
                             listitem.aLaW = result["SCmW"].ToString() + "*" + result["SCmL"].ToString();
@@ -718,16 +718,16 @@ namespace PopProject.UserControl_
                         listitem.PackCount = result["PackCount"].ToString();
                         listitem.pplanCount = int.Parse(result["pplanCount"].ToString());
 
-                        if (Properties.Settings.Default.boxCheck)
+                        if (SettingJsonManager.boxCheck)
                         {
-                            listitem.pplanCount = Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("혜성수출포장")
+                            listitem.pplanCount = SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("혜성수출포장")
                              ? int.Parse(result["pplanCount"].ToString())
                              : (float)Math.Ceiling(listitem.pplanCount / (float)listitem.pCnt);
                         }
 
                         listitem.presultCount = float.Parse(result["presultCount"].ToString());
                         listitem.presultCount1 = float.Parse(result["presultCount"].ToString());
-                        if (Properties.Settings.Default.boxCheck)
+                        if (SettingJsonManager.boxCheck)
                         {
                             listitem.presultCount /= listitem.pCnt;
                             listitem.presultCount1 /= listitem.pCnt;
@@ -744,7 +744,7 @@ namespace PopProject.UserControl_
                         listitem.resultList = new ObservableCollection<InputModel>();
                         listitem.bMember = bool.Parse(result["bMember"].ToString());
 
-                        if (!Properties.Settings.Default.corp_name.Equals("오주포장"))
+                        if (!SettingJsonManager.corp_name.Equals("오주포장"))
                         {
                             listitem.icback = listitem.bMember ? "#E2FEFF" : "White";
                         }
@@ -759,11 +759,11 @@ namespace PopProject.UserControl_
                         }
 
 
-                        if (Properties.Settings.Default.mercName.Equals("인라인2호기") || Properties.Settings.Default.mercName.Equals("인라인3호기") || Properties.Settings.Default.mercName.Equals("풀접합"))
+                        if (SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기") || SettingJsonManager.mercName.Equals("풀접합"))
                         {
                             if (listitem.ProcessType == 8 || listitem.ProcessType == 5)
                             {
-                                string[] setting = Properties.Settings.Default.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
+                                string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
                                 for (int i = 0; i < setting.Length; i++)
                                 {
                                     string item = "";
@@ -788,7 +788,7 @@ namespace PopProject.UserControl_
                                             item = result["Pushingposition"].ToString();
                                             break;
                                         case "7":
-                                            item = Properties.Settings.Default.color_check
+                                            item = SettingJsonManager.color_check
                                                 ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ")
                                                 : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
                                             break;
@@ -879,9 +879,9 @@ namespace PopProject.UserControl_
                         {
                             if (listitem.mercName.Equals(""))
                             {
-                                if (listitem.ProcessType == Properties.Settings.Default.processType)
+                                if (listitem.ProcessType == SettingJsonManager.processType)
                                 {
-                                    string[] setting = Properties.Settings.Default.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
+                                    string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
 
                                     for (int i = 0; i < setting.Length; i++)
                                     {
@@ -908,7 +908,7 @@ namespace PopProject.UserControl_
                                                 break;
                                             case "7":
 
-                                                item = Properties.Settings.Default.color_check
+                                                item = SettingJsonManager.color_check
                                                     ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ")
                                                     : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
 
@@ -1000,10 +1000,10 @@ namespace PopProject.UserControl_
                             }
                             else
                             {
-                                if (listitem.mercName.Equals(Properties.Settings.Default.mercName))
+                                if (listitem.mercName.Equals(SettingJsonManager.mercName))
                                 {
 
-                                    string[] setting = Properties.Settings.Default.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
+                                    string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
 
                                     for (int i = 0; i < setting.Length; i++)
                                     {
@@ -1136,9 +1136,9 @@ namespace PopProject.UserControl_
             //sw.Start();
             //production = null;
 
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopResultSearchDate]",
                 new string[] { "@pworkDate" },
                 new string[] { DateTime.Now.ToString("yyyy-MM-dd") },
@@ -1161,7 +1161,7 @@ namespace PopProject.UserControl_
                             if (workItem.pplanKey.ToString().Equals(result["pplanKey"].ToString()))
                             {
 
-                                if (result["mercName"].ToString().Equals(Properties.Settings.Default.mercName))
+                                if (result["mercName"].ToString().Equals(SettingJsonManager.mercName))
                                 {
 
                                     workItem.sumPworkCount += float.Parse(result["pworkCount"].ToString());
@@ -1214,7 +1214,7 @@ namespace PopProject.UserControl_
 
                     }
 
-                    if (!Properties.Settings.Default.samework)
+                    if (!SettingJsonManager.samework)
                     {
                         foreach (MainModel item in tempOb)
                         {
@@ -1251,7 +1251,7 @@ namespace PopProject.UserControl_
             SortDescription sort4 = new SortDescription("pAccount", ListSortDirection.Ascending);
             SortDescription sort5 = new SortDescription("WDIGCount", ListSortDirection.Descending);
             SortDescription sort6 = new SortDescription("icback", ListSortDirection.Ascending);
-            bool sortCheck = Properties.Settings.Default.RadioChecked;
+            bool sortCheck = SettingJsonManager.RadioChecked;
             ICollectionView collectionView = CollectionViewSource.GetDefaultView(workList);
 
             if (sortCheck)
@@ -1262,7 +1262,7 @@ namespace PopProject.UserControl_
                 sort = new SortDescription("sDatetime", ListSortDirection.Ascending);
 
                 collectionView.SortDescriptions.Add(sort);
-                if (Properties.Settings.Default.corp_name.Equals("오주포장"))
+                if (SettingJsonManager.corp_name.Equals("오주포장"))
                 {
                     collectionView.SortDescriptions.Add(sort6);
                     collectionView.SortDescriptions.Add(sort5);
@@ -1279,7 +1279,7 @@ namespace PopProject.UserControl_
             else
             {
                 collectionView.SortDescriptions.Add(sort);
-                if (Properties.Settings.Default.corp_name.Equals("오주포장"))
+                if (SettingJsonManager.corp_name.Equals("오주포장"))
                 {
                     collectionView.SortDescriptions.Add(sort6);
                     collectionView.SortDescriptions.Add(sort5);
@@ -1311,14 +1311,14 @@ namespace PopProject.UserControl_
         // 프로그램 종료 버튼 클릭
         private void Program_exit(object sender, MouseButtonEventArgs e)
         {
-            Properties.Settings.Default.consumersumcount = 0;
-            Properties.Settings.Default.Save();
-            if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업"))
+            SettingJsonManager.consumersumcount = 0;
+            SettingJsonManager.SaveJsonFile();
+            if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업"))
             {
                 //관리자 계정이 아닐때만 현황판으로 꺼짐 신호 보냄 
-                if (!Properties.Settings.Default.manager.Equals("1"))
+                if (!SettingJsonManager.manager.Equals("1"))
                 {
-                    invokeMercName(Properties.Settings.Default.mercName, "B");
+                    invokeMercName(SettingJsonManager.mercName, "B");
                 }
             }
 
@@ -1354,17 +1354,17 @@ namespace PopProject.UserControl_
                 {
                     win_Input = new Win_input(model, workList, false);
                     _ = win_Input.ShowDialog();
-                    if (Properties.Settings.Default.presultcount != 0)
+                    if (SettingJsonManager.presultcount != 0)
                     {
-                        model.presultCount = Properties.Settings.Default.presultcount;
+                        model.presultCount = SettingJsonManager.presultcount;
                     }
-                    Properties.Settings.Default.presultcount = 0;
-                    Properties.Settings.Default.Save();
+                    SettingJsonManager.presultcount = 0;
+                    SettingJsonManager.SaveJsonFile();
                 }
 
                 e.Handled = false;
                 can.Visibility = Visibility.Collapsed;
-                if (Properties.Settings.Default.corp_name.Equals("유창포장"))
+                if (SettingJsonManager.corp_name.Equals("유창포장"))
                 {
                     if (workList.Count < 50)
                     {
@@ -1415,9 +1415,9 @@ namespace PopProject.UserControl_
                             special += workList[i].ProcessTypeName + " 참고 사항 :" + workList[i].ProcessMemo + "|";
                         }
                     }
-                    Win_Detail win_detail = new Win_Detail(context, special, workList, Properties.Settings.Default.detail_check, CNS_Barcode_Send);
+                    Win_Detail win_detail = new Win_Detail(context, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send);
                     _ = win_detail.ShowDialog();
-                    if (Properties.Settings.Default.corp_name.Equals("유창포장"))
+                    if (SettingJsonManager.corp_name.Equals("유창포장"))
                     {
                         if (workList.Count < 50)
                         {
@@ -1503,7 +1503,7 @@ namespace PopProject.UserControl_
                 }
                 tbBarcode.Text = "";
                 can.Visibility = Visibility.Visible;
-                Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, Properties.Settings.Default.detail_check, CNS_Barcode_Send);
+                Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send);
                 _ = win_Detail.ShowDialog();
                 SelectWorkList();
                 ResultSearchDate();
@@ -1554,9 +1554,9 @@ namespace PopProject.UserControl_
         {
 
             setLock();
-            //Properties.Settings.Default.Save();
-            //Properties.Settings.Default.Reset();
-            //Properties.Settings.Default.Save();
+            //SettingJsonManager.SaveJsonFile();
+            //SettingJsonManager.Reset();
+            //SettingJsonManager.SaveJsonFile();
             //_ = Process.Start(Application.ResourceAssembly.Location);
             //Application.Current.Shutdown();
         }
@@ -1566,15 +1566,15 @@ namespace PopProject.UserControl_
             can.Visibility = Visibility.Visible;
             Win_Setting win_Setting = new Win_Setting();
             _ = win_Setting.ShowDialog();
-            _ = Properties.Settings.Default.settingitem;
-            string metrialitem = Properties.Settings.Default.meterialinfo;
+            _ = SettingJsonManager.settingitem;
+            string metrialitem = SettingJsonManager.meterialinfo;
             Console.WriteLine("metrialitem -> " + metrialitem);
             SetSetting(metrialitem);
             ArduConn();
 
-            sv.VerticalScrollBarVisibility = Properties.Settings.Default.scrollvarCheck ? ScrollBarVisibility.Visible : ScrollBarVisibility.Hidden;
+            sv.VerticalScrollBarVisibility = SettingJsonManager.scrollvarCheck ? ScrollBarVisibility.Visible : ScrollBarVisibility.Hidden;
 
-            if (Properties.Settings.Default.scrollvarCheck)
+            if (SettingJsonManager.scrollvarCheck)
             {
                 sv.PreviewMouseLeftButtonDown -= ScrollViewer_PreviewMouseLeftButtonDown;
                 sv.PreviewMouseLeftButtonUp -= Sv_PreviewMouseLeftButtonUp;
@@ -1588,15 +1588,15 @@ namespace PopProject.UserControl_
 
             }
 
-            if (Properties.Settings.Default.searchCheck)
+            if (SettingJsonManager.searchCheck)
             {
                 SelectWorkList(); // 생산 계획 리스트 조회
                 ResultSearchDate();
             }
 
 
-            Properties.Settings.Default.searchCheck = false;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.searchCheck = false;
+            SettingJsonManager.SaveJsonFile();
             can.Visibility = Visibility.Collapsed;
         }
 
@@ -1616,8 +1616,8 @@ namespace PopProject.UserControl_
                     break;
 
                 default:
-                    //   Properties.Settings.Default.setting_check = 1;
-                    // Properties.Settings.Default.Save();
+                    //   SettingJsonManager.setting_check = 1;
+                    // SettingJsonManager.SaveJsonFile();
                     // Application.Current.Shutdown();
                     //Process.GetCurrentProcess().Kill();
                     //var currentExecutablePath = Process.GetCurrentProcess().MainModule.FileName;
@@ -1641,7 +1641,7 @@ namespace PopProject.UserControl_
 
             ChangeWorkList ch = new ChangeWorkList(workList1);
             _ = ch.ShowDialog();
-            if (!Properties.Settings.Default.ChangeCheck)
+            if (!SettingJsonManager.ChangeCheck)
             {
                 SelectWorkList(); // 생산 계획 리스트 조회
                 ResultSearchDate();
@@ -1651,9 +1651,9 @@ namespace PopProject.UserControl_
                 item.check = false;
                 item.icback = "White";
             }
-            Properties.Settings.Default.ChangeCheck = false;
-            Properties.Settings.Default.index = 0;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.ChangeCheck = false;
+            SettingJsonManager.index = 0;
+            SettingJsonManager.SaveJsonFile();
         }
 
         private void Search_(object sender, MouseButtonEventArgs e)

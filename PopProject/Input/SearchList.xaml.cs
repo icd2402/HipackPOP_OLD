@@ -1,4 +1,5 @@
 ﻿using PopProject.Detail;
+using PopProject.Util;
 using PopProject.UserControl_;
 using System;
 using System.Collections.ObjectModel;
@@ -143,8 +144,8 @@ namespace PopProject.Input
                     Canvas canvas = (Canvas)sender;
                     MainModel context = (MainModel)canvas.DataContext;
                     index =  worklist.IndexOf(context);
-                    Properties.Settings.Default.index = index;
-                    Properties.Settings.Default.Save();
+                    SettingJsonManager.index = index;
+                    SettingJsonManager.SaveJsonFile();
 
                     Close();
                     for (int j = 0; j < searchList.Count; j++)
@@ -202,7 +203,7 @@ namespace PopProject.Input
              consumer_ = null;
             */
             string special = "";
-            Win_Detail win_detail = new Win_Detail(context, special, worklist, Properties.Settings.Default.detail_check, CNS_Barcode_Send);
+            Win_Detail win_detail = new Win_Detail(context, special, worklist, SettingJsonManager.detail_check, CNS_Barcode_Send);
             _ = win_detail.ShowDialog();
         }
 

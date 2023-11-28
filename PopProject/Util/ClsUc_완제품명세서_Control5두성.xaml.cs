@@ -10,7 +10,7 @@ namespace PopProject.Util
     public partial class ClsUc_완제품명세서_Control5두성 : UserControl
     {
         public ProductReport ViewModel = new ProductReport();
-        String printItem = Properties.Settings.Default.printItem;
+        String printItem = SettingJsonManager.printItem;
         public ClsUc_완제품명세서_Control5두성()
         {
             InitializeComponent();

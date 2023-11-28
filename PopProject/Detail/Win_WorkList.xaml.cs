@@ -38,9 +38,9 @@ namespace PopProject.Detail
         {
             sumPerrCount = 0;
             sumPworkCount = 0;
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-            Properties.Settings.Default.serverIndex,
+            SettingJsonManager.serverIndex,
             "[PopResultSearchProdID]",
             new string[] { "@prodID" },
             new object[] { mainModel.prodID },
@@ -58,7 +58,7 @@ namespace PopProject.Detail
 
                     foreach (JObject result in Data_JArray)
                     {
-                        if(int.Parse(result["ProcessType"].ToString()) == Properties.Settings.Default.processType)
+                        if(int.Parse(result["ProcessType"].ToString()) == SettingJsonManager.processType)
                         {
                             InputModel listitem = new InputModel();
                             listitem.pworkDate = DateTime.Parse(result["pworkDate"].ToString());
@@ -144,12 +144,12 @@ namespace PopProject.Detail
         private ObservableCollection<errorModel> popErrorListSearch(InputModel inputModel)
         {
             ObservableCollection<errorModel> ob = new ObservableCollection<errorModel>();
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopErrorListSearch]",
                 new string[] { "@pworkKey", "@ProcessType" },
-                new object[] { inputModel.pworkKey, Properties.Settings.Default.processType },
+                new object[] { inputModel.pworkKey, SettingJsonManager.processType },
                 0
                 );
             if (returnData.결과 == 1)

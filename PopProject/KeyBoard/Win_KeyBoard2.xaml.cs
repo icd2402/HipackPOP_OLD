@@ -1,8 +1,9 @@
-﻿using PopProject.input;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using PopProject.input;
+using PopProject.Util;
 
 namespace PopProject.KeyBoard2
 {
@@ -206,13 +207,13 @@ namespace PopProject.KeyBoard2
 
                         if (inputContext != null)
                         {
-                            inputContext.pworkCount = Properties.Settings.Default.option1 ? int.Parse(txtbox.Text) * inputContext.pCnt : int.Parse(txtbox.Text);
-                            inputContext.count = Properties.Settings.Default.option1 ? int.Parse(txtbox.Text) * inputContext.pCnt : int.Parse(txtbox.Text);
+                            inputContext.pworkCount = SettingJsonManager.option1 ? int.Parse(txtbox.Text) * inputContext.pCnt : int.Parse(txtbox.Text);
+                            inputContext.count = SettingJsonManager.option1 ? int.Parse(txtbox.Text) * inputContext.pCnt : int.Parse(txtbox.Text);
                         }
 
                         else if (errorContext != null)
                         {
-                            errorContext.perrCount = Properties.Settings.Default.option1 ? int.Parse(txtbox.Text) * pCnt : int.Parse(txtbox.Text);
+                            errorContext.perrCount = SettingJsonManager.option1 ? int.Parse(txtbox.Text) * pCnt : int.Parse(txtbox.Text);
                         }
 
                         Close();
@@ -246,7 +247,7 @@ namespace PopProject.KeyBoard2
         private void KeyBoard2_loaded(object sender, RoutedEventArgs e)
         {
 
-            if (Properties.Settings.Default.detail_check)
+            if (SettingJsonManager.detail_check)
             {
                 if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
                 {

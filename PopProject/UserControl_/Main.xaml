@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PopProject.UserControl_"
              mc:Ignorable="d"  
-             d:DesignHeight="1024" d:DesignWidth="1280" KeyDown="Main_keydownEvent">
+             d:DesignHeight="1024" d:DesignWidth="1280" KeyDown="Main_keydownEvent" Unloaded="UserControl_Unloaded" >
 
     <UserControl.Resources>
         <local:IndexConverter x:Key="IndexConverter"/>
@@ -23,7 +23,8 @@
 
             <RowDefinition Height="110"/>
             <RowDefinition Height="40"/>
-            <RowDefinition Height="100*"/>
+            <RowDefinition Height="64*"/>
+            <RowDefinition Height="733*"/>
             <RowDefinition Height="77"/>
 
         </Grid.RowDefinitions>
@@ -31,11 +32,11 @@
         <!--LogOut-->
         <Button x:Name="btrSerial" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="Serial_click" Margin="0,0,0,90"/>
 
-        <TextBlock x:Name="tbRawData" Foreground="White" Text="N" Padding="5,0,0,0" TextAlignment="Justify" FontSize="15"  Margin="118,0,1062,0" Width="100" Height="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" MouseLeftButtonDown="btnRawData_click"></TextBlock>
-        <Button x:Name="btnRawData" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="btnRawData_click" Margin="100,0,0,39" Grid.RowSpan="2"/>
+        <TextBlock x:Name="tbDB_lock" Text="DB Use: N" Foreground="White" Padding="5,0,0,0" TextAlignment="Justify" FontSize="15"  Margin="133,-1,1069,91" Width="78" Height="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" MouseLeftButtonDown="btnUseDB_click"></TextBlock>
+        <Button x:Name="btnDB_lock" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="btnUseDB_click" Margin="114,-1,0,91"/>
 
         <!--Lock/Unlock-->
-        <TextBlock x:Name="merc_lock" Foreground="White" Text="lock" Padding="5,0,0,0" TextAlignment="Justify" FontSize="15"  Margin="18,0,0,0" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" MouseLeftButtonDown="Logout_click"></TextBlock>
+        <TextBlock x:Name="merc_lock" Text="LOCK" Foreground="White" Padding="5,0,0,0" TextAlignment="Justify" FontSize="15"  Margin="18,0,0,0" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" MouseLeftButtonDown="Logout_click"></TextBlock>
         <Button x:Name="btnLogout" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="Logout_click"/>
 
         <!--<TextBlock x:Name="versionTextBlock" Foreground="White" Text="Ver."  TextAlignment="Justify" FontSize="15"  Margin="101,0,0,90" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" MouseLeftButtonDown="Logout_click"></TextBlock>-->
@@ -48,18 +49,18 @@
         <!--계획순서변경, 설정, 원격연결, 종료-->
         <TextBlock x:Name="계획순서변경" MouseLeftButtonDown="Change_workList" Background="DimGray" Foreground="White" FontSize="23"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="9" Margin="850,34,0,0" FontFamily="/font/#KoPubBatang Medium" Text="계획순서변경"></TextBlock>
         <TextBlock x:Name="설비점검" MouseLeftButtonDown="Machine_Check" Background="DimGray" Foreground="White" FontSize="23"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="9" Visibility="Collapsed" Margin="850,34,0,0" FontFamily="/font/#KoPubBatang Medium" Text="   설비점검" Width="147"></TextBlock>
-        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/setting.png" Margin="0,1,185,0" MouseLeftButtonDown="Setting"/>
-        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_01.png" Margin="0,0,95,0" MouseLeftButtonDown="Remote_click"/>
-        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_exit.png" Margin="0,0,5,0" MouseLeftButtonDown="Program_exit"/>
+        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/setting.png" Margin="0,12,185,10" MouseLeftButtonDown="Setting"/>
+        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_01.png" Margin="0,11,95,11" MouseLeftButtonDown="Remote_click"/>
+        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_exit.png" Margin="0,11,5,11" MouseLeftButtonDown="Program_exit"/>
 
         <!--날짜-->
         <TextBlock x:Name="txtDate"  FontSize="23" VerticalAlignment="Top" Text="2020년 10월 28일 화요일"  Margin="220,27,792,0"  FontFamily="/font/#KoPubBatang Medium" MouseLeftButtonDown="TxtDate_MouseLeftButtonDown"/>
         <TextBlock x:Name="txtClock"   FontSize="23" VerticalAlignment="Top" Text="오전 11:11" Margin="220,60,792,0"  FontFamily="/font/#KoPubBatang Medium" MouseLeftButtonDown="TxtTime_MouseLeftButtonDown"/>
-        <TextBlock x:Name="txtDate2" Text="  《 " FontSize="23" FontWeight="Bold" VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Center" Margin="165,24,1020,56" Width="55" MouseLeftButtonDown="Date_Click1"/>
-        <TextBlock x:Name="txtDate3" Text="   》 " FontSize="22" FontWeight="Bold" VerticalAlignment="Center"  Visibility="Collapsed" HorizontalAlignment="Center" Margin="460,24,763,56" Width="55" MouseLeftButtonDown="Date_Click2"/>
+        <TextBlock x:Name="txtDate2" Text="  《 " FontSize="23" FontWeight="Bold" VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Center" Margin="185,39,1040,71" Width="55" MouseLeftButtonDown="Date_Click1"/>
+        <TextBlock x:Name="txtDate3" Text="   》 " FontSize="22" FontWeight="Bold" VerticalAlignment="Center"  Visibility="Collapsed" HorizontalAlignment="Center" Margin="461,39,764,71" Width="55" MouseLeftButtonDown="Date_Click2"/>
 
         <!--바코드-->
-        <TextBox x:Name="tbBarcode" Text="00000000000" Background="#DE3D52" HorizontalAlignment="Left" Width="80" Height="20" Visibility="Visible" Opacity="0.2" KeyDown="TbBarcode_KeyDown" Margin="20,-90,0,0"></TextBox>
+        <TextBox x:Name="tbBarcode" Text="00000000000" Background="#DE3D52" HorizontalAlignment="Left" Width="80" Height="20" Visibility="Visible" Opacity="0.2" KeyDown="TbBarcode_KeyDown" Margin="20,0,0,90"></TextBox>
 
         <!--상단 바-->
         <Canvas Grid.Row="1" Background="White" Opacity="0.5"/>
@@ -84,7 +85,7 @@
             <Image Source="/img/plan.png" x:Name="pop_Noty" Visibility="Collapsed" Canvas.Left="1220" Canvas.Top="3" MouseLeftButtonDown="Pop_noty"></Image>
         </Canvas>
 
-        <Border x:Name="workListBorder" Grid.Row="2" Margin="5,10,5,5" BorderBrush="Black" BorderThickness="1,1,1,1" Background="WhiteSmoke" Focusable="False">
+        <Border x:Name="workListBorder" Grid.Row="2" Margin="5,10,5,5" BorderBrush="Black" BorderThickness="1,1,1,1" Background="WhiteSmoke" Focusable="False" Grid.RowSpan="2">
             <ScrollViewer VerticalScrollBarVisibility="Visible" x:Name="sv">
 
                 <ItemsControl x:Name="ic" Grid.Row="3" Focusable="False"  AlternationCount="10000" >
@@ -187,12 +188,12 @@
             </ScrollViewer>
         </Border>
 
-        <TextBlock x:Name="txtNoPlan" Text="생산계획이 없습니다." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="35" Grid.Row="2" FontFamily="/font/#KoPubDotum Medium" Margin="471,329,471,501"></TextBlock>
+        <TextBlock x:Name="txtNoPlan" Text="생산계획이 없습니다." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="35" Grid.Row="3" FontFamily="/font/#KoPubDotum Medium" Margin="492,229,492,465"></TextBlock>
 
-        <Canvas x:Name="can" Background="Black" Opacity="0.35" Grid.RowSpan="4" Visibility="Collapsed"></Canvas>
+        <Canvas x:Name="can" Background="Black" Opacity="0.35" Grid.RowSpan="5" Visibility="Collapsed"></Canvas>
 
         <!--생산실적현황-->
-        <Grid x:Name="ss" Grid.Row="3" Background="#87BDE5" Visibility="Collapsed">
+        <Grid x:Name="ss" Grid.Row="4" Background="#87BDE5" Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="140"/>
                 <ColumnDefinition Width="*"/>

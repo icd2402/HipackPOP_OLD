@@ -49,13 +49,13 @@ namespace PopProject.MessageBox
             box_Count.Text = mainModel.pplanCount.ToString(); //적재수량
             
             //거래처 공백 체크
-            if (Properties.Settings.Default.accountCheck)
+            if (SettingJsonManager.accountCheck)
             {
                 account_check.IsChecked = true;
             }
 
             //생산처 공백 체크
-            if (Properties.Settings.Default.productionCheck)
+            if (SettingJsonManager.productionCheck)
             {
                 production_check.IsChecked = true;
             }
@@ -130,7 +130,7 @@ namespace PopProject.MessageBox
 
                 if (string.IsNullOrEmpty(scmServerIndex))
                 {
-                    destSCMServerIndex = Properties.Settings.Default.serverIndex;
+                    destSCMServerIndex = SettingJsonManager.serverIndex;
                 }
                 else
                 {
@@ -163,9 +163,9 @@ namespace PopProject.MessageBox
 
             try
             {
-                ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+                ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
                 ReturnModel returnData = ServiceModel.GetData(
-                    Properties.Settings.Default.serverIndex,
+                    SettingJsonManager.serverIndex,
                      "[sp200PrintReport_Product]",
                       new string[] { "@생산계획키" },
                       new object[] { mainModel.pplanKey },
@@ -183,7 +183,7 @@ namespace PopProject.MessageBox
                    
 
                     pr1.corpName = (bool)account_check.IsChecked ? "" : mainModel.corpName;
-                    pr1.MycustomSName = (bool)production_check.IsChecked ? "" : Properties.Settings.Default.corp_name.Equals("대양포장") ? "    " : Properties.Settings.Default.corp_name;
+                    pr1.MycustomSName = (bool)production_check.IsChecked ? "" : SettingJsonManager.corp_name.Equals("대양포장") ? "    " : SettingJsonManager.corp_name;
 
                     FixedDocument = new FixedDocument();
                     double Dbl_HeightReportPageWidthSize = 8.2 * 96;
@@ -203,7 +203,7 @@ namespace PopProject.MessageBox
 
                     pr1.customSName = result["customSName"].ToString();
 
-                    if (Properties.Settings.Default.corp_name.Equals("신우수출포장"))
+                    if (SettingJsonManager.corp_name.Equals("신우수출포장"))
                     {
                         //거래처 명
                         switch (result["customSName"].ToString().Trim())
@@ -225,12 +225,12 @@ namespace PopProject.MessageBox
 
                             default:
                                 pr1.customSName = result["customSName"].ToString();
-                                pr1.MycustomSName = Properties.Settings.Default.corp_name;
+                                pr1.MycustomSName = SettingJsonManager.corp_name;
                                 break;
 
                         }
                     }
-                    else if (Properties.Settings.Default.corp_name.Equals("우리포장산업"))
+                    else if (SettingJsonManager.corp_name.Equals("우리포장산업"))
                     {
                         //거래처 명
                         switch (result["customSName"].ToString().Trim())
@@ -252,11 +252,11 @@ namespace PopProject.MessageBox
 
                             default:
                                 pr1.customSName = result["customSName"].ToString();
-                                pr1.MycustomSName = Properties.Settings.Default.corp_name;
+                                pr1.MycustomSName = SettingJsonManager.corp_name;
                                 break;
                         }
                     }
-                    else if (Properties.Settings.Default.corp_name.Equals("누리팩"))
+                    else if (SettingJsonManager.corp_name.Equals("누리팩"))
                     {
                         //거래처 명
                         switch (result["customSName"].ToString().Trim())
@@ -279,7 +279,7 @@ namespace PopProject.MessageBox
 
                             default:
                                 pr1.customSName = result["customSName"].ToString();
-                                pr1.MycustomSName = Properties.Settings.Default.corp_name;
+                                pr1.MycustomSName = SettingJsonManager.corp_name;
                                 break;
                         }
                     }
@@ -288,7 +288,7 @@ namespace PopProject.MessageBox
                     pr1.orderLast = Convert.ToDateTime(result["orderLast"]);
                     pr1.pSize = result["pSize"].ToString();
 
-                    string memo = getMemo(Properties.Settings.Default.printItem);
+                    string memo = getMemo(SettingJsonManager.printItem);
                     pr1.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
                     pr1.pworkDate = Convert.ToDateTime(DateTime.Now).ToString("yyyy/MM/dd");
                     pr1.resultCount = result["resultCount"].ToString();
@@ -314,12 +314,12 @@ namespace PopProject.MessageBox
                         }
                     }
 
-                    if (!Properties.Settings.Default.count_check)
+                    if (!SettingJsonManager.count_check)
                     {
                         pr1.resultCount = "";
                     }
                     pr1.corpName = (bool)account_check.IsChecked ? "" : mainModel.corpName;
-                    pr1.MycustomSName = (bool)production_check.IsChecked ? "" : Properties.Settings.Default.corp_name.Equals("대양포장") ? "    " : Properties.Settings.Default.corp_name;
+                    pr1.MycustomSName = (bool)production_check.IsChecked ? "" : SettingJsonManager.corp_name.Equals("대양포장") ? "    " : SettingJsonManager.corp_name;
 
                     Print_(pr1.customSName,
                         result["prodName"].ToString(),
@@ -399,7 +399,7 @@ namespace PopProject.MessageBox
                         prodName,
                         orderLast,
                         pSize,
-                        getMemo(Properties.Settings.Default.printItem),
+                        getMemo(SettingJsonManager.printItem),
                         DateTime,
                         pStockKey
                         );
@@ -408,7 +408,7 @@ namespace PopProject.MessageBox
 
         private void setPrint(int remainder)
         {
-            string memo = getMemo(Properties.Settings.Default.printItem);
+            string memo = getMemo(SettingJsonManager.printItem);
             pr1.pMemo = memo;
             pr1.loadCount = remainder.ToString();
 
@@ -556,7 +556,7 @@ namespace PopProject.MessageBox
             Set_FixedPage1.Height = Dbl_HeightReportPageHeightSize;
             pr1.loadCount = remainder.ToString();
             
-            if (Properties.Settings.Default.corp_name.Equals("신우수출포장"))
+            if (SettingJsonManager.corp_name.Equals("신우수출포장"))
             {
                 switch (mainModel.corpName.Trim())
                 {
@@ -576,11 +576,11 @@ namespace PopProject.MessageBox
                         break;
                     default:
                         pr1.corpName = mainModel.corpName;
-                        pr1.MycustomSName = Properties.Settings.Default.corp_name;
+                        pr1.MycustomSName = SettingJsonManager.corp_name;
                         break;
                 }
             }
-            else if (Properties.Settings.Default.corp_name.Equals("우리포장산업"))
+            else if (SettingJsonManager.corp_name.Equals("우리포장산업"))
             {
                 switch (mainModel.corpName.Trim())
                 {
@@ -600,11 +600,11 @@ namespace PopProject.MessageBox
                         break;
                     default:
                         pr1.corpName = mainModel.corpName;
-                        pr1.MycustomSName = Properties.Settings.Default.corp_name;
+                        pr1.MycustomSName = SettingJsonManager.corp_name;
                         break;
                 }
             }
-            else if (Properties.Settings.Default.corp_name.Equals("누리팩"))
+            else if (SettingJsonManager.corp_name.Equals("누리팩"))
             {
                 switch (mainModel.corpName.Trim())
                 {
@@ -624,19 +624,19 @@ namespace PopProject.MessageBox
                         break;
                     default:
                         pr1.customSName = mainModel.corpName;
-                        pr1.MycustomSName = Properties.Settings.Default.corp_name;
+                        pr1.MycustomSName = SettingJsonManager.corp_name;
                         break;
                 }
             }
 
             pr1.corpName = (bool)account_check.IsChecked ? "" : mainModel.corpName;
-            pr1.MycustomSName = (bool)production_check.IsChecked ? "" : Properties.Settings.Default.corp_name.Equals("대양포장") ? "    " : Properties.Settings.Default.corp_name;
+            pr1.MycustomSName = (bool)production_check.IsChecked ? "" : SettingJsonManager.corp_name.Equals("대양포장") ? "    " : SettingJsonManager.corp_name;
             pr1.customSName = customSName;
             pr1.prodName = prodName;
             pr1.orderLast = Convert.ToDateTime(orderLast);
             pr1.pSize = pSize;
 
-            string memo = getMemo(Properties.Settings.Default.printItem);
+            string memo = getMemo(SettingJsonManager.printItem);
             pr1.pMemo = pMemo + (string.IsNullOrEmpty(pMemo) ? memo : Environment.NewLine + memo);
             pr1.pworkDate = Convert.ToDateTime(pworkDate).ToString("yyyy/MM/dd");
             pr1.pStockKey = pStockKey;

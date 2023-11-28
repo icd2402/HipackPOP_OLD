@@ -20,7 +20,7 @@ namespace PopProject.Consumer_
 
     public partial class Consumer_input : Window
     {
-        private readonly string metrialitem = Properties.Settings.Default.meterialinfo; //작업정보 설정값 저장
+        private readonly string metrialitem = SettingJsonManager.meterialinfo; //작업정보 설정값 저장
 
         private readonly ConsumerModel consumerModel; 
         private readonly MainModel mainModel;
@@ -85,7 +85,7 @@ namespace PopProject.Consumer_
             inputModel.pworkCount = consumerModel.pWorkCount;
             inputModel.imagePath = inputModel.sDatetime.Length > 3 && inputModel.eDatetime.Length <= 1 ? "/img/bn_06.png" : "/img/bn_05.png";
             inputModel.prodName = mainModel.prodName + " (" + consumerModel.vendorName + "/" + consumerModel.membName + ")";
-            switch (Properties.Settings.Default.processType)
+            switch (SettingJsonManager.processType)
             {
                 case 5:
                     inputModel.pCntVisible = Visibility.Collapsed;
@@ -120,9 +120,9 @@ namespace PopProject.Consumer_
         private void PopResultSearchMember()
         {
             float tempCount = inputModel.count;
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopResultSearchMember]",
                 new string[] { "@orderKey" },
                 new object[] { consumerModel.orderKey },
@@ -255,10 +255,10 @@ namespace PopProject.Consumer_
         private ObservableCollection<errorModel> PopErrorListSearchMember(ConsumerModel listitem)
         {
             ObservableCollection<errorModel> ob = null;
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
 
-               Properties.Settings.Default.serverIndex,
+               SettingJsonManager.serverIndex,
                "[PopErrorListSearchMember]",
                new string[] { "@workMemberKey" },
                new object[] { listitem.workMemberKey }, 0
@@ -309,9 +309,9 @@ namespace PopProject.Consumer_
         //불량조회
         private void PopErrorSearch()
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopErrorSearch]",
                 new string[] { "@ProcessType" },
                 new object[] { inputModel.ProcessType },
@@ -436,7 +436,7 @@ namespace PopProject.Consumer_
                 }
                 else //확인
                 {
-                    string metrialitem = Properties.Settings.Default.meterialinfo;
+                    string metrialitem = SettingJsonManager.meterialinfo;
                     Console.WriteLine("end_count" + inputModel.count);
                     if (PopResultEndMember() == 1)
                     {
@@ -483,10 +483,10 @@ namespace PopProject.Consumer_
                                 break;
                         }
 
-                        Properties.Settings.Default.consumersumcount = Properties.Settings.Default.consumersumcount + inputModel.pworkCount;
-                        Properties.Settings.Default.consumersumerrorcount = Properties.Settings.Default.consumersumerrorcount + inputModel.perrCount;
-                        Console.WriteLine("consumerCount : " + Properties.Settings.Default.consumersumcount);
-                        Properties.Settings.Default.Save();
+                        SettingJsonManager.consumersumcount = SettingJsonManager.consumersumcount + inputModel.pworkCount;
+                        SettingJsonManager.consumersumerrorcount = SettingJsonManager.consumersumerrorcount + inputModel.perrCount;
+                        Console.WriteLine("consumerCount : " + SettingJsonManager.consumersumcount);
+                        SettingJsonManager.SaveJsonFile();
 
                         Main.production = null;
                         inputModel.perrCount = 0;
@@ -519,14 +519,14 @@ namespace PopProject.Consumer_
             }
 
             int workcount = int.Parse(tbResult.Text.ToString());
-            if (Properties.Settings.Default.boxCheck)
+            if (SettingJsonManager.boxCheck)
             {
                 workcount *= (int)mainModel.pCnt;
             }
 
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopResultEndMember]",
                 new string[] { "@작업일자", "@오더Key", "@ChkAED", "@실수요자생산Key", "@작업량", "@불량" },
                 new object[] {
@@ -568,23 +568,23 @@ namespace PopProject.Consumer_
         
         private void PopResultStartMember()
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-              Properties.Settings.Default.serverIndex,
+              SettingJsonManager.serverIndex,
               "[PopResultStartMember]",
               new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey", "@pworkKey", "@vendorID", "@membID" },
               new object[] {
                   DateTime.Now.ToString("yyyy-MM-dd"),
                   consumerModel.orderKey,
                   inputModel.pplanKey,
-                  Properties.Settings.Default.processType,
-                  Properties.Settings.Default.mercName,
+                  SettingJsonManager.processType,
+                  SettingJsonManager.mercName,
                   MainWindow.userID,
                   MainWindow.userName,
                   inputModel.workerName,
                   inputModel.workerId,
                   inputModel.SCMKey,
-                  Properties.Settings.Default.pworkkey,
+                  SettingJsonManager.pworkkey,
                   consumerModel.vendorID,
                   consumerModel.membID
               }, 1
@@ -594,9 +594,9 @@ namespace PopProject.Consumer_
             if (returnData.결과 == 1)
             {
                 string[] result = returnData.리턴값.Split(new string[] { "|" }, StringSplitOptions.None);
-                Properties.Settings.Default.consumpWorkKey = int.Parse(result[0]);
-                Properties.Settings.Default.pworkkey = result[0];
-                Properties.Settings.Default.Save();
+                SettingJsonManager.consumpWorkKey = int.Parse(result[0]);
+                SettingJsonManager.pworkkey = result[0];
+                SettingJsonManager.SaveJsonFile();
                 inputModel.pworkKey = int.Parse(result[0]);
                 inputModel.workMemberKey = int.Parse(result[1]);
                 mainModel.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -701,9 +701,9 @@ namespace PopProject.Consumer_
 
         private int PopErrorInsertMember()
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             int value;
-            switch (Properties.Settings.Default.processType)
+            switch (SettingJsonManager.processType)
             {
                 case 5:
                 case 8:
@@ -720,7 +720,7 @@ namespace PopProject.Consumer_
             }
 
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopErrorInsertMember]",
                 new string[] { "@workMemberKey", "@perrorCount", "@Memo" },
                 new object[] { inputModel.workMemberKey, inputModel.errorModel.perrCount * value, inputModel.errorModel.memo },
@@ -768,14 +768,14 @@ namespace PopProject.Consumer_
                 Image img = (Image)sender;
                 InputModel context = (InputModel)img.DataContext;
                 float value;
-                if (Properties.Settings.Default.CountType == 0)
+                if (SettingJsonManager.CountType == 0)
                 {
                     value = 1;
                 }
                 else
                 {
                     value = inputModel.pCnt;
-                    if (Properties.Settings.Default.boxCheck)
+                    if (SettingJsonManager.boxCheck)
                     {
                         value = 1;
                     }
@@ -793,14 +793,14 @@ namespace PopProject.Consumer_
             if (sender.GetType().Name.Equals("Image"))
             {
                 float value;
-                if (Properties.Settings.Default.CountType == 0)
+                if (SettingJsonManager.CountType == 0)
                 {
                     value = 1;
                 }
                 else
                 {
                     value = inputModel.pCnt;
-                    if (Properties.Settings.Default.boxCheck)
+                    if (SettingJsonManager.boxCheck)
                     {
                         value = 1;
                     }
@@ -883,9 +883,9 @@ namespace PopProject.Consumer_
         //이월계획 DB저장
         private void SpAdd410processinfo_workplan()
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[spAdd410processinfo_workplan]",
                 new string[] { "@오더Key", "@계획Key" },
                 new object[] { inputModel.orderKey, inputModel.pplanKey },

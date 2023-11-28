@@ -11,8 +11,6 @@ using log4net.Config;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Configuration;
-using log4net;
-using log4net.Config;
 
 namespace PopProject
 {
@@ -37,32 +35,29 @@ namespace PopProject
             XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
             log.Info("----------------------------Program Start------------------------------");
 
+            // 이정훈: Settings.Settings (user.config) 테스트 - 추후 삭제 예정
             //ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath = 
-
             //Console.WriteLine(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath);
 
             try
             {
-                ////Properties.Settings.Default.Reset();
-                //if (Properties.Settings.Default.baudrate == 0)
-                //{
-                //    Properties.Settings.Default.baudrate = 9600;
-                //}
-                //if (Properties.Settings.Default.SensorRate.Length == 0)
-                //{
-                //    Properties.Settings.Default.SensorRate = "0";
-                //}
-                //if (Properties.Settings.Default.meterialinfo.Length <= 0)
-                //{
-                //    Properties.Settings.Default.meterialinfo = "";
-                //}
-                //Properties.Settings.Default.Save();
-                //log.Info("아두이노 설정 세팅 저장 완료");
-
-
-
                 //POP프로그램이 이미 실행중인지 확인
                 Duplicate_execution("PopProject");
+
+                //SettingJsonManager.Reset();
+                if (SettingJsonManager.baudrate == 0)
+                {
+                    SettingJsonManager.baudrate = 9600;
+                }
+                if (SettingJsonManager.SensorRate.Length == 0)
+                {
+                    SettingJsonManager.SensorRate = "0";
+                }
+                if (SettingJsonManager.meterialinfo.Length <= 0)
+                {
+                    SettingJsonManager.meterialinfo = "";
+                }
+                log.Info("아두이노 설정 세팅 저장 완료");
 
             }
             catch (Exception e)
@@ -125,9 +120,9 @@ namespace PopProject
         {
             try
             {
-                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || 
-                    Properties.Settings.Default.corp_name.Equals("대세물산") ||
-                    Properties.Settings.Default.corp_name.Equals("유창포장"))
+                if (SettingJsonManager.corp_name.Equals("광성수출포장") || 
+                    SettingJsonManager.corp_name.Equals("대세물산") ||
+                    SettingJsonManager.corp_name.Equals("유창포장"))
                 {
                     popService(mercName, v);
                 }
@@ -148,26 +143,26 @@ namespace PopProject
         async Task popService(string mercName, string str)
         {
             //주소
-            if (Properties.Settings.Default.corp_name.Equals("광성수출포장"))
+            if (SettingJsonManager.corp_name.Equals("광성수출포장"))
             {
                 Url = "http://ksbox.iptime.org:18888/pop/gathering"; //광성
             }
-            else if (Properties.Settings.Default.corp_name.Equals("대세물산"))
+            else if (SettingJsonManager.corp_name.Equals("대세물산"))
             {
                 Url = "http://dsbox.iptime.org:18888/pop/gathering"; //대세
             }
-            else if (Properties.Settings.Default.corp_name.Equals("유창포장"))
+            else if (SettingJsonManager.corp_name.Equals("유창포장"))
             {
                 Url = "http://211.253.37.232:18888/pop/gathering"; //유창
             }
-            else if (Properties.Settings.Default.corp_name.Equals("광성수출포장테스트") ||
-                    Properties.Settings.Default.corp_name.Equals("대세물산테스트") ||
-                    Properties.Settings.Default.corp_name.Equals("유창포장테스트"))
+            else if (SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
+                    SettingJsonManager.corp_name.Equals("대세물산테스트") ||
+                    SettingJsonManager.corp_name.Equals("유창포장테스트"))
             {
                 Url = "http://localhost:18888/pop/gathering"; //테스트용 주소(개인 DeskTop)
             }
 
-            string CompanyCode = Properties.Settings.Default.corp_id; //업체코드
+            string CompanyCode = SettingJsonManager.corp_id; //업체코드
             string MercName = mercName; //설비명
             string Data = str.ToString(); //데이터
 
@@ -211,9 +206,9 @@ namespace PopProject
         private void Win_closed(object sender, EventArgs e)
         {
             //관리자 계정이 아닐때만 현황판으로 꺼짐 신호 보냄 
-            if (!Properties.Settings.Default.manager.Equals("1"))
+            if (!SettingJsonManager.manager.Equals("1"))
             {
-                invokeMercName(Properties.Settings.Default.mercName, "B");
+                invokeMercName(SettingJsonManager.mercName, "B");
             }
 
             log.Info("프로그램 종료");

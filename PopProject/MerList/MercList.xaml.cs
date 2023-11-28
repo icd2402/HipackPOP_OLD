@@ -18,15 +18,15 @@ namespace PopProject.MerList
         public MercList()
         {
             InitializeComponent();
-            tbMercName.Text = Properties.Settings.Default.mercName;
+            tbMercName.Text = SettingJsonManager.mercName;
             PopSearchMerc();
         }
 
         private void PopSearchMerc()
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopSearchMerc]",
                 new string [] {},
                 new object [] {},
@@ -65,11 +65,11 @@ namespace PopProject.MerList
 
         private void Lb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Properties.Settings.Default.mercName = list[lb.SelectedIndex].mercName;
-            Properties.Settings.Default.processType = int.Parse(list[lb.SelectedIndex].ProcessType);
-            Properties.Settings.Default.TypeIndex = int.Parse(list[lb.SelectedIndex].TypeIndex);
-            Properties.Settings.Default.CountType = int.Parse(list[lb.SelectedIndex].CountType);
-            Properties.Settings.Default.Save();
+            SettingJsonManager.mercName = list[lb.SelectedIndex].mercName;
+            SettingJsonManager.processType = int.Parse(list[lb.SelectedIndex].ProcessType);
+            SettingJsonManager.TypeIndex = int.Parse(list[lb.SelectedIndex].TypeIndex);
+            SettingJsonManager.CountType = int.Parse(list[lb.SelectedIndex].CountType);
+            SettingJsonManager.SaveJsonFile();
             Main.production = null;
             Close();
         }

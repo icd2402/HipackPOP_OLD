@@ -89,7 +89,7 @@ namespace PopProject.Detail
         private void DataRead()//통신 오픈 / 읽기
         {
             MessageBox_Dialog msg;
-            int StationNumber = int.Parse(Properties.Settings.Default.robotPort);
+            int StationNumber = int.Parse(SettingJsonManager.robotPort);
             try
             {
                 //통신 셋팅
@@ -215,12 +215,12 @@ namespace PopProject.Detail
         //DB에서 데이터 조회
         private void serchRobotData()
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-               Properties.Settings.Default.serverIndex,
+               SettingJsonManager.serverIndex,
                "[spSelIFrobotdata_info]",
                new string[] { "@prodID", "@mercName" },
-               new object[] { prodID, Properties.Settings.Default.mercName }, 0);
+               new object[] { prodID, SettingJsonManager.mercName }, 0);
 
             if (returnData.결과 == 1)
             {
@@ -583,14 +583,14 @@ namespace PopProject.Detail
         private void Save_robotdata1(object sender, RoutedEventArgs e) 
         {
             MessageBox_Dialog msg;
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-               Properties.Settings.Default.serverIndex,
+               SettingJsonManager.serverIndex,
                "[spAEDIFrobotdata_info]",
                new string[] { "@prodID", "@mercName", "@BOX_W", "@BOX_H", "@BOX_D", "@BOX_DADAN", "@BOX_DANSU", "@BOX_PAT", "@PALLET_W", "@PALLET_H", "@PALLET_D", "@StartDT", "EndDT"},
                new object[] {
                 prodID,
-                Properties.Settings.Default.mercName,
+                SettingJsonManager.mercName,
                 ReadData1.Text.ToString(), //가로
                 ReadData2.Text.ToString(), //세로
                 ReadData3.Text.ToString(), //높이
@@ -620,14 +620,14 @@ namespace PopProject.Detail
         private void Save_robotdata2(object sender, RoutedEventArgs e) 
         {
             MessageBox_Dialog msg;
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-               Properties.Settings.Default.serverIndex,
+               SettingJsonManager.serverIndex,
                "[spAEDIFrobotdata_info]",
                new string[] { "@prodID", "@mercName", "@BOX_W", "@BOX_H", "@BOX_D", "@BOX_DADAN", "@BOX_DANSU", "@BOX_PAT", "@PALLET_W", "@PALLET_H", "@PALLET_D", "@StartDT", "EndDT" },
                new object[] {
                 prodID,
-                Properties.Settings.Default.mercName,
+                SettingJsonManager.mercName,
                 WriteData1.Text.ToString(), //가로
                 WriteData2.Text.ToString(), //세로
                 WriteData3.Text.ToString(), //높이

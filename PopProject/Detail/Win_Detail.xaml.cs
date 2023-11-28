@@ -35,7 +35,7 @@ namespace PopProject.Detail
         private ObservableCollection<string> localFilePath = new ObservableCollection<string>();
         private readonly MainModel mainModel;
         private int clickCount = 0;
-        private readonly string metrialitem = Properties.Settings.Default.meterialinfo;
+        private readonly string metrialitem = SettingJsonManager.meterialinfo;
         public DetailModel Detailitem;
         private readonly ObservableCollection<MainModel> workList;
         private readonly bool monitorcheck = false;
@@ -88,7 +88,7 @@ namespace PopProject.Detail
             consumer = mainModel.bMember;
 
             //오주포장 일때 옵션
-            if (Properties.Settings.Default.corp_name.Equals("오주포장"))
+            if (SettingJsonManager.corp_name.Equals("오주포장"))
             {
                 tb파렛트적재높이.Text = this.mainModel.PalletHeight;
                 tb파렛트적재매수.Text = this.mainModel.PalletCount;
@@ -105,29 +105,29 @@ namespace PopProject.Detail
             }
             
             //오주포장 로봇 체크시 로봇 제어창 팝업
-            if (Properties.Settings.Default.corp_name.Equals("오주포장") && Properties.Settings.Default.robotchecked && Barcode_Enter)
+            if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.robotchecked && Barcode_Enter)
             {
                 serchRobotData();
             }
 
             //오주포장 PLC사용 체크되었으면 바코드 리드시 CNS로 자동 전송
-            if (Properties.Settings.Default.corp_name.Equals("오주포장") && Properties.Settings.Default.Plc ||
-                Properties.Settings.Default.corp_name.Equals("오주포장테스트") && Properties.Settings.Default.Plc)
+            if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.Plc ||
+                SettingJsonManager.corp_name.Equals("오주포장테스트") && SettingJsonManager.Plc)
             {
                 //바코드로 디테일창 팝업시 동작
-                if (Properties.Settings.Default.mercName.Equals("후렉소1호기") && Barcode_Enter ||
-                    Properties.Settings.Default.mercName.Equals("인라인2호기") && Barcode_Enter ||
-                    Properties.Settings.Default.mercName.Equals("인라인3호기") && Barcode_Enter)
+                if (SettingJsonManager.mercName.Equals("후렉소1호기") && Barcode_Enter ||
+                    SettingJsonManager.mercName.Equals("인라인2호기") && Barcode_Enter ||
+                    SettingJsonManager.mercName.Equals("인라인3호기") && Barcode_Enter)
                 {
                     //DB에 데이터 있는거 확인
                     bool DB_DataOK = false; 
 
-                    ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+                    ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
                     ReturnModel returnDataCheck = ServiceModel.GetData(
-                       Properties.Settings.Default.serverIndex,
+                       SettingJsonManager.serverIndex,
                        "[PopCNSSearch]",
                        new string[] { "MachineName", "prodID" },
-                       new object[] { Properties.Settings.Default.mercName, this.mainModel.prodID }, 0);
+                       new object[] { SettingJsonManager.mercName, this.mainModel.prodID }, 0);
 
                     if (returnDataCheck.결과 == 1)
                     {
@@ -164,15 +164,15 @@ namespace PopProject.Detail
             }
 
             //로봇사용 체크시 로봇설정 버튼 표시
-            robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
+            robot.Visibility = SettingJsonManager.robotchecked ? Visibility.Visible : Visibility.Collapsed;
 
             //두성,혜성,지온 일때 적재창고 버튼 표시
-            if (Properties.Settings.Default.corp_name.Equals("두성포장테스트") ||
-                Properties.Settings.Default.corp_name.Equals("두성포장") ||
-                Properties.Settings.Default.corp_name.Contains("혜성") ||
-                Properties.Settings.Default.corp_name.Contains("광성수출포장") ||
-                Properties.Settings.Default.corp_name.Contains("대세물산") ||
-                Properties.Settings.Default.corp_name.Contains("지온"))
+            if (SettingJsonManager.corp_name.Equals("두성포장테스트") ||
+                SettingJsonManager.corp_name.Equals("두성포장") ||
+                SettingJsonManager.corp_name.Contains("혜성") ||
+                SettingJsonManager.corp_name.Contains("광성수출포장") ||
+                SettingJsonManager.corp_name.Contains("대세물산") ||
+                SettingJsonManager.corp_name.Contains("지온"))
             {
                 wharehouse.Visibility = Visibility.Visible;
             }
@@ -202,8 +202,8 @@ namespace PopProject.Detail
             subOb.ItemsSource = mainModel.subOb;
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
-            Pass_detail.Visibility = Properties.Settings.Default.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
-            robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
+            Pass_detail.Visibility = SettingJsonManager.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
+            robot.Visibility = SettingJsonManager.robotchecked ? Visibility.Visible : Visibility.Collapsed;
 
             DetailSearch(); //세부정보 조회 (왼쪽화면)
             MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
@@ -229,8 +229,8 @@ namespace PopProject.Detail
             subOb.ItemsSource = mainModel.subOb;
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
-            Pass_detail.Visibility = Properties.Settings.Default.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
-            robot.Visibility = Properties.Settings.Default.robotchecked ? Visibility.Visible : Visibility.Collapsed;
+            Pass_detail.Visibility = SettingJsonManager.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
+            robot.Visibility = SettingJsonManager.robotchecked ? Visibility.Visible : Visibility.Collapsed;
             consumcheck = v;
             
             DetailSearch(); //세부정보 조회 (왼쪽화면)
@@ -242,12 +242,12 @@ namespace PopProject.Detail
         //DB데이터 CNS로 전송
         private void CNS_DB_Send()
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-               Properties.Settings.Default.serverIndex,
+               SettingJsonManager.serverIndex,
                "[PopCNSSearch]",
                new string[] { "prodID", "MachineName" },
-               new object[] { this.mainModel.prodID, Properties.Settings.Default.mercName }, 0);
+               new object[] { this.mainModel.prodID, SettingJsonManager.mercName }, 0);
 
             if (returnData.결과 == 1)
             {
@@ -517,9 +517,9 @@ namespace PopProject.Detail
                 폭 = int.Parse(s폭.ToString());
                 고 = int.Parse(s고.ToString());
 
-                if (Properties.Settings.Default.corp_name.Equals("오주포장"))
+                if (SettingJsonManager.corp_name.Equals("오주포장"))
                 {
-                    if (Properties.Settings.Default.mercName.Equals("후렉소1호기"))
+                    if (SettingJsonManager.mercName.Equals("후렉소1호기"))
                     {
                         switch (mainModel.paperGor.Replace("골", "").Trim())
                         {
@@ -545,7 +545,7 @@ namespace PopProject.Detail
                                 break;
                         }
                     }
-                    else if (Properties.Settings.Default.mercName.Equals("인라인2호기"))
+                    else if (SettingJsonManager.mercName.Equals("인라인2호기"))
                     {
                         switch (mainModel.paperGor.Replace("골", "").Trim())
                         {
@@ -571,7 +571,7 @@ namespace PopProject.Detail
                                 break;
                         }
                     }
-                    else if (Properties.Settings.Default.mercName.Equals("인라인3호기"))
+                    else if (SettingJsonManager.mercName.Equals("인라인3호기"))
                     {
                         switch (mainModel.paperGor.Replace("골", "").Trim())
                         {
@@ -599,7 +599,7 @@ namespace PopProject.Detail
                     }
                 }
 
-                //if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.mercName.Equals("후렉소기"))
+                //if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.mercName.Equals("후렉소기"))
                 //{
                 //    switch (mainModel.paperGor.Replace("골", "").Trim())
                 //    {
@@ -685,10 +685,10 @@ namespace PopProject.Detail
             mainSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
             if (!mainSock.Connected)
             {
-                int port = int.Parse(Properties.Settings.Default.port); //포트 2004
+                int port = int.Parse(SettingJsonManager.port); //포트 2004
                 try
                 {
-                    IAsyncResult result = mainSock.BeginConnect(Properties.Settings.Default.ip, port, null, null);
+                    IAsyncResult result = mainSock.BeginConnect(SettingJsonManager.ip, port, null, null);
                     success = result.AsyncWaitHandle.WaitOne(1500, true);
 
                     if (CNS_Send) // CNS -> PC(DB) 버튼 활성화
@@ -977,7 +977,7 @@ namespace PopProject.Detail
                 if (cnsProcessing)
                 {
                     ReturnModel returnData = ServiceModel.GetData(
-                        Properties.Settings.Default.serverIndex,
+                        SettingJsonManager.serverIndex,
                         "[PopCNSUpdate]",
                         new string[] {
                             "@MachineName",
@@ -1053,7 +1053,7 @@ namespace PopProject.Detail
                             "@TotalCount2",
                             "@Count1",
                             "@Count2" },
-                        new object[] { Properties.Settings.Default.mercName, itemModel.ModelNum, this.mainModel.prodID, itemModel.WorkPlan1, itemModel.WorkPlan2, itemModel.BoxType,
+                        new object[] { SettingJsonManager.mercName, itemModel.ModelNum, this.mainModel.prodID, itemModel.WorkPlan1, itemModel.WorkPlan2, itemModel.BoxType,
                                    itemModel.Pock, itemModel.Jang, itemModel.Go, itemModel.Gap, itemModel.Wing, itemModel.Cutting, itemModel.SaveDone, itemModel.WorkSpeed,
                                    itemModel.SaveState, itemModel.spare, itemModel.aRecipe, itemModel.bRecipe, itemModel.cRecipe, itemModel.dRecipe, itemModel.eRecipe,
                                    itemModel.f1Recipe, itemModel.f2Recipe, itemModel.g2pRecipe, itemModel.oRecipe, itemModel.p1Recipe, itemModel.p2pRecipe,
@@ -1095,9 +1095,9 @@ namespace PopProject.Detail
         //로봇데이터 DB조회
         private void serchRobotData()
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-               Properties.Settings.Default.serverIndex,
+               SettingJsonManager.serverIndex,
                "[spSelIFrobotdata_info]",
                new string[] { "@prodID" },
                new object[] {
@@ -1204,8 +1204,8 @@ namespace PopProject.Detail
 
                 if (!mainSock.Connected)
                 {
-                    int port = int.Parse(Properties.Settings.Default.robotPort);
-                    IAsyncResult result = mainSock.BeginConnect(Properties.Settings.Default.robotIP, port, null, null);
+                    int port = int.Parse(SettingJsonManager.robotPort);
+                    IAsyncResult result = mainSock.BeginConnect(SettingJsonManager.robotIP, port, null, null);
                     //IAsyncResult result = mainSock.BeginConnect("192.168.7.7", port, null, null);
 
                     success = result.AsyncWaitHandle.WaitOne(2000, true);
@@ -1288,9 +1288,9 @@ namespace PopProject.Detail
         //인쇄사양 출력
         private void PopSearchPhoto()
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-            Properties.Settings.Default.serverIndex,
+            SettingJsonManager.serverIndex,
             "[PopSearchPhoto]",
             new string[] { "@prodID" },
             new object[] { mainModel.prodID
@@ -1306,7 +1306,7 @@ namespace PopProject.Detail
                     ObservableCollection<string> ob = new ObservableCollection<string>();
                     foreach (JObject result in Data_JArray)
                     {
-                        string uri = Properties.Settings.Default.url + Properties.Settings.Default.corp_id + "/" + result["photoName"].ToString();
+                        string uri = SettingJsonManager.url + SettingJsonManager.corp_id + "/" + result["photoName"].ToString();
                         string imageName = result["photoName"].ToString();
 
                         //ftp용 uri, 파일명 저장
@@ -1320,7 +1320,7 @@ namespace PopProject.Detail
 
 
                     //FTP(가비아서버)
-                    if (Properties.Settings.Default.corp_name.Equals("대양포장"))
+                    if (SettingJsonManager.corp_name.Equals("대양포장"))
                     {
                         //이미지 있을때
                         if (uriPathOB.Count > 0)
@@ -1480,7 +1480,7 @@ namespace PopProject.Detail
                 }
 
                 //테스트
-                if (Properties.Settings.Default.corp_id.ToUpper().Contains("ICDTEST"))
+                if (SettingJsonManager.corp_id.ToUpper().Contains("ICDTEST"))
                 {
                     switch (mainModel.customSName)
                     {
@@ -1550,9 +1550,9 @@ namespace PopProject.Detail
             }
 
             /////////////////////////////////////////////////////////////////////발주/////////////////////////////////////////////////////////////////////////
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData가입고 = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopBJSearch]",
                 new string[] { "@orderKey" },
                 new object[] { mainModel.orderKey },
@@ -1597,9 +1597,9 @@ namespace PopProject.Detail
             }
 
             //////////////////////////////////////////////////////////////////////////입고/////////////////////////////////////////////////////////////////////
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopIGSearch]",
                 new string[] { "@orderKey" },
                 new object[] { mainModel.orderKey },
@@ -1671,9 +1671,9 @@ namespace PopProject.Detail
         //원단 소모내역 조회 (자재상태창)
         private void MetrialSM(ObservableCollection<IgSmModel> ob)
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopSMSearch]",
                 new string[] { "@orderKey" },
                 new object[] { mainModel.orderKey },
@@ -1731,7 +1731,7 @@ namespace PopProject.Detail
                     tbScCount.Foreground = float.Parse(tbScCount.Text) >= 0 ? Brushes.ForestGreen : Brushes.Red;
 
                     //우리6사 가입고 버튼 사용
-                    if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("지온") || Properties.Settings.Default.corp_name.Equals("유램"))
+                    if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("지온") || SettingJsonManager.corp_name.Equals("유램"))
                     {
                         //가입고 버튼 있는 창
                         ic.ItemsSource = ob;
@@ -1764,9 +1764,9 @@ namespace PopProject.Detail
         //세부정보 조회 (왼쪽화면)
         private void DetailSearch() 
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopWorkDetail]",
                 new string[] { "@orderKey" },
                 new object[] { mainModel.orderKey }, 0
@@ -1814,12 +1814,12 @@ namespace PopProject.Detail
                         };
 
                         //오주
-                        if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
+                        if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
                         {
                             //프린트넘버에 CNS 넘버가 있어서 가져옴
                             string CNS_No = result["PrintNo"].ToString(); //프린트 넘버
 
-                            if (Properties.Settings.Default.mercName.Equals("인라인1호기"))
+                            if (SettingJsonManager.mercName.Equals("인라인1호기"))
                             {
                                 Match match = Regex.Match(CNS_No, @"1호기\s*:\s*(\d+)"); // 정규식 패턴을 사용하여 "1호기 : " 이후의 숫자 값을 추출
 
@@ -1829,7 +1829,7 @@ namespace PopProject.Detail
                                     int CSN레시피번호 = int.Parse(extractedValue);
                                 }
                             }
-                            else if (Properties.Settings.Default.mercName.Equals("인라인2호기"))
+                            else if (SettingJsonManager.mercName.Equals("인라인2호기"))
                             {
                                 Match match = Regex.Match(CNS_No, @"1호기\s*:\s*(\d+)"); // 정규식 패턴을 사용하여 "2호기 : " 이후의 숫자 값을 추출
 
@@ -1846,7 +1846,7 @@ namespace PopProject.Detail
                         }
 
                         //두성
-                        if (Properties.Settings.Default.corp_name.Equals("두성포장") || Properties.Settings.Default.corp_name.Equals("두성포장테스트"))
+                        if (SettingJsonManager.corp_name.Equals("두성포장") || SettingJsonManager.corp_name.Equals("두성포장테스트"))
                         {
                             JToken token = result["LocationName"];
                             if (token != null)
@@ -1861,7 +1861,7 @@ namespace PopProject.Detail
                         }
 
                         //오주
-                        if (Properties.Settings.Default.corp_name.Equals("오주포장"))
+                        if (SettingJsonManager.corp_name.Equals("오주포장"))
                         {
                             if (Detailitem.PrintNo.Contains("무인쇄") || Detailitem.PrintNo.Contains("X"))
                             {
@@ -1877,7 +1877,7 @@ namespace PopProject.Detail
 
                         //메모
                         //우리6사는 메소 사용 안함 (박소연대리? 요청)
-                        if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("우리포장") || Properties.Settings.Default.corp_name.Equals("유램"))
+                        if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("우리포장") || SettingJsonManager.corp_name.Equals("유램"))
                         {
                             tb공정별.Text = tb공정별.Text.ToString();
                         }
@@ -2139,7 +2139,7 @@ namespace PopProject.Detail
                         //자재구분
                         if (Detailitem.metType == 1)
                         {
-                            if (Properties.Settings.Default.corp_name.Equals("누리팩"))
+                            if (SettingJsonManager.corp_name.Equals("누리팩"))
                             {
                                 canSC.Visibility = Visibility.Visible;
 
@@ -2278,7 +2278,7 @@ namespace PopProject.Detail
         //제품명세서 출력 요청 
         private void Image_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
         {
-            if (Properties.Settings.Default.corp_name.Equals("신우수출포장") || Properties.Settings.Default.corp_name.Equals("우리포장산업") || Properties.Settings.Default.corp_name.Equals("누리팩") || Properties.Settings.Default.corp_name.Equals("지온"))
+            if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("지온"))
             {
                 SwPrintMessage swPrintMessage = new SwPrintMessage(mainModel, Detailitem);
                 swPrintMessage.ShowDialog();
@@ -2312,12 +2312,12 @@ namespace PopProject.Detail
                     Main1.win_Input = input;
                     _ = input.ShowDialog();
                     Main1.win_Input = null;
-                    if (Properties.Settings.Default.presultcount != 0)
+                    if (SettingJsonManager.presultcount != 0)
                     {
-                        mainModel.presultCount = Properties.Settings.Default.presultcount;
+                        mainModel.presultCount = SettingJsonManager.presultcount;
                     }
-                    Properties.Settings.Default.presultcount = 0;
-                    Properties.Settings.Default.Save();
+                    SettingJsonManager.presultcount = 0;
+                    SettingJsonManager.SaveJsonFile();
                     break;
 
                 default: //일반
@@ -2340,12 +2340,12 @@ namespace PopProject.Detail
 
                         
                         Main.win_Input = null;
-                        if (Properties.Settings.Default.presultcount != 0)
+                        if (SettingJsonManager.presultcount != 0)
                         {
-                            mainModel.presultCount = Properties.Settings.Default.presultcount;
+                            mainModel.presultCount = SettingJsonManager.presultcount;
                         }
-                        Properties.Settings.Default.presultcount = 0;
-                        Properties.Settings.Default.Save();
+                        SettingJsonManager.presultcount = 0;
+                        SettingJsonManager.SaveJsonFile();
 
                     }
                     break;
@@ -2357,7 +2357,7 @@ namespace PopProject.Detail
         private void Image_next(object sender, MouseButtonEventArgs e)
         {
             //ftp이미지
-            if (Properties.Settings.Default.corp_name.Equals("대양포장"))
+            if (SettingJsonManager.corp_name.Equals("대양포장"))
             {
                 if (clickCount + 1 > uriPathOB.Count - 1)
                 {
@@ -2418,7 +2418,7 @@ namespace PopProject.Detail
                 {
                     System.Drawing.Rectangle rec;
 
-                    if (Properties.Settings.Default.mercName.Equals("인라인2호기") || Properties.Settings.Default.mercName.Equals("인라인3호기"))
+                    if (SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기"))
                     {
                         //메인화면 팝업
                         rec = System.Windows.Forms.Screen.AllScreens[0].WorkingArea;
@@ -2448,8 +2448,8 @@ namespace PopProject.Detail
             clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D353D"));
 
             Main.passCheck = false;
-            InvokeCount(Properties.Settings.Default.mercName, mainModel.orderKey.ToString() + "^@"); //넘기기 (설비명, 오더키, ^@)
-            Console.WriteLine("넘기기 정보 : " + Properties.Settings.Default.mercName + mainModel.orderKey.ToString() + "^@");
+            InvokeCount(SettingJsonManager.mercName, mainModel.orderKey.ToString() + "^@"); //넘기기 (설비명, 오더키, ^@)
+            Console.WriteLine("넘기기 정보 : " + SettingJsonManager.mercName + mainModel.orderKey.ToString() + "^@");
         }
 
         //오주 CNS전용 넘기기 기능
@@ -2461,13 +2461,13 @@ namespace PopProject.Detail
         //로봇 세팅 버튼
         private void robot_setting(object sender, MouseButtonEventArgs e)
         {
-            if (Properties.Settings.Default.corp_name.Equals("오주포장") || Properties.Settings.Default.corp_name.Equals("오주포장테스트"))
+            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
             {
                 Main.robot_Setting = new Robot_Setting(mainModel.prodID, mainModel.customSName, mainModel.prodName);
                 Main.robot_Setting.ShowDialog();
                 Main.robot_Setting = null;
             }
-            else if(Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+            else if(SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
             {
                 Main.robot_Setting2 = new Robot_Setting2(mainModel.prodID, mainModel.customSName, mainModel.prodName);
                 Main.robot_Setting2.ShowDialog();
@@ -2536,7 +2536,7 @@ namespace PopProject.Detail
         //데이터 수신 요청
         private void CNSDataRead() //데이터 수신 요청
         {
-            if (Properties.Settings.Default.Plc) //PLC 사용 체크일때
+            if (SettingJsonManager.Plc) //PLC 사용 체크일때
             {
                 try
                 {

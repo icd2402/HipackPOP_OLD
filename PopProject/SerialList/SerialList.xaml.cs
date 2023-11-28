@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using PopProject.Util;
 
 namespace PopProject.SerialList
 {
@@ -12,7 +13,7 @@ namespace PopProject.SerialList
         {
             InitializeComponent();
             cb.ItemsSource = portName;
-            cb.SelectedItem = Properties.Settings.Default.SerialName;
+            cb.SelectedItem = SettingJsonManager.SerialName;
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -20,8 +21,8 @@ namespace PopProject.SerialList
             if (cb.SelectedItem != null)
             {
                 
-                Properties.Settings.Default.SerialName = cb.SelectedItem.ToString();
-                Properties.Settings.Default.Save();
+                SettingJsonManager.SerialName = cb.SelectedItem.ToString();
+                SettingJsonManager.SaveJsonFile();
 
             }
         }

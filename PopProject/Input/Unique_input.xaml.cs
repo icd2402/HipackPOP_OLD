@@ -19,7 +19,7 @@ namespace PopProject.Input
             InputModel = inputModel;
             PopSearchResultMemo();
 
-            if (!Properties.Settings.Default.keyinCheck)
+            if (!SettingJsonManager.keyinCheck)
             {
                 KeyBoxarCall();
             }
@@ -28,9 +28,9 @@ namespace PopProject.Input
 
         private void PopSearchResultMemo()
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopSearchResultMemo]",
                 new string[] { "@pworkkey" },
                 new object[] { InputModel.pworkKey },
@@ -78,9 +78,9 @@ namespace PopProject.Input
         //특이사항 저장
         private void PopInputResultMemo(string pMemo)
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
                 "[PopInputResultMemo]",
                 new string[] { "@pworkkey", "@pMemo" },
                 new object[] { InputModel.pworkKey, pMemo },

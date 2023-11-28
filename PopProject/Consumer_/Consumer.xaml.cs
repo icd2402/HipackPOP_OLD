@@ -20,7 +20,7 @@ namespace PopProject.Consumer_
 
     public partial class Consumer : Window
     {
-        private readonly string metrialitem = Properties.Settings.Default.meterialinfo;
+        private readonly string metrialitem = SettingJsonManager.meterialinfo;
         public static ObservableCollection<ConsumerModel> consumerList;
         private readonly MainModel mainModel;
         public InputModel inputModel;
@@ -137,7 +137,7 @@ namespace PopProject.Consumer_
                     break;
             }
 
-            switch (Properties.Settings.Default.processType)
+            switch (SettingJsonManager.processType)
             {
                 case 5:
                 case 8:
@@ -150,9 +150,9 @@ namespace PopProject.Consumer_
                         if (consumer_input.inputModel.imagePath.Equals("/img/bn_06.png"))
                         {
                             product.sumPworkCount = str;
-                            product.presultCount = str - Properties.Settings.Default.consumersumcount;
+                            product.presultCount = str - SettingJsonManager.consumersumcount;
                         }
-                        // consumer_input.inputModel.count = str - Properties.Settings.Default.consumersumcount;
+                        // consumer_input.inputModel.count = str - SettingJsonManager.consumersumcount;
                         consumer_input.inputModel.count = str;
                         InvokeCount(str);
                         Console.WriteLine("consumer_input.inputModel.count : " + consumer_input.inputModel.count);
@@ -165,10 +165,10 @@ namespace PopProject.Consumer_
                         if (consumer_input.inputModel.imagePath.Equals("/img/bn_06.png"))
                         {
                             product.sumPworkCount = str * consumer_input.inputModel.pCnt;
-                            product.presultCount = (str * consumer_input.inputModel.pCnt) - (Properties.Settings.Default.consumersumcount * consumer_input.inputModel.pCnt);
+                            product.presultCount = (str * consumer_input.inputModel.pCnt) - (SettingJsonManager.consumersumcount * consumer_input.inputModel.pCnt);
                         }
 
-                        // consumer_input.inputModel.count = (str * consumer_input.inputModel.pCnt) - (Properties.Settings.Default.consumersumcount);
+                        // consumer_input.inputModel.count = (str * consumer_input.inputModel.pCnt) - (SettingJsonManager.consumersumcount);
                         consumer_input.inputModel.count = str * consumer_input.inputModel.pCnt;
                         InvokeCount(str * float.Parse(consumer_input.inputModel.pCnt + ""));
                         Console.WriteLine("consumer_input.inputModel.count : " + consumer_input.inputModel.count);
@@ -181,7 +181,7 @@ namespace PopProject.Consumer_
         //현황판으로 데이터 송신
         public void InvokeCount(float str)
         {
-            _ = SignalRAdministrator.허브.Invoke("invokeCount", Properties.Settings.Default.corp_id, Properties.Settings.Default.mercName, str + "");
+            _ = SignalRAdministrator.허브.Invoke("invokeCount", SettingJsonManager.corp_id, SettingJsonManager.mercName, str + "");
         }
 
         //생산계획 조회
@@ -190,10 +190,10 @@ namespace PopProject.Consumer_
             _ = new LogData("조회");
             //consumerSumCount = 0;
             checkProcessing = false;
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
 
-               Properties.Settings.Default.serverIndex,
+               SettingJsonManager.serverIndex,
               "[PopWorkListMember]",
                new string[] { "@orderKey", "@ProcessType", "@pplanDate" },
                new object[] { mainModel.orderKey, mainModel.ProcessType, DateTime.Now.ToString("yyyy-MM-dd") },
@@ -226,18 +226,18 @@ namespace PopProject.Consumer_
                         };
 
                         //상자수 사용 체크
-                        if (Properties.Settings.Default.boxCheck)
+                        if (SettingJsonManager.boxCheck)
                         {
                             listitem.orderCount /= (int)mainModel.pCnt;
                         }
 
                         listitem.pWorkCount = float.Parse(result["pworkCount"].ToString()); //생산량
-                        consumerSumCount += Properties.Settings.Default.pworkkey == listitem.pworkKey.ToString() ? listitem.pWorkCount : 0;  //각각의 생산량 합산
-                        Properties.Settings.Default.consumersumcount = Properties.Settings.Default.consumersumcount + consumerSumCount;      //하반값 저장
+                        consumerSumCount += SettingJsonManager.pworkkey == listitem.pworkKey.ToString() ? listitem.pWorkCount : 0;  //각각의 생산량 합산
+                        SettingJsonManager.consumersumcount = SettingJsonManager.consumersumcount + consumerSumCount;      //하반값 저장
                         listitem.sDatetime = result["sDatetime"].ToString();                //시작시간
                         listitem.eDatetime = result["eDatetime"].ToString();                //종료시간
                         listitem.perrCnt = float.Parse(result["perrCnt"].ToString());       //불량수량
-                        consumerSumErrorCount += Properties.Settings.Default.pworkkey == listitem.pworkKey.ToString() ? listitem.perrCnt : 0; //각각의 불량수량 합산
+                        consumerSumErrorCount += SettingJsonManager.pworkkey == listitem.pworkKey.ToString() ? listitem.perrCnt : 0; //각각의 불량수량 합산
                         listitem.Memo = result["Memo"].ToString();                          //비고
 
                         //작업중인건이 없을때
@@ -358,7 +358,7 @@ namespace PopProject.Consumer_
         private void Popresultend()
         {
             _ = new LogData("작업완료");
-            if (Properties.Settings.Default.pworkkey == "")
+            if (SettingJsonManager.pworkkey == "")
             {
                 Close();
             }
@@ -380,7 +380,7 @@ namespace PopProject.Consumer_
 
             //생산결과가 없으면
             string arrChkAED;
-            if (Properties.Settings.Default.consumersumcount == 0)
+            if (SettingJsonManager.consumersumcount == 0)
             {
                 Close();
                 return;
@@ -391,9 +391,9 @@ namespace PopProject.Consumer_
             }
 
             //DB에 쓰기
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-                Properties.Settings.Default.serverIndex,
+                SettingJsonManager.serverIndex,
 
                 "[PopResultEnd]",
                 new string[] { "@AllChkAED", "@작업일자", "@오더Key", "@arrChkAED", "@arr공정구분", "@arr계획Key",
@@ -405,7 +405,7 @@ namespace PopProject.Consumer_
                 arrChkAED,                                       //arrChkAED
                 mainModel.ProcessType+ "|",                      //arr공정구분
                 mainModel.pplanKey+ "|",                         //arr계획Key
-                Properties.Settings.Default.consumpWorkKey+ "|", //arr작업Key
+                SettingJsonManager.consumpWorkKey+ "|", //arr작업Key
                 consumerSumCount + "|",                          //arr작업량
                 consumerSumErrorCount+ "|",                      //arr불량
                 ""+"|",                                          //arr비고
@@ -415,10 +415,10 @@ namespace PopProject.Consumer_
             if (returnData.결과 == 1)
             {
                 //저장값 리셋
-                Properties.Settings.Default.pworkkey = "";
-                Properties.Settings.Default.consumpWorkKey = 0;
-                Properties.Settings.Default.consumersumcount = 0;
-                Properties.Settings.Default.Save();
+                SettingJsonManager.pworkkey = "";
+                SettingJsonManager.consumpWorkKey = 0;
+                SettingJsonManager.consumersumcount = 0;
+                SettingJsonManager.SaveJsonFile();
 
                 switch (metrialitem)
                 {
@@ -436,7 +436,7 @@ namespace PopProject.Consumer_
                             Console.WriteLine("에러 : " + e.Message);
                         }
 
-                        InvokeCount(Properties.Settings.Default.mercName, "E"); //현황판으로 생산종료 송신 //현황판으로 생산종료 송신
+                        InvokeCount(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신 //현황판으로 생산종료 송신
                         Close();
                         break;
 
@@ -452,7 +452,7 @@ namespace PopProject.Consumer_
                             Console.WriteLine("에러 : " + e.Message);
                         }
 
-                        InvokeCount(Properties.Settings.Default.mercName, "E"); //현황판으로 생산종료 송신 //현황판으로 생산종료 송신
+                        InvokeCount(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신 //현황판으로 생산종료 송신
                         Close();
                         break;
                 }

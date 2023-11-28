@@ -43,10 +43,10 @@ namespace PopProject.Detail
 
         private void Get_DataInformation()
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
 
-               Properties.Settings.Default.serverIndex,
+               SettingJsonManager.serverIndex,
               "[spSel021Wharehouse_Base]",
                new string[] { "@창고구분" },
                new object[] { "9" },
@@ -80,10 +80,10 @@ namespace PopProject.Detail
                     }
                 }
 
-                ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+                ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
                 returnData = ServiceModel.GetData(
 
-                   Properties.Settings.Default.serverIndex,
+                   SettingJsonManager.serverIndex,
                   "[spSel570Wharehouseinfo]",
                    new string[] { "@창고구분" },
                    new object[] { "9" },

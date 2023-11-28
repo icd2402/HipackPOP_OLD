@@ -131,8 +131,8 @@ namespace PopProject.Detail
                 patSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
                 if (!patSock.Connected)
                 {
-                    int port = int.Parse(Properties.Settings.Default.robotPort);
-                    IAsyncResult result = patSock.BeginConnect(Properties.Settings.Default.robotIP, port, null, null);
+                    int port = int.Parse(SettingJsonManager.robotPort);
+                    IAsyncResult result = patSock.BeginConnect(SettingJsonManager.robotIP, port, null, null);
                     success = result.AsyncWaitHandle.WaitOne(500, true);
 
                     if (success)
@@ -160,8 +160,8 @@ namespace PopProject.Detail
                 mainSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
                 if (!mainSock.Connected)
                 {
-                    int port = int.Parse(Properties.Settings.Default.robotPort);
-                    IAsyncResult result = mainSock.BeginConnect(Properties.Settings.Default.robotIP, port, null, null);
+                    int port = int.Parse(SettingJsonManager.robotPort);
+                    IAsyncResult result = mainSock.BeginConnect(SettingJsonManager.robotIP, port, null, null);
                    // IAsyncResult result = mainSock.BeginConnect("192.168.7.7", port, null, null);
                     success = result.AsyncWaitHandle.WaitOne(2000, true);
 
@@ -574,9 +574,9 @@ namespace PopProject.Detail
         //DB 조회하여 화면에 표시
         private void serchRobotData()
         {
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-               Properties.Settings.Default.serverIndex,
+               SettingJsonManager.serverIndex,
                "[spSelIFrobotdata_info]",
                new string[] { "@prodID" },
                new object[] {
@@ -802,9 +802,9 @@ namespace PopProject.Detail
         private void Save_robotdata(object sender, RoutedEventArgs e)
         {
             MessageBox_Dialog msg;
-            ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-               Properties.Settings.Default.serverIndex,
+               SettingJsonManager.serverIndex,
                "[spAEDIFrobotdata_info]",
                new string[] { "@prodID", "@BOX_W", "@BOX_H", "@BOX_D", "@BOX_DADAN", "@BOX_DANSU",
                 "@BOX_PAT", "@PALLET_W", "@PALLET_H", "@PALLET_D"},
@@ -1293,7 +1293,7 @@ namespace PopProject.Detail
             if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
             {
                 System.Drawing.Rectangle rec;
-                if (Properties.Settings.Default.mercName.Equals("인라인3호기") || Properties.Settings.Default.mercName.Equals("인라인2호기"))
+                if (SettingJsonManager.mercName.Equals("인라인3호기") || SettingJsonManager.mercName.Equals("인라인2호기"))
                 {
                     rec = System.Windows.Forms.Screen.AllScreens[0].WorkingArea;
                 }

@@ -1,8 +1,9 @@
-﻿using PopProject.input;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using PopProject.input;
+using PopProject.Util;
 
 namespace PopProject.KeyBoard
 {
@@ -38,7 +39,7 @@ namespace PopProject.KeyBoard
             this.txtbox.Text = 0 + "";
             pCnt = inputmodel.pCnt;
             //this.errorModel = context;
-            option1.Text = Properties.Settings.Default.option1 ? "상자수가 자동계산됩니다." : "";
+            option1.Text = SettingJsonManager.option1 ? "상자수가 자동계산됩니다." : "";
             //Console.WriteLine("context" + context.ToString());
 
             if (context.ToString().Equals("PopProject.input.errorModel"))
@@ -210,13 +211,13 @@ namespace PopProject.KeyBoard
 
                         if (inputContext != null)
                         {
-                            inputContext.pworkCount = Properties.Settings.Default.option1 ? int.Parse(txtbox.Text) * inputContext.pCnt : int.Parse(txtbox.Text);
-                            inputContext.count = Properties.Settings.Default.option1 ? int.Parse(txtbox.Text) * inputContext.pCnt : int.Parse(txtbox.Text);
+                            inputContext.pworkCount = SettingJsonManager.option1 ? int.Parse(txtbox.Text) * inputContext.pCnt : int.Parse(txtbox.Text);
+                            inputContext.count = SettingJsonManager.option1 ? int.Parse(txtbox.Text) * inputContext.pCnt : int.Parse(txtbox.Text);
                         }
 
                         else if (errorContext != null)
                         {
-                            errorContext.perrCount = Properties.Settings.Default.option1 ? int.Parse(txtbox.Text) * pCnt : int.Parse(txtbox.Text);
+                            errorContext.perrCount = SettingJsonManager.option1 ? int.Parse(txtbox.Text) * pCnt : int.Parse(txtbox.Text);
                         }
 
                         Close();
@@ -237,9 +238,9 @@ namespace PopProject.KeyBoard
         private void Keyboard_loaded(object sender, RoutedEventArgs e)
         {
             //오주포장 2,3호기는 메인/서브모니터를 반대로 사용중이라 듀얼 화면 체크시에도 메인화면에 키보드를 팝업되도록 수정됨
-            if (Properties.Settings.Default.corp_name.Equals("오주포장"))
+            if (SettingJsonManager.corp_name.Equals("오주포장"))
             {
-                if (Properties.Settings.Default.mercName.Equals("인라인2호기") || Properties.Settings.Default.mercName.Equals("인라인3호기"))
+                if (SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기"))
                 {
                     System.Drawing.Rectangle rec = System.Windows.Forms.Screen.AllScreens[0].WorkingArea;//메인화면
                     Left = rec.Left + 40;
@@ -250,7 +251,7 @@ namespace PopProject.KeyBoard
                 else
                 {
                     //설정>듀얼모니터 사용 체크시
-                    if (Properties.Settings.Default.detail_check)
+                    if (SettingJsonManager.detail_check)
                     {
                         //실제로 듀얼 모니터일때
                         if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
@@ -271,7 +272,7 @@ namespace PopProject.KeyBoard
             else //기본
             {
                 //설정>듀얼모니터 사용 체크시
-                if (Properties.Settings.Default.detail_check)
+                if (SettingJsonManager.detail_check)
                 {
                     //실제로 듀얼 모니터일때
                     if (System.Windows.Forms.SystemInformation.MonitorCount > 1)

@@ -23,7 +23,7 @@ namespace PopProject.UserControl_
 
         private void selUser()
         {
-            string corp_id = Properties.Settings.Default.corp_id;
+            string corp_id = SettingJsonManager.corp_id;
 
             JsonObjectCollection json = new JsonObjectCollection
                 {

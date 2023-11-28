@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using PopProject.Util;
 
 namespace PopProject.Detail
 {
@@ -11,8 +12,8 @@ namespace PopProject.Detail
         public IP_Setting()
         {
             InitializeComponent();
-            ipaddress.Text = Properties.Settings.Default.robotIP;
-            PortNum.Text = Properties.Settings.Default.robotPort;
+            ipaddress.Text = SettingJsonManager.robotIP;
+            PortNum.Text = SettingJsonManager.robotPort;
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
@@ -22,9 +23,9 @@ namespace PopProject.Detail
 
         private void Image_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
-            Properties.Settings.Default.robotIP = ipaddress.Text.ToString();
-            Properties.Settings.Default.robotPort = PortNum.Text.ToString();
-            Properties.Settings.Default.Save();
+            SettingJsonManager.robotIP = ipaddress.Text.ToString();
+            SettingJsonManager.robotPort = PortNum.Text.ToString();
+            SettingJsonManager.SaveJsonFile();
             Close();
         }
     }

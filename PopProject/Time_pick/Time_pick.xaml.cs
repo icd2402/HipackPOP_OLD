@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using PopProject.Util;
 
 namespace PopProject.Time_pick
 {
@@ -9,8 +10,8 @@ namespace PopProject.Time_pick
 
     public partial class Time_pick : Window
     {
-        private int hour = Properties.Settings.Default.hour;
-        private int minuite = Properties.Settings.Default.minute;
+        private int hour = SettingJsonManager.hour;
+        private int minuite = SettingJsonManager.minute;
 
         public Time_pick()
         {
@@ -21,9 +22,9 @@ namespace PopProject.Time_pick
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.hour = hour;
-            Properties.Settings.Default.minute = minuite;
-            Properties.Settings.Default.Save();
+            SettingJsonManager.hour = hour;
+            SettingJsonManager.minute = minuite;
+            SettingJsonManager.SaveJsonFile();
             Close();
         }
 
