@@ -7,15 +7,16 @@ namespace PopProject.Util
 {
     public class LocalDBManager
     {
+        string connectString;
+
         public LocalDBManager()
         {
+            connectString = string.Format("Server={0};Database={1};Uid ={2};Pwd={3};",
+                                                 "192.168.123.213,1433,", "POP_RawData", "Packcom", "Icd2402");
         }
 
         public void SetRawData(string dbCode, string mercName, string msg, string orderKey, string prodID)
         {
-            string connectString = string.Format("Server={0};Database={1};Uid ={2};Pwd={3};",
-                                                 "127.0.0.1,1433,", "POP_RawData", "Packcom", "Icd2402");
-
             //DB로 SET
             using (SqlConnection conn = new SqlConnection(connectString))
             {
@@ -49,8 +50,6 @@ namespace PopProject.Util
         //DB로 Get
         public DataTable GetRawData(string msgType = null)
         {
-            string connectString = string.Format("Server={0};Database={1};Uid ={2};Pwd={3};",
-                                                 "127.0.0.1,1433,", "POP_RawData", "Packcom", "Icd2402");
             DataSet ds = new DataSet();
 
             using (SqlConnection conn = new SqlConnection(connectString))
