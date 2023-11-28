@@ -876,12 +876,12 @@ namespace PopProject.Input
                 SettingJsonManager.SaveJsonFile();
                 //Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
                 mainModel.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                InvokeCount(Properties.Settings.Default.mercName, "S");
-                InvokeCount(Properties.Settings.Default.mercName, "0");
-                Properties.Settings.Default.count = 0;
-                Properties.Settings.Default.saveDate = "";
-                Properties.Settings.Default.pplanKey = 0;
-                Properties.Settings.Default.Save();
+                InvokeCount(SettingJsonManager.mercName, "S");
+                InvokeCount(SettingJsonManager.mercName, "0");
+                SettingJsonManager.count = 0;
+                SettingJsonManager.saveDate = "";
+                SettingJsonManager.pplanKey = 0;
+                SettingJsonManager.SaveJsonFile();
 
                 PopInlineEnd(subOb, int.Parse(returnData.리턴값));
                 switch (metrialitem)
@@ -1686,8 +1686,8 @@ namespace PopProject.Input
                     }
                 }
 
-                InvokeCount(Properties.Settings.Default.mercName, "E"); //현황판으로 생산종료 송신
-                InvokeCount(Properties.Settings.Default.mercName, "0"); //
+                InvokeCount(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
+                InvokeCount(SettingJsonManager.mercName, "0"); //
 
                 //오주포장, 철접합(7),베가(8),인라인2,3호기(13), 5는 없음
                 if (SettingJsonManager.corp_name.Equals("오주포장") && (SettingJsonManager.processType == 7
@@ -1819,12 +1819,12 @@ namespace PopProject.Input
                 SettingJsonManager.SaveJsonFile();
                 //Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
                 mainModel.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                InvokeCount(Properties.Settings.Default.mercName, "S");//현황판으로 시작신호 송신 (설비명,S)
-                InvokeCount(Properties.Settings.Default.mercName, "0"); //현황판으로 생산종료 송신
-                Properties.Settings.Default.count = 0;
-                Properties.Settings.Default.saveDate = "";
-                Properties.Settings.Default.pplanKey = 0;
-                Properties.Settings.Default.Save();
+                InvokeCount(SettingJsonManager.mercName, "S");//현황판으로 시작신호 송신 (설비명,S)
+                InvokeCount(SettingJsonManager.mercName, "0"); //현황판으로 생산종료 송신
+                SettingJsonManager.count = 0;
+                SettingJsonManager.saveDate = "";
+                SettingJsonManager.pplanKey = 0;
+                SettingJsonManager.SaveJsonFile();
 
                 switch (metrialitem)
                 {
@@ -1966,12 +1966,12 @@ namespace PopProject.Input
             //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
             try
             {
-                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") ||
-                    Properties.Settings.Default.corp_name.Equals("광성수출포장테스트") ||
-                    Properties.Settings.Default.corp_name.Equals("대세물산") ||
-                    Properties.Settings.Default.corp_name.Equals("대세물산테스트") ||
-                    Properties.Settings.Default.corp_name.Equals("유창포장") ||
-                    Properties.Settings.Default.corp_name.Equals("유창포장테스트"))
+                if (SettingJsonManager.corp_name.Equals("광성수출포장") ||
+                    SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
+                    SettingJsonManager.corp_name.Equals("대세물산") ||
+                    SettingJsonManager.corp_name.Equals("대세물산테스트") ||
+                    SettingJsonManager.corp_name.Equals("유창포장") ||
+                    SettingJsonManager.corp_name.Equals("유창포장테스트"))
                 {
                     popService(mercName, v);
                 }
@@ -1990,26 +1990,26 @@ namespace PopProject.Input
         async Task popService(string mercName, string str)
         {
             //주소
-            if (Properties.Settings.Default.corp_name.Equals("광성수출포장"))
+            if (SettingJsonManager.corp_name.Equals("광성수출포장"))
             {
                 Url = "http://ksbox.iptime.org:18888/pop/gathering"; //광성
             }
-            else if (Properties.Settings.Default.corp_name.Equals("대세물산"))
+            else if (SettingJsonManager.corp_name.Equals("대세물산"))
             {
                 Url = "http://dsbox.iptime.org:18888/pop/gathering"; //대세
             }
-            else if (Properties.Settings.Default.corp_name.Equals("유창포장"))
+            else if (SettingJsonManager.corp_name.Equals("유창포장"))
             {
                 Url = "http://211.253.37.232:18888/pop/gathering"; //유창
             }
-            else if (Properties.Settings.Default.corp_name.Equals("광성수출포장테스트") ||
-                    Properties.Settings.Default.corp_name.Equals("대세물산테스트") ||
-                    Properties.Settings.Default.corp_name.Equals("유창포장테스트"))
+            else if (SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
+                    SettingJsonManager.corp_name.Equals("대세물산테스트") ||
+                    SettingJsonManager.corp_name.Equals("유창포장테스트"))
             {
                 Url = "http://localhost:18888/pop/gathering"; //테스트용 주소(개인 DeskTop)
             }
 
-            string CompanyCode = Properties.Settings.Default.corp_id; //업체코드
+            string CompanyCode = SettingJsonManager.corp_id; //업체코드
             string MercName = mercName; //설비명
             string Data = str.ToString(); //데이터
 
