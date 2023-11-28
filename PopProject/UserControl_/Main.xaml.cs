@@ -114,8 +114,9 @@ namespace PopProject.UserControl_
                     SignalRAdministrator conn = new SignalRAdministrator();
                     conn.Setconnection(true);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    log.Error("SignalR 연결 오류" + e.Message);
                 }
 
                 
@@ -296,8 +297,9 @@ namespace PopProject.UserControl_
                     }
                 }), DispatcherPriority.ApplicationIdle);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                log.Error("넘기기 신호 오류" + e.Message);
             }
         }
 
@@ -342,7 +344,7 @@ namespace PopProject.UserControl_
             catch (Exception e)
             {
                 btrSerial.Background = Brushes.Red;
-                log.Error("아두이노 연결 오류 : " + e.Message);
+                log.Error("아두이노 시리얼 연결 오류 : " + e.Message);
             }
         }
 
@@ -359,8 +361,9 @@ namespace PopProject.UserControl_
                 arduSerial.DiscardOutBuffer(); //송신 버퍼 삭제
                 arduSerial.Close(); // 시리얼 포트 닫기
             }
-            catch
+            catch(Exception e)
             {
+                log.Error("아두이노 재연결 오류 : " + e.Message);
             }
             finally
             {
@@ -526,8 +529,9 @@ namespace PopProject.UserControl_
                     }));
                 }
             }
-            catch (Exception e1)
+            catch (Exception ex)
             {
+                log.Error("아두이노 => Main 데이터 수신 오류 : " + ex.Message);
             }
         }
 
@@ -889,8 +893,9 @@ namespace PopProject.UserControl_
                     SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); //invokeCount, DB명, 설비명, 문자
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                log.Error("POP 프로그램 켜짐/꺼짐 상태 전송 오류 : " + e.Message);
             }
 
         }
@@ -901,9 +906,11 @@ namespace PopProject.UserControl_
             try
             {
                 if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || 
-                    Properties.Settings.Default.corp_name.Equals("광성수출포장테스트") || 
+                    Properties.Settings.Default.corp_name.Equals("광성수출포장테스트") ||
                     Properties.Settings.Default.corp_name.Equals("대세물산") ||
-                    Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                    Properties.Settings.Default.corp_name.Equals("대세물산테스트") ||
+                    Properties.Settings.Default.corp_name.Equals("유창포장") ||
+                    Properties.Settings.Default.corp_name.Equals("유창포장테스트"))
                 {
                     popService(mercName, str.ToString());
                 }
@@ -913,8 +920,9 @@ namespace PopProject.UserControl_
                     Console.WriteLine("SignalR 전송값(main): invokeCount, " + Properties.Settings.Default.corp_id  + ", " + mercName + ", " + str);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                log.Error("현황판으로 데이터 전송 오류 : " + e.Message);
                 Console.WriteLine("SignalR 전송실패(main)");
             }
         }
@@ -932,8 +940,13 @@ namespace PopProject.UserControl_
             {
                 Url = "http://dsbox.iptime.org:18888/pop/gathering"; //대세
             }
+            else if (Properties.Settings.Default.corp_name.Equals("유창포장"))
+            {
+                Url = "http://211.253.37.232:18888/pop/gathering"; //유창
+            }
             else if (Properties.Settings.Default.corp_name.Equals("광성수출포장테스트") ||
-                    Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                    Properties.Settings.Default.corp_name.Equals("대세물산테스트") ||
+                    Properties.Settings.Default.corp_name.Equals("유창포장테스트"))
             {
                 Url = "http://localhost:18888/pop/gathering"; //테스트용 주소(개인 DeskTop)
             }
@@ -962,8 +975,9 @@ namespace PopProject.UserControl_
 
                 Console.WriteLine("서비스로 데이터 전송 값(Main) : " + urlWithParameters);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                log.Error("신규 서비스 데이터 전송 오류 : " + e.Message);
             }
         }
 
@@ -1063,6 +1077,7 @@ namespace PopProject.UserControl_
         //계획 리스트 조회
         public void SelectWorkList()
         {
+            log.Info("생산계획 리스트 조회 시작");
             wdIGCOunt = 0;
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
@@ -2224,11 +2239,13 @@ namespace PopProject.UserControl_
                 }
                 else
                 {
+                    log.Error("생산계획 리스트 조회 오류");
+
                     //MessageBox_Dialog box = new MessageBox_Dialog("PopWorkList 조회 오류!!");
                     //_ = box.ShowDialog();
                 }
-                
-                log.Info(Properties.Settings.Default.mercName + " 생산계획 리스트 조회 완료");
+
+                log.Info("생산계획 리스트 조회 완료 (" + Properties.Settings.Default.mercName + ")");
             }
             else
             {
@@ -2240,6 +2257,8 @@ namespace PopProject.UserControl_
         //신우,우리,누리 사용중
         private void 실적현황조회()
         {
+            log.Info("실적현황 조회 시작");
+
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
             ReturnModel 실적returnData = ServiceModel.GetData(
                Properties.Settings.Default.serverIndex,
@@ -2307,6 +2326,7 @@ namespace PopProject.UserControl_
                         }
                     }
                 }
+                log.Info("실적현황 조회 완료");
             }
             else
             {
@@ -2317,6 +2337,8 @@ namespace PopProject.UserControl_
         //생산결과 조회
         public void ResultSearchDate()
         {
+            log.Info("생산결과 리스트 조회 시작");
+
             production = null;
             ServiceModel.ServiceModelClean(Properties.Settings.Default.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
@@ -2424,10 +2446,11 @@ namespace PopProject.UserControl_
                     txtNoPlan.Visibility = workList.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
                     SortWorkList();
                 }
+                log.Info("생산결과 리스트 조회 완료");
             }
             else
             {
-                log.Error("생산결과 조회 오류");
+                log.Error("생산결과 리스트 조회 오류");
             }
             실적현황조회();
             실수요자진행현황조회();
@@ -2437,6 +2460,8 @@ namespace PopProject.UserControl_
         //실수요자 생산계획 조회
         private void 실수요자진행현황조회()
         {
+            log.Info("실수요자 리스트 조회 시작");
+
             string pplanKeyArray = string.Empty;
 
             foreach (var item in workList.Where((x) => x.bMember).GroupBy((x) => x.pplanKey))
@@ -2478,6 +2503,7 @@ namespace PopProject.UserControl_
                 _ = box.ShowDialog();
                 log.Error("실수요자 진행현황 조회 오류");
             }
+            log.Info("실수요자 리스트 조회 완료");
         }
 
 
@@ -2734,7 +2760,7 @@ namespace PopProject.UserControl_
             }
             catch (Exception ex)
             {
-                log.Error("인증코드 파일 저장 실패");
+                log.Error("인증코드 파일 저장 실패 : " + ex.Message);
             }
             //프로그램 종료
             log.Info("프로그램 종료");
@@ -2811,10 +2837,14 @@ namespace PopProject.UserControl_
                         }
 
                         //대세, 구룡일때
-                        if (Properties.Settings.Default.corp_name.Equals("대세물산") || Properties.Settings.Default.corp_name.Equals("대세물산테스트") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
+                        if (Properties.Settings.Default.corp_name.Equals("대세물산") || 
+                            Properties.Settings.Default.corp_name.Equals("대세물산테스트") || 
+                            Properties.Settings.Default.corp_name.Equals("구룡산업제2공장") || 
+                            Properties.Settings.Default.corp_name.Equals("구룡산업제2공장 테스트"))
                         {
                             SelectWorkList();
                             ResultSearchDate();
+                            log.Info("대세,구룡 인풋창 닫은 후 계획, 결과건 갱신 완료");
                         }
 
                         Properties.Settings.Default.presultcount = 0;
@@ -2844,6 +2874,7 @@ namespace PopProject.UserControl_
             }
             catch (Exception e1)
             {
+                log.Error("상태버튼 클릭 오류 : " + e1.Message);
                 e.Handled = false;
                 can.Visibility = Visibility.Collapsed;
             }
@@ -2913,6 +2944,7 @@ namespace PopProject.UserControl_
             }
             catch (Exception e)
             {
+                log.Error("설비명 클릭시 POP상태 전송 오류 : " + e.Message);
             }
         }
 

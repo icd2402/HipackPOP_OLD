@@ -38,21 +38,21 @@ namespace PopProject
 
             try
             {
-                //Properties.Settings.Default.Reset();
-                if (Properties.Settings.Default.baudrate == 0)
-                {
-                    Properties.Settings.Default.baudrate = 9600;
-                }
-                if (Properties.Settings.Default.SensorRate.Length == 0)
-                {
-                    Properties.Settings.Default.SensorRate = "0";
-                }
-                if (Properties.Settings.Default.meterialinfo.Length <= 0)
-                {
-                    Properties.Settings.Default.meterialinfo = "";
-                }
-                Properties.Settings.Default.Save();
-                log.Info("아두이노 설정 세팅 저장 완료");
+                ////Properties.Settings.Default.Reset();
+                //if (Properties.Settings.Default.baudrate == 0)
+                //{
+                //    Properties.Settings.Default.baudrate = 9600;
+                //}
+                //if (Properties.Settings.Default.SensorRate.Length == 0)
+                //{
+                //    Properties.Settings.Default.SensorRate = "0";
+                //}
+                //if (Properties.Settings.Default.meterialinfo.Length <= 0)
+                //{
+                //    Properties.Settings.Default.meterialinfo = "";
+                //}
+                //Properties.Settings.Default.Save();
+                //log.Info("아두이노 설정 세팅 저장 완료");
 
 
                 //POP프로그램이 이미 실행중인지 확인
@@ -119,7 +119,9 @@ namespace PopProject
         {
             try
             {
-                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || Properties.Settings.Default.corp_name.Equals("대세물산"))
+                if (Properties.Settings.Default.corp_name.Equals("광성수출포장") || 
+                    Properties.Settings.Default.corp_name.Equals("대세물산") ||
+                    Properties.Settings.Default.corp_name.Equals("유창포장"))
                 {
                     popService(mercName, v);
                 }
@@ -148,8 +150,13 @@ namespace PopProject
             {
                 Url = "http://dsbox.iptime.org:18888/pop/gathering"; //대세
             }
+            else if (Properties.Settings.Default.corp_name.Equals("유창포장"))
+            {
+                Url = "http://211.253.37.232:18888/pop/gathering"; //유창
+            }
             else if (Properties.Settings.Default.corp_name.Equals("광성수출포장테스트") ||
-                    Properties.Settings.Default.corp_name.Equals("대세물산테스트"))
+                    Properties.Settings.Default.corp_name.Equals("대세물산테스트") ||
+                    Properties.Settings.Default.corp_name.Equals("유창포장테스트"))
             {
                 Url = "http://localhost:18888/pop/gathering"; //테스트용 주소(개인 DeskTop)
             }

@@ -176,8 +176,7 @@ namespace PopProject.Input
             }
             catch (Exception e)
             {
-                //MessageBox_Dialog msg = new MessageBox_Dialog(e.Message);
-                //msg.Show();
+                log.Error("오주포장 인라인3호기 전용 카운터 SignalR 수신 오류 : " + e.Message);
             }
         }
 
@@ -1029,6 +1028,7 @@ namespace PopProject.Input
             //    mainSock.Close();
             //}
             Close();
+            log.Info("인풋창 닫기");
         }
 
         //상세 내역 화면 호출
