@@ -111,12 +111,12 @@ namespace PopProject.Detail
             }
 
             //오주포장 PLC사용 체크되었으면 바코드 리드시 CNS로 자동 전송
-            if (Properties.Settings.Default.corp_name.Equals("오주포장") ||
+            if (Properties.Settings.Default.corp_name.Equals("오주포장") && Properties.Settings.Default.Plc ||
                 Properties.Settings.Default.corp_name.Equals("오주포장테스트") && Properties.Settings.Default.Plc)
             {
                 //바코드로 디테일창 팝업시 동작
-                if (Properties.Settings.Default.mercName.Equals("후렉소1호기") || 
-                    Properties.Settings.Default.mercName.Equals("인라인2호기") || 
+                if (Properties.Settings.Default.mercName.Equals("후렉소1호기") && Barcode_Enter ||
+                    Properties.Settings.Default.mercName.Equals("인라인2호기") && Barcode_Enter ||
                     Properties.Settings.Default.mercName.Equals("인라인3호기") && Barcode_Enter)
                 {
                     //DB에 데이터 있는거 확인
