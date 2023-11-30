@@ -838,5 +838,17 @@ namespace PopProject.Properties {
                 this["consumCount"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool dbUse {
+            get {
+                return ((bool)(this["dbUse"]));
+            }
+            set {
+                this["dbUse"] = value;
+            }
+        }
     }
 }

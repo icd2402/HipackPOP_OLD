@@ -200,23 +200,12 @@ namespace PopProject.UserControl_
                             SettingJsonManager.signalR = signalR;
                             SettingJsonManager.serverIndex = serverIndex;
                             SettingJsonManager.manager = manager;
-                            SettingJsonManager.SaveJsonFile();
-
-                            if (login_check.IsChecked.GetValueOrDefault())
-                            {
-                                SettingJsonManager.login_check = true;
-                                SettingJsonManager.SaveJsonFile();
-                            }
-                            else
-                            {
-                                SettingJsonManager.login_check = false;
-                                SettingJsonManager.SaveJsonFile();
-                            }
-
+                            SettingJsonManager.login_check = login_check.IsChecked.GetValueOrDefault();
+                            //SettingJsonManager.SaveJsonFile();
+                            
                             string metrialitem = SettingJsonManager.meterialinfo;
                             Console.WriteLine("metrialitem -> " + metrialitem);
                             SetSetting(metrialitem);
-
 
                             json = new JsonObjectCollection
                                 {

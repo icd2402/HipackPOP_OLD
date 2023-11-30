@@ -81,7 +81,7 @@ namespace PopProject.Util
         public static string authKey { get; set; }
         public static string SerialName1 { get; set; }
         public static int consumCount { get; set; }
-        public static bool dbLock { get; set; }
+        public static bool dbUse { get; set; }
 
 
         // JSON 파일 경로
@@ -180,6 +180,8 @@ namespace PopProject.Util
                 authKey = jObject["authKey"].ToString();
                 SerialName1 = jObject["SerialName1"].ToString();
                 consumCount = Convert.ToInt32(jObject["consumCount"]);
+                // dbUse 없는 경우 확인
+                dbUse = jObject.ContainsKey("dbUse") && bool.Parse(jObject["dbUse"].ToString()) ? true : false;
 
                 log.Info("셋팅정보(json) Load 완료");
 
@@ -271,6 +273,7 @@ namespace PopProject.Util
                 Properties.Settings.Default.authKey = authKey;
                 Properties.Settings.Default.SerialName1 = SerialName1;
                 Properties.Settings.Default.consumCount = consumCount;
+                Properties.Settings.Default.dbUse = dbUse;
 
                 log.Info("셋팅(json) → 셋팅(user.config) 정보 입력 완료");
             }
@@ -365,7 +368,8 @@ namespace PopProject.Util
                                 {"manager", manager},
                                 {"authKey", authKey},
                                 {"SerialName1", SerialName1},
-                                {"consumCount", consumCount.ToString()}
+                                {"consumCount", consumCount.ToString()},
+                                {"dbUse", dbUse.ToString() }
                             };
 
                 //인증코드 파일 작성

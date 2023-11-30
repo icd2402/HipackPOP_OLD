@@ -109,7 +109,6 @@ namespace PopProject.UserControl_
                 }
 
                 // 당분간 DB 미사용 (사용시 해제 및 설정값에 따라 색 변경 예정)
-                SettingJsonManager.dbLock = false;
                 tbDB_lock.Visibility = Visibility.Hidden;
                 btnDB_lock.Visibility = Visibility.Hidden;
 
@@ -146,7 +145,7 @@ namespace PopProject.UserControl_
                 }
 
                 SettingJsonManager.consumersumcount = 0;
-                SettingJsonManager.SaveJsonFile();
+                //SettingJsonManager.SaveJsonFile();
 
                 SetSetting(metrialitem); //작업정보 설장 값 저장
                 ArduConn(); //아두이노 통신연결
@@ -483,7 +482,7 @@ namespace PopProject.UserControl_
                             InvokeCount(str, SettingJsonManager.mercName); //현황판으로 카운터 전송
                             Console.WriteLine("현황판으로 카운터(매수) 전송 값(Main) : " + SettingJsonManager.mercName + ", " + str); //실시간 값 확인용
 
-                            if (SettingJsonManager.corp_name.Equals("광성수출포장") && SettingJsonManager.dbLock)
+                            if (SettingJsonManager.corp_name.Equals("광성수출포장") && SettingJsonManager.dbUse)
                             {
                                 //RawData 저장(업체코드,설비명,데이터,오더키,수주키,제품ID)
                                 new LocalDBManager().SetRawData(SettingJsonManager.corp_id, SettingJsonManager.mercName, str.ToString(), production.orderKey, production.prodID);
@@ -524,7 +523,7 @@ namespace PopProject.UserControl_
                                 InvokeCount(Convert.ToInt32(production.presultCount), SettingJsonManager.mercName); //현황판으로 카운터 전송
                                 Console.WriteLine("현황판으로 카운터(통수) 전송 값(Main) : " + SettingJsonManager.mercName + ", " + Convert.ToInt32(production.presultCount)); //실시간 값 확인용
 
-                                if(SettingJsonManager.corp_name.Equals("광성수출포장") && SettingJsonManager.dbLock)
+                                if(SettingJsonManager.corp_name.Equals("광성수출포장") && SettingJsonManager.dbUse)
                                 {
                                     //RawData 저장(업체코드,설비명,데이터,오더키,수주키,제품ID)
                                     new LocalDBManager().SetRawData(SettingJsonManager.corp_id, SettingJsonManager.mercName, production.presultCount.ToString(), production.orderKey, production.prodID);
@@ -2408,7 +2407,7 @@ namespace PopProject.UserControl_
                                             production = workItem;
 
                                             // DB Load
-                                            if (SettingJsonManager.dbLock)
+                                            if (SettingJsonManager.dbUse)
                                             {
                                                 DataTable temp = new LocalDBManager().GetRawData("Last");
                                                 
@@ -3536,15 +3535,15 @@ namespace PopProject.UserControl_
 
         private void btnUseDB_click(object sender, RoutedEventArgs e)
         {
-            if (SettingJsonManager.dbLock)
+            if (SettingJsonManager.dbUse)
             {
-                SettingJsonManager.dbLock = false;
+                SettingJsonManager.dbUse = false;
                 tbDB_lock.Text = "DB Use: N";
                 btnDB_lock.Background = Brushes.Red;
             }
             else
             {
-                SettingJsonManager.dbLock = true;
+                SettingJsonManager.dbUse = true;
                 tbDB_lock.Text = "DB Use: Y";
                 btnDB_lock.Background = Brushes.Green;
             }
