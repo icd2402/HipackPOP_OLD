@@ -63,7 +63,7 @@ namespace PopProject.UserControl_
         private double hOff = 1;
         private double vOff = 1;
         public static bool passCheck = true; //넘기기
-        public static DateTime dt;
+        public static DateTime dt = DateTime.Now;
         private bool CheckDateValue = true;
         private bool DateCheck = false;
         private bool CNS_Barcode_Send = false; //true이면 바코드 읽으면 CNS로 데이터 전송
@@ -197,14 +197,20 @@ namespace PopProject.UserControl_
 
                 //인터넷 연결 확인
                 bool connected = NetworkInterface.GetIsNetworkAvailable();
+                
                 if (connected)
                 {
+                    // 최초 생산계획 및 생산결과 조회
+                    if (win_Input == null || robot_Setting == null)
+                    {
+                        SelectWorkList(); //생산 계획 리스트 조회
+                    }
+                    ResultSearchDate(); //생산 결과 리스트 조회
 
-
-                    TimerSet(); //시계
-                    //TimerSet2(); //미사용
-                    TimerSet3(); //SignalR 통신 모니터링(5초)
-                    //TimerSet4(); //SignalR 통신 로그(1분)
+                    Timer_1s();         // 1초 - 시계, 바코드, 종료시간 체크
+                    Timer_60s();        // 60초(1분) - POP 켜짐 신호 전송
+                    Timer_300s();       // 300초(5분) - 계획/결과 갱신, 아두이노 연결 확인, 카운팅 값 전송
+                    Timer_ycbox_1s();   // 1초 - 유창 기계(POP)별로 시간 다르게 계획/결과 갱신
                 }
                 else
                 {
@@ -217,6 +223,259 @@ namespace PopProject.UserControl_
             catch (Exception e)
             {
                 log.Error("메인화면 업로드 실패 : " + e.Message);
+            }
+        }
+
+        // 타이머 1초 - 시계, 바코드, 종료시간 체크
+        #region Timer_1s
+        private void Timer_1s()
+        {
+            timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            timer.Tick += new EventHandler(Timer_1s_Tick);
+            timer.Start();
+        }
+
+        // 시계, 바코드, 종료시간 체크
+        private void Timer_1s_Tick(object sender, EventArgs e)
+        {
+            var clock = DateTime.Now; //현재 시간
+
+            //POP날짜와 현재 날짜가 일치할때에 현재시간 갱신
+            if (CheckDateValue && !dt.ToString("D").Equals(DateTime.Now.ToString("D")))
+            {
+                dt = DateTime.Now;
+            }
+
+            string datePart = dt.ToString("yyyy년 MM월 dd일 dddd"); //날짜
+            string datetime = string.Format("{0:D2}시 {1:D2}분 {2:D2}초", clock.Hour, clock.Minute, clock.Second);//시간
+            txtDate.Text = datePart;  //날짜
+            txtClock.Text = datetime; //시간
+
+            //지정된 시간에 컴퓨터를 종료
+            if (dt.Hour == SettingJsonManager.hour && dt.Minute == SettingJsonManager.minute)
+            {
+                _ = Process.Start("shutdown.exe", "-s");
+            }
+
+            //대세,광성은 바코드 동작 x
+            if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트") || SettingJsonManager.corp_name.Equals("광성수출포장") || SettingJsonManager.corp_name.Equals("광성수출포장테스트"))
+            {
+            }
+            else
+            {
+                //바코드
+                _ = tbBarcode.Focus();
+                tbBarcode.SelectAll();
+            }
+        }
+        #endregion
+
+        // 타이머 60초(1분) - POP 켜짐 신호 전송
+        #region Timer_60s
+        private void Timer_60s()
+        {
+            timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(60)
+            };
+            timer.Tick += new EventHandler(Timer_60s_Tick);
+            timer.Start();
+        }
+
+        // 현황판에 POP 켜짐 신호 전송
+        private void Timer_60s_Tick(object sender, EventArgs e)
+        {
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                //관리자 계정이 아닐때만 켜짐 신호 전송
+                if (!SettingJsonManager.manager.Equals("1"))
+                {
+                    InvokeMercName(SettingJsonManager.mercName, "A"); // A - 켜짐
+                }
+            }
+        }
+        #endregion
+
+        // 타이머 300초(5분) - 계획/결과 갱신, 아두이노 연결 확인, 카운팅 값 전송
+        #region Timer_300s
+        private void Timer_300s()
+        {
+            timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(60)
+            };
+            timer.Tick += new EventHandler(Timer_300s_Tick);
+            timer.Start();
+        }
+
+        // 계획 및 결과 갱신, 아두이노 연결 확인, 카운팅 값 전송
+        private void Timer_300s_Tick(object sender, EventArgs e)
+        {
+            bool connected = NetworkInterface.GetIsNetworkAvailable(); //네트워크 연결 여부 확인
+            if (!arduSerial.IsOpen) //아두이노 오픈 안되어 있으면 다시 오픈 요청
+            {
+                arduSerial.DataReceived -= ArduReReceive;
+                ArduConn();
+            }
+
+            if (connected) //네트워크 연결되어 있으면
+            {
+                if (production != null && production.presultCount != 0)
+                {
+                    //현황판으로 카운터 전송
+                    InvokeCount(Convert.ToInt32(production.presultCount), SettingJsonManager.mercName); 
+                }
+
+                if (win_Input == null || robot_Setting == null)
+                {
+                    //if (SettingJsonManager.corp_name.Equals("유창포장") == false)
+                    //{
+                        SelectWorkList();
+                        ResultSearchDate();
+                    //}
+                }
+            }
+        }
+        #endregion
+
+        // 타이머 1초(only 유창포장) - 기계(POP)별로 시간 다르게 계획/결과 갱신
+        #region Timer_ycbox_1s
+        private void Timer_ycbox_1s()
+        {
+            if (SettingJsonManager.corp_name.Equals("유창포장")
+                        || SettingJsonManager.corp_name.Equals("유창포장테스트"))
+            {
+                timer = new DispatcherTimer
+                {
+                    Interval = TimeSpan.FromSeconds(1)
+                };
+                timer.Tick += new EventHandler(Timer_ycbox_1s_Tick);
+                timer.Start();
+            }
+        }
+
+        // 유창 기계(POP)별로 시간 다르게 계획/결과 갱신
+        private void Timer_ycbox_1s_Tick(object sender, EventArgs e)
+        {
+            switch (SettingJsonManager.processType)
+            {
+                case 1:
+                    if (dt.Minute == 0 && dt.Second == 0)   UpdateWorkPlanNResult();
+                    break;
+
+                case 2:
+                    if (dt.Minute == 3 && dt.Second == 0)   UpdateWorkPlanNResult();
+                    break;
+
+                case 3:
+                    if (dt.Minute == 6 && dt.Second == 0)   UpdateWorkPlanNResult();
+                    break;
+
+                case 4:
+                    if (dt.Minute == 9 && dt.Second == 0)   UpdateWorkPlanNResult();
+                    break;
+
+                case 5:
+                    if (dt.Minute == 12 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                case 6:
+                    if (dt.Minute == 15 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                case 7:
+                    if (dt.Minute == 18 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                case 8:
+                    if (dt.Minute == 21 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                case 9:
+                    if (dt.Minute == 24 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                case 10:
+                    if (dt.Minute == 27 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                case 11:
+                    if (dt.Minute == 30 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                case 12:
+                    if (dt.Minute == 33 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                case 13:
+                    if (dt.Minute == 36 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                case 14:
+                    if (dt.Minute == 39 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                case 15:
+                    if (dt.Minute == 42 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                case 16:
+                    if (dt.Minute == 45 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                case 17:
+                    if (dt.Minute == 48 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                case 18:
+                    if (dt.Minute == 51 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                case 19:
+                    if (dt.Minute == 54 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                case 20:
+                    if (dt.Minute == 57 && dt.Second == 0)  UpdateWorkPlanNResult();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        #endregion
+
+        private void UpdateWorkPlanNResult()
+        {
+            SelectWorkList();
+            ResultSearchDate();
+        }
+
+        // POP 프로그램 켜짐/꺼짐 상태 송신
+        private void InvokeMercName(string mercName, string v)
+        {
+            try
+            {
+                if (SettingJsonManager.corp_name.Equals("광성수출포장") ||
+                    SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
+                    SettingJsonManager.corp_name.Equals("대세물산") ||
+                    SettingJsonManager.corp_name.Equals("대세물산테스트") ||
+                    SettingJsonManager.corp_name.Equals("유창포장") ||
+                    SettingJsonManager.corp_name.Equals("유창포장테스트"))
+                {
+                    popService(mercName, v);
+                }
+                else
+                {
+                    SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); //invokeCount, DB명, 설비명, 문자
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("POP 프로그램 켜짐/꺼짐 상태 전송 오류 : " + e.Message);
             }
         }
 
@@ -312,26 +571,6 @@ namespace PopProject.UserControl_
         {
             try
             {
-                //오픈이면
-                if (arduSerial.IsOpen)
-                {
-                    Thread serialClose;
-                    serialClose = new System.Threading.Thread(new System.Threading.ThreadStart(serialDisConnect));//닫았다 연결 시도
-                    serialClose.IsBackground = true;
-                    serialClose.Start();
-                }
-                else//닫혔으면 재연결 시도
-                {
-                    arduSerial.Encoding = Encoding.GetEncoding(65001);
-                    arduSerial.PortName = SettingJsonManager.SerialName;
-                    arduSerial.BaudRate = SettingJsonManager.baudrate;
-                    arduSerial.DataReceived += ArduReReceive;
-
-                    arduSerial.Open();
-                    arduSerial.Write(SettingJsonManager.SensorRate);
-                    btrSerial.Background = Brushes.Green;
-                }
-
                 //통신 끊겼으면 재연결 시도
                 if (!arduSerial.IsOpen)
                 {
@@ -344,6 +583,11 @@ namespace PopProject.UserControl_
                     arduSerial.Write(SettingJsonManager.SensorRate);
                     btrSerial.Background = Brushes.Green;
                 }
+
+                Thread serialClose;
+                serialClose = new System.Threading.Thread(new System.Threading.ThreadStart(serialDisConnect));//닫았다 연결 시도
+                serialClose.IsBackground = true;
+                serialClose.Start();
             }
             catch (Exception e)
             {
@@ -385,50 +629,6 @@ namespace PopProject.UserControl_
             }
         }
 
-        
-
-        //로그 기록(구)
-        private void LogWrite(string str)
-        {
-            // 현재 작업 디렉토리와 로그 파일 및 디렉토리 경로 지정
-            string DirPath = Environment.CurrentDirectory + @"\Log";
-            string FilePath = DirPath + "\\Log_" + DateTime.Today.ToString("yyyyMMdd") + ".log";
-            string temp;
-
-            // 작업 디렉토리와 파일 정보 가져오기
-            DirectoryInfo di = new DirectoryInfo(DirPath);
-            FileInfo fi = new FileInfo(FilePath);
-
-            try
-            {
-                // 디렉토리가 없으면 생성
-                if (!di.Exists) Directory.CreateDirectory(DirPath);
-
-                // 파일이 없으면 생성하고 로그 기록
-                if (!fi.Exists)
-                {
-                    using (StreamWriter sw = new StreamWriter(FilePath))
-                    {
-                        temp = string.Format("[{0}] {1}", DateTime.Now, str);
-                        sw.WriteLine(temp);
-                        sw.Close();
-                    }
-                }
-                // 파일이 있으면 로그 기록 추가
-                else
-                {
-                    using (StreamWriter sw = File.AppendText(FilePath))
-                    {
-                        temp = string.Format("[{0}] {1}", DateTime.Now, str);
-                        sw.WriteLine(temp);
-                        sw.Close();
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-            }
-        }
 
 
         //아두이노 카운터값 수신 -> 카운터값 가공 -> 현황판으로 전송
@@ -539,370 +739,7 @@ namespace PopProject.UserControl_
             }
         }
 
-        //SignalR 연결상태 로그
-        private void TimerSet4()
-        {
-            timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(60)
-            };
-            timer.Tick += new EventHandler(Timer_Tick4);
-            timer.Start();
-        }
 
-        //SignalR 연결상태 로그
-        private void Timer_Tick4(object sender, EventArgs e)
-        {
-            SignalRAdministrator conn = new SignalRAdministrator();
-            SignalR_State = conn.GetState().ToString();
-            //log.Info("SignalR 상태(1분) : " + SignalR_State);
-        }
-
-        //SignalR 연결상태 모니터링용
-        private void TimerSet3()
-        {
-            timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(5)
-            };
-            timer.Tick += new EventHandler(SignalR_Com_Status);
-            timer.Start();
-        }
-
-        //SignalR 연결상태 모니터링용
-        private void SignalR_Com_Status(object sender, EventArgs e)
-        {
-            SignalRAdministrator conn = new SignalRAdministrator();
-            //Console.WriteLine("SignalR 연결상태: " + conn.GetState());
-
-            //상태에 따른 글자 변환
-            SignalR_State = conn.GetState().ToString();
-            SState.Foreground = SignalR_State.Equals("Connected") ? Brushes.Green : Brushes.Black;
-        }
-
-        //미사용
-        private void TimerSet2()
-        {
-            timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(1)
-            };
-            timer.Tick += new EventHandler(Timer_Tick2);
-            timer.Start();
-        }
-
-        //미사용
-        private void Timer_Tick2(object sender, EventArgs e)
-        {
-        }
-
-        // 1초 타이머 실행
-        private void TimerSet()
-        {
-            timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(1)
-            };
-            timer.Tick += new EventHandler(Timer_Tick);
-            timer.Start();
-        }
-
-
-        private bool isEventTriggered = false; //리스트 조회
-        bool 설비점검중 = false;
-        //시계 타이머
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            var clock = DateTime.Now; //현재 시간
-
-            //POP날짜와 현재 날짜가 일치할때에 현재시간 갱신
-            if (CheckDateValue && !dt.ToString("D").Equals(DateTime.Now.ToString("D")))
-            {
-                dt = DateTime.Now;
-            }
-            
-            string datePart = dt.ToString("yyyy년 MM월 dd일 dddd"); //날짜
-            string datetime = string.Format("{0:D2}시 {1:D2}분 {2:D2}초", clock.Hour, clock.Minute, clock.Second);//시간
-            txtDate.Text = datePart;  //날짜
-            txtClock.Text = datetime; //시간
-
-            //프로그램 실행 1초 후 리스트 조회 (한번만)
-            if (!isEventTriggered)
-            {
-                if (win_Input == null || robot_Setting == null)
-                {
-                    SelectWorkList(); //생산 계획 리스트 조회
-                }
-                ResultSearchDate(); //생산 결과 리스트 조회
-            }
-
-            isEventTriggered = true;
-
-            //지정된 시간에 컴퓨터를 종료
-            if (dt.Hour == SettingJsonManager.hour)
-            {
-                if (dt.Minute == SettingJsonManager.minute)
-                {
-                    if (dt.Second == 0)
-                    {
-                        _ = Process.Start("shutdown.exe", "-s");
-                    }
-                }
-            }
-
-            //대세,광성은 바코드 동작 x
-            if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트") || SettingJsonManager.corp_name.Equals("광성수출포장") || SettingJsonManager.corp_name.Equals("광성수출포장테스트"))
-            {
-            }
-            else
-            {
-                //바코드
-                _ = tbBarcode.Focus();
-                tbBarcode.SelectAll();
-            }
-
-            //1분마다 실행
-            if (minuite1 == 60)
-            {
-                bool connected = NetworkInterface.GetIsNetworkAvailable(); //네트워크 연결 여부 확인
-                if (connected)
-                {
-                    //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 
-                    if (!SettingJsonManager.manager.Equals("1"))
-                    {
-                        InvokeMercName(SettingJsonManager.mercName, "A"); //켜짐
-                    }
-                }
-                minuite1 = 0;
-            }
-
-            //5분마다 실행
-            if (minuite == 30)
-            {
-                bool connected = NetworkInterface.GetIsNetworkAvailable(); //네트워크 연결 여부 확인
-                if (!arduSerial.IsOpen) //아두이노 오픈 안되어 있으면 다시 오픈 요청
-                {
-                    arduSerial.DataReceived -= ArduReReceive;
-                    ArduConn();
-                }
-
-                if (connected) //네트워크 연결되어 있으면
-                {
-                    if (production != null && production.presultCount != 0)
-                    {
-                        InvokeCount(Convert.ToInt32(production.presultCount), SettingJsonManager.mercName); //현황판으로 카운터 전송
-                    }
-
-                    if (win_Input == null || robot_Setting == null)
-                    {
-                        if (!SettingJsonManager.corp_name.Equals("유창포장"))
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                    }
-                    minuite = 0;
-                }
-            }
-
-            //유창포장은 설비별로 다른 시간대에 계획/결과 리스트 조회하도록 함
-            if (SettingJsonManager.corp_name.Equals("유창포장") || SettingJsonManager.corp_name.Equals("유창포장테스트"))
-            {
-                switch (SettingJsonManager.processType)
-                {
-                    case 1:
-                        if (dt.Minute == 0 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 2:
-                        if (dt.Minute == 3 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-
-                        break;
-
-                    case 3:
-                        if (dt.Minute == 6 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 4:
-                        if (dt.Minute == 9 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 5:
-                        if (dt.Minute == 12 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 6:
-                        if (dt.Minute == 15 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 7:
-                        if (dt.Minute == 18 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 8:
-                        if (dt.Minute == 21 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 9:
-                        if (dt.Minute == 24 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 10:
-                        if (dt.Minute == 27 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 11:
-                        if (dt.Minute == 30 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 12:
-                        if (dt.Minute == 33 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 13:
-                        if (dt.Minute == 36 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 14:
-                        if (dt.Minute == 39 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 15:
-                        if (dt.Minute == 42 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 16:
-                        if (dt.Minute == 45 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 17:
-                        if (dt.Minute == 48 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    case 18:
-
-                        if (dt.Minute == 51 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-
-                        break;
-
-                    case 19:
-                        if (dt.Minute == 54 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-
-                        break;
-
-                    case 20:
-                        if (dt.Minute == 57 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-            minuite += 1;
-            minuite1 += 1;
-            // Console.WriteLine("minuite - " + minuite);
-        }
-
-        // POP 프로그램 켜짐/꺼짐 상태 송신
-        private void InvokeMercName(string mercName, string v)
-        {
-            try
-            {
-                if (SettingJsonManager.corp_name.Equals("광성수출포장") || SettingJsonManager.corp_name.Equals("대세물산"))
-                {
-                    popService(mercName, v);
-                }
-                else 
-                {
-                    SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); //invokeCount, DB명, 설비명, 문자
-                }
-            }
-            catch (Exception e)
-            {
-                log.Error("POP 프로그램 켜짐/꺼짐 상태 전송 오류 : " + e.Message);
-            }
-
-        }
 
         // 현황판으로 카운터 전송
         public void InvokeCount(int str, string mercName)
@@ -1013,11 +850,8 @@ namespace PopProject.UserControl_
                 CheckDateValue = false;
             }
 
-            SelectWorkList(); //계획 조회
-            ResultSearchDate(); //결과 조회
+            UpdateWorkPlanNResult();    // 계획/결과 조회
         }
-
-                  
 
          //if
          
@@ -1357,7 +1191,7 @@ namespace PopProject.UserControl_
                         }
 
                         listitem.presultCount = float.Parse(result["presultCount"].ToString());
-
+                         
                         //옵션>상자수 사용
                         if (SettingJsonManager.boxCheck)
                         {
@@ -2670,8 +2504,6 @@ namespace PopProject.UserControl_
             }
         }
 
-        
-
         // 프로그램 종료 버튼 클릭
         private void Program_exit(object sender, MouseButtonEventArgs e)
         {
@@ -2685,103 +2517,8 @@ namespace PopProject.UserControl_
             }
 
             //인증코드 저장(로그인 정보)
-            try
-            {
-                string filePath = @"C:\ICD\settings.json";
+            SettingJsonManager.SaveJsonFile();
 
-                if (!string.IsNullOrWhiteSpace(SettingJsonManager.login_id) && !string.IsNullOrWhiteSpace(SettingJsonManager.login_password))
-                {
-                    //인증코드 파일경로가 존재하는지 확인 후 경로 생성
-                    if (!Directory.Exists(Path.GetDirectoryName(filePath)))
-                    {
-                        Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-                    }
-
-                    //파일 내용
-                    var settings = new Dictionary<string, string>
-                    {
-                        {"login_id", SettingJsonManager.login_id},
-                        {"login_password", SettingJsonManager.login_password},
-                        {"corp_name", SettingJsonManager.corp_name},
-                        {"corp_id", SettingJsonManager.corp_id},
-                        {"login_check", SettingJsonManager.login_check.ToString()},
-                        {"mercName", SettingJsonManager.mercName},
-                        {"SerialName", SettingJsonManager.SerialName},
-                        {"processType", SettingJsonManager.processType.ToString()},
-                        {"hour", SettingJsonManager.hour.ToString()},
-                        {"minute", SettingJsonManager.minute.ToString()},
-                        {"url", SettingJsonManager.url},
-                        {"saveDate", SettingJsonManager.saveDate},
-                        {"pplanKey", SettingJsonManager.pplanKey.ToString()},
-                        {"count", SettingJsonManager.count.ToString()},
-                        {"UserID", SettingJsonManager.UserID},
-                        {"UserName", SettingJsonManager.UserName},
-                        {"signalR", SettingJsonManager.signalR},
-                        {"serverIndex", SettingJsonManager.serverIndex},
-                        {"pworkkey", SettingJsonManager.pworkkey},
-                        {"consumersumcount", SettingJsonManager.consumersumcount.ToString()},
-                        {"consumpWorkKey", SettingJsonManager.consumpWorkKey.ToString()},
-                        {"consumersumerrorcount", SettingJsonManager.consumersumerrorcount.ToString()},
-                        {"TypeIndex", SettingJsonManager.TypeIndex.ToString()},
-                        {"CountType", SettingJsonManager.CountType.ToString()},
-                        {"settingitem", SettingJsonManager.settingitem},
-                        {"meterialinfo", SettingJsonManager.meterialinfo},
-                        {"setting_check", SettingJsonManager.setting_check.ToString()},
-                        {"baudrate", SettingJsonManager.baudrate.ToString()},
-                        {"SensorRate", SettingJsonManager.SensorRate},
-                        {"RadioChecked", SettingJsonManager.RadioChecked.ToString()},
-                        {"printItem", SettingJsonManager.printItem},
-                        {"samework", SettingJsonManager.samework.ToString()},
-                        {"color_check", SettingJsonManager.color_check.ToString()},
-                        {"count_check", SettingJsonManager.count_check.ToString()},
-                        {"boxCheck", SettingJsonManager.boxCheck.ToString()},
-                        {"searchCheck", SettingJsonManager.searchCheck.ToString()},
-                        {"keyinCheck", SettingJsonManager.keyinCheck.ToString()},
-                        {"detail_check", SettingJsonManager.detail_check.ToString()},
-                        {"option1", SettingJsonManager.option1.ToString()},
-                        {"presultcount", SettingJsonManager.presultcount.ToString()},
-                        {"twoSum", SettingJsonManager.twoSum.ToString()},
-                        {"accountCheck", SettingJsonManager.accountCheck.ToString()},
-                        {"productionCheck", SettingJsonManager.productionCheck.ToString()},
-                        {"scrollvarCheck", SettingJsonManager.scrollvarCheck.ToString()},
-                        {"index", SettingJsonManager.index.ToString()},
-                        {"error", SettingJsonManager.error},
-                        {"error1", SettingJsonManager.error1},
-                        {"Plc", SettingJsonManager.Plc.ToString()},
-                        {"ChangeCheck", SettingJsonManager.ChangeCheck.ToString()},
-                        {"ip", SettingJsonManager.ip},
-                        {"port", SettingJsonManager.port},
-                        {"Gap", SettingJsonManager.Gap.ToString()},
-                        {"mimi", SettingJsonManager.mimi.ToString()},
-                        {"jang", SettingJsonManager.jang.ToString()},
-                        {"pok", SettingJsonManager.pok.ToString()},
-                        {"go", SettingJsonManager.go.ToString()},
-                        {"setCount", SettingJsonManager.setCount.ToString()},
-                        {"boxType", SettingJsonManager.boxType.ToString()},
-                        {"plcCheck", SettingJsonManager.plcCheck.ToString()},
-                        {"completeValue_checked", SettingJsonManager.completeValue_checked.ToString()},
-                        {"checkMerc", SettingJsonManager.checkMerc.ToString()},
-                        {"robotchecked", SettingJsonManager.robotchecked.ToString()},
-                        {"robotIP", SettingJsonManager.robotIP},
-                        {"robotPort", SettingJsonManager.robotPort},
-                        {"manager", SettingJsonManager.manager},
-                        {"authKey", SettingJsonManager.authKey},
-                        {"SerialName1", SettingJsonManager.SerialName1},
-                        {"consumCount", SettingJsonManager.consumCount.ToString()}
-                    };
-
-                    //인증코드 파일 작성
-                    string json = Newtonsoft.Json.JsonConvert.SerializeObject(settings);
-
-                    //인증코드 파일이 있는지 확인 후 해당 파일을 숨김 처리 (숨김 이후 수정되지 않음)
-                    File.WriteAllText(filePath, json);
-                    log.Info("인증코드 파일 저장 성공");
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error("인증코드 파일 저장 실패 : " + ex.Message);
-            }
             //프로그램 종료
             log.Info("프로그램 종료");
             Environment.Exit(0);
@@ -2857,9 +2594,9 @@ namespace PopProject.UserControl_
                         }
 
                         //대세, 구룡일때
-                        if (SettingJsonManager.corp_name.Equals("대세물산") || 
-                            SettingJsonManager.corp_name.Equals("대세물산테스트") || 
-                            SettingJsonManager.corp_name.Equals("구룡산업제2공장") || 
+                        if (SettingJsonManager.corp_name.Equals("대세물산") ||
+                            SettingJsonManager.corp_name.Equals("대세물산테스트") ||
+                            SettingJsonManager.corp_name.Equals("구룡산업제2공장") ||
                             SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
                         {
                             SelectWorkList();
@@ -2898,6 +2635,7 @@ namespace PopProject.UserControl_
                 e.Handled = false;
                 can.Visibility = Visibility.Collapsed;
             }
+
         }
 
         //실수요자 생산 시작
@@ -2953,7 +2691,12 @@ namespace PopProject.UserControl_
         {
             try
             {
-                if (SettingJsonManager.corp_name.Equals("광성수출포장"))
+                if (SettingJsonManager.corp_name.Equals("광성수출포장") ||
+                    SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
+                    SettingJsonManager.corp_name.Equals("대세물산") ||
+                    SettingJsonManager.corp_name.Equals("대세물산테스트") ||
+                    SettingJsonManager.corp_name.Equals("유창포장") ||
+                    SettingJsonManager.corp_name.Equals("유창포장테스트"))
                 {
                     popService(mercName, v);
                 }
@@ -3133,13 +2876,59 @@ namespace PopProject.UserControl_
                 }
                 can.Visibility = Visibility.Collapsed;
             }
-
             e.Handled = false;
         }
 
+        //로그 기록(구)
+        #region LogWrite
+        private void LogWrite(string str)
+        {
+            // 현재 작업 디렉토리와 로그 파일 및 디렉토리 경로 지정
+            string DirPath = Environment.CurrentDirectory + @"\Log";
+            string FilePath = DirPath + "\\Log_" + DateTime.Today.ToString("yyyyMMdd") + ".log";
+            string temp;
+
+            // 작업 디렉토리와 파일 정보 가져오기
+            DirectoryInfo di = new DirectoryInfo(DirPath);
+            FileInfo fi = new FileInfo(FilePath);
+
+            try
+            {
+                // 디렉토리가 없으면 생성
+                if (!di.Exists) Directory.CreateDirectory(DirPath);
+
+                // 파일이 없으면 생성하고 로그 기록
+                if (!fi.Exists)
+                {
+                    using (StreamWriter sw = new StreamWriter(FilePath))
+                    {
+                        temp = string.Format("[{0}] {1}", DateTime.Now, str);
+                        sw.WriteLine(temp);
+                        sw.Close();
+                    }
+                }
+                // 파일이 있으면 로그 기록 추가
+                else
+                {
+                    using (StreamWriter sw = File.AppendText(FilePath))
+                    {
+                        temp = string.Format("[{0}] {1}", DateTime.Now, str);
+                        sw.WriteLine(temp);
+                        sw.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+            }
+        }
+        #endregion
+
+        #region BarcodeCheck
         private void BarcodeCheck()
         {
         }
+        #endregion
 
         private void Sv_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -3336,6 +3125,7 @@ namespace PopProject.UserControl_
                     break;
             }
         }
+
 
         private void Search_(object sender, MouseButtonEventArgs e)
         {
@@ -3548,6 +3338,8 @@ namespace PopProject.UserControl_
                 btnDB_lock.Background = Brushes.Green;
             }
         }
+
+
     }
 
 
