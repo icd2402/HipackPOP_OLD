@@ -58,7 +58,7 @@ namespace PopProject.UserControl_
             else
             {
                 //자동로그인 체크시
-                if (SettingJsonManager.login_check)
+                if (SettingJsonManager.login_check && SettingJsonManager.login_id != null)
                 {
                     login_check.IsChecked = true;
                     textbox_login_id.Text = SettingJsonManager.login_id;
@@ -173,11 +173,13 @@ namespace PopProject.UserControl_
 
                 switch (jo_result)
                 {
+                    // 아이디가 없는 경우
                     case "0":
                         MessageBox_Dialog dialog = new MessageBox_Dialog("아이디가 존재 하지 않습니다.");
                         _ = dialog.ShowDialog();
                         break;
 
+                    // 아이디는 있는 경우
                     case "1":
                         string jo_data = jo.SelectToken("data").ToString();
                         JArray jarr = JArray.Parse(jo_data);
@@ -191,6 +193,7 @@ namespace PopProject.UserControl_
                         string serverIndex = jarr[0]["serverIndex"].ToString();
                         string manager = jarr[0]["manager"].ToString();
 
+                        // 패스워드 OK = 정상로그인
                         if (login_password.Equals(password))
                         {
                             SettingJsonManager.login_id = login_id;
@@ -202,8 +205,8 @@ namespace PopProject.UserControl_
                             SettingJsonManager.serverIndex = serverIndex;
                             SettingJsonManager.manager = manager;
                             SettingJsonManager.login_check = login_check.IsChecked.GetValueOrDefault();
-                            //SettingJsonManager.SaveJsonFile();
-                            
+                            SettingJsonManager.SaveJsonFile();
+
                             string metrialitem = SettingJsonManager.meterialinfo;
                             Console.WriteLine("metrialitem -> " + metrialitem);
                             SetSetting(metrialitem);
@@ -220,6 +223,7 @@ namespace PopProject.UserControl_
 
                             log.Info("로그인 정보 정상");
                         }
+                        // 패스워드 틀린 경우
                         else
                         {
                             SettingJsonManager.login_id = "";
@@ -336,7 +340,7 @@ namespace PopProject.UserControl_
         //인증코드 파일 읽어오기
         static bool Is_GetCompanyCodeFile()
         {
-            return SettingJsonManager.Init();
+            return SettingJsonManager.LoadJsonFile();
         }
 
 

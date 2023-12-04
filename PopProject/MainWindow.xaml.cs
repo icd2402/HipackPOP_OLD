@@ -45,11 +45,11 @@ namespace PopProject
                 {
                     SettingJsonManager.baudrate = 9600;
                 }
-                if (SettingJsonManager.SensorRate.Length == 0)
+                if (SettingJsonManager.SensorRate == null)
                 {
                     SettingJsonManager.SensorRate = "0";
                 }
-                if (SettingJsonManager.meterialinfo.Length <= 0)
+                if (SettingJsonManager.meterialinfo == null)
                 {
                     SettingJsonManager.meterialinfo = "";
                 }
@@ -78,7 +78,7 @@ namespace PopProject
                 }
                 else
                 {
-                    log.Error("POP 프로그램 중복 사용으로 실행 실패. 알림2");
+                    log.Error("POP 프로그램 중복 사용으로 실행 실패");
                     _ = System.Windows.MessageBox.Show("프로그램이 이미 실행 중입니다!", "알림2", MessageBoxButton.OK);
                     Application.Current.Shutdown();
                 }
@@ -205,7 +205,5 @@ namespace PopProject
 
             log.Info("프로그램 종료");
         }
-
-
     }
 }
