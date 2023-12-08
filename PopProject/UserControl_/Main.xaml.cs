@@ -1160,7 +1160,7 @@ namespace PopProject.UserControl_
                         }
                         else
                         {
-                            Grid.SetRowSpan(workListBorder, 2); //WorkList Grid.Row3까지 확장 
+                            Grid.SetRowSpan(workListBorder, 3); //WorkList Grid.Row3까지 확장 
                             ss.Visibility = Visibility.Collapsed; //집계창 표시해제
                         }
 
