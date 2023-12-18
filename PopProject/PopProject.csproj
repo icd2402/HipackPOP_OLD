@@ -29,7 +29,7 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.369</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.370</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <ApplicationRevision>370</ApplicationRevision>
@@ -400,6 +400,7 @@
     <Compile Include="UserControl_\Main1.xaml.cs">
       <DependentUpon>Main1.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl_\MainList.cs" />
     <Compile Include="UserControl_\MainModel.cs" />
     <Compile Include="UserControl_\Main_item.xaml.cs">
       <DependentUpon>Main_item.xaml</DependentUpon>

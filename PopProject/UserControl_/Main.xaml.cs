@@ -73,6 +73,7 @@ namespace PopProject.UserControl_
         public ILog log = LogManager.GetLogger(typeof(Main)); //로그
         string Url; //서비스 주소
         private double LastConunt;
+        string popWorkList = ""; //생산계획리스트 SP명
 
         public Main()
         {
@@ -148,7 +149,7 @@ namespace PopProject.UserControl_
                 //SettingJsonManager.SaveJsonFile();
 
                 SetSetting(metrialitem); //작업정보 설장 값 저장
-                ArduConn(); //아두이노 통신연결
+                ArduConn(); //아두이노 통신연결(로드시)
 
                 //신우,우리,누리,혜성,성주 //통수 설비일때 텍스트 변경
                 if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("혜성수출포장") || SettingJsonManager.corp_name.Equals("신우포장테스트") || SettingJsonManager.corp_name.Equals("성주포장"))
@@ -305,7 +306,7 @@ namespace PopProject.UserControl_
         {
             timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(60)
+                Interval = TimeSpan.FromSeconds(300)
             };
             timer.Tick += new EventHandler(Timer_300s_Tick);
             timer.Start();
@@ -318,7 +319,7 @@ namespace PopProject.UserControl_
             if (!arduSerial.IsOpen) //아두이노 오픈 안되어 있으면 다시 오픈 요청
             {
                 arduSerial.DataReceived -= ArduReReceive;
-                ArduConn();
+                ArduConn();//아두이노 통신연결(5분 타이머)
             }
 
             if (connected) //네트워크 연결되어 있으면
@@ -571,9 +572,16 @@ namespace PopProject.UserControl_
         {
             try
             {
-                //통신 끊겼으면 재연결 시도
-                if (!arduSerial.IsOpen)
+                //통신 연결되어 있으면
+                if (arduSerial.IsOpen)
                 {
+                    
+                }
+                //통신 연결 끊겨있으면
+                else if(!arduSerial.IsOpen)
+                {
+                    log.Info("시리얼 끊겼으면 재시도");
+
                     arduSerial.Encoding = Encoding.GetEncoding(65001);
                     arduSerial.PortName = SettingJsonManager.SerialName;
                     arduSerial.BaudRate = SettingJsonManager.baudrate;
@@ -582,12 +590,17 @@ namespace PopProject.UserControl_
                     arduSerial.Open();
                     arduSerial.Write(SettingJsonManager.SensorRate);
                     btrSerial.Background = Brushes.Green;
+
+                    if (arduSerial.IsOpen)
+                    {
+                        log.Info("시리얼 연결 완료");
+                    }
                 }
 
-                Thread serialClose;
-                serialClose = new System.Threading.Thread(new System.Threading.ThreadStart(serialDisConnect));//닫았다 연결 시도
-                serialClose.IsBackground = true;
-                serialClose.Start();
+                //Thread serialClose;
+                //serialClose = new System.Threading.Thread(new System.Threading.ThreadStart(serialDisConnect));//닫았다 연결 시도
+                //serialClose.IsBackground = true;
+                //serialClose.Start();
             }
             catch (Exception e)
             {
@@ -601,6 +614,7 @@ namespace PopProject.UserControl_
         {
             try
             {
+                log.Info("시리얼 연결 끊기");
                 arduSerial.DataReceived -= ArduReReceive;
                 arduSerial.DtrEnable = false;
                 arduSerial.RtsEnable = false;
@@ -608,6 +622,7 @@ namespace PopProject.UserControl_
                 arduSerial.DiscardInBuffer(); //수신 버퍼 삭제
                 arduSerial.DiscardOutBuffer(); //송신 버퍼 삭제
                 arduSerial.Close(); // 시리얼 포트 닫기
+                log.Info("시리얼 연결 끊기 완료");
             }
             catch(Exception e)
             {
@@ -626,6 +641,11 @@ namespace PopProject.UserControl_
                 {
                     btrSerial.Background = Brushes.Green;
                 }));
+
+                if (arduSerial.IsOpen)
+                {
+                    log.Info("시리얼 재연결 완료");
+                }
             }
         }
 
@@ -915,15 +935,23 @@ namespace PopProject.UserControl_
         //계획 리스트 조회
         public void SelectWorkList()
         {
-            log.Info("생산계획 리스트 조회 시작");
+            if (SettingJsonManager.corp_name.Equals("오주포장"))
+            {
+                popWorkList = "[PopWorkList]";
+                //popWorkList = "[PopWorkList_231214]";
+            }
+            else
+            {
+                popWorkList = "[PopWorkList]";
+            }
+
             wdIGCOunt = 0;
+            LogData logData = new LogData("조회");
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
-               SettingJsonManager.serverIndex,
-               "[PopWorkList]",
+               SettingJsonManager.serverIndex, popWorkList,
                new string[] { "@pplanDate" },
-               new string[] { dt.ToString("yyyy-MM-dd")}, //날짜 변경용
-               //new string[] { DateTime.Now.ToString("yyyy-MM-dd") }, //날짜 고정
+               new string[] { dt.ToString("yyyy-MM-dd") }, //날짜 변경용
                0
                );
             if (returnData.결과 == 1)
@@ -1191,7 +1219,7 @@ namespace PopProject.UserControl_
                         }
 
                         listitem.presultCount = float.Parse(result["presultCount"].ToString());
-                         
+
                         //옵션>상자수 사용
                         if (SettingJsonManager.boxCheck)
                         {
@@ -1378,6 +1406,7 @@ namespace PopProject.UserControl_
 
                                 }
 
+                                //공정 정보 표현
                                 //orderKey와 orderWorkNo일치 값 찾기
                                 foreach (JObject resultSub in Data_Jarry.Where((x) => (listitem.orderKey + listitem.orderWorkNo).Equals(x["orderKey"].ToString() + x["orderWorkNo"].ToString())))
                                 {
@@ -2077,17 +2106,9 @@ namespace PopProject.UserControl_
                 }
                 else
                 {
-                    log.Error("생산계획 리스트 조회 오류");
-
                     //MessageBox_Dialog box = new MessageBox_Dialog("PopWorkList 조회 오류!!");
                     //_ = box.ShowDialog();
                 }
-
-                log.Info("생산계획 리스트 조회 완료 (" + SettingJsonManager.mercName + ")");
-            }
-            else
-            {
-                log.Error("생산계획 조회 오류");
             }
             실적현황조회();
         }
@@ -2095,8 +2116,6 @@ namespace PopProject.UserControl_
         //신우,우리,누리 사용중
         private void 실적현황조회()
         {
-            log.Info("실적현황 조회 시작");
-
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel 실적returnData = ServiceModel.GetData(
                SettingJsonManager.serverIndex,
@@ -2175,8 +2194,6 @@ namespace PopProject.UserControl_
         //생산결과 조회
         public void ResultSearchDate()
         {
-            log.Info("생산결과 리스트 조회 시작");
-
             production = null;
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
@@ -2314,8 +2331,6 @@ namespace PopProject.UserControl_
         //실수요자 생산계획 조회
         private void 실수요자진행현황조회()
         {
-            log.Info("실수요자 리스트 조회 시작");
-
             string pplanKeyArray = string.Empty;
 
             foreach (var item in workList.Where((x) => x.bMember).GroupBy((x) => x.pplanKey))
@@ -2998,7 +3013,7 @@ namespace PopProject.UserControl_
             SetSetting(metrialitem);
             arduSerial.DataReceived -= ArduReReceive;
 
-            ArduConn();
+            ArduConn();//아두이노 통신연결(설정창 종료시)
             // ArduConn1();
 
             //스크롤바 사용 유/무
@@ -3361,6 +3376,8 @@ namespace PopProject.UserControl_
             return str;
 
         }
+        
+
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
