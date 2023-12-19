@@ -1960,8 +1960,8 @@ namespace PopProject.Input
             return returnData.결과;
         }
 
-        //현황판 전송
-        private void InvokeCount(string mercName, string v)
+        //현황판 전송 POP 상태값(S,E,0)
+        private void InvokeCount(string mercName, string mercState)
         {
             //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
             try
@@ -1973,11 +1973,11 @@ namespace PopProject.Input
                     SettingJsonManager.corp_name.Equals("유창포장") ||
                     SettingJsonManager.corp_name.Equals("유창포장테스트"))
                 {
-                    popService(mercName, v);
+                    inputPopService(mercName, mercState);
                 }
                 else
                 {
-                    SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
+                    SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, mercState);
                 }
             }
             catch (Exception e)
@@ -1987,7 +1987,7 @@ namespace PopProject.Input
 
         //신규 서비스 Http 셋팅
         private static HttpClient client = new HttpClient();
-        async Task popService(string mercName, string str)
+        async void inputPopService(string mercName, string str)
         {
             //주소
             if (SettingJsonManager.corp_name.Equals("광성수출포장"))
@@ -2013,18 +2013,33 @@ namespace PopProject.Input
             string MercName = mercName; //설비명
             string Data = str.ToString(); //데이터
 
-            await workCnt(Url, CompanyCode, MercName, Data);
+            await inputWorkCnt(Url, CompanyCode, MercName, Data);
         }
 
         ////신규 서비스 Http Get
-        async Task workCnt(string url, string companyCode, string mercName, string data)
+        async Task inputWorkCnt(string url, string companyCode, string mercName, string data)
         {
             try
             {
                 // 파라미터를 포함한 URL 생성
                 string urlWithParameters = $"{url}/{companyCode}/{mercName}/{data}";
                 // HTTP GET 요청 보내기
-                HttpResponseMessage response = await client.GetAsync(urlWithParameters);
+                await client.GetAsync(urlWithParameters).ContinueWith((t) =>
+                {
+                    //HttpResponseMessage response;
+
+                    if (t.IsFaulted)
+                    {
+                        log.Error("서비스 전송 후 대기 중 문제가 발생했습니다.");
+                    }
+                    else
+                    {
+                        //response = t.Result;
+                    }
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+
+                //HttpResponseMessage response = await client.GetAsync(urlWithParameters);
+
                 Console.WriteLine(urlWithParameters);
             }
             catch (Exception)

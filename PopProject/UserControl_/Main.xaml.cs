@@ -575,7 +575,6 @@ namespace PopProject.UserControl_
                 //통신 연결되어 있으면
                 if (arduSerial.IsOpen)
                 {
-                    
                 }
                 //통신 연결 끊겨있으면
                 else if(!arduSerial.IsOpen)
@@ -790,7 +789,7 @@ namespace PopProject.UserControl_
 
         //신규 서비스 Http 셋팅
         private static HttpClient client = new HttpClient();
-        async Task popService(string mercName, string str)
+        async void popService(string mercName, string str)
         {
             //주소
             if (SettingJsonManager.corp_name.Equals("광성수출포장"))
@@ -827,12 +826,27 @@ namespace PopProject.UserControl_
                 // 파라미터를 포함한 URL 생성
                 string urlWithParameters = $"{url}/{companyCode}/{mercName}/{data}";
                 // HTTP GET 요청 보내기
-                HttpResponseMessage response = await client.GetAsync(urlWithParameters);
-
-                if(response.IsSuccessStatusCode == false)
+                await client.GetAsync(urlWithParameters).ContinueWith((t) =>
                 {
-                    log.Error("서비스로 데이터 전송 실패");
-                }
+                    HttpResponseMessage response;
+
+                    if (t.IsFaulted)
+                    {
+                        log.Error("서비스 전송 후 대기 중 문제가 발생했습니다.");
+                    }
+                    else
+                    {
+                        response = t.Result;
+                    }
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+
+
+                //HttpResponseMessage response = await client.GetAsync(urlWithParameters);
+
+                //if(response.IsSuccessStatusCode == false)
+                //{
+                //    log.Error("서비스로 데이터 전송 실패");
+                //}
 
                 Console.WriteLine("서비스로 데이터 전송 값(Main) : " + urlWithParameters);
             }
@@ -2702,7 +2716,7 @@ namespace PopProject.UserControl_
             return returnData.결과;
         }
 
-        private void InvokeCount(string mercName, string v) //설비명,카운터
+        private void InvokeCount(string mercName, string v) //설비명,POP상태
         {
             try
             {
@@ -3011,7 +3025,7 @@ namespace PopProject.UserControl_
             string metrialitem = SettingJsonManager.meterialinfo;
 
             SetSetting(metrialitem);
-            arduSerial.DataReceived -= ArduReReceive;
+            //arduSerial.DataReceived -= ArduReReceive;
 
             ArduConn();//아두이노 통신연결(설정창 종료시)
             // ArduConn1();
