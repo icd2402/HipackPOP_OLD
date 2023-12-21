@@ -2124,6 +2124,11 @@ namespace PopProject.UserControl_
                     //_ = box.ShowDialog();
                 }
             }
+            else
+            {
+                Console.WriteLine("생산계획 조회 오류");
+            }
+
             실적현황조회();
         }
 

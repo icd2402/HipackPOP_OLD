@@ -18,7 +18,7 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>ftp://211.251.238.209:61028/Setup/POP_NEW/</PublishUrl>
+    <PublishUrl>ftp://packcom.net:61028/Setup/POP_NEW/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -32,7 +32,7 @@
     <MinimumRequiredVersion>1.0.1.370</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>370</ApplicationRevision>
+    <ApplicationRevision>371</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -861,22 +861,22 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ServiceReference_jobox\Service_CRUD.wsdl" />
-    <None Include="Connected Services\ServiceReference_khbox\Access_MiddleWare_CRUD.xsd">
+    <None Include="Connected Services\ServiceReference_khbox\Access_MiddleWare_CRUD4.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_khbox\Access_MiddleWare_CRUD1.xsd">
+    <None Include="Connected Services\ServiceReference_khbox\Access_MiddleWare_CRUD41.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_khbox\Access_MiddleWare_CRUD2.xsd">
+    <None Include="Connected Services\ServiceReference_khbox\Access_MiddleWare_CRUD42.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_khbox\Access_MiddleWare_CRUD3.xsd">
+    <None Include="Connected Services\ServiceReference_khbox\Access_MiddleWare_CRUD43.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\ServiceReference_khbox\PopProject.ServiceReference_khbox.Return_Model.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\ServiceReference_khbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_khbox\Service_CRUD1.wsdl" />
     <None Include="Connected Services\ServiceReference_kmbox\Access_MiddleWare_CRUD.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1519,7 +1519,6 @@
     <Resource Include="img\7종.png" />
     <Resource Include="img\8종.png" />
     <None Include="Connected Services\ServiceReference_nrbox\Access_MiddleWare_CRUD1.disco" />
-    <None Include="Connected Services\ServiceReference_khbox\Access_MiddleWare_CRUD.disco" />
     <None Include="Connected Services\ServiceReference_khbox\configuration91.svcinfo" />
     <None Include="Connected Services\ServiceReference_khbox\configuration.svcinfo" />
     <None Include="Connected Services\ServiceReference_khbox\Reference.svcmap">
@@ -1527,6 +1526,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Resource Include="img\bn_02a.png" />
+    <None Include="Connected Services\ServiceReference_khbox\Access_MiddleWare_CRUD1.disco" />
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
