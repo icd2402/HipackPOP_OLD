@@ -575,6 +575,10 @@ namespace PopProject.UserControl_
                 //통신 연결되어 있으면
                 if (arduSerial.IsOpen)
                 {
+                    Thread serialClose;
+                    serialClose = new System.Threading.Thread(new System.Threading.ThreadStart(serialDisConnect));//닫았다 연결 시도
+                    serialClose.IsBackground = true;
+                    serialClose.Start();
                 }
                 //통신 연결 끊겨있으면
                 else if(!arduSerial.IsOpen)
@@ -595,11 +599,6 @@ namespace PopProject.UserControl_
                         log.Info("시리얼 연결 완료");
                     }
                 }
-
-                //Thread serialClose;
-                //serialClose = new System.Threading.Thread(new System.Threading.ThreadStart(serialDisConnect));//닫았다 연결 시도
-                //serialClose.IsBackground = true;
-                //serialClose.Start();
             }
             catch (Exception e)
             {
@@ -621,7 +620,6 @@ namespace PopProject.UserControl_
                 arduSerial.DiscardInBuffer(); //수신 버퍼 삭제
                 arduSerial.DiscardOutBuffer(); //송신 버퍼 삭제
                 arduSerial.Close(); // 시리얼 포트 닫기
-                log.Info("시리얼 연결 끊기 완료");
             }
             catch(Exception e)
             {
