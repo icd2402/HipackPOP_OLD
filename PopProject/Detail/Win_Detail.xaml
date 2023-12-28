@@ -12,7 +12,7 @@
             <Image Source="/img/back_03.png" Canvas.Left="-2" Canvas.Top="-1" Width="560" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
             <TextBlock Text="|" FontSize="24" Foreground="White" Canvas.Top="11" Canvas.Left="14"></TextBlock>
             <TextBlock Text="공정" FontSize="24" Foreground="White" Canvas.Top="18" Canvas.Left="25" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
-            <TextBlock Text="세부정보" FontSize="24" Foreground="White" Canvas.Top="18" Canvas.Left="79" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+            <TextBlock Text="세부정보" FontSize="24" Foreground="White" Canvas.Top="18" Canvas.Left="79" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown ="hiddenBt"></TextBlock>
             <Border BorderBrush="Black" Height="890" Canvas.Left="557" BorderThickness="0,0,1,0"/>
             <!--<TextBlock Text="최종 수정 일자:" FontSize="18" Foreground="White" Canvas.Top="21" Canvas.Left="311" FontFamily="/font/#KoPubDotum Medium"></TextBlock>
             <TextBlock Text="2019.10.23" FontSize="18" Foreground="White" Canvas.Top="21" Canvas.Left="446" FontFamily="/font/#KoPubDotum Medium" ></TextBlock>-->
