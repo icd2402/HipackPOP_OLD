@@ -86,17 +86,17 @@ namespace PopProject.Consumer_
         }
 
         //현황판으로 시작신호 보냄 // 확인
-        private void InvokeCount(string mercName, string v)
-        {
-            //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
-            try
-            {
-                SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
-            }
-            catch (Exception e)
-            {
-            }
-        }
+        //private void InvokeCount(string mercName, string v)
+        //{
+        //    //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
+        //    try
+        //    {
+        //        SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //    }
+        //}
 
         //실수요자 생산계획 조회
         private void PopWorkListSearch()

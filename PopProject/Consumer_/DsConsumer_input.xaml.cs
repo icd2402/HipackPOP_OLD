@@ -633,16 +633,16 @@ namespace PopProject.Consumer_
         }
 
         //현황판으로 생산종료 송신 // 확인
-        private void InvokeCount(string mercName, string v)
-        {
-            try
-            {
-                SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
-            }
-            catch (Exception e)
-            {
-            }
-        }
+        //private void InvokeCount(string mercName, string v)
+        //{
+        //    try
+        //    {
+        //        SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //    }
+        //}
 
         //불량건 조회
         private ObservableCollection<errorModel> PopErrorListSearchMember(ConsumerModel listitem)

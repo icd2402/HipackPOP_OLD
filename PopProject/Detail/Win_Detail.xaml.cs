@@ -2488,10 +2488,10 @@ namespace PopProject.Detail
         }
 
         //오주 CNS전용 넘기기 기능   // 확인
-        private void InvokeCount(string mercName, string v)
-        {
-            SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); // EX) invokeCount, 3125247246, 인라인3호기, 오더키
-        }
+        //private void InvokeCount(string mercName, string v)
+        //{
+        //    SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); // EX) invokeCount, 3125247246, 인라인3호기, 오더키
+        //}
 
         //로봇 세팅 버튼
         private void robot_setting(object sender, MouseButtonEventArgs e)

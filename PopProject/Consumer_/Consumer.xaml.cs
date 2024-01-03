@@ -181,10 +181,10 @@ namespace PopProject.Consumer_
         }
 
         //현황판으로 데이터 송신  // 확인
-        public void InvokeCount(float str)
-        {
-            _ = SignalRAdministrator.허브.Invoke("invokeCount", SettingJsonManager.corp_id, SettingJsonManager.mercName, str + "");
-        }
+        //public void InvokeCount(float str)
+        //{
+        //    _ = SignalRAdministrator.허브.Invoke("invokeCount", SettingJsonManager.corp_id, SettingJsonManager.mercName, str + "");
+        //}
 
         //생산계획 조회
         private void PopWorkListSearch()
@@ -466,10 +466,10 @@ namespace PopProject.Consumer_
             }
         }
 
-        private void InvokeCount(string mercName, string v) // 확인
-        {
-            _ = SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
-        }
+        //private void InvokeCount(string mercName, string v) // 확인
+        //{
+        //    _ = SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
+        //}
 
         private void Canvas_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {

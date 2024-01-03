@@ -483,17 +483,16 @@ namespace PopProject.UserControl_
         }
 
         // 현황판으로 카운터 전송 // 확인
-
-        public void InvokeCount(int str)
-        {
-            try
-            {
-                _ = SignalRAdministrator.허브.Invoke("invokeCount", SettingJsonManager.corp_id, SettingJsonManager.mercName, str + "");
-            }
-            catch (Exception)
-            {
-            }
-        }
+        //public void InvokeCount(int str)
+        //{
+        //    try
+        //    {
+        //        _ = SignalRAdministrator.허브.Invoke("invokeCount", SettingJsonManager.corp_id, SettingJsonManager.mercName, str + "");
+        //    }
+        //    catch (Exception)
+        //    {
+        //    }
+        //}
 
         private void Serial_click(object sender, RoutedEventArgs e)
         {
@@ -1325,13 +1324,13 @@ namespace PopProject.UserControl_
             Environment.Exit(0);
         }
 
-        private void invokeMercName(string mercName, string v)  // 확인
-        {
+        //private void invokeMercName(string mercName, string v)  // 확인
+        //{
 
-            //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
-            SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
+        //    //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
+        //    SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
 
-        }
+        //}
         // 상태 버튼 클릭
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
