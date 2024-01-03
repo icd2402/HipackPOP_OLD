@@ -1,5 +1,6 @@
 ﻿
 using PopProject.input;
+using PopProject.KeyBoard;
 using PopProject.MessageBox;
 using PopProject.Util;
 using System;
@@ -17,6 +18,7 @@ namespace PopProject.Input
     {
         // private errorModel errorModel;
         private readonly float beforePerrorCount = 0;
+
         public Win_Update(errorModel errorModel, ObservableCollection<string> errorOb)
         {
             InitializeComponent();
@@ -123,6 +125,10 @@ namespace PopProject.Input
                 errorModel context = (errorModel)img.DataContext;
                 context.perrCount += 1;
             }
+        }
+
+        private void TextBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
         }
     }
 }

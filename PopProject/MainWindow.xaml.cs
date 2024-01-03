@@ -136,9 +136,14 @@ namespace PopProject
             {
                 Url = "http://211.253.37.232:18888/pop/gathering"; //유창
             }
+            else if (SettingJsonManager.corp_name.Equals("금화"))
+            {
+                Url = "http://khbox.iptime.org:18888/pop/gathering"; //금화
+            }
             else if (SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
                     SettingJsonManager.corp_name.Equals("대세물산테스트") ||
-                    SettingJsonManager.corp_name.Equals("유창포장테스트"))
+                    SettingJsonManager.corp_name.Equals("유창포장테스트") ||
+                    SettingJsonManager.corp_name.Equals("금화테스트"))
             {
                 Url = "http://localhost:18888/pop/gathering"; //테스트용 주소(개인 DeskTop)
             }

@@ -170,7 +170,8 @@ namespace PopProject.Input
                SettingJsonManager.serverIndex,
                "[PopCNSSearch]",
                new string[] { "prodID", "MachineName" },
-               new object[] { this.mainModel.prodID, SettingJsonManager.mercName }, 0);
+               new object[] { this.mainModel.prodID, SettingJsonManager.mercName }, 
+               0);
 
             if (returnData.결과 == 1)
             {
@@ -190,53 +191,53 @@ namespace PopProject.Input
                 int workSpeed = 0;
                 int saveState = 0;
                 int spare = 0;
-                int aRecipe = 0;
-                int bRecipe = 0;
-                int cRecipe = 0;
-                int dRecipe = 0;
-                int eRecipe = 0;
-                int f1Recipe = 0;
-                int f2Recipe = 0;
-                int gRecipe = 0;
-                int oRecipe = 0;
-                int p1Recipe = 0;
-                int p2pRecipe = 0;
-                int p3Recipe = 0;
-                int p4Recipe = 0;
-                int spare2 = 0;
-                int spare3 = 0;
-                int spare4 = 0;
-                int dRagista = 0;
-                int printerPull1 = 0;
-                int printerRoll1 = 0;
-                int printerPull2 = 0;
-                int printerRoll2 = 0;
-                int printerPull3 = 0;
-                int printerRoll3 = 0;
-                int printerPull4 = 0;
-                int printerRoll4 = 0;
-                int spare6 = 0;
-                int spare7 = 0;
-                int spare8 = 0;
-                int spare9 = 0;
-                int feederGap = 0;
-                int feederRoll = 0;
-                int slotterSubGap = 0;
-                int slotterMiddleGap = 0;
-                int slotterConnection = 0;
-                int dieCutterRollGap = 0;
-                int dieCutterConnectionGap = 0;
-                int spare10 = 0;
-                int gluerbeltF1 = 0;
-                int gluerbeltF2 = 0;
-                int gluerPressA = 0;
-                int gluerPressB = 0;
-                int gluerPE = 0;
-                int spare11 = 0;
-                int bRSub = 0;
-                int bRMain = 0;
-                int bRConnection = 0;
-                int bRmiddle = 0;
+                float aRecipe = 0;
+                float bRecipe = 0;
+                float cRecipe = 0;
+                float dRecipe = 0;
+                float eRecipe = 0;
+                float f1Recipe = 0;
+                float f2Recipe = 0;
+                float gRecipe = 0;
+                float oRecipe = 0;
+                float p1Recipe = 0;
+                float p2pRecipe = 0;
+                float p3Recipe = 0;
+                float p4Recipe = 0;
+                float spare2 = 0;
+                float spare3 = 0;
+                float spare4 = 0;
+                float dRagista = 0;
+                float printerPull1 = 0;
+                float printerRoll1 = 0;
+                float printerPull2 = 0;
+                float printerRoll2 = 0;
+                float printerPull3 = 0;
+                float printerRoll3 = 0;
+                float printerPull4 = 0;
+                float printerRoll4 = 0;
+                float spare6 = 0;
+                float spare7 = 0;
+                float spare8 = 0;
+                float spare9 = 0;
+                float feederGap = 0;
+                float feederRoll = 0;
+                float slotterSubGap = 0;
+                float slotterMiddleGap = 0;
+                float slotterConnection = 0;
+                float dieCutterRollGap = 0;
+                float dieCutterConnectionGap = 0;
+                float spare10 = 0;
+                float gluerbeltF1 = 0;
+                float gluerbeltF2 = 0;
+                float gluerPressA = 0;
+                float gluerPressB = 0;
+                float gluerPE = 0;
+                float spare11 = 0;
+                float bRSub = 0;
+                float bRMain = 0;
+                float bRConnection = 0;
+                float bRmiddle = 0;
 
                 JArray Data_Jarry = JArray.Parse(returnData.리턴값);
                 foreach (JObject result in Data_Jarry)
@@ -259,52 +260,52 @@ namespace PopProject.Input
                     saveState = Convert.ToInt32(result["SaveState"]);
                     spare = Convert.ToInt32(result["spare"]);
 
-                    aRecipe = Convert.ToInt32(result["aRecipe"]);     //A
-                    bRecipe = Convert.ToInt32(result["bRecipe"]);     //B
-                    cRecipe = Convert.ToInt32(result["cRecipe"]);     //C
-                    dRecipe = Convert.ToInt32(result["dRecipe"]);     //D
-                    eRecipe = Convert.ToInt32(result["eRecipe"]);     //E
-                    f1Recipe = Convert.ToInt32(result["f1Recipe"]);   //F1
-                    f2Recipe = Convert.ToInt32(result["f2Recipe"]);   //F2
-                    gRecipe = Convert.ToInt32(result["g2pRecipe"]);   //G
-                    oRecipe = Convert.ToInt32(result["oRecipe"]);     //O
+                    aRecipe = Convert.ToSingle(result["aRecipe"]);     //A
+                    bRecipe = Convert.ToSingle(result["bRecipe"]);     //B
+                    cRecipe = Convert.ToSingle(result["cRecipe"]);     //C
+                    dRecipe = Convert.ToSingle(result["dRecipe"]);     //D
+                    eRecipe = Convert.ToSingle(result["eRecipe"]);     //E
+                    f1Recipe = Convert.ToSingle(result["f1Recipe"]);   //F1
+                    f2Recipe = Convert.ToSingle(result["f2Recipe"]);   //F2
+                    gRecipe = Convert.ToSingle(result["g2pRecipe"]);   //G
+                    oRecipe = Convert.ToSingle(result["oRecipe"]);     //O
 
-                    p1Recipe = Convert.ToInt32(result["p1Recipe"]);   //P1
-                    p2pRecipe = Convert.ToInt32(result["p2pRecipe"]); //P2
-                    p3Recipe = Convert.ToInt32(result["p3Recipe"]);   //P3
-                    p4Recipe = Convert.ToInt32(result["p4Recipe"]);   //P4
+                    p1Recipe = Convert.ToSingle(result["p1Recipe"]);   //P1
+                    p2pRecipe = Convert.ToSingle(result["p2pRecipe"]); //P2
+                    p3Recipe = Convert.ToSingle(result["p3Recipe"]);   //P3
+                    p4Recipe = Convert.ToSingle(result["p4Recipe"]);   //P4
 
-                    dRagista = Convert.ToInt32(result["DieCutter"]);  //D레지스터
+                    dRagista = Convert.ToSingle(result["DieCutter"]);  //D레지스터
 
-                    printerPull1 = Convert.ToInt32(result["PrinterRoll1"]);  //1도 롤
-                    printerRoll1 = Convert.ToInt32(result["PrinterPull1"]);  //1도 
-                    printerPull2 = Convert.ToInt32(result["PrinterRoll2"]);  //2도 롤
-                    printerRoll2 = Convert.ToInt32(result["PrinterPull2"]);  //2도 
-                    printerPull3 = Convert.ToInt32(result["PrinterRoll3"]);  //3도 롤
-                    printerRoll3 = Convert.ToInt32(result["PrinterPull3"]);  //3도 
-                    printerPull4 = Convert.ToInt32(result["PrinterRoll4"]);  //4도 롤
-                    printerRoll4 = Convert.ToInt32(result["PrinterPull4"]);  //4도
+                    printerPull1 = Convert.ToSingle(result["PrinterPull1"]);  //1도 롤
+                    printerRoll1 = Convert.ToSingle(result["PrinterRoll1"]);  //1도 
+                    printerPull2 = Convert.ToSingle(result["PrinterPull2"]);  //2도 롤
+                    printerRoll2 = Convert.ToSingle(result["PrinterRoll2"]);  //2도 
+                    printerPull3 = Convert.ToSingle(result["PrinterPull3"]);  //3도 롤
+                    printerRoll3 = Convert.ToSingle(result["PrinterRoll3"]);  //3도 
+                    printerPull4 = Convert.ToSingle(result["PrinterPull4"]);  //4도 롤
+                    printerRoll4 = Convert.ToSingle(result["PrinterRoll4"]);  //4도
 
-                    feederGap = Convert.ToInt32(result["FeederGap"]);        //급지부 진입 갭
-                    feederRoll = Convert.ToInt32(result["FeederRoll"]);      //급지부 진입 롤갭
+                    feederGap = Convert.ToSingle(result["FeederGap"]);        //급지부 진입 갭
+                    feederRoll = Convert.ToSingle(result["FeederRoll"]);      //급지부 진입 롤갭
 
-                    slotterSubGap = Convert.ToInt32(result["SlotterSubGap"]);         //슬로다 보조 갭
-                    slotterMiddleGap = Convert.ToInt32(result["SlotterMiddleGap"]);   //슬로다 본 갭
-                    slotterConnection = Convert.ToInt32(result["SlotterConnection"]); //슬로다 연결갭
+                    slotterSubGap = Convert.ToSingle(result["SlotterSubGap"]);         //슬로다 보조 갭
+                    slotterMiddleGap = Convert.ToSingle(result["SlotterMiddleGap"]);   //슬로다 본 갭
+                    slotterConnection = Convert.ToSingle(result["SlotterConnection"]); //슬로다 연결갭
 
-                    dieCutterRollGap = Convert.ToInt32(result["DieCutterRollGap"]);   //다이캇타 롤 갭
-                    dieCutterConnectionGap = Convert.ToInt32(result["GluerbeltF"]);   //다이캇타 연결 갭
+                    dieCutterRollGap = Convert.ToSingle(result["DieCutterRollGap"]);   //다이캇타 롤 갭
+                    dieCutterConnectionGap = Convert.ToSingle(result["GluerbeltF1"]);   //다이캇타 연결 갭
 
-                    gluerbeltF1 = Convert.ToInt32(result["GluerPressA"]);     //글루어벨트 진입 갭 F1
-                    gluerbeltF2 = Convert.ToInt32(result["GluerPressB"]);     //글루어벨트 진입 갭 F2
-                    gluerPressA = Convert.ToInt32(result["DieCutterRollA"]);  //글루어 프레스롤 A
-                    gluerPressB = Convert.ToInt32(result["DieCutterRollB"]);  //글루어 프레스롤 B
-                    gluerPE = Convert.ToInt32(result["GluerPE"]);             //글루어 PE
+                    gluerbeltF1 = Convert.ToSingle(result["GluerPressA"]);     //글루어벨트 진입 갭 F1
+                    gluerbeltF2 = Convert.ToSingle(result["GluerPressB"]);     //글루어벨트 진입 갭 F2
+                    gluerPressA = Convert.ToSingle(result["DieCutterRollA"]);  //글루어 프레스롤 A
+                    gluerPressB = Convert.ToSingle(result["DieCutterRollB"]);  //글루어 프레스롤 B
+                    gluerPE = Convert.ToSingle(result["GluerPE"]);             //글루어 PE
 
-                    bRSub = Convert.ToInt32(result["BRMain"]);           //보조괘선 갭  
-                    bRMain = Convert.ToInt32(result["BRConnection"]);    //본괘선 갭
-                    bRConnection = Convert.ToInt32(result["BRmiddle"]);  //연결롤 갭
-                    bRmiddle = Convert.ToInt32(result["spare8"]);        //중간롤 갭
+                    bRSub = Convert.ToSingle(result["BRMain"]);           //보조괘선 갭  
+                    bRMain = Convert.ToSingle(result["BRConnection"]);    //본괘선 갭
+                    bRConnection = Convert.ToSingle(result["BRmiddle"]);  //연결롤 갭
+                    bRmiddle = Convert.ToSingle(result["spare8"]);        //중간롤 갭
                 }
 
                 //박스타입 선택
@@ -336,56 +337,57 @@ namespace PopProject.Input
                 갭.Text = gap.ToString();
                 미미.Text = cutting.ToString();
 
-                tb1.Text = (aRecipe / 10.0).ToString("N1");
-                tb2.Text = (bRecipe / 10.0).ToString("N1");
-                tb3.Text = (cRecipe / 10.0).ToString("N1");
-                tb4.Text = (dRecipe / 10.0).ToString("N1");
-                tb5.Text = (eRecipe / 10.0).ToString("N1");
-                tb6.Text = (f1Recipe / 10.0).ToString("N1");
-                tb7.Text = (f2Recipe / 10.0).ToString("N1");
-                tb8.Text = (gRecipe / 10.0).ToString("N1");
-                tb9.Text = (oRecipe / 10.0).ToString("N1");
-                tb10.Text = (p1Recipe / 10.0).ToString("N1");
-                tb11.Text = (p2pRecipe / 10.0).ToString("N1");
-                tb12.Text = (p3Recipe / 10.0).ToString("N1");
+                tb1.Text = aRecipe.ToString();
+                tb2.Text = bRecipe.ToString();
+                tb3.Text = cRecipe.ToString();
+                tb4.Text = dRecipe.ToString();
+                tb5.Text = eRecipe.ToString();
+                tb6.Text = f1Recipe.ToString();
+                tb7.Text = f2Recipe.ToString();
+                tb8.Text = gRecipe.ToString();
+                tb9.Text = oRecipe.ToString();
+                tb10.Text = p1Recipe.ToString();
+                tb11.Text = p2pRecipe.ToString();
+                tb11.Text = p2pRecipe.ToString();
+                tb12.Text = p3Recipe.ToString();
 
-                tb13.Text = (p4Recipe / 10.0).ToString("N1");
+                tb13.Text = p4Recipe.ToString();
                 tb14.Text = "0";
                 tb15.Text = "0";
                 tb16.Text = "0";
-                tb17.Text = (dRagista / 10.0).ToString("N1");
-                tb18.Text = (printerPull1 / 10.0).ToString("N1");
-                tb19.Text = (printerRoll1 / 10.0).ToString("N1");
-                tb20.Text = (printerPull2 / 10.0).ToString("N1");
-                tb21.Text = (printerRoll2 / 10.0).ToString("N1");
-                tb22.Text = (printerPull3 / 10.0).ToString("N1");
-                tb23.Text = (printerRoll3 / 10.0).ToString("N1");
-                tb24.Text = (printerPull4 / 10.0).ToString("N1");
+                tb17.Text = dRagista.ToString();
+                tb18.Text = printerPull1.ToString();
+                tb19.Text = printerRoll1.ToString();
+                tb20.Text = printerPull2.ToString();
+                tb21.Text = printerRoll2.ToString();
+                tb22.Text = printerPull3.ToString();
+                tb23.Text = printerRoll3.ToString();
+                tb24.Text = printerPull4.ToString();
 
-                tb25.Text = (printerRoll4 / 10.0).ToString("N1");
+                tb25.Text = printerRoll4.ToString();
                 tb26.Text = "0";
                 tb27.Text = "0";
                 tb28.Text = "0";
                 tb29.Text = "0";
-                tb30.Text = (feederGap / 10.0).ToString("N1");
-                tb31.Text = (feederRoll / 10.0).ToString("N1");
-                tb32.Text = (slotterSubGap / 10.0).ToString("N1");
-                tb33.Text = (slotterMiddleGap / 10.0).ToString("N1");
-                tb34.Text = (slotterConnection / 10.0).ToString("N1");
-                tb35.Text = (dieCutterRollGap / 10.0).ToString("N1");
-                tb36.Text = (dieCutterConnectionGap / 10.0).ToString("N1");
+                tb30.Text = feederGap.ToString();
+                tb31.Text = feederRoll.ToString();
+                tb32.Text = slotterSubGap.ToString();
+                tb33.Text = slotterMiddleGap.ToString();
+                tb34.Text = slotterConnection.ToString();
+                tb35.Text = dieCutterRollGap.ToString();
+                tb36.Text = dieCutterConnectionGap.ToString();
 
                 tb37.Text = "0";
-                tb38.Text = (gluerbeltF1 / 10.0).ToString("N1");
-                tb39.Text = (gluerbeltF2 / 10.0).ToString("N1");
-                tb40.Text = (gluerPressA / 10.0).ToString("N1");
-                tb41.Text = (gluerPressB / 10.0).ToString("N1");
-                tb42.Text = (gluerPE / 10.0).ToString("N1");
+                tb38.Text = gluerbeltF1.ToString();
+                tb39.Text = gluerbeltF2.ToString();
+                tb40.Text = gluerPressA.ToString();
+                tb41.Text = gluerPressB.ToString();
+                tb42.Text = gluerPE.ToString();
                 tb43.Text = "0";
-                tb44.Text = (bRSub / 10.0).ToString("N1");
-                tb45.Text = (bRMain / 10.0).ToString("N1");
-                tb46.Text = (bRConnection / 10.0).ToString("N1");
-                tb47.Text = (bRmiddle / 10.0).ToString("N1");
+                tb44.Text = bRSub.ToString();
+                tb45.Text = bRMain.ToString();
+                tb46.Text = bRConnection.ToString();
+                tb47.Text = bRmiddle.ToString();
             }
             else
             {
@@ -431,7 +433,7 @@ namespace PopProject.Input
                 }
                 Console.WriteLine("PLC송신 데이터(Plc_Pop) : " + Send_Data);
 
-                mainSock.Send(bDts); //데이터 쓰기
+                mainSock.Send(bDts); //수신데이터 요청
 
                 log.Info("CNS 상세창에서 CNS데이터 조회 요청 내용 : " + Send_Data);
             }
@@ -483,7 +485,8 @@ namespace PopProject.Input
             }
         }
 
-        public void DataReceived(IAsyncResult ar) // 데이터 수신
+        // 데이터 수신
+        public void DataReceived(IAsyncResult ar) 
         {
             try
             {
@@ -493,36 +496,36 @@ namespace PopProject.Input
                 string Receive_Data = string.Empty;
                 for (int i = 0; i < obj.Buffer.Length; i++)
                 {
-                    Receive_Data += obj.Buffer[i].ToString("x2");
+                    Receive_Data += obj.Buffer[i].ToString("x2"); //16진수
                 }
 
                 //Word 연속읽기
                 string continuous_read = string.Empty;
                 string RD = Receive_Data.Substring(64); //앞에 데이터 지우고 데이터 정보부터 읽음
                 Console.WriteLine("PLC수신 데이터(Plc_Pop) : " + RD);
+                Console.WriteLine("테스트 값 : " + RD);
 
                 string dummyData = "";
 
                 this.Dispatcher.Invoke(() =>
                 {
-                    for (int j = 0; j < RD.Length; j++)
+                    for (int j = 0; j < RD.Length / 4; j++)
                     {
-                        string high_data = RD.Substring(0, 2); //앞 두자리 추출
-                        string low_data = RD.Substring(2, 2); //뒤 두자리 추출
+                        string data = RD.Substring(j * 4, 4);
 
                         switch (j)
                         {
                             case 0: //작업모델 번호
-                                dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                dummyData = ValueConvert(data, false);
                                 break;
                             case 1: //작업지시 매수
-                                dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                dummyData = ValueConvert(data, false);
                                 break;
                             case 2: //작업지시 매수
-                                dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                dummyData = ValueConvert(data, false);
                                 break;
                             case 3: //박스타입
-                                int boxtype = Convert.ToInt32(low_data + high_data, 16);
+                                int boxtype = Convert.ToInt32(ValueConvert(data, false));
                                 if (boxtype == 1)
                                 {
                                     combo.SelectedIndex = 0;
@@ -545,234 +548,183 @@ namespace PopProject.Input
                                 }
                                 break;
                             case 4: //폭
-                                폭.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                폭.Text = ValueConvert(data, false);
                                 break;
                             case 5: //장
-                                장.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                장.Text = ValueConvert(data, false);
                                 break;
                             case 6: //고
-                                고.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                고.Text = ValueConvert(data, false);
                                 break;
                             case 7: //갭
-                                갭.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                갭.Text = ValueConvert(data, false);
                                 break;
                             case 8: //앞날개
-                                dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                dummyData = ValueConvert(data, false);
                                 break;
                             case 9: //미미
-                                미미.Text = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                미미.Text = ValueConvert(data, false);
                                 break;
                             case 10: //저장 완료
-                                dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                dummyData = ValueConvert(data, false);
                                 break;
                             case 11: //생산속도
-                                dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                dummyData = ValueConvert(data, false);
                                 break;
                             case 12: //저장값 쓰기 가능상태
-                                dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                dummyData = ValueConvert(data, false);
                                 break;
                             case 13: //spare
-                                dummyData = Convert.ToInt32(low_data + high_data, 16).ToString();
+                                dummyData = ValueConvert(data, false);
                                 break;
                             case 14: //A
-                                double result1 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb1.Text = result1.ToString("N1");
+                                tb1.Text = ValueConvert(data, true);
                                 break;
                             case 15: //B
-                                double result2 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb2.Text = result2.ToString("N1");
+                                tb2.Text = ValueConvert(data, true);
                                 break;
                             case 16: //C
-                                double result3 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb3.Text = result3.ToString("N1");
+                                tb3.Text = ValueConvert(data, true);
                                 break;
                             case 17: //D
-                                double result4 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb4.Text = result4.ToString("N1");
+                                tb4.Text = ValueConvert(data, true);
                                 break;
                             case 18: //E
-                                double result5 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb5.Text = result5.ToString("N1");
+                                tb5.Text = ValueConvert(data, true);
                                 break;
                             case 19: //F1
-                                double result6 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb6.Text = result6.ToString("N1");
+                                tb6.Text = ValueConvert(data, true);
                                 break;
                             case 20: //F2
-                                double result7 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb7.Text = result7.ToString("N1");
+                                tb7.Text = ValueConvert(data, true);
                                 break;
                             case 21: //G
-                                double result8 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb8.Text = result8.ToString("N1");
+                                tb8.Text = ValueConvert(data, true);
                                 break;
                             case 22: //O
-                                double result9 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb9.Text = result9.ToString("N1");
+                                tb9.Text = ValueConvert(data, true);
                                 break;
                             case 23: //P1
-                                double result10 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb10.Text = result10.ToString("N1");
+                                tb10.Text = ValueConvert(data, true);
                                 break;
                             case 24: //P2
-                                double result11 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb11.Text = result11.ToString("N1");
+                                tb11.Text = ValueConvert(data, true);
                                 break;
                             case 25: //P3
-                                double result12 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb12.Text = result12.ToString("N1");
+                                tb12.Text = ValueConvert(data, true);
                                 break;
                             case 26: //P4
-                                double result13 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb13.Text = result13.ToString("N1");
+                                tb13.Text = ValueConvert(data, true);
                                 break;
                             case 27: //spare
-                                double result14 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb14.Text = result14.ToString("N1");
+                                tb14.Text = ValueConvert(data, true);
                                 break;
                             case 28: //spare
-                                double result15 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb15.Text = result15.ToString("N1");
+                                tb15.Text = ValueConvert(data, true);
                                 break;
                             case 29: //spare
-                                double result16 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb16.Text = result16.ToString("N1");
+                                tb16.Text = ValueConvert(data, true);
                                 break;
                             case 30: //D레지스터
-                                double result17 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb17.Text = result17.ToString("N1");
+                                tb17.Text = ValueConvert(data, true);
                                 break;
                             case 31: //프린터1 롤?
-                                double result18 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb18.Text = result18.ToString("N1");
+                                tb18.Text = ValueConvert(data, true);
                                 break;
                             case 32: //1도 프레스
-                                double result19 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb19.Text = result19.ToString("N1");
+                                tb19.Text = ValueConvert(data, true);
                                 break;
                             case 33: //프린터2 롤?
-                                double result20 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb20.Text = result20.ToString("N1");
+                                tb20.Text = ValueConvert(data, true);
                                 break;
                             case 34: //2도 프레스
-                                double result21 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb21.Text = result21.ToString("N1");
+                                tb21.Text = ValueConvert(data, true);
                                 break;
                             case 35: //프린터3 롤?
-                                double result22 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb22.Text = result22.ToString("N1");
+                                tb22.Text = ValueConvert(data, true);
                                 break;
                             case 36: //3도 프레스
-                                double result23 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb23.Text = result23.ToString("N1");
+                                tb23.Text = ValueConvert(data, true);
                                 break;
                             case 37: //프린터4 롤?
-                                double result24 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb24.Text = result24.ToString("N1");
+                                tb24.Text = ValueConvert(data, true);
                                 break;
                             case 38: //4도 프레스
-                                double result25 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb25.Text = result25.ToString("N1");
+                                tb25.Text = ValueConvert(data, true);
                                 break;
                             case 39: //spare
-                                double result26 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb26.Text = result26.ToString("N1");
+                                tb26.Text = ValueConvert(data, true);
                                 break;
                             case 40: //spare
-                                double result27 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb27.Text = result27.ToString("N1");
+                                tb27.Text = ValueConvert(data, true);
                                 break;
                             case 41: //spare
-                                double result28 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb28.Text = result28.ToString("N1");
+                                tb28.Text = ValueConvert(data, true);
                                 break;
                             case 42: //spare
-                                double result29 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb29.Text = result29.ToString("N1");
+                                tb29.Text = ValueConvert(data, true);
                                 break;
                             case 43: //피타진입 갭
-                                double result30 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb30.Text = result30.ToString("N1");
+                                tb30.Text = ValueConvert(data, true);
                                 break;
                             case 44: //급지부 롤 갭
-                                double result31 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb31.Text = result31.ToString("N1");
+                                tb31.Text = ValueConvert(data, true);
                                 break;
                             case 45: //슬로타 보조괘선 갭
-                                double result32 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb32.Text = result32.ToString("N1");
+                                tb32.Text = ValueConvert(data, true);
                                 break;
                             case 46: //슬로타 본괘선 갭
-                                double result33 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb33.Text = result33.ToString("N1");
+                                tb33.Text = ValueConvert(data, true);
                                 break;
                             case 47: //슬로타 연결 갭
-                                double result34 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb34.Text = result34.ToString("N1");
+                                tb34.Text = ValueConvert(data, true);
                                 break;
                             case 48: //다이캇타 롤 갭
-                                double result35 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb35.Text = result35.ToString("N1");
+                                tb35.Text = ValueConvert(data, true);
                                 break;
                             case 49: //다이캇타 연결 갭
-                                double result36 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb36.Text = result36.ToString("N1");
+                                tb36.Text = ValueConvert(data, true);
                                 break;
                             case 50: //spare
-                                double result37 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb37.Text = result37.ToString("N1");
+                                tb37.Text = ValueConvert(data, true);
                                 break;
                             case 51: //글루어벨트 진입갭 F1
-                                double result38 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb38.Text = result38.ToString("N1");
+                                tb38.Text = ValueConvert(data, true);
                                 break;
                             case 52: //글루어벨트 진입갭 F2
-                                double result39 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb39.Text = result39.ToString("N1");
+                                tb39.Text = ValueConvert(data, true);
                                 break;
                             case 53: //글루어 배출 갭 프레스 A
-                                double result40 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb40.Text = result40.ToString("N1");
+                                tb40.Text = ValueConvert(data, true);
                                 break;
                             case 54: //글루어 배출 갭 프레스 B
-                                double result41 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb41.Text = result41.ToString("N1");
+                                tb41.Text = ValueConvert(data, true);
                                 break;
                             case 55: //PE가이드
-                                double result42 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb42.Text = result42.ToString("N1");
+                                tb42.Text = ValueConvert(data, true);
                                 break;
                             case 56: //spare
-                                double result43 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb43.Text = result43.ToString("N1");
+                                tb43.Text = ValueConvert(data, true);
                                 break;
                             case 57: //R/B 보조괘선 갭
-                                double result44 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb44.Text = result44.ToString("N1");
+                                tb44.Text = ValueConvert(data, true);
                                 break;
                             case 58: //R/B 본괘선 갭
-                                double result45 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb45.Text = result45.ToString("N1");
+                                tb45.Text = ValueConvert(data, true);
                                 break;
                             case 59: //R/B 연결롤 갭
-                                double result46 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb46.Text = result46.ToString("N1");
+                                tb46.Text = ValueConvert(data, true);
                                 break;
                             case 60: //R/B 중간연결 갭
-                                double result47 = Convert.ToInt32(low_data + high_data, 16) / 10.0;
-                                tb47.Text = result47.ToString("N1");
+                                tb47.Text = ValueConvert(data, true);
                                 break;
-
-
                             default:
                                 break;
                         }
-                        continuous_read += Convert.ToInt32(low_data + high_data, 16) + "/"; //앞 뒤 자리바꾸고 10진수 변환
-                        RD = RD.Substring(4); //변환 끝낸 4자리 데이터 자르기
+                        //continuous_read += Convert.ToInt32(low_data + high_data, 16) + "/"; //앞 뒤 자리바꾸고 10진수 변환
                     }
                 });
-
-                Console.WriteLine("CNS PLC수신 데이터 확인(Plc_Pop) : " + continuous_read); //수신값 확인용
+                //Console.WriteLine("CNS PLC수신 데이터 확인(Plc_Pop) : " + continuous_read); //수신값 확인용
             }
             catch (Exception)
             {
@@ -787,7 +739,25 @@ namespace PopProject.Input
 
         }
 
+        private string ValueConvert(string data, bool intIsFalse)
+        {
+            //앞뒤 두자리 묶음 자리변환
+            int value = Convert.ToInt32(data.Substring(2, 2) + data.Substring(0, 2), 16);
 
+            //
+            if (value > 32767)
+            {
+                value -= 65536;
+            }
+
+            //-값 표현
+            if (intIsFalse)
+            {
+                return (value / 10.0).ToString("N1"); //소숫점 첫번째까지 표현
+            }
+
+            return value.ToString();
+        }
 
         //신규 생산 버튼
         private void Done(object sender, System.Windows.Input.MouseButtonEventArgs e)

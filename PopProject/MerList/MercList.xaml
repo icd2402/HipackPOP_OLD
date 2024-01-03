@@ -11,12 +11,12 @@
         <Grid>
            
             <Image Source="/img/back_06.png"  Width="400" Height="70" Stretch="Fill" Canvas.Left="550" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-1,-1,-0.6,0"/>
-            <TextBlock x:Name="tbMercName"  Foreground="White" Width="200" FontSize="40" TextAlignment="Center" Height="50" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,   15,0,0" FontFamily="/PopStart;component/font/#KoPubDotum Bold"></TextBlock>
+            <TextBlock x:Name="tbMercName"  Foreground="White" Width="250" FontSize="40" TextAlignment="Center" Height="50" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,   15,0,0" FontFamily="/PopStart;component/font/#KoPubDotum Bold"></TextBlock>
             <ListBox x:Name="lb" Margin="0,68,0,0" SelectionChanged="Lb_SelectionChanged">
               
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding mercName}" Padding="0,10,0,10"  FontSize="40" FontFamily="/font/#KoPubDotum Medium"/>
+                        <TextBlock Text="{Binding mercName}" Padding="0,10,0,10" FontSize="40" FontFamily="/font/#KoPubDotum Medium"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
