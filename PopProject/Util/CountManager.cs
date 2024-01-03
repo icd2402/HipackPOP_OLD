@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.AspNet.SignalR.Client;
 using PopProject.Util;
 using log4net;
 using log4net.Config;
@@ -46,11 +47,14 @@ namespace PopProject.Util
             useWorkCnt = dicCorpsUsingWorkCnt.ContainsKey(SettingJsonManager.corp_name);
             //useWorkCnt = Array.Exists(corpsUsingWorkCnt, x => x == SettingJsonManager.corp_name);
 
-            // 업체명 저장
-            corp_name = SettingJsonManager.corp_name;
+            if (useWorkCnt)
+            {
+                // 업체명 저장
+                corp_name = SettingJsonManager.corp_name;
 
-            // 업체명 사용 url 저장
-            url = dicCorpsUsingWorkCnt[corp_name];
+                // 업체명 사용 url 저장
+                url = dicCorpsUsingWorkCnt[corp_name];
+            }
         }
 
         public static void SendMsg(string mercName, string v)

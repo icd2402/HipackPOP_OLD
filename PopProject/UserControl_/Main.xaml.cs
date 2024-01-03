@@ -456,29 +456,29 @@ namespace PopProject.UserControl_
         }
 
         // POP 프로그램 켜짐/꺼짐 상태 송신 // 확인
-        private void InvokeMercName(string mercName, string v)
-        {
-            try
-            {
-                if (SettingJsonManager.corp_name.Equals("광성수출포장") ||
-                    SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
-                    SettingJsonManager.corp_name.Equals("대세물산") ||
-                    SettingJsonManager.corp_name.Equals("대세물산테스트") ||
-                    SettingJsonManager.corp_name.Equals("유창포장") ||
-                    SettingJsonManager.corp_name.Equals("유창포장테스트"))
-                {
-                    popService(mercName, v);
-                }
-                else
-                {
-                    SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); //invokeCount, DB명, 설비명, 문자
-                }
-            }
-            catch (Exception e)
-            {
-                log.Error("POP 프로그램 켜짐/꺼짐 상태 전송 오류 : " + e.Message);
-            }
-        }
+        //private void InvokeMercName(string mercName, string v)
+        //{
+        //    try
+        //    {
+        //        if (SettingJsonManager.corp_name.Equals("광성수출포장") ||
+        //            SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
+        //            SettingJsonManager.corp_name.Equals("대세물산") ||
+        //            SettingJsonManager.corp_name.Equals("대세물산테스트") ||
+        //            SettingJsonManager.corp_name.Equals("유창포장") ||
+        //            SettingJsonManager.corp_name.Equals("유창포장테스트"))
+        //        {
+        //            popService(mercName, v);
+        //        }
+        //        else
+        //        {
+        //            SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); //invokeCount, DB명, 설비명, 문자
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        log.Error("POP 프로그램 켜짐/꺼짐 상태 전송 오류 : " + e.Message);
+        //    }
+        //}
 
         //넘기기 신호 받는용
         private void recive(string arg1, string arg2) //설비명, 데이터
@@ -755,107 +755,107 @@ namespace PopProject.UserControl_
         }
 
         // 현황판으로 카운터 전송 // 확인
-        public void InvokeCount(int str, string mercName)
-        {
-            try
-            {
-                if (SettingJsonManager.corp_name.Equals("광성수출포장") || 
-                    SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
-                    SettingJsonManager.corp_name.Equals("대세물산") ||
-                    SettingJsonManager.corp_name.Equals("대세물산테스트") ||
-                    SettingJsonManager.corp_name.Equals("유창포장") ||
-                    SettingJsonManager.corp_name.Equals("유창포장테스트") ||
-                    SettingJsonManager.corp_name.Equals("금화") ||
-                    SettingJsonManager.corp_name.Equals("금화테스트"))
-                {
-                    popService(mercName, str.ToString());
-                }
-                else
-                {
-                _ = SignalRAdministrator.허브.Invoke("invokeCount", SettingJsonManager.corp_id, mercName, str + ""); //invokeCount, DB명, 설비명, 문자(카운터값)
-                    Console.WriteLine("SignalR 전송값(main): invokeCount, " + SettingJsonManager.corp_id  + ", " + mercName + ", " + str);
-                }
-            }
-            catch (Exception e)
-            {
-                log.Error("현황판으로 데이터 전송 오류 : " + e.Message);
-                Console.WriteLine("SignalR 전송실패(main)");
-            }
-        }
+        //public void InvokeCount(int str, string mercName)
+        //{
+        //    try
+        //    {
+        //        if (SettingJsonManager.corp_name.Equals("광성수출포장") || 
+        //            SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
+        //            SettingJsonManager.corp_name.Equals("대세물산") ||
+        //            SettingJsonManager.corp_name.Equals("대세물산테스트") ||
+        //            SettingJsonManager.corp_name.Equals("유창포장") ||
+        //            SettingJsonManager.corp_name.Equals("유창포장테스트") ||
+        //            SettingJsonManager.corp_name.Equals("금화") ||
+        //            SettingJsonManager.corp_name.Equals("금화테스트"))
+        //        {
+        //            popService(mercName, str.ToString());
+        //        }
+        //        else
+        //        {
+        //        _ = SignalRAdministrator.허브.Invoke("invokeCount", SettingJsonManager.corp_id, mercName, str + ""); //invokeCount, DB명, 설비명, 문자(카운터값)
+        //            Console.WriteLine("SignalR 전송값(main): invokeCount, " + SettingJsonManager.corp_id  + ", " + mercName + ", " + str);
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        log.Error("현황판으로 데이터 전송 오류 : " + e.Message);
+        //        Console.WriteLine("SignalR 전송실패(main)");
+        //    }
+        //}
 
-        //신규 서비스 Http 셋팅
-        private static HttpClient client = new HttpClient();
-        async void popService(string mercName, string str)
-        {
-            //주소
-            if (SettingJsonManager.corp_name.Equals("광성수출포장"))
-            {
-                Url = "http://ksbox.iptime.org:18888/pop/gathering"; //광성
-            }
-            else if (SettingJsonManager.corp_name.Equals("대세물산"))
-            {
-                Url = "http://dsbox.iptime.org:18888/pop/gathering"; //대세
-            }
-            else if (SettingJsonManager.corp_name.Equals("유창포장"))
-            {
-                Url = "http://211.253.37.232:18888/pop/gathering"; //유창
-            }
-            else if (SettingJsonManager.corp_name.Equals("금화"))
-            {
-                Url = "http://khbox.iptime.org:18888/pop/gathering"; //금화
-            }
-            else if (SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
-                    SettingJsonManager.corp_name.Equals("대세물산테스트") ||
-                    SettingJsonManager.corp_name.Equals("유창포장테스트") ||
-                    SettingJsonManager.corp_name.Equals("금화테스트"))
-            {
-                Url = "http://localhost:18888/pop/gathering"; //테스트용 주소(개인 DeskTop)
-            }
+        //신규 서비스 Http 셋팅    // 확인
+        //private static HttpClient client = new HttpClient();
+        //async void popService(string mercName, string str)
+        //{
+        //    //주소
+        //    if (SettingJsonManager.corp_name.Equals("광성수출포장"))
+        //    {
+        //        Url = "http://ksbox.iptime.org:18888/pop/gathering"; //광성
+        //    }
+        //    else if (SettingJsonManager.corp_name.Equals("대세물산"))
+        //    {
+        //        Url = "http://dsbox.iptime.org:18888/pop/gathering"; //대세
+        //    }
+        //    else if (SettingJsonManager.corp_name.Equals("유창포장"))
+        //    {
+        //        Url = "http://211.253.37.232:18888/pop/gathering"; //유창
+        //    }
+        //    else if (SettingJsonManager.corp_name.Equals("금화"))
+        //    {
+        //        Url = "http://khbox.iptime.org:18888/pop/gathering"; //금화
+        //    }
+        //    else if (SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
+        //            SettingJsonManager.corp_name.Equals("대세물산테스트") ||
+        //            SettingJsonManager.corp_name.Equals("유창포장테스트") ||
+        //            SettingJsonManager.corp_name.Equals("금화테스트"))
+        //    {
+        //        Url = "http://localhost:18888/pop/gathering"; //테스트용 주소(개인 DeskTop)
+        //    }
 
-            string CompanyCode = SettingJsonManager.corp_id; //업체코드
-            string MercName = mercName; //설비명
-            string Data = str.ToString(); //데이터
+        //    string CompanyCode = SettingJsonManager.corp_id; //업체코드
+        //    string MercName = mercName; //설비명
+        //    string Data = str.ToString(); //데이터
 
-            await workCnt(Url, CompanyCode, MercName, Data);
-        }
+        //    await workCnt(Url, CompanyCode, MercName, Data);
+        //}
 
-        //신규 서비스 Http Get
-        async Task workCnt(string url, string companyCode, string mercName, string data)
-        {
-            try
-            {
-                // 파라미터를 포함한 URL 생성
-                string urlWithParameters = $"{url}/{companyCode}/{mercName}/{data}";
-                // HTTP GET 요청 보내기
-                await client.GetAsync(urlWithParameters).ContinueWith((t) =>
-                {
-                    HttpResponseMessage response;
+        //신규 서비스 Http Get   // 확인
+        //async Task workCnt(string url, string companyCode, string mercName, string data)
+        //{
+        //    try
+        //    {
+        //        // 파라미터를 포함한 URL 생성
+        //        string urlWithParameters = $"{url}/{companyCode}/{mercName}/{data}";
+        //        // HTTP GET 요청 보내기
+        //        await client.GetAsync(urlWithParameters).ContinueWith((t) =>
+        //        {
+        //            HttpResponseMessage response;
 
-                    if (t.IsFaulted)
-                    {
-                        log.Error("서비스 전송 후 대기 중 문제가 발생했습니다.");
-                    }
-                    else
-                    {
-                        response = t.Result;
-                    }
-                }, TaskScheduler.FromCurrentSynchronizationContext());
+        //            if (t.IsFaulted)
+        //            {
+        //                log.Error("서비스 전송 후 대기 중 문제가 발생했습니다.");
+        //            }
+        //            else
+        //            {
+        //                response = t.Result;
+        //            }
+        //        }, TaskScheduler.FromCurrentSynchronizationContext());
 
 
-                //HttpResponseMessage response = await client.GetAsync(urlWithParameters);
+        //        //HttpResponseMessage response = await client.GetAsync(urlWithParameters);
 
-                //if(response.IsSuccessStatusCode == false)
-                //{
-                //    log.Error("서비스로 데이터 전송 실패");
-                //}
+        //        //if(response.IsSuccessStatusCode == false)
+        //        //{
+        //        //    log.Error("서비스로 데이터 전송 실패");
+        //        //}
 
-                Console.WriteLine("서비스로 데이터 전송 값(Main) : " + urlWithParameters);
-            }
-            catch (Exception e)
-            {
-                log.Error("신규 서비스 데이터 전송 오류 : " + e.Message);
-            }
-        }
+        //        Console.WriteLine("서비스로 데이터 전송 값(Main) : " + urlWithParameters);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        log.Error("신규 서비스 데이터 전송 오류 : " + e.Message);
+        //    }
+        //}
 
         //자동 로그인 해제
         private void Serial_click(object sender, RoutedEventArgs e)
@@ -1328,8 +1328,6 @@ namespace PopProject.UserControl_
                                     break;
                             }
                         }
-
-
 
                         if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
                         {
@@ -2725,29 +2723,29 @@ namespace PopProject.UserControl_
             return returnData.결과;
         }
 
-        private void InvokeCount(string mercName, string v) //설비명,POP상태 // 확인
-        {
-            try
-            {
-                if (SettingJsonManager.corp_name.Equals("광성수출포장") ||
-                    SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
-                    SettingJsonManager.corp_name.Equals("대세물산") ||
-                    SettingJsonManager.corp_name.Equals("대세물산테스트") ||
-                    SettingJsonManager.corp_name.Equals("유창포장") ||
-                    SettingJsonManager.corp_name.Equals("유창포장테스트"))
-                {
-                    popService(mercName, v);
-                }
-                else
-                {
-                    SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); //invokeCount, DB명, 설비명, 문자
-                }
-            }
-            catch (Exception e)
-            {
-                log.Error("설비명 클릭시 POP상태 전송 오류 : " + e.Message);
-            }
-        }
+        //private void InvokeCount(string mercName, string v) //설비명,POP상태 // 확인
+        //{
+        //    try
+        //    {
+        //        if (SettingJsonManager.corp_name.Equals("광성수출포장") ||
+        //            SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
+        //            SettingJsonManager.corp_name.Equals("대세물산") ||
+        //            SettingJsonManager.corp_name.Equals("대세물산테스트") ||
+        //            SettingJsonManager.corp_name.Equals("유창포장") ||
+        //            SettingJsonManager.corp_name.Equals("유창포장테스트"))
+        //        {
+        //            popService(mercName, v);
+        //        }
+        //        else
+        //        {
+        //            SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); //invokeCount, DB명, 설비명, 문자
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        log.Error("설비명 클릭시 POP상태 전송 오류 : " + e.Message);
+        //    }
+        //}
 
         //계획리스트 클릭
         private void Canvas_PreviewMouseDown(object sender, MouseButtonEventArgs e)
