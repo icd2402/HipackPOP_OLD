@@ -288,8 +288,8 @@ namespace PopProject.Detail
                         //관리자 계정이 아닐때만 (현황판 전송)
                         if (!SettingJsonManager.manager.Equals("1"))
                         {
-                            InvokeMercName(SettingJsonManager.mercName, 점검내용); //설비명, 상태, 내용
-                            Console.WriteLine("SignalR : " + SettingJsonManager.mercName + ", " + 점검내용);
+                            CountManager.SendMsg(SettingJsonManager.mercName, 점검내용); //설비명, 상태, 내용
+                            Console.WriteLine("통신 : " + SettingJsonManager.mercName + ", " + 점검내용);
 
                         }
                     }
@@ -312,7 +312,7 @@ namespace PopProject.Detail
                     //관리자 계정이 아닐때만 (현황판 전송)
                     if (!SettingJsonManager.manager.Equals("1"))
                     {
-                        InvokeMercName(SettingJsonManager.mercName, "D"); //설비명, 상태, 내용
+                        CountManager.SendMsg(SettingJsonManager.mercName, "D"); //설비명, 상태, 내용
                     }
 
                 }
@@ -373,7 +373,7 @@ namespace PopProject.Detail
             }
         }
 
-        // 설비 점검시 현황판으로 전송
+        // 설비 점검시 현황판으로 전송 // 확인
         private void InvokeMercName(string mercName, string 상태)
         {
             try
@@ -394,7 +394,7 @@ namespace PopProject.Detail
 
         //신규 서비스 Http 셋팅
         private static HttpClient client = new HttpClient();
-        async Task popService(string mercName, string str)
+        async void popService(string mercName, string str)
         {
             string Url = "http://localhost:18888/pop/gathering"; //주소
             //string Url = SettingJsonManager.signalR; //주소
@@ -446,7 +446,7 @@ namespace PopProject.Detail
                 //관리자 계정이 아닐때만 (현황판 전송)
                 if (!SettingJsonManager.manager.Equals("1"))
                 {
-                    InvokeMercName(SettingJsonManager.mercName, "D"); //설비명, 상태, 내용
+                    CountManager.SendMsg(SettingJsonManager.mercName, "D"); //설비명, 상태, 내용
                 }
             }
             //비정상 종료
@@ -458,7 +458,7 @@ namespace PopProject.Detail
                 //관리자 계정이 아닐때만 (현황판 전송)
                 if (!SettingJsonManager.manager.Equals("1"))
                 {
-                    InvokeMercName(SettingJsonManager.mercName, "D"); //설비명, 상태, 내용
+                    CountManager.SendMsg(SettingJsonManager.mercName, "D"); //설비명, 상태, 내용
                 }
             }
         }

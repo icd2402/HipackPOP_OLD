@@ -876,8 +876,8 @@ namespace PopProject.Input
                 SettingJsonManager.SaveJsonFile();
                 //Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
                 mainModel.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                InvokeCount(SettingJsonManager.mercName, "S");
-                InvokeCount(SettingJsonManager.mercName, "0");
+                CountManager.SendMsg(SettingJsonManager.mercName, "S");
+                CountManager.SendMsg(SettingJsonManager.mercName, "0");
                 SettingJsonManager.count = 0;
                 SettingJsonManager.saveDate = "";
                 SettingJsonManager.pplanKey = 0;
@@ -1686,8 +1686,8 @@ namespace PopProject.Input
                     }
                 }
 
-                InvokeCount(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
-                InvokeCount(SettingJsonManager.mercName, "0"); //
+                CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
+                CountManager.SendMsg(SettingJsonManager.mercName, "0"); //
 
                 //오주포장, 철접합(7),베가(8),인라인2,3호기(13), 5는 없음
                 if (SettingJsonManager.corp_name.Equals("오주포장") && (SettingJsonManager.processType == 7
@@ -1819,8 +1819,8 @@ namespace PopProject.Input
                 SettingJsonManager.SaveJsonFile();
                 //Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
                 mainModel.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                InvokeCount(SettingJsonManager.mercName, "S");//현황판으로 시작신호 송신 (설비명,S)
-                InvokeCount(SettingJsonManager.mercName, "0"); //현황판으로 생산종료 송신
+                CountManager.SendMsg(SettingJsonManager.mercName, "S");//현황판으로 시작신호 송신 (설비명,S)
+                CountManager.SendMsg(SettingJsonManager.mercName, "0"); //현황판으로 생산종료 송신
                 SettingJsonManager.count = 0;
                 SettingJsonManager.saveDate = "";
                 SettingJsonManager.pplanKey = 0;
@@ -1960,7 +1960,7 @@ namespace PopProject.Input
             return returnData.결과;
         }
 
-        //현황판 전송 POP 상태값(S,E,0)
+        //현황판 전송 POP 상태값(S,E,0) // 확인
         private void InvokeCount(string mercName, string mercState)
         {
             //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);

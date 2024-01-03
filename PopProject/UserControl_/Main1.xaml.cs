@@ -208,7 +208,7 @@ namespace PopProject.UserControl_
 
                             }
 
-                            InvokeCount(str);
+                            CountManager.SendMsg(SettingJsonManager.mercName, str.ToString());
                         }
 
                         else
@@ -231,7 +231,7 @@ namespace PopProject.UserControl_
                                 Console.WriteLine("win_Input.inputModel.count : " + win_Input.inputModel.count);
                             }
 
-                            InvokeCount(Convert.ToInt32(production.presultCount));
+                            CountManager.SendMsg(SettingJsonManager.mercName, production.presultCount.ToString());
                         }
                         break;
                 }
@@ -304,7 +304,7 @@ namespace PopProject.UserControl_
                 Console.WriteLine("네트워크 연결 체크 : " + connected);
                 if (connected)
                 {
-                    if (production != null) { InvokeCount(Convert.ToInt32(production.presultCount)); }
+                    if (production != null) { CountManager.SendMsg(SettingJsonManager.mercName, production.presultCount.ToString()); }
                     if (win_Input == null)
                     {
 
@@ -482,7 +482,7 @@ namespace PopProject.UserControl_
 
         }
 
-        // 현황판으로 카운터 전송
+        // 현황판으로 카운터 전송 // 확인
 
         public void InvokeCount(int str)
         {
@@ -524,7 +524,7 @@ namespace PopProject.UserControl_
                     //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 
                     if (!SettingJsonManager.manager.Equals("1"))
                     {
-                        invokeMercName(before, "B");
+                        CountManager.SendMsg(before, "B");
                         SettingJsonManager.error = "";
                         SettingJsonManager.error1 = "";
                         SettingJsonManager.SaveJsonFile();
@@ -535,7 +535,7 @@ namespace PopProject.UserControl_
                     //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 
                     if (!SettingJsonManager.manager.Equals("1"))
                     {
-                        invokeMercName(SettingJsonManager.mercName, "A");
+                        CountManager.SendMsg(SettingJsonManager.mercName, "A");
                     }
                 }
                 //setTbPintNo();
@@ -1318,14 +1318,14 @@ namespace PopProject.UserControl_
                 //관리자 계정이 아닐때만 현황판으로 꺼짐 신호 보냄 
                 if (!SettingJsonManager.manager.Equals("1"))
                 {
-                    invokeMercName(SettingJsonManager.mercName, "B");
+                    CountManager.SendMsg(SettingJsonManager.mercName, "B");
                 }
             }
 
             Environment.Exit(0);
         }
 
-        private void invokeMercName(string mercName, string v)
+        private void invokeMercName(string mercName, string v)  // 확인
         {
 
             //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);

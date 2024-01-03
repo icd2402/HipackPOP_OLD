@@ -40,21 +40,7 @@ namespace PopProject
                 //POP프로그램이 이미 실행중인지 확인
                 Duplicate_execution("PopProject");
 
-                //SettingJsonManager.Reset();
-                if (SettingJsonManager.baudrate == 0)
-                {
-                    SettingJsonManager.baudrate = 9600;
-                }
-                if (SettingJsonManager.SensorRate == null)
-                {
-                    SettingJsonManager.SensorRate = "0";
-                }
-                if (SettingJsonManager.meterialinfo == null)
-                {
-                    SettingJsonManager.meterialinfo = "";
-                }
-                log.Info("아두이노 설정 세팅 저장 완료");
-
+                // 아두이노 셋팅은 SettingJsonManager 내에서 초기화 내용에 적용
             }
             catch (Exception e)
             {
@@ -73,8 +59,10 @@ namespace PopProject
 
                 if (mutex.WaitOne(0, false))
                 {
-                    MainCP.Content = new Login();
                     log.Info("POP 프로그램 중복체크 완료");
+                    
+                    // 로긴 확인 및 MainCP Load
+                    MainCP.Content = new Login();
                 }
                 else
                 {
@@ -108,7 +96,7 @@ namespace PopProject
             }
         }
 
-        //화면켜짐 신호 송신
+        //화면켜짐 신호 송신    // 확인
         private void invokeMercName(string mercName, string v)
         {
             try
@@ -133,7 +121,7 @@ namespace PopProject
 
         //신규 서비스 Http 셋팅
         private static HttpClient client = new HttpClient();
-        async Task popService(string mercName, string str)
+        async void popService(string mercName, string str)
         {
             //주소
             if (SettingJsonManager.corp_name.Equals("광성수출포장"))
@@ -200,7 +188,7 @@ namespace PopProject
             //관리자 계정이 아닐때만 현황판으로 꺼짐 신호 보냄 
             if (!SettingJsonManager.manager.Equals("1"))
             {
-                invokeMercName(SettingJsonManager.mercName, "B");
+                CountManager.SendMsg(SettingJsonManager.mercName, "B");
             }
 
             log.Info("프로그램 종료");

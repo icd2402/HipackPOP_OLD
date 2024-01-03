@@ -35,43 +35,45 @@ namespace PopProject.UserControl_
             //로그폴더 생성
             로그폴더생성();
 
-            //인증코드 조회+
-            bool loadCheck = Is_GetCompanyCodeFile();   // JSON 파일 Load
-
             //Log4net
             XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
 
-            //인증코드를 정상적으로 불러 왔으면
-            if (loadCheck)
+            //  세팅 정보 존재 Check
+            bool fileExit = SettingJsonManager.CheckJsonFile();
+            
+            // 세팅 정보 있으면
+            if (fileExit)
             {
-                //자동로그인체크 , ID, P/W 정보가 있으면 자동 로그인 
-                if (SettingJsonManager.login_check && !string.IsNullOrWhiteSpace(SettingJsonManager.login_id) && !string.IsNullOrWhiteSpace(SettingJsonManager.login_password))
-                {
-                    login_check.IsChecked = true;
-                    textbox_login_id.Text = SettingJsonManager.login_id;
-                    textbox_login_password.Password = SettingJsonManager.login_password;
-                    log.Info("인증코드 확인 성공");
-                    Login_();
-                }
+                //인증코드 포함 세팅 정보 Load
+                SettingJsonManager.LoadJsonFile();
+
+                // 자동로그인 체크
+                login_check.IsChecked = SettingJsonManager.login_check == true ? true : false;
+
+                // ID 와 PW Setting 에 있으면 입력
+                textbox_login_id.Text = string.IsNullOrWhiteSpace(SettingJsonManager.login_id) ? "" : SettingJsonManager.login_id;
+                textbox_login_password.Password = string.IsNullOrWhiteSpace(SettingJsonManager.login_password) ? "" : SettingJsonManager.login_password;
+
+                log.Info("자동 로그인 체크 및 ID/PW 정보 Load");
             }
-            //인증코드 로드 실패시
             else
             {
-                //자동로그인 체크시
-                if (SettingJsonManager.login_check && SettingJsonManager.login_id != null)
-                {
-                    login_check.IsChecked = true;
-                    textbox_login_id.Text = SettingJsonManager.login_id;
-                    textbox_login_password.Password = SettingJsonManager.login_password;
-                    log.Info("인증코드 확인 실패");
-                    Login_();
-                }
-                else
-                {
-                    login_check.IsChecked = false;
-                    textbox_login_id.Text = "";
-                    textbox_login_password.Password = "";
-                }
+                // settings.json 파일 새로 생성 및 초기화
+                SettingJsonManager.SaveJsonFile();
+                // settings.json Load
+                SettingJsonManager.LoadJsonFile();
+            }
+
+            // 자동 로그인 체크 true && ID/PW 빈칸 아닌 경우
+            if (login_check.IsChecked == true && textbox_login_id.Text != "" && textbox_login_password.Password.Length != 0)
+            {
+                Login_();
+                log.Info("자동 로그인");
+            }
+            else
+            {
+                SettingJsonManager.login_check = false;
+                login_check.IsChecked = false;
             }
         }
 
@@ -167,7 +169,7 @@ namespace PopProject.UserControl_
                 HttpClient_util httpClient_Util = new HttpClient_util("Pop_login");
                 string result = httpClient_Util.SendHttp(json.ToString());
                 httpClient_Util = null;
-                JObject jo = JObject.Parse(result);
+                JObject jo = JObject.Parse(result); // 에러파트
                 string jo_result = jo.SelectToken("result").ToString();
                 Console.WriteLine("jo_result : " + jo_result);
 
@@ -200,12 +202,12 @@ namespace PopProject.UserControl_
                             SettingJsonManager.login_password = login_password;
                             SettingJsonManager.corp_name = corp_name;
                             SettingJsonManager.corp_id = corp_id;
-                            SettingJsonManager.url = url;
+                            SettingJsonManager.url = url;   // 상자 이미지 폴더 위치
                             SettingJsonManager.signalR = signalR;
                             SettingJsonManager.serverIndex = serverIndex;
                             SettingJsonManager.manager = manager;
                             SettingJsonManager.login_check = login_check.IsChecked.GetValueOrDefault();
-                            SettingJsonManager.SaveJsonFile();
+                            SettingJsonManager.authKey = corp_id;
 
                             string metrialitem = SettingJsonManager.meterialinfo;
                             Console.WriteLine("metrialitem -> " + metrialitem);
@@ -226,11 +228,11 @@ namespace PopProject.UserControl_
                         // 패스워드 틀린 경우
                         else
                         {
-                            SettingJsonManager.login_id = "";
-                            SettingJsonManager.login_password = "";
-                            SettingJsonManager.corp_name = "";
-                            SettingJsonManager.corp_id = "";
-                            SettingJsonManager.SaveJsonFile();
+                            //SettingJsonManager.login_id = "";
+                            //SettingJsonManager.login_password = "";
+                            //SettingJsonManager.corp_name = "";
+                            //SettingJsonManager.corp_id = "";
+                            
                             dialog = new MessageBox_Dialog("패스워드를 확인해 주세요");
                             _ = dialog.ShowDialog();
                         }
@@ -241,7 +243,7 @@ namespace PopProject.UserControl_
                 }
 
                 //인증코드 저장
-                Create_CompanyCodeFile();
+                SettingJsonManager.SaveJsonFile();
             }
             else
             {
@@ -332,22 +334,6 @@ namespace PopProject.UserControl_
 
                     break;
             }
-        }
-
-
-        private static string filePath = @"C:\ICD\settings.json";
-
-        //인증코드 파일 읽어오기
-        static bool Is_GetCompanyCodeFile()
-        {
-            return SettingJsonManager.LoadJsonFile();
-        }
-
-
-        //인증코드를 파일로 저장
-        private void Create_CompanyCodeFile()
-        {
-            SettingJsonManager.SaveJsonFile();
         }
     }
 }

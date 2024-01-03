@@ -2448,11 +2448,11 @@ namespace PopProject.Detail
             clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D353D"));
 
             Main.passCheck = false;
-            InvokeCount(SettingJsonManager.mercName, mainModel.orderKey.ToString() + "^@"); //넘기기 (설비명, 오더키, ^@)
+            CountManager.SendMsg(SettingJsonManager.mercName, mainModel.orderKey.ToString() + "^@"); //넘기기 (설비명, 오더키, ^@)
             Console.WriteLine("넘기기 정보 : " + SettingJsonManager.mercName + mainModel.orderKey.ToString() + "^@");
         }
 
-        //오주 CNS전용 넘기기 기능
+        //오주 CNS전용 넘기기 기능   // 확인
         private void InvokeCount(string mercName, string v)
         {
             SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); // EX) invokeCount, 3125247246, 인라인3호기, 오더키

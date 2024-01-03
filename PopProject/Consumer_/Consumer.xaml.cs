@@ -154,7 +154,8 @@ namespace PopProject.Consumer_
                         }
                         // consumer_input.inputModel.count = str - SettingJsonManager.consumersumcount;
                         consumer_input.inputModel.count = str;
-                        InvokeCount(str);
+                        CountManager.SendMsg(SettingJsonManager.mercName, str.ToString());
+                        //InvokeCount(str);
                         Console.WriteLine("consumer_input.inputModel.count : " + consumer_input.inputModel.count);
                     }
                     break;
@@ -170,7 +171,8 @@ namespace PopProject.Consumer_
 
                         // consumer_input.inputModel.count = (str * consumer_input.inputModel.pCnt) - (SettingJsonManager.consumersumcount);
                         consumer_input.inputModel.count = str * consumer_input.inputModel.pCnt;
-                        InvokeCount(str * float.Parse(consumer_input.inputModel.pCnt + ""));
+                        CountManager.SendMsg(SettingJsonManager.mercName, (str * float.Parse(consumer_input.inputModel.pCnt + "")).ToString());
+                        //InvokeCount(str * float.Parse(consumer_input.inputModel.pCnt + ""));
                         Console.WriteLine("consumer_input.inputModel.count : " + consumer_input.inputModel.count);
 
                     }
@@ -178,7 +180,7 @@ namespace PopProject.Consumer_
             }
         }
 
-        //현황판으로 데이터 송신
+        //현황판으로 데이터 송신  // 확인
         public void InvokeCount(float str)
         {
             _ = SignalRAdministrator.허브.Invoke("invokeCount", SettingJsonManager.corp_id, SettingJsonManager.mercName, str + "");
@@ -436,7 +438,7 @@ namespace PopProject.Consumer_
                             Console.WriteLine("에러 : " + e.Message);
                         }
 
-                        InvokeCount(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신 //현황판으로 생산종료 송신
+                        CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신 //현황판으로 생산종료 송신
                         Close();
                         break;
 
@@ -452,7 +454,7 @@ namespace PopProject.Consumer_
                             Console.WriteLine("에러 : " + e.Message);
                         }
 
-                        InvokeCount(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신 //현황판으로 생산종료 송신
+                        CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신 //현황판으로 생산종료 송신
                         Close();
                         break;
                 }
@@ -464,7 +466,7 @@ namespace PopProject.Consumer_
             }
         }
 
-        private void InvokeCount(string mercName, string v)
+        private void InvokeCount(string mercName, string v) // 확인
         {
             _ = SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
         }

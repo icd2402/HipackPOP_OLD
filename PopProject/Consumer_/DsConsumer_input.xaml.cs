@@ -420,7 +420,7 @@ namespace PopProject.Consumer_
             {
                 SettingJsonManager.consumCount += workcount; //생산수량 담기
                 SettingJsonManager.SaveJsonFile();
-                InvokeCount(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
+                CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
                 Canvas.SetTop(box, 490);
                 Canvas.SetTop(box1, 570);
                
@@ -483,7 +483,7 @@ namespace PopProject.Consumer_
             if (returnData.결과 == 1)
             {
                 inlineCount = 0;
-                InvokeCount(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
+                CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
                 Canvas.SetTop(box, 490);
                 Canvas.SetTop(box1, 570);
                 count = int.Parse(tbResult.Text.ToString());
@@ -632,7 +632,7 @@ namespace PopProject.Consumer_
             }
         }
 
-        //현황판으로 생산종료 송신
+        //현황판으로 생산종료 송신 // 확인
         private void InvokeCount(string mercName, string v)
         {
             try

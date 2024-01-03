@@ -413,6 +413,7 @@
       <DependentUpon>UserSetting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Detail\Wharehouse_LocationModel.cs" />
+    <Compile Include="Util\CountManager.cs" />
     <Compile Include="Util\SettingJsonManger.cs" />
     <Compile Include="Util\LocalDBManager.cs" />
     <Compile Include="Util\ClsUc_명세서_Report8대세.xaml.cs">

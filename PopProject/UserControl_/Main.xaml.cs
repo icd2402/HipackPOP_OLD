@@ -142,7 +142,7 @@ namespace PopProject.UserControl_
                 //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 
                 if (!SettingJsonManager.manager.Equals("1"))
                 {
-                    InvokeMercName(SettingJsonManager.mercName, "A"); //설비명, 켜짐신호
+                    CountManager.SendMsg(SettingJsonManager.mercName, "A"); //설비명, 켜짐신호
                 }
 
                 SettingJsonManager.consumersumcount = 0;
@@ -294,7 +294,7 @@ namespace PopProject.UserControl_
                 //관리자 계정이 아닐때만 켜짐 신호 전송
                 if (!SettingJsonManager.manager.Equals("1"))
                 {
-                    InvokeMercName(SettingJsonManager.mercName, "A"); // A - 켜짐
+                    CountManager.SendMsg(SettingJsonManager.mercName, "A"); // A - 켜짐
                 }
             }
         }
@@ -327,7 +327,7 @@ namespace PopProject.UserControl_
                 if (production != null && production.presultCount != 0)
                 {
                     //현황판으로 카운터 전송
-                    InvokeCount(Convert.ToInt32(production.presultCount), SettingJsonManager.mercName); 
+                    CountManager.SendMsg(SettingJsonManager.mercName, production.presultCount.ToString()); 
                 }
 
                 if (win_Input == null || robot_Setting == null)
@@ -455,7 +455,7 @@ namespace PopProject.UserControl_
             ResultSearchDate();
         }
 
-        // POP 프로그램 켜짐/꺼짐 상태 송신
+        // POP 프로그램 켜짐/꺼짐 상태 송신 // 확인
         private void InvokeMercName(string mercName, string v)
         {
             try
@@ -646,8 +646,6 @@ namespace PopProject.UserControl_
             }
         }
 
-
-
         //아두이노 카운터값 수신 -> 카운터값 가공 -> 현황판으로 전송
         public void ArduReReceive(object sender, SerialDataReceivedEventArgs e)
         {
@@ -696,7 +694,7 @@ namespace PopProject.UserControl_
                                 win_Input.inputModel.count = str;
                             }
 
-                            InvokeCount(str, SettingJsonManager.mercName); //현황판으로 카운터 전송
+                            CountManager.SendMsg(SettingJsonManager.mercName, str.ToString()); //현황판으로 카운터 전송
                             Console.WriteLine("현황판으로 카운터(매수) 전송 값(Main) : " + SettingJsonManager.mercName + ", " + str); //실시간 값 확인용
 
                             if (SettingJsonManager.corp_name.Equals("광성수출포장") && SettingJsonManager.dbUse)
@@ -737,7 +735,7 @@ namespace PopProject.UserControl_
                                     win_Input.inputModel.count = production.presultCount;
                                 }
 
-                                InvokeCount(Convert.ToInt32(production.presultCount), SettingJsonManager.mercName); //현황판으로 카운터 전송
+                                CountManager.SendMsg(SettingJsonManager.mercName, production.presultCount.ToString()); //현황판으로 카운터 전송
                                 Console.WriteLine("현황판으로 카운터(통수) 전송 값(Main) : " + SettingJsonManager.mercName + ", " + Convert.ToInt32(production.presultCount)); //실시간 값 확인용
 
                                 if(SettingJsonManager.corp_name.Equals("광성수출포장") && SettingJsonManager.dbUse)
@@ -756,9 +754,7 @@ namespace PopProject.UserControl_
             }
         }
 
-
-
-        // 현황판으로 카운터 전송
+        // 현황판으로 카운터 전송 // 확인
         public void InvokeCount(int str, string mercName)
         {
             try
@@ -885,41 +881,38 @@ namespace PopProject.UserControl_
             UpdateWorkPlanNResult();    // 계획/결과 조회
         }
 
-         //if
-         
-
         //설비명 클릭
         private void Mer_click(object sender, MouseButtonEventArgs e)
         {
             // UNLOCK 일때
-            if (!SettingJsonManager.checkMerc)
+            if (SettingJsonManager.checkMerc == false)
             {
-                string before = SettingJsonManager.mercName; //현재 설비명 before에 담기
+                //현재 설비명 before에 담기
+                string before = string.IsNullOrWhiteSpace(SettingJsonManager.mercName) ? "" : SettingJsonManager.mercName;
                 MercList mercList = new MercList(); //리스트 가져오기
                 _ = mercList.ShowDialog(); //설비 리스트 팝업
                 tbMercName.Text = SettingJsonManager.mercName;
 
-                if (!before.Equals(SettingJsonManager.mercName)) //설비명이 변경되면
+                if (before.Equals(SettingJsonManager.mercName) == false) //설비명이 변경되면
                 {
-                    //관리자 계정이 아닐때만 실행 (혼선 방지)
-                    if (!SettingJsonManager.manager.Equals("1"))
+                    //관리자 계정이 아니고 전 설비가 선택되어 있었던 경우만 실행 (혼선 방지)
+                    if (SettingJsonManager.manager.Equals("1") == false && before.Equals("") == false)
                     {
-                        InvokeMercName(before, "B"); //변경전 설비명, 꺼짐신호
-                        InvokeMercName(SettingJsonManager.mercName, "A"); //변경된 설비명, 켜짐신호
+                        CountManager.SendMsg(before, "B"); //변경전 설비명, 꺼짐신호
+                        CountManager.SendMsg(SettingJsonManager.mercName, "A"); //변경된 설비명, 켜짐신호
                         SettingJsonManager.error = "";
                         SettingJsonManager.error1 = "";
                         SettingJsonManager.SaveJsonFile();
                     }
 
                     log.Info("설비 변경됨 => " + SettingJsonManager.mercName);
-
                 }
                 else //설비명 변경 안했으면
                 {
                     //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 (혼선 방지)
                     if (!SettingJsonManager.manager.Equals("1"))
                     {
-                        InvokeMercName(SettingJsonManager.mercName, "A"); //기존 설비명, 켜짐신호
+                        CountManager.SendMsg(SettingJsonManager.mercName, "A"); //기존 설비명, 켜짐신호
                     }
                 }
 
@@ -950,7 +943,6 @@ namespace PopProject.UserControl_
             if (SettingJsonManager.corp_name.Equals("오주포장"))
             {
                 popWorkList = "[PopWorkList]";
-                //popWorkList = "[PopWorkList_231214]";
             }
             else
             {
@@ -1009,10 +1001,8 @@ namespace PopProject.UserControl_
                             listitem.givSC = result["givSC"].ToString(); //마닐라 발주
                         }
 
-
                         switch (SettingJsonManager.corp_name) //업체명따른 처래처 품명 텍스트 변경
                         {
-
                             case "오주포장":
                             case "대양포장":
                                 run수주일자.Text = "[수주일자]";
@@ -1281,13 +1271,13 @@ namespace PopProject.UserControl_
                         listitem.bMember = bool.Parse(result["bMember"].ToString());
                         listitem.workMemo = result["workMemo"].ToString();
 
-                        //오주,대양
+                        //오주,대양 외
                         if (!SettingJsonManager.corp_name.Equals("오주포장") && !SettingJsonManager.corp_name.Equals("대양포장") && !SettingJsonManager.corp_name.Equals("오주포장테스트"))
                         {
                             listitem.icback = listitem.bMember ? "#AFE1FF" : "White"; //실수요자
                             listitem.pStateVisi = Visibility.Collapsed;
                         }
-                        else //그외 업체
+                        else //오주, 대양
                         {
                             listitem.pStateVisi = Visibility.Visible;
                             listitem.icback = result["WDIGCount"].ToString().Equals("0") || result["WDIGCount"].ToString().Equals("0.0") ? "White" : "#AFE1FF";
@@ -1330,7 +1320,7 @@ namespace PopProject.UserControl_
                         }
 
                         //오주포장
-                        if (SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기"))
+                        if (SettingJsonManager.corp_name.Equals("오주포장") && (SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기")))
                         {
                             if (listitem.ProcessType == 1 && listitem.ProcessType == 7 || listitem.ProcessType == 8) //인쇄(1), 철접합(7), 풀접합(8)
                             {
@@ -1466,7 +1456,7 @@ namespace PopProject.UserControl_
                             }
                         }
                         //오주포장 (풀접합)
-                        else if (SettingJsonManager.mercName.Equals("풀접합") && SettingJsonManager.corp_name.Equals("오주포장"))
+                        else if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("풀접합"))
                         {
                             if (listitem.ProcessType == 8 || listitem.ProcessType == 7 || listitem.ProcessType == 5) //7:철접합  8: 풀접합
                             {
@@ -1599,7 +1589,7 @@ namespace PopProject.UserControl_
                             }
                         }
                         //오주포장 (베가)
-                        else if (SettingJsonManager.mercName.Equals("베가") && SettingJsonManager.corp_name.Equals("오주포장"))
+                        else if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("베가"))
                         {
                             if (listitem.ProcessType == 8) //풀접합
                             {
@@ -1733,7 +1723,7 @@ namespace PopProject.UserControl_
 
                         }
                         //오주포장 (2공장인쇄기)
-                        else if (SettingJsonManager.mercName.Equals("2공장인쇄기") && SettingJsonManager.corp_name.Equals("오주포장"))
+                        else if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("2공장인쇄기"))
                         {
                             if (listitem.ProcessType == 27) //2공장 인쇄기
                             {
@@ -2545,7 +2535,7 @@ namespace PopProject.UserControl_
             //관리자 계정이 아닐때만 현황판으로 꺼짐 신호 보냄 
             if (!SettingJsonManager.manager.Equals("1"))
             {
-                InvokeMercName(SettingJsonManager.mercName, "B"); //설비명, 꺼짐신호
+                CountManager.SendMsg(SettingJsonManager.mercName, "B"); //설비명, 꺼짐신호
             }
 
             //인증코드 저장(로그인 정보)
@@ -2607,7 +2597,7 @@ namespace PopProject.UserControl_
                         dSConsumer.ShowDialog(); //실수요자 리스트 창 팝업
 
                         //창 종료 후 
-                        InvokeCount(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
+                        CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
                         SelectWorkList();   //생산계획 조회
                         ResultSearchDate(); //생산결과 조회
                     }
@@ -2705,7 +2695,7 @@ namespace PopProject.UserControl_
                 SettingJsonManager.SaveJsonFile();
                 //Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
                 model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                InvokeCount(SettingJsonManager.mercName, "S");
+                CountManager.SendMsg(SettingJsonManager.mercName, "S");
                 SettingJsonManager.count = 0;
                 SettingJsonManager.saveDate = "";
                 SettingJsonManager.pplanKey = 0;
@@ -2719,7 +2709,7 @@ namespace PopProject.UserControl_
             return returnData.결과;
         }
 
-        private void InvokeCount(string mercName, string v) //설비명,POP상태
+        private void InvokeCount(string mercName, string v) //설비명,POP상태 // 확인
         {
             try
             {

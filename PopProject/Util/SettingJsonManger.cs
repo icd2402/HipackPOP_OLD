@@ -86,9 +86,6 @@ namespace PopProject.Util
         // JSON 파일 경로
         public static string filePath { get; set; }
 
-        // JSON 파일 내 정보 string 변수
-        private static string loadedSettings;
-
         // log4net
         private static ILog log; //로그
 
@@ -96,19 +93,27 @@ namespace PopProject.Util
         {
             filePath = @"C:\ICD\settings.json";
 
-            loadedSettings = File.ReadAllText(filePath);
-
             //Log4net
             XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
             log = LogManager.GetLogger(typeof(Login)); //로그
         }
 
+        // Settings.json 파일 존재 여부 확인
+        public static bool CheckJsonFile()
+        {
+            return File.Exists(filePath);
+        }
+
+        // Settings.json 파일 Load, 키가 없는 경우 초기화
         public static bool LoadJsonFile()
         {
             log.Info("json → 셋팅정보(Class) Load 시작");
 
             try
             {
+                // JsonFile 에서 string 문자열로
+                string loadedSettings = File.ReadAllText(filePath);
+
                 JObject jObject = JObject.Parse(loadedSettings);
 
                 // login_id 없는 경우 ""
@@ -165,10 +170,10 @@ namespace PopProject.Util
                 meterialinfo = jObject.ContainsKey("meterialinfo") ? jObject["meterialinfo"].ToString() : "";
                 // setting_check 없는 경우 0
                 setting_check = jObject.ContainsKey("setting_check") ? Convert.ToInt32(jObject["setting_check"]) : 0;
-                // baudrate 없는 경우 0
-                baudrate = jObject.ContainsKey("baudrate") ? Convert.ToInt32(jObject["baudrate"]) : 0;
-                // SensorRate 없는 경우 ""
-                SensorRate = jObject.ContainsKey("SensorRate") ? jObject["SensorRate"].ToString() : "";
+                // baudrate 없는 경우 9600
+                baudrate = jObject.ContainsKey("baudrate") ? Convert.ToInt32(jObject["baudrate"]) : 9600;
+                // SensorRate 없는 경우 "0"
+                SensorRate = jObject.ContainsKey("SensorRate") ? jObject["SensorRate"].ToString() : "0";
                 // RadioChecked 없는 경우 false
                 RadioChecked = jObject.ContainsKey("RadioChecked") ? bool.Parse(jObject["RadioChecked"].ToString()) : false;
                 // printItem 없는 경우 ""
@@ -251,15 +256,6 @@ namespace PopProject.Util
                 dbUse = jObject.ContainsKey("dbUse") ? bool.Parse(jObject["dbUse"].ToString()) : false;
 
                 log.Info("json → 셋팅정보(Class) Load 완료");
-
-                // 인증 정보가 없는 경우(Settings.Settings 또한 입력)
-                if (string.IsNullOrWhiteSpace(login_id) && string.IsNullOrWhiteSpace(login_password))
-                {
-                    // 로그인 정보가 없으므로 login_check 는 false
-                    login_check = false;
-                    SaveJsonFile();
-                    return false;
-                }
             }
             catch (Exception ex)
             {
@@ -269,7 +265,7 @@ namespace PopProject.Util
             return true;
         }
 
-        // JSON 설정 (settings.json) 파일에 저장
+        // JSON 설정 (settings.json) 파일에 저장, null 값인 경우 초기화
         public static bool SaveJsonFile()
         {
             try
@@ -285,37 +281,37 @@ namespace PopProject.Util
                 //파일 내용
                 var settings = new Dictionary<string, string>
                             {
-                                {"login_id", login_id},
-                                {"login_password", login_password},
-                                {"corp_name", corp_name},
-                                {"corp_id", corp_id},
+                                {"login_id", string.IsNullOrEmpty(login_id) == false ? login_id : ""},
+                                {"login_password", string.IsNullOrEmpty(login_password) == false ? login_password : ""},
+                                {"corp_name", string.IsNullOrEmpty(corp_name) == false ? corp_name : ""},
+                                {"corp_id", string.IsNullOrEmpty(corp_id) == false ? corp_id : ""},
                                 {"login_check", login_check.ToString()},
-                                {"mercName", mercName},
-                                {"SerialName", SerialName},
+                                {"mercName", string.IsNullOrEmpty(mercName) == false ? mercName : ""},
+                                {"SerialName", string.IsNullOrEmpty(SerialName) == false ? SerialName : ""},
                                 {"processType", processType.ToString()},
                                 {"hour", hour.ToString()},
                                 {"minute", minute.ToString()},
-                                {"url", url},
-                                {"saveDate", saveDate},
+                                {"url", string.IsNullOrEmpty(url) == false ? url : ""},
+                                {"saveDate", string.IsNullOrEmpty(saveDate) == false ? saveDate : ""},
                                 {"pplanKey", pplanKey.ToString()},
                                 {"count", count.ToString()},
-                                {"UserID", UserID},
-                                {"UserName", UserName},
-                                {"signalR", signalR},
-                                {"serverIndex", serverIndex},
-                                {"pworkkey", pworkkey},
+                                {"UserID", string.IsNullOrEmpty(UserID) == false ? UserID : ""},
+                                {"UserName", string.IsNullOrEmpty(UserName) == false ? UserName : ""},
+                                {"signalR", string.IsNullOrEmpty(signalR) == false ? signalR : ""},
+                                {"serverIndex", string.IsNullOrEmpty(serverIndex) == false ? serverIndex : ""},
+                                {"pworkkey", string.IsNullOrEmpty(pworkkey) == false ? pworkkey : ""},
                                 {"consumersumcount", consumersumcount.ToString()},
                                 {"consumpWorkKey", consumpWorkKey.ToString()},
                                 {"consumersumerrorcount", consumersumerrorcount.ToString()},
                                 {"TypeIndex", TypeIndex.ToString()},
                                 {"CountType", CountType.ToString()},
-                                {"settingitem", settingitem},
-                                {"meterialinfo", meterialinfo},
+                                {"settingitem", string.IsNullOrEmpty(settingitem) == false ? settingitem : ""},
+                                {"meterialinfo", string.IsNullOrEmpty(meterialinfo) == false ? meterialinfo : ""},
                                 {"setting_check", setting_check.ToString()},
-                                {"baudrate", baudrate.ToString()},
-                                {"SensorRate", SensorRate},
+                                {"baudrate", string.IsNullOrEmpty(baudrate.ToString()) == false ? "9600" : ""},
+                                {"SensorRate", string.IsNullOrEmpty(SensorRate) == false ? SensorRate : "0"},
                                 {"RadioChecked", RadioChecked.ToString()},
-                                {"printItem", printItem},
+                                {"printItem", string.IsNullOrEmpty(printItem) == false ? printItem : ""},
                                 {"samework", samework.ToString()},
                                 {"color_check", color_check.ToString()},
                                 {"count_check", count_check.ToString()},
@@ -330,12 +326,12 @@ namespace PopProject.Util
                                 {"productionCheck", productionCheck.ToString()},
                                 {"scrollvarCheck", scrollvarCheck.ToString()},
                                 {"index", index.ToString()},
-                                {"error", error},
-                                {"error1", error1},
+                                {"error", string.IsNullOrEmpty(error) == false ? error : ""},
+                                {"error1", string.IsNullOrEmpty(error1) == false ? error1 : ""},
                                 {"Plc", Plc.ToString()},
                                 {"ChangeCheck", ChangeCheck.ToString()},
-                                {"ip", ip},
-                                {"port", port},
+                                {"ip", string.IsNullOrEmpty(ip) == false ? ip : ""},
+                                {"port", string.IsNullOrEmpty(port) == false ? port : ""},
                                 {"Gap", Gap.ToString()},
                                 {"mimi", mimi.ToString()},
                                 {"jang", jang.ToString()},
@@ -347,11 +343,11 @@ namespace PopProject.Util
                                 {"completeValue_checked", completeValue_checked.ToString()},
                                 {"checkMerc", checkMerc.ToString()},
                                 {"robotchecked", robotchecked.ToString()},
-                                {"robotIP", robotIP},
-                                {"robotPort", robotPort},
-                                {"manager", manager},
-                                {"authKey", authKey},
-                                {"SerialName1", SerialName1},
+                                {"robotIP", string.IsNullOrEmpty(robotIP) == false ? robotIP : ""},
+                                {"robotPort", string.IsNullOrEmpty(robotPort) == false ? robotPort : ""},
+                                {"manager", string.IsNullOrEmpty(manager) == false ? manager : ""},
+                                {"authKey", string.IsNullOrEmpty(authKey) == false ? authKey : ""},
+                                {"SerialName1", string.IsNullOrEmpty(SerialName1) == false ? SerialName1 : ""},
                                 {"consumCount", consumCount.ToString()},
                                 {"dbUse", dbUse.ToString() }
                             };
@@ -361,7 +357,7 @@ namespace PopProject.Util
 
                 //인증코드 파일이 있는지 확인 후 해당 파일을 숨김 처리 (숨김 이후 수정되지 않음)
                 File.WriteAllText(filePath, json);
-
+                 
                 log.Info("셋팅정보(Class) → json Save 완료");
             }
             catch (Exception ex)
