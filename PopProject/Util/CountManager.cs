@@ -38,9 +38,12 @@ namespace PopProject.Util
                 {"광성수출포장", "http://ksbox.iptime.org:18888/pop/gathering"},
                 {"대세물산", "http://dsbox.iptime.org:18888/pop/gathering"},
                 {"유창포장", "http://211.253.37.232:18888/pop/gathering"},
+                {"금화", "http://khbox.iptime.org:18888/pop/gathering"},
+
                 {"광성수출포장테스트", "http://localhost:18888/pop/gathering"},
                 {"대세물산테스트", "http://localhost:18888/pop/gathering"},
-                {"유창포장테스트", "http://localhost:18888/pop/gathering"}
+                {"유창포장테스트", "http://localhost:18888/pop/gathering"},
+                {"금화테스트", "http://localhost:18888/pop/gathering"}
             };
 
             // workCnt 사용 업체에 포함되어 있는지 확인
@@ -76,7 +79,6 @@ namespace PopProject.Util
         static async Task PopService(string mercName, string data)
         {
             string companyCode = SettingJsonManager.corp_id; //업체코드
-
             try
             {
                 // 파라미터를 포함한 URL 생성
@@ -87,6 +89,9 @@ namespace PopProject.Util
                 if (response.IsSuccessStatusCode == false)
                 {
                     log.Error("서비스로 데이터 전송 실패");
+                }
+                else
+                {
                 }
             }
             catch(Exception e)

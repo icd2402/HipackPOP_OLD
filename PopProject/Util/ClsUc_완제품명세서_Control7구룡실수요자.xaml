@@ -161,10 +161,73 @@
                 <DockPanel>
 
                     <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="적재단수" HorizontalContentAlignment="Center" Height="85"  Width="152"  />
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding loadHeight}"   Width="230" HorizontalContentAlignment="Left"  />
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="0,1,0,0" BorderBrush="Black" Content="적재방법" HorizontalContentAlignment="Center" Height="85"  Width="144" />
-                    <Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0"   HorizontalContentAlignment="Center" Content="{Binding loadType}" />
+                    <!--<Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding loadHeight}"   Width="230" HorizontalContentAlignment="Left"  />-->
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0"   Width="230" HorizontalContentAlignment="Center"  >
+                        <TextBlock Text="{Binding loadHeight}" TextWrapping="Wrap">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
 
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text.Length}" Value="16">
+                                            <Setter Property="FontSize" Value="24"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text.Length}" Value="17">
+                                            <Setter Property="FontSize" Value="24"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text.Length}" Value="18">
+                                            <Setter Property="FontSize" Value="24"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text.Length}" Value="19">
+                                            <Setter Property="FontSize" Value="22"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text.Length}" Value="20">
+                                            <Setter Property="FontSize" Value="22"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text.Length}" Value="21">
+                                            <Setter Property="FontSize" Value="22"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Label>
+                    
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="0,1,0,0" BorderBrush="Black" Content="적재방법" HorizontalContentAlignment="Center" Height="85"  Width="144" />
+                    <!--<Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0"   HorizontalContentAlignment="Center" Content="{Binding loadType}" />-->
+                    <Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0"   HorizontalContentAlignment="Center" >
+                        <TextBlock Text="{Binding loadType}" TextWrapping="Wrap">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text.Length}" Value="14">
+                                            <Setter Property="FontSize" Value="24"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text.Length}" Value="15">
+                                            <Setter Property="FontSize" Value="24"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text.Length}" Value="16">
+                                            <Setter Property="FontSize" Value="24"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text.Length}" Value="17">
+                                            <Setter Property="FontSize" Value="24"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text.Length}" Value="18">
+                                            <Setter Property="FontSize" Value="24"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text.Length}" Value="19">
+                                            <Setter Property="FontSize" Value="22"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text.Length}" Value="20">
+                                            <Setter Property="FontSize" Value="22"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text.Length}" Value="21">
+                                            <Setter Property="FontSize" Value="22"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Label>
                 </DockPanel>
 
 
