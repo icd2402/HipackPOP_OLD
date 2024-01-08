@@ -44,7 +44,7 @@
 
         <!--업체명, 설비명-->
         <TextBlock x:Name="corp_name" Foreground="White" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="24,36,0,0" ></TextBlock>
-        <TextBlock x:Name="tbMercName" Text="공 정" Foreground="White" Width="264" FontSize="38" TextAlignment="Center" Height="50" HorizontalAlignment="Center" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="Mer_click" Margin="516,30,500,30"></TextBlock>
+        <TextBlock x:Name="tbMercName" Text="공 정" Foreground="White" Width="357" FontSize="38" TextAlignment="Center" Height="50" HorizontalAlignment="Center" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="Mer_click" Margin="458,35,435,30"></TextBlock>
 
         <!--계획순서변경, 설정, 원격연결, 종료-->
         <TextBlock x:Name="계획순서변경" MouseLeftButtonDown="Change_workList" Background="DimGray" Foreground="White" FontSize="23"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="9" Margin="850,34,0,0" FontFamily="/font/#KoPubBatang Medium" Text="계획순서변경"></TextBlock>

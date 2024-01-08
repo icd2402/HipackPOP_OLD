@@ -212,6 +212,7 @@ namespace PopProject.UserControl_
                     Timer_60s();        // 60초(1분) - POP 켜짐 신호 전송
                     Timer_300s();       // 300초(5분) - 계획/결과 갱신, 아두이노 연결 확인, 카운팅 값 전송
                     Timer_ycbox_1s();   // 1초 - 유창 기계(POP)별로 시간 다르게 계획/결과 갱신
+                    //Timer_Test(); //테스트용
                 }
                 else
                 {
@@ -448,6 +449,23 @@ namespace PopProject.UserControl_
             }
         }
         #endregion
+
+        private void Timer_Test()
+        {
+            timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(0.05)
+            };
+            timer.Tick += new EventHandler(Timer_Test_Tick);
+            timer.Start();
+        }
+
+        int TestData = 0;
+        private void Timer_Test_Tick(object sender, EventArgs e)
+        {
+            TestData++;
+            CountManager.SendMsg("A", TestData.ToString());
+        }
 
         private void UpdateWorkPlanNResult()
         {
@@ -1331,9 +1349,9 @@ namespace PopProject.UserControl_
 
                         if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
                         {
-                            if (SettingJsonManager.mercName.Equals("후렉소1호기") || SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기"))
+                            if (SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기"))
                             {
-                                if (listitem.ProcessType == 1 ) //인쇄(1), 철접합(7), 풀접합(8)
+                                if (listitem.ProcessType == 1 && listitem.ProcessType == 7 || listitem.ProcessType == 8)  //인쇄(1), 철접합(7), 풀접합(8)
                                 {
                                     //작업정보 설정값
                                     string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
@@ -1470,7 +1488,7 @@ namespace PopProject.UserControl_
                             //오주포장 (풀접합)
                             else if (SettingJsonManager.mercName.Equals("풀접합"))
                             {
-                                if (listitem.ProcessType == 8 || listitem.ProcessType == 7 || listitem.ProcessType == 5) //7:철접합  8: 풀접합
+                                if (listitem.ProcessType == 5 || listitem.ProcessType == 7 || listitem.ProcessType == 8) //7:철접합  8: 풀접합
                                 {
                                     //작업정보 설정값
                                     string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);

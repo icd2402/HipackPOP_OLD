@@ -40,12 +40,15 @@ namespace PopProject.Util
             // workCnt 사용 업체 리스트
             Dictionary<string, string> dicCorpsUsingWorkCnt = new Dictionary<string, string>()
             {
-                {"광성수출포장", "http://ksbox.iptime.org:18888/pop"},
-                {"대세물산", "http://dsbox.iptime.org:18888/pop"},
-                {"유창포장", "http://211.253.37.232:18888/pop"},
-                {"광성수출포장테스트", "http://localhost:18888/pop"},
-                {"대세물산테스트", "http://localhost:18888/pop"},
-                {"유창포장테스트", "http://localhost:18888/pop"}
+                {"광성수출포장", "http://ksbox.iptime.org:18888/pop/gathering"},
+                {"대세물산", "http://dsbox.iptime.org:18888/pop/gathering"},
+                {"유창포장", "http://211.253.37.232:18888/pop/gathering"},
+                {"금화", "http://khbox.iptime.org:18888/pop/gathering"},
+
+                {"광성수출포장테스트", "http://localhost:18888/pop/gathering"},
+                {"대세물산테스트", "http://localhost:18888/pop/gathering"},
+                {"유창포장테스트", "http://localhost:18888/pop/gathering"},
+                {"금화테스트", "http://localhost:18888/pop/gathering"}
             };
 
             // workCnt 사용 업체에 포함되어 있는지 확인
