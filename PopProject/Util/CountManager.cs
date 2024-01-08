@@ -20,10 +20,15 @@ namespace PopProject.Util
         static string url;
         static HttpClient workCntClient = new HttpClient();
 
+        // Thread 동기화용 락(세마포어)
+        static object lockWorkCnt;
+
         static CountManager()
         {
             // log setting
             XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
+
+            lockWorkCnt = new object();
 
             // 업체정보가 없으면 CountManager 종료
             if (SettingJsonManager.corp_name.Equals(""))
@@ -35,12 +40,12 @@ namespace PopProject.Util
             // workCnt 사용 업체 리스트
             Dictionary<string, string> dicCorpsUsingWorkCnt = new Dictionary<string, string>()
             {
-                {"광성수출포장", "http://ksbox.iptime.org:18888/pop/gathering"},
-                {"대세물산", "http://dsbox.iptime.org:18888/pop/gathering"},
-                {"유창포장", "http://211.253.37.232:18888/pop/gathering"},
-                {"광성수출포장테스트", "http://localhost:18888/pop/gathering"},
-                {"대세물산테스트", "http://localhost:18888/pop/gathering"},
-                {"유창포장테스트", "http://localhost:18888/pop/gathering"}
+                {"광성수출포장", "http://ksbox.iptime.org:18888/pop"},
+                {"대세물산", "http://dsbox.iptime.org:18888/pop"},
+                {"유창포장", "http://211.253.37.232:18888/pop"},
+                {"광성수출포장테스트", "http://localhost:18888/pop"},
+                {"대세물산테스트", "http://localhost:18888/pop"},
+                {"유창포장테스트", "http://localhost:18888/pop"}
             };
 
             // workCnt 사용 업체에 포함되어 있는지 확인
@@ -61,8 +66,8 @@ namespace PopProject.Util
         {
             if (useWorkCnt)
             {
-                object lockO = new object();
-                lock (lockO)
+                // Thread 동기화용 락(세마포어)
+                lock (lockWorkCnt)
                 {
                     _ = PopService(mercName, v);
                 }
@@ -75,12 +80,10 @@ namespace PopProject.Util
 
         static async Task PopService(string mercName, string data)
         {
-            string companyCode = SettingJsonManager.corp_id; //업체코드
-
             try
             {
                 // 파라미터를 포함한 URL 생성
-                string urlWithParameters = $"{url}/{companyCode}/{mercName}/{data}";
+                string urlWithParameters = $"{url}/gathering/{SettingJsonManager.corp_id}/{mercName}/{data}";
                 // HTTP GET 요청 보내기
                 HttpResponseMessage response = await workCntClient.GetAsync(urlWithParameters);
 
