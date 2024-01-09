@@ -1353,7 +1353,7 @@ namespace PopProject.UserControl_
                             SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("인라인3호기") ||
                             SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("후렉소1호기"))
                         {
-                            if (listitem.ProcessType == 1 && listitem.ProcessType == 7 || listitem.ProcessType == 8) //후렉소(1), 1공장철(7), 베가(8), 인라인(13)
+                            if (listitem.ProcessType == 1  || listitem.ProcessType == 8) //후렉소(1), 1공장철(7), 베가(8), 인라인(13)
                             {
                                 //작업정보 설정값
                                 string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
