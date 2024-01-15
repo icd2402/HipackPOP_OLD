@@ -15,9 +15,13 @@
 
         <!--<Image Visibility="{Binding newProd}" Width="48" Height="28" Source="/img/new.png" HorizontalAlignment="Left" VerticalAlignment="Bottom" Canvas.Left="47" Canvas.Top="119" ></Image>-->
         <TextBlock Text="{Binding customSName}" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="46" Canvas.Top="18" FontFamily="/font/#KoPubDotum Medium" />
-        <TextBlock Text="{Binding prodName}" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="46" Canvas.Top="54" FontFamily="/font/#KoPubDotum Bold"/>
+        <TextBlock Text="{Binding prodName}" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="46" Canvas.Top="42" FontFamily="/font/#KoPubDotum Bold"/>
         <TextBlock Text="{Binding pSize}" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="380" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium"  />
         <TextBox x:Name="tbBarcode" Text="" HorizontalAlignment="Left" Width="200" Height="50" Visibility="Hidden" Opacity="0" KeyDown="TbBarcode_KeyDown"></TextBox>
+
+        <Border  BorderThickness="2" Background="White" CornerRadius="10" BorderBrush="#FF747474" Width="120" Height="50"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="45" Canvas.Top="110" MouseLeftButtonDown="Unique" >
+            <TextBlock Text="특이사항" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF565656" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium"  />
+        </Border>
 
         <TextBlock Text="작 업 팀 :" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="66" Canvas.Top="178" FontFamily="/font/#KoPubDotum Medium"></TextBlock>
         <TextBlock Text="{Binding workerName}" Foreground="Green" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="148" Canvas.Top="178" FontFamily="/font/#KoPubDotum Medium"></TextBlock>

@@ -552,7 +552,7 @@ namespace PopProject.Consumer_
             else //yes
             {
                 //결과값이 있으면 이월
-                if (mainModel.presultCount > 0 )
+                if (mainModel.presultCount > 0)
                 {
                     spAdd410processinfo_workplan();
                     Close();
@@ -724,7 +724,7 @@ namespace PopProject.Consumer_
         //원격연결 버튼
         private void Remote_click(object sender, MouseButtonEventArgs e)
         {
-            _ = Process.Start("http://onefax.co.kr/w_onefax/remotebox_view.aspx");
+            _ = Process.Start("http://2007.asw.co.kr/client/index.jsp?cpcode=icd&autostart=true");
         }
     }
 }

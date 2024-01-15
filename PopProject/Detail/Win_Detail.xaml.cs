@@ -2357,7 +2357,7 @@ namespace PopProject.Detail
 
                 default: //일반
                     //실수요자 건 일때
-                    if (consumer)
+                    if (consumcheck)
                     {
                         MessageBox_Dialog msg = new MessageBox_Dialog("정상적인 경로가 아닙니다.");
                         _ = msg.ShowDialog();

@@ -291,7 +291,8 @@ namespace PopProject.Consumer_
             {
                 if (Main.production != null)
                 {
-                    MessageBox_Dialog messageBox = new MessageBox_Dialog("작업중인 건이 있습니다.");
+                    //MessageBox_Dialog messageBox = new MessageBox_Dialog("작업중인 건이 있습니다.");
+                    MessageBox_Dialog messageBox = new MessageBox_Dialog(inputModel.prodName + "\n" + "해당 건이 작업중입니다.");
                     _ = messageBox.ShowDialog();
                 }
                 else
@@ -864,6 +865,13 @@ namespace PopProject.Consumer_
             return check;
         }
 
+        //특이사항 버튼 클릭
+        private void Unique(object sender, MouseButtonEventArgs e)
+        {
+            Unique_input unique_Input = new Unique_input(inputModel);
+            unique_Input.ShowDialog();
+        }
+
         private void Win_input_exit(object sender, MouseButtonEventArgs e)
         {
             Close();
@@ -871,11 +879,12 @@ namespace PopProject.Consumer_
 
         private void Detail_item(object sender, MouseButtonEventArgs e)
         {
+            Close();
             string special = "";
 
             
 
-            Win_Detail win_Detail = new Win_Detail(mainModel, special,consumerModel, SettingJsonManager.detail_check,true);
+            Win_Detail win_Detail = new Win_Detail(mainModel, special,consumerModel, SettingJsonManager.detail_check, true);
             win_Detail.ShowDialog();
         }
 

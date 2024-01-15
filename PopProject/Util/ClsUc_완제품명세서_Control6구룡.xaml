@@ -147,8 +147,8 @@
 
                     <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="적재단수" HorizontalContentAlignment="Center" Height="85"  Width="152"  />
                     <!--<Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding loadHeight}"   Width="230" HorizontalContentAlignment="Left"  />-->
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0"   Width="230" HorizontalContentAlignment="Center"  >
-                        <TextBlock Text="{Binding loadHeight}" TextWrapping="Wrap">
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0"  Width="230" HorizontalContentAlignment="Center"  >
+                        <TextBlock Text="25단(인쇄가 위로보이게 적재필)" TextWrapping="Wrap">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Style.Triggers>

@@ -80,7 +80,7 @@ namespace PopProject.Util
                 SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
             }
         }
-
+        
         static async Task PopService(string mercName, string data)
         {
             try

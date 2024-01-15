@@ -1350,10 +1350,9 @@ namespace PopProject.UserControl_
                         }
 
                         if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("인라인2호기") ||
-                            SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("인라인3호기") ||
-                            SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("후렉소1호기"))
+                            SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("인라인3호기"))
                         {
-                            if (listitem.ProcessType == 1  || listitem.ProcessType == 8) //후렉소(1), 1공장철(7), 베가(8), 인라인(13)
+                            if (listitem.ProcessType == 7 || listitem.ProcessType == 8) //후렉소(1), 1공장철(7), 베가(8), 인라인(13)
                             {
                                 //작업정보 설정값
                                 string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
@@ -2602,7 +2601,7 @@ namespace PopProject.UserControl_
                             model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                             //관리자 로그인 아닐때 키 생성
-                            if (!SettingJsonManager.manager.Equals("1"))
+                            if (!SettingJsonManager.manager.Equals("1") && production == null)
                             {
                                 //아두이노 연결 안되어있으면 무시
                                 if (!SettingJsonManager.SerialName.Equals(""))
