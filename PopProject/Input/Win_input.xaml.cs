@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -20,8 +21,6 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using System.Net.Http;
 using System.Threading.Tasks;
-using log4net;
-using log4net.Config;
 
 namespace PopProject.Input
 {
@@ -59,8 +58,6 @@ namespace PopProject.Input
 
         private bool success = false; //CNS 통신연결 확인
 
-        public ILog log = LogManager.GetLogger(typeof(Win_input)); //로그
-
 
         public Win_input(MainModel mainModel, ObservableCollection<MainModel> workList, bool check) //check= 메인화면에서 들어오면 false, 디테일 화면에서 들어오면 true
         {
@@ -70,9 +67,6 @@ namespace PopProject.Input
             inputModel = new InputModel();
             this.mainModel = mainModel;
             boxType.Text = "형 태 : " + mainModel.boxType;
-
-            //Log4net
-            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
 
             //오주포장 카운터 수신
             if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
@@ -177,7 +171,7 @@ namespace PopProject.Input
             }
             catch (Exception e)
             {
-                log.Error("오주포장 인라인3호기 전용 카운터 SignalR 수신 오류 : " + e.Message);
+                LogManager.Error("오주포장 인라인3호기 전용 카운터 SignalR 수신 오류 : " + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 
@@ -217,7 +211,7 @@ namespace PopProject.Input
             }
             else
             {
-                log.Error("PopBeforeProcessItemCount 조회 실패");
+                LogManager.Error("PopBeforeProcessItemCount 조회 실패", MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 
@@ -440,7 +434,7 @@ namespace PopProject.Input
             {
                 MessageBox_Dialog msg = new MessageBox_Dialog("PopErrorSearch 조회 오류");
                 _ = msg.ShowDialog();
-                log.Error("불량사유 리스트 조회 실패");
+                LogManager.Error("불량사유 리스트 조회 실패", MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 
@@ -591,7 +585,7 @@ namespace PopProject.Input
             }
             else
             {
-                log.Error("생산결과 조회 실패");
+                LogManager.Error("생산결과 조회 실패", MethodBase.GetCurrentMethod().DeclaringType);
 
             }
             sv.ScrollToVerticalOffset(ic.ActualHeight);
@@ -643,7 +637,7 @@ namespace PopProject.Input
             }
             else
             {
-                log.Error("불량리스트 조회 실패");
+                LogManager.Error("불량리스트 조회 실패", MethodBase.GetCurrentMethod().DeclaringType);
             }
             return ob;
         }
@@ -938,7 +932,7 @@ namespace PopProject.Input
             {
                 MessageBox_Dialog msg = new MessageBox_Dialog("저장실패");
                 msg.ShowDialog();
-                log.Error("불량리스트 조회 실패");
+                LogManager.Error("불량리스트 조회 실패", MethodBase.GetCurrentMethod().DeclaringType);
             }
             return returnData.결과;
 
@@ -1030,7 +1024,7 @@ namespace PopProject.Input
             //    mainSock.Close();
             //}
             Close();
-            log.Info("인풋창 닫기");
+            LogManager.Info("인풋창 닫기", MethodBase.GetCurrentMethod().DeclaringType);
         }
 
         //상세 내역 화면 호출
@@ -1082,7 +1076,7 @@ namespace PopProject.Input
                             _ = new LogData("작업시작");
                             _ = PopResultStart();
                             PopResultSearch();
-                            log.Info(Main.production.customSName + " / " + Main.production.prodName + " [생산시작]");
+                            LogManager.Info(Main.production.customSName + " / " + Main.production.prodName + " [생산시작]", MethodBase.GetCurrentMethod().DeclaringType);
                         }
 
                         break;
@@ -1105,7 +1099,7 @@ namespace PopProject.Input
                             _ = new LogData("작업시작");
                             _ = PopResultStart();
                             PopResultSearch();
-                            log.Info(Main.production.customSName + " / " + Main.production.prodName + " [생산시작]");
+                            LogManager.Info(Main.production.customSName + " / " + Main.production.prodName + " [생산시작]", MethodBase.GetCurrentMethod().DeclaringType);
                         }
                         break;
                 }
@@ -1136,7 +1130,7 @@ namespace PopProject.Input
                     inputModel.pworkCount = 0;
                     PopResultSearch();
 
-                    log.Info(inputModel.customSName + " / " + inputModel.prodName + " [생산종료] " + inputModel.sumPworkCount + "개");
+                    LogManager.Info(inputModel.customSName + " / " + inputModel.prodName + " [생산종료] " + inputModel.sumPworkCount + "개", MethodBase.GetCurrentMethod().DeclaringType);
                 }
             }
 
@@ -2446,7 +2440,7 @@ namespace PopProject.Input
         // DB -> CNS 전송 버튼
         private void Plc_ButtonMouseDown1(object sender, MouseButtonEventArgs e)
         {
-            log.Info("CNS로 데이터 전송 버튼 클릭(DB => CNS)");
+            LogManager.Info("CNS로 데이터 전송 버튼 클릭(DB => CNS)", MethodBase.GetCurrentMethod().DeclaringType);
             bool DB_DataOK = false; //DB에 데이터 있는거 확인
 
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
@@ -2489,7 +2483,7 @@ namespace PopProject.Input
                 }
                 else
                 {
-                    log.Error("DB에 데이터가 없어 전송할 수 없음");
+                    LogManager.Error("DB에 데이터가 없어 전송할 수 없음", MethodBase.GetCurrentMethod().DeclaringType);
                     MessageBoxResult result3 = System.Windows.MessageBox.Show(" 저장된 데이터가 없습니다.\n 먼저 CNS세팅 후 CNS데이터 저장을 눌러주세요.", "PC 데이터 없음");
                 }
             }
@@ -2734,12 +2728,12 @@ namespace PopProject.Input
                             }
                         });
 
-                        log.Info("데이터 전송 완료 (DB => CNS)");
+                        LogManager.Info("데이터 전송 완료 (DB => CNS)", MethodBase.GetCurrentMethod().DeclaringType);
                         MessageBoxResult result = System.Windows.MessageBox.Show("데이터 전송 완료", "CNS 데이터 전송");
                     }
                     catch (Exception)
                     {
-                        log.Error("데이터 전송 실패 (DB => CNS)");
+                        LogManager.Error("데이터 전송 실패 (DB => CNS)", MethodBase.GetCurrentMethod().DeclaringType);
                         MessageBox_Dialog msg = new MessageBox_Dialog("데이터 전송 실패!");
                         msg.ShowDialog();
                         mainSock.Close();
@@ -2771,7 +2765,7 @@ namespace PopProject.Input
 
             if (result == MessageBoxResult.Yes) //확인
             {
-                log.Info("CNS 데이터 저장 버튼 클릭 (CNS => DB)");
+                LogManager.Info("CNS 데이터 저장 버튼 클릭 (CNS => DB)", MethodBase.GetCurrentMethod().DeclaringType);
 
                 if (SettingJsonManager.Plc) //PLC 사용 체크일때
                 {
@@ -2781,7 +2775,7 @@ namespace PopProject.Input
                 }
                 else
                 {
-                    log.Error("CNS 데이터 저장 실패 (CNS사용 미체크)");
+                    LogManager.Error("CNS 데이터 저장 실패 (CNS사용 미체크)", MethodBase.GetCurrentMethod().DeclaringType);
                     MessageBox_Dialog msg = new MessageBox_Dialog("설정에서 CNS사용을 체크해주세요.");
                 }
             }
@@ -2807,7 +2801,7 @@ namespace PopProject.Input
         //CNS 데이터 상세창 버튼
         private void Plc_ButtonMouseDown3(object sender, MouseButtonEventArgs e)
         {
-            log.Info("CNS 데이터 보기 버튼 클릭");
+            LogManager.Info("CNS 데이터 보기 버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
 
             Plc_Pop plc = new Plc_Pop(mainModel);
             plc.ShowDialog();

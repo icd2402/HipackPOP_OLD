@@ -12,6 +12,7 @@ using System.Net;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,8 +20,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PopProject.KeyBoard;
 using PopProject.input;
-using log4net;
-using log4net.Config;
 
 namespace PopProject.Detail
 {
@@ -62,17 +61,11 @@ namespace PopProject.Detail
 
         private int 작업지시;
         private bool consumer = false;
-        public ILog log = LogManager.GetLogger(typeof(Win_Detail)); //로그
 
 
         public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v, bool Barcod) //메인모델, 참고사항, 계획건, 듀얼모니터사용, 바코드 유무
         {
             InitializeComponent();
-
-            //Log4net
-            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
-
-           
 
             this.mainModel = mainModel;
             this.workList = workList;
@@ -120,7 +113,7 @@ namespace PopProject.Detail
                 //바코드로 디테일창 팝업시 동작
                 if (SettingJsonManager.mercName.Equals("후렉소1호기") || SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기"))
                 {
-                    log.Info("CNS사용 체크 후 바코드로 상세화면 팝업 성공" + SettingJsonManager.mercName + "/" + this.mainModel.prodID);
+                    LogManager.Info("CNS사용 체크 후 바코드로 상세화면 팝업 성공" + SettingJsonManager.mercName + "/" + this.mainModel.prodID, MethodBase.GetCurrentMethod().DeclaringType);
 
                     //DB에 데이터 있는거 확인용 변수
                     bool DB_DataOK = false; 
@@ -643,7 +636,7 @@ namespace PopProject.Detail
                 미미 = 30;
 
                 Console.WriteLine("CNS 신규 데이터 전송값 => " + "ProdID:" + ProdID + ", 거래처:" + 거래처 + ", 품명:" + 품명 + ", 장:" + 장 + ", 폭:" + 폭 + ", 고:" + 고 + ", 갭:" + 갭 + ", 미미:" + 미미);
-                log.Info("CNS 신규 데이터 전송값 => " + "ProdID:" + ProdID + ", 거래처:" + 거래처 + ", 품명:" + 품명 + ", 장:" + 장 + ", 폭:" + 폭 + ", 고:" + 고 + ", 갭:" + 갭 + ", 미미:" + 미미);
+                LogManager.Info("CNS 신규 데이터 전송값 => " + "ProdID:" + ProdID + ", 거래처:" + 거래처 + ", 품명:" + 품명 + ", 장:" + 장 + ", 폭:" + 폭 + ", 고:" + 고 + ", 갭:" + 갭 + ", 미미:" + 미미, MethodBase.GetCurrentMethod().DeclaringType);
                 
                 ConnectSocket(); //CNS 통신연결
                 Ls_Fenet wd = new Ls_Fenet();
@@ -672,7 +665,7 @@ namespace PopProject.Detail
                 }
 
                 Console.WriteLine("CNS 송신데이터 : " + Send_Data);
-                log.Info("CNS 송신데이터 : " + Send_Data);
+                LogManager.Info("CNS 송신데이터 : " + Send_Data, MethodBase.GetCurrentMethod().DeclaringType);
 
                 //데이터 쓰기
                 mainSock.Send(bDts);
@@ -690,7 +683,7 @@ namespace PopProject.Detail
         //CNS 소켓 오픈
         private void ConnectSocket()
         {
-            log.Info("소켓 오픈 요청");
+            LogManager.Info("소켓 오픈 요청", MethodBase.GetCurrentMethod().DeclaringType);
 
             mainSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
             if (!mainSock.Connected)
@@ -708,7 +701,7 @@ namespace PopProject.Detail
                     {
                         if (success)//연결 성공
                         {
-                            log.Info("소켓 연결 성공");
+                            LogManager.Info("소켓 연결 성공", MethodBase.GetCurrentMethod().DeclaringType);
                             mainSock.EndConnect(result);
                             AsyncObject obj = new AsyncObject(500);
                             obj.WorkingSocket = mainSock;
@@ -717,7 +710,7 @@ namespace PopProject.Detail
                         }
                         else //연결 실패
                         {
-                            log.Error("소켓 연결 실패");
+                            LogManager.Error("소켓 연결 실패", MethodBase.GetCurrentMethod().DeclaringType);
                             mainSock.Close();
                             MessageBox_Dialog msg = new MessageBox_Dialog("CNS PLC 연결 실패");
                             msg.ShowDialog();
@@ -726,7 +719,7 @@ namespace PopProject.Detail
                 }
                 catch (Exception e)
                 {
-                    log.Error("소켓 연결 중 에러발생");
+                    LogManager.Error("소켓 연결 중 에러발생", MethodBase.GetCurrentMethod().DeclaringType);
 
                     mainSock.Close();
                     MessageBox_Dialog msg = new MessageBox_Dialog("CNS PLC 연결 실패");
@@ -2365,7 +2358,7 @@ namespace PopProject.Detail
                     //일반 생산 건 일때
                     else
                     {
-                        log.Info(mainModel.customSName + " / " + mainModel.prodName + " [생산시작]");
+                        LogManager.Info(mainModel.customSName + " / " + mainModel.prodName + " [생산시작]", MethodBase.GetCurrentMethod().DeclaringType);
 
                         Close();
 
@@ -2605,7 +2598,7 @@ namespace PopProject.Detail
                 //바코드로 디테일창 팝업시 동작
                 if (SettingJsonManager.mercName.Equals("후렉소1호기") || SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기"))
                 {
-                    log.Info("CNS사용 체크 후 바코드로 상세화면 팝업 성공" + SettingJsonManager.mercName + "/" + this.mainModel.prodID);
+                    LogManager.Info("CNS사용 체크 후 바코드로 상세화면 팝업 성공" + SettingJsonManager.mercName + "/" + this.mainModel.prodID, MethodBase.GetCurrentMethod().DeclaringType);
 
                     //DB에 데이터 있는거 확인용 변수
                     bool DB_DataOK = false;

@@ -7,11 +7,10 @@ using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using log4net;
-using log4net.Config;
 
 namespace PopProject.Input
 {
@@ -24,17 +23,12 @@ namespace PopProject.Input
         private Point scrollMousePoint1 = new Point();
         private double hOff1 = 1;
         private double vOff1 = 1;
-        public ILog log = LogManager.GetLogger(typeof(Win_Setting)); //로그
-
 
         public Win_Setting()
         {
             InitializeComponent();
             PopErrorSearch();
             Win_Set();
-
-            //Log4net
-            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
         }
 
         private void Win_Set()
@@ -321,7 +315,7 @@ namespace PopProject.Input
             SettingJsonManager.settingitem = settingValue;
             SettingJsonManager.SaveJsonFile();
 
-            log.Info("작업정보 설정 변경 : " + settingValue);
+            LogManager.Info("작업정보 설정 변경 : " + settingValue, MethodBase.GetCurrentMethod().DeclaringType);
         }
 
         //마닐라,원단정보 체크
@@ -354,7 +348,7 @@ namespace PopProject.Input
             SettingJsonManager.meterialinfo = settingValue;
             SettingJsonManager.SaveJsonFile();
 
-            log.Info("자재정보 설정 변경 : " + settingValue);
+            LogManager.Info("자재정보 설정 변경 : " + settingValue, MethodBase.GetCurrentMethod().DeclaringType);
         }
 
         // 자재명세서 출력 정보 설정 체크시
@@ -452,7 +446,7 @@ namespace PopProject.Input
                 settindValue = settindValue + setting + "|";
                 Console.WriteLine("printlist : " + i + ", " + list[i].ToString());
             }
-            log.Info("제품명세서 설정 변경 : " + settindValue);
+            LogManager.Info("제품명세서 설정 변경 : " + settindValue, MethodBase.GetCurrentMethod().DeclaringType);
             return settindValue;
         }
 
@@ -609,7 +603,7 @@ namespace PopProject.Input
                 default:
                     break;
             }
-            log.Info("게더링 센서딜레이 변경 : " + str);
+            LogManager.Info("게더링 센서딜레이 변경 : " + str, MethodBase.GetCurrentMethod().DeclaringType);
             return str;
         }
 
@@ -671,7 +665,7 @@ namespace PopProject.Input
                 SettingJsonManager.SaveJsonFile();
             }
 
-            log.Info("설정창 닫기");
+            LogManager.Info("설정창 닫기", MethodBase.GetCurrentMethod().DeclaringType);
         }
 
         //센서 딜레이 설정
@@ -979,7 +973,7 @@ namespace PopProject.Input
                 }
                 SettingJsonManager.SaveJsonFile();
                 Console.WriteLine("체크 :" + SettingJsonManager.error);
-                log.Info("공통 불량사유 체크 : " + SettingJsonManager.error);
+                LogManager.Info("공통 불량사유 체크 : " + SettingJsonManager.error, MethodBase.GetCurrentMethod().DeclaringType);
             }
             
         }
@@ -1037,7 +1031,7 @@ namespace PopProject.Input
                 }
                 SettingJsonManager.SaveJsonFile();
                 Console.WriteLine("체크 :" + SettingJsonManager.error1);
-                log.Info("설비 불량사유 체크 : " + SettingJsonManager.error1);
+                LogManager.Info("설비 불량사유 체크 : " + SettingJsonManager.error1, MethodBase.GetCurrentMethod().DeclaringType);
 
             }
         }
