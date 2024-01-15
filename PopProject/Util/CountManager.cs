@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNet.SignalR.Client;
 using PopProject.Util;
-using log4net;
-using log4net.Config;
 
 namespace PopProject.Util
 {
     public static class CountManager
     {
-        public static ILog log = LogManager.GetLogger(typeof(CountManager)); //로그
-
         static bool useWorkCnt = false;
         static string corp_name;
         static string url;
@@ -25,15 +22,12 @@ namespace PopProject.Util
 
         static CountManager()
         {
-            // log setting
-            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
-
             lockWorkCnt = new object();
 
             // 업체정보가 없으면 CountManager 종료
             if (SettingJsonManager.corp_name.Equals(""))
             {
-                log.Error("업체정보가 없습니다.");
+                LogManager.Error("업체정보가 없습니다.", MethodBase.GetCurrentMethod().DeclaringType);
                 return;
             }
             
@@ -95,12 +89,12 @@ namespace PopProject.Util
 
                 if (response.IsSuccessStatusCode == false)
                 {
-                    log.Error("서비스로 데이터 전송 실패");
+                    LogManager.Error("서비스로 데이터 전송 실패", MethodBase.GetCurrentMethod().DeclaringType);
                 }
             }
             catch(Exception e)
             {
-                log.Error("CountManager.SendMsg 전송 실패 : " + e.Message);
+                LogManager.Error("CountManager.SendMsg 전송 실패 : " + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
     }

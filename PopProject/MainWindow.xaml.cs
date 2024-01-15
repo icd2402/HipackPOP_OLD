@@ -3,11 +3,10 @@ using PopProject.UserControl_;
 using PopProject.Util;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
-using log4net;
-using log4net.Config;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Configuration;
@@ -24,16 +23,13 @@ namespace PopProject
         private Mutex mutex = null;
         public static string userID = "0";
         public static string userName = "0";
-        public ILog log = LogManager.GetLogger(typeof(MainWindow)); //로그
         string Url; //서비스 주소
 
         public MainWindow()
         {
             InitializeComponent();
 
-            //Log4net
-            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
-            log.Info("----------------------------Program Start------------------------------");
+            LogManager.Info("----------------------------Program Start------------------------------", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
             try
             {
@@ -44,9 +40,8 @@ namespace PopProject
             }
             catch (Exception e)
             {
-                log.Error("메인화면 업로드 실패 : " + e.Message);
+                LogManager.Error("메인화면 업로드 실패 : " + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
-
         }
 
         //POP프로그램이 이미 실행중인지 확인
@@ -59,22 +54,21 @@ namespace PopProject
 
                 if (mutex.WaitOne(0, false))
                 {
-                    log.Info("POP 프로그램 중복체크 완료");
+                    LogManager.Info("POP 프로그램 중복체크 완료", MethodBase.GetCurrentMethod().DeclaringType);
                     
                     // 로긴 확인 및 MainCP Load
                     MainCP.Content = new Login();
                 }
                 else
                 {
-                    log.Error("POP 프로그램 중복 사용으로 실행 실패");
+                    LogManager.Error("POP 프로그램 중복 사용으로 실행 실패", MethodBase.GetCurrentMethod().DeclaringType);
                     _ = System.Windows.MessageBox.Show("프로그램이 이미 실행 중입니다!", "알림2", MessageBoxButton.OK);
                     Application.Current.Shutdown();
                 }
-
             }
             catch (Exception e)
             {
-                log.Error("로그인 실패.");
+                LogManager.Error("로그인 실패.", MethodBase.GetCurrentMethod().DeclaringType);
                 _ = System.Windows.MessageBox.Show("로그인 실패.", "알림1", MessageBoxButton.OK);
                 Application.Current.Shutdown();
             }
@@ -195,7 +189,7 @@ namespace PopProject
                 CountManager.SendMsg(SettingJsonManager.mercName, "B");
             }
 
-            log.Info("프로그램 종료");
+            LogManager.Info("프로그램 종료", MethodBase.GetCurrentMethod().DeclaringType);
         }
     }
 }

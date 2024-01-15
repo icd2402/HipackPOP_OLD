@@ -6,16 +6,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Json;
 using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
-using log4net;
-using log4net.Config;
-
-[assembly: log4net.Config.XmlConfigurator(Watch = true)]
-
 
 namespace PopProject.UserControl_
 {
@@ -25,21 +21,14 @@ namespace PopProject.UserControl_
 
     public partial class Login : UserControl
     {
-        public ILog log = LogManager.GetLogger(typeof(Login)); //로그
-
         public Login()
         {
             InitializeComponent();
             _ = Keyboard.Focus(textbox_login_id);
 
-            //로그폴더 생성
-            로그폴더생성();
-
-            //Log4net
-            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
-
             //  세팅 정보 존재 Check
             bool fileExit = SettingJsonManager.CheckJsonFile();
+            LogManager.Info("JsonSettings 파일 존재 유무 확인: " + fileExit.ToString(), MethodBase.GetCurrentMethod().DeclaringType);
             
             // 세팅 정보 있으면
             if (fileExit)
@@ -54,7 +43,7 @@ namespace PopProject.UserControl_
                 textbox_login_id.Text = string.IsNullOrWhiteSpace(SettingJsonManager.login_id) ? "" : SettingJsonManager.login_id;
                 textbox_login_password.Password = string.IsNullOrWhiteSpace(SettingJsonManager.login_password) ? "" : SettingJsonManager.login_password;
 
-                log.Info("자동 로그인 체크 및 ID/PW 정보 Load");
+                LogManager.Info("자동 로그인 체크 및 ID/PW 정보 Load", MethodBase.GetCurrentMethod().DeclaringType);
             }
             else
             {
@@ -68,7 +57,7 @@ namespace PopProject.UserControl_
             if (login_check.IsChecked == true && textbox_login_id.Text != "" && textbox_login_password.Password.Length != 0)
             {
                 Login_();
-                log.Info("자동 로그인");
+                LogManager.Info("자동 로그인", MethodBase.GetCurrentMethod().DeclaringType);
             }
             else
             {
@@ -131,25 +120,25 @@ namespace PopProject.UserControl_
         }
 
         //로그 폴더 생성
-        public void 로그폴더생성()
-        {
-            string folderPath = @"C:\POP_LOG";
+        //public void 로그폴더생성()
+        //{
+        //    string folderPath = @"C:\POP_LOG";
 
-            if (!Directory.Exists(folderPath))
-            {
-                try
-                {
-                    Directory.CreateDirectory(folderPath);
-                    Console.WriteLine("폴더가 생성되었습니다.");
-                }
-                catch (Exception ex)
-                {
-                }
-            }
-            else
-            {
-            }
-        }
+        //    if (!Directory.Exists(folderPath))
+        //    {
+        //        try
+        //        {
+        //            Directory.CreateDirectory(folderPath);
+        //            Console.WriteLine("폴더가 생성되었습니다.");
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //        }
+        //    }
+        //    else
+        //    {
+        //    }
+        //}
 
         public void Login_()
         {
@@ -223,7 +212,7 @@ namespace PopProject.UserControl_
                             httpClient_Util = new HttpClient_util("login_time_update");
                             result = httpClient_Util.SendHttp(json.ToString());
 
-                            log.Info("로그인 정보 정상");
+                            LogManager.Info("로그인 정보 정상", MethodBase.GetCurrentMethod().DeclaringType);
                         }
                         // 패스워드 틀린 경우
                         else
@@ -247,7 +236,7 @@ namespace PopProject.UserControl_
             }
             else
             {
-                log.Error("인터넷 연결상태 불량");
+                LogManager.Error("인터넷 연결상태 불량", MethodBase.GetCurrentMethod().DeclaringType);
                 MessageBox_Dialog dialog = new MessageBox_Dialog("인터넷 연결 상태를 확인해 주세요");
                 _ = dialog.ShowDialog();
             }

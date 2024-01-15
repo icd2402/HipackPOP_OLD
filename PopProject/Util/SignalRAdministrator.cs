@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNet.SignalR.Client;
 using PopProject.MessageBox;
 using System;
-using log4net;
-using log4net.Config;
 using System.Windows;
 using System.IO;
+using System.Reflection;
 
 
 namespace PopProject.Util
@@ -14,13 +13,11 @@ namespace PopProject.Util
         public static HubConnection 연결;
         public static IHubProxy 허브;
         public static string 주소 = SettingJsonManager.signalR.ToString();
-        public ILog log = LogManager.GetLogger(typeof(SignalRAdministrator));
 
 
         public SignalRAdministrator()
         {
             //Console.WriteLine("Signalr 주소 : " + SettingJsonManager.signalR.ToString());
-            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
         }
 
         //SignalR 연결 요청
@@ -52,11 +49,11 @@ namespace PopProject.Util
                     연결.Start().Wait(); //연결 시작
                     SignalRAdministrator.허브.Invoke("JoinCompany", SettingJsonManager.corp_id); //SignalR서버의 JoinCompany 메서드 호출
 
-                    log.Info("SignalR 연결상태: " + 연결.State);
+                    LogManager.Info("SignalR 연결상태: " + 연결.State, MethodBase.GetCurrentMethod().DeclaringType);
                 }
                 catch (Exception e)
                 {
-                    log.Error("SignalR 연결 실패 : " + e.Message);
+                    LogManager.Error("SignalR 연결 실패 : " + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
 
                     if (연결.State == ConnectionState.Disconnected)
                     {
@@ -66,7 +63,7 @@ namespace PopProject.Util
             //닫기 요청
             else
             {
-                log.Info("SignalR 닫기");
+                LogManager.Info("SignalR 닫기", MethodBase.GetCurrentMethod().DeclaringType);
 
                 if (연결.State == ConnectionState.Connected)
                 {

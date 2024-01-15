@@ -12,26 +12,24 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.IO.Ports;
+using System.Reflection;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Windows.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.AspNet.SignalR.Client;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Text;
-using System.IO;
-using System.Reflection;
-using log4net;
-using log4net.Config;
-using System.Net.Http;
 
 namespace PopProject.UserControl_
 {
@@ -70,7 +68,6 @@ namespace PopProject.UserControl_
         private bool oderLast_Sort = false;
         bool SignalR_Tick = false;
         private string SignalR_State = ""; //시그널R 상태
-        public ILog log = LogManager.GetLogger(typeof(Main)); //로그
         string Url; //서비스 주소
         private double LastConunt;
         string popWorkList = ""; //생산계획리스트 SP명
@@ -85,9 +82,6 @@ namespace PopProject.UserControl_
                 // 버전 번호를 텍스트 블록에 할당
                 //string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
                 //versionTextBlock.Text += version;
-
-                //Log4net
-                XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
 
                 //왼쪽상단 업체명
                 corp_name.Text = SettingJsonManager.corp_name;
@@ -120,7 +114,7 @@ namespace PopProject.UserControl_
                 }
                 catch (Exception e)
                 {
-                    log.Error("SignalR 연결 오류" + e.Message);
+                    LogManager.Error("SignalR 연결 오류" + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
                 }
 
 
@@ -218,13 +212,13 @@ namespace PopProject.UserControl_
                 {
                     MessageBox_Dialog dialog = new MessageBox_Dialog("인터넷 상태를 확인해 주세요");
                     _ = dialog.ShowDialog();
-                    log.Error("인터넷 연결 실패");
+                    LogManager.Error("인터넷 연결 실패", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
                 }
             }
             catch (Exception e)
             {
-                log.Error("메인화면 업로드 실패 : " + e.Message);
+                LogManager.Error("메인화면 업로드 실패 : " + e.Message, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 
@@ -548,8 +542,8 @@ namespace PopProject.UserControl_
                                         }
                                         catch (Exception e1)
                                         {
-                                            log.Error("디테일 창 팝업 실패(넘기기) : " + e1.Message);
-                                            log.Error("디테일 창 팝업 실패(넘기기) : " + e1.StackTrace);
+                                            LogManager.Error("디테일 창 팝업 실패(넘기기) : " + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
+                                            LogManager.Error("디테일 창 팝업 실패(넘기기) : " + e1.StackTrace, MethodBase.GetCurrentMethod().DeclaringType);
                                         }
 
                                         //생산데이터 있으면 아두이노한테 현재값 요청
@@ -581,7 +575,7 @@ namespace PopProject.UserControl_
             }
             catch (Exception e)
             {
-                log.Error("넘기기 신호 오류" + e.Message);
+                LogManager.Error("넘기기 신호 오류" + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 
@@ -601,7 +595,7 @@ namespace PopProject.UserControl_
                 //통신 연결 끊겨있으면
                 else if(!arduSerial.IsOpen)
                 {
-                    log.Info("시리얼 끊겼으면 재시도");
+                    LogManager.Info("시리얼 끊겼으면 재시도", MethodBase.GetCurrentMethod().DeclaringType);
 
                     arduSerial.Encoding = Encoding.GetEncoding(65001);
                     arduSerial.PortName = SettingJsonManager.SerialName;
@@ -614,14 +608,14 @@ namespace PopProject.UserControl_
 
                     if (arduSerial.IsOpen)
                     {
-                        log.Info("시리얼 연결 완료");
+                        LogManager.Info("시리얼 연결 완료", MethodBase.GetCurrentMethod().DeclaringType);
                     }
                 }
             }
             catch (Exception e)
             {
                 btrSerial.Background = Brushes.Red;
-                log.Error("아두이노 시리얼 연결 오류 : " + e.Message);
+                LogManager.Error("아두이노 시리얼 연결 오류 : " + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 
@@ -630,7 +624,7 @@ namespace PopProject.UserControl_
         {
             try
             {
-                log.Info("시리얼 연결 끊기");
+                LogManager.Info("시리얼 연결 끊기", MethodBase.GetCurrentMethod().DeclaringType);
                 arduSerial.DataReceived -= ArduReReceive;
                 arduSerial.DtrEnable = false;
                 arduSerial.RtsEnable = false;
@@ -641,7 +635,7 @@ namespace PopProject.UserControl_
             }
             catch(Exception e)
             {
-                log.Error("아두이노 재연결 오류 : " + e.Message);
+                LogManager.Error("아두이노 재연결 오류 : " + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
             finally
             {
@@ -659,7 +653,7 @@ namespace PopProject.UserControl_
 
                 if (arduSerial.IsOpen)
                 {
-                    log.Info("시리얼 재연결 완료");
+                    LogManager.Info("시리얼 재연결 완료", MethodBase.GetCurrentMethod().DeclaringType);
                 }
             }
         }
@@ -768,7 +762,7 @@ namespace PopProject.UserControl_
             }
             catch (Exception ex)
             {
-                log.Error("아두이노 => Main 데이터 수신 오류 : " + ex.Message);
+                LogManager.Error("아두이노 => Main 데이터 수신 오류 : " + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 
@@ -930,7 +924,7 @@ namespace PopProject.UserControl_
                         SettingJsonManager.SaveJsonFile();
                     }
 
-                    log.Info("설비 변경됨 => " + SettingJsonManager.mercName);
+                    LogManager.Info("설비 변경됨 => " + SettingJsonManager.mercName, MethodBase.GetCurrentMethod().DeclaringType);
                 }
                 else //설비명 변경 안했으면
                 {
@@ -2221,11 +2215,11 @@ namespace PopProject.UserControl_
                         }
                     }
                 }
-                log.Info("실적현황 조회 완료");
+                LogManager.Info("실적현황 조회 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
             else
             {
-                log.Error("실적현황 조회 오류");
+                LogManager.Error("실적현황 조회 오류", MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 
@@ -2355,11 +2349,11 @@ namespace PopProject.UserControl_
                     txtNoPlan.Visibility = workList.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
                     SortWorkList();
                 }
-                log.Info("생산결과 리스트 조회 완료");
+                LogManager.Info("생산결과 리스트 조회 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
             else
             {
-                log.Error("생산결과 리스트 조회 오류");
+                LogManager.Error("생산결과 리스트 조회 오류", MethodBase.GetCurrentMethod().DeclaringType);
             }
             실적현황조회();
             실수요자진행현황조회();
@@ -2408,9 +2402,9 @@ namespace PopProject.UserControl_
             {
                 MessageBox_Dialog box = new MessageBox_Dialog("실수요자진행현황조회 조회 오류!!");
                 _ = box.ShowDialog();
-                log.Error("실수요자 진행현황 조회 오류");
+                LogManager.Error("실수요자 진행현황 조회 오류", MethodBase.GetCurrentMethod().DeclaringType);
             }
-            log.Info("실수요자 리스트 조회 완료");
+            LogManager.Info("실수요자 리스트 조회 완료", MethodBase.GetCurrentMethod().DeclaringType);
         }
 
 
@@ -2575,7 +2569,7 @@ namespace PopProject.UserControl_
             SettingJsonManager.SaveJsonFile();
 
             //프로그램 종료
-            log.Info("프로그램 종료");
+            LogManager.Info("프로그램 종료", MethodBase.GetCurrentMethod().DeclaringType);
             Environment.Exit(0);
         }
 
@@ -2656,7 +2650,7 @@ namespace PopProject.UserControl_
                         {
                             SelectWorkList();
                             ResultSearchDate();
-                            log.Info("대세,구룡 인풋창 닫은 후 계획, 결과건 갱신 완료");
+                            LogManager.Info("대세,구룡 인풋창 닫은 후 계획, 결과건 갱신 완료", MethodBase.GetCurrentMethod().DeclaringType);
                         }
 
                         SettingJsonManager.presultcount = 0;
@@ -2686,7 +2680,7 @@ namespace PopProject.UserControl_
             }
             catch (Exception e1)
             {
-                log.Error("상태버튼 클릭 오류 : " + e1.Message);
+                LogManager.Error("상태버튼 클릭 오류 : " + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
                 e.Handled = false;
                 can.Visibility = Visibility.Collapsed;
             }
@@ -2828,7 +2822,7 @@ namespace PopProject.UserControl_
                     }
                     catch (Exception e1)
                     {
-                        log.Error("디테일 창 팝업 실패 : " + e1.Message);
+                        LogManager.Error("디테일 창 팝업 실패 : " + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
                     }
 
                     try
@@ -2848,7 +2842,7 @@ namespace PopProject.UserControl_
             }
             catch (Exception e)
             {
-                log.Error("디테일 창 팝업 실패 : " + e.Message);
+                LogManager.Error("디테일 창 팝업 실패 : " + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 
@@ -2912,8 +2906,8 @@ namespace PopProject.UserControl_
                 }
                 catch (Exception e1)
                 {
-                    log.Error("디테일 창 팝업 실패 : " + e1.Message);
-                    log.Error("디테일 창 팝업 실패 : " + e1.StackTrace);
+                    LogManager.Error("디테일 창 팝업 실패 : " + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
+                    LogManager.Error("디테일 창 팝업 실패 : " + e1.StackTrace, MethodBase.GetCurrentMethod().DeclaringType);
                 }
 
                 //생산중이면
@@ -3038,13 +3032,13 @@ namespace PopProject.UserControl_
                 SettingJsonManager.checkMerc = true;
             }
             SettingJsonManager.SaveJsonFile();
-            log.Info("설비 => " + merc_lock.Text);
+            LogManager.Info("설비 => " + merc_lock.Text, MethodBase.GetCurrentMethod().DeclaringType);
         }
 
         //설정 버튼
         private void Setting(object sender, MouseButtonEventArgs e)
         {
-            log.Info("설정창 열기");
+            LogManager.Info("설정창 열기", MethodBase.GetCurrentMethod().DeclaringType);
             can.Visibility = Visibility.Visible;
             Win_Setting win_Setting = new Win_Setting();
             _ = win_Setting.ShowDialog();
@@ -3341,7 +3335,7 @@ namespace PopProject.UserControl_
             {
                 MessageBox_Dialog dialog = new MessageBox_Dialog("SignalR 서버에 재연결 합니다.");
                 dialog.ShowDialog();
-                log.Info("SignalR 재연결 요청");
+                LogManager.Info("SignalR 재연결 요청", MethodBase.GetCurrentMethod().DeclaringType);
                 
                 SignalRAdministrator conn = new SignalRAdministrator();
                 conn.Setconnection(false);
@@ -3349,7 +3343,7 @@ namespace PopProject.UserControl_
             }
             catch (Exception ex)
             {
-                log.Error("SignalR 재연결 요청 실패: " + ex.Message);
+                LogManager.Error("SignalR 재연결 요청 실패: " + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 

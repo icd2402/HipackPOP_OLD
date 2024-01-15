@@ -418,6 +418,7 @@
     </Compile>
     <Compile Include="Detail\Wharehouse_LocationModel.cs" />
     <Compile Include="Util\CountManager.cs" />
+    <Compile Include="Util\LogManager.cs" />
     <Compile Include="Util\SettingJsonManger.cs" />
     <Compile Include="Util\LocalDBManager.cs" />
     <Compile Include="Util\ClsUc_명세서_Report8대세.xaml.cs">
@@ -472,7 +473,6 @@
       <DependentUpon>ClsUc_완제품명세서_Control4.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\HttpClient_util.cs" />
-    <Compile Include="Util\log4net.cs" />
     <Compile Include="Util\LogData.cs" />
     <Compile Include="Util\PrintWindow.xaml.cs">
       <DependentUpon>PrintWindow.xaml</DependentUpon>

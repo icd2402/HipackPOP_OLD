@@ -10,14 +10,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using log4net;
-using log4net.Config;
 
 namespace PopProject.Input
 {
@@ -34,15 +33,11 @@ namespace PopProject.Input
         Win_KeyBoard2 win_KeyBoard2; //소숫점 키보드
         private bool checkChangeButton = false;
         private bool CNS_Send = false;
-        public ILog log = LogManager.GetLogger(typeof(Plc_Pop)); //로그
-
-
 
         public Plc_Pop(MainModel mainModel)
         {
             InitializeComponent();
             //Log4net
-            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
             this.mainModel = mainModel;
             SetPlcData();
 
@@ -160,7 +155,7 @@ namespace PopProject.Input
         //DB데이터 조회
         private void DB_Read(object sender, MouseButtonEventArgs e)
         {
-            log.Info("CNS 상세창에서 PC조회 버튼 클릭");
+            LogManager.Info("CNS 상세창에서 PC조회 버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
 
             Border clickedBorder = (Border)sender;
             clickedBorder.Background = Brushes.Gray;
@@ -412,7 +407,7 @@ namespace PopProject.Input
         //CNS 데이터 조회 버튼
         private void PLC_Read(object sender, MouseButtonEventArgs e)
         {
-            log.Info("CNS 상세창에서 CNS데이터 조회 버튼 클릭");
+            LogManager.Info("CNS 상세창에서 CNS데이터 조회 버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
 
             Border clickedBorder = (Border)sender;
             clickedBorder.Background = Brushes.Gray;
@@ -435,12 +430,12 @@ namespace PopProject.Input
 
                 mainSock.Send(bDts); //수신데이터 요청
 
-                log.Info("CNS 상세창에서 CNS데이터 조회 요청 내용 : " + Send_Data);
+                LogManager.Info("CNS 상세창에서 CNS데이터 조회 요청 내용 : " + Send_Data, MethodBase.GetCurrentMethod().DeclaringType);
             }
             catch (Exception)
             {
                 CNS_Send = false;
-                log.Info("CNS 상세창에서 CNS데이터 조회 실패");
+                LogManager.Info("CNS 상세창에서 CNS데이터 조회 실패", MethodBase.GetCurrentMethod().DeclaringType);
             }
             CNS_Send = false;
         }
@@ -762,7 +757,7 @@ namespace PopProject.Input
         //신규 생산 버튼
         private void Done(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            log.Info("CNS 상세창에서 신규생산 버튼 클릭");
+            LogManager.Info("CNS 상세창에서 신규생산 버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
 
             Border clickedBorder = (Border)sender;
             clickedBorder.Background = Brushes.Gray;
@@ -939,7 +934,7 @@ namespace PopProject.Input
         //닫기 버튼
         private void exit(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            log.Info("CNS 상세창 종료");
+            LogManager.Info("CNS 상세창 종료", MethodBase.GetCurrentMethod().DeclaringType);
 
             SettingJsonManager.plcCheck = false;
             SettingJsonManager.SaveJsonFile();

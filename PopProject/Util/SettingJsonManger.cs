@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
-using log4net;
-using log4net.Config;
 using PopProject.UserControl_;
 
 namespace PopProject.Util
@@ -86,16 +85,11 @@ namespace PopProject.Util
         // JSON 파일 경로
         public static string filePath { get; set; }
 
-        // log4net
-        private static ILog log; //로그
 
         static SettingJsonManager()
         {
-            filePath = @"C:\ICD\settings.json";
-
-            //Log4net
-            XmlConfigurator.Configure(new System.IO.FileInfo("App.config"));
-            log = LogManager.GetLogger(typeof(Login)); //로그
+            filePath = @"C:\ICD\POP\settings.json";
+            MoveSettingsFIle();
         }
 
         // Settings.json 파일 존재 여부 확인
@@ -107,7 +101,7 @@ namespace PopProject.Util
         // Settings.json 파일 Load, 키가 없는 경우 초기화
         public static bool LoadJsonFile()
         {
-            log.Info("json → 셋팅정보(Class) Load 시작");
+            LogManager.Info("json → 셋팅정보(Class) Load 시작", MethodBase.GetCurrentMethod().DeclaringType);
 
             try
             {
@@ -255,11 +249,11 @@ namespace PopProject.Util
                 // dbUse 없는 경우 false
                 dbUse = jObject.ContainsKey("dbUse") ? bool.Parse(jObject["dbUse"].ToString()) : false;
 
-                log.Info("json → 셋팅정보(Class) Load 완료");
+                LogManager.Info("json → 셋팅정보(Class) Load 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
             catch (Exception ex)
             {
-                log.Error("json → 셋팅정보(Class) Load 실패: " + ex.Message);
+                LogManager.Error("json → 셋팅정보(Class) Load 실패: " + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
                 return false;
             }
             return true;
@@ -276,7 +270,7 @@ namespace PopProject.Util
                     Directory.CreateDirectory(Path.GetDirectoryName(filePath));
                 }
 
-                log.Info("셋팅정보(Class) → json Save 시작");
+                LogManager.Info("셋팅정보(Class) → json Save 시작", MethodBase.GetCurrentMethod().DeclaringType);
 
                 //파일 내용
                 var settings = new Dictionary<string, string>
@@ -358,11 +352,11 @@ namespace PopProject.Util
                 //인증코드 파일이 있는지 확인 후 해당 파일을 숨김 처리 (숨김 이후 수정되지 않음)
                 File.WriteAllText(filePath, json);
                  
-                log.Info("셋팅정보(Class) → json Save 완료");
+                LogManager.Info("셋팅정보(Class) → json Save 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
             catch (Exception ex)
             {
-                log.Error("셋팅정보(Class) → json Save 실패: " + ex.Message);
+                LogManager.Error("셋팅정보(Class) → json Save 실패: " + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
                 return false;
             }
             return true;
@@ -371,7 +365,7 @@ namespace PopProject.Util
         // Settings.Settings (user.config 파일)에 정보 저장
         public static bool SaveConfigFile()
         {
-            log.Info("셋팅정보(Class) → 셋팅(user.config) 입력 시작");
+            LogManager.Info("셋팅정보(Class) → 셋팅(user.config) 입력 시작", MethodBase.GetCurrentMethod().DeclaringType);
 
             try {
                 Properties.Settings.Default.login_id = login_id;
@@ -444,11 +438,11 @@ namespace PopProject.Util
                 Properties.Settings.Default.consumCount = consumCount;
                 Properties.Settings.Default.dbUse = dbUse;
 
-                log.Info("셋팅정보(Class) → 셋팅(user.config) 정보 입력 완료");
+                LogManager.Info("셋팅정보(Class) → 셋팅(user.config) 정보 입력 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
             catch (Exception ex)
             {
-                log.Error("셋팅정보(Class) → 셋팅(user.config) 정보 입력 실패: " + ex.Message);
+                LogManager.Error("셋팅정보(Class) → 셋팅(user.config) 정보 입력 실패: " + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
                 return false;
             }
             return true;
@@ -457,7 +451,7 @@ namespace PopProject.Util
         // Settings.Settings (user.config 파일)에 정보 저장
         public static bool LoadConfigFile()
         {
-            log.Info("셋팅(user.config) → 셋팅정보(Class) Save 시작");
+            LogManager.Info("셋팅(user.config) → 셋팅정보(Class) Save 시작", MethodBase.GetCurrentMethod().DeclaringType);
 
             try
             {
@@ -531,14 +525,47 @@ namespace PopProject.Util
                 consumCount = Properties.Settings.Default.consumCount;
                 dbUse = Properties.Settings.Default.dbUse;
 
-                log.Info("셋팅(user.config) → 셋팅정보(Class) Save 완료");
+                LogManager.Info("셋팅(user.config) → 셋팅정보(Class) Save 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
             catch (Exception ex)
             {
-                log.Error("셋팅(user.config) → 셋팅정보(Class) Save 실패: " + ex.Message);
+                LogManager.Error("셋팅(user.config) → 셋팅정보(Class) Save 실패: " + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
                 return false;
             }
             return true;
+        }
+
+        public static void MoveSettingsFIle()
+        {
+            string oldFilePath = @"C:\ICD\settings.json";
+
+            // settings.json 파일을 C:\ICD\ 에서 C:\ICD\POP\ 로 이동하기 위함
+
+            // C:\ICD\POP\ 에 settings.json 파일 있으면 정지
+            if (File.Exists(filePath) == true)
+            {
+                return;
+            }
+
+            // C:\ICD\POP\ 에 settings.json 파일 없고, C:\ICD\ 에 settings.json 파일 있는 경우
+            if (File.Exists(oldFilePath) == true)
+            {
+                string loadedSettings = File.ReadAllText(oldFilePath);
+
+                JObject jObject = JObject.Parse(loadedSettings);
+
+                // 
+                if (jObject.ContainsKey("login_id") && jObject.ContainsKey("login_password"))
+                {
+                    File.Copy(oldFilePath, filePath);
+                    LogManager.Info(oldFilePath + " 파일을 복사합니다.\n복사위치: " + filePath, MethodBase.GetCurrentMethod().DeclaringType);
+                }
+                else if (jObject.ContainsKey("authentication"))
+                {
+                    LogManager.Error(oldFilePath + " 파일이 Hi-Pack 용 파일 입니다. 파일을 복사하지 않았습니다.", MethodBase.GetCurrentMethod().DeclaringType);
+                }
+            }
+
         }
     }
 }
