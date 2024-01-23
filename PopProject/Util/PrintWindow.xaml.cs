@@ -10,6 +10,7 @@ using System.IO;
 using System.Threading;
 using System.Printing;
 using System.Collections;
+using System.Reflection;
 
 namespace Monitor.Util
 {
@@ -402,16 +403,22 @@ namespace Monitor.Util
            
             // 현재 프린터 대기열에 반영하여 출력물 전달 
             Prt_Dialog.PrintQueue = LocalPrintServer.GetDefaultPrintQueue();
+
+            PopProject.Util.LogManager.Info(Prt_Dialog.PrintQueue.FullName, MethodBase.GetCurrentMethod().DeclaringType);
+
+
             // PC 기본프린터 설정 가져오기 
             Prt_Dialog.PrintTicket = Prt_Dialog.PrintQueue.DefaultPrintTicket;
             Prt_Dialog.PrintTicket.CopyCount = count;
+            PopProject.Util.LogManager.Info(Prt_Dialog.PrintTicket.CopyCount.ToString(), MethodBase.GetCurrentMethod().DeclaringType);
             // 전체페이지 출력 
             Prt_Dialog.PageRangeSelection = PageRangeSelection.AllPages;
             // 사용자 지정 출력 설정 
             Prt_Dialog.UserPageRangeEnabled = true;
             Prt_Dialog.MinPage = 1;
             Prt_Dialog.MaxPage = Convert.ToUInt16(PrintViewer.Document.DocumentPaginator.PageCount);
-            Prt_Dialog.PageRange = new PageRange(1, Convert.ToUInt16(Prt_Dialog.MaxPage)); 
+            Prt_Dialog.PageRange = new PageRange(1, Convert.ToUInt16(Prt_Dialog.MaxPage));
+            PopProject.Util.LogManager.Info(Prt_Dialog.MinPage.ToString() + " ~ " + Prt_Dialog.MaxPage.ToString(), MethodBase.GetCurrentMethod().DeclaringType);
             if (가로세로 == 0)
             {
                 Prt_Dialog.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;

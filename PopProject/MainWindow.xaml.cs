@@ -29,7 +29,7 @@ namespace PopProject
         {
             InitializeComponent();
 
-            LogManager.Info("----------------------------Program Start------------------------------", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            LogManager.Info("----------------------------Program Start------------------------------", MethodBase.GetCurrentMethod().DeclaringType);
 
             try
             {
