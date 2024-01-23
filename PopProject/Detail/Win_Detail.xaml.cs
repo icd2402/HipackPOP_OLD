@@ -2165,12 +2165,11 @@ namespace PopProject.Detail
                         tb특별지시.Text = Detailitem.SpecialMemo;
 
                         //자재구분
-                        if (Detailitem.metType == 1)
+                        if ( Detailitem.metType == 1) // 0:원단, 1:마닐라 2:외주, 3:부자재, 4:기타
                         {
                             if (SettingJsonManager.corp_name.Equals("누리팩"))
                             {
                                 canSC.Visibility = Visibility.Visible;
-
                             }
 
                             txtSc.Text = Detailitem.metrialName;
@@ -2182,8 +2181,8 @@ namespace PopProject.Detail
                             canSC.Visibility = Visibility.Collapsed;
                             txtBh.Text = Detailitem.metrialName + "    (" + mainModel.paperGor + ")";
                             txtBhSize.Text = Detailitem.mL + " * " + Detailitem.mW;
-                            string[] split = Detailitem.WDScore.Split('*');
 
+                            string[] split = Detailitem.WDScore.Split('*');
                             if (split.Length > 0 && split.Length != 1)
                             {
                                 if (!split[0].Equals(split[2]))
@@ -2202,6 +2201,8 @@ namespace PopProject.Detail
 
                             WDScore.Text = Detailitem.WDScore.Replace("*", " * ");
                             WDSize.Text = Detailitem.WDSize.Replace("*", " * ");
+
+                            
                         }
 
                         if (count == 0)

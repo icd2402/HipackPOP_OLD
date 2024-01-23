@@ -5,6 +5,9 @@ using Newtonsoft.Json.Linq;
 using PopProject.MessageBox;
 using System.Collections.ObjectModel;
 using PopProject.UserControl_;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PopProject.MerList
 {
@@ -49,10 +52,51 @@ namespace PopProject.MerList
                         };
                         if (!model.mercName.Equals(""))
                         {
+                            //Console.WriteLine("설비명 : " + model.mercName);
                             list.Add(model);
                         }
                     }
-                    lb.ItemsSource = list;
+
+                    if (SettingJsonManager.corp_name.Equals("오주포장"))
+                    {
+                        // 해당 순서로 정렬
+                        List<string> customOrder = new List<string>
+                        {
+                            "후렉소1호기",
+                            "인라인2호기",
+                            "인라인3호기",
+                            "베가",
+                            "1공장수동철",
+                            "1공장1합철",
+                            "1공장2합철",
+                            "2공장인쇄기",
+                            "2공장수동철",
+                            "2공장톰슨기",
+                            "2공장(세미)풀접합",
+                            "2공장로터리",
+                            "2공장재단기",
+                            "2공장합지기",
+                            "2공장탈지",
+                            "2공장밴딩",
+                            "2공장원단",
+                            "2공장(손)조립",
+                            "2공장랩핑",
+                            "2공장P교체",
+                            "2공장명세서"
+                        };
+
+                        list = new ObservableCollection<MerModel>(list.OrderBy(item => customOrder.IndexOf(item.mercName)).ToList());
+
+                        lb.ItemsSource = list;
+
+                    }
+                    else
+                    {
+                        lb.ItemsSource = list;
+                    }
+
+                    //lb.ItemsSource = list;
+
                 }
             }
 
