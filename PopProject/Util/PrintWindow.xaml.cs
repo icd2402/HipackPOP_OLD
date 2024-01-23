@@ -10,6 +10,7 @@ using System.IO;
 using System.Threading;
 using System.Printing;
 using System.Collections;
+using PopProject.Util;
 
 namespace Monitor.Util
 {
@@ -396,39 +397,39 @@ namespace Monitor.Util
 
         public void DirectPrint(int count)
         {
-
             // 프린트 새로운 객체 생성
             Prt_Dialog = new PrintDialog();
-           
+
             // 현재 프린터 대기열에 반영하여 출력물 전달 
             Prt_Dialog.PrintQueue = LocalPrintServer.GetDefaultPrintQueue();
+
             // PC 기본프린터 설정 가져오기 
             Prt_Dialog.PrintTicket = Prt_Dialog.PrintQueue.DefaultPrintTicket;
             Prt_Dialog.PrintTicket.CopyCount = count;
+
             // 전체페이지 출력 
             Prt_Dialog.PageRangeSelection = PageRangeSelection.AllPages;
+
             // 사용자 지정 출력 설정 
             Prt_Dialog.UserPageRangeEnabled = true;
             Prt_Dialog.MinPage = 1;
             Prt_Dialog.MaxPage = Convert.ToUInt16(PrintViewer.Document.DocumentPaginator.PageCount);
             Prt_Dialog.PageRange = new PageRange(1, Convert.ToUInt16(Prt_Dialog.MaxPage)); 
+            
             if (가로세로 == 0)
             {
                 Prt_Dialog.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
-
             }
             else
             {
-
             }
 
             try
             {
                 // 리포트 도큐먼트페이지 저장 
                 DocumentPaginator Set_DocumentPaginator = PrintViewer.Document.DocumentPaginator;
-
                 // 페이지 사이즈 재정의 
-                Set_DocumentPaginator.PageSize = new System.Windows.Size();
+                Set_DocumentPaginator.PageSize = new Size();
 
                 // 선택 페이지 인새 설정시 실행 
                 // If Prt_Dialog.PageRangeSelection = PageRangeSelection.UserPages Then
@@ -437,16 +438,21 @@ namespace Monitor.Util
 
                 // End If
 
+                LogManager.Debug("프린트 이름 : " + Prt_Dialog.PrintQueue.FullName, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                LogManager.Debug("프린트 범위 : " + Prt_Dialog.MinPage.ToString() + " ~ " + Prt_Dialog.MaxPage.ToString()
+                                 + "\n출력수 : " + Prt_Dialog.PrintTicket.CopyCount.ToString()
+
+                                 , System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
                 // 프린트 출력
                 Prt_Dialog.PrintDocument(Set_DocumentPaginator, "Report");
 
                 RaisePrintDataSaveEvent();
 
             }
-
-            // End If
-            catch (Exception )
+            catch (Exception ex)
             {
+                LogManager.Error("프린터 인쇄 오류1" + ex.StackTrace, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
     }

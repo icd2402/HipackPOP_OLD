@@ -152,8 +152,8 @@ namespace PopProject.MessageBox
                 }
                 else
                 {
-                    MessageBox_Dialog msg = new MessageBox_Dialog("팔레트 수량 저장 실패 , 알림");
-                    _ = msg.ShowDialog();
+                    //MessageBox_Dialog msg = new MessageBox_Dialog("팔레트 수량 저장 실패 , 알림");
+                    //_ = msg.ShowDialog();
                 }
             }
             catch (Exception)
@@ -365,6 +365,7 @@ namespace PopProject.MessageBox
                 (Set_PageContent as IAddChild).AddChild(Set_FixedPage);
                 // 픽셀 도큐먼트 페이지 콘텐츠 저장
                 FixedDocument.Pages.Add(Set_PageContent);
+
                 PrintWindow reportWindow = new PrintWindow();
                 reportWindow.PrintViewer.Document = FixedDocument;
                 reportWindow.가로세로 = 1;

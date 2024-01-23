@@ -62,12 +62,12 @@
             </Grid.ColumnDefinitions>
 
             <DockPanel x:Name="Title_Panel" Grid.ColumnSpan="2" LastChildFill="True" Background="#3399FF" MouseDown="Title_Panel_MouseDown"   >
-                <Image DockPanel.Dock="Left" Source="/Image/favi_출력화면.png" />
+                <!--<Image DockPanel.Dock="Left" Source="/Image/favi_출력화면.png" />-->
                 <Button x:Name="닫기" DockPanel.Dock="Right" Style="{StaticResource ButtonStyle}" Height="34" Width="38" Margin="5,0" Click="Button_Click"  >
-                    <Image Source="/Image/icon_x.png" Width="17" Height="17" />
+                    <!--<Image Source="/Image/icon_x.png" Width="17" Height="17" />-->
                 </Button>
                 <Button x:Name="최소화" DockPanel.Dock="Right" Style="{StaticResource ButtonStyle}" Height="34" Width="38" Margin="5,0" Click="Button_Click" >
-                    <Image Source="/Image/icon_-.png" Width="17" Height="17" />
+                    <!--<Image Source="/Image/icon_-.png" Width="17" Height="17" />-->
                 </Button>
                 <Label DockPanel.Dock="Left" Content="출력화면" Style="{StaticResource ButtonLabel}" HorizontalAlignment="Left" FontSize="17" Margin="5,0"   />
             </DockPanel>
@@ -77,37 +77,37 @@
                 <Button x:Name="출력" DockPanel.Dock="Top" Style="{StaticResource ButtonStyle}" Margin="0,40,0,20" Click="Button_Click">
                     <DockPanel  >
                         <Label Content="인쇄하기" DockPanel.Dock="Bottom" Style="{StaticResource ButtonLabel}"/>
-                        <Image Source="/Image/button_출력.png" Width="45" Margin="0,0,0,10"/>
+                        <!--<Image Source="/Image/button_출력.png" Width="45" Margin="0,0,0,10"/>-->
                     </DockPanel>
                 </Button>
                 <Button x:Name="방향" DockPanel.Dock="Top"  Style="{StaticResource ButtonStyle}" Click="Button_Click">
                     <DockPanel  >
                         <Label Content="가로/세로" DockPanel.Dock="Bottom" Style="{StaticResource ButtonLabel}"/>
-                        <Image Source="/Image/button_가로세로.png" Width="45"  Margin="0,0,0,10"/>
+                        <!--<Image Source="/Image/button_가로세로.png" Width="45"  Margin="0,0,0,10"/>-->
                     </DockPanel>
                 </Button>
                 <Button x:Name="확대" DockPanel.Dock="Top"  Style="{StaticResource ButtonStyle}" Click="Button_Click">
                     <DockPanel  >
                         <Label Content="확대/축소" DockPanel.Dock="Bottom" Style="{StaticResource ButtonLabel}"/>
-                        <Image Source="/Image/button_원본보기.png" Width="45"  Margin="0,0,0,10"/>
+                        <!--<Image Source="/Image/button_원본보기.png" Width="45"  Margin="0,0,0,10"/>-->
                     </DockPanel>
                 </Button>
                 <Button x:Name="이미지" DockPanel.Dock="Top"  Style="{StaticResource ButtonStyle}" Click="Button_Click">
                     <DockPanel  >
                         <Label Content="이미지저장" DockPanel.Dock="Bottom" Style="{StaticResource ButtonLabel}"/>
-                        <Image Source="/Image/button_이미지저장.png" Width="45" Margin="0,0,0,10"/>
+                        <!--<Image Source="/Image/button_이미지저장.png" Width="45" Margin="0,0,0,10"/>-->
                     </DockPanel>
                 </Button>
                 <Button x:Name="엑셀" DockPanel.Dock="Top"  Style="{StaticResource ButtonStyle}" Click="Button_Click">
                     <DockPanel  >
                         <Label Content="엑셀저장" DockPanel.Dock="Bottom" Style="{StaticResource ButtonLabel}"/>
-                        <Image Source="/Image/button_엑셀저장.png" Width="45"  Margin="0,0,0,10"/>
+                        <!--<Image Source="/Image/button_엑셀저장.png" Width="45"  Margin="0,0,0,10"/>-->
                     </DockPanel>
                 </Button>
                 <Button x:Name="종료" DockPanel.Dock="Bottom" Style="{StaticResource ButtonStyle}" Margin="0,30" Click="Button_Click"  >
                     <DockPanel  >
                         <Label Content="닫   기" DockPanel.Dock="Bottom" Style="{StaticResource ButtonLabel}"/>
-                        <Image Source="/Image/button_닫기.png" Width="45"  Margin="0,0,0,10"/>
+                        <!--<Image Source="/Image/button_닫기.png" Width="45"  Margin="0,0,0,10"/>-->
                     </DockPanel>
                 </Button>
             </DockPanel>
