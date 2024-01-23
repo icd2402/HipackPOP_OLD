@@ -68,7 +68,7 @@ namespace PopProject
             }
             catch (Exception e)
             {
-                LogManager.Error("로그인 실패.", MethodBase.GetCurrentMethod().DeclaringType);
+                LogManager.Error("로그인 실패.\n" + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
                 _ = System.Windows.MessageBox.Show("로그인 실패.", "알림1", MessageBoxButton.OK);
                 Application.Current.Shutdown();
             }

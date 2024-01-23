@@ -7,6 +7,7 @@ using PopProject.Util;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -156,10 +157,10 @@ namespace PopProject.MessageBox
                     //_ = msg.ShowDialog();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LogManager.Error("인쇄 수량 가입고 DB에 저장 에러\n" + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
-
 
             try
             {
@@ -333,8 +334,9 @@ namespace PopProject.MessageBox
                 }
 
             }
-            catch (Exception m)
+            catch (Exception ex)
             {
+                LogManager.Error("인쇄 에러\n" + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
             Close();
         }

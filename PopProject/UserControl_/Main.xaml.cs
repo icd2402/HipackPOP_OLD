@@ -2967,7 +2967,7 @@ namespace PopProject.UserControl_
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
         }
@@ -3359,6 +3359,7 @@ namespace PopProject.UserControl_
             }
             catch (Exception ex)
             {
+                LogManager.Error("SignalR 재연결 Timer 에러\n" + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 

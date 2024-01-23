@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,7 +35,7 @@ namespace PopProject.Detail
             try
             {
                 InitializeComponent();
-                LogWrite("로봇작업");
+                LogManager.Info("로봇작업", MethodBase.GetCurrentMethod().DeclaringType);
                 this.prodID = prodID;
                 workName.Text = customsName + " -" + prodName;
                 serchRobotData();
@@ -51,44 +52,8 @@ namespace PopProject.Detail
             }
             catch(Exception e)
             {
-                LogWrite(e.Message);
-                LogWrite(e.StackTrace);
-            }
-
-        }
-        private void LogWrite(string str)
-        {
-            string DirPath = Environment.CurrentDirectory + @"\Log";
-            string FilePath = DirPath + "\\Log_" + DateTime.Today.ToString("yyyyMMdd") + ".log";
-            string temp;
-
-            DirectoryInfo di = new DirectoryInfo(DirPath);
-            FileInfo fi = new FileInfo(FilePath);
-
-            try
-            {
-                if (!di.Exists) Directory.CreateDirectory(DirPath);
-                if (!fi.Exists)
-                {
-                    using (StreamWriter sw = new StreamWriter(FilePath))
-                    {
-                        temp = string.Format("[{0}] {1}", DateTime.Now, str);
-                        sw.WriteLine(temp);
-                        sw.Close();
-                    }
-                }
-                else
-                {
-                    using (StreamWriter sw = File.AppendText(FilePath))
-                    {
-                        temp = string.Format("[{0}] {1}", DateTime.Now, str);
-                        sw.WriteLine(temp);
-                        sw.Close();
-                    }
-                }
-            }
-            catch (Exception e)
-            {
+                LogManager.Error("로봇 설정 에러\n" + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
+                LogManager.Error("로봇 설정 에러\n" + e.StackTrace, MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 
@@ -674,7 +639,7 @@ namespace PopProject.Detail
             }
             catch(Exception e1)
             {
-                LogWrite(e1.Message);
+                LogManager.Error("로봇 종료 에러\n" + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
                 
             }
             Close();

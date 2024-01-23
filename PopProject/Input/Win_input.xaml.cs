@@ -163,6 +163,7 @@ namespace PopProject.Input
                                 }
                                 catch (Exception e)
                                 {
+                                    LogManager.Error("후렉소 아두이노 값 표시 에러\n" + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
                                 }
                             }
                             break;
@@ -1202,7 +1203,8 @@ namespace PopProject.Input
                 }
                 catch (Exception e)
                 {
-                    mainSock.Close();
+                    LogManager.Error("CNS PLC 연결 실패\n" + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
+                        mainSock.Close();
                     MessageBox_Dialog msg = new MessageBox_Dialog("CNS PLC 연결 실패");
                     msg.ShowDialog();
                 }
@@ -1765,9 +1767,9 @@ namespace PopProject.Input
                             Main1.arduSerial.Write("A"); //아두이노 카운터 리셋 
                             Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청 // 
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-
+                            LogManager.Error("아두이노 리셋 에러\n" + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
                         }
                         break;
 
@@ -1779,8 +1781,9 @@ namespace PopProject.Input
                             Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                         }
 
-                        catch (Exception e)
+                        catch (Exception ex)
                         {
+                            LogManager.Error("아두이노 리셋 에러\n" + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
                             //MessageBox_Dialog msg = new MessageBox_Dialog(e.Message);
                             //msg.Show();
                         }

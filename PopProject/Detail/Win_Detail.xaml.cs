@@ -719,7 +719,7 @@ namespace PopProject.Detail
                 }
                 catch (Exception e)
                 {
-                    LogManager.Error("소켓 연결 중 에러발생", MethodBase.GetCurrentMethod().DeclaringType);
+                    LogManager.Error("소켓 연결 중 에러발생\n" + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
 
                     mainSock.Close();
                     MessageBox_Dialog msg = new MessageBox_Dialog("CNS PLC 연결 실패");
@@ -1460,6 +1460,7 @@ namespace PopProject.Detail
             }
             catch (WebException ex)
             {
+                LogManager.Error("ftpConnection 에러\n" + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
         
@@ -2232,48 +2233,12 @@ namespace PopProject.Detail
             }
             catch(Exception e1)
             {
-                LogWrite(e1.Message);
-                LogWrite(e1.StackTrace);
+                LogManager.Error("상세창 닫기 에러\n" + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
+                LogManager.Error("상세창 닫기 에러\n" + e1.StackTrace, MethodBase.GetCurrentMethod().DeclaringType);
             }
             finally
             {
                 this.Close();
-            }
-        }
-
-        private void LogWrite(string str)
-        {
-            string DirPath = Environment.CurrentDirectory + @"\Log";
-            string FilePath = DirPath + "\\Log_" + DateTime.Today.ToString("yyyyMMdd") + ".log";
-            string temp;
-
-            DirectoryInfo di = new DirectoryInfo(DirPath);
-            FileInfo fi = new FileInfo(FilePath);
-
-            try
-            {
-                if (!di.Exists) Directory.CreateDirectory(DirPath);
-                if (!fi.Exists)
-                {
-                    using (StreamWriter sw = new StreamWriter(FilePath))
-                    {
-                        temp = string.Format("[{0}] {1}", DateTime.Now, str);
-                        sw.WriteLine(temp);
-                        sw.Close();
-                    }
-                }
-                else
-                {
-                    using (StreamWriter sw = File.AppendText(FilePath))
-                    {
-                        temp = string.Format("[{0}] {1}", DateTime.Now, str);
-                        sw.WriteLine(temp);
-                        sw.Close();
-                    }
-                }
-            }
-            catch (Exception e)
-            {
             }
         }
 

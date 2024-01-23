@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -121,6 +122,7 @@ namespace PopProject.Detail
             }
             catch (Exception e)
             {
+                LogManager.Error("로봇 통신 에러\n" + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
 
         }

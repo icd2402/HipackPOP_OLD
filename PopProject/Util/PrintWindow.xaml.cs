@@ -11,6 +11,7 @@ using System.Threading;
 using System.Printing;
 using System.Collections;
 using System.Reflection;
+using PopProject.Util;
 
 namespace Monitor.Util
 {
@@ -441,11 +442,9 @@ namespace Monitor.Util
 
                 // End If
 
-                LogManager.Debug("프린트 이름 : " + Prt_Dialog.PrintQueue.FullName, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                LogManager.Debug("프린트 이름 : " + Prt_Dialog.PrintQueue.FullName, MethodBase.GetCurrentMethod().DeclaringType);
                 LogManager.Debug("프린트 범위 : " + Prt_Dialog.MinPage.ToString() + " ~ " + Prt_Dialog.MaxPage.ToString()
-                                 + "\n출력수 : " + Prt_Dialog.PrintTicket.CopyCount.ToString()
-
-                                 , System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                                 + "\n출력수 : " + Prt_Dialog.PrintTicket.CopyCount.ToString(), MethodBase.GetCurrentMethod().DeclaringType);
 
                 // 프린트 출력
                 Prt_Dialog.PrintDocument(Set_DocumentPaginator, "Report");
@@ -455,7 +454,7 @@ namespace Monitor.Util
             }
             catch (Exception ex)
             {
-                LogManager.Error("프린터 인쇄 오류1" + ex.StackTrace, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                LogManager.Error("프린터 인쇄 오류1" + ex.StackTrace, MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
     }
