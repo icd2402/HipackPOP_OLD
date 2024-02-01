@@ -2556,6 +2556,7 @@ namespace PopProject.Detail
             }
         }
 
+        //CNS 테스트용
         private void hiddenBt(object sender, MouseButtonEventArgs e)
         {
             if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.Plc || 

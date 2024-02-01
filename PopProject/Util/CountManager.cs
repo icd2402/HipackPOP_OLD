@@ -45,7 +45,6 @@ namespace PopProject.Util
                 {"유창포장테스트", "http://localhost:18888/pop"},
                 {"금화테스트", "http://localhost:18888/pop"},
                 {"두성포장테스트", "http://localhost:18888/pop"}
-
             };
 
             // workCnt 사용 업체에 포함되어 있는지 확인
