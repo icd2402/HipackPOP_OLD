@@ -218,7 +218,10 @@ namespace PopProject.UserControl_
             }
             catch (Exception e)
             {
+                MessageBox_Dialog box = new MessageBox_Dialog("");
+                Console.WriteLine(e.Message);
                 LogManager.Error("메인화면 업로드 실패 : " + e.Message, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
             }
         }
 

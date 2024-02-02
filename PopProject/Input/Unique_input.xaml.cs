@@ -57,14 +57,27 @@ namespace PopProject.Input
         //키보드 호출
         private void KeyBoxarCall()
         {
-            string path64 = Path.Combine(Directory.GetDirectories
-                (Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "winsxs"), "amd64_microsoft-windows-osk_*")[0], "osk.exe");
-            string path32 = @"C:\windows\osk.exe";
-            string path = Environment.Is64BitOperatingSystem ? path64 : path32;
+            ////64비트 운영 체제에서 사용되는 키보드 온스크린 실행 파일 경로
+            //string path64 = Path.Combine(Directory.GetDirectories
+            //    (Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "winsxs"), "amd64_microsoft-windows-osk_*")[0], "osk.exe");
 
-            if (File.Exists(path32))
+            ////32비트 운영 체제에서 사용되는 키보드 온스크린 실행 파일 경로
+            //string path32 = @"C:\windows\osk.exe";
+
+            //// 현재 운영 체제가 64비트인 경우 path64를, 아닌 경우 path32를 선택
+            //string path = Environment.Is64BitOperatingSystem ? path64 : path32;
+
+            //if (File.Exists(path32))
+            //{
+            //    _ = Process.Start(path32);
+            //}
+
+            var path64 = System.IO.Path.Combine(System.IO.Directory.GetDirectories(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "winsxs"), "amd64_microsoft-windows-osk_*")[0], "osk.exe");
+            var path32 = @"C:\windows\system32\osk.exe";
+            var path = (Environment.Is64BitOperatingSystem) ? path64 : path32;
+            if (System.IO.File.Exists(path))
             {
-                _ = Process.Start(path32);
+                System.Diagnostics.Process.Start(path);
             }
         }
 

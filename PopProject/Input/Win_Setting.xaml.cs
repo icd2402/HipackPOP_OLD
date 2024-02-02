@@ -59,6 +59,7 @@ namespace PopProject.Input
             boxCheck.IsChecked = SettingJsonManager.boxCheck; //상자수 사용
             completeValue.IsChecked = SettingJsonManager.completeValue_checked; //완료항목 제거
 
+
             //자재명세서 출력정보 화면
             count_check.IsChecked = SettingJsonManager.count_check; //총수량 표현
             account_check.IsChecked = SettingJsonManager.accountCheck; //거래처 표현
