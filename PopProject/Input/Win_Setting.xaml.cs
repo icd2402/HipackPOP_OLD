@@ -23,12 +23,32 @@ namespace PopProject.Input
         private Point scrollMousePoint1 = new Point();
         private double hOff1 = 1;
         private double vOff1 = 1;
+        private bool testLock = false;
 
         public Win_Setting()
         {
             InitializeComponent();
             PopErrorSearch();
             Win_Set();
+
+            if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
+            {
+                _cb1.Content = "접합 방법";   _cb2.Content = "코팅";
+                _cb3.Content = "밴딩 매수";   _cb4.Content = "적재 방법";
+                _cb5.Content = "적재 단수"; _cb6.Content = "파렛트 종류";
+                _cb7.Content = "손잡이 종류";   _cb8.Content = "밴딩 방법";
+                _cb9.Content = "목형 NO";        _cb10.Content = "";
+                _cb11.Content = "";           _cb12.Content = "";
+                _cb13.Content = "";           _cb14.Content = "";
+                _cb15.Content = ""; 
+
+                _cb10.Visibility = Visibility.Collapsed;
+                _cb11.Visibility = Visibility.Collapsed;
+                _cb12.Visibility = Visibility.Collapsed;
+                _cb13.Visibility = Visibility.Collapsed;
+                _cb14.Visibility = Visibility.Collapsed;
+                _cb15.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void Win_Set()
@@ -93,60 +113,102 @@ namespace PopProject.Input
             string[] setting = settingItem.Split(new string[] { "|" }, StringSplitOptions.None); //작업정보 배열 생성
             string[] metrial = metrialinfo.Split(new string[] { "|" }, StringSplitOptions.None); //마닐라,원단정보 배열 생성
             string[] print = printItem.Split(new string[] { "|" }, StringSplitOptions.None); //저장된 자재명세서 출정 정보 배열 생성
+            Console.WriteLine("프린터 셋팅정보 : " + print);
 
             //자재명세서 배열
             for (int i = 0; i < print.Length; i++)
             {
-                switch (print[i])
+                if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
                 {
-                    case "1": //필름NO
-                        _cb1.IsChecked = true;
-                        break;
-                    case "2": //코팅
-                        _cb2.IsChecked = true;
-                        break;
-                    case "3": //조판NO
-                        _cb3.IsChecked = true;
-                        break;
-                    case "4": //조판위치
-                        _cb4.IsChecked = true;
-                        break;
-                    case "5": //목형NO
-                        _cb5.IsChecked = true;
-                        break;
-                    case "6": //목형위치
-                        _cb6.IsChecked = true;
-                        break;
-                    case "7": //인쇄색도
-                        _cb7.IsChecked = true;
-                        break;
-                    case "8": //접합방법
-                        _cb8.IsChecked = true;
-                        break;
-                    case "9": //손잡이
-                        _cb9.IsChecked = true;
-                        break;
-                    case "10": //포장매수
-                        _cb10.IsChecked = true;
-                        break;
-                    case "11": //포장방법
-                        _cb11.IsChecked = true;
-                        break;
-                    case "12"://파렛트 종류
-                        _cb12.IsChecked = true;
-                        break;
-                    case "13": //적재단수
-                        _cb13.IsChecked = true;
-                        break;
-                    case "14": //적재방법
-                        _cb14.IsChecked = true;
-                        break;
-                    case "15": //메모
-                        _cb15.IsChecked = true;
-                        break;
-                    default:
-                        break;
+                    switch (print[i])
+                    {
+                        case "1": //접합 방법
+                            _cb1.IsChecked = true;
+                            break;
+                        case "2": //코팅
+                            _cb2.IsChecked = true;
+                            break;
+                        case "3": //밴딩 매수
+                            _cb3.IsChecked = true;
+                            break;
+                        case "4": //접재 방법
+                            _cb4.IsChecked = true;
+                            break;
+                        case "5": //적재 단수
+                            _cb5.IsChecked = true;
+                            break;
+                        case "6": //파렛트 종류
+                            _cb6.IsChecked = true;
+                            break;
+                        case "7": //손잡이 종류
+                            _cb7.IsChecked = true;
+                            break;
+                        case "8": //밴딩 방법
+                            _cb8.IsChecked = true;
+                            break;
+                        case "9": //목형 NO
+                            _cb9.IsChecked = true;
+                            break;
+                        
+                        default:
+                            break;
+                    }
                 }
+                else
+                {
+                    switch (print[i])
+                    {
+                        case "1": //필름NO
+                            _cb1.IsChecked = true;
+                            break;
+                        case "2": //코팅
+                            _cb2.IsChecked = true;
+                            break;
+                        case "3": //조판NO
+                            _cb3.IsChecked = true;
+                            break;
+                        case "4": //조판위치
+                            _cb4.IsChecked = true;
+                            break;
+                        case "5": //목형NO
+                            _cb5.IsChecked = true;
+                            break;
+                        case "6": //목형위치
+                            _cb6.IsChecked = true;
+                            break;
+                        case "7": //인쇄색도
+                            _cb7.IsChecked = true;
+                            break;
+                        case "8": //접합방법
+                            _cb8.IsChecked = true;
+                            break;
+                        case "9": //손잡이
+                            _cb9.IsChecked = true;
+                            break;
+                        case "10": //포장매수
+                            _cb10.IsChecked = true;
+                            break;
+                        case "11": //포장방법
+                            _cb11.IsChecked = true;
+                            break;
+                        case "12"://파렛트 종류
+                            _cb12.IsChecked = true;
+                            break;
+                        case "13": //적재단수
+                            _cb13.IsChecked = true;
+                            break;
+                        case "14": //적재방법
+                            _cb14.IsChecked = true;
+                            break;
+                        case "15": //메모
+                            _cb15.IsChecked = true;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                
+                
             }
 
             //마닐라,원단정보 배열
@@ -251,6 +313,7 @@ namespace PopProject.Input
         //닫기
         private void Exit(object sender, MouseButtonEventArgs e)
         {
+            구룡제품명세서저장();
             Close();
         }
 
@@ -314,7 +377,7 @@ namespace PopProject.Input
             Console.WriteLine("SettingValue(작업정보) : " + settingValue);
             SettingJsonManager.searchCheck = !settingValue.Equals(SettingJsonManager.settingitem);
             SettingJsonManager.settingitem = settingValue;
-            SettingJsonManager.SaveJsonFile();
+            //SettingJsonManager.SaveJsonFile();
 
             LogManager.Info("작업정보 설정 변경 : " + settingValue, MethodBase.GetCurrentMethod().DeclaringType);
         }
@@ -375,79 +438,133 @@ namespace PopProject.Input
                 }
             }
 
-            string printItem = GetPringItem(list);
+            string printItem = GetPrintItem(list);
 
             //명세서 출력정보 체크값 있을시 담고 저장
             if (printItem.Length != 0)
             {
                 printItem = printItem.Substring(0, printItem.Length - 1);
             }
+
+            Console.WriteLine("printItem(명세서) : " + printItem);
             SettingJsonManager.printItem = printItem;
-            SettingJsonManager.SaveJsonFile();
+            //SettingJsonManager.SaveJsonFile();
+
+            LogManager.Info("작업정보 설정 변경 : " + printItem, MethodBase.GetCurrentMethod().DeclaringType);
         }
 
         //제품명세서 출력 정보 체크값 저장
-        private string GetPringItem(List<string> list)
+        private string GetPrintItem(List<string> list)
         {
             string settindValue = "";
-            for (int i = 0; i < list.Count; i++)
-            {
-                int setting = 0;
-                switch (list[i])
-                {
-                    case "필름 NO":
-                        setting = 1;
-                        break;
-                    case "코팅":
-                        setting = 2;
-                        break;
-                    case "조판 NO":
-                        setting = 3;
-                        break;
-                    case "조판 위치":
-                        setting = 4;
-                        break;
-                    case "목형 NO":
-                        setting = 5;
-                        break;
-                    case "목형 위치":
-                        setting = 6;
-                        break;
-                    case "인쇄 색도":
-                        setting = 7;
-                        break;
-                    case "접합 방법":
-                        setting = 8;
-                        break;
-                    case "손잡이":
-                        setting = 9;
-                        break;
-                    case "포장 매수":
-                        setting = 10;
-                        break;
-                    case "포장 방법":
-                        setting = 11;
-                        break;
-                    case "파렛트 종류":
-                        setting = 12;
-                        break;
-                    case "적재 단수":
-                        setting = 13;
-                        break;
-                    case "적재 방법":
-                        setting = 14;
-                        break;
-                    case "메모":
-                        setting = 15;
-                        break;
-                    default:
-                        break;
-                }
 
-                settindValue = settindValue + setting + "|";
-                Console.WriteLine("printlist : " + i + ", " + list[i].ToString());
+            if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    int setting = 0;
+                    switch (list[i])
+                    {
+                        case "접합 방법":
+                            setting = 1;
+                            break;
+                        case "코팅":
+                            setting = 2;
+                            break;
+                        case "밴딩 매수":
+                            setting = 3;
+                            break;
+                        case "적재 방법":
+                            setting = 4;
+                            break;
+                        case "적재 단수":
+                            setting = 5;
+                            break;
+                        case "파렛트 종류":
+                            setting = 6;
+                            break;
+                        case "손잡이 종류":
+                            setting = 7;
+                            break;
+                        case "밴딩 방법":
+                            setting = 8;
+                            break;
+                        case "목형 NO":
+                            setting = 9;
+                            break;
+                       
+                        default:
+                            break;
+                    }
+
+                    settindValue = settindValue + setting + "|";
+                    //Console.WriteLine("printlist : " + i + ", " + list[i].ToString());
+                }
             }
+            else
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    int setting = 0;
+                    switch (list[i])
+                    {
+                        case "필름 NO":
+                            setting = 1;
+                            break;
+                        case "코팅":
+                            setting = 2;
+                            break;
+                        case "조판 NO":
+                            setting = 3;
+                            break;
+                        case "조판 위치":
+                            setting = 4;
+                            break;
+                        case "목형 NO":
+                            setting = 5;
+                            break;
+                        case "목형 위치":
+                            setting = 6;
+                            break;
+                        case "인쇄 색도":
+                            setting = 7;
+                            break;
+                        case "접합 방법":
+                            setting = 8;
+                            break;
+                        case "손잡이":
+                            setting = 9;
+                            break;
+                        case "포장 매수":
+                            setting = 10;
+                            break;
+                        case "포장 방법":
+                            setting = 11;
+                            break;
+                        case "파렛트 종류":
+                            setting = 12;
+                            break;
+                        case "적재 단수":
+                            setting = 13;
+                            break;
+                        case "적재 방법":
+                            setting = 14;
+                            break;
+                        case "메모":
+                            setting = 15;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    settindValue = settindValue + setting + "|";
+                    //Console.WriteLine("printlist : " + i + ", " + list[i].ToString());
+                }
+            }
+
+            Console.WriteLine("printItem : " + settindValue);
             LogManager.Info("제품명세서 설정 변경 : " + settindValue, MethodBase.GetCurrentMethod().DeclaringType);
+
             return settindValue;
         }
 
@@ -571,6 +688,7 @@ namespace PopProject.Input
 
         private void Setting_done(object sender, MouseButtonEventArgs e)
         {
+            구룡제품명세서저장();
             Close();
         }
 
@@ -616,22 +734,18 @@ namespace PopProject.Input
             if (cb_1.SelectedItem != null)
             {
                 SettingJsonManager.SerialName = cb_1.SelectedItem.ToString();
-                SettingJsonManager.SaveJsonFile();
             }
             
             //게더링 COM넘버 두번째꺼
             if (cb_12.SelectedItem != null)
             {
                 SettingJsonManager.SerialName1 = cb_12.SelectedItem.ToString();
-                SettingJsonManager.SaveJsonFile();
-
             }
 
             //게더링 BaudRate
             if (cb_2.SelectedItem != null)
             {
                 SettingJsonManager.baudrate = int.Parse(cb_2.SelectedItem.ToString());
-                SettingJsonManager.SaveJsonFile();
             }
 
             //센서 딜레이
@@ -663,9 +777,9 @@ namespace PopProject.Input
                     default:
                         break;
                 }
-                SettingJsonManager.SaveJsonFile();
             }
 
+            SettingJsonManager.SaveJsonFile();
             LogManager.Info("설정창 닫기", MethodBase.GetCurrentMethod().DeclaringType);
         }
 
@@ -679,7 +793,7 @@ namespace PopProject.Input
         {
             SettingJsonManager.RadioChecked = !radio1.IsChecked.Value;
             Console.WriteLine("radio1.IsChecked.Value" + radio1.IsChecked.Value);
-            SettingJsonManager.SaveJsonFile();
+            //SettingJsonManager.SaveJsonFile();
         }
 
         //동시작업 
@@ -687,7 +801,7 @@ namespace PopProject.Input
         {
             SettingJsonManager.samework = samework.IsChecked.Value;
             SettingJsonManager.searchCheck = SettingJsonManager.samework != samework.IsChecked.Value;
-            SettingJsonManager.SaveJsonFile();
+            //SettingJsonManager.SaveJsonFile();
         }
 
         //인쇄색도 표현
@@ -701,14 +815,14 @@ namespace PopProject.Input
         private void CountCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             SettingJsonManager.count_check = count_check.IsChecked.Value;
-            SettingJsonManager.SaveJsonFile();
+            //SettingJsonManager.SaveJsonFile();
         }
 
         //상자수 사용
         private void BoxCountChecked(object sender, RoutedEventArgs e)
         {
             SettingJsonManager.boxCheck = boxCheck.IsChecked.Value;
-            SettingJsonManager.SaveJsonFile();
+            //SettingJsonManager.SaveJsonFile();
 
         }
 
@@ -729,10 +843,8 @@ namespace PopProject.Input
         //상자수 자동계산
         private void Optionchecked(object sender, RoutedEventArgs e)
         {
-
             SettingJsonManager.option1 = option1.IsChecked.Value;
             SettingJsonManager.SaveJsonFile();
-
         }
 
         //이합설비
@@ -919,7 +1031,7 @@ namespace PopProject.Input
         private void scrollvar_Checked(object sender, RoutedEventArgs e)
         {
             SettingJsonManager.scrollvarCheck = scrollvar_Check.IsChecked.Value;
-            SettingJsonManager.SaveJsonFile();
+            //SettingJsonManager.SaveJsonFile();
         }
 
         //공통 불량사유 체크박스
@@ -1104,14 +1216,14 @@ namespace PopProject.Input
                 JArray Data_Jarry = JArray.Parse(returnData.리턴값);
                 foreach(JObject result in Data_Jarry)
                 {
-                   SettingJsonManager.settingitem = result["작업정보"].ToString();
-                   SettingJsonManager.boxCheck = bool.Parse(result["상자수사용"].ToString());
-                   SettingJsonManager.samework = bool.Parse(result["동시작업"].ToString());
-                   SettingJsonManager.twoSum = bool.Parse(result["이합설비"].ToString());
-                   SettingJsonManager.option1 = bool.Parse(result["상자수자동계산"].ToString());
-                   SettingJsonManager.SaveJsonFile();
+                    SettingJsonManager.settingitem = result["작업정보"].ToString();
+                    SettingJsonManager.boxCheck = bool.Parse(result["상자수사용"].ToString());
+                    SettingJsonManager.samework = bool.Parse(result["동시작업"].ToString());
+                    SettingJsonManager.twoSum = bool.Parse(result["이합설비"].ToString());
+                    SettingJsonManager.option1 = bool.Parse(result["상자수자동계산"].ToString());
                 }
 
+                SettingJsonManager.SaveJsonFile();
                 Win_Set();
             }
             else
@@ -1127,6 +1239,159 @@ namespace PopProject.Input
             SettingJsonManager.robotchecked = robotcheck.IsChecked.Value;
             SettingJsonManager.SaveJsonFile();
         }
+
+        private void 구룡제품명세서저장()
+        {
+            List<string> list = new List<string>();
+
+            //왼쪽
+            foreach (CheckBox cbx in str3.Children.OfType<CheckBox>())
+            {
+                if (cbx.IsChecked == true)
+                {
+                    list.Add(cbx.Content.ToString());
+                }
+            }
+
+            //오른쪽
+            foreach (CheckBox cbx in str4.Children.OfType<CheckBox>())
+            {
+                if (cbx.IsChecked == true)
+                {
+                    list.Add(cbx.Content.ToString());
+                }
+            }
+
+            string printItem = GetPrintItem2(list);
+
+            //명세서 출력정보 체크값 있을시 담고 저장
+            if (printItem.Length != 0)
+            {
+                printItem = printItem.Substring(0, printItem.Length - 1);
+            }
+
+            Console.WriteLine("printItem(명세서) : " + printItem);
+            SettingJsonManager.printItem = printItem;
+            SettingJsonManager.SaveJsonFile();
+
+            LogManager.Info("작업정보 설정 변경 : " + printItem, MethodBase.GetCurrentMethod().DeclaringType);
+        }
+
+        private string GetPrintItem2(List<string> list)
+        {
+            string settindValue = "";
+
+            if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    int setting = 0;
+                    switch (list[i])
+                    {
+                        case "접합 방법":
+                            setting = 1;
+                            break;
+                        case "코팅":
+                            setting = 2;
+                            break;
+                        case "밴딩 매수":
+                            setting = 3;
+                            break;
+                        case "적재 방법":
+                            setting = 4;
+                            break;
+                        case "적재 단수":
+                            setting = 5;
+                            break;
+                        case "파렛트 종류":
+                            setting = 6;
+                            break;
+                        case "손잡이 종류":
+                            setting = 7;
+                            break;
+                        case "밴딩 방법":
+                            setting = 8;
+                            break;
+                        case "목형 NO":
+                            setting = 9;
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    settindValue = settindValue + setting + "|";
+                    //Console.WriteLine("printlist : " + i + ", " + list[i].ToString());
+                }
+            }
+            else
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    int setting = 0;
+                    switch (list[i])
+                    {
+                        case "필름 NO":
+                            setting = 1;
+                            break;
+                        case "코팅":
+                            setting = 2;
+                            break;
+                        case "조판 NO":
+                            setting = 3;
+                            break;
+                        case "조판 위치":
+                            setting = 4;
+                            break;
+                        case "목형 NO":
+                            setting = 5;
+                            break;
+                        case "목형 위치":
+                            setting = 6;
+                            break;
+                        case "인쇄 색도":
+                            setting = 7;
+                            break;
+                        case "접합 방법":
+                            setting = 8;
+                            break;
+                        case "손잡이":
+                            setting = 9;
+                            break;
+                        case "포장 매수":
+                            setting = 10;
+                            break;
+                        case "포장 방법":
+                            setting = 11;
+                            break;
+                        case "파렛트 종류":
+                            setting = 12;
+                            break;
+                        case "적재 단수":
+                            setting = 13;
+                            break;
+                        case "적재 방법":
+                            setting = 14;
+                            break;
+                        case "메모":
+                            setting = 15;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    settindValue = settindValue + setting + "|";
+                    //Console.WriteLine("printlist : " + i + ", " + list[i].ToString());
+                }
+            }
+
+            Console.WriteLine("printItem : " + settindValue);
+            LogManager.Info("제품명세서 설정 변경 : " + settindValue, MethodBase.GetCurrentMethod().DeclaringType);
+
+            return settindValue;
+        }
+
+
     }
 
 }

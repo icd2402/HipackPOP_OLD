@@ -339,6 +339,20 @@ namespace PopProject.Util
                     onPropertyChanged("MycustomSName");
                 }
             }
+
+            private float _pplanCount;
+            public float pplanCount
+            {
+                get
+                {
+                    return _pplanCount;
+                }
+                set
+                {
+                    _pplanCount = value;
+                    onPropertyChanged("pplanCount");
+                }
+            }
         }
     }
 }

@@ -262,6 +262,7 @@ namespace PopProject.Util
         // JSON 설정 (settings.json) 파일에 저장, null 값인 경우 초기화
         public static bool SaveJsonFile()
         {
+            Console.WriteLine("SaveJsonFile 실행");
             try
             {
                 //셋팅파일 경로가 존재하는지 확인 후 경로 생성
@@ -305,7 +306,7 @@ namespace PopProject.Util
                                 {"baudrate", string.IsNullOrEmpty(baudrate.ToString()) == false ? "9600" : ""},
                                 {"SensorRate", string.IsNullOrEmpty(SensorRate) == false ? SensorRate : "0"},
                                 {"RadioChecked", RadioChecked.ToString()},
-                                {"printItem", string.IsNullOrEmpty(printItem) == false ? printItem : ""},
+                                {"printItem", string.IsNullOrEmpty(printItem) == false ? printItem : ""},//
                                 {"samework", samework.ToString()},
                                 {"color_check", color_check.ToString()},
                                 {"count_check", count_check.ToString()},

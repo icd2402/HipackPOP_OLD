@@ -3073,7 +3073,6 @@ namespace PopProject.UserControl_
                 SelectWorkList(); // 생산 계획 리스트 조회
                 ResultSearchDate();
             }
-
             SettingJsonManager.searchCheck = false;
             SettingJsonManager.SaveJsonFile();
             can.Visibility = Visibility.Collapsed;

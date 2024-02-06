@@ -19,58 +19,39 @@ namespace PopProject.Util
         public ClsUc_완제품명세서_Control6구룡()
         {
             InitializeComponent();
-            if (SettingJsonManager.corp_name.Equals("유창포장"))
-            {
-                title.FontSize = 36;
-                title.Content = "물     품     표";
-                title1.Content = "생산일자";
-                dock2.Visibility = System.Windows.Visibility.Visible;
-                dock1.Visibility = System.Windows.Visibility.Collapsed;
-            }
 
-            else
-            {
-                dock2.Visibility = System.Windows.Visibility.Collapsed;
-                dock1.Visibility = System.Windows.Visibility.Visible;
-            }
+            dock2.Visibility = System.Windows.Visibility.Collapsed;
+            dock1.Visibility = System.Windows.Visibility.Visible;
         }
 
         public void Set_BarCode(string id)
         {
-            if (SettingJsonManager.corp_name.Equals("유창포장"))
-            {
-                this.DataContext = ViewModel;
-            }
-            else
-            {
-                this.DataContext = ViewModel;
-                // 바코드 이미지를 표시할 Image 컨트롤을 보이도록 설정
-                barcodeImage.Visibility = System.Windows.Visibility.Visible;
-                // BarCode 객체 생성
-                BarCode barcodeFont = new BarCode();
-                // 바코드 심볼러지 타입 설정 (여기서는 CODE128C)
-                barcodeFont.SymbologyType = SymbologyType.Code128c;
-                // 바코드 X(너비 비율) 설정
-                barcodeFont.X = 3;
-                // 바코드 너비와 높이 설정
-                barcodeFont.BarCodeWidth = 140;
-                barcodeFont.BarCodeHeight = 35;
-                // 바코드에 인코딩할 텍스트 설정
-                barcodeFont.CodeText = id.PadLeft(10, '0');
-                // 바코드 이미지를 그릴 스트림 생성
-                System.IO.Stream stream = new System.IO.MemoryStream();
-                // 바코드를 스트림에 그리기
-                barcodeFont.drawBarcode(stream);
-                // 스트림에서 이미지 소스 생성
-                var imageSource = new BitmapImage();
-                imageSource.BeginInit();
-                imageSource.StreamSource = stream;
-                imageSource.EndInit();
+            this.DataContext = ViewModel;
+            // 바코드 이미지를 표시할 Image 컨트롤을 보이도록 설정
+            barcodeImage.Visibility = System.Windows.Visibility.Visible;
+            // BarCode 객체 생성
+            BarCode barcodeFont = new BarCode();
+            // 바코드 심볼러지 타입 설정 (여기서는 CODE128C)
+            barcodeFont.SymbologyType = SymbologyType.Code128c;
+            // 바코드 X(너비 비율) 설정
+            barcodeFont.X = 3;
+            // 바코드 너비와 높이 설정
+            barcodeFont.BarCodeWidth = 140;
+            barcodeFont.BarCodeHeight = 35;
+            // 바코드에 인코딩할 텍스트 설정
+            barcodeFont.CodeText = id.PadLeft(10, '0');
+            // 바코드 이미지를 그릴 스트림 생성
+            System.IO.Stream stream = new System.IO.MemoryStream();
+            // 바코드를 스트림에 그리기
+            barcodeFont.drawBarcode(stream);
+            // 스트림에서 이미지 소스 생성
+            var imageSource = new BitmapImage();
+            imageSource.BeginInit();
+            imageSource.StreamSource = stream;
+            imageSource.EndInit();
 
-                // 이미지 소스를 Image 컨트롤에 설정하여 바코드 이미지 표시
-                barcodeImage.Source = imageSource;
-            }
-
+            // 이미지 소스를 Image 컨트롤에 설정하여 바코드 이미지 표시
+            barcodeImage.Source = imageSource;
         }
 
         public class ProductReport
@@ -307,6 +288,20 @@ namespace PopProject.Util
                 {
                     _MycustomSName = value;
                     onPropertyChanged("MycustomSName");
+                }
+            }
+
+            private float _pplanCount;
+            public float pplanCount
+            {
+                get
+                {
+                    return _pplanCount;
+                }
+                set
+                {
+                    _pplanCount = value;
+                    onPropertyChanged("pplanCount");
                 }
             }
         }

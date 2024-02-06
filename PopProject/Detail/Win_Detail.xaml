@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:PopProject.Detail"
         mc:Ignorable="d"
        Title="Win_Detail" Height="890" Width="1230" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" Loaded="Detail_Loaded">
- <Border BorderBrush="Black"  BorderThickness="1">
+    <Border BorderBrush="Black"  BorderThickness="1">
         <Canvas>
-            <Image x:Name="jonggu" Width="183" Height="183" Canvas.Left="370" Canvas.Top="380"></Image>
+            <Image x:Name="jonggu" Width="287" Height="183" Canvas.Left="266" Canvas.Top="380"></Image>
             <Image Source="/img/back_03.png" Canvas.Left="-2" Canvas.Top="-1" Width="560" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
             <TextBlock Text="|" FontSize="24" Foreground="White" Canvas.Top="11" Canvas.Left="14"></TextBlock>
             <TextBlock Text="공정" FontSize="24" Foreground="White" Canvas.Top="18" Canvas.Left="25" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
@@ -48,10 +48,10 @@
             <Image Source="/img/bn_04.png" Canvas.Left="1065" Canvas.Top="802" MouseDown="Detail_close"/>
             <!--<Image Source="/img/Dot.png" Canvas.Left="1" Canvas.Top="369" Width="556" Visibility=""/>-->
             <Border x:Name="Pass_detail" Visibility="Visible"  BorderThickness="2"  CornerRadius="5" BorderBrush="DarkGray" Background="#485563" Width="120" Height="60"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="735" Canvas.Top="812" MouseLeftButtonDown="Pass_detailInfo" MouseLeftButtonUp="Pass_detail_MouseLeftButtonUp" >
-                
+
                 <TextBlock Text="넘 기 기"  FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Wheat" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium"  />
             </Border>
-            
+
             <Image Source="/img/Dot.png" Canvas.Top="529" Width="616" Height="4" Stretch="Fill" Canvas.Left="609"/>
             <Image x:Name="pic" Width="632" Height="484" Canvas.Left="577" Canvas.Top="17" MouseDown="Image_Detail"  Stretch="Fill"></Image>
             <TextBlock x:Name="tbNoCount" Text="인쇄사양이 없습니다." Canvas.Left="826" Canvas.Top="239" FontSize="20" FontFamily="/font/#KoPubDotum Medium" Visibility="Collapsed"></TextBlock>
@@ -104,49 +104,49 @@
 
                 <Image Source="/img/Dot.png" DockPanel.Dock="Top" VerticalAlignment="Top" Width="556" Height="8"/>
                 <DockPanel x:Name="dp"  DockPanel.Dock="Top" VerticalAlignment="Top" Width="556">
-                    
+
                     <Canvas x:Name="조판번호" DockPanel.Dock="Top" Height="20">
                         <TextBlock Text="조판번호"  FontSize="16" Canvas.Left="30" Canvas.Top="1"  FontFamily="/font/#KoPubBatang Light"/>
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>
                         <TextBlock x:Name="tb조판번호" Text="" FontSize="16" Canvas.Left="128" FontFamily="/font/#KoPubDotum Medium"/>
                     </Canvas>
-                    
+
                     <Canvas x:Name="조판위치" DockPanel.Dock="Top" Height="20">
                         <TextBlock Text="조판위치"  FontSize="16" Canvas.Left="30" Canvas.Top="1"  FontFamily="/font/#KoPubBatang Light"/>
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>
                         <TextBlock x:Name="tb조판위치" Text="" FontSize="16" Canvas.Left="128" FontFamily="/font/#KoPubDotum Medium"/>
                     </Canvas>
-                    
+
                     <Canvas x:Name="인쇄색도" DockPanel.Dock="Top" Height="20">
                         <TextBlock Text="인쇄색도"  FontSize="16" Canvas.Left="30" Canvas.Top="1"  FontFamily="/font/#KoPubBatang Light"/>
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>
                         <TextBlock x:Name="tb인쇄색도" Text="" FontSize="16" Canvas.Left="128" FontFamily="/font/#KoPubDotum Medium"/>
                     </Canvas>
-                        
+
                     <Canvas x:Name="필름번호" DockPanel.Dock="Top" Height="20">
                         <TextBlock Text="필름번호"  FontSize="16" Canvas.Left="30" Canvas.Top="1"  FontFamily="/font/#KoPubBatang Light"/>
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>
                         <TextBlock x:Name="tb필름번호" Text="" FontSize="16" Canvas.Left="128" FontFamily="/font/#KoPubDotum Medium"/>
                     </Canvas>
-                    
+
                     <Canvas x:Name="코팅" DockPanel.Dock="Top" Height="20">
                         <TextBlock Text="코     팅"  FontSize="16" Canvas.Left="30" Canvas.Top="1"  FontFamily="/font/#KoPubBatang Light"/>
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>
                         <TextBlock x:Name="tb코팅" Text="" FontSize="16" Canvas.Left="128" FontFamily="/font/#KoPubDotum Medium"/>
                     </Canvas>
-                    
+
                     <Canvas x:Name="목형번호" DockPanel.Dock="Top" Height="20">
                         <TextBlock Text="목형번호"  FontSize="16" Canvas.Left="30" Canvas.Top="1" FontFamily="/font/#KoPubBatang Light"/>
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>
                         <TextBlock x:Name="tb목형번호" Text="" FontSize="16" Canvas.Left="128" FontFamily="/font/#KoPubDotum Medium"/>
                     </Canvas>
-                    
+
                     <Canvas x:Name="목형위치" DockPanel.Dock="Top" Height="20">
                         <TextBlock Text="목형위치"  FontSize="16" Canvas.Left="30" Canvas.Top="1" FontFamily="/font/#KoPubBatang Light"/>
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>
                         <TextBlock x:Name="tb목형위치" Text="" FontSize="16" Canvas.Left="128" FontFamily="/font/#KoPubDotum Medium"/>
                     </Canvas>
-                    
+
                     <Canvas x:Name="손잡이" DockPanel.Dock="Top" Height="20">
                         <TextBlock Text="손잡이종류"  FontSize="16" Canvas.Left="30" Canvas.Top="1" FontFamily="/font/#KoPubBatang Light"/>
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>
@@ -172,7 +172,7 @@
                     </Canvas>
 
                     <Canvas x:Name="접합방법" DockPanel.Dock="Top" Height="20">
-                    
+
                         <TextBlock Text="접합방법"  FontSize="16" Canvas.Left="30" Canvas.Top="1" FontFamily="/font/#KoPubBatang Light"/>
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>
                         <TextBlock x:Name="tb접합방법" Text="" FontSize="16" Canvas.Left="128" Foreground="Red" FontFamily="/font/#KoPubDotum Medium"/>
@@ -219,7 +219,7 @@
                     <Image x:Name="imgLine" Source="/img/Dot.png" DockPanel.Dock="Top" VerticalAlignment="Top" Width="556" Height="8"/>
 
                 </DockPanel>
-           
+
                 <Grid DockPanel.Dock="Top" VerticalAlignment="Stretch" Width="556">
 
 
@@ -241,7 +241,7 @@
                 <Grid DockPanel.Dock="Top" VerticalAlignment="Stretch" Width="556">
 
 
-                  <TextBox x:Name="tb공정별" HorizontalAlignment="Left"  VerticalAlignment="Stretch" Margin="20,4,0,0" Width="554" BorderThickness="0" FontFamily="/font/#KoPubBatang Bold"
+                    <TextBox x:Name="tb공정별" HorizontalAlignment="Left"  VerticalAlignment="Stretch" Margin="20,4,0,0" Width="554" BorderThickness="0" FontFamily="/font/#KoPubBatang Bold"
                             ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap" AcceptsReturn="True" FontSize="20" IsReadOnly="True" Grid.ColumnSpan="2"></TextBox>
                 </Grid>
             </DockPanel>

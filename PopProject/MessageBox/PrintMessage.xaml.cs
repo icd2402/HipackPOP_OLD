@@ -156,16 +156,35 @@ namespace PopProject.MessageBox
 
                 if (SignCorpinfo_Base_JArray != null && SignCorpinfo_Base_JArray.ToArray().Length > 0)
                 {
+                    ClsUc_명세서_Report 명세서양식_Uc = new ClsUc_명세서_Report();
+                    ClsUc_명세서_Report2 명세서양식_Uc2 = new ClsUc_명세서_Report2();
+                    ClsUc_명세서_Report3 명세서양식_Uc3 = new ClsUc_명세서_Report3();
+                    ClsUc_명세서_Report5두성 명세서양식_uc5두성 = new ClsUc_명세서_Report5두성();
+                    ClsUc_명세서_Report6구룡 명세서양식_uc6구룡 = new ClsUc_명세서_Report6구룡();
+                    ClsUc_명세서_Report7구룡실수요자 명세서양식_uc7구룡실수요자 = new ClsUc_명세서_Report7구룡실수요자();
+                    ClsUc_명세서_Report8대세 명세서양식_uc8대세 = new ClsUc_명세서_Report8대세();
+
+                    ClsUc_완제품명세서_Control1 완제품명세서_Uc1 = new ClsUc_완제품명세서_Control1();
+                    ClsUc_완제품명세서_Control2 완제품명세서_Uc2 = new ClsUc_완제품명세서_Control2();
+                    ClsUc_완제품명세서_Control3 완제품명세서_Uc3 = new ClsUc_완제품명세서_Control3();
+                    ClsUc_완제품명세서_Control5두성 완제품명세서_두성 = new ClsUc_완제품명세서_Control5두성();
+                    ClsUc_완제품명세서_Control6구룡 완제품명세서_구룡 = new ClsUc_완제품명세서_Control6구룡();
+                    ClsUc_완제품명세서_Control7구룡실수요자 완제품명세서_구룡실수요자 = new ClsUc_완제품명세서_Control7구룡실수요자();
+                    ClsUc_완제품명세서_Control8대세 완제품명세서_대세 = new ClsUc_완제품명세서_Control8대세();
+
                     ClsUc_완제품명세서_Control1.ProductReport pr1 = new ClsUc_완제품명세서_Control1.ProductReport();
                     ClsUc_완제품명세서_Control2.ProductReport pr2 = new ClsUc_완제품명세서_Control2.ProductReport();
                     ClsUc_완제품명세서_Control3.ProductReport pr3 = new ClsUc_완제품명세서_Control3.ProductReport();
                     ClsUc_완제품명세서_Control5두성.ProductReport pr5 = new ClsUc_완제품명세서_Control5두성.ProductReport();
                     ClsUc_완제품명세서_Control6구룡.ProductReport pr6 = new ClsUc_완제품명세서_Control6구룡.ProductReport();
+                    ClsUc_완제품명세서_Control7구룡실수요자.ProductReport pr7 = new ClsUc_완제품명세서_Control7구룡실수요자.ProductReport();
                     ClsUc_완제품명세서_Control8대세.ProductReport pr8 = new ClsUc_완제품명세서_Control8대세.ProductReport();
+
                     JToken result = SignCorpinfo_Base_JArray.First;
 
                     //선호칼라팩
-                    if (SettingJsonManager.corp_id.Equals("75BB212362"))
+                    //if (SettingJsonManager.corp_id.Equals("75BB212362"))
+                    if (SettingJsonManager.corp_name.Equals("선호칼라팩") || SettingJsonManager.corp_name.Equals("선호칼라팩테스트"))
                     {
                         pr2.MycustomSName = "";                                       //업체명
                         pr2.corpName = "";                                            //거래처 상호
@@ -179,8 +198,8 @@ namespace PopProject.MessageBox
                         pr2.resultCount = result["resultCount"].ToString(); //총수량
                         pr2.pStockKey = result["pStockKey"].ToString();     //재고키
                         int keyLenth = 0;                                   //재고키 변수
-                        keyLenth = 10 - pr2.pStockKey.Length;               // 10 - 재고키 길이
 
+                        keyLenth = 10 - pr2.pStockKey.Length;               // 10 - 재고키 길이
                         for (int index = 1; index <= keyLenth; index++)
                         {
                             pr2.pStockKey = "0" + pr2.pStockKey;
@@ -192,7 +211,7 @@ namespace PopProject.MessageBox
                             pr2.resultCount = mainModel.sumPworkCount + "";
                         }
 
-                        //총수량 표현 미체크시
+                        //총수량 표현 미체크시 값 제거
                         if (!SettingJsonManager.count_check)
                         {
                             pr2.resultCount = "";
@@ -209,18 +228,10 @@ namespace PopProject.MessageBox
                         pr1.MycustomSName = SettingJsonManager.productionCheck ? "" : SettingJsonManager.corp_name.Equals("대양포장") ? "    " : SettingJsonManager.corp_name;
                     }
 
-                    ClsUc_완제품명세서_Control1 완제품명세서_Uc1 = new ClsUc_완제품명세서_Control1();
-                    ClsUc_완제품명세서_Control2 완제품명세서_Uc2 = new ClsUc_완제품명세서_Control2();
-                    ClsUc_완제품명세서_Control3 완제품명세서_Uc3 = new ClsUc_완제품명세서_Control3();
-                    ClsUc_완제품명세서_Control5두성 완제품명세서_두성 = new ClsUc_완제품명세서_Control5두성();
-                    ClsUc_완제품명세서_Control6구룡 완제품명세서_구룡 = new ClsUc_완제품명세서_Control6구룡();
-                    ClsUc_완제품명세서_Control8대세 완제품명세서_대세 = new ClsUc_완제품명세서_Control8대세();
-                    ClsUc_명세서_Report 명세서양식_Uc = new ClsUc_명세서_Report();
-                    ClsUc_명세서_Report2 명세서양식_Uc2 = new ClsUc_명세서_Report2();
-                    ClsUc_명세서_Report3 명세서양식_Uc3 = new ClsUc_명세서_Report3();
-                    ClsUc_명세서_Report5두성 명세서양식_uc5두성 = new ClsUc_명세서_Report5두성();
-                    ClsUc_명세서_Report6구룡 명세서양식_uc6구룡 = new ClsUc_명세서_Report6구룡();
-                    ClsUc_명세서_Report8대세 명세서양식_uc8대세 = new ClsUc_명세서_Report8대세();
+                    
+
+                    
+
 
                     FixedDocument FixedDocument = new FixedDocument();
                     double Dbl_HeightReportPageWidthSize = 8.2 * 96;
@@ -242,7 +253,7 @@ namespace PopProject.MessageBox
                     };
 
                     //유창포장
-                    if (SettingJsonManager.corp_name.Equals("유창포장"))
+                    if (SettingJsonManager.corp_name.Equals("유창포장") || SettingJsonManager.corp_name.Equals("유창포장테스트"))
                     {
                         pr2.corpName = SettingJsonManager.accountCheck ? "" : mainModel.corpName; //거래처 상호
                         pr2.MycustomSName = SettingJsonManager.productionCheck ? "" : SettingJsonManager.corp_name; //생산처
@@ -389,10 +400,6 @@ namespace PopProject.MessageBox
                         //실수요자
                         if (consumCheck)
                         {
-                            ClsUc_완제품명세서_Control7구룡실수요자 완제품명세서_구룡실수요자 = new ClsUc_완제품명세서_Control7구룡실수요자();
-                            ClsUc_명세서_Report7구룡실수요자 명세서양식_uc7구룡실수요자 = new ClsUc_명세서_Report7구룡실수요자();
-                            ClsUc_완제품명세서_Control7구룡실수요자.ProductReport pr7 = new ClsUc_완제품명세서_Control7구룡실수요자.ProductReport();
-                            
                             pr7.customSName = result["customSName"].ToString();      //거래처명
                             pr7.vendorName = detailitem.vendorName;                  //납품처명
                             pr7.membName = consumerModel.membName;                   //이름
@@ -427,8 +434,8 @@ namespace PopProject.MessageBox
                                 pr7.pStockKey = "0" + pr6.pStockKey;
                             }
 
-                            //총수량
-                            pr7.resultCount = consumerModel.orderCount.ToString();
+                            pr6.pplanCount = int.Parse(mainModel.pplanCount.ToString());//계획량
+                            pr7.resultCount = consumerModel.orderCount.ToString();//총수량
                             if (Convert.ToInt32(mainModel.sumPworkCount) > 0)
                             {
                                 pr7.resultCount = mainModel.sumPworkCount == 0 ? "" : mainModel.sumPworkCount + "";
@@ -448,56 +455,59 @@ namespace PopProject.MessageBox
                         }
                         else //일반생산
                         {
-                        pr6.customSName = result["customSName"].ToString();      //거래처명
-                        pr6.vendorName = detailitem.vendorName;                  //납품처명
-                        pr6.prodName = result["prodName"].ToString();            //품명
-                        pr6.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
-                        pr6.orderLast1 = pr6.orderLast.ToString("yyyy.MM.dd");   //납기일
-                        pr6.pSize = result["pSize"].ToString();                  //규격
-
-                        string memo = "";                                        
-                        memo = getMemo(SettingJsonManager.printItem);   //프린트 출력정보
-                        pr6.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
-
-                        pr6.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); //작성일자
-                        pr6.pStockKey = result["pStockKey"].ToString();        //재고키
-                        pr6.loadCount = "";                                    //파렛트당 적재수량
-                        pr6.LocationName = detailitem.LocationName;            //적재위치
-                        pr6.loadHeight = detailitem.LoadHeight;                //적재단수
-
-                        pr6.loadType = detailitem.LoadType;                    //적재방법
-                        if (box_count.Text.ToString().Length > 0)
-                        {
-                            pr6.loadCount = box_count.Text;
-                        }
-
-
-                        int keyLenth = 0;                                      //재고키
-                        keyLenth = 10 - pr6.pStockKey.Length;   
-
-                        for (var index = 1; index <= keyLenth; index++)
-                        {
-                            pr6.pStockKey = "0" + pr6.pStockKey;
-                        }
-
-                        pr6.resultCount = result["resultCount"].ToString();    //총수량
-                        if (Convert.ToInt32(mainModel.sumPworkCount) > 0)
-                        {
-                            pr6.resultCount = mainModel.sumPworkCount == 0 ? "" : mainModel.sumPworkCount + "";
-                        }
-                        //총수량 표현 미체크
-                        if (!SettingJsonManager.count_check)
-                        {
-                            pr6.resultCount = "";
-                        }
-
-                        완제품명세서_구룡.ViewModel = pr6;
-                        완제품명세서_구룡.Set_BarCode(mainModel.orderKey.ToString());
-                        Grid.SetRow(완제품명세서_구룡, 1);
-                        명세서양식_uc6구룡.ItemPanel.Children.Add(완제품명세서_구룡);
-                        Set_FixedPage.Children.Add(명세서양식_uc6구룡 as UIElement);
+                            pr6.customSName = result["customSName"].ToString();      //거래처명
+                            pr6.vendorName = detailitem.vendorName;                  //납품처명
+                            pr6.prodName = result["prodName"].ToString();            //품명
+                            pr6.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
+                            pr6.orderLast1 = pr6.orderLast.ToString("yyyy.MM.dd");   //납기일
+                            pr6.pSize = result["pSize"].ToString();                  //규격
+                           
+                            Console.WriteLine("비고란 정보 : " + SettingJsonManager.printItem);
+                            string memo = "";                                        
+                            memo = getMemo(SettingJsonManager.printItem);   //프린트 출력정보
+                            pr6.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
+                           
+                            pr6.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); //작성일자
+                            pr6.pStockKey = result["pStockKey"].ToString();        //재고키
+                            pr6.loadCount = "";                                    //파렛트당 적재수량
+                            pr6.LocationName = detailitem.LocationName;            //적재위치
+                            pr6.loadHeight = detailitem.LoadHeight;                //적재단수
+                           
+                            pr6.loadType = detailitem.LoadType;                    //적재방법
+                            if (box_count.Text.ToString().Length > 0)
+                            {
+                                pr6.loadCount = box_count.Text;
+                            }
+                           
+                           
+                            int keyLenth = 0;                                      //재고키
+                            keyLenth = 10 - pr6.pStockKey.Length;   
+                           
+                            for (var index = 1; index <= keyLenth; index++)
+                            {
+                                pr6.pStockKey = "0" + pr6.pStockKey;
+                            }
+                           
+                            pr6.pplanCount = int.Parse(mainModel.pplanCount.ToString());//계획량
+                            pr6.resultCount = result["resultCount"].ToString();    //총수량
+                            if (Convert.ToInt32(mainModel.sumPworkCount) > 0)
+                            {
+                                pr6.resultCount = mainModel.sumPworkCount == 0 ? "" : Convert.ToInt32(mainModel.sumPworkCount).ToString("N0");
+                            }
+                            //총수량 표현 미체크
+                            if (!SettingJsonManager.count_check)
+                            {
+                                pr6.resultCount = "";
+                            }
+                           
+                            완제품명세서_구룡.ViewModel = pr6;
+                            완제품명세서_구룡.Set_BarCode(mainModel.orderKey.ToString());
+                            Grid.SetRow(완제품명세서_구룡, 1);
+                            명세서양식_uc6구룡.ItemPanel.Children.Add(완제품명세서_구룡);
+                            Set_FixedPage.Children.Add(명세서양식_uc6구룡 as UIElement);
                         }
                     }
+
                     //대세물산
                     else if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
                     {
@@ -765,64 +775,113 @@ namespace PopProject.MessageBox
         {
             string memo = "";
             string[] print = printItem.Split(new string[] { "|" }, StringSplitOptions.None); //1|6|8|12
-            for (int i = 0; i < print.Length; i++)
 
+            if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
             {
-                //3번째 마다 줄바꾸기(Enter)
-                if(i!=0 && i%3 == 0) 
-                {
-                    memo += "\n";
-                }
+                //순서대로 정렬
+                string[] numbers = printItem.Split('|');
+                int[] intArray = Array.ConvertAll(numbers, int.Parse);
+                Array.Sort(intArray);
+                string sortedPrintItem = string.Join("|", intArray);
+                print = sortedPrintItem.Split(new string[] { "|" }, StringSplitOptions.None);
+            }
 
-                switch (print[i])
+            for (int i = 0; i < print.Length; i++)
+            {
+                if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
                 {
-                    case "1": //필름 No
-                        memo += string.IsNullOrEmpty(detailitem.filmNo) ? "" : detailitem.filmNo + " / ";
-                        break;
-                    case "2": //코팅
-                        memo += string.IsNullOrEmpty(detailitem.CoatingType) ? "" : detailitem.CoatingType + " / ";
-                        break;
-                    case "3": //조판No
-                        memo += string.IsNullOrEmpty(detailitem.PrintNo) ? "" : detailitem.PrintNo + " / ";
-                        break;
-                    case "4": //조판위치
-                        memo += string.IsNullOrEmpty(detailitem.Printposition) ? "" : detailitem.Printposition + " / "; ;
-                        break;
-                    case "5": //목형No
-                        memo += string.IsNullOrEmpty(detailitem.PushingNo) ? "" : detailitem.PushingNo + " / "; ;
-                        break;
-                    case "6": //목형위치
-                        memo += string.IsNullOrEmpty(detailitem.Pushingposition) ? "" : detailitem.Pushingposition + " / ";
-                        break;
-                    case "7": //인쇄랙도
-                        memo += string.IsNullOrEmpty(detailitem.ColorType) ? "" : detailitem.ColorType + " / ";
-                        break;
-                    case "8": //접합방법
-                        memo += string.IsNullOrEmpty(detailitem.ConnetingType) ? "" : detailitem.ConnetingType + " / ";
-                        break;
-                    case "9": //손잡이
-                        memo += string.IsNullOrEmpty(detailitem.handChk) ? "" : detailitem.handChk + " / ";
-                        break;
-                    case "10": //포장매수
-                        memo += string.IsNullOrEmpty(detailitem.PackCount + "") ? "" : detailitem.PackCount + "매 / ";
-                        break;
-                    case "11": //포장방법
-                        memo += string.IsNullOrEmpty(detailitem.PackType) ? "" : detailitem.PackType + " / ";
-                        break;
-                    case "12": //파렛트 종류
-                        memo += string.IsNullOrEmpty(detailitem.PalletType) ? "" : detailitem.PalletType + " / ";
-                        break;
-                    case "13": //적재단수
-                        memo += string.IsNullOrEmpty(detailitem.LoadHeight) ? "" : detailitem.LoadHeight + " / ";
-                        break;
-                    case "14": //적재방법
-                        memo += string.IsNullOrEmpty(detailitem.LoadType) ? "" : detailitem.LoadType + " / ";
-                        break;
-                    case "15": //메모
-                        memo += string.IsNullOrEmpty(detailitem.UserMemo) ? "" : detailitem.LoadType + " / ";
-                        break;
+                    switch (print[i])
+                    {
+
+                        case "1": //접합방법
+                            memo += string.IsNullOrEmpty(detailitem.ConnetingType) ? "" : detailitem.ConnetingType + " / ";
+                            break;
+                        case "2": //코팅
+                            memo += string.IsNullOrEmpty(detailitem.CoatingType) ? "" : detailitem.CoatingType + " / ";
+                            break;
+                        case "3": //밴딩매수
+                            memo += string.IsNullOrEmpty(detailitem.PackCount + "") ? "" : detailitem.PackCount + "매 / ";
+                            break;
+                        case "4": //적재방법
+                            memo += string.IsNullOrEmpty(detailitem.LoadType) ? "" : detailitem.LoadType + " / ";
+                            break;
+                        case "5": //적재단수
+                            memo += string.IsNullOrEmpty(detailitem.LoadHeight) ? "" : detailitem.LoadHeight + " / ";
+                            break;
+                        case "6": //파렛트 종류
+                            memo += string.IsNullOrEmpty(detailitem.PalletType) ? "" : detailitem.PalletType + " / ";
+                            break;
+                        case "7": //손잡이
+                            memo += string.IsNullOrEmpty(detailitem.handChk) ? "" : detailitem.handChk + " / ";
+                            break;
+                        case "8": //밴딩방법
+                            memo += string.IsNullOrEmpty(detailitem.PackType) ? "" : detailitem.PackType + " / ";
+                            break;
+                        case "9": //목형No
+                            memo += string.IsNullOrEmpty(detailitem.PushingNo) ? "" : detailitem.PushingNo + " / "; ;
+                            break;
+                        
+                    }
+                }
+                else
+                {
+                    //3번째 마다 줄바꾸기(Enter)
+                    if (i != 0 && i % 3 == 0)
+                    {
+                        memo += "\n";
+                    }
+
+                    switch (print[i])
+                    {
+                        case "1": //필름 No
+                            memo += string.IsNullOrEmpty(detailitem.filmNo) ? "" : detailitem.filmNo + " / ";
+                            break;
+                        case "2": //코팅
+                            memo += string.IsNullOrEmpty(detailitem.CoatingType) ? "" : detailitem.CoatingType + " / ";
+                            break;
+                        case "3": //조판No
+                            memo += string.IsNullOrEmpty(detailitem.PrintNo) ? "" : detailitem.PrintNo + " / ";
+                            break;
+                        case "4": //조판위치
+                            memo += string.IsNullOrEmpty(detailitem.Printposition) ? "" : detailitem.Printposition + " / "; ;
+                            break;
+                        case "5": //목형No
+                            memo += string.IsNullOrEmpty(detailitem.PushingNo) ? "" : detailitem.PushingNo + " / "; ;
+                            break;
+                        case "6": //목형위치
+                            memo += string.IsNullOrEmpty(detailitem.Pushingposition) ? "" : detailitem.Pushingposition + " / ";
+                            break;
+                        case "7": //인쇄랙도
+                            memo += string.IsNullOrEmpty(detailitem.ColorType) ? "" : detailitem.ColorType + " / ";
+                            break;
+                        case "8": //접합방법
+                            memo += string.IsNullOrEmpty(detailitem.ConnetingType) ? "" : detailitem.ConnetingType + " / ";
+                            break;
+                        case "9": //손잡이
+                            memo += string.IsNullOrEmpty(detailitem.handChk) ? "" : detailitem.handChk + " / ";
+                            break;
+                        case "10": //포장매수
+                            memo += string.IsNullOrEmpty(detailitem.PackCount + "") ? "" : detailitem.PackCount + "매 / ";
+                            break;
+                        case "11": //포장방법
+                            memo += string.IsNullOrEmpty(detailitem.PackType) ? "" : detailitem.PackType + " / ";
+                            break;
+                        case "12": //파렛트 종류
+                            memo += string.IsNullOrEmpty(detailitem.PalletType) ? "" : detailitem.PalletType + " / ";
+                            break;
+                        case "13": //적재단수
+                            memo += string.IsNullOrEmpty(detailitem.LoadHeight) ? "" : detailitem.LoadHeight + " / ";
+                            break;
+                        case "14": //적재방법
+                            memo += string.IsNullOrEmpty(detailitem.LoadType) ? "" : detailitem.LoadType + " / ";
+                            break;
+                        case "15": //메모
+                            memo += string.IsNullOrEmpty(detailitem.UserMemo) ? "" : detailitem.LoadType + " / ";
+                            break;
+                    }
                 }
             }
+
             return memo;
         }
 

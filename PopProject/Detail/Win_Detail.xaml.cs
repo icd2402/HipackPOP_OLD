@@ -1999,6 +1999,9 @@ namespace PopProject.Detail
                                 case "1자6종구":
                                     jonggu.Source = new BitmapImage(new Uri(@"/img/1자6종구.png", UriKind.Relative));
                                     break;
+                                case "5종구+6종구":
+                                    jonggu.Source = new BitmapImage(new Uri(@"/img/5종구+6종구.png", UriKind.Relative));
+                                    break;
                                 default:
                                     jonggu.Visibility = Visibility.Collapsed;
                                     break;
