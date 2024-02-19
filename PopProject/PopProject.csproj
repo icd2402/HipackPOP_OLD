@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.382</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.387</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>383</ApplicationRevision>
+    <ApplicationRevision>388</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -1533,6 +1533,7 @@
     <Resource Include="img\bn_02a.png" />
     <None Include="Connected Services\ServiceReference_khbox\Access_MiddleWare_CRUD1.disco" />
     <Resource Include="img\5종구+6종구.PNG" />
+    <Resource Include="img\4종구+11자4종구.PNG" />
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

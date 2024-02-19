@@ -81,6 +81,7 @@ namespace PopProject.Util
         public static string SerialName1 { get; set; }
         public static int consumCount { get; set; }
         public static bool dbUse { get; set; }
+        public static bool detailPass { get; set; }
 
         // JSON 파일 경로
         public static string filePath { get; set; }
@@ -248,6 +249,8 @@ namespace PopProject.Util
                 consumCount = jObject.ContainsKey("consumCount") ? Convert.ToInt32(jObject["consumCount"]) : 0;
                 // dbUse 없는 경우 false
                 dbUse = jObject.ContainsKey("dbUse") ? bool.Parse(jObject["dbUse"].ToString()) : false;
+                // detailPass 없는 경우 false
+                detailPass = jObject.ContainsKey("detailPass") ? bool.Parse(jObject["detailPass"].ToString()) : false;
 
                 LogManager.Info("json → 셋팅정보(Class) Load 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
@@ -344,7 +347,9 @@ namespace PopProject.Util
                                 {"authKey", string.IsNullOrEmpty(authKey) == false ? authKey : ""},
                                 {"SerialName1", string.IsNullOrEmpty(SerialName1) == false ? SerialName1 : ""},
                                 {"consumCount", consumCount.ToString()},
-                                {"dbUse", dbUse.ToString() }
+                                {"dbUse", dbUse.ToString() },
+                                {"detailPass", detailPass.ToString()}
+
                             };
 
                 //인증코드 파일 작성

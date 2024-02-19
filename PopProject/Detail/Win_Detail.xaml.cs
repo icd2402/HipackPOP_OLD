@@ -61,12 +61,13 @@ namespace PopProject.Detail
 
         private int 작업지시;
         private bool consumer = false;
+        private bool MemoLock = true;
 
-
+        //화면 더블클릭, 인풋창 에서 입장
         public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v, bool Barcod) //메인모델, 참고사항, 계획건, 듀얼모니터사용, 바코드 유무
         {
             InitializeComponent();
-
+            
             this.mainModel = mainModel;
             this.workList = workList;
             monitorcheck = v;
@@ -79,12 +80,13 @@ namespace PopProject.Detail
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
 
-
+            Console.WriteLine("ProdID : " + mainModel.prodID);
+            
             //실수요자
             consumer = mainModel.bMember;
 
             //오주포장 일때 옵션
-            if (SettingJsonManager.corp_name.Equals("오주포장"))
+            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
             {
                 tb파렛트적재높이.Text = this.mainModel.PalletHeight;
                 tb파렛트적재매수.Text = this.mainModel.PalletCount;
@@ -207,7 +209,7 @@ namespace PopProject.Detail
             PopSearchPhoto(); //인쇄사양
         }
 
-        //실수요자 input에서 상세화면 클릭시 
+        //실수요자 input에서 입장
         public Win_Detail(MainModel mainModel, string special, ConsumerModel consumerModel, bool detail_check, bool v)
         {
             InitializeComponent();
@@ -280,7 +282,7 @@ namespace PopProject.Detail
                 int p4Recipe = 0;
                 int spare2 = 0;
                 int spare3 = 0;
-                int spare4 = 0;
+                int slotter = 0;
                 int dRagista = 0;
                 int printerPull1 = 0;
                 int printerRoll1 = 0;
@@ -290,10 +292,10 @@ namespace PopProject.Detail
                 int printerRoll3 = 0;
                 int printerPull4 = 0;
                 int printerRoll4 = 0;
+                int spare4 = 0;
+                int spare5 = 0;
                 int spare6 = 0;
                 int spare7 = 0;
-                int spare8 = 0;
-                int spare9 = 0;
                 int feederGap = 0;
                 int feederRoll = 0;
                 int slotterSubGap = 0;
@@ -301,86 +303,125 @@ namespace PopProject.Detail
                 int slotterConnection = 0;
                 int dieCutterRollGap = 0;
                 int dieCutterConnectionGap = 0;
-                int spare10 = 0;
                 int gluerbeltF1 = 0;
                 int gluerbeltF2 = 0;
                 int gluerPressA = 0;
                 int gluerPressB = 0;
                 int gluerPE = 0;
-                int spare11 = 0;
                 int bRSub = 0;
                 int bRMain = 0;
                 int bRConnection = 0;
                 int bRmiddle = 0;
+                int spare8 = 0;
+                int spare9 = 0;
+                int spare10 = 0;
+                int spare11 = 0;
+                int spare12 = 0;
+                int spare13 = 0;
+                int spare14 = 0;
+                int totalCount1 = 0;
+                int totalCount2 = 0;
+                int count1 = 0;
+                int count2 = 0;
 
-                JArray Data_Jarry = JArray.Parse(returnData.리턴값);
-                foreach (JObject result in Data_Jarry)
+
+                try
                 {
-                    ProdID = result["prodID"].ToString();
-                    machineName = result["MachineName"].ToString();
+                    JArray Data_Jarry = JArray.Parse(returnData.리턴값);
+                    foreach (JObject result in Data_Jarry)
+                    {
+                        ProdID = result["prodID"].ToString();
+                        machineName = result["MachineName"].ToString();
+                        modelNum = Convert.ToInt32(result["ModelNum"]);
+                        workPlan1 = Convert.ToInt32(result["WorkPlan1"]);
+                        workPlan2 = Convert.ToInt32(result["WorkPlan2"]);
+                        boxType = Convert.ToInt32(result["BoxType"]);
+                        pock = Convert.ToInt32(result["Pock"]);
+                        jang = Convert.ToInt32(result["Jang"]);
+                        go = Convert.ToInt32(result["Go"]);
+                        gap = Convert.ToInt32(result["Gap"]);
+                        wing = Convert.ToInt32(result["Wing"]);
+                        cutting = Convert.ToInt32(result["Cutting"]);
+                        saveDone = Convert.ToInt32(result["SaveDone"]);
+                        workSpeed = Convert.ToInt32(result["WorkSpeed"]);
+                        saveState = Convert.ToInt32(result["SaveState"]);
+                        spare = Convert.ToInt32(result["spare"]);
 
-                    modelNum = Convert.ToInt32(result["ModelNum"]);
-                    workPlan1 = Convert.ToInt32(result["WorkPlan1"]);
-                    workPlan2 = Convert.ToInt32(result["WorkPlan2"]);
-                    boxType = Convert.ToInt32(result["BoxType"]);
-                    pock = Convert.ToInt32(result["Pock"]);
-                    jang = Convert.ToInt32(result["Jang"]);
-                    go = Convert.ToInt32(result["Go"]);
-                    gap = Convert.ToInt32(result["Gap"]);
-                    wing = Convert.ToInt32(result["Wing"]);
-                    cutting = Convert.ToInt32(result["Cutting"]);
-                    saveDone = Convert.ToInt32(result["SaveDone"]);
-                    workSpeed = Convert.ToInt32(result["WorkSpeed"]);
-                    saveState = Convert.ToInt32(result["SaveState"]);
-                    spare = Convert.ToInt32(result["spare"]);
+                        aRecipe = Convert.ToInt32(Convert.ToSingle(result["aRecipe"]) * 10);     //A
+                        bRecipe = Convert.ToInt32(Convert.ToSingle(result["bRecipe"]) * 10);     //B
+                        cRecipe = Convert.ToInt32(Convert.ToSingle(result["cRecipe"]) * 10);     //C
+                        dRecipe = Convert.ToInt32(Convert.ToSingle(result["dRecipe"]) * 10);     //D
+                        eRecipe = Convert.ToInt32(Convert.ToSingle(result["eRecipe"]) * 10);     //E
+                        f1Recipe = Convert.ToInt32(Convert.ToSingle(result["f1Recipe"]) * 10);   //F1
+                        f2Recipe = Convert.ToInt32(Convert.ToSingle(result["f2Recipe"]) * 10);   //F2
+                        g2pRecipe = Convert.ToInt32(Convert.ToSingle(result["g2pRecipe"]) * 10); //G
+                        oRecipe = Convert.ToInt32(Convert.ToSingle(result["oRecipe"]) * 10);     //O
 
-                    aRecipe = Convert.ToInt32(Convert.ToSingle(result["aRecipe"]) * 10);     //A
-                    bRecipe = Convert.ToInt32(Convert.ToSingle(result["bRecipe"]) * 10);     //B
-                    cRecipe = Convert.ToInt32(Convert.ToSingle(result["cRecipe"]) * 10);     //C
-                    dRecipe = Convert.ToInt32(Convert.ToSingle(result["dRecipe"]) * 10);     //D
-                    eRecipe = Convert.ToInt32(Convert.ToSingle(result["eRecipe"]) * 10);     //E
-                    f1Recipe = Convert.ToInt32(Convert.ToSingle(result["f1Recipe"]) * 10);   //F1
-                    f2Recipe = Convert.ToInt32(Convert.ToSingle(result["f2Recipe"]) * 10);   //F2
-                    g2pRecipe = Convert.ToInt32(Convert.ToSingle(result["g2pRecipe"]) * 10); //G
-                    oRecipe = Convert.ToInt32(Convert.ToSingle(result["oRecipe"]) * 10);     //O
+                        p1Recipe = Convert.ToInt32(Convert.ToSingle(result["p1Recipe"]) * 10);   //P1
+                        p2pRecipe = Convert.ToInt32(Convert.ToSingle(result["p2pRecipe"]) * 10); //P2
+                        p3Recipe = Convert.ToInt32(Convert.ToSingle(result["p3Recipe"]) * 10);   //P3
+                        p4Recipe = Convert.ToInt32(Convert.ToSingle(result["p4Recipe"]) * 10);   //P4
 
-                    p1Recipe = Convert.ToInt32(Convert.ToSingle(result["p1Recipe"]) * 10);   //P1
-                    p2pRecipe = Convert.ToInt32(Convert.ToSingle(result["p2pRecipe"]) * 10); //P2
-                    p3Recipe = Convert.ToInt32(Convert.ToSingle(result["p3Recipe"]) * 10);   //P3
-                    p4Recipe = Convert.ToInt32(Convert.ToSingle(result["p4Recipe"]) * 10);   //P4
+                        spare2 = Convert.ToInt32(Convert.ToSingle(result["spare2"]) * 10); //spare
+                        spare3 = Convert.ToInt32(Convert.ToSingle(result["spare3"]) * 10); //spare
 
-                    dRagista = Convert.ToInt32(Convert.ToSingle(result["@DieCutter"]) * 10); //D레지스타
+                        slotter = Convert.ToInt32(Convert.ToSingle(result["@Slotter"]) * 10);
+                        dRagista = Convert.ToInt32(Convert.ToSingle(result["@DieCutter"]) * 10); //D레지스타
 
-                    printerPull1 = Convert.ToInt32(Convert.ToSingle(result["PrinterPull1"]) * 10);  //1도 롤
-                    printerRoll1 = Convert.ToInt32(Convert.ToSingle(result["PrinterRoll1"]) * 10);  //1도 
-                    printerPull2 = Convert.ToInt32(Convert.ToSingle(result["PrinterPull2"]) * 10);  //2도 롤
-                    printerRoll2 = Convert.ToInt32(Convert.ToSingle(result["PrinterRoll2"]) * 10);  //2도 
-                    printerPull3 = Convert.ToInt32(Convert.ToSingle(result["PrinterPull3"]) * 10);  //3도 롤
-                    printerRoll3 = Convert.ToInt32(Convert.ToSingle(result["PrinterRoll3"]) * 10);  //3도 
-                    printerPull4 = Convert.ToInt32(Convert.ToSingle(result["PrinterPull4"]) * 10);  //4도 롤
-                    printerRoll4 = Convert.ToInt32(Convert.ToSingle(result["PrinterRoll4"]) * 10);  //4도
+                        printerPull1 = Convert.ToInt32(Convert.ToSingle(result["PrinterPull1"]) * 10);  //1도 롤
+                        printerRoll1 = Convert.ToInt32(Convert.ToSingle(result["PrinterRoll1"]) * 10);  //1도 
+                        printerPull2 = Convert.ToInt32(Convert.ToSingle(result["PrinterPull2"]) * 10);  //2도 롤
+                        printerRoll2 = Convert.ToInt32(Convert.ToSingle(result["PrinterRoll2"]) * 10);  //2도 
+                        printerPull3 = Convert.ToInt32(Convert.ToSingle(result["PrinterPull3"]) * 10);  //3도 롤
+                        printerRoll3 = Convert.ToInt32(Convert.ToSingle(result["PrinterRoll3"]) * 10);  //3도 
+                        printerPull4 = Convert.ToInt32(Convert.ToSingle(result["PrinterPull4"]) * 10);  //4도 롤
+                        printerRoll4 = Convert.ToInt32(Convert.ToSingle(result["PrinterRoll4"]) * 10);  //4도
 
-                    feederGap = Convert.ToInt32(Convert.ToSingle(result["FeederGap"]) * 10);           //피다진입 갭
-                    feederRoll = Convert.ToInt32(Convert.ToSingle(result["FeederRoll"]) * 10);         //피다진입 롤
+                        spare4 = Convert.ToInt32(Convert.ToSingle(result["spare4"]) * 10); //spare
+                        spare5 = Convert.ToInt32(Convert.ToSingle(result["spare5"]) * 10); //spare
+                        spare6 = Convert.ToInt32(Convert.ToSingle(result["spare6"]) * 10); //spare
+                        spare7 = Convert.ToInt32(Convert.ToSingle(result["spare7"]) * 10); //spare
 
-                    slotterSubGap = Convert.ToInt32(Convert.ToSingle(result["SlotterSubGap"]) * 10);        //슬로다 보조 갭
-                    slotterMiddleGap = Convert.ToInt32(Convert.ToSingle(result["SlotterMiddleGap"]) * 10);  //슬로다 본 갭
-                    slotterConnection = Convert.ToInt32(Convert.ToSingle(result["SlotterConnection"]) * 10);//슬로다 연결갭
+                        feederGap = Convert.ToInt32(Convert.ToSingle(result["FeederGap"]) * 10);           //피다진입 갭
+                        feederRoll = Convert.ToInt32(Convert.ToSingle(result["FeederRoll"]) * 10);         //피다진입 롤
 
-                    dieCutterRollGap = Convert.ToInt32(Convert.ToSingle(result["DieCutterRollGap"]) * 10); //다이캇타 롤 갭
-                    dieCutterConnectionGap = Convert.ToInt32(Convert.ToSingle(result["GluerbeltF1"]) * 10); //다이캇타 연결 갭
+                        slotterSubGap = Convert.ToInt32(Convert.ToSingle(result["SlotterSubGap"]) * 10);        //슬로다 보조 갭
+                        slotterMiddleGap = Convert.ToInt32(Convert.ToSingle(result["SlotterMiddleGap"]) * 10);  //슬로다 본 갭
+                        slotterConnection = Convert.ToInt32(Convert.ToSingle(result["SlotterConnection"]) * 10);//슬로다 연결갭
 
-                    gluerbeltF1 = Convert.ToInt32(Convert.ToSingle(result["GluerPressA"]) * 10);     //글루어벨트 진입 갭 F1
-                    gluerbeltF2 = Convert.ToInt32(Convert.ToSingle(result["GluerPressB"]) * 10);     //글루어벨트 진입 갭 F2
-                    gluerPressA = Convert.ToInt32(Convert.ToSingle(result["DieCutterRollA"]) * 10);  //글루어 프레스롤 A
-                    gluerPressB = Convert.ToInt32(Convert.ToSingle(result["DieCutterRollB"]) * 10);  //글루어 프레스롤 B
-                    gluerPE = Convert.ToInt32(Convert.ToSingle(result["GluerPE"]) * 10);             //글루어 PE
+                        dieCutterRollGap = Convert.ToInt32(Convert.ToSingle(result["DieCutterRollGap"]) * 10); //다이캇타 롤 갭
+                        dieCutterConnectionGap = Convert.ToInt32(Convert.ToSingle(result["GluerbeltF1"]) * 10); //다이캇타 연결 갭
+                                             //= Convert.ToInt32(Convert.ToSingle(result["GluerbeltF2"]) * 10); 
+                        gluerbeltF1 = Convert.ToInt32(Convert.ToSingle(result["GluerPressA"]) * 10);     //글루어벨트 진입 갭 F1
+                        gluerbeltF2 = Convert.ToInt32(Convert.ToSingle(result["GluerPressB"]) * 10);     //글루어벨트 진입 갭 F2
+                        gluerPressA = Convert.ToInt32(Convert.ToSingle(result["DieCutterRollA"]) * 10);  //글루어 프레스롤 A
+                        gluerPressB = Convert.ToInt32(Convert.ToSingle(result["DieCutterRollB"]) * 10);  //글루어 프레스롤 B
 
-                    bRSub = Convert.ToInt32(Convert.ToSingle(result["BRMain"]) * 10);           //보조괘선 갭  
-                    bRMain = Convert.ToInt32(Convert.ToSingle(result["BRConnection"]) * 10);    //본괘선 갭
-                    bRConnection = Convert.ToInt32(Convert.ToSingle(result["BRmiddle"]) * 10);  //연결롤 갭
-                    bRmiddle = Convert.ToInt32(Convert.ToSingle(result["spare8"]) * 10);        //중간롤 갭
+                        gluerPE = Convert.ToInt32(Convert.ToSingle(result["GluerPE"]) * 10);             //글루어 PE
+                             // = Convert.ToInt32(Convert.ToSingle(result["BRSub"]) * 10);           
+                        bRSub = Convert.ToInt32(Convert.ToSingle(result["BRMain"]) * 10);           //보조괘선 갭  
+                        bRMain = Convert.ToInt32(Convert.ToSingle(result["BRConnection"]) * 10);    //본괘선 갭
+                        bRConnection = Convert.ToInt32(Convert.ToSingle(result["BRmiddle"]) * 10);  //연결롤 갭
+                        bRmiddle = Convert.ToInt32(Convert.ToSingle(result["spare8"]) * 10);        //중간롤 갭
+
+                        spare9 = Convert.ToInt32(Convert.ToSingle(result["spare9"]) * 10); //spare
+                        spare10 = Convert.ToInt32(Convert.ToSingle(result["spare10"]) * 10); //spare
+                        spare11 = Convert.ToInt32(Convert.ToSingle(result["spare11"]) * 10); //spare
+                        spare12 = Convert.ToInt32(Convert.ToSingle(result["spare12"]) * 10); //spare
+                        spare13 = Convert.ToInt32(Convert.ToSingle(result["spare13"]) * 10); //spare
+                        spare14 = Convert.ToInt32(Convert.ToSingle(result["spare14"]) * 10); //spare
+
+                        totalCount1 = Convert.ToInt32(Convert.ToSingle(result["TotalCount1"]) * 1); 
+                        totalCount2 = Convert.ToInt32(Convert.ToSingle(result["TotalCount2"]) * 1); 
+                        count1 = Convert.ToInt32(Convert.ToSingle(result["Count1"]) * 1); 
+                        count2 = Convert.ToInt32(Convert.ToSingle(result["Count2"]) * 1); 
+                    }
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                
 
                 try
                 {
@@ -457,6 +498,16 @@ namespace PopProject.Detail
                             items.Add(bRMain);                 //본괘선 갭
                             items.Add(bRConnection);           //연결롤 갭
                             items.Add(bRmiddle);               //중간롤 갭
+                            items.Add(0);                      //spare9
+                            items.Add(0);                      //spare10
+                            items.Add(0);                      //spare11
+                            items.Add(0);                      //spare12
+                            items.Add(0);                      //spare13
+                            items.Add(0);                      //spare14
+                            items.Add(0);                      //TotalCount1
+                            items.Add(0);                      //TotalCount2
+                            items.Add(0);                      //Count1
+                            items.Add(0);                      //Count2
 
                             int WriteCount = items.Count() * 2;
                             byte[] bDts = wd.continuous_Write("%DB7600", WriteCount, items); //연속쓰기 시작점(D3800), 데이터 개수, 값
@@ -596,41 +647,6 @@ namespace PopProject.Detail
                         }
                     }
                 }
-
-                //if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.mercName.Equals("후렉소기"))
-                //{
-                //    switch (mainModel.paperGor.Replace("골", "").Trim())
-                //    {
-                //        case "AB":
-                //        case "BA":
-                //            갭 = 70;
-                //            break;
-
-                //        case "BB":
-                //            갭 = 60;
-                //            break;
-
-                //        case "A":
-                //            갭 = 50;
-                //            break;
-
-                //        case "EB":
-                //            갭 = 40;
-                //            break;
-
-                //        case "B":
-                //            갭 = 30;
-                //            break;
-
-                //        case "E":
-                //            갭 = 20;
-                //            break;
-
-                //        default:
-                //            break;
-                //    }
-                //}
-
 
                 //미미
                 미미 = 30;
@@ -840,10 +856,10 @@ namespace PopProject.Detail
                         case 26: //P4
                             itemModel.p4Recipe = ValueConvert(data, true);
                             break;
-                        case 27: //spare
+                        case 27: //spare2
                             itemModel.spare2 = ValueConvert(data, true);
                             break;
-                        case 28: //spare
+                        case 28: //spare3
                             itemModel.spare3 = ValueConvert(data, true);
                             break;
                         case 29: //슬로타
@@ -876,13 +892,13 @@ namespace PopProject.Detail
                         case 38: //프린터 프레스 롤
                             itemModel.PrinterRoll4 = ValueConvert(data, true);
                             break;
-                        case 39: //spare
+                        case 39: //spare4
                             itemModel.spare4 = ValueConvert(data, true);
                             break;
-                        case 40: //spare
+                        case 40: //spare5
                             itemModel.spare5 = ValueConvert(data, true);
                             break;
-                        case 41: //spare
+                        case 41: //spare6
                             itemModel.spare6 = ValueConvert(data, true);
                             break;
                         case 42: //spare
@@ -982,7 +998,7 @@ namespace PopProject.Detail
 
                 Console.WriteLine("CNS수신 데이터(input) : " + continuous_read); //수신값 확인용
 
-
+                //CNS값 요청 성공시 DB 업데이트
                 if (cnsProcessing)
                 {
                     ReturnModel returnData = ServiceModel.GetData(
@@ -1099,6 +1115,7 @@ namespace PopProject.Detail
                 mainSock.Close();
             }
         }
+
 
         private string ValueConvert(string data, bool intIsFalse)
         {
@@ -1905,16 +1922,21 @@ namespace PopProject.Detail
 
 
                         //메모
-                        //우리6사는 메소 사용 안함 (박소연대리? 요청)
+                        //우리6사는 메모 사용 안함 (박소연대리? 요청)
                         if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("우리포장") || SettingJsonManager.corp_name.Equals("유램"))
                         {
                             tb공정별.Text = tb공정별.Text.ToString();
                         }
                         else
                         {
-                            if (result["prodMemo"] != null)
+                            Console.WriteLine("prodMemo : " + result["prodMemo"]);
+                            if (result["prodMemo"] != null && result["prodMemo"].ToString() != "")
                             {
-                                tb공정별.Text = tb공정별.Text.ToString() + "\n" + "메  모 : " + result["prodMemo"].ToString();
+                                if (MemoLock)
+                                {
+                                    tb공정별.Text = tb공정별.Text.ToString() + "\n" + "메  모 : " + result["prodMemo"].ToString();
+                                }
+                                MemoLock = false;
                             }
                         }
                         int count = 17;
@@ -2001,6 +2023,9 @@ namespace PopProject.Detail
                                     break;
                                 case "5종구+6종구":
                                     jonggu.Source = new BitmapImage(new Uri(@"/img/5종구+6종구.png", UriKind.Relative));
+                                    break;
+                                case "4종구+11자4종구":
+                                    jonggu.Source = new BitmapImage(new Uri(@"/img/4종구+11자4종구.png", UriKind.Relative));
                                     break;
                                 default:
                                     jonggu.Visibility = Visibility.Collapsed;
@@ -2445,7 +2470,7 @@ namespace PopProject.Detail
             clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D353D"));
 
             Main.passCheck = false;
-            CountManager.SendMsg(SettingJsonManager.mercName, mainModel.orderKey.ToString() + "^@"); //넘기기 (설비명, 오더키, ^@)
+            CountManager.SendMsg(SettingJsonManager.mercName, mainModel.orderKey.ToString() + "^@"); //넘기기 (설비명, 오더키+^@)
             Console.WriteLine("넘기기 정보 : " + SettingJsonManager.mercName + mainModel.orderKey.ToString() + "^@");
         }
 
@@ -2531,7 +2556,7 @@ namespace PopProject.Detail
 
         bool cnsProcessing = false;
         //데이터 수신 요청
-        private void CNSDataRead() //데이터 수신 요청
+        private void CNSDataRead() 
         {
             if (SettingJsonManager.Plc) //PLC 사용 체크일때
             {

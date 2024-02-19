@@ -78,6 +78,7 @@ namespace PopProject.Input
             plc.IsChecked = SettingJsonManager.Plc; // PLC사용
             boxCheck.IsChecked = SettingJsonManager.boxCheck; //상자수 사용
             completeValue.IsChecked = SettingJsonManager.completeValue_checked; //완료항목 제거
+            detailPass.IsChecked = SettingJsonManager.detailPass; //상세창 넘기기 사용
 
 
             //자재명세서 출력정보 화면
@@ -301,6 +302,18 @@ namespace PopProject.Input
             {
                 plcText.Visibility = Visibility.Collapsed;
                 plc.Visibility = Visibility.Collapsed;
+            }
+
+            //오주포장일때 상세창 넘기기 선택 체크박스 보이도록함
+            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
+            {
+                detailPass.Visibility = Visibility.Visible;
+                detailPass.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                detailPass.Visibility = Visibility.Collapsed;
+                detailPass.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1156,6 +1169,13 @@ namespace PopProject.Input
             SettingJsonManager.SaveJsonFile();
         }
 
+        //상세화면 넘기기
+        private void detailPass_Checked(object sender, RoutedEventArgs e)
+        {
+            SettingJsonManager.detailPass = detailPass.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
+        }
+
         //완료항목 제거
         private void completeValue_checked(object sender, RoutedEventArgs e)
         {
@@ -1391,7 +1411,7 @@ namespace PopProject.Input
             return settindValue;
         }
 
-
+       
     }
 
 }

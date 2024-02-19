@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.AspNet.SignalR.Client;
+using Newtonsoft.Json;
 
 namespace PopProject.UserControl_
 {
@@ -44,6 +45,7 @@ namespace PopProject.UserControl_
         int arduconnCount = 0;
         private bool sortChecked = true;
         private DispatcherTimer timer;
+        private DispatcherTimer timer5;
         public static SerialPort arduSerial = new SerialPort();
         public static SerialPort arduSerial1 = new SerialPort();
         public static Win_input win_Input;
@@ -71,6 +73,7 @@ namespace PopProject.UserControl_
         string Url; //서비스 주소
         private double LastConunt;
         string popWorkList = ""; //생산계획리스트 SP명
+        public static string jsonString = "";
 
         public Main()
         {
@@ -79,6 +82,7 @@ namespace PopProject.UserControl_
                 InitializeComponent();
                 production = null;
 
+                Console.WriteLine("상자수 사용 : " + SettingJsonManager.boxCheck);
                 // 버전 번호를 텍스트 블록에 할당
                 //string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
                 //versionTextBlock.Text += version;
@@ -206,7 +210,8 @@ namespace PopProject.UserControl_
                     Timer_60s();        // 60초(1분) - POP 켜짐 신호 전송
                     Timer_300s();       // 300초(5분) - 계획/결과 갱신, 아두이노 연결 확인, 카운팅 값 전송
                     Timer_ycbox_1s();   // 1초 - 유창 기계(POP)별로 시간 다르게 계획/결과 갱신
-                    //Timer_Test(); //테스트용
+                    
+                    
                 }
                 else
                 {
@@ -269,6 +274,25 @@ namespace PopProject.UserControl_
                 _ = tbBarcode.Focus();
                 tbBarcode.SelectAll();
             }
+
+            //옵션에서 상세창 넘기기 체크 확인
+            //if (SettingJsonManager.detailPass)
+            //{
+            //    if (timer5 == null) //타이머가 생성되었는지 확인
+            //    {
+            //        Timer_1s_DetailPass(); //상세화면 넘기기 신호받는용
+            //        Console.WriteLine("넘기기 타이머 실행");
+            //    }
+            //}
+            //else
+            //{
+            //    if (timer5 != null) //타이머가 생성되었는지 확인
+            //    {
+            //        timer5.Stop(); //타이머를 중지
+            //        timer5 = null;
+            //        Console.WriteLine("넘기기 타이머 종료");
+            //    }
+            //}
         }
         #endregion
 
@@ -447,6 +471,22 @@ namespace PopProject.UserControl_
         }
         #endregion
 
+        // 타이머 1초 넘기기 신호
+        private void Timer_1s_DetailPass()
+        {
+            timer5 = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            timer5.Tick += new EventHandler(Timer_1s_DetailPass_Tick);
+            timer5.Start();
+        }
+
+        private void Timer_1s_DetailPass_Tick(object sender, EventArgs e)
+        {
+            //serviceDataRead();
+        }
+
         private void Timer_Test()
         {
             timer = new DispatcherTimer
@@ -470,30 +510,69 @@ namespace PopProject.UserControl_
             ResultSearchDate();
         }
 
-        // POP 프로그램 켜짐/꺼짐 상태 송신 // 확인
-        //private void InvokeMercName(string mercName, string v)
+        //넘기기 신호 조회(1초) 오주포장
+        //async Task serviceDataRead()
         //{
-        //    try
+        //    Console.WriteLine("넘기기 신호 읽는중 ---");
+        //    string jsonString = await CountManager.ReadMsg();
+        //    Dictionary<string, string> jsonData = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonString);
+
+        //    string popMerName = SettingJsonManager.mercName;
+
+        //    foreach (KeyValuePair<string, string> item in jsonData)
         //    {
-        //        if (SettingJsonManager.corp_name.Equals("광성수출포장") ||
-        //            SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
-        //            SettingJsonManager.corp_name.Equals("대세물산") ||
-        //            SettingJsonManager.corp_name.Equals("대세물산테스트") ||
-        //            SettingJsonManager.corp_name.Equals("유창포장") ||
-        //            SettingJsonManager.corp_name.Equals("유창포장테스트"))
+        //        if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
         //        {
-        //            popService(mercName, v);
+        //            MainModel model = new MainModel();
+
+        //            if (item.Key.Equals(SettingJsonManager.mercName))
+        //            {
+        //                if (item.Value.EndsWith("^@"))
+        //                {
+        //                    string orderKeyValue = item.Value.Replace("^@", ""); //Value값에 ^@ 제거
+        //                    string special = ""; //참고사항 초기화
+
+        //                    //오터키값 있으면
+        //                    if (orderKeyValue.Length > 1)
+        //                    {
+        //                        //workList 수량만큼 반복하여 일치하는 오더키 찾아서 special에 담기
+        //                        for (int i = 0; i < workList.Count; i++)
+        //                        {
+        //                            if (workList[i].orderKey.ToString().Equals(orderKeyValue))
+        //                            {
+        //                                model = workList[i];
+        //                                special += workList[i].ProcessTypeName + " 참고 사항 : " + workList[i].ProcessMemo + "|";
+        //                                break;
+        //                            }
+        //                        }
+        //                    }
+
+        //                    if (passCheck)
+        //                    {
+        //                        try
+        //                        {
+        //                            can.Visibility = Visibility.Visible; //화면 어둡게 처리
+        //                            Win_Detail win_detail = new Win_Detail(model, special, workList, SettingJsonManager.detail_check, false); //모델,참고사항,workList,듀얼모니터,바코드
+        //                            CountManager.SendMsg(SettingJsonManager.mercName, "0"); //현황판으로 데이터 전송
+        //                            win_detail.ShowDialog();
+
+        //                            win_Input = null;
+        //                            win_detail = null;
+        //                        }
+        //                        catch (Exception e1)
+        //                        {
+        //                            LogManager.Error("디테일 창 팝업 실패(넘기기) : " + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
+        //                            LogManager.Error("디테일 창 팝업 실패(넘기기) : " + e1.StackTrace, MethodBase.GetCurrentMethod().DeclaringType);
+        //                        }
+
+        //                        can.Visibility = Visibility.Collapsed;
+        //                    }
+        //                }
+        //            }
         //        }
-        //        else
-        //        {
-        //            SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); //invokeCount, DB명, 설비명, 문자
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        log.Error("POP 프로그램 켜짐/꺼짐 상태 전송 오류 : " + e.Message);
         //    }
         //}
+
 
         //넘기기 신호 받는용
         private void recive(string arg1, string arg2) //설비명, 데이터
@@ -538,8 +617,6 @@ namespace PopProject.UserControl_
                                             Win_Detail win_detail = new Win_Detail(model, special, workList, SettingJsonManager.detail_check, false); //모델,참고사항,workList,듀얼모니터,바코드
                                             win_detail.ShowDialog();
 
-                                            // selectWorkList();
-                                            // resultSearchDate();
                                             win_Input = null;
                                             win_detail = null;
                                         }
@@ -669,6 +746,8 @@ namespace PopProject.UserControl_
             {
                 str = Math.Abs(int.Parse(arduSerial.ReadLine().Trim())); //아두이노 카운터값 공백 제거 후 절댓값으로 변경
                 Console.WriteLine("아두이노 값(Main) : " + str); //실시간 값 확인용
+                LogManager.Info("아두이노 값(Main) : " + str, MethodBase.GetCurrentMethod().DeclaringType);
+
 
                 //생산중일때(생산정보 있을때)
                 if (production != null)
@@ -710,6 +789,7 @@ namespace PopProject.UserControl_
                             }
 
                             CountManager.SendMsg(SettingJsonManager.mercName, str.ToString()); //현황판으로 카운터 전송
+                            LogManager.Info("출력 값(매수) : " + str.ToString() + SettingJsonManager.boxCheck, MethodBase.GetCurrentMethod().DeclaringType);
                             Console.WriteLine("현황판으로 카운터(매수) 전송 값(Main) : " + SettingJsonManager.mercName + ", " + str); //실시간 값 확인용
 
                             if (SettingJsonManager.corp_name.Equals("광성수출포장") && SettingJsonManager.dbUse)
@@ -730,17 +810,16 @@ namespace PopProject.UserControl_
                             //아두이노 카운터값 있으면
                             if (str != 0)
                             {
-                                production.sumPworkCount = Convert.ToInt32(Math.Floor(str * pCnt)); //카운터값 * 통수
-                               
-                                //상자수 사용 체크시
+                                //옵션에서 상자 수 체크시 
                                 if (SettingJsonManager.boxCheck)
                                 {
-                                    //다시 통수값 나누어줌
-                                    if (pCnt >= 1)
-                                    {
-                                        production.sumPworkCount /= (float)pCnt;
-                                    }
+                                    production.sumPworkCount = Convert.ToInt32(str);
                                 }
+                                else
+                                {
+                                    production.sumPworkCount = Convert.ToInt32(Math.Floor(str * pCnt)); //카운터값 * 통수
+                                }
+
                                 production.presultCount = production.sumPworkCount;
                                 production.presultCount1 = production.sumPworkCount;
 
@@ -751,9 +830,19 @@ namespace PopProject.UserControl_
                                 }
 
                                 CountManager.SendMsg(SettingJsonManager.mercName, production.presultCount.ToString()); //현황판으로 카운터 전송
-                                Console.WriteLine("현황판으로 카운터(통수) 전송 값(Main) : " + SettingJsonManager.mercName + ", " + Convert.ToInt32(production.presultCount)); //실시간 값 확인용
+                                //LogManager.Info("출력값 (통수) : " + production.presultCount.ToString() + SettingJsonManager.boxCheck, MethodBase.GetCurrentMethod().DeclaringType);
 
-                                if(SettingJsonManager.corp_name.Equals("광성수출포장") && SettingJsonManager.dbUse)
+                                //실시간 값 확인용
+                                if (SettingJsonManager.boxCheck)
+                                {
+                                    Console.WriteLine("카운터(통수,상자수 체크) 전송 값(Main) : " + SettingJsonManager.mercName + ", " + Convert.ToInt32(production.presultCount)); 
+                                }
+                                else
+                                {
+                                    Console.WriteLine("카운터(통수,상자수 미체크) 전송 값(Main) : " + SettingJsonManager.mercName + ", " + Convert.ToInt32(production.presultCount));
+                                }
+
+                                if (SettingJsonManager.corp_name.Equals("광성수출포장") && SettingJsonManager.dbUse)
                                 {
                                     //RawData 저장(업체코드,설비명,데이터,오더키,수주키,제품ID)
                                     new LocalDBManager().SetRawData(SettingJsonManager.corp_id, SettingJsonManager.mercName, production.presultCount.ToString(), production.orderKey, production.prodID);
@@ -1150,7 +1239,7 @@ namespace PopProject.UserControl_
                                     }
 
                                 }
-                                catch (Exception e)
+                                catch (Exception)
                                 {
                                     listitem.WDIGCount = "입고   " + string.Format("{0:n0}", result["WDIGCount"]);
                                 }

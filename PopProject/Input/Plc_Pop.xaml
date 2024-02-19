@@ -15,8 +15,10 @@
         <TextBlock x:Name="ip" Text="192.168.7.7" TextAlignment="Left" Canvas.Top="5" Canvas.Left="10" Width="140" Height="25" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Background="#0000" MouseLeftButtonDown="ip_input"/>
 
         <TextBlock x:Name="거래처" Text="거래처" Canvas.Top="35" Canvas.Left="10" Width="260" Height="25" FontSize="19" TextAlignment="Left" Foreground="White" Background="#0000" FontFamily="/font/#KoPubDotum Bold"/>
-        <TextBlock x:Name="품명"  Text="품명" Canvas.Top="66" Canvas.Left="10" Width="310" Height="25" FontSize="19" TextAlignment="Left" Foreground="White" Background="#0000" FontFamily="/font/#KoPubDotum Bold"/>
-
+        <TextBlock x:Name="품명"  Text="품명" Canvas.Top="66" Canvas.Left="10" Width="224" Height="25" FontSize="19" TextAlignment="Left" Foreground="White" Background="#0000" FontFamily="/font/#KoPubDotum Bold"/>
+        <Border x:Name="CNS_IP" BorderThickness="2" Background="#495664" CornerRadius="2" BorderBrush="#43505E" Width="80" Height="30"   VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="IP_setting" Canvas.Left="236" Canvas.Top="66">
+            <TextBlock Text="IP 설정" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" FontFamily="/font/#KoPubDotum Light" Foreground="White" />
+        </Border>
         <Border  BorderThickness="2" Background="White" CornerRadius="5" BorderBrush="#FF747474" Width="100" Height="40"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="181" Canvas.Top="104" MouseLeftButtonDown="PLC_Read" MouseLeftButtonUp="Border_MouseLeftButtonUp" >
             <TextBlock Text="CNS 조회" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF565656" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium"  />
         </Border>

@@ -39,7 +39,7 @@ namespace PopProject.Util
             //연결 요청
             if (request)
             {
-                연결 = new HubConnection(주소); //연결 주소 설정
+                연결 = new HubConnection(주소); //연결 주소 설정C
                 허브 = 연결.CreateHubProxy("broadcasting"); //broadcasting이라는 허브프록시 생성
                 연결.StateChanged += Connection_StateChanged; //연결 상태가 변경될때 실행할 이벤트
                 연결.Closed += 연결_Closed; //연결이 닫힐때 실행할 이벤트

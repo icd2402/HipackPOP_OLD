@@ -63,6 +63,7 @@
                         <StackPanel Orientation="Horizontal"></StackPanel>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
+
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderThickness="1" BorderBrush="White"  Height="40" Margin="3,3,3,3" CornerRadius="5">
@@ -103,6 +104,7 @@
                 </Canvas>
 
                 <Image Source="/img/Dot.png" DockPanel.Dock="Top" VerticalAlignment="Top" Width="556" Height="8"/>
+
                 <DockPanel x:Name="dp"  DockPanel.Dock="Top" VerticalAlignment="Top" Width="556">
 
                     <Canvas x:Name="조판번호" DockPanel.Dock="Top" Height="20">
@@ -183,11 +185,13 @@
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>
                         <TextBlock x:Name="tb적재단수" Text="" FontSize="16" Canvas.Left="128" FontFamily="/font/#KoPubDotum Medium"/>
                     </Canvas>
+
                     <Canvas x:Name="적재방법" DockPanel.Dock="Top" Height="20">
                         <TextBlock Text="적재방법"  FontSize="16" Canvas.Left="30" Canvas.Top="1" FontFamily="/font/#KoPubBatang Light"/>
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>
                         <TextBlock x:Name="tb적재방법" Text="" FontSize="16" Canvas.Left="128" FontFamily="/font/#KoPubDotum Medium"/>
                     </Canvas>
+
                     <Canvas x:Name="파렛트적재매수" DockPanel.Dock="Top" Height="20" Visibility="Collapsed">
                         <TextBlock Text="파렛트 적재매수"  FontSize="16" Canvas.Left="30" Canvas.Top="1" FontFamily="/font/#KoPubBatang Light"/>
                         <TextBlock Text=":" FontSize="16" Canvas.Left="148" Canvas.Top="-2"/>
@@ -205,11 +209,13 @@
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>
                         <TextBlock x:Name="tb파렛트종류" Text="" FontSize="16" Canvas.Left="128" Foreground="Red" FontFamily="/font/#KoPubDotum Medium"/>
                     </Canvas>
+
                     <Canvas x:Name="파렛트규격" DockPanel.Dock="Top" Height="20">
                         <TextBlock Text="파렛트규격"  FontSize="16" Canvas.Left="30" Canvas.Top="1" FontFamily="/font/#KoPubBatang Light"/>
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>
                         <TextBlock x:Name="tb파렛트규격" Text="" FontSize="16" Canvas.Left="128" FontFamily="/font/#KoPubDotum Medium"/>
                     </Canvas>
+
                     <Canvas x:Name="디자인NO" DockPanel.Dock="Top" Height="20">
                         <TextBlock Text="디자인NO"  FontSize="16" Canvas.Left="30" Canvas.Top="1" FontFamily="/font/#KoPubBatang Light"/>
                         <TextBlock Text=":" FontSize="16" Canvas.Left="118" Canvas.Top="-2"/>
@@ -217,32 +223,29 @@
                     </Canvas>
 
                     <Image x:Name="imgLine" Source="/img/Dot.png" DockPanel.Dock="Top" VerticalAlignment="Top" Width="556" Height="8"/>
-
                 </DockPanel>
 
                 <Grid DockPanel.Dock="Top" VerticalAlignment="Stretch" Width="556">
-
-
                     <TextBlock Text="작업지시" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"  FontFamily="/font/#KoPubBatang Light" Margin="25,5,0,0"/>
                     <TextBlock Text="|" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"  Height="29" Width="6" Margin="108,0,0,0"/>
-                    <TextBox x:Name="tb작업지시" Foreground="Blue" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="123,4,0,0" Width="436" BorderThickness="0" FontFamily="/font/#KoPubBatang Bold"
-                            ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap" AcceptsReturn="True" FontSize="16" IsReadOnly="True" Grid.ColumnSpan="2"></TextBox>
+                    <TextBox x:Name="tb작업지시" Foreground="Blue" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="123,4,0,0" Width="433" BorderThickness="0" FontFamily="/font/#KoPubBatang Bold"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap" AcceptsReturn="True" FontSize="16" IsReadOnly="True"/>
                 </Grid>
+
                 <Image Source="/img/Dot.png" DockPanel.Dock="Top" VerticalAlignment="Top" Width="556" Height="8"/>
+
                 <Grid DockPanel.Dock="Top" VerticalAlignment="Stretch" Width="556">
-
-
                     <TextBlock Text="특별지시" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"  FontFamily="/font/#KoPubBatang Light" Margin="25,5,0,0"/>
                     <TextBlock Text="|" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"  Height="29" Width="6" Margin="108,0,0,0"/>
-                    <TextBox x:Name="tb특별지시" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="123,4,0,0" Foreground="Red" Width="436" BorderThickness="0" FontFamily="/font/#KoPubBatang Bold"
-                            ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap" AcceptsReturn="True" FontSize="16" IsReadOnly="True" Grid.ColumnSpan="2"></TextBox>
+                    <TextBox x:Name="tb특별지시" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="123,4,0,0" Foreground="Red" Width="433" BorderThickness="0" FontFamily="/font/#KoPubBatang Bold"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap" AcceptsReturn="True" FontSize="16" IsReadOnly="True"/>
                 </Grid>
+
                 <Image Source="/img/Dot.png" DockPanel.Dock="Top" VerticalAlignment="Top" Width="556" Height="8"/>
+
                 <Grid DockPanel.Dock="Top" VerticalAlignment="Stretch" Width="556">
-
-
-                    <TextBox x:Name="tb공정별" HorizontalAlignment="Left"  VerticalAlignment="Stretch" Margin="20,4,0,0" Width="554" BorderThickness="0" FontFamily="/font/#KoPubBatang Bold"
-                            ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap" AcceptsReturn="True" FontSize="20" IsReadOnly="True" Grid.ColumnSpan="2"></TextBox>
+                    <TextBox x:Name="tb공정별" HorizontalAlignment="Left"  VerticalAlignment="Stretch" Margin="20,4,0,0" Width="536" BorderThickness="0" FontFamily="/font/#KoPubBatang Bold"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap" AcceptsReturn="True" FontSize="20" IsReadOnly="True"/>
                 </Grid>
             </DockPanel>
 

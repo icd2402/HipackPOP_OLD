@@ -949,5 +949,11 @@ namespace PopProject.Input
             Width = 1105;
             Left = (SystemParameters.WorkArea.Width / 2) - (Width / 2);
         }
+
+        private void IP_setting(object sender, MouseButtonEventArgs e)
+        {
+            Ip_input ip = new Ip_input();
+            ip.Show();
+        }
     }
 }
