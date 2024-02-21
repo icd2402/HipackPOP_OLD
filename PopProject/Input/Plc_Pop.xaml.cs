@@ -201,7 +201,7 @@ namespace PopProject.Input
                 float p4Recipe = 0;
                 float spare2 = 0;
                 float spare3 = 0;
-                float spare4 = 0;
+                float slotter = 0;
                 float dRagista = 0;
                 float printerPull1 = 0;
                 float printerRoll1 = 0;
@@ -211,10 +211,10 @@ namespace PopProject.Input
                 float printerRoll3 = 0;
                 float printerPull4 = 0;
                 float printerRoll4 = 0;
+                float spare4 = 0;
+                float spare5 = 0;
                 float spare6 = 0;
                 float spare7 = 0;
-                float spare8 = 0;
-                float spare9 = 0;
                 float feederGap = 0;
                 float feederRoll = 0;
                 float slotterSubGap = 0;
@@ -222,13 +222,13 @@ namespace PopProject.Input
                 float slotterConnection = 0;
                 float dieCutterRollGap = 0;
                 float dieCutterConnectionGap = 0;
-                float spare10 = 0;
+                float dummy1 = 0;
                 float gluerbeltF1 = 0;
                 float gluerbeltF2 = 0;
                 float gluerPressA = 0;
                 float gluerPressB = 0;
                 float gluerPE = 0;
-                float spare11 = 0;
+                float dummy2 = 0;
                 float bRSub = 0;
                 float bRMain = 0;
                 float bRConnection = 0;
@@ -270,6 +270,10 @@ namespace PopProject.Input
                     p3Recipe = Convert.ToSingle(result["p3Recipe"]);   //P3
                     p4Recipe = Convert.ToSingle(result["p4Recipe"]);   //P4
 
+                    spare2 = Convert.ToSingle(result["spare2"]);
+                    spare3 = Convert.ToSingle(result["spare3"]);
+                    slotter = Convert.ToSingle(result["Slotter"]);
+
                     dRagista = Convert.ToSingle(result["DieCutter"]);  //D레지스터
 
                     printerPull1 = Convert.ToSingle(result["PrinterPull1"]);  //1도 롤
@@ -281,6 +285,11 @@ namespace PopProject.Input
                     printerPull4 = Convert.ToSingle(result["PrinterPull4"]);  //4도 롤
                     printerRoll4 = Convert.ToSingle(result["PrinterRoll4"]);  //4도
 
+                    spare4 = Convert.ToSingle(result["spare4"]);
+                    spare5 = Convert.ToSingle(result["spare5"]); 
+                    spare6 = Convert.ToSingle(result["spare6"]);
+                    spare7 = Convert.ToSingle(result["spare7"]);
+
                     feederGap = Convert.ToSingle(result["FeederGap"]);        //급지부 진입 갭
                     feederRoll = Convert.ToSingle(result["FeederRoll"]);      //급지부 진입 롤갭
 
@@ -290,12 +299,14 @@ namespace PopProject.Input
 
                     dieCutterRollGap = Convert.ToSingle(result["DieCutterRollGap"]);   //다이캇타 롤 갭
                     dieCutterConnectionGap = Convert.ToSingle(result["GluerbeltF1"]);   //다이캇타 연결 갭
+                    dummy1 = Convert.ToSingle(result["GluerbeltF2"]);             //
 
                     gluerbeltF1 = Convert.ToSingle(result["GluerPressA"]);     //글루어벨트 진입 갭 F1
                     gluerbeltF2 = Convert.ToSingle(result["GluerPressB"]);     //글루어벨트 진입 갭 F2
                     gluerPressA = Convert.ToSingle(result["DieCutterRollA"]);  //글루어 프레스롤 A
                     gluerPressB = Convert.ToSingle(result["DieCutterRollB"]);  //글루어 프레스롤 B
                     gluerPE = Convert.ToSingle(result["GluerPE"]);             //글루어 PE
+                    dummy2 = Convert.ToSingle(result["BRSub"]);             //
 
                     bRSub = Convert.ToSingle(result["BRMain"]);           //보조괘선 갭  
                     bRMain = Convert.ToSingle(result["BRConnection"]);    //본괘선 갭
@@ -347,9 +358,9 @@ namespace PopProject.Input
                 tb12.Text = p3Recipe.ToString();
 
                 tb13.Text = p4Recipe.ToString();
-                tb14.Text = "0";
-                tb15.Text = "0";
-                tb16.Text = "0";
+                tb14.Text = spare2.ToString();
+                tb15.Text = spare3.ToString(); 
+                tb16.Text = slotter.ToString();
                 tb17.Text = dRagista.ToString();
                 tb18.Text = printerPull1.ToString();
                 tb19.Text = printerRoll1.ToString();
@@ -360,10 +371,10 @@ namespace PopProject.Input
                 tb24.Text = printerPull4.ToString();
 
                 tb25.Text = printerRoll4.ToString();
-                tb26.Text = "0";
-                tb27.Text = "0";
-                tb28.Text = "0";
-                tb29.Text = "0";
+                tb26.Text = spare4.ToString();
+                tb27.Text = spare5.ToString();
+                tb28.Text = spare6.ToString();
+                tb29.Text = spare7.ToString();
                 tb30.Text = feederGap.ToString();
                 tb31.Text = feederRoll.ToString();
                 tb32.Text = slotterSubGap.ToString();
@@ -372,13 +383,13 @@ namespace PopProject.Input
                 tb35.Text = dieCutterRollGap.ToString();
                 tb36.Text = dieCutterConnectionGap.ToString();
 
-                tb37.Text = "0";
+                tb37.Text = dummy1.ToString();
                 tb38.Text = gluerbeltF1.ToString();
                 tb39.Text = gluerbeltF2.ToString();
                 tb40.Text = gluerPressA.ToString();
                 tb41.Text = gluerPressB.ToString();
                 tb42.Text = gluerPE.ToString();
-                tb43.Text = "0";
+                tb43.Text = dummy2.ToString();
                 tb44.Text = bRSub.ToString();
                 tb45.Text = bRMain.ToString();
                 tb46.Text = bRConnection.ToString();

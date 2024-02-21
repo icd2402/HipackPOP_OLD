@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.387</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.388</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>388</ApplicationRevision>
+    <ApplicationRevision>389</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -353,6 +353,9 @@
     <Compile Include="Input\Win_Update.xaml.cs">
       <DependentUpon>Win_Update.xaml</DependentUpon>
     </Compile>
+    <Compile Include="KeyBoard\Win_KeyBoard3.xaml.cs">
+      <DependentUpon>Win_KeyBoard3.xaml</DependentUpon>
+    </Compile>
     <Compile Include="KeyBoard\Win_KeyBoard.xaml.cs">
       <DependentUpon>Win_KeyBoard.xaml</DependentUpon>
     </Compile>
@@ -568,6 +571,10 @@
     <Page Include="Input\Win_Update.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KeyBoard\Win_KeyBoard3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="KeyBoard\Win_KeyBoard.xaml">
       <SubType>Designer</SubType>

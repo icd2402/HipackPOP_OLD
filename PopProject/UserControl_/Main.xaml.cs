@@ -746,8 +746,11 @@ namespace PopProject.UserControl_
             {
                 str = Math.Abs(int.Parse(arduSerial.ReadLine().Trim())); //아두이노 카운터값 공백 제거 후 절댓값으로 변경
                 Console.WriteLine("아두이노 값(Main) : " + str); //실시간 값 확인용
-                LogManager.Info("아두이노 값(Main) : " + str, MethodBase.GetCurrentMethod().DeclaringType);
 
+                if (SettingJsonManager.corp_name.Equals("대세물산") && SettingJsonManager.mercName.Equals("합지기"))
+                {
+                    LogManager.Info("아두이노 값(Main) : " + str, MethodBase.GetCurrentMethod().DeclaringType);
+                }
 
                 //생산중일때(생산정보 있을때)
                 if (production != null)
@@ -789,7 +792,7 @@ namespace PopProject.UserControl_
                             }
 
                             CountManager.SendMsg(SettingJsonManager.mercName, str.ToString()); //현황판으로 카운터 전송
-                            LogManager.Info("출력 값(매수) : " + str.ToString() + SettingJsonManager.boxCheck, MethodBase.GetCurrentMethod().DeclaringType);
+                            //LogManager.Info("출력 값(매수) : " + str.ToString() + SettingJsonManager.boxCheck, MethodBase.GetCurrentMethod().DeclaringType);
                             Console.WriteLine("현황판으로 카운터(매수) 전송 값(Main) : " + SettingJsonManager.mercName + ", " + str); //실시간 값 확인용
 
                             if (SettingJsonManager.corp_name.Equals("광성수출포장") && SettingJsonManager.dbUse)
@@ -833,14 +836,14 @@ namespace PopProject.UserControl_
                                 //LogManager.Info("출력값 (통수) : " + production.presultCount.ToString() + SettingJsonManager.boxCheck, MethodBase.GetCurrentMethod().DeclaringType);
 
                                 //실시간 값 확인용
-                                if (SettingJsonManager.boxCheck)
-                                {
-                                    Console.WriteLine("카운터(통수,상자수 체크) 전송 값(Main) : " + SettingJsonManager.mercName + ", " + Convert.ToInt32(production.presultCount)); 
-                                }
-                                else
-                                {
-                                    Console.WriteLine("카운터(통수,상자수 미체크) 전송 값(Main) : " + SettingJsonManager.mercName + ", " + Convert.ToInt32(production.presultCount));
-                                }
+                                //if (SettingJsonManager.boxCheck)
+                                //{
+                                //    Console.WriteLine("카운터(통수,상자수 체크) 전송 값(Main) : " + SettingJsonManager.mercName + ", " + Convert.ToInt32(production.presultCount)); 
+                                //}
+                                //else
+                                //{
+                                //    Console.WriteLine("카운터(통수,상자수 미체크) 전송 값(Main) : " + SettingJsonManager.mercName + ", " + Convert.ToInt32(production.presultCount));
+                                //}
 
                                 if (SettingJsonManager.corp_name.Equals("광성수출포장") && SettingJsonManager.dbUse)
                                 {
@@ -2234,7 +2237,12 @@ namespace PopProject.UserControl_
                 Console.WriteLine("생산계획 조회 오류");
             }
 
-            실적현황조회();
+            if (SettingJsonManager.corp_name.Equals("신우수출포장") && SettingJsonManager.mercName.Equals("신우수출포장테스트") ||
+                SettingJsonManager.corp_name.Equals("우리포장") && SettingJsonManager.mercName.Equals("우리포장테스트") ||
+                SettingJsonManager.corp_name.Equals("누리팩") && SettingJsonManager.mercName.Equals("누리팩테스트"))
+            {
+                실적현황조회();
+            }
         }
 
         //신우,우리,누리 사용중
@@ -2738,7 +2746,9 @@ namespace PopProject.UserControl_
                         if (SettingJsonManager.corp_name.Equals("대세물산") ||
                             SettingJsonManager.corp_name.Equals("대세물산테스트") ||
                             SettingJsonManager.corp_name.Equals("구룡산업제2공장") ||
-                            SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
+                            SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트") ||
+                            SettingJsonManager.corp_name.Equals("금화") ||
+                            SettingJsonManager.corp_name.Equals("금화테스트"))
                         {
                             SelectWorkList();
                             ResultSearchDate();

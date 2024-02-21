@@ -43,8 +43,8 @@
             <TextBlock Canvas.Left="273" Canvas.Top="11" FontSize="18" Text="전화번호" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
 
             <TextBlock Canvas.Left="400" Canvas.Top="11" FontSize="18" Text="주문량" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock Canvas.Left="500" Canvas.Top="11" FontSize="18" Text="생산량" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock Canvas.Left="600" Canvas.Top="11" FontSize="18" Text="결과량" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock Canvas.Left="480" Canvas.Top="11" FontSize="18" Text="이전 생산량" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock Canvas.Left="580" Canvas.Top="11" FontSize="18" Text="금일 결과량" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock Canvas.Left="850" Canvas.Top="11" FontSize="18" Text="비고" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock Canvas.Left="1104" Canvas.Top="11" FontSize="18" Text="상태" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
         </Canvas>

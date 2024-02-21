@@ -1126,9 +1126,13 @@ namespace PopProject.Input
                     PopResultSearch();
 
                     LogManager.Info(inputModel.customSName + " / " + inputModel.prodName + " [생산종료] " + inputModel.sumPworkCount + "개", MethodBase.GetCurrentMethod().DeclaringType);
+
+                    if (SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트"))
+                    {
+                        Close();
+                    }
                 }
             }
-
         }
 
 
@@ -2551,11 +2555,13 @@ namespace PopProject.Input
                     int slotterConnection = 0;
                     int dieCutterRollGap = 0;
                     int dieCutterConnectionGap = 0;
+                    int dummy1 = 0;
                     int gluerbeltF1 = 0;
                     int gluerbeltF2 = 0;
                     int gluerPressA = 0;
                     int gluerPressB = 0;
                     int gluerPE = 0;
+                    int dummy2 = 0;
                     int bRSub = 0;
                     int bRMain = 0;
                     int bRConnection = 0;
@@ -2636,14 +2642,14 @@ namespace PopProject.Input
 
                         dieCutterRollGap = Convert.ToInt32(Convert.ToSingle(result["DieCutterRollGap"]) * 10); //다이캇타 롤 갭
                         dieCutterConnectionGap = Convert.ToInt32(Convert.ToSingle(result["GluerbeltF1"]) * 10); //다이캇타 연결 갭
-                                             //= Convert.ToInt32(Convert.ToSingle(result["GluerbeltF2"]) * 10); 
+                        dummy1= Convert.ToInt32(Convert.ToSingle(result["GluerbeltF2"]) * 10); 
                         gluerbeltF1 = Convert.ToInt32(Convert.ToSingle(result["GluerPressA"]) * 10);     //글루어벨트 진입 갭 F1
                         gluerbeltF2 = Convert.ToInt32(Convert.ToSingle(result["GluerPressB"]) * 10);     //글루어벨트 진입 갭 F2
                         gluerPressA = Convert.ToInt32(Convert.ToSingle(result["DieCutterRollA"]) * 10);  //글루어 프레스롤 A
                         gluerPressB = Convert.ToInt32(Convert.ToSingle(result["DieCutterRollB"]) * 10);  //글루어 프레스롤 B
 
                         gluerPE = Convert.ToInt32(Convert.ToSingle(result["GluerPE"]) * 10);             //글루어 PE
-                             // = Convert.ToInt32(Convert.ToSingle(result["BRSub"]) * 10);           
+                        dummy2 = Convert.ToInt32(Convert.ToSingle(result["BRSub"]) * 10);           
                         bRSub = Convert.ToInt32(Convert.ToSingle(result["BRMain"]) * 10);           //보조괘선 갭  
                         bRMain = Convert.ToInt32(Convert.ToSingle(result["BRConnection"]) * 10);    //본괘선 갭
                         bRConnection = Convert.ToInt32(Convert.ToSingle(result["BRmiddle"]) * 10);  //연결롤 갭
@@ -2702,9 +2708,9 @@ namespace PopProject.Input
                                 items.Add(p2pRecipe);              //P2
                                 items.Add(p3Recipe);               //P3
                                 items.Add(p4Recipe);               //P4
-                                items.Add(0);                      //Spare
-                                items.Add(0);                      //Spare
-                                items.Add(0);                      //Spare
+                                items.Add(spare2);                 //Spare
+                                items.Add(spare3);                 //Spare
+                                items.Add(slotter);                //Spare
                                 items.Add(dRagista);               //D레지스타
                                 items.Add(printerPull1);           //1도 ?
                                 items.Add(printerRoll1);           //1도 프레스
@@ -2714,10 +2720,10 @@ namespace PopProject.Input
                                 items.Add(printerRoll3);           //3도 프레스
                                 items.Add(printerPull4);           //4도 ?
                                 items.Add(printerRoll4);           //4도 프레스
-                                items.Add(0);                      //Spare
-                                items.Add(0);                      //Spare
-                                items.Add(0);                      //Spare
-                                items.Add(0);                      //Spare
+                                items.Add(spare4);                      //Spare
+                                items.Add(spare5);                      //Spare
+                                items.Add(spare6);                      //Spare
+                                items.Add(spare7);                      //Spare
                                 items.Add(feederGap);              //피다진입 갭
                                 items.Add(feederRoll);             //피다진입 롤
                                 items.Add(slotterSubGap);          //슬로다 보조 갭
@@ -2725,13 +2731,13 @@ namespace PopProject.Input
                                 items.Add(slotterConnection);      //슬로다 연결갭
                                 items.Add(dieCutterRollGap);       //다이캇타 롤 갭
                                 items.Add(dieCutterConnectionGap); //다이캇타 연결 갭
-                                items.Add(0);                      //Spare
+                                items.Add(dummy1);                 //Spare
                                 items.Add(gluerbeltF1);            //글루어벨트 진입 갭 F1
                                 items.Add(gluerbeltF2);            //글루어벨트 진입 갭 F2
                                 items.Add(gluerPressA);            //글루어 프레스롤 A
                                 items.Add(gluerPressB);            //글루어 프레스롤 B
                                 items.Add(gluerPE);                //글루어 PE
-                                items.Add(0);                      //Spare
+                                items.Add(dummy2);                 //Spare
                                 items.Add(bRSub);                  //보조괘선 갭
                                 items.Add(bRMain);                 //본괘선 갭
                                 items.Add(bRConnection);           //연결롤 갭
@@ -2861,7 +2867,33 @@ namespace PopProject.Input
     {
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value != null ? float.Parse(value.ToString()) < 0 ? "추가생산 " + (float.Parse(value.ToString()) * -1) : value : value;
+            if (SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트"))
+            {
+                return value;
+            }
+            else
+            {
+                // 주어진 값이 null이 아닌 경우
+                if (value != null)
+                {
+                    float floatValue = float.Parse(value.ToString());
+                    if (floatValue < 0)
+                    {
+                        // 주어진 값이 0보다 작은 경우, "추가생산 " 문자열과 주어진 값의 절댓값을 곱한 결과를 반환
+                        return "추가생산 " + (floatValue * -1);
+                    }
+                    else
+                    {
+                        // 그렇지 않으면 주어진 값을 그대로 반환
+                        return value;
+                    }
+                }
+                else
+                {
+                    return value;
+                }
+            }
+            //return value != null ? float.Parse(value.ToString()) < 0 ? "추가생산 " + (float.Parse(value.ToString()) * -1) : value : value;
         }
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {

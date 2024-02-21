@@ -182,6 +182,11 @@ namespace PopProject.Detail
             DetailSearch(); //세부정보 조회 (왼쪽화면)
             MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
             PopSearchPhoto(); //인쇄사양 조회
+
+            if (SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트"))
+            {
+                rValueSearch(); //금화 인쇄기 레지스타 조회
+            }
         }
 
         public Win_Detail(MainModel mainModel, string special, bool detail_check)
@@ -202,6 +207,7 @@ namespace PopProject.Detail
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
             Pass_detail.Visibility = SettingJsonManager.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
+            R_Value.Visibility = SettingJsonManager.corp_name.Equals("금화") ? Visibility.Visible : Visibility.Collapsed;
             robot.Visibility = SettingJsonManager.robotchecked ? Visibility.Visible : Visibility.Collapsed;
 
             DetailSearch(); //세부정보 조회 (왼쪽화면)
@@ -230,6 +236,7 @@ namespace PopProject.Detail
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
             Pass_detail.Visibility = SettingJsonManager.corp_name.Equals("오주포장") ? Visibility.Visible : Visibility.Collapsed;
+            R_Value.Visibility = SettingJsonManager.corp_name.Equals("금화") ? Visibility.Visible : Visibility.Collapsed;
             robot.Visibility = SettingJsonManager.robotchecked ? Visibility.Visible : Visibility.Collapsed;
             consumcheck = v;
             
@@ -303,11 +310,13 @@ namespace PopProject.Detail
                 int slotterConnection = 0;
                 int dieCutterRollGap = 0;
                 int dieCutterConnectionGap = 0;
+                int dummy1 = 0;
                 int gluerbeltF1 = 0;
                 int gluerbeltF2 = 0;
                 int gluerPressA = 0;
                 int gluerPressB = 0;
                 int gluerPE = 0;
+                int dummy2 = 0;
                 int bRSub = 0;
                 int bRMain = 0;
                 int bRConnection = 0;
@@ -391,14 +400,14 @@ namespace PopProject.Detail
 
                         dieCutterRollGap = Convert.ToInt32(Convert.ToSingle(result["DieCutterRollGap"]) * 10); //다이캇타 롤 갭
                         dieCutterConnectionGap = Convert.ToInt32(Convert.ToSingle(result["GluerbeltF1"]) * 10); //다이캇타 연결 갭
-                                             //= Convert.ToInt32(Convert.ToSingle(result["GluerbeltF2"]) * 10); 
+                        dummy1 = Convert.ToInt32(Convert.ToSingle(result["GluerbeltF2"]) * 10);
                         gluerbeltF1 = Convert.ToInt32(Convert.ToSingle(result["GluerPressA"]) * 10);     //글루어벨트 진입 갭 F1
                         gluerbeltF2 = Convert.ToInt32(Convert.ToSingle(result["GluerPressB"]) * 10);     //글루어벨트 진입 갭 F2
                         gluerPressA = Convert.ToInt32(Convert.ToSingle(result["DieCutterRollA"]) * 10);  //글루어 프레스롤 A
                         gluerPressB = Convert.ToInt32(Convert.ToSingle(result["DieCutterRollB"]) * 10);  //글루어 프레스롤 B
 
                         gluerPE = Convert.ToInt32(Convert.ToSingle(result["GluerPE"]) * 10);             //글루어 PE
-                             // = Convert.ToInt32(Convert.ToSingle(result["BRSub"]) * 10);           
+                        dummy2 = Convert.ToInt32(Convert.ToSingle(result["BRSub"]) * 10);
                         bRSub = Convert.ToInt32(Convert.ToSingle(result["BRMain"]) * 10);           //보조괘선 갭  
                         bRMain = Convert.ToInt32(Convert.ToSingle(result["BRConnection"]) * 10);    //본괘선 갭
                         bRConnection = Convert.ToInt32(Convert.ToSingle(result["BRmiddle"]) * 10);  //연결롤 갭
@@ -411,10 +420,10 @@ namespace PopProject.Detail
                         spare13 = Convert.ToInt32(Convert.ToSingle(result["spare13"]) * 10); //spare
                         spare14 = Convert.ToInt32(Convert.ToSingle(result["spare14"]) * 10); //spare
 
-                        totalCount1 = Convert.ToInt32(Convert.ToSingle(result["TotalCount1"]) * 1); 
-                        totalCount2 = Convert.ToInt32(Convert.ToSingle(result["TotalCount2"]) * 1); 
-                        count1 = Convert.ToInt32(Convert.ToSingle(result["Count1"]) * 1); 
-                        count2 = Convert.ToInt32(Convert.ToSingle(result["Count2"]) * 1); 
+                        totalCount1 = Convert.ToInt32(Convert.ToSingle(result["TotalCount1"]) * 1);
+                        totalCount2 = Convert.ToInt32(Convert.ToSingle(result["TotalCount2"]) * 1);
+                        count1 = Convert.ToInt32(Convert.ToSingle(result["Count1"]) * 1);
+                        count2 = Convert.ToInt32(Convert.ToSingle(result["Count2"]) * 1);
                     }
                 }
                 catch (Exception e)
@@ -464,9 +473,9 @@ namespace PopProject.Detail
                             items.Add(p2pRecipe);              //P2
                             items.Add(p3Recipe);               //P3
                             items.Add(p4Recipe);               //P4
-                            items.Add(0);                      //Spare
-                            items.Add(0);                      //Spare
-                            items.Add(0);                      //Spare
+                            items.Add(spare2);                 //Spare
+                            items.Add(spare3);                 //Spare
+                            items.Add(slotter);                //Spare
                             items.Add(dRagista);               //D레지스타
                             items.Add(printerPull1);           //1도 ?
                             items.Add(printerRoll1);           //1도 프레스
@@ -476,10 +485,10 @@ namespace PopProject.Detail
                             items.Add(printerRoll3);           //3도 프레스
                             items.Add(printerPull4);           //4도 ?
                             items.Add(printerRoll4);           //4도 프레스
-                            items.Add(0);                      //Spare
-                            items.Add(0);                      //Spare
-                            items.Add(0);                      //Spare
-                            items.Add(0);                      //Spare
+                            items.Add(spare4);                      //Spare
+                            items.Add(spare5);                      //Spare
+                            items.Add(spare6);                      //Spare
+                            items.Add(spare7);                      //Spare
                             items.Add(feederGap);              //피다진입 갭
                             items.Add(feederRoll);             //피다진입 롤
                             items.Add(slotterSubGap);          //슬로다 보조 갭
@@ -487,13 +496,13 @@ namespace PopProject.Detail
                             items.Add(slotterConnection);      //슬로다 연결갭
                             items.Add(dieCutterRollGap);       //다이캇타 롤 갭
                             items.Add(dieCutterConnectionGap); //다이캇타 연결 갭
-                            items.Add(0);                      //Spare
+                            items.Add(dummy1);                 //Spare
                             items.Add(gluerbeltF1);            //글루어벨트 진입 갭 F1
                             items.Add(gluerbeltF2);            //글루어벨트 진입 갭 F2
                             items.Add(gluerPressA);            //글루어 프레스롤 A
                             items.Add(gluerPressB);            //글루어 프레스롤 B
                             items.Add(gluerPE);                //글루어 PE
-                            items.Add(0);                      //Spare
+                            items.Add(dummy2);                 //Spare
                             items.Add(bRSub);                  //보조괘선 갭
                             items.Add(bRMain);                 //본괘선 갭
                             items.Add(bRConnection);           //연결롤 갭
@@ -2553,6 +2562,56 @@ namespace PopProject.Detail
             CNS_Send = false;
         }
 
+
+        //금화 R값 클릭 down
+        private void R_Value_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Border clickedBorder = (Border)sender;
+            clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D353D"));
+        }
+
+        //금화 R값 클릭 up
+        private void R_Value_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Border clickedBorder = (Border)sender;
+            clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#485563"));
+
+            Win_KeyBoard3 keyBoard3 = new Win_KeyBoard3(this.mainModel.prodID);
+            keyBoard3.ShowDialog();
+
+            rValueSearch(); //금화 인쇄기 레지스타 조회
+        }
+
+        //금화 인쇄기 레지스타 조회
+        private void rValueSearch()
+        {
+           ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ReturnModel returnData = ServiceModel.GetData(
+               SettingJsonManager.serverIndex,
+               "[rRegistaSearch]",
+               new string[] { "prodID" },
+               new object[] { this.mainModel.prodID }, 
+               0
+             );
+
+            if (returnData.결과 == 1)
+            {
+                string RValue = "";
+
+                JArray Data_Jarry = JArray.Parse(returnData.리턴값);
+                foreach (JObject result in Data_Jarry)
+                {
+                    RValue = result["rValue"].ToString();
+                }
+                rValueTxt.Text = RValue;
+            }
+            else
+            {
+                MessageBox_Dialog msg = new MessageBox_Dialog("rRegistaSearch 조회 오류!!");
+                msg.ShowDialog();
+                Console.WriteLine("rRegistaSearch 실패");
+            }
+        }
 
         bool cnsProcessing = false;
         //데이터 수신 요청
