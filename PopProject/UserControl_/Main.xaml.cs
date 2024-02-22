@@ -833,6 +833,8 @@ namespace PopProject.UserControl_
                                 }
 
                                 CountManager.SendMsg(SettingJsonManager.mercName, production.presultCount.ToString()); //현황판으로 카운터 전송
+                                Console.WriteLine("현황판으로 카운터(통수) 전송 값(Main) : " + SettingJsonManager.mercName + ", " + production.presultCount.ToString()); //실시간 값 확인용
+
                                 //LogManager.Info("출력값 (통수) : " + production.presultCount.ToString() + SettingJsonManager.boxCheck, MethodBase.GetCurrentMethod().DeclaringType);
 
                                 //실시간 값 확인용
@@ -2673,11 +2675,49 @@ namespace PopProject.UserControl_
             Environment.Exit(0);
         }
 
+
+        // DependencyObject의 부모를 찾는 재귀적 메서드
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            // VisualTreeHelper를 사용하여 child의 부모 요소를 가져옴.
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            // 부모 요소가 없으면 null을 반환.
+            if (parentObject == null)
+                return null;
+
+            // 부모 요소가 형식 T와 일치하는지 확인합니다.
+            T parent = parentObject as T;
+            
+            // 부모 요소가 형식 T와 일치하는 경우 해당 부모 요소를 반환합니다.
+            if (parent != null)
+            {
+                return parent;
+            }
+            else
+            {
+                // 다음 상위 레벨로 계속 검색
+                return FindParent<T>(parentObject);
+            }
+        }
+
         // 상태 버튼 클릭
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
             try
             {
+                //두성포장은 상태버튼 클릭시 Detail창으로 진입
+                if (SettingJsonManager.corp_name.Equals("두성포장") || SettingJsonManager.corp_name.Equals("두성포장 테스트"))
+                {
+                    // Canvas 객체를 생성하여 sender로 전달
+                    Canvas canvas = FindParent<Canvas>((FrameworkElement)sender);
+                    if (canvas != null)
+                    {
+                        ShowDetail(canvas);
+                    }
+                    return;
+                }
+
                 bool check = true;
                 if (sender.GetType().Name.Equals("Image"))
                 {
@@ -2735,7 +2775,6 @@ namespace PopProject.UserControl_
                         _ = win_Input.ShowDialog(); //인풋창 팝업
 
                         //팝업창 종료 후
-
                         //
                         if (SettingJsonManager.presultcount != 0)
                         {

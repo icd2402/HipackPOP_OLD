@@ -57,6 +57,7 @@ namespace PopProject.Input
         string Url; //서비스 주소
 
         private bool success = false; //CNS 통신연결 확인
+        private bool startPBLock = false;
 
 
         public Win_input(MainModel mainModel, ObservableCollection<MainModel> workList, bool check) //check= 메인화면에서 들어오면 false, 디테일 화면에서 들어오면 true
@@ -1050,8 +1051,10 @@ namespace PopProject.Input
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             //시작 버튼 활성화 일때
-            if (inputModel.imagePath.Equals("/img/bn_05.png")) 
+            if (inputModel.imagePath.Equals("/img/bn_05.png") && startPBLock.Equals(false)) 
             {
+                startPBLock = true;
+
                 Console.WriteLine("생산 시작한 prodID : " + this.mainModel.prodID);
                 string metrialitem = SettingJsonManager.meterialinfo;
                 string sCustomSName = "";
@@ -1117,6 +1120,8 @@ namespace PopProject.Input
                 }
                 else
                 {
+                    startPBLock = false;
+
                     PopResultEnd(); //결과값 조회
                     
                     inputModel.perrCount = 0;
@@ -2867,7 +2872,8 @@ namespace PopProject.Input
     {
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트"))
+            if (SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트") ||
+                SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
             {
                 return value;
             }

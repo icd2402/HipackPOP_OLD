@@ -39,6 +39,7 @@ namespace PopProject.Consumer_
         private DispatcherTimer timer;
         int pworkkey;
         int workmemberkey, second =0;
+        private bool startPBLock = false;
     
         public DsConsumer_input(ConsumerModel consumerModel, MainModel mainModel)
         {
@@ -287,8 +288,10 @@ namespace PopProject.Consumer_
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // 시작 버튼 클릭
-            if (inputModel.imagePath.Equals("/img/bn_05.png"))
+            if (inputModel.imagePath.Equals("/img/bn_05.png") && startPBLock.Equals(false))
             {
+                startPBLock = true;
+
                 if (Main.production != null)
                 {
                     //MessageBox_Dialog messageBox = new MessageBox_Dialog("작업중인 건이 있습니다.");
@@ -321,6 +324,8 @@ namespace PopProject.Consumer_
             // 종료 버튼 클릭
             else if (inputModel.imagePath.Equals("/img/bn_06.png"))
             {
+                startPBLock = false;
+
                 MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장", MessageBoxButton.YesNo);
 
                 if (result == MessageBoxResult.No)

@@ -183,6 +183,8 @@ namespace PopProject.Detail
             MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
             PopSearchPhoto(); //인쇄사양 조회
 
+            R_Value.Visibility = SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트") ? Visibility.Visible : Visibility.Collapsed;
+            R_ValueTxt.Visibility = SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트") ? Visibility.Visible : Visibility.Collapsed;
             if (SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트"))
             {
                 rValueSearch(); //금화 인쇄기 레지스타 조회
