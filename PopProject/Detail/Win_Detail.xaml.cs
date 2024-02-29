@@ -80,10 +80,11 @@ namespace PopProject.Detail
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
 
+
             Console.WriteLine("ProdID : " + mainModel.prodID);
-            
+
             //실수요자
-            consumer = mainModel.bMember;
+            consumcheck = mainModel.bMember;
 
             //오주포장 일때 옵션
             if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))

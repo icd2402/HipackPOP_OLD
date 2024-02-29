@@ -69,6 +69,12 @@ namespace PopProject.Input
             this.mainModel = mainModel;
             boxType.Text = "형 태 : " + mainModel.boxType;
 
+            //현재 카운터값 송신
+            if (this.mainModel.presultCount > 0)
+            {
+                CountManager.SendMsg(SettingJsonManager.mercName, this.mainModel.presultCount.ToString());
+            }
+
             //오주포장 카운터 수신
             if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
             {

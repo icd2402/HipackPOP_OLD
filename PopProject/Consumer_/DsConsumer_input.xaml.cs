@@ -297,6 +297,8 @@ namespace PopProject.Consumer_
                     //MessageBox_Dialog messageBox = new MessageBox_Dialog("작업중인 건이 있습니다.");
                     MessageBox_Dialog messageBox = new MessageBox_Dialog(inputModel.prodName + "\n" + "해당 건이 작업중입니다.");
                     _ = messageBox.ShowDialog();
+                    startPBLock = false;
+
                 }
                 else
                 {
@@ -305,6 +307,8 @@ namespace PopProject.Consumer_
                     {
                         MessageBox_Dialog messageBox = new MessageBox_Dialog("실수요자 작업중인 건이 있습니다.");
                         _ = messageBox.ShowDialog();
+                        startPBLock = false;
+
                     }
                     else //작업 중인건 없음
                     {
@@ -318,6 +322,8 @@ namespace PopProject.Consumer_
 
                         PopResultStartMember(); //생산시작
                         PopResultSearchMember(); //생산결과 건 조회
+                        CountManager.SendMsg(SettingJsonManager.mercName, "S"); //현황판으로 생산종료 송신
+
                     }
                 }
             }
@@ -372,6 +378,7 @@ namespace PopProject.Consumer_
                                 }
                             }
                         }
+
                     }
                     else
                     {
@@ -391,11 +398,11 @@ namespace PopProject.Consumer_
             //생산수량,불량수량 없으면
             if (inputModel.pworkCount == 0 && inputModel.perrCount == 0)
             {
-                ChkAED = 3; //삭제상태 3
+                ChkAED = 3; //삭제
             }
             else //작업건 있으면
             {
-                ChkAED = 1; //삭제상태 1
+                ChkAED = 1; //입력
             }
 
             inlineCount = int.Parse(tbResult.Text.ToString());   //생산수량 담기
@@ -789,10 +796,11 @@ namespace PopProject.Consumer_
 
                         ConsumerModel tempItem = ob[ob.Count - 1];
 
+                        //시작 시간은 있는데 종료 시간이 없으면 (생산중이면)
                         if (tempItem.sDatetime.ToString().Length > 3 && tempItem.eDatetime.ToString().Length <= 1)
                         {
-                            inputModel.imagePath = "/img/bn_06.png";
-                            DSConsumer.product.imgSource = "/img/bn_01.png";
+                            inputModel.imagePath = "/img/bn_06.png"; //종료 버튼
+                            DSConsumer.product.imgSource = "/img/bn_01.png";//작업중 버튼
                             inputModel.workMemberKey = int.Parse(tempItem.workMemberKey);
                             inputModel.pworkDate = tempItem.pworkDate;
                             inputModel.pworkDate = tempItem.pworkDate;
@@ -806,13 +814,14 @@ namespace PopProject.Consumer_
                             inputModel.sDatetime = tempItem.sDatetime;
                             inputModel.eDatetime = tempItem.eDatetime;
                         }
-                        else
+                        else //생산중이 아니면
                         {
-                            inputModel.imagePath = "/img/bn_05.png";
+                            inputModel.imagePath = "/img/bn_05.png"; //시작버튼
 
+                            //종료시간이 있으면
                             if (inputModel.eDatetime.Length > 3)
                             {
-                                DSConsumer.product.imgSource = "/img/bn_03.png";
+                                DSConsumer.product.imgSource = "/img/bn_03.png"; //완료 버튼
                                 //mainModel.imagePath = "/img/bn_03.png";
                             }
                             else

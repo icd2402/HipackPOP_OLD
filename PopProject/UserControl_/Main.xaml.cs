@@ -46,6 +46,7 @@ namespace PopProject.UserControl_
         private bool sortChecked = true;
         private DispatcherTimer timer;
         private DispatcherTimer timer5;
+        private DispatcherTimer timer6;
         public static SerialPort arduSerial = new SerialPort();
         public static SerialPort arduSerial1 = new SerialPort();
         public static Win_input win_Input;
@@ -210,8 +211,11 @@ namespace PopProject.UserControl_
                     Timer_60s();        // 60초(1분) - POP 켜짐 신호 전송
                     Timer_300s();       // 300초(5분) - 계획/결과 갱신, 아두이노 연결 확인, 카운팅 값 전송
                     Timer_ycbox_1s();   // 1초 - 유창 기계(POP)별로 시간 다르게 계획/결과 갱신
-                    
-                    
+
+                    //if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
+                    //{
+                    //    Timer_1s_DsConsumer();
+                    //}
                 }
                 else
                 {
@@ -346,19 +350,33 @@ namespace PopProject.UserControl_
 
             if (connected) //네트워크 연결되어 있으면
             {
-                if (production != null && production.presultCount != 0)
+                //생산중일때
+                if (production != null)
                 {
-                    //현황판으로 카운터 전송
-                    CountManager.SendMsg(SettingJsonManager.mercName, production.presultCount.ToString()); 
+                    //실수요자 생산건
+                    if (production.bMember)
+                    {
+                        if (production.presultCount != 0)
+                        {
+                            //현황판으로 카운터 전송
+                            CountManager.SendMsg(SettingJsonManager.mercName, production.presultCount.ToString());
+                        }
+                    }
+                    else //일반 생산건
+                    {
+                        if (production.sumPworkCount != 0)
+                        {
+                            //현황판으로 카운터 전송
+                            CountManager.SendMsg(SettingJsonManager.mercName, production.sumPworkCount.ToString());
+                        }
+
+                    }
                 }
 
                 if (win_Input == null || robot_Setting == null)
                 {
-                    //if (SettingJsonManager.corp_name.Equals("유창포장") == false)
-                    //{
-                        SelectWorkList();
-                        ResultSearchDate();
-                    //}
+                    SelectWorkList();
+                    ResultSearchDate();
                 }
             }
         }
@@ -471,7 +489,7 @@ namespace PopProject.UserControl_
         }
         #endregion
 
-        // 타이머 1초 넘기기 신호
+        // 타이머 1초 넘기기 신호 && 실수요자(대세)
         private void Timer_1s_DetailPass()
         {
             timer5 = new DispatcherTimer
@@ -487,28 +505,53 @@ namespace PopProject.UserControl_
             //serviceDataRead();
         }
 
-        private void Timer_Test()
+        // 타이머 1초 실수요자(대세)
+        private void Timer_1s_DsConsumer()
         {
-            timer = new DispatcherTimer
+            timer6 = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(0.05)
+                Interval = TimeSpan.FromSeconds(1)
             };
-            timer.Tick += new EventHandler(Timer_Test_Tick);
-            timer.Start();
+            timer6.Tick += new EventHandler(Timer_1s_DsConsumer_Tick);
+            timer6.Start();
         }
 
-        int TestData = 0;
-        private void Timer_Test_Tick(object sender, EventArgs e)
+        private void Timer_1s_DsConsumer_Tick(object sender, EventArgs e)
         {
-            TestData++;
-            CountManager.SendMsg("A", TestData.ToString());
+            DSConsumerDataRead();
         }
-
+        
+        //유창 시간별 업데이트
         private void UpdateWorkPlanNResult()
         {
             SelectWorkList();
             ResultSearchDate();
         }
+
+        //대세물산 실시간 값 읽기
+        async Task DSConsumerDataRead()
+        {
+            //Console.WriteLine("신호 읽는중 ---");
+            string jsonString = await CountManager.ReadMsg();
+            Dictionary<string, string> jsonData = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonString);
+
+            string popMerName = SettingJsonManager.mercName;
+
+            foreach (KeyValuePair<string, string> item in jsonData)
+            {
+                if (item.Key.Equals(SettingJsonManager.mercName))
+                {
+                    if (item.Value.Equals("ConsumerRenew"))
+                    {
+                        //SelectWorkList();   //생산계획 조회
+                        //ResultSearchDate(); //생산결과 조회
+                        Console.WriteLine("조회완료");
+                        CountManager.SendMsg(SettingJsonManager.mercName, "empty"); //실수요자 계획키 생성
+                    }
+                }
+            }
+        }
+
 
         //넘기기 신호 조회(1초) 오주포장
         //async Task serviceDataRead()
@@ -683,7 +726,7 @@ namespace PopProject.UserControl_
                     arduSerial.DataReceived += ArduReReceive;
 
                     arduSerial.Open();
-                    arduSerial.Write(SettingJsonManager.SensorRate);
+                    //arduSerial.Write(SettingJsonManager.SensorRate);
                     btrSerial.Background = Brushes.Green;
 
                     if (arduSerial.IsOpen)
@@ -855,6 +898,10 @@ namespace PopProject.UserControl_
                             }
                         }
                     }));
+                }
+                else
+                {
+                    Console.WriteLine("production == null"); 
                 }
             }
             catch (Exception ex)
@@ -2334,8 +2381,7 @@ namespace PopProject.UserControl_
                 SettingJsonManager.serverIndex,
                 "[PopResultSearchDate]",
                 new string[] { "@pworkDate" },
-                //new string[] { DateTime.Now.ToString("yyyy-MM-dd") }, //날짜 고정
-                new string[] { dt.ToString("yyyy-MM-dd") },  //날짜 변경용
+                new string[] { dt.ToString("yyyy-MM-dd") },
             0
         );
             if (returnData.결과 == 1)
@@ -2718,7 +2764,7 @@ namespace PopProject.UserControl_
                     return;
                 }
 
-                bool check = true;
+                bool carryForwardButton = true; //이월 버튼 상태
                 if (sender.GetType().Name.Equals("Image"))
                 {
                     can.Visibility = Visibility.Visible;
@@ -2731,7 +2777,7 @@ namespace PopProject.UserControl_
                         //대기 버튼 진입
                         if (model.imagePath.Equals("/img/bn_02.png"))
                         {
-                            check = true; //이월 버튼 활성화
+                            carryForwardButton = false; //이월 버튼 비활성화
                             model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                             //관리자 로그인 아닐때 키 생성
@@ -2743,30 +2789,40 @@ namespace PopProject.UserControl_
                                     arduSerial.Write("A");//아두이노 카운터 리셋
                                 }
 
-                                //실수요자 창 팝업
+                                //시작 SP 실행
                                 PopResultStart(model);
+                                CountManager.SendMsg(SettingJsonManager.mercName, "ConsumerRenew"); 
                             }
                         }
                         //작업중 버튼 진입
                         else if (model.imagePath.Equals("/img/bn_01.png"))
                         {
-                            check = false; //이월 버튼 비활성화
+                            carryForwardButton = false; //이월 버튼 비활성화
                         }
                         //완료 버튼 진입
                         else if (model.imagePath.Equals("/img/bn_03.png"))
                         {
-                            check = true; //이월 버튼 활성화
+                            carryForwardButton = true; //이월 버튼 활성화
                             arduSerial.Write("A");//아두이노 카운터 리셋
                         }
 
                         e.Handled = false;
-                        DSConsumer dSConsumer = new DSConsumer(model, check);
+                        DSConsumer dSConsumer = new DSConsumer(model, carryForwardButton);
                         dSConsumer.ShowDialog(); //실수요자 리스트 창 팝업
 
                         //창 종료 후 
-                        CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
-                        SelectWorkList();   //생산계획 조회
-                        ResultSearchDate(); //생산결과 조회
+                        if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
+                        {
+                            CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
+                            SelectWorkList();   //생산계획 조회
+                            ResultSearchDate(); //생산결과 조회
+                        }
+                        else//구룡,선호
+                        {
+                            CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
+                            SelectWorkList();   //생산계획 조회
+                            ResultSearchDate(); //생산결과 조회
+                        }
                     }
                     //일반생산
                     else
@@ -2822,7 +2878,7 @@ namespace PopProject.UserControl_
             catch (Exception e1)
             {
                 LogManager.Error("상태버튼 클릭 오류 : " + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
-                e.Handled = false;
+                Console.WriteLine(e1.Message);                e.Handled = false;
                 can.Visibility = Visibility.Collapsed;
             }
 
@@ -3059,7 +3115,7 @@ namespace PopProject.UserControl_
                         arduSerial.Write("B"); //아두이노 현재카운터 요청
                     }
                     catch (Exception ex)
-                    {
+                    {                                                                                                                               
                         string exception = ex.Message;
                     }
 
@@ -3529,9 +3585,30 @@ namespace PopProject.UserControl_
             }
         }
 
+        private void testBT_Click(object sender, RoutedEventArgs e)
+        {
+            //try
+            //{
+            //   ReturnModel returnData = ServiceModel.GetData(
+            //           SettingJsonManager.serverIndex,
+            //           "[tmp_table1_Insert]",
+            //            new string[] { "@orderKey", "@orderDate", "@id", "@password", "@address", "@memo" },
+            //             new object[] { 100, DateTime.Now, "asd", 123, "aaaa", "ㄱㄴㄷㄹ" },
+            //             0
+            //             );
+            //    if (returnData.결과 == 1)
+            //    {
+            //        Console.WriteLine("Insert 성공");
+            //        JArray Data_Jarry = JArray.Parse(returnData.리턴값);
 
+            //    }
+            //}
+            //catch
+            //{
+            //    Console.WriteLine("Insert 실패");
+            //}
+        }
     }
-
 
     public class StrConverter : IValueConverter
     {

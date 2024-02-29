@@ -35,7 +35,7 @@ namespace PopProject.Consumer_
         private DsConsumer_input dsConsumer_Input = null;
         public static ConsumerModel product;
         private float sumPworkCount = 0;
-        int beforeCount = 0;
+        int todayTotalCount = 0;
         bool beforeCountCheck = true;
         string imgpath = "";
         private bool checkProcessing = false; //작업 진행건이 있는지 확인
@@ -46,17 +46,16 @@ namespace PopProject.Consumer_
         string arrChkAED = "";
         bool 이월체크 = false;
         bool checkbefore = true;
-        bool statCheck = false;
+        bool CarryForwardButtonState = false;
        
-        public DSConsumer(MainModel mainModel,bool check) //check= 대기버튼,완료버튼으로 들어오면 true / 작업중 버튼으로 들어오면 false
-
+        public DSConsumer(MainModel mainModel,bool carryForwardButtonState) //이월버튼 사용 유무
         {
             InitializeComponent();
             this.mainModel = mainModel;
-            statCheck = check;
+            CarryForwardButtonState = carryForwardButtonState;
 
             // 작업중 버튼으로 창을 열면 이월버튼 숨김 (이월버튼은 대기/완료일때만 가능)
-            if (!statCheck)
+            if (!CarryForwardButtonState)
             {
                 box1.Visibility = Visibility.Collapsed;
             }
@@ -85,24 +84,10 @@ namespace PopProject.Consumer_
 
         }
 
-        //현황판으로 시작신호 보냄 // 확인
-        //private void InvokeCount(string mercName, string v)
-        //{
-        //    //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
-        //    try
-        //    {
-        //        SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //    }
-        //}
-
         //실수요자 생산계획 조회
         private void PopWorkListSearch()
         {
             checkProcessing = false;
-            //consumerSumCount = 0;
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
 
@@ -137,12 +122,12 @@ namespace PopProject.Consumer_
                             adress = result["adress"].ToString(),                           //주소
                             PhonNo = result["PhonNo"].ToString(),                           //연락처
                             orderCount = int.Parse(result["orderCount"].ToString()),        //수주량
-                            workCount = int.Parse(result["workCount"].ToString()),        //수주량
+                            workCount = int.Parse(result["workCount"].ToString()),          //이전 생산량
                             pworkDate = DateTime.Parse(result["pworkDate"].ToString()),     //작업일자
                             pplanKey = int.Parse(result["pplanKey"].ToString()),            //계획키
                         };
 
-                        listitem.pWorkCount = float.Parse(result["pworkCount"].ToString()); //작업량
+                        listitem.pWorkCount = float.Parse(result["pworkCount"].ToString()); //금일 결과량
                         listitem.sDatetime = result["sDatetime"].ToString();                //시작시간
                         listitem.eDatetime = result["eDatetime"].ToString();                //종료시간
                         listitem.perrCnt = float.Parse(result["perrCnt"].ToString());       //불량수량
@@ -151,8 +136,9 @@ namespace PopProject.Consumer_
                         //상자수 사용 체크
                         if (SettingJsonManager.boxCheck)
                         {
-                            listitem.orderCount /= (int)mainModel.pCnt;  //수주량/통수
-                            listitem.pWorkCount /= (int)mainModel.pCnt;  //작업량/통수
+                            listitem.orderCount /= (int)mainModel.pCnt;  //주문량 ÷통수
+                            listitem.workCount /= (int)mainModel.pCnt;   //이전 생산량 ÷ 통수
+                            listitem.pWorkCount /= (int)mainModel.pCnt;  //금일 작업량 ÷ 통수
                         }
 
                         ////금일 실수요자 생산리스트 또는 수주량 - 작업량이 30개 초과인경우(작업이 남은경우) 리스트 등록
@@ -161,8 +147,8 @@ namespace PopProject.Consumer_
                         //    consumerList.Add(listitem);
                         //}
 
-                        //계획키 있거나 계획량 - 결과량 - 생산량 > 30
-                        if (listitem.pplanKey > 0 || listitem.orderCount - listitem.pWorkCount - listitem.workCount > 30)
+                        //계획키 있거나 주문량 - 이전 생산량  > 30 인것만 리스트 추가
+                        if (listitem.pplanKey > 0 || listitem.orderCount - listitem.workCount > 30)
                         {
                             consumerList.Add(listitem);
                         }
@@ -181,23 +167,40 @@ namespace PopProject.Consumer_
                         //        consumerList.Add(listitem);
                         //    }
                         //}
+                        Console.WriteLine("이름 : " + listitem.membName + ", pworkKey : " + listitem.pworkKey + ", pplanKey : " + listitem.pplanKey);
                     }
+
+                    //실수요자 리스트 만큼 반복
                     for (int i = 0; i < consumerList.Count; i++)
                     {
                         //실수요자 창 켰을시 한번만 실행
                         if (checkbefore)
                         {
-                            beforeCount += (int)Math.Ceiling(float.Parse(consumerList[i].pWorkCount.ToString())); //이미 완료된 생산량 더하기
+                            todayTotalCount += (int)Math.Ceiling(float.Parse(consumerList[i].pWorkCount.ToString())); //금일 작업량 합산
                         }
 
-                        //리스트를 조회해서 작업중인 건이 있으면 
+                        //리스트를 조회해서 시작시간 값이 있고 종료시간 값이 없으면 
                         if (consumerList[i].sDatetime.Length > 1 && consumerList[i].eDatetime.Length <= 1)
                         {
                             checkProcessing = true;
+                            //consumerList[i].imgSource = "/img/bn_01.png";
                             break;
                         }
 
+                        //시작,종료 시간이 둘 다 있을 경우 => 한번 이라도 생산 완료하면
+                        if (consumerList[i].sDatetime.Length > 1 && consumerList[i].eDatetime.Length > 1)
+                        {
+                            string sTime = consumerList[i].sDatetime;
+                            string eTime = consumerList[i].eDatetime;
+                            DateTime startTime = DateTime.ParseExact(sTime, "yyyy/MM/dd HH:mm:ss", null);
+                            DateTime endTime = DateTime.ParseExact(eTime, "yyyy/MM/dd HH:mm:ss", null);
 
+                            if (startTime > endTime)
+                            {
+                                consumerList[i].imgSource = "/img/bn_01.png"; //진행중 버튼으로 변경
+                                break;
+                            }
+                        }
                     }
                     Console.WriteLine("DSConsumerList.Count : " + consumerList.Count);
                     
@@ -367,22 +370,15 @@ namespace PopProject.Consumer_
         private int PopresultEnd(int totalCount, int totalErrorCount, string arrChkAED, string pWorkKey)
         {
             string 전체공정 = "0";
+
             if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
             {
                 if (SettingJsonManager.mercName.Contains("인라인"))
                 {
-                    //if (mainModel.subOb.Count == 2)
-                    //{
-                    //    전체공정 = "1";
-                    //}
-                    //else
-                    //{
-                    //    전체공정 = "0";
-                    //}
                     전체공정 = "1";
                 }
             }
-            //Thread.Sleep(1000);
+
             string parameter = "[" + SettingJsonManager.mercName + "] " + this.mainModel.customSName + Environment.NewLine + mainModel.prodName + " " + totalCount.ToString("N0") + "개";
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
@@ -413,13 +409,6 @@ namespace PopProject.Consumer_
             if (returnData.결과 == 1)
             {
                 Main.production = null;
-
-                //작업중 또는 완료 버튼으로 들어왔고 beforeCountCheck true면
-                //if ((imgpath.Equals("/img/bn_03.png") || imgpath.Equals("/img/bn_01.png")) && beforeCountCheck)
-                //{
-                //    beforeCountCheck = false;
-                //    PopresultEnd(0, 0, "3|", mainModel.ConsumWorkKey);
-                //}
             }
             SettingJsonManager.pplanKey = 0;
             SettingJsonManager.pworkkey = ""; 
@@ -489,37 +478,6 @@ namespace PopProject.Consumer_
                 PopWorkListSearch(); //계획리스트 조회
                 dsConsumer_Input = null;
                 e.Handled = false;
-
-                //인풋화면 호출과 동시에 아두이노 카운팅 시작
-                //switch (metrialitem)
-                //{
-                //    case "19":
-                //    case "20":
-                //        if (Main1.production != null)
-                //        {
-                //            try
-                //            {
-                //                Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청
-                //            }
-                //            catch (Exception)
-                //            {
-                //            }
-                //        }
-                //        break;
-
-                //    default:
-                //        if (Main.production != null)
-                //        {
-                //            try
-                //            {
-                //                Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
-                //            }
-                //            catch (Exception)
-                //            {
-                //            }
-                //        }
-                //        break;
-                //}
                 can.Visibility = Visibility.Collapsed; //화면 어둡게 처리 끄기
             }
         }
@@ -593,42 +551,24 @@ namespace PopProject.Consumer_
         private void Program_exit(object sender, MouseButtonEventArgs e)
         {
             Close();
-
-            //MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장", MessageBoxButton.YesNo);
-
-            //if (result == MessageBoxResult.No)
-            //{
-            //}
-            //else
-            //{
-            //    //작업중인 건 있으면
-            //    if (checkProcessing)
-            //    {
-            //        MessageBox_Dialog msg = new MessageBox_Dialog("생산 작업중인 건이 있습니다.");
-            //        msg.ShowDialog();
-            //    }
-            //    else//작업중인 건 없으면
-            //    {
-            //        Close();
-            //    }
-            //}
         }
 
         //실수요자 창 종료시
         private void consumClosed(object sender, EventArgs e)
         {
+            Console.WriteLine("실수요자 리스트 닫기 = " + "pworkkey : " + SettingJsonManager.pworkkey);
             float TempTotalCount = 0;
             float TempTotalErrorCount = 0;
 
             //pworkKey가 같으면
             if (consumerList.Where((x) => x.pworkKey.ToString() == SettingJsonManager.pworkkey).Count() > 0)
             {
-                //총 생산
+                //총 생산 합산
                 TempTotalCount = consumerList.Where((x) => x.pworkKey.ToString() == SettingJsonManager.pworkkey).Sum((x) => x.pWorkCount);
-                //총 불량
+                //총 불량 합산
                 TempTotalErrorCount = consumerList.Where((x) => x.pworkKey.ToString() == SettingJsonManager.pworkkey).Sum((x) => x.perrCnt);
 
-                //상자수 체크시
+                //상자수 체크시 매수 표현을 위해 통수 곱해줌
                 if (SettingJsonManager.boxCheck)
                 {
                     TempTotalCount *= int.Parse(mainModel.pCnt.ToString());
@@ -644,7 +584,7 @@ namespace PopProject.Consumer_
                     }
                     else
                     {
-                        //생산 결과량 있을때
+                        //생산 결과량 또는 불량수량 있을때
                         if (TempTotalCount > 0 || TempTotalErrorCount > 0)
                         {
                             //대기 버튼으로 들어왔었으면
@@ -688,7 +628,8 @@ namespace PopProject.Consumer_
             {
                 string refPworkKey = string.Format("{0}", SettingJsonManager.pworkkey);
                 PopresultEnd(Convert.ToInt32(TempTotalCount), Convert.ToInt32(TempTotalErrorCount), arrChkAED, SettingJsonManager.pworkkey);
-
+                
+                //수정이면 생산종료 시간 기록
                 if (arrChkAED == "2|")
                 {
                     PopResultEndTimeSetting(refPworkKey);

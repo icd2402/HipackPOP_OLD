@@ -236,7 +236,7 @@ namespace PopProject.Detail
                         ServiceModel.ServiceModelClean(ServerIndex, DBName);
                         returnData = ServiceModel.GetData(
                             ServerIndex,
-                            "[TBL_MERC_MGT].[spAdd523_Data2]",
+                            "[TBL_MERC_MGT].[spAdd523_Data_POP]",
                             new string[]
                             {
                                 "@type",
@@ -345,7 +345,7 @@ namespace PopProject.Detail
             ServiceModel.ServiceModelClean(ServerIndex, DBName);
             returnData = ServiceModel.GetData(
                 ServerIndex,
-                "[TBL_MERC_MGT].[spUdt524_Data2]",
+                "[TBL_MERC_MGT].[spUdt524_Data_POP]",
                 new string[]
                 {
                     "@type",

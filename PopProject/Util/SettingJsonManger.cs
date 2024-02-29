@@ -265,7 +265,7 @@ namespace PopProject.Util
         // JSON 설정 (settings.json) 파일에 저장, null 값인 경우 초기화
         public static bool SaveJsonFile()
         {
-            Console.WriteLine("SaveJsonFile 실행");
+            //Console.WriteLine("SaveJsonFile 실행");
             try
             {
                 //셋팅파일 경로가 존재하는지 확인 후 경로 생성
