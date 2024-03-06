@@ -103,6 +103,7 @@ namespace PopProject.Consumer_
 
             if (returnData.결과 == 1)
             {
+                Console.WriteLine("------------------------------------------------------");
                 JArray Data_Jarry = JArray.Parse(returnData.리턴값);
                 if (Data_Jarry != null)
                 {
@@ -167,7 +168,7 @@ namespace PopProject.Consumer_
                         //        consumerList.Add(listitem);
                         //    }
                         //}
-                        Console.WriteLine("이름 : " + listitem.membName + ", pworkKey : " + listitem.pworkKey + ", pplanKey : " + listitem.pplanKey);
+                        Console.WriteLine("실수요자명 : " + listitem.membName + ", pworkKey : " + listitem.pworkKey + ", pplanKey : " + listitem.pplanKey);
                     }
 
                     //실수요자 리스트 만큼 반복
@@ -221,6 +222,7 @@ namespace PopProject.Consumer_
                         txtNoPlan.Visibility = Visibility.Visible; //데이터 없음 글자 팝업
                     }
                 }
+                Console.WriteLine("------------------------------------------------------");
             }
             else
             {

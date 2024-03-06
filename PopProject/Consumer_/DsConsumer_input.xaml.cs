@@ -320,8 +320,8 @@ namespace PopProject.Consumer_
                         {
                         }
 
-                        PopResultStartMember(); //생산시작
-                        PopResultSearchMember(); //생산결과 건 조회
+                        PopResultStartMember(); //생산시작 [PopResultStartMember]
+                        PopResultSearchMember(); //생산결과 건 조회 [PopResultSearchMember]
                         CountManager.SendMsg(SettingJsonManager.mercName, "S"); //현황판으로 생산종료 송신
 
                     }

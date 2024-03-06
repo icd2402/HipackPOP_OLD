@@ -64,7 +64,7 @@
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="HorizontalContentAlignment" Value="Left" />
                 <!--<Setter Property="FontFamily" Value="{StaticResource FontName}"/>-->
-                <Setter Property="FontSize" Value="40"/>
+                <Setter Property="FontSize" Value="39"/>
                 <Setter Property="FontWeight" Value="Bold"  />
                 <Setter Property="Foreground" Value="Black"/>
             </Style>
@@ -136,7 +136,7 @@
                 <DockPanel >
                     <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="품      명" HorizontalContentAlignment="Center" Height="110"  Width="152" />
                     <Border BorderThickness="1,1,1,0" BorderBrush="Black">
-                        <TextBlock DockPanel.Dock="Right" FontSize="40" FontWeight="Bold"  Padding="10,0" Text="{Binding prodName}" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        <TextBlock DockPanel.Dock="Right" FontSize="39" FontWeight="Bold"  Padding="10,0" Text="{Binding prodName}" VerticalAlignment="Center" TextWrapping="Wrap"/>
                     </Border>
                 </DockPanel>
 

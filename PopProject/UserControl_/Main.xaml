@@ -2,6 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PopProject.UserControl_"
              mc:Ignorable="d"  
@@ -34,7 +35,7 @@
 
         <TextBlock x:Name="tbDB_lock" Text="DB Use: N" Foreground="White" Padding="5,0,0,0" TextAlignment="Justify" FontSize="15"  Margin="133,-1,1069,91" Width="78" Height="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" MouseLeftButtonDown="btnUseDB_click"></TextBlock>
         <Button x:Name="btnDB_lock" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="btnUseDB_click" Margin="114,-1,0,91" RenderTransformOrigin="5.75,0.55"/>
-        <Button x:Name="testBT" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="testBT_Click" Margin="224,-1,0,91"/>
+        <Button x:Name="testBT" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="testBT_Click" Visibility="Collapsed" Margin="224,-1,0,91"/>
 
         <!--Lock/Unlock-->
         <TextBlock x:Name="merc_lock" Text="LOCK" Foreground="White" Padding="5,0,0,0" TextAlignment="Justify" FontSize="15"  Margin="18,0,0,0" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" MouseLeftButtonDown="Logout_click"></TextBlock>
@@ -66,8 +67,9 @@
         <!--상단 바-->
         <Canvas Grid.Row="1" Background="White" Opacity="0.5"/>
         <Canvas x:Name="can1" Grid.Row="1" Margin="10,0,10,0" >
-            <Image Width="40" Height="40" Canvas.Left="8" Source="/img/title_01.png" MouseLeftButtonDown="Refresh"/>
-            <TextBlock x:Name="tbNo" Text="NO" TextAlignment="Center" Width="32" Canvas.Top="11" FontSize="18" Canvas.Left="14" MouseLeftButtonDown="Refresh" FontWeight="Bold" Foreground="White" FontFamily="/font/#KoPubDotum Bold"/>
+            <Image Width="40" Height="40" Canvas.Left="4" Source="/img/title_01.png" MouseLeftButtonDown="Refresh"/>
+            <TextBlock x:Name="tbNo" Text="NO" TextAlignment="Center" Width="32" Canvas.Top="11" FontSize="18" Canvas.Left="9" MouseLeftButtonDown="Refresh" FontWeight="Bold" Foreground="White" FontFamily="/font/#KoPubDotum Bold"/>
+            <Image Width="41" Height="40" Canvas.Left="48" Source="/img/Search4.png" MouseLeftButtonDown="workList_search"/>
             <TextBlock x:Name="div"  Canvas.Left="90" Canvas.Top="10" FontSize="18"  FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="sort" >
                 <Run x:Name="run수주일자" Text="[수주일자]"/>
                 <Run x:Name="run납품일자" Text="[납품일자]"/>
@@ -191,7 +193,10 @@
 
         <TextBlock x:Name="txtNoPlan" Text="생산계획이 없습니다." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="35" Grid.Row="3" FontFamily="/font/#KoPubDotum Medium" Margin="492,229,492,465"></TextBlock>
 
-        <Canvas x:Name="can" Background="Black" Opacity="0.35" Grid.RowSpan="5" Visibility="Collapsed"></Canvas>
+        <Canvas x:Name="can" Background="Black" Opacity="0.35" Grid.RowSpan="5" Visibility="Collapsed">
+            <TextBlock Text="로딩중입니다..." FontSize="55" Foreground="White" Background="Black" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="/font/#KoPubDotum bold" Canvas.Left="474" Canvas.Top="439" Height="56" Width="372"/>
+            <!--<Image x:Name="loading" gif:ImageBehavior.RepeatBehavior="Forever"  gif:ImageBehavior.AutoStart="False" gif:ImageBehavior.AnimatedSource="/img/loading.gif" Height="98" Canvas.Left="488" Canvas.Top="384" Width="350" Visibility="Collapsed" />-->
+        </Canvas>
 
         <!--생산실적현황-->
         <Grid x:Name="ss" Grid.Row="4" Background="#87BDE5" Visibility="Collapsed">

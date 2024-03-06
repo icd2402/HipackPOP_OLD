@@ -1619,7 +1619,8 @@ namespace PopProject.Input
         private int PopResultEnd()
         {
             string 전체공정 = "0";
-            if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
+            if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트") ||
+                SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트"))
             {
                 if (SettingJsonManager.mercName.Contains("인라인"))
                 {

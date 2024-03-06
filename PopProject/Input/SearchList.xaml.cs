@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace PopProject.Input
 {
@@ -211,6 +212,24 @@ namespace PopProject.Input
         {
             KeyBoardCall();
         }
+
+
+        //키보드 호출
+        private void keyboard_down(object sender, MouseButtonEventArgs e)
+        {
+            Border clickedBorder = (Border)sender;
+            clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D353D"));
+        }
+
+        //키보드 호출
+        private void keyboard_up(object sender, MouseButtonEventArgs e)
+        {
+            Border clickedBorder = (Border)sender;
+            clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#485563"));
+
+            KeyBoardCall();
+        }
+
 
         private void Main_keydownEvent(object sender, KeyEventArgs e)
         {

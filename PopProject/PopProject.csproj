@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.394</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.396</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>395</ApplicationRevision>
+    <ApplicationRevision>397</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -168,6 +168,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9e7cd3b544a090dc, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.2.0.2\lib\net40\WpfAnimatedGif.dll</HintPath>
+    </Reference>
     <Reference Include="zxing, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
       <HintPath>..\packages\ZXing.Net.0.16.9\lib\net45\zxing.dll</HintPath>
     </Reference>
@@ -1541,6 +1544,11 @@
     <None Include="Connected Services\ServiceReference_khbox\Access_MiddleWare_CRUD1.disco" />
     <Resource Include="img\5종구+6종구.PNG" />
     <Resource Include="img\4종구+11자4종구.PNG" />
+    <Resource Include="img\loading.gif" />
+    <Resource Include="img\Search.png" />
+    <Resource Include="img\Search2.png" />
+    <Resource Include="img\Search3.png" />
+    <Resource Include="img\Search4.png" />
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

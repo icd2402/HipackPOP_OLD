@@ -66,8 +66,8 @@ namespace PopProject.Util
                 return result;
             }
 
-            Console.WriteLine("전송 값 " + url + sendMessage);
-            Console.WriteLine("응답 값 : " + result);
+            //Console.WriteLine("전송 값 : " + url + sendMessage);
+            //Console.WriteLine("응답 값 : " + result);
             return result;
         }
 
@@ -107,8 +107,8 @@ namespace PopProject.Util
                 return result;
             }
 
-            Console.WriteLine("전송 값 " + url + sendMessage);
-            Console.WriteLine("응답 값 : " + result);
+            //Console.WriteLine("전송 값 : " + url + sendMessage);
+            //Console.WriteLine("응답 값 : " + result);
 
             return result;
         }
