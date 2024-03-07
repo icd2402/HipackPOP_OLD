@@ -1338,7 +1338,6 @@ namespace PopProject.Detail
             }
         }
 
-
         string ftpUri = "";
         string ImagName = "";
 
@@ -1350,8 +1349,7 @@ namespace PopProject.Detail
             SettingJsonManager.serverIndex,
             "[PopSearchPhoto]",
             new string[] { "@prodID" },
-            new object[] { mainModel.prodID
-            },
+            new object[] { mainModel.prodID },
             0
             );
 
@@ -1374,7 +1372,6 @@ namespace PopProject.Detail
                         ob.Add(uri);
                     }
                     uriPathOB = ob;
-
 
                     //FTP(가비아서버)
                     if (SettingJsonManager.corp_name.Equals("대양포장"))
