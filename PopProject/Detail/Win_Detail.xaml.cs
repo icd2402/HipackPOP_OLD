@@ -1128,7 +1128,6 @@ namespace PopProject.Detail
             }
         }
 
-
         private string ValueConvert(string data, bool intIsFalse)
         {
             //앞뒤 두자리 묶음 자리변환
