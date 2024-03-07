@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -48,19 +49,9 @@ namespace PopProject.Consumer_
             this.mainModel = mainModel;
             inputModel = new InputModel();
 
-            //완료건 클릭시 (완료수량, 시작시간, 종료시간)
-            if (consumerModel.pWorkCount > 0 && consumerModel.sDatetime.Length > 3 && consumerModel.eDatetime.Length > 3)
-            {
-                box1.Visibility = Visibility.Visible;//이월버튼 활성화
-                Canvas.SetTop(box, 490);
-                Canvas.SetTop(box1, 570);
-            }
-            //대기,작업중 클릭시
-            else
-            {
-                box1.Visibility = Visibility.Collapsed; //이월버튼 비활성화
-                Canvas.SetTop(box, 540);
-            }
+            //이월버튼 비활성화
+            box1.Visibility = Visibility.Collapsed; //이월버튼 비활성화
+            Canvas.SetTop(box, 540);
 
             ConvertModel();
             PopBeforeProcessItemCount();
@@ -414,6 +405,19 @@ namespace PopProject.Consumer_
                 workcount *= (int)mainModel.pCnt;
             }
 
+
+            if (SettingJsonManager.corp_name.Equals("대세물산테스트"))
+            {
+                LogManager.Debug("실수요자 input창 종료" + Environment.NewLine +
+                                 "[PopResultEndMember] : " + Environment.NewLine +
+                                 "작업일자: " + DateTime.Now.ToString("yyyy-MM-dd") + Environment.NewLine +
+                                 "오더Key: " + inputModel.orderKey + Environment.NewLine +
+                                 "ChkAED: " + ChkAED + Environment.NewLine +
+                                 "실수요자생산Key: " + inputModel.workMemberKey + Environment.NewLine +
+                                 "작업량: " + workcount + Environment.NewLine +
+                                 "불량: " + inputModel.perrCount, MethodBase.GetCurrentMethod().DeclaringType);
+            }
+
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
                 SettingJsonManager.serverIndex,
@@ -431,6 +435,14 @@ namespace PopProject.Consumer_
 
             if (returnData.결과 == 1)
             {
+                Console.WriteLine("실수요자 input창 종료 [PopResultEndMember] : " + 
+                                  "작업일자: " + DateTime.Now.ToString("yyyy-MM-dd") +
+                                  ", 오더키: " + inputModel.orderKey +
+                                  ", ChkAED: " + ChkAED +
+                                  ", 실수요자생산Key: " + inputModel.workMemberKey +
+                                  ", 작업량: " + workcount +
+                                  ", 불량수: " + inputModel.perrCount);
+
                 SettingJsonManager.consumCount += workcount; //생산수량 담기
                 SettingJsonManager.SaveJsonFile();
                 CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신

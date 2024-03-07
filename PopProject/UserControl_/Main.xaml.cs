@@ -870,7 +870,10 @@ namespace PopProject.UserControl_
                                 //옵션에서 상자 수 체크시 
                                 if (SettingJsonManager.boxCheck)
                                 {
-                                    production.sumPworkCount = Convert.ToInt32(str);
+                                    if (production != null)
+                                    {
+                                        production.sumPworkCount = Convert.ToInt32(str);
+                                    }
                                 }
                                 else
                                 {
@@ -1178,7 +1181,7 @@ namespace PopProject.UserControl_
                                 run품명.Text = "품명";
 
                                 //div.Text = "[수주날짜] [납품일자] 거래처/품명";
-                                Canvas.SetLeft(div, 85);
+                                Canvas.SetLeft(div, 93);
                                 listitem.visibility = Visibility.Visible;  //ScrollViewer 수주날짜
                                 listitem.visibility1 = Visibility.Visible; //ScrollViewer 납품일자
                                 listitem.left = 250;
@@ -1443,7 +1446,8 @@ namespace PopProject.UserControl_
                         
 
                         //오주,대양 외
-                        if (!SettingJsonManager.corp_name.Equals("오주포장") && !SettingJsonManager.corp_name.Equals("대양포장") && !SettingJsonManager.corp_name.Equals("오주포장테스트"))
+                        if (!SettingJsonManager.corp_name.Equals("오주포장") && !SettingJsonManager.corp_name.Equals("오주포장테스트") &&
+                            !SettingJsonManager.corp_name.Equals("대양포장") && !SettingJsonManager.corp_name.Equals("대양포장테스트"))
                         {
                             listitem.icback = listitem.bMember ? "#AFE1FF" : "White"; //실수요자일때 하늘색 바탕으로 표시
                             listitem.pStateVisi = Visibility.Collapsed;
@@ -1627,7 +1631,7 @@ namespace PopProject.UserControl_
                             }
                         }
                         //오주포장 (풀접합)
-                        else if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("풀접합"))
+                        else if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") && SettingJsonManager.mercName.Equals("풀접합"))
                         {
                             if (listitem.ProcessType == 8 || listitem.ProcessType == 7 || listitem.ProcessType == 5) //7:철접합  8: 풀접합
                             {
@@ -1897,7 +1901,7 @@ namespace PopProject.UserControl_
 
                         }
                         //오주포장 (2공장인쇄기)
-                        else if (SettingJsonManager.corp_name.Equals("오주포장") &&SettingJsonManager.mercName.Equals("2공장인쇄기"))
+                        else if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") && SettingJsonManager.mercName.Equals("2공장인쇄기"))
                         {
                             if (listitem.ProcessType == 27) //2공장 인쇄기
                             {
@@ -2791,7 +2795,7 @@ namespace PopProject.UserControl_
                             if (!SettingJsonManager.manager.Equals("1") && production == null)
                             {
                                 //아두이노 연결 안되어있으면 무시
-                                if (!SettingJsonManager.SerialName.Equals(""))
+                                if (!SettingJsonManager.SerialName.Equals("") && dSConsumer == null)
                                 {
                                     arduSerial.Write("A");//아두이노 카운터 리셋
                                 }
@@ -2810,7 +2814,7 @@ namespace PopProject.UserControl_
                             carryForwardButton = true; //이월 버튼 활성화
 
                             //아두이노 연결 안되어있으면 무시
-                            if (!SettingJsonManager.SerialName.Equals(""))
+                            if (!SettingJsonManager.SerialName.Equals("") && dSConsumer == null)
                             {
                                 arduSerial.Write("A");//아두이노 카운터 리셋
                             }
@@ -2820,7 +2824,7 @@ namespace PopProject.UserControl_
                         dSConsumer = new DSConsumer(model, carryForwardButton);
                         dSConsumer.ShowDialog(); //실수요자 리스트 창 팝업
 
-
+                        dSConsumer = null;
                         CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
                         SelectWorkList();   //생산계획 조회 [PopWorkList]
                         ResultSearchDate(); //생산결과 조회 [PopResultSearchDate]
@@ -2867,6 +2871,7 @@ namespace PopProject.UserControl_
                     }
                     win_Input = null;
 
+                    //아두이노 현재값 요청
                     if (production != null)
                     {
                         arduSerial.Write("B");
@@ -2878,7 +2883,10 @@ namespace PopProject.UserControl_
             }
             catch (Exception e1)
             {
-                SettingJsonManager.SerialName = "";
+                if (e1.Message == "포트가 닫혀 있습니다.")
+                {
+                    SettingJsonManager.SerialName = "";
+                }
                 LogManager.Error("상태버튼 클릭 오류 : " + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
                 Console.WriteLine(e1.Message);                e.Handled = false;
                 can.Visibility = Visibility.Collapsed;

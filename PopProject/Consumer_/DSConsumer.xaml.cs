@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -381,6 +382,25 @@ namespace PopProject.Consumer_
                 }
             }
 
+            if (SettingJsonManager.corp_name.Equals("대세물산테스트"))
+            {
+                LogManager.Debug("실수요자 리스트창 종료" + Environment.NewLine +
+                                 "[PopResultEnd] : " + Environment.NewLine +
+                                 "AllChkAED:" + "2" + Environment.NewLine +
+                                 "작업일자:" + DateTime.Now.ToString("yyyy-MM-dd") + Environment.NewLine +
+                                 "orderKey:" + mainModel.orderKey + Environment.NewLine +
+                                 "arrChkAED:" + arrChkAED + Environment.NewLine +
+                                 "arr공정구분:" + mainModel.ProcessType + Environment.NewLine +
+                                 "arr계획키:" + mainModel.pplanKey + Environment.NewLine +
+                                 "arr작업키:" + pWorkKey + Environment.NewLine +
+                                 "arr작업량:" + totalCount + Environment.NewLine +
+                                 "arr불량:" + totalErrorCount + Environment.NewLine +
+                                 "arr비고:" + "" + Environment.NewLine +
+                                 "시작시간:" + mainModel.sDatetime + Environment.NewLine +
+                                 "설비명:" + SettingJsonManager.mercName + Environment.NewLine +
+                                 "전체공정" + 전체공정, MethodBase.GetCurrentMethod().DeclaringType);
+            }
+
             string parameter = "[" + SettingJsonManager.mercName + "] " + this.mainModel.customSName + Environment.NewLine + mainModel.prodName + " " + totalCount.ToString("N0") + "개";
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
@@ -411,6 +431,20 @@ namespace PopProject.Consumer_
             if (returnData.결과 == 1)
             {
                 Main.production = null;
+                Console.WriteLine("실수요자 리스트 종료 [PopResultEnd] : " +
+                                  "AllChkAED:" + "2" +
+                                  ", 작업일자:" + DateTime.Now.ToString("yyyy-MM-dd") +
+                                  ", orderKey:" + mainModel.orderKey +
+                                  ", arrChkAED:" + arrChkAED +
+                                  ", arr공정구분:" + mainModel.ProcessType +
+                                  ", arr계획키:" + mainModel.pplanKey +
+                                  ", arr작업키:" + pWorkKey +
+                                  ", arr작업량:" + totalCount +
+                                  ", arr불량:" + totalErrorCount +
+                                  ". arr비고:" + "" +
+                                  ", 시작시간:" + mainModel.sDatetime +
+                                  ", 설비명:" + SettingJsonManager.mercName +
+                                  ", 전체공정" + 전체공정);
             }
             SettingJsonManager.pplanKey = 0;
             SettingJsonManager.pworkkey = ""; 
@@ -528,6 +562,14 @@ namespace PopProject.Consumer_
         //생산계획 이월
         private void spAdd410processinfo_workplan()
         {
+            if (SettingJsonManager.corp_name.Equals("대세물산테스트"))
+            {
+                LogManager.Debug("실수요자 리스트 이월" + Environment.NewLine +
+                                 "[spAdd410processinfo_workplan] : " + Environment.NewLine +
+                                 "오더Key:" + mainModel.orderKey + Environment.NewLine +
+                                 "계획Key:" + mainModel.pplanKey, MethodBase.GetCurrentMethod().DeclaringType);
+            }
+
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
                 SettingJsonManager.serverIndex,
@@ -626,6 +668,7 @@ namespace PopProject.Consumer_
                 arrChkAED = "3|"; //삭제
             }
 
+            //arrChkAED 값 있을때
             if (arrChkAED != "")
             {
                 string refPworkKey = string.Format("{0}", SettingJsonManager.pworkkey);
@@ -639,6 +682,7 @@ namespace PopProject.Consumer_
             }
         }
 
+        //수정이면 생산종료 시간 기록
         private void PopResultEndTimeSetting(string pworkkey)
         {
 

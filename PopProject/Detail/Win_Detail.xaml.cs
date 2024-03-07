@@ -1941,7 +1941,7 @@ namespace PopProject.Detail
                         }
                         else
                         {
-                            Console.WriteLine("prodMemo : " + result["prodMemo"]);
+                            //Console.WriteLine("prodMemo : " + result["prodMemo"]);
                             if (result["prodMemo"] != null && result["prodMemo"].ToString() != "")
                             {
                                 if (MemoLock)

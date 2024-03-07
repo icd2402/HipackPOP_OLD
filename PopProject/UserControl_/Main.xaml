@@ -68,9 +68,9 @@
         <Canvas Grid.Row="1" Background="White" Opacity="0.5"/>
         <Canvas x:Name="can1" Grid.Row="1" Margin="10,0,10,0" >
             <Image Width="40" Height="40" Canvas.Left="4" Source="/img/title_01.png" MouseLeftButtonDown="Refresh"/>
-            <TextBlock x:Name="tbNo" Text="NO" TextAlignment="Center" Width="32" Canvas.Top="11" FontSize="18" Canvas.Left="9" MouseLeftButtonDown="Refresh" FontWeight="Bold" Foreground="White" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock x:Name="tbNo" Text="NO" TextAlignment="Center" Width="34" Canvas.Top="11" FontSize="18" Canvas.Left="8" MouseLeftButtonDown="Refresh" FontWeight="Bold" Foreground="White" FontFamily="/font/#KoPubDotum Bold"/>
             <Image Width="41" Height="40" Canvas.Left="48" Source="/img/Search4.png" MouseLeftButtonDown="workList_search"/>
-            <TextBlock x:Name="div"  Canvas.Left="90" Canvas.Top="10" FontSize="18"  FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="sort" >
+            <TextBlock x:Name="div"  Canvas.Left="93" Canvas.Top="10" FontSize="18"  FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="sort" >
                 <Run x:Name="run수주일자" Text="[수주일자]"/>
                 <Run x:Name="run납품일자" Text="[납품일자]"/>
                 <Run x:Name="run거래처" Text="거래처"/>

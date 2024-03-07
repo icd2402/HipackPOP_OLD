@@ -139,48 +139,47 @@ namespace PopProject.Input
             Console.WriteLine("품명: "     + inputModel.prodName + ", " +
                               "orderkey: " + inputModel.orderKey + ", " +
                               "pplanKey: " + inputModel.pplanKey + ", " +
-                              "prodID: "   + inputModel.prodID + ", " +
-                              "시작시간: " + inputModel.sDatetime
+                              "prodID: "   + inputModel.prodID + ", " 
                               );
         }
 
         //오주포장 장비별 카운터 수신(아두이노)
         private void recive(string arg1, string arg2)  //설비명, 카운터
         {
-            Console.WriteLine("오주 아두이노 값(input) : " +  arg2);
-            try
-            {
-                Application.Current.Dispatcher.Invoke(new Action(() =>
-                {
-                    switch (arg1)
-                    {
-                        case "인라인3호기":
-                        case "후렉소":
-                            {
-                                try
-                                {
-                                    //종료버튼 활성화 일때
-                                    if (inputModel.imagePath.Equals("/img/bn_06.png"))
-                                    {
-                                        if (arg1.Equals(SettingJsonManager.mercName))
-                                        {
-                                            inputModel.pworkCount = float.Parse(arg2);
-                                        }
-                                    }
-                                }
-                                catch (Exception e)
-                                {
-                                    LogManager.Error("후렉소 아두이노 값 표시 에러\n" + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
-                                }
-                            }
-                            break;
-                    }
-                }), DispatcherPriority.ApplicationIdle);
-            }
-            catch (Exception e)
-            {
-                LogManager.Error("오주포장 인라인3호기 전용 카운터 SignalR 수신 오류 : " + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
-            }
+            //Console.WriteLine("오주 아두이노 값(input) : " +  arg2);
+            //try
+            //{
+            //    Application.Current.Dispatcher.Invoke(new Action(() =>
+            //    {
+            //        switch (arg1)
+            //        {
+            //            case "인라인3호기":
+            //            case "후렉소":
+            //                {
+            //                    try
+            //                    {
+            //                        //종료버튼 활성화 일때
+            //                        if (inputModel.imagePath.Equals("/img/bn_06.png"))
+            //                        {
+            //                            if (arg1.Equals(SettingJsonManager.mercName))
+            //                            {
+            //                                inputModel.pworkCount = float.Parse(arg2);
+            //                            }
+            //                        }
+            //                    }
+            //                    catch (Exception e)
+            //                    {
+            //                        LogManager.Error("후렉소 아두이노 값 표시 에러\n" + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
+            //                    }
+            //                }
+            //                break;
+            //        }
+            //    }), DispatcherPriority.ApplicationIdle);
+            //}
+            //catch (Exception e)
+            //{
+            //    LogManager.Error("오주포장 인라인3호기 전용 카운터 SignalR 수신 오류 : " + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
+            //}
         }
 
         
@@ -875,8 +874,8 @@ namespace PopProject.Input
                 checkInput = true;
 
                 SettingJsonManager.pworkkey = returnData.리턴값;
-                SettingJsonManager.SaveJsonFile();
                 //Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
+                SettingJsonManager.SaveJsonFile();
                 mainModel.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 CountManager.SendMsg(SettingJsonManager.mercName, "S");
                 CountManager.SendMsg(SettingJsonManager.mercName, "0");
@@ -886,6 +885,7 @@ namespace PopProject.Input
                 SettingJsonManager.SaveJsonFile();
 
                 PopInlineEnd(subOb, int.Parse(returnData.리턴값));
+
                 switch (metrialitem)
                 {
                     case "19":
@@ -909,6 +909,7 @@ namespace PopProject.Input
                             msg.ShowDialog();
                         }
                         break;
+
                     default:
                         Main.production = mainModel;
 
@@ -919,7 +920,6 @@ namespace PopProject.Input
                                 Main.arduSerial.Write("A"); //아두이노 카운터 리셋
                                 Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                             }
-
                             else
                             {
                                 Main.arduSerial.Write("A"); //아두이노 카운터 리셋
@@ -1619,8 +1619,8 @@ namespace PopProject.Input
         private int PopResultEnd()
         {
             string 전체공정 = "0";
-            if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트") ||
-                SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트"))
+
+            if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
             {
                 if (SettingJsonManager.mercName.Contains("인라인"))
                 {
@@ -1631,7 +1631,7 @@ namespace PopProject.Input
             //결과수량
             inputModel.pworkCount = int.Parse(tbResult.Text.ToString());
 
-            //생산,불량수량 0이면 3| 경과수량 있으면 1|
+            //생산,불량수량 0이면 3| 결과수량 있으면 1|
             string arrChkAED = inputModel.pworkCount == 0 && inputModel.perrCount == 0 ? "3|" : "1|";
 
             //상자 수 사용 체크시 통수 곱해줌
@@ -1677,19 +1677,17 @@ namespace PopProject.Input
             if (returnData.결과 == 1)
             {
 
-                Canvas.SetTop(box, 490);
-                Canvas.SetTop(box1, 570);
+                Canvas.SetTop(box, 490); //세부내역 버튼
+                Canvas.SetTop(box1, 570); //이월 버튼
 
+                //생산수량 있을때만 이월버튼 보이도록 함
                 count = inputModel.pworkCount;
-                //Result_Update.Visibility = Visibility.Visible;
-
                 if (count > 0)
                 {
                     box1.Visibility = Visibility.Visible;
                     Canvas.SetTop(box, 490);
                     Canvas.SetTop(box1, 570);
                 }
-
                 else
                 {
                     box1.Visibility = Visibility.Collapsed;
@@ -1697,14 +1695,14 @@ namespace PopProject.Input
                 }
 
                 checkInput = true;
-                inputModel.imagePath = "/img/bn_05.png"; //시작
-                mainModel.imagePath = "/img/bn_02.png"; //대기
+                inputModel.imagePath = "/img/bn_05.png"; //input창 시작버튼으로 변경
+                mainModel.imagePath = "/img/bn_02.png"; //main창 대기버튼으로 변경
                 mainModel.sumPworkCount = inputModel.pworkCount + inputModel.perrCount;
-
                 mainModel.presultCount = inputModel.pworkCount + inputModel.perrCount;
                 mainModel.presultCount1 = inputModel.pworkCount + inputModel.perrCount;
-
                 mainModel.perrorCount = (int)inputModel.perrCount;
+                
+                //공정 상태 검정색으로 변경
                 for (int i = 0; i < mainModel.subOb.Count; i++)
                 {
                     if (SettingJsonManager.processType == mainModel.subOb[i].processType)
@@ -1717,9 +1715,10 @@ namespace PopProject.Input
                 CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
                 CountManager.SendMsg(SettingJsonManager.mercName, "0"); //
 
-                //오주포장, 철접합(7),베가(8),인라인2,3호기(13), 5는 없음
-                if (SettingJsonManager.corp_name.Equals("오주포장") && (SettingJsonManager.processType == 7
-                    || SettingJsonManager.processType == 5
+                //오주포장 인라인기 온제품 처리 (철접합(7),베가(8),인라인2,3호기(13), 5는 없음)
+                if (SettingJsonManager.corp_name.Equals("오주포장")  || SettingJsonManager.corp_name.Equals("오주포장테스트") &&
+                    (SettingJsonManager.processType == 5
+                    || SettingJsonManager.processType == 7
                     || SettingJsonManager.processType == 8
                     || SettingJsonManager.processType == 13
                     ))
@@ -1736,12 +1735,26 @@ namespace PopProject.Input
                     }
                 }
 
-                //성주포장 후렉소
-                if (SettingJsonManager.corp_name.Equals("성주포장") && SettingJsonManager.mercName.Equals("후렉소") && (SettingJsonManager.processType == 1))
+                //금화 인라인기 완제품 처리
+                if (SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트") && SettingJsonManager.mercName.Equals("인라인") && SettingJsonManager.processType == 1)
                 {
                     for (int i = 0; i < mainModel.subOb.Count; i++)
                     {
+                        if (mainModel.subOb[i].ProcessTypeName.Equals("접합") || mainModel.subOb[i].ProcessTypeName.Equals("톰슨"))
+                        {
+                            if (mainModel.subOb[i].presultCount < 1)
+                            {
+                                PopInlineStart(mainModel.subOb[i]);
+                            }
+                        }
+                    }
+                }
 
+                //성주포장 인라인기(후렉소) 완제품 처리
+                if (SettingJsonManager.corp_name.Equals("성주포장") || SettingJsonManager.corp_name.Equals("성주포장테스트") && SettingJsonManager.mercName.Equals("후렉소") && (SettingJsonManager.processType == 1))
+                {
+                    for (int i = 0; i < mainModel.subOb.Count; i++)
+                    {
                         if (mainModel.subOb[i].ProcessTypeName.Equals("인쇄"))
                         {
                             if (mainModel.subOb[i].presultCount < 1)
@@ -1750,19 +1763,6 @@ namespace PopProject.Input
                             }
                         }
                     }
-                }
-
-                //구룡산업
-                if(SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
-                {
-                    //if (SettingJsonManager.mercName.Contains("인라인"))
-                    //{
-                    //    if (mainModel.subOb.Count == 2)
-                    //    {
-                    //        PopInlineStart(mainModel.subOb[mainModel.subOb.Count - 1]);
-                    //    }
-                       
-                    //}
                 }
 
                 //아두이노 리셋
@@ -1837,7 +1837,6 @@ namespace PopProject.Input
                 inputModel.workerId,
                 inputModel.SCMKey},
                 1
-
                 );
 
             if (returnData.결과 == 1)
@@ -1864,7 +1863,6 @@ namespace PopProject.Input
                         {
                             if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트")) 
                             {
-                                
                             }
                             else
                             {
@@ -1873,7 +1871,6 @@ namespace PopProject.Input
                                     Main1.arduSerial.Write("A"); //아두이노 카운터 리셋
                                     Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청
                                 }
-
                                 else
                                 {
                                     Main1.arduSerial.Write("A"); //아두이노 카운터 리셋
@@ -1918,68 +1915,6 @@ namespace PopProject.Input
 
                         break;
                 }
-                //if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("대양포장"))
-                //{
-                //    if (SettingJsonManager.Plc)
-                //    {
-                //        try
-                //        {
-                //            string[] psize;
-                //            psize = mainModel.pSize.Split('*');
-                //            SettingJsonManager.mimi = 35;
-                //            SettingJsonManager.jang = int.Parse(psize[0].Trim());
-                //            SettingJsonManager.pok = int.Parse(psize[1].Trim());
-                //            SettingJsonManager.go = int.Parse(psize[2].Trim());
-                //            SettingJsonManager.setCount = (int)mainModel.pplanCount;
-                //            switch (mainModel.paperGor.Replace("골", "").Trim())
-                //            {
-                //                case "AB":
-                //                case "BA":
-                //                    SettingJsonManager.Gap = 70;
-                //                    break;
-
-                //                case "BB":
-                //                    SettingJsonManager.Gap = 60;
-                //                    break;
-
-                //                case "A":
-                //                    SettingJsonManager.Gap = 50;
-                //                    break;
-
-                //                case "EB":
-                //                    SettingJsonManager.Gap = 40;
-                //                    break;
-
-                //                case "B":
-                //                    SettingJsonManager.Gap = 30;
-                //                    break;
-
-                //                case "E":
-                //                    SettingJsonManager.Gap = 20;
-                //                    break;
-                //                default:
-                //                    break;
-                //            }
-                //            SettingJsonManager.SaveJsonFile();
-                //        }
-                //        catch (Exception)
-                //        {
-                //            SettingJsonManager.mimi = 35;
-                //            SettingJsonManager.jang = 0;
-                //            SettingJsonManager.pok = 0;
-                //            SettingJsonManager.go = 0;
-                //            SettingJsonManager.setCount = 99999;
-                //            SettingJsonManager.Gap = 7;
-                //            SettingJsonManager.SaveJsonFile();
-                //        }
-                //        finally
-                //        {
-                //            if (SettingJsonManager.Plc)
-                //            {
-                //            }
-                //        }
-                //    }
-                //}
             }
             else
             {
@@ -1988,98 +1923,6 @@ namespace PopProject.Input
             }
             return returnData.결과;
         }
-
-        //현황판 전송 POP 상태값(S,E,0) // 확인
-        //private void InvokeCount(string mercName, string mercState)
-        //{
-        //    //Console.WriteLine("ServiceModel.DB_Handle_Model.접속정보[0]" + ServiceModel.접속정보[0]);
-        //    try
-        //    {
-        //        if (SettingJsonManager.corp_name.Equals("광성수출포장") ||
-        //            SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
-        //            SettingJsonManager.corp_name.Equals("대세물산") ||
-        //            SettingJsonManager.corp_name.Equals("대세물산테스트") ||
-        //            SettingJsonManager.corp_name.Equals("유창포장") ||
-        //            SettingJsonManager.corp_name.Equals("유창포장테스트"))
-        //        {
-        //            inputPopService(mercName, mercState);
-        //        }
-        //        else
-        //        {
-        //            SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, mercState);
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //    }
-        //}
-
-        //신규 서비스 Http 셋팅
-        //private static HttpClient client = new HttpClient();
-        //async void inputPopService(string mercName, string str)
-        //{
-        //    //주소
-        //    if (SettingJsonManager.corp_name.Equals("광성수출포장"))
-        //    {
-        //        Url = "http://ksbox.iptime.org:18888/pop/gathering"; //광성
-        //    }
-        //    else if (SettingJsonManager.corp_name.Equals("대세물산"))
-        //    {
-        //        Url = "http://dsbox.iptime.org:18888/pop/gathering"; //대세
-        //    }
-        //    else if (SettingJsonManager.corp_name.Equals("유창포장"))
-        //    {
-        //        Url = "http://211.253.37.232:18888/pop/gathering"; //유창
-        //    }
-        //    else if (SettingJsonManager.corp_name.Equals("금화"))
-        //    {
-        //        Url = "http://khbox.iptime.org:18888/pop/gathering"; //금화
-        //    }
-        //    else if (SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
-        //            SettingJsonManager.corp_name.Equals("대세물산테스트") ||
-        //            SettingJsonManager.corp_name.Equals("유창포장테스트") ||
-        //            SettingJsonManager.corp_name.Equals("금화테스트"))
-        //    {
-        //        Url = "http://localhost:18888/pop/gathering"; //테스트용 주소(개인 DeskTop)
-        //    }
-
-        //    string CompanyCode = SettingJsonManager.corp_id; //업체코드
-        //    string MercName = mercName; //설비명
-        //    string Data = str.ToString(); //데이터
-
-        //    await inputWorkCnt(Url, CompanyCode, MercName, Data);
-        //}
-
-        ////신규 서비스 Http Get
-        //async Task inputWorkCnt(string url, string companyCode, string mercName, string data)
-        //{
-        //    try
-        //    {
-        //        // 파라미터를 포함한 URL 생성
-        //        string urlWithParameters = $"{url}/{companyCode}/{mercName}/{data}";
-        //        // HTTP GET 요청 보내기
-        //        await client.GetAsync(urlWithParameters).ContinueWith((t) =>
-        //        {
-        //            //HttpResponseMessage response;
-
-        //            if (t.IsFaulted)
-        //            {
-        //                log.Error("서비스 전송 후 대기 중 문제가 발생했습니다.");
-        //            }
-        //            else
-        //            {
-        //                //response = t.Result;
-        //            }
-        //        }, TaskScheduler.FromCurrentSynchronizationContext());
-
-        //        //HttpResponseMessage response = await client.GetAsync(urlWithParameters);
-
-        //        Console.WriteLine(urlWithParameters);
-        //    }
-        //    catch (Exception)
-        //    {
-        //    }
-        //}
 
         private void Image_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
         {
@@ -2123,7 +1966,6 @@ namespace PopProject.Input
                 default:
                     value = (float)inputModel.pCnt;
                     break;
-
             }
 
             ReturnModel returnData = ServiceModel.GetData(
@@ -2176,14 +2018,12 @@ namespace PopProject.Input
 
         private void tbBarcode_KeyDown(object sender, KeyEventArgs e)
         {
-
             string code = tbBarcode.Text;
             tbBarcode.Text = "";
             if (PopSearchWorkerName(code) != true)
             {
                 PopScmCheck(code);
             }
-
         }
 
         private void PopScmCheck(string SCMKey)
@@ -2191,12 +2031,10 @@ namespace PopProject.Input
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
                 SettingJsonManager.serverIndex,
-
                 "[PopScmCheck]",
                 new string[] { "@SCMKey" },
                 new object[] { SCMKey },
                 0
-
                 );
 
             if (returnData.결과 == 1)
@@ -2239,7 +2077,6 @@ namespace PopProject.Input
                 new string[] { "@workerID" },
                 new object[] { workerID },
                 0
-
                 );
 
             if (returnData.결과 == 1)
@@ -2260,8 +2097,8 @@ namespace PopProject.Input
                     inputModel.workerId = "";
                     inputModel.workerName = "";
                     bool_return = false;
+                 
                     return bool_return;
-
                 }
             }
             else
@@ -2269,6 +2106,7 @@ namespace PopProject.Input
                 MessageBox_Dialog msg = new MessageBox_Dialog("PopSearchWorkerName 조회 오류!!");
                 msg.ShowDialog();
                 bool_return = false;
+
                 return bool_return;
             }
         }
@@ -2326,6 +2164,7 @@ namespace PopProject.Input
                 new object[] { inputModel.orderKey, inputModel.pplanKey },
                 1
                 );
+
             if (returnData.결과 == 1)
             {
                 MessageBox_Dialog msg = new MessageBox_Dialog("이월 완료");
@@ -2349,7 +2188,6 @@ namespace PopProject.Input
 
         private void Result_modi(object sender, MouseButtonEventArgs e)
         {
-
         }
 
         private void modi(object sender, MouseButtonEventArgs e)
