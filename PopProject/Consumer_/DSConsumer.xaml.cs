@@ -412,6 +412,21 @@ namespace PopProject.Consumer_
             if (returnData.결과 == 1)
             {
                 Main.production = null;
+
+                Console.WriteLine("실수요자 리스트 종료 [PopResultEnd] : " +
+                                  "AllChkAED:" + "2" +
+                                  ", 작업일자:" + DateTime.Now.ToString("yyyy-MM-dd") +
+                                  ", orderKey:" + mainModel.orderKey +
+                                  ", arrChkAED:" + arrChkAED +
+                                  ", arr공정구분:" + mainModel.ProcessType +
+                                  ", arr계획키:" + mainModel.pplanKey +
+                                  ", arr작업키:" + pWorkKey +
+                                  ", arr작업량:" + totalCount +
+                                  ", arr불량:" + totalErrorCount +
+                                  ". arr비고:" + "" +
+                                  ", 시작시간:" + mainModel.sDatetime +
+                                  ", 설비명:" + SettingJsonManager.mercName +
+                                  ", 전체공정" + 전체공정);
             }
             SettingJsonManager.pplanKey = 0;
             SettingJsonManager.pworkkey = ""; 
