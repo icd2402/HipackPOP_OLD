@@ -312,6 +312,7 @@ namespace PopProject.Consumer_
         //인라인 설비 종료
         private void PopInlineEnd(SubModel subOb, int pWorkkey)
         {
+
             string 전체공정 = "0";
             if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
             {
