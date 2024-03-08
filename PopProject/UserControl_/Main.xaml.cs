@@ -2821,7 +2821,6 @@ namespace PopProject.UserControl_
                         e.Handled = false;
                         dSConsumer = new DSConsumer(model, carryForwardButton);
                         dSConsumer.ShowDialog(); //실수요자 리스트 창 팝업
-
                         dSConsumer = null;
 
                         CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
