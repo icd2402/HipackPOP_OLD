@@ -124,15 +124,12 @@ namespace PopProject.UserControl_
                 {
                     LogManager.Error("SignalR 연결 오류" + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
                 }
-
-
-                //날짜 변경 버튼 활성화 (대세물산)
+               
+                //날짜 변경 버튼 활성화
                 if (SettingJsonManager.corp_name.Equals("대세물산") || 
-                    SettingJsonManager.corp_name.Equals("대세물산테스트") || 
                     SettingJsonManager.corp_name.Equals("유창포장") || 
-                    SettingJsonManager.corp_name.Equals("유창포장테스트") ||
                     SettingJsonManager.corp_name.Equals("광성수출포장") ||
-                    SettingJsonManager.corp_name.Equals("광성수출포장테스트"))
+                    SettingJsonManager.corp_name.Contains("테스트"))
                 {
                     txtDate2.Visibility = Visibility.Visible;
                     txtDate3.Visibility = Visibility.Visible;
@@ -2443,6 +2440,7 @@ namespace PopProject.UserControl_
                                                 production.presultCount = tempPresult;
                                             }
                                         }
+                                        //생산중이 아니면
                                         else
                                         {
                                             production = workItem;
@@ -2792,10 +2790,10 @@ namespace PopProject.UserControl_
                             model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); //시작시간
 
                             //관리자 로그인 아닐때 키 생성
-                            if (!SettingJsonManager.manager.Equals("1") && production == null)
+                            if (!SettingJsonManager.manager.Equals("1"))
                             {
                                 //아두이노 연결 안되어있으면 무시
-                                if (!SettingJsonManager.SerialName.Equals("") && dSConsumer == null)
+                                if (!SettingJsonManager.SerialName.Equals("") && production == null)
                                 {
                                     arduSerial.Write("A");//아두이노 카운터 리셋
                                 }
@@ -2814,17 +2812,17 @@ namespace PopProject.UserControl_
                             carryForwardButton = true; //이월 버튼 활성화
 
                             //아두이노 연결 안되어있으면 무시
-                            if (!SettingJsonManager.SerialName.Equals("") && dSConsumer == null)
+                            if (!SettingJsonManager.SerialName.Equals("") && production == null)
                             {
                                 arduSerial.Write("A");//아두이노 카운터 리셋
                             }
                         }
-
+                        var vvvv = dSConsumer;
                         e.Handled = false;
                         dSConsumer = new DSConsumer(model, carryForwardButton);
                         dSConsumer.ShowDialog(); //실수요자 리스트 창 팝업
-
                         dSConsumer = null;
+
                         CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
                         SelectWorkList();   //생산계획 조회 [PopWorkList]
                         ResultSearchDate(); //생산결과 조회 [PopResultSearchDate]
