@@ -42,7 +42,6 @@ namespace PopProject.UserControl_
 
     public partial class Main : UserControl
     {
-
         int wdIGCOunt = 0;
         int arduconnCount = 0;
         private bool sortChecked = true;
@@ -279,6 +278,24 @@ namespace PopProject.UserControl_
                 tbBarcode.SelectAll();
             }
 
+
+            if (production != null)
+            {
+                Console.Write("production != null, ");
+            }
+            else
+            {
+                Console.Write("production == null, ");
+            }
+
+            if (dSConsumer != null)
+            {
+                Console.WriteLine("dSConsumer != null");
+            }
+            else
+            {
+                Console.WriteLine("dSConsumer == null");
+            }
             //옵션에서 상세창 넘기기 체크 확인
             //if (SettingJsonManager.detailPass)
             //{
@@ -332,7 +349,7 @@ namespace PopProject.UserControl_
         {
             timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(300)
+                Interval = TimeSpan.FromSeconds(30)
             };
             timer.Tick += new EventHandler(Timer_300s_Tick);
             timer.Start();
@@ -378,6 +395,7 @@ namespace PopProject.UserControl_
                 {
                     SelectWorkList();
                     ResultSearchDate();
+                    Console.WriteLine("계획/결과 조회(5분 타이머)");
                 }
 
                 //if (win_Input == null || robot_Setting == null)
@@ -2402,15 +2420,17 @@ namespace PopProject.UserControl_
                         foreach (JObject result in Data_Jarry)
                         {
                             _ = new InputModel();
+                            //해당 설비의 계획리스트에서 pplanKey일치
                             if (workItem.pplanKey.ToString().Equals(result["pplanKey"].ToString()))
                             {
+                                //현재POP 설정된 설비명과 일치
                                 if (result["mercName"].ToString().Equals(SettingJsonManager.mercName))
                                 {
                                     workItem.presultCount = float.Parse(result["pworkCount"].ToString());   //생산결과 수량
                                     workItem.sumPworkCount += float.Parse(result["pworkCount"].ToString()); //생산결과 총 수량
-                                    workItem.sDatetime = result["sDatetime"].ToString();
+                                    workItem.sDatetime = result["sDatetime"].ToString(); //시작시간
 
-                                    if (!result["perrorCount"].ToString().Equals(""))
+                                    if (!result["perrorCount"].ToString().Equals("")) //불량수량
                                     {
                                         workItem.perrorCount += int.Parse(result["perrorCount"].ToString());
                                     }
@@ -2445,7 +2465,7 @@ namespace PopProject.UserControl_
                                         {
                                             production = workItem;
 
-                                            // DB Load
+                                            //카운터 집계용 로컬DB
                                             if (SettingJsonManager.dbUse)
                                             {
                                                 DataTable temp = new LocalDBManager().GetRawData("Last");
@@ -2471,16 +2491,19 @@ namespace PopProject.UserControl_
                         }
                     }
 
+                    //리스트 만큼 반복
                     for (int i = 0; i < workList.Count; i++)
                     {
+                        //상자수 체크시 결과값에 통수 나누기
                         if (SettingJsonManager.boxCheck)
                         {
                             workList[i].sumPworkCount = workList[i].sumPworkCount / workList[i].pCnt;
                         }
 
+                        //완료항목 제거 체크시
                         if (SettingJsonManager.completeValue_checked)
                         {
-
+                            //종료시간 있으면 삭제
                             if (workList[i].eDatetime.Length > 5)
                             {
                                 workList.Remove(workList[i]);
@@ -2495,6 +2518,7 @@ namespace PopProject.UserControl_
                         {
                             if (!SettingJsonManager.mercName.Equals(item.mercName))
                             {
+                                //작업중 버튼이 아니면 삭제
                                 if (!item.imagePath.Equals("/img/bn_01.png"))
                                 {
                                     _ = workList.Remove(item);
@@ -2548,8 +2572,10 @@ namespace PopProject.UserControl_
                 {
                     foreach (JObject result in Data_Jarry)
                     {
+                        //workList에서 pplanKey가 일치하는 첫번째 작업을 작업중으로 변경
                         workList.Where((x) => x.pplanKey.ToString() == result["pplanKey"].ToString()).FirstOrDefault().imagePath = "/img/bn_01.png"; //작업중 버튼
 
+                        //pplanKey가 일치하는 첫번째 작업을 production변수에 할당
                         production = workList.Where((x) => x.pplanKey.ToString() == result["pplanKey"].ToString()).FirstOrDefault();
                     }
                 }
@@ -2821,7 +2847,6 @@ namespace PopProject.UserControl_
                         e.Handled = false;
                         dSConsumer = new DSConsumer(model, carryForwardButton);
                         dSConsumer.ShowDialog(); //실수요자 리스트 창 팝업
-
                         dSConsumer = null;
 
                         CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
@@ -3586,6 +3611,7 @@ namespace PopProject.UserControl_
             SettingJsonManager.SaveJsonFile();
         }
 
+        //로컬 카운터 집계 DB 사용 버튼 (현재 사용안함)
         private void btnUseDB_click(object sender, RoutedEventArgs e)
         {
             if (SettingJsonManager.dbUse)

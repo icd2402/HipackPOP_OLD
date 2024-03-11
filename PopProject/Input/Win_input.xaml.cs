@@ -1679,6 +1679,21 @@ namespace PopProject.Input
 
             if (returnData.결과 == 1)
             {
+                Console.WriteLine("일반 생산 종료 [PopResultEnd] : " +
+                                  "AllChkAED:" + "1" +
+                                  ", 작업일자:" + DateTime.Now.ToString("yyyy-MM-dd") +
+                                  ", 오더Key:" + inputModel.orderKey +
+                                  ", arrChkAED:" + arrChkAED +
+                                  ", arr공정구분:" + inputModel.ProcessType +
+                                  ", arr계획Key:" + inputModel.pplanKey +
+                                  ", arr작업Key:" + inputModel.pworkKey +
+                                  ", arr작업량:" + Math.Ceiling(inputModel.pworkCount) +
+                                  ", arr불량:" + inputModel.perrCount +
+                                  ". arr비고:" + inputModel.pMemo +
+                                  ", 시작시간:" + inputModel.sDatetime +
+                                  ", 설비명:" + SettingJsonManager.mercName +
+                                  ", 전체공정" + 전체공정);
+
 
                 Canvas.SetTop(box, 490); //세부내역 버튼
                 Canvas.SetTop(box1, 570); //이월 버튼
