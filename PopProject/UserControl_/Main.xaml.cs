@@ -665,7 +665,7 @@ namespace PopProject.UserControl_
                                         try
                                         {
                                             can.Visibility = Visibility.Visible; //화면 어둡게 처리
-                                            Win_Detail win_detail = new Win_Detail(model, special, workList, SettingJsonManager.detail_check, false); //모델,참고사항,workList,듀얼모니터,바코드
+                                            Win_Detail win_detail = new Win_Detail(model, special, workList, SettingJsonManager.detail_check, false, dt); //모델,참고사항,workList,듀얼모니터,바코드
                                             win_detail.ShowDialog();
 
                                             win_Input = null;
@@ -2831,7 +2831,7 @@ namespace PopProject.UserControl_
                     //일반생산
                     else
                     {
-                        win_Input = new Win_input(model, workList, false);
+                        win_Input = new Win_input(model, workList, false, dt);
                         _ = win_Input.ShowDialog(); //인풋창 팝업
 
                         //팝업창 종료 후
@@ -3011,7 +3011,7 @@ namespace PopProject.UserControl_
                     try
                     {
                         CNS_Barcode_Send = false;
-                        Win_Detail win_detail = new Win_Detail(context, special, workList, SettingJsonManager.detail_check, false);
+                        Win_Detail win_detail = new Win_Detail(context, special, workList, SettingJsonManager.detail_check, false,dt);
                         _ = win_detail.ShowDialog();
 
                         if (SettingJsonManager.corp_name.Equals("유창포장"))
@@ -3105,7 +3105,7 @@ namespace PopProject.UserControl_
                     //PLC 사용시 
                     CNS_Barcode_Send = SettingJsonManager.Plc ? true : false;
 
-                    Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send);
+                    Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send, dt);
                     _ = win_Detail.ShowDialog();
                     win_Input = null;
                     win_Detail = null;
@@ -3316,7 +3316,7 @@ namespace PopProject.UserControl_
 
         private void Change_workList(object sender, MouseButtonEventArgs e)
         {
-            ChangeWorkList ch = new ChangeWorkList(workList1);
+            ChangeWorkList ch = new ChangeWorkList(workList1, dt);
             _ = ch.ShowDialog();
 
             foreach (MainModel item in workList)
@@ -3348,7 +3348,7 @@ namespace PopProject.UserControl_
             switch (e.Key.ToString())
             {
                 case "F1":
-                    SearchList search = new SearchList(workList);
+                    SearchList search = new SearchList(workList, dt);
                     _ = search.ShowDialog();
                     break;
                 case "F2":
@@ -3383,7 +3383,7 @@ namespace PopProject.UserControl_
 
         private void Search_(object sender, MouseButtonEventArgs e)
         {
-            SearchList search = new SearchList(workList);
+            SearchList search = new SearchList(workList, dt);
             _ = search.ShowDialog();
 
             ResultSearchDate();
@@ -3397,7 +3397,7 @@ namespace PopProject.UserControl_
 
         private void workList_search(object sender, MouseButtonEventArgs e)
         {
-            SearchList search = new SearchList(workList);
+            SearchList search = new SearchList(workList, dt);
             _ = search.ShowDialog();
 
             ResultSearchDate();

@@ -59,15 +59,18 @@ namespace PopProject.Input
         private bool success = false; //CNS 통신연결 확인
         private bool startPBLock = false;
 
+        private DateTime selectedDate = new DateTime();
 
-        public Win_input(MainModel mainModel, ObservableCollection<MainModel> workList, bool check) //check= 메인화면에서 들어오면 false, 디테일 화면에서 들어오면 true
+
+        public Win_input(MainModel mainModel, ObservableCollection<MainModel> workList, bool check, DateTime _selectedDate) //check= 메인화면에서 들어오면 false, 디테일 화면에서 들어오면 true
         {
             InitializeComponent();
-            
+        
             this.workList = workList;
             inputModel = new InputModel();
             this.mainModel = mainModel;
             boxType.Text = "형 태 : " + mainModel.boxType;
+            selectedDate = _selectedDate;
 
             //현재 카운터값 송신
             if (this.mainModel.presultCount > 0)
@@ -855,7 +858,7 @@ namespace PopProject.Input
                 "[PopResultStart]",
                 new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey" },
                 new object[] {
-                DateTime.Now.ToString("yyyy-MM-dd"),
+                selectedDate.ToString("yyyy-MM-dd"),
                 subOb.orderKey,
                 subOb.pplanKey,
                 subOb.processType,
@@ -976,7 +979,7 @@ namespace PopProject.Input
                 "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명","@전체공정"},
                 new object[] {
                 "1",
-                DateTime.Now.ToString("yyyy-MM-dd"),
+                selectedDate.ToString("yyyy-MM-dd"),
                 subOb.orderKey,
                 arrChkAED,
                 subOb.processType + "|",
@@ -1049,7 +1052,7 @@ namespace PopProject.Input
                 }
             }
 
-            Win_Detail win_Detail = new Win_Detail(mainModel, special, workList, SettingJsonManager.detail_check, CNS_Send);
+            Win_Detail win_Detail = new Win_Detail(mainModel, special, workList, SettingJsonManager.detail_check, CNS_Send, selectedDate);
             win_Detail.ShowDialog();
         }
 
@@ -1659,7 +1662,7 @@ namespace PopProject.Input
                 "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명", "@전체공정"},
                 new object[] {
                 "1",
-                DateTime.Now.ToString("yyyy-MM-dd"),
+                selectedDate.ToString("yyyy-MM-dd"),
                 inputModel.orderKey,
                 arrChkAED,
                 inputModel.ProcessType + "|",
@@ -1826,7 +1829,7 @@ namespace PopProject.Input
                 "[PopResultStart]",
                 new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey" },
                 new object[] {
-                DateTime.Now.ToString("yyyy-MM-dd"),
+                selectedDate.ToString("yyyy-MM-dd"),
                 inputModel.orderKey,
                 inputModel.pplanKey,
                 inputModel.ProcessType,

@@ -1351,7 +1351,7 @@ namespace PopProject.UserControl_
                 else
 
                 {
-                    win_Input = new Win_input(model, workList, false);
+                    win_Input = new Win_input(model, workList, false, DateTime.Now);
                     _ = win_Input.ShowDialog();
                     if (SettingJsonManager.presultcount != 0)
                     {
@@ -1414,7 +1414,7 @@ namespace PopProject.UserControl_
                             special += workList[i].ProcessTypeName + " 참고 사항 :" + workList[i].ProcessMemo + "|";
                         }
                     }
-                    Win_Detail win_detail = new Win_Detail(context, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send);
+                    Win_Detail win_detail = new Win_Detail(context, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send, DateTime.Now);
                     _ = win_detail.ShowDialog();
                     if (SettingJsonManager.corp_name.Equals("유창포장"))
                     {
@@ -1502,7 +1502,7 @@ namespace PopProject.UserControl_
                 }
                 tbBarcode.Text = "";
                 can.Visibility = Visibility.Visible;
-                Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send);
+                Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send, DateTime.Now);
                 _ = win_Detail.ShowDialog();
                 SelectWorkList();
                 ResultSearchDate();
@@ -1638,7 +1638,7 @@ namespace PopProject.UserControl_
         private void Change_workList(object sender, MouseButtonEventArgs e)
         {
 
-            ChangeWorkList ch = new ChangeWorkList(workList1);
+            ChangeWorkList ch = new ChangeWorkList(workList1, DateTime.Now);
             _ = ch.ShowDialog();
             if (!SettingJsonManager.ChangeCheck)
             {
@@ -1657,7 +1657,7 @@ namespace PopProject.UserControl_
 
         private void Search_(object sender, MouseButtonEventArgs e)
         {
-            SearchList search = new SearchList(workList);
+            SearchList search = new SearchList(workList, DateTime.Now);
             _ = search.ShowDialog();
             ResultSearchDate();
         }

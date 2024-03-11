@@ -63,8 +63,10 @@ namespace PopProject.Detail
         private bool consumer = false;
         private bool MemoLock = true;
 
+        private DateTime selectedDate = new DateTime();
+
         //화면 더블클릭, 인풋창 에서 입장
-        public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v, bool Barcod) //메인모델, 참고사항, 계획건, 듀얼모니터사용, 바코드 유무
+        public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v, bool Barcod, DateTime _selectedDate) //메인모델, 참고사항, 계획건, 듀얼모니터사용, 바코드 유무
         {
             InitializeComponent();
             
@@ -2338,7 +2340,7 @@ namespace PopProject.Detail
                 case "20": //원단
                     Close();
 
-                    Win_input input = new Win_input(mainModel, workList, true);
+                    Win_input input = new Win_input(mainModel, workList, true, selectedDate);
                     Main1.win_Input = input;
                     _ = input.ShowDialog();
                     Main1.win_Input = null;
@@ -2364,7 +2366,7 @@ namespace PopProject.Detail
 
                         Close();
 
-                        input = new Win_input(mainModel, workList, true);
+                        input = new Win_input(mainModel, workList, true, selectedDate);
                         Main.win_Input = input;
                         _ = input.ShowDialog();
 

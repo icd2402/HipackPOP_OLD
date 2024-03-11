@@ -25,21 +25,25 @@ namespace PopProject.Input
         private bool changeCheck = false;
         private bool CNS_Barcode_Send = false; //true이면 바코드 읽으면 CNS로 데이터 전송
 
+        private DateTime selectedDate = new DateTime();
+
         ObservableCollection<MainModel> searchList;
 
-        public SearchList(ObservableCollection<MainModel> workList)
+        public SearchList(ObservableCollection<MainModel> workList, DateTime _selectedDate)
         {
             InitializeComponent();
             worklist = workList;
             _ = textbox_search.Focus();
+            selectedDate = _selectedDate;
         }
 
-        public SearchList(ObservableCollection<MainModel> workList, bool check)
+        public SearchList(ObservableCollection<MainModel> workList, bool check, DateTime _selectedDate)
         {
             InitializeComponent();
             changeCheck = check;
             worklist = workList;
             _ = textbox_search.Focus();
+            selectedDate = _selectedDate;
         }
 
         //키보드 호출
@@ -204,7 +208,7 @@ namespace PopProject.Input
              consumer_ = null;
             */
             string special = "";
-            Win_Detail win_detail = new Win_Detail(context, special, worklist, SettingJsonManager.detail_check, CNS_Barcode_Send);
+            Win_Detail win_detail = new Win_Detail(context, special, worklist, SettingJsonManager.detail_check, CNS_Barcode_Send, selectedDate);
             _ = win_detail.ShowDialog();
         }
 
