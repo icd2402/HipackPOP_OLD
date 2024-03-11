@@ -142,32 +142,18 @@ namespace PopProject.Consumer_
                             listitem.pWorkCount /= (int)mainModel.pCnt;  //금일 작업량 ÷ 통수
                         }
 
-                        ////금일 실수요자 생산리스트 또는 수주량 - 작업량이 30개 초과인경우(작업이 남은경우) 리스트 등록
-                        //if (listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.orderCount - listitem.pWorkCount - listitem.workCount > 30)
-                        //{
-                        //    consumerList.Add(listitem);
-                        //}
+                        //리스트에서 금일결과량이 있으면 완료버튼으로 표시
+                        if (listitem.pWorkCount > 0)
+                        {
+                            listitem.imgSource = "/img/bn_03.png"; //진행중 버튼으로 변경
+                        }
 
-                        //계획키 있거나 주문량 - 이전 생산량  > 30 인것만 리스트 추가
+                        //남은 생산량 30개 초과일때만 리스트 담기
                         if (listitem.pplanKey > 0 || listitem.orderCount - listitem.workCount > 30)
                         {
                             consumerList.Add(listitem);
                         }
-
-                        //if (SettingJsonManager.corp_name.Equals("선호칼라팩") || SettingJsonManager.corp_name.Equals("선호칼라팩테스트"))
-                        //{
-                        //    if (listitem.pworkDate.ToString("yyyyMMdd").Equals(DateTime.Now.ToString("yyyyMMdd")) || listitem.orderCount - listitem.pWorkCount - listitem.workCount > 30)
-                        //    {
-                        //        consumerList.Add(listitem);
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    if (listitem.pplanKey > 0 || listitem.orderCount - listitem.pWorkCount - listitem.workCount > 30)
-                        //    {
-                        //        consumerList.Add(listitem);
-                        //    }
-                        //}
+                        
                         Console.WriteLine("실수요자명 : " + listitem.membName + ", pworkKey : " + listitem.pworkKey + ", pplanKey : " + listitem.pplanKey);
                     }
 
@@ -184,7 +170,7 @@ namespace PopProject.Consumer_
                         if (consumerList[i].sDatetime.Length > 1 && consumerList[i].eDatetime.Length <= 1)
                         {
                             checkProcessing = true;
-                            //consumerList[i].imgSource = "/img/bn_01.png";
+                            //consumerList[i].imgSource = "/img/bn_01.png"; //진행중 버튼으로 변경
                             break;
                         }
 
