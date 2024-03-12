@@ -77,6 +77,7 @@ namespace PopProject.UserControl_
         private double LastConunt;
         string popWorkList = ""; //생산계획리스트 SP명
         public static string jsonString = "";
+        private Canvas previousClickedCanvas = null;
 
         public Main()
         {
@@ -2992,9 +2993,36 @@ namespace PopProject.UserControl_
         //    }
         //}
 
-        //계획리스트 클릭
+        //리스트 Canvas클릭 이벤트 처리
         private void Canvas_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            Canvas canvas = sender as Canvas;
+
+            // 이전에 클릭한 캔버스가 있으면 해당 캔버스의 배경색과 테두리를 원래 색상으로 변경
+            if (previousClickedCanvas != null)
+            {
+                previousClickedCanvas.Background = previousClickedCanvas.Tag as Brush;
+                Border previousBorder = VisualTreeHelper.GetParent(previousClickedCanvas) as Border;
+
+                if (previousBorder != null)
+                {
+                    previousBorder.BorderThickness = new Thickness(0); // 이전 캔버스의 테두리를 기본값으로 변경
+                }
+            }
+
+            canvas.Tag = canvas.Background; // 클릭한 캔버스의 원래 배경색을 저장
+            canvas.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#86AEE3"));// 클릭한 캔버스 배경색 변경
+
+            // 클릭한 캔버스의 부모 요소인 Border의 BorderThickness 속성을 조정
+            Border border = VisualTreeHelper.GetParent(canvas) as Border;
+            if (border != null)
+            {
+                border.BorderThickness = new Thickness(0); // 클릭한 캔버스의 테두리를 두껍게 변경
+            }
+
+            // 현재 클릭한 캔버스를 이전에 클릭한 캔버스로 설정
+            previousClickedCanvas = canvas;
+
             //듀얼상세화면 체크시
             if (SettingJsonManager.detail_check)
             {
@@ -3004,7 +3032,7 @@ namespace PopProject.UserControl_
                     ShowDetail(sender);
                 }
             }
-            else 
+            else
             {
                 //더블클릭시 디테일 창 호출
                 if (e.ClickCount == 2)
