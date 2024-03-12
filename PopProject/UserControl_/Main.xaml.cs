@@ -2814,7 +2814,7 @@ namespace PopProject.UserControl_
                         if (model.imagePath.Equals("/img/bn_02.png"))
                         {
                             carryForwardButton = false; //이월 버튼 비활성화
-                            model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); //시작시간
+                            model.sDatetime = dt.ToString("yyyy-MM-dd HH:mm:ss"); //시작시간
 
                             //관리자 로그인 아닐때 키 생성
                             if (!SettingJsonManager.manager.Equals("1"))
@@ -2929,7 +2929,7 @@ namespace PopProject.UserControl_
                 "[PopResultStart]",
                 new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey" },
                 new object[] {
-                DateTime.Now.ToString("yyyy-MM-dd"),
+                dt.ToString("yyyy-MM-dd"),
                 model.orderKey,
                 model.pplanKey,
                 model.ProcessType,
@@ -2951,7 +2951,7 @@ namespace PopProject.UserControl_
                     model.ConsumWorkKey = returnData.리턴값;
                 }
 
-                model.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                model.sDatetime = dt.ToString("yyyy-MM-dd HH:mm:ss");
                 CountManager.SendMsg(SettingJsonManager.mercName, "S");
                 
                 SettingJsonManager.pworkkey = returnData.리턴값;

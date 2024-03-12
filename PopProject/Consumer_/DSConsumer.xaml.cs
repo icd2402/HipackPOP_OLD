@@ -252,7 +252,7 @@ namespace PopProject.Consumer_
                 "[PopResultStart]",
                 new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey" },
                 new object[] {
-                DateTime.Now.ToString("yyyy-MM-dd"),
+                selectedDate.ToString("yyyy-MM-dd"),
                 subOb.orderKey,
                 subOb.pplanKey,
                 subOb.processType,
@@ -274,7 +274,8 @@ namespace PopProject.Consumer_
                 SettingJsonManager.SaveJsonFile();
 
                 //시작시간 저장
-                mainModel.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                mainModel.sDatetime = DateTime.Now.Month == selectedDate.Month && DateTime.Now.Day == selectedDate.Day ?
+                                      DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : selectedDate.ToString("yyyy-MM-dd HH:mm:ss");      // 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
 
                 //현황판으로 시작신호 보냄
                 CountManager.SendMsg(SettingJsonManager.mercName, "S");
@@ -314,7 +315,6 @@ namespace PopProject.Consumer_
                     {
                         전체공정 = "0";
                     }
-
                 }
             }
             string arrChkAED = "1|";
@@ -327,7 +327,7 @@ namespace PopProject.Consumer_
                 new string[] { "@AllChkAED","@작업일자","@오더Key","@arrChkAED","@arr공정구분","@arr계획Key","@arr작업Key","@arr작업량","@arr불량","@arr비고","@시작시간","@설비명","@전체공정"},
                 new object[] {
                 "1",
-                DateTime.Now.ToString("yyyy-MM-dd"),
+                selectedDate.ToString("yyyy-MM-dd"),
                 subOb.orderKey,
                 arrChkAED,
                 subOb.processType + "|",
@@ -380,7 +380,7 @@ namespace PopProject.Consumer_
                 "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명","@전체공정"},
                new object[] {
                 "2",
-                DateTime.Now.ToString("yyyy-MM-dd"),
+                selectedDate.ToString("yyyy-MM-dd"),
                 mainModel.orderKey,
                 arrChkAED,
                 mainModel.ProcessType+ "|",
@@ -403,7 +403,7 @@ namespace PopProject.Consumer_
 
                 Console.WriteLine("실수요자 리스트 종료 [PopResultEnd] : " +
                                   "AllChkAED:" + "2" +
-                                  ", 작업일자:" + DateTime.Now.ToString("yyyy-MM-dd") +
+                                  ", 작업일자:" + selectedDate.ToString("yyyy-MM-dd") +
                                   ", orderKey:" + mainModel.orderKey +
                                   ", arrChkAED:" + arrChkAED +
                                   ", arr공정구분:" + mainModel.ProcessType +
@@ -654,7 +654,7 @@ namespace PopProject.Consumer_
                 new object[] {
                 pworkkey,
                 "",
-                DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
+                selectedDate.ToString("yyyy/MM/dd HH:mm:ss")
                 },
                 1
 
