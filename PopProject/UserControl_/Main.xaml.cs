@@ -578,8 +578,7 @@ namespace PopProject.UserControl_
             }
         }
 
-
-        //넘기기 신호 조회(1초) 오주포장
+        #region 넘기기 신호 조회(1초) 오주포장
         //async Task serviceDataRead()
         //{
         //    Console.WriteLine("넘기기 신호 읽는중 ---");
@@ -641,8 +640,9 @@ namespace PopProject.UserControl_
         //        }
         //    }
         //}
+        #endregion
 
-
+        #region 아두이노 신호 송/수신
         //넘기기 신호 받는용
         private void recive(string arg1, string arg2) //설비명, 데이터
         {
@@ -938,6 +938,7 @@ namespace PopProject.UserControl_
                 LogManager.Error("아두이노 => Main 데이터 수신 오류 : " + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
+        #endregion
 
         // 현황판으로 카운터 전송 // 확인
         //public void InvokeCount(int str, string mercName)
@@ -2845,7 +2846,7 @@ namespace PopProject.UserControl_
                         }
                         var vvvv = dSConsumer;
                         e.Handled = false;
-                        dSConsumer = new DSConsumer(model, carryForwardButton);
+                        dSConsumer = new DSConsumer(model, carryForwardButton, dt);
                         dSConsumer.ShowDialog(); //실수요자 리스트 창 팝업
                         dSConsumer = null;
 

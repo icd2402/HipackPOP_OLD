@@ -41,13 +41,15 @@ namespace PopProject.Consumer_
         int pworkkey;
         int workmemberkey, second =0;
         private bool startPBLock = false;
+        private DateTime selectedDate = new DateTime();
     
-        public DsConsumer_input(ConsumerModel consumerModel, MainModel mainModel)
+        public DsConsumer_input(ConsumerModel consumerModel, MainModel mainModel, DateTime _selectedDate)
         {
             InitializeComponent();
             this.consumerModel = consumerModel;
             this.mainModel = mainModel;
             inputModel = new InputModel();
+            selectedDate = _selectedDate;
 
             //이월버튼 비활성화
             box1.Visibility = Visibility.Collapsed; //이월버튼 비활성화
@@ -405,12 +407,11 @@ namespace PopProject.Consumer_
                 workcount *= (int)mainModel.pCnt;
             }
 
-
             if (SettingJsonManager.corp_name.Equals("대세물산테스트"))
             {
                 LogManager.Debug("실수요자 input창 종료" + Environment.NewLine +
                                  "[PopResultEndMember] : " + Environment.NewLine +
-                                 "작업일자: " + DateTime.Now.ToString("yyyy-MM-dd") + Environment.NewLine +
+                                 "작업일자: " + selectedDate.ToString("yyyy-MM-dd") + Environment.NewLine +      // 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
                                  "오더Key: " + inputModel.orderKey + Environment.NewLine +
                                  "ChkAED: " + ChkAED + Environment.NewLine +
                                  "실수요자생산Key: " + inputModel.workMemberKey + Environment.NewLine +
@@ -424,7 +425,7 @@ namespace PopProject.Consumer_
                 "[PopResultEndMember]",
                 new string[] { "@작업일자", "@오더Key", "@ChkAED", "@실수요자생산Key", "@작업량", "@불량" },
                 new object[] {
-                DateTime.Now.ToString("yyyy-MM-dd"),
+                selectedDate.ToString("yyyy-MM-dd"),      // 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
                 inputModel.orderKey,
                 ChkAED,
                 inputModel.workMemberKey,
@@ -436,7 +437,7 @@ namespace PopProject.Consumer_
             if (returnData.결과 == 1)
             {
                 Console.WriteLine("실수요자 input창 종료 [PopResultEndMember] : " + 
-                                  "작업일자: " + DateTime.Now.ToString("yyyy-MM-dd") +
+                                  "작업일자: " + selectedDate.ToString("yyyy-MM-dd") +      // 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
                                   ", 오더키: " + inputModel.orderKey +
                                   ", ChkAED: " + ChkAED +
                                   ", 실수요자생산Key: " + inputModel.workMemberKey +
@@ -496,7 +497,7 @@ namespace PopProject.Consumer_
                 "[PopResultEndMember]",
                 new string[] { "@작업일자", "@오더Key", "@ChkAED", "@실수요자생산Key", "@작업량", "@불량" },
                 new object[] {
-                DateTime.Now.ToString("yyyy-MM-dd"),
+                selectedDate.ToString("yyyy-MM-dd"),      // 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
                 inputModel.orderKey,
                 ChkAED,
                 inputModel.workMemberKey,
@@ -539,7 +540,7 @@ namespace PopProject.Consumer_
               "[PopResultStartMember]",
               new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey", "@pworkKey", "@vendorID", "@membID" },
               new object[] {
-                  DateTime.Now.ToString("yyyy-MM-dd"),
+                  selectedDate.ToString("yyyy-MM-dd"),      // 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
                   consumerModel.orderKey,
                   inputModel.pplanKey,
                   subOb.processType,
@@ -564,7 +565,8 @@ namespace PopProject.Consumer_
                 SettingJsonManager.SaveJsonFile();
                 inputModel.pworkKey = int.Parse(result[0]);
                 inputModel.workMemberKey = int.Parse(result[1]);
-                mainModel.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                mainModel.sDatetime = DateTime.Now.Month == selectedDate.Month && DateTime.Now.Day == selectedDate.Day ?
+                                      DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : selectedDate.ToString("yyyy-MM-dd HH:mm:ss");      // 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
                 Main.production = mainModel;
 
                 Console.WriteLine("result[0]" + result[0]);
@@ -598,7 +600,7 @@ namespace PopProject.Consumer_
               new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName",
                              "@workerID", "@SCMKey", "@pworkKey", "@vendorID", "@membID" },
               new object[] {
-                  DateTime.Now.ToString("yyyy-MM-dd"),
+                  selectedDate.ToString("yyyy-MM-dd"),      // 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
                   consumerModel.orderKey,
                   inputModel.pplanKey,
                   SettingJsonManager.processType,
@@ -622,7 +624,8 @@ namespace PopProject.Consumer_
                 SettingJsonManager.SaveJsonFile();
                 inputModel.pworkKey = int.Parse(result[0]);
                 inputModel.workMemberKey = int.Parse(result[1]);
-                mainModel.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                mainModel.sDatetime = DateTime.Now.Month == selectedDate.Month && DateTime.Now.Day == selectedDate.Day ?
+                                      DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : selectedDate.ToString("yyyy-MM-dd HH:mm:ss");      // 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
                 Main.production = mainModel;
 
                 Console.WriteLine("result[0]" + result[0]);

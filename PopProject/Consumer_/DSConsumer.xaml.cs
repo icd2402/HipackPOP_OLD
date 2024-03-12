@@ -47,12 +47,14 @@ namespace PopProject.Consumer_
         bool 이월체크 = false;
         bool checkbefore = true;
         bool CarryForwardButtonState = false;
+        DateTime selectedDate = new DateTime();
        
-        public DSConsumer(MainModel mainModel,bool carryForwardButtonState) //이월버튼 사용 유무
+        public DSConsumer(MainModel mainModel,bool carryForwardButtonState, DateTime _selectedDate) //이월버튼 사용 유무
         {
             InitializeComponent();
             this.mainModel = mainModel;
             CarryForwardButtonState = carryForwardButtonState;
+            selectedDate = _selectedDate;
 
             // 작업중 버튼으로 창을 열면 이월버튼 숨김 (이월버튼은 대기/완료일때만 가능)
             if (!CarryForwardButtonState)
@@ -476,7 +478,7 @@ namespace PopProject.Consumer_
                 product = consumerModel;
 
                 //ds인풋화면 호출
-                dsConsumer_Input = new DsConsumer_input(consumerModel, mainModel);
+                dsConsumer_Input = new DsConsumer_input(consumerModel, mainModel, selectedDate);
                 _ = dsConsumer_Input.ShowDialog();
 
                 PopWorkListSearch(); //계획리스트 조회

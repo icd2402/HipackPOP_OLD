@@ -1235,8 +1235,6 @@ namespace PopProject.UserControl_
                 //_ = box.ShowDialog();
 
             }
-
-
         }
 
         private void SortWorkList()
