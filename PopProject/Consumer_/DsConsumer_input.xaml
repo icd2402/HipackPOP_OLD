@@ -54,7 +54,7 @@
         <TextBox x:Name="consumer_count" Grid.Row="1" Text="{Binding count, UpdateSourceTrigger=PropertyChanged}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="100"  Canvas.Top="302" FontFamily="/font/#KoPubDotum Bold" BorderBrush="{x:Null}"/>
 
 
-        <TextBlock Grid.Row="1" Text="{Binding perrCount ,UpdateSourceTrigger=PropertyChanged}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="100"  Canvas.Top="368" Foreground="Red" FontFamily="/font/#KoPubDotum Bold"/>
+        <TextBlock Grid.Row="1" Text="{Binding perrCount ,UpdateSourceTrigger=PropertyChanged}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="259" TextAlignment="Right" Width="100"  Canvas.Top="368" Foreground="Red" FontFamily="/font/#KoPubDotum Bold"/>
 
 
         <TextBox x:Name="tbResult" Grid.Row="1" Focusable="False" BorderBrush="{x:Null}"  MouseLeftButtonDown="TbResult_MouseLeftButtonDown" Text="{Binding count, UpdateSourceTrigger=PropertyChanged}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="100" Canvas.Top="434" Foreground="#26414A" FontFamily="/font/#KoPubDotum Bold"/>

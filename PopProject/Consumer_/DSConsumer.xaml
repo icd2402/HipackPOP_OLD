@@ -76,18 +76,18 @@
                                 <TextBlock Foreground="Black" Canvas.Left="70" Canvas.Top="11" FontSize="18" Text="{Binding membName}" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
                                 <TextBlock Canvas.Left="70" Canvas.Top="43" FontSize="18" Text="{Binding vendorName}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Medium"></TextBlock>
                                 <Border Canvas.Left="365" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
-                               
+
                                 <!--전화번호-->
                                 <TextBlock Canvas.Left="235" Canvas.Top="28" FontSize="16" Text="{Binding PhonNo}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
                                 <Border Canvas.Left="224" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
                                 <!--주문량-->
-                                <TextBlock Width="53" TextAlignment="Center" Canvas.Left="405" Canvas.Top="28" FontSize="18" Text="{Binding orderCount}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <TextBlock Width="53" TextAlignment="Center" Canvas.Left="405" Canvas.Top="28" FontSize="18" Text="{Binding orderCount, StringFormat={}{0:N0}}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
                                 <Border Canvas.Left="465" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
                                 <!--이전 생산량-->
-                                <TextBlock Width="53" TextAlignment="Center" Canvas.Left="505" Canvas.Top="28" FontSize="18" Text="{Binding workCount}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <TextBlock Width="53" TextAlignment="Center" Canvas.Left="505" Canvas.Top="28" FontSize="18" Text="{Binding workCount, StringFormat={}{0:N0}}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
                                 <Border Canvas.Left="565" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
                                 <!--금일 결과량-->
-                                <TextBlock Width="51" TextAlignment="Center" Canvas.Left="605" Canvas.Top="15" FontSize="18" Text="{Binding pWorkCount}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <TextBlock Width="51" TextAlignment="Center" Canvas.Left="605" Canvas.Top="15" FontSize="18" Text="{Binding pWorkCount, StringFormat={}{0:N0}}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
                                 <TextBlock Width="51" TextAlignment="Center" Foreground="RED" Canvas.Left="605" Canvas.Top="45" FontSize="18" Text="{Binding perrCnt}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
                                 <Border Canvas.Left="665" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
                                 <!--비고-->
