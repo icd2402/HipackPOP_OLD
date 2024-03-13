@@ -424,6 +424,7 @@
     </Compile>
     <Compile Include="Detail\Wharehouse_LocationModel.cs" />
     <Compile Include="Util\CountManager.cs" />
+    <Compile Include="Util\DateTimeManager.cs" />
     <Compile Include="Util\LogManager.cs" />
     <Compile Include="Util\SettingJsonManger.cs" />
     <Compile Include="Util\LocalDBManager.cs" />

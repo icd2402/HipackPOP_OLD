@@ -78,6 +78,7 @@ namespace PopProject.UserControl_
         string popWorkList = ""; //생산계획리스트 SP명
         public static string jsonString = "";
         private Canvas previousClickedCanvas = null;
+        private DateTimeManager dateTimeManager;
 
         public Main()
         {
@@ -90,6 +91,8 @@ namespace PopProject.UserControl_
                 // 버전 번호를 텍스트 블록에 할당
                 //string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
                 //versionTextBlock.Text += version;
+
+                dateTimeManager = DateTimeManager.Instance; // DateTimeManager 객체 생성
 
                 //왼쪽상단 업체명
                 corp_name.Text = SettingJsonManager.corp_name;
@@ -233,6 +236,10 @@ namespace PopProject.UserControl_
 
             }
         }
+        private void InitializeDateTimeManager()
+        {
+        }
+
 
         // 타이머 1초 - 시계, 바코드, 종료시간 체크
         #region Timer_1s
@@ -249,18 +256,30 @@ namespace PopProject.UserControl_
         // 시계, 바코드, 종료시간 체크
         private void Timer_1s_Tick(object sender, EventArgs e)
         {
-            var clock = DateTime.Now; //현재 시간
+            string currentDateTime = dateTimeManager.GetCurrentDateTime();
+            //string currentDate = dateTimeManager.GetCurrentDate();
+            //string currentTime = dateTimeManager.GetCurrentTime();
+            //Console.WriteLine("날짜 및 시간: " + currentDateTime);
+            //Console.WriteLine("현재 날짜: " + currentDate);
+            //Console.WriteLine("현재 시간: " + currentTime);
 
-            //POP날짜와 현재 날짜가 일치할때에 현재시간 갱신
-            if (CheckDateValue && !dt.ToString("D").Equals(DateTime.Now.ToString("D")))
-            {
-                dt = DateTime.Now;
-            }
+            DateTime dateTime = DateTime.ParseExact(currentDateTime, "yyyy-MM-dd HH:mm:ss", null);
+            txtDate.Text = dateTime.ToString("yyyy년 MM월 dd일 dddd");
+            txtClock.Text = dateTime.ToString("HH시 mm분 ss초");
 
-            string datePart = dt.ToString("yyyy년 MM월 dd일 dddd"); //날짜
-            string datetime = string.Format("{0:D2}시 {1:D2}분 {2:D2}초", clock.Hour, clock.Minute, clock.Second);//시간
-            txtDate.Text = datePart;  //날짜
-            txtClock.Text = datetime; //시간
+
+            //var clock = DateTime.Now; //현재 시간
+
+            ////POP날짜와 현재 날짜가 일치할때에 현재시간 갱신
+            //if (CheckDateValue && !dt.ToString("D").Equals(DateTime.Now.ToString("D")))
+            //{
+            //    dt = DateTime.Now;
+            //}
+
+            //string datePart = dt.ToString("yyyy년 MM월 dd일 dddd"); //날짜
+            //string datetime = string.Format("{0:D2}시 {1:D2}분 {2:D2}초", clock.Hour, clock.Minute, clock.Second);//시간
+            //txtDate.Text = datePart;  //날짜
+            //txtClock.Text = datetime; //시간
 
             //지정된 시간에 컴퓨터를 종료
             if (dt.Hour == SettingJsonManager.hour && dt.Minute == SettingJsonManager.minute)
@@ -350,7 +369,7 @@ namespace PopProject.UserControl_
         {
             timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(30)
+                Interval = TimeSpan.FromSeconds(300)
             };
             timer.Tick += new EventHandler(Timer_300s_Tick);
             timer.Start();
@@ -839,7 +858,7 @@ namespace PopProject.UserControl_
                         }
 
                         //SaveDate가 비어있지 않고 현재 날짜와 다르면
-                        if (!SettingJsonManager.saveDate.Equals("") && !SettingJsonManager.saveDate.Equals(DateTime.Now.ToString("yyyy-MM-dd")))
+                        if (!SettingJsonManager.saveDate.Equals("") && !SettingJsonManager.saveDate.Equals(dateTimeManager.GetCurrentDate()))
                         {
                             //계획키가 일치할때
                             if (production.pplanKey == SettingJsonManager.pplanKey)
@@ -1061,16 +1080,17 @@ namespace PopProject.UserControl_
         //날짜 클릭
         private void TxtDate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            dt = DateTime.Now;
-            txtDate.Text = dt.ToString("D");
-            if (dt.ToString("D").Equals(DateTime.Now.ToString("D")))
-            {
-                CheckDateValue = true;
-            }
-            else
-            {
-                CheckDateValue = false;
-            }
+            dateTimeManager.SetTodayDate();
+            //dt = DateTime.Now;
+            //txtDate.Text = dt.ToString("D");
+            //if (dt.ToString("D").Equals(DateTime.Now.ToString("D")))
+            //{
+            //    CheckDateValue = true;
+            //}
+            //else
+            //{
+            //    CheckDateValue = false;
+            //}
 
             UpdateWorkPlanNResult();    // 계획/결과 조회
         }
@@ -1142,7 +1162,7 @@ namespace PopProject.UserControl_
                SettingJsonManager.serverIndex, 
                "[PopWorkList]",
                new string[] { "@pplanDate" },
-               new string[] { dt.ToString("yyyy-MM-dd") }, //날짜 변경용
+               new string[] { dateTimeManager.GetCurrentDate() }, //날짜 변경용
                0
                );
             if (returnData.결과 == 1)
@@ -1371,7 +1391,7 @@ namespace PopProject.UserControl_
                         listitem.pplanCount = int.Parse(result["pplanCount"].ToString()); //계획량
 
                         //신우,우리,누리
-                        if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("신우포장테스트") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("우리포장산업테스트") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("누리팩테스트"))
+                        if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("신우수출포장테스트") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("우리포장산업테스트") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("누리팩테스트"))
                         {
                             ss.Visibility = Visibility.Visible; //집계창 표시
                         }
@@ -2327,7 +2347,7 @@ namespace PopProject.UserControl_
                SettingJsonManager.serverIndex,
                "[spSel425processinfo_workProcess]",
                new string[] { "@출력일", "@출력일2", "@설비명" },
-               new string[] { DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToString("yyyy-MM-dd"), SettingJsonManager.mercName },
+               new string[] { dateTimeManager.GetCurrentDate(), dateTimeManager.GetCurrentDate(), SettingJsonManager.mercName },
                0
                );
             if (실적returnData.결과 == 1)
@@ -2408,7 +2428,7 @@ namespace PopProject.UserControl_
                 SettingJsonManager.serverIndex,
                 "[PopResultSearchDate]",
                 new string[] { "@pworkDate" },
-                new string[] { dt.ToString("yyyy-MM-dd") },
+                new string[] { dateTimeManager.GetCurrentDate() },
             0
         );
             if (returnData.결과 == 1)
@@ -2789,7 +2809,7 @@ namespace PopProject.UserControl_
             try
             {
                 //두성포장은 상태버튼 클릭시 Detail창으로 진입
-                if (SettingJsonManager.corp_name.Equals("두성포장") || SettingJsonManager.corp_name.Equals("두성포장 테스트"))
+                if (SettingJsonManager.corp_name.Equals("두성포장") || SettingJsonManager.corp_name.Equals("두성포장테스트"))
                 {
                     // Canvas 객체를 생성하여 sender로 전달
                     Canvas canvas = FindParent<Canvas>((FrameworkElement)sender);
@@ -2930,7 +2950,7 @@ namespace PopProject.UserControl_
                 "[PopResultStart]",
                 new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey" },
                 new object[] {
-                dt.ToString("yyyy-MM-dd"),
+                dateTimeManager.GetCurrentDate(),
                 model.orderKey,
                 model.pplanKey,
                 model.ProcessType,
@@ -3554,16 +3574,18 @@ namespace PopProject.UserControl_
         //날짜 뒤로 이동
         private void Date_Click1(object sender, MouseButtonEventArgs e)
         {
-            dt = dt.AddDays(-1);
-            txtDate.Text = dt.ToString("D");
-            if (dt.ToString("D").Equals(DateTime.Now.ToString("D")))
-            {
-                CheckDateValue = true;
-            }
-            else
-            {
-                CheckDateValue = false;
-            }
+            dateTimeManager.SetDreviousDate();
+
+            //dt = dt.AddDays(-1);
+            //txtDate.Text = dt.ToString("D");
+            //if (dt.ToString("D").Equals(DateTime.Now.ToString("D")))
+            //{
+            //    CheckDateValue = true;
+            //}
+            //else
+            //{
+            //    CheckDateValue = false;
+            //}
 
             SelectWorkList(); //계획 조회
             ResultSearchDate(); //결과 조회
@@ -3572,16 +3594,18 @@ namespace PopProject.UserControl_
         //날짜 앞으로 이동
         private void Date_Click2(object sender, MouseButtonEventArgs e)
         {
-            dt = dt.AddDays(1);
-            txtDate.Text = dt.ToString("D");
-            if (dt.ToString("D").Equals(DateTime.Now.ToString("D")))
-            {
-                CheckDateValue = true;
-            }
-            else
-            {
-                CheckDateValue = false;
-            }
+            dateTimeManager.SetNextDate();
+
+            //dt = dt.AddDays(1);
+            //txtDate.Text = dt.ToString("D");
+            //if (dt.ToString("D").Equals(DateTime.Now.ToString("D")))
+            //{
+            //    CheckDateValue = true;
+            //}
+            //else
+            //{
+            //    CheckDateValue = false;
+            //}
 
             SelectWorkList(); //계획 조회
             ResultSearchDate(); //결과 조회
