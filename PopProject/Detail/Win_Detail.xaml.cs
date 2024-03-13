@@ -64,7 +64,7 @@ namespace PopProject.Detail
         private bool MemoLock = true;
 
         private DateTime selectedDate = new DateTime();
-        private DateTimeManager dateTimeManager;
+        //private DateTimeManager dateTimeManager;
 
         //화면 더블클릭, 인풋창 에서 입장
         public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v, bool Barcod, DateTime _selectedDate) //메인모델, 참고사항, 계획건, 듀얼모니터사용, 바코드 유무
@@ -83,7 +83,7 @@ namespace PopProject.Detail
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
 
-            dateTimeManager = DateTimeManager.Instance; // DateTimeManager 객체 생성
+            //dateTimeManager = DateTimeManager.Instance; // DateTimeManager 객체 생성
 
             Console.WriteLine("ProdID : " + mainModel.prodID);
 
@@ -2702,10 +2702,8 @@ namespace PopProject.Detail
             //    }
             //}
 
-            string currentDate = dateTimeManager.GetCurrentDate();
-            string currentTime = dateTimeManager.GetCurrentTime();
-            Console.WriteLine("현재 날짜: " + currentDate);
-            Console.WriteLine("현재 시간: " + currentTime);
+            Console.WriteLine("현재 날짜: " + DateTimeManager.GetSelectedDateStr());
+            Console.WriteLine("현재 시간: " + DateTimeManager.GetSelectedTimeStr());
         }
     }
 }

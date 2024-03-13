@@ -7,36 +7,30 @@ using System.Windows.Threading;
 
 namespace PopProject.Util
 {
-    class DateTimeManager
+    public static class DateTimeManager
     {
-        private static DateTimeManager instance;
-        private DispatcherTimer timer;
-        private string currentDateTime; // 날짜,시간
-        private string currentDate; // 날짜
-        private string currentTime; // 시간
+        //private static DateTimeManager instance;
+        static private DispatcherTimer timer;
+        static private DateTime nowDT = new DateTime();
+        static private DateTime selectedDT = new DateTime();
 
-        public static DateTimeManager Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new DateTimeManager();
-                }
-                return instance;
-            }
-        }
+        //static private string currentDateTime; // 날짜,시간
+        //static private string currentDate; // 날짜
+        //static private string currentTime; // 시간
 
-        public DateTimeManager()
+        static DateTimeManager()
         {
             //초기 설정
-            currentDate = DateTime.Now.ToString("yyyy-MM-dd");
-            currentDateTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+            nowDT = DateTime.Now;
+            selectedDT = DateTime.Now;
+
+            //currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+            //currentDateTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
 
             StartTimer();
         }
 
-        private void StartTimer()
+        private static void StartTimer()
         {
             timer = new DispatcherTimer
             {
@@ -47,49 +41,89 @@ namespace PopProject.Util
         }
 
         //시간만 실시간으로 갱신
-        private void Timer_Tick(object sender, EventArgs e)
+        private static void Timer_Tick(object sender, EventArgs e)
         {
-            currentTime = DateTime.Now.ToString("hh:mm:ss");
+            nowDT = DateTime.Now;
+            selectedDT = new DateTime(selectedDT.Year, selectedDT.Month, selectedDT.Day, nowDT.Hour, nowDT.Minute, nowDT.Second);
         }
 
         // 현재 날짜와 시간 반환
-        public string GetCurrentDateTime()
+        public static DateTime GetNowDt()
         {
-            return currentDate + " " + currentTime;
+            return nowDT;
         }
 
-        // 날짜만 반환
-        public string GetCurrentDate()
+        public static DateTime GetNowDate()
         {
-            return currentDate;
+            return nowDT.Date;
         }
 
-        // 시간만 반환
-        public string GetCurrentTime()
+        public static string GetNowDateStr()
         {
-            return currentTime;
+            return nowDT.ToString("yyyy-MM-dd");
+        }
+
+        public static string GetNowTimeStr()
+        {
+            return nowDT.ToString("HH:mm:ss");
+        }
+
+        public static string GetNowStr()
+        {
+            return nowDT.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        public static DateTime GetSelectedDT()
+        {
+            return selectedDT;
+        }
+
+        public static DateTime GetSelectedDate()
+        {
+            return selectedDT.Date;
+        }
+
+        public static string GetSelectedDateStr()
+        {
+            return selectedDT.ToString("yyyy-MM-dd");
+        }
+
+        public static string GetSelectedTimeStr()
+        {
+            return selectedDT.ToString("HH:mm:ss");
+        }
+
+        public static string GetSelectedStr()
+        {
+            return selectedDT.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        public static bool CompareDateTime()
+        {
+            return DateTime.Equals(nowDT, selectedDT);
+        }
+
+        public static bool CompareDate()
+        {
+            return DateTime.Equals(GetNowDate(), GetSelectedDate());
         }
 
         // 전날짜로
-        public void SetDreviousDate()
+        public static void SetPreviousDate()
         {
-            DateTime current = DateTime.Parse(currentDate); 
-            current = current.AddDays(-1); 
-            currentDate = current.ToString("yyyy-MM-dd"); 
+            selectedDT = selectedDT.AddDays(-1);
         }
 
         // 다음날짜로
-        public void SetNextDate()
+        public static void SetNextDate()
         {
-            DateTime current = DateTime.Parse(currentDate); 
-            current = current.AddDays(1); 
-            currentDate = current.ToString("yyyy-MM-dd");
+            selectedDT = selectedDT.AddDays(1);
         }
 
         //현재 날짜로 변경
-        public void SetTodayDate()
+        public static void SetTodayDate()
         {
-            currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+            selectedDT = nowDT;
         }
     }
 }
