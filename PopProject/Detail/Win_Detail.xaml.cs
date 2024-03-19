@@ -63,11 +63,10 @@ namespace PopProject.Detail
         private bool consumer = false;
         private bool MemoLock = true;
 
-        private DateTime selectedDate = new DateTime();
         //private DateTimeManager dateTimeManager;
 
         //화면 더블클릭, 인풋창 에서 입장
-        public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v, bool Barcod, DateTime _selectedDate) //메인모델, 참고사항, 계획건, 듀얼모니터사용, 바코드 유무
+        public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v, bool Barcod) //메인모델, 참고사항, 계획건, 듀얼모니터사용, 바코드 유무
         {
             InitializeComponent();
             
@@ -2342,7 +2341,7 @@ namespace PopProject.Detail
                 case "20": //원단
                     Close();
 
-                    Win_input input = new Win_input(mainModel, workList, true, selectedDate);
+                    Win_input input = new Win_input(mainModel, workList, true);
                     Main1.win_Input = input;
                     _ = input.ShowDialog();
                     Main1.win_Input = null;
@@ -2368,7 +2367,7 @@ namespace PopProject.Detail
 
                         Close();
 
-                        input = new Win_input(mainModel, workList, true, selectedDate);
+                        input = new Win_input(mainModel, workList, true);
                         Main.win_Input = input;
                         _ = input.ShowDialog();
 
@@ -2649,61 +2648,59 @@ namespace PopProject.Detail
         //CNS 테스트용
         private void hiddenBt(object sender, MouseButtonEventArgs e)
         {
-            //if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.Plc || 
-            //    SettingJsonManager.corp_name.Equals("오주포장테스트") && SettingJsonManager.Plc)
-            //{
-            //    //바코드로 디테일창 팝업시 동작
-            //    if (SettingJsonManager.mercName.Equals("후렉소1호기") || SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기"))
-            //    {
-            //        LogManager.Info("CNS사용 체크 후 바코드로 상세화면 팝업 성공" + SettingJsonManager.mercName + "/" + this.mainModel.prodID, MethodBase.GetCurrentMethod().DeclaringType);
+            if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.Plc ||
+                SettingJsonManager.corp_name.Equals("오주포장테스트") && SettingJsonManager.Plc)
+            {
+                //바코드로 디테일창 팝업시 동작
+                if (SettingJsonManager.mercName.Equals("후렉소1호기") || SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기"))
+                {
+                    LogManager.Info("CNS사용 체크 후 바코드로 상세화면 팝업 성공" + SettingJsonManager.mercName + "/" + this.mainModel.prodID, MethodBase.GetCurrentMethod().DeclaringType);
 
-            //        //DB에 데이터 있는거 확인용 변수
-            //        bool DB_DataOK = false;
+                    //DB에 데이터 있는거 확인용 변수
+                    bool DB_DataOK = false;
 
-            //        //DB 조회
-            //        ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
-            //        ReturnModel returnDataCheck = ServiceModel.GetData(
-            //           SettingJsonManager.serverIndex,
-            //           "[PopCNSSearch]",
-            //           new string[] { "MachineName", "prodID" },
-            //           new object[] { SettingJsonManager.mercName, this.mainModel.prodID }, 0);
+                    //DB 조회
+                    ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+                    ReturnModel returnDataCheck = ServiceModel.GetData(
+                       SettingJsonManager.serverIndex,
+                       "[PopCNSSearch]",
+                       new string[] { "MachineName", "prodID" },
+                       new object[] { SettingJsonManager.mercName, this.mainModel.prodID }, 0);
 
-            //        if (returnDataCheck.결과 == 1)
-            //        {
-            //            string machineName = "";
-            //            string ProdID = "";
-            //            int pock = 0;
-            //            int jang = 0;
-            //            int go = 0;
+                    if (returnDataCheck.결과 == 1)
+                    {
+                        string machineName = "";
+                        string ProdID = "";
+                        int pock = 0;
+                        int jang = 0;
+                        int go = 0;
 
-            //            JArray Data_Jarry = JArray.Parse(returnDataCheck.리턴값);
-            //            foreach (JObject result in Data_Jarry)
-            //            {
-            //                machineName = result["MachineName"].ToString();
-            //                ProdID = result["prodID"].ToString();
-            //                pock = Convert.ToInt32(result["Pock"]);
-            //                jang = Convert.ToInt32(result["Jang"]);
-            //                go = Convert.ToInt32(result["Go"]);
-            //            }
+                        JArray Data_Jarry = JArray.Parse(returnDataCheck.리턴값);
+                        foreach (JObject result in Data_Jarry)
+                        {
+                            machineName = result["MachineName"].ToString();
+                            ProdID = result["prodID"].ToString();
+                            pock = Convert.ToInt32(result["Pock"]);
+                            jang = Convert.ToInt32(result["Jang"]);
+                            go = Convert.ToInt32(result["Go"]);
+                        }
 
-            //            //DB에 데이터가 있을경우
-            //            if (ProdID != "" && pock * jang != 0)
-            //            {
-            //                DB_DataOK = true;
-            //                CNS_DB_Send(); //DB 데이터 전송
-            //            }
-            //            //DB에 데이터가 없을경우
-            //            else
-            //            {
-            //                DB_DataOK = false;
-            //                CNS_defaultData_Send(); //신규 데이터 전송
-            //            }
-            //        }
-            //    }
-            //}
+                        //DB에 데이터가 있을경우
+                        if (ProdID != "" && pock * jang != 0)
+                        {
+                            DB_DataOK = true;
+                            CNS_DB_Send(); //DB 데이터 전송
+                        }
+                        //DB에 데이터가 없을경우
+                        else
+                        {
+                            DB_DataOK = false;
+                            CNS_defaultData_Send(); //신규 데이터 전송
+                        }
+                    }
+                }
+            }
 
-            Console.WriteLine("현재 날짜: " + DateTimeManager.GetSelectedDateStr());
-            Console.WriteLine("현재 시간: " + DateTimeManager.GetSelectedTimeStr());
         }
     }
 }

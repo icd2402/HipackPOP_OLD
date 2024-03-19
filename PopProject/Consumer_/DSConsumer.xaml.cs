@@ -47,14 +47,12 @@ namespace PopProject.Consumer_
         bool 이월체크 = false;
         bool checkbefore = true;
         bool CarryForwardButtonState = false;
-        DateTime selectedDate = new DateTime();
        
-        public DSConsumer(MainModel mainModel,bool carryForwardButtonState, DateTime _selectedDate) //이월버튼 사용 유무
+        public DSConsumer(MainModel mainModel,bool carryForwardButtonState) //이월버튼 사용 유무
         {
             InitializeComponent();
             this.mainModel = mainModel;
             CarryForwardButtonState = carryForwardButtonState;
-            selectedDate = _selectedDate;
 
             // 작업중 버튼으로 창을 열면 이월버튼 숨김 (이월버튼은 대기/완료일때만 가능)
             if (!CarryForwardButtonState)
@@ -99,7 +97,7 @@ namespace PopProject.Consumer_
               // new object[] { mainModel.orderKey, mainModel.ProcessType, DateTime.Now.ToString("yyyy-MM-dd") },
                "[PopWorkListMemberPlanKey]",
                 new string[] { "@orderKey", "@ProcessType", "@pplanDate", "@pplanKey" },
-                new object[] { mainModel.orderKey, mainModel.ProcessType, DateTime.Now.ToString("yyyy-MM-dd"), mainModel.pplanKey },
+                new object[] { mainModel.orderKey, mainModel.ProcessType, DateTimeManager.GetSelectedDateStr(), mainModel.pplanKey },
                0
                );
 
@@ -179,10 +177,13 @@ namespace PopProject.Consumer_
                         //시작,종료 시간이 둘 다 있을 경우 => 한번 이라도 생산 완료하면
                         if (consumerList[i].sDatetime.Length > 1 && consumerList[i].eDatetime.Length > 1)
                         {
-                            string sTime = consumerList[i].sDatetime;
-                            string eTime = consumerList[i].eDatetime;
-                            DateTime startTime = DateTime.ParseExact(sTime, "yyyy/MM/dd HH:mm:ss", null);
-                            DateTime endTime = DateTime.ParseExact(eTime, "yyyy/MM/dd HH:mm:ss", null);
+                            //string sTime = consumerList[i].sDatetime;
+                            //string eTime = consumerList[i].eDatetime;
+                            //DateTime startTime = DateTime.ParseExact(sTime, "yyyy/MM/dd HH:mm:ss", null);
+                            //DateTime endTime = DateTime.ParseExact(eTime, "yyyy/MM/dd HH:mm:ss", null);
+
+                            DateTime startTime = Convert.ToDateTime(consumerList[i].sDatetime);
+                            DateTime endTime = Convert.ToDateTime(consumerList[i].eDatetime);
 
                             if (startTime > endTime)
                             {
@@ -252,7 +253,7 @@ namespace PopProject.Consumer_
                 "[PopResultStart]",
                 new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey" },
                 new object[] {
-                selectedDate.ToString("yyyy-MM-dd"),
+                DateTimeManager.GetSelectedDateStr(),
                 subOb.orderKey,
                 subOb.pplanKey,
                 subOb.processType,
@@ -274,8 +275,8 @@ namespace PopProject.Consumer_
                 SettingJsonManager.SaveJsonFile();
 
                 //시작시간 저장
-                mainModel.sDatetime = DateTime.Now.Month == selectedDate.Month && DateTime.Now.Day == selectedDate.Day ?
-                                      DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : selectedDate.ToString("yyyy-MM-dd HH:mm:ss");      // 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
+                mainModel.sDatetime = (DateTime.Now.ToString("yyyy-MM-dd") == DateTimeManager.GetSelectedDateStr()) ?     
+                                       DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTimeManager.GetSelectedStr();// 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
 
                 //현황판으로 시작신호 보냄
                 CountManager.SendMsg(SettingJsonManager.mercName, "S");
@@ -327,7 +328,7 @@ namespace PopProject.Consumer_
                 new string[] { "@AllChkAED","@작업일자","@오더Key","@arrChkAED","@arr공정구분","@arr계획Key","@arr작업Key","@arr작업량","@arr불량","@arr비고","@시작시간","@설비명","@전체공정"},
                 new object[] {
                 "1",
-                selectedDate.ToString("yyyy-MM-dd"),
+                DateTimeManager.GetSelectedDateStr(),
                 subOb.orderKey,
                 arrChkAED,
                 subOb.processType + "|",
@@ -370,6 +371,26 @@ namespace PopProject.Consumer_
                 }
             }
 
+            if (SettingJsonManager.corp_name.Contains("테스트"))
+            {
+                Console.WriteLine("---------------------------------------------------------------------------" + Environment.NewLine +
+                                  "실수요자 리스트 닫기 : PopResultEnd" + Environment.NewLine +
+                                  "AllChkAED:" + "2" + Environment.NewLine +
+                                  "작업일자:" + DateTimeManager.GetSelectedDateStr() + Environment.NewLine +
+                                  "orderKey:" + mainModel.orderKey + Environment.NewLine +
+                                  "arrChkAED:" + arrChkAED + Environment.NewLine +
+                                  "arr공정구분:" + mainModel.ProcessType + Environment.NewLine +
+                                  "arr계획키:" + mainModel.pplanKey + Environment.NewLine +
+                                  "arr작업키:" + pWorkKey + Environment.NewLine +
+                                  "arr작업량:" + totalCount + Environment.NewLine +
+                                  "arr불량:" + totalErrorCount + Environment.NewLine +
+                                  "arr비고:" + "" + Environment.NewLine +
+                                  "시작시간:" + mainModel.sDatetime + Environment.NewLine +
+                                  "설비명:" + SettingJsonManager.mercName + Environment.NewLine +
+                                  "전체공정" + 전체공정 + Environment.NewLine +
+                                 "---------------------------------------------------------------------------");
+            }
+
             string parameter = "[" + SettingJsonManager.mercName + "] " + this.mainModel.customSName + Environment.NewLine + mainModel.prodName + " " + totalCount.ToString("N0") + "개";
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
@@ -380,7 +401,7 @@ namespace PopProject.Consumer_
                 "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명","@전체공정"},
                new object[] {
                 "2",
-                selectedDate.ToString("yyyy-MM-dd"),
+                DateTimeManager.GetSelectedDateStr(),
                 mainModel.orderKey,
                 arrChkAED,
                 mainModel.ProcessType+ "|",
@@ -392,7 +413,6 @@ namespace PopProject.Consumer_
                 mainModel.sDatetime,
                 SettingJsonManager.mercName,
                 전체공정
-
                 }, 1, parameter
 
              );
@@ -401,20 +421,7 @@ namespace PopProject.Consumer_
             {
                 Main.production = null;
 
-                Console.WriteLine("실수요자 리스트 종료 [PopResultEnd] : " +
-                                  "AllChkAED:" + "2" +
-                                  ", 작업일자:" + selectedDate.ToString("yyyy-MM-dd") +
-                                  ", orderKey:" + mainModel.orderKey +
-                                  ", arrChkAED:" + arrChkAED +
-                                  ", arr공정구분:" + mainModel.ProcessType +
-                                  ", arr계획키:" + mainModel.pplanKey +
-                                  ", arr작업키:" + pWorkKey +
-                                  ", arr작업량:" + totalCount +
-                                  ", arr불량:" + totalErrorCount +
-                                  ". arr비고:" + "" +
-                                  ", 시작시간:" + mainModel.sDatetime +
-                                  ", 설비명:" + SettingJsonManager.mercName +
-                                  ", 전체공정" + 전체공정);
+                
             }
             SettingJsonManager.pplanKey = 0;
             SettingJsonManager.pworkkey = ""; 
@@ -476,9 +483,29 @@ namespace PopProject.Consumer_
                 Image img = (Image)sender;
                 ConsumerModel consumerModel = (ConsumerModel)img.DataContext;
                 product = consumerModel;
+                
+                
+                //대기 버튼
+                if (consumerModel.imgSource.Equals("/img/bn_02.png"))
+                {
+                    if (product.membID.Equals(consumerModel.membID))
+                    {
+                        Console.WriteLine("일치하는 싱수요자임!!");
+                    }
+                }
+                //작업중 버튼
+                else if (consumerModel.imgSource.Equals("/img/bn_01.png"))
+                {
+
+                }
+                //완료 버튼
+                else if (consumerModel.imgSource.Equals("/img/bn_03.png"))
+                {
+
+                }
 
                 //ds인풋화면 호출
-                dsConsumer_Input = new DsConsumer_input(consumerModel, mainModel, selectedDate);
+                dsConsumer_Input = new DsConsumer_input(consumerModel, mainModel);
                 _ = dsConsumer_Input.ShowDialog();
 
                 PopWorkListSearch(); //계획리스트 조회
@@ -654,7 +681,7 @@ namespace PopProject.Consumer_
                 new object[] {
                 pworkkey,
                 "",
-                selectedDate.ToString("yyyy/MM/dd HH:mm:ss")
+                DateTimeManager.GetSelectedStr()
                 },
                 1
 

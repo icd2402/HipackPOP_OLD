@@ -62,7 +62,7 @@ namespace PopProject.Input
         private DateTime selectedDate = new DateTime();
 
 
-        public Win_input(MainModel mainModel, ObservableCollection<MainModel> workList, bool check, DateTime _selectedDate) //check= 메인화면에서 들어오면 false, 디테일 화면에서 들어오면 true
+        public Win_input(MainModel mainModel, ObservableCollection<MainModel> workList, bool check) //check= 메인화면에서 들어오면 false, 디테일 화면에서 들어오면 true
         {
             InitializeComponent();
         
@@ -70,7 +70,6 @@ namespace PopProject.Input
             inputModel = new InputModel();
             this.mainModel = mainModel;
             boxType.Text = "형 태 : " + mainModel.boxType;
-            selectedDate = _selectedDate;
 
             //현재 카운터값 송신
             if (this.mainModel.presultCount > 0)
@@ -240,7 +239,7 @@ namespace PopProject.Input
             inputModel.customSName = mainModel.customSName;
             inputModel.pplanCount = mainModel.pplanCount;
             inputModel.errorModel = new errorModel();
-            inputModel.pworkDate = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
+            inputModel.pworkDate = DateTime.Parse(DateTimeManager.GetSelectedDateStr()); //yyyy-MM-dd
             inputModel.newProd = mainModel.newProd;
             inputModel.eDatetime = "";
             inputModel.perrCount = 0;
@@ -858,7 +857,7 @@ namespace PopProject.Input
                 "[PopResultStart]",
                 new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey" },
                 new object[] {
-                selectedDate.ToString("yyyy-MM-dd"),
+                DateTimeManager.GetSelectedDateStr(),
                 subOb.orderKey,
                 subOb.pplanKey,
                 subOb.processType,
@@ -879,7 +878,7 @@ namespace PopProject.Input
                 SettingJsonManager.pworkkey = returnData.리턴값;
                 //Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
                 SettingJsonManager.SaveJsonFile();
-                mainModel.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                mainModel.sDatetime = DateTimeManager.GetSelectedStr(); //yyyy-MM-dd HH:mm:ss
                 CountManager.SendMsg(SettingJsonManager.mercName, "S");
                 CountManager.SendMsg(SettingJsonManager.mercName, "0");
                 SettingJsonManager.count = 0;
@@ -979,7 +978,7 @@ namespace PopProject.Input
                 "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명","@전체공정"},
                 new object[] {
                 "1",
-                selectedDate.ToString("yyyy-MM-dd"),
+                DateTimeManager.GetSelectedDateStr(),
                 subOb.orderKey,
                 arrChkAED,
                 subOb.processType + "|",
@@ -1052,7 +1051,7 @@ namespace PopProject.Input
                 }
             }
 
-            Win_Detail win_Detail = new Win_Detail(mainModel, special, workList, SettingJsonManager.detail_check, CNS_Send, selectedDate);
+            Win_Detail win_Detail = new Win_Detail(mainModel, special, workList, SettingJsonManager.detail_check, CNS_Send);
             win_Detail.ShowDialog();
         }
 
@@ -1131,7 +1130,7 @@ namespace PopProject.Input
                 {
                     startPBLock = false;
 
-                    PopResultEnd(); //결과값 조회
+                    PopResultEnd(); //결과값 삽입
                     
                     inputModel.perrCount = 0;
                     inputModel.count = 0;
@@ -1662,7 +1661,7 @@ namespace PopProject.Input
                 "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명", "@전체공정"},
                 new object[] {
                 "1",
-                selectedDate.ToString("yyyy-MM-dd"),
+                DateTimeManager.GetSelectedDateStr(),
                 inputModel.orderKey,
                 arrChkAED,
                 inputModel.ProcessType + "|",
@@ -1681,7 +1680,7 @@ namespace PopProject.Input
             {
                 Console.WriteLine("일반 생산 종료 [PopResultEnd] : " +
                                   "AllChkAED:" + "1" +
-                                  ", 작업일자:" + DateTime.Now.ToString("yyyy-MM-dd") +
+                                  ", 작업일자:" + DateTimeManager.GetSelectedDateStr() +
                                   ", 오더Key:" + inputModel.orderKey +
                                   ", arrChkAED:" + arrChkAED +
                                   ", arr공정구분:" + inputModel.ProcessType +
@@ -1844,7 +1843,7 @@ namespace PopProject.Input
                 "[PopResultStart]",
                 new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey" },
                 new object[] {
-                selectedDate.ToString("yyyy-MM-dd"),
+                DateTimeManager.GetSelectedDateStr(),
                 inputModel.orderKey,
                 inputModel.pplanKey,
                 inputModel.ProcessType,
@@ -1864,7 +1863,7 @@ namespace PopProject.Input
                 SettingJsonManager.pworkkey = returnData.리턴값;
                 SettingJsonManager.SaveJsonFile();
                 //Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
-                mainModel.sDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                mainModel.sDatetime = DateTimeManager.GetSelectedStr();
                 CountManager.SendMsg(SettingJsonManager.mercName, "S");//현황판으로 시작신호 송신 (설비명,S)
                 CountManager.SendMsg(SettingJsonManager.mercName, "0"); //현황판으로 생산종료 송신
                 SettingJsonManager.count = 0;
@@ -2015,7 +2014,6 @@ namespace PopProject.Input
             if (context.errorModel.perrCount - value >= 0)
             {
                 context.errorModel.perrCount -= value;
-                // tbError.Text = inputModel.perrCount + "";
             }
         }
 
@@ -2025,7 +2023,6 @@ namespace PopProject.Input
             InputModel context = (InputModel)img.DataContext;
             int value = 1;
             context.errorModel.perrCount += value;
-            //tbError.Text = inputModel.perrCount + "";
         }
 
         private void ScrollViewer_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -2213,7 +2210,6 @@ namespace PopProject.Input
             e.Handled = true;
             Border txt = (Border)sender;
             errorModel ob = (errorModel)txt.DataContext;
-            // Console.WriteLine(ob.memo);
         }
 
         private void Result_update(object sender, MouseButtonEventArgs e)
@@ -2298,13 +2294,10 @@ namespace PopProject.Input
             error_check_border.Visibility = Visibility.Collapsed;
         }
 
-
         private void CNS_DB확인()
         {
 
         }
-
-
 
         // DB -> CNS 전송 버튼
         private void Plc_ButtonMouseDown1(object sender, MouseButtonEventArgs e)

@@ -82,6 +82,7 @@ namespace PopProject.Util
         public static int consumCount { get; set; }
         public static bool dbUse { get; set; }
         public static bool detailPass { get; set; }
+        public static bool detailPopup { get; set; }
 
         // JSON 파일 경로
         public static string filePath { get; set; }
@@ -251,6 +252,8 @@ namespace PopProject.Util
                 dbUse = jObject.ContainsKey("dbUse") ? bool.Parse(jObject["dbUse"].ToString()) : false;
                 // detailPass 없는 경우 false
                 detailPass = jObject.ContainsKey("detailPass") ? bool.Parse(jObject["detailPass"].ToString()) : false;
+                // detailPopup 없는 경우 false
+                detailPopup = jObject.ContainsKey("detailPass") ? bool.Parse(jObject["detailPopup"].ToString()) : false;
 
                 LogManager.Info("json → 셋팅정보(Class) Load 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
@@ -347,8 +350,9 @@ namespace PopProject.Util
                                 {"authKey", string.IsNullOrEmpty(authKey) == false ? authKey : ""},
                                 {"SerialName1", string.IsNullOrEmpty(SerialName1) == false ? SerialName1 : ""},
                                 {"consumCount", consumCount.ToString()},
-                                {"dbUse", dbUse.ToString() },
-                                {"detailPass", detailPass.ToString()}
+                                {"dbUse", dbUse.ToString()},
+                                {"detailPass", detailPass.ToString()},
+                                {"detailPopup", detailPopup.ToString()}
 
                             };
 
@@ -363,179 +367,6 @@ namespace PopProject.Util
             catch (Exception ex)
             {
                 LogManager.Error("셋팅정보(Class) → json Save 실패: " + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
-                return false;
-            }
-            return true;
-        }
-
-        // Settings.Settings (user.config 파일)에 정보 저장
-        public static bool SaveConfigFile()
-        {
-            LogManager.Info("셋팅정보(Class) → 셋팅(user.config) 입력 시작", MethodBase.GetCurrentMethod().DeclaringType);
-
-            try {
-                Properties.Settings.Default.login_id = login_id;
-                Properties.Settings.Default.login_password = login_password;
-                Properties.Settings.Default.corp_name = corp_name;
-                Properties.Settings.Default.corp_id = corp_id;
-                Properties.Settings.Default.login_check = login_check;
-                Properties.Settings.Default.mercName = mercName;
-                Properties.Settings.Default.SerialName = SerialName;
-                Properties.Settings.Default.processType = processType;
-                Properties.Settings.Default.hour = hour;
-                Properties.Settings.Default.minute = minute;
-                Properties.Settings.Default.url = url;
-                Properties.Settings.Default.saveDate = saveDate;
-                Properties.Settings.Default.pplanKey = pplanKey;
-                Properties.Settings.Default.count = count;
-                Properties.Settings.Default.UserID = UserID;
-                Properties.Settings.Default.UserName = UserName;
-                Properties.Settings.Default.signalR = signalR;
-                Properties.Settings.Default.serverIndex = serverIndex;
-                Properties.Settings.Default.pworkkey = pworkkey;
-                Properties.Settings.Default.consumersumcount = consumersumcount;
-                Properties.Settings.Default.consumpWorkKey = consumpWorkKey;
-                Properties.Settings.Default.consumersumerrorcount = consumersumerrorcount;
-                Properties.Settings.Default.TypeIndex = TypeIndex;
-                Properties.Settings.Default.CountType = CountType;
-                Properties.Settings.Default.settingitem = settingitem;
-                Properties.Settings.Default.meterialinfo = meterialinfo;
-                Properties.Settings.Default.setting_check = setting_check;
-                Properties.Settings.Default.baudrate = baudrate;
-                Properties.Settings.Default.SensorRate = SensorRate;
-                Properties.Settings.Default.RadioChecked = RadioChecked;
-                Properties.Settings.Default.printItem = printItem;
-                Properties.Settings.Default.samework = samework;
-                Properties.Settings.Default.color_check = color_check;
-                Properties.Settings.Default.count_check = count_check;
-                Properties.Settings.Default.boxCheck = boxCheck;
-                Properties.Settings.Default.searchCheck = searchCheck;
-                Properties.Settings.Default.keyinCheck = keyinCheck;
-                Properties.Settings.Default.detail_check = detail_check;
-                Properties.Settings.Default.option1 = option1;
-                Properties.Settings.Default.presultcount = presultcount;
-                Properties.Settings.Default.twoSum = twoSum;
-                Properties.Settings.Default.accountCheck = accountCheck;
-                Properties.Settings.Default.productionCheck = productionCheck;
-                Properties.Settings.Default.scrollvarCheck = scrollvarCheck;
-                Properties.Settings.Default.index = index;
-                Properties.Settings.Default.error = error;
-                Properties.Settings.Default.error1 = error1;
-                Properties.Settings.Default.Plc = Plc;
-                Properties.Settings.Default.ChangeCheck = ChangeCheck;
-                Properties.Settings.Default.ip = ip;
-                Properties.Settings.Default.port = port;
-                Properties.Settings.Default.Gap = Gap;
-                Properties.Settings.Default.mimi = mimi;
-                Properties.Settings.Default.jang = jang;
-                Properties.Settings.Default.pok = pok;
-                Properties.Settings.Default.go = go;
-                Properties.Settings.Default.setCount = setCount;
-                Properties.Settings.Default.boxType = boxType;
-                Properties.Settings.Default.plcCheck = plcCheck;
-                Properties.Settings.Default.completeValue_checked = completeValue_checked;
-                Properties.Settings.Default.checkMerc = checkMerc;
-                Properties.Settings.Default.robotchecked = robotchecked;
-                Properties.Settings.Default.robotIP = robotIP;
-                Properties.Settings.Default.robotPort = robotPort;
-                Properties.Settings.Default.manager = manager;
-                Properties.Settings.Default.authKey = authKey;
-                Properties.Settings.Default.SerialName1 = SerialName1;
-                Properties.Settings.Default.consumCount = consumCount;
-                Properties.Settings.Default.dbUse = dbUse;
-
-                LogManager.Info("셋팅정보(Class) → 셋팅(user.config) 정보 입력 완료", MethodBase.GetCurrentMethod().DeclaringType);
-            }
-            catch (Exception ex)
-            {
-                LogManager.Error("셋팅정보(Class) → 셋팅(user.config) 정보 입력 실패: " + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
-                return false;
-            }
-            return true;
-        }
-
-        // Settings.Settings (user.config 파일)에 정보 저장
-        public static bool LoadConfigFile()
-        {
-            LogManager.Info("셋팅(user.config) → 셋팅정보(Class) Save 시작", MethodBase.GetCurrentMethod().DeclaringType);
-
-            try
-            {
-                login_id = Properties.Settings.Default.login_id;
-                login_password = Properties.Settings.Default.login_password;
-                corp_name = Properties.Settings.Default.corp_name;           
-                corp_id = Properties.Settings.Default.corp_id;             
-                login_check = Properties.Settings.Default.login_check;         
-                mercName = Properties.Settings.Default.mercName;            
-                SerialName = Properties.Settings.Default.SerialName;          
-                processType = Properties.Settings.Default.processType;         
-                hour = Properties.Settings.Default.hour;
-                minute = Properties.Settings.Default.minute;
-                url = Properties.Settings.Default.url;
-                saveDate = Properties.Settings.Default.saveDate;
-                pplanKey = Properties.Settings.Default.pplanKey;
-                count = Properties.Settings.Default.count;
-                UserID = Properties.Settings.Default.UserID;
-                UserName = Properties.Settings.Default.UserName;
-                signalR = Properties.Settings.Default.signalR;
-                serverIndex = Properties.Settings.Default.serverIndex;
-                pworkkey = Properties.Settings.Default.pworkkey;
-                consumersumcount = Properties.Settings.Default.consumersumcount;
-                consumpWorkKey = Properties.Settings.Default.consumpWorkKey;
-                consumersumerrorcount = Properties.Settings.Default.consumersumerrorcount;
-                TypeIndex = Properties.Settings.Default.TypeIndex;
-                CountType = Properties.Settings.Default.CountType;
-                settingitem = Properties.Settings.Default.settingitem;
-                meterialinfo = Properties.Settings.Default.meterialinfo;
-                setting_check = Properties.Settings.Default.setting_check;
-                baudrate = Properties.Settings.Default.baudrate;
-                SensorRate = Properties.Settings.Default.SensorRate;
-                RadioChecked = Properties.Settings.Default.RadioChecked;
-                printItem = Properties.Settings.Default.printItem;
-                samework = Properties.Settings.Default.samework;
-                color_check = Properties.Settings.Default.color_check;
-                count_check = Properties.Settings.Default.count_check;
-                boxCheck = Properties.Settings.Default.boxCheck;
-                searchCheck = Properties.Settings.Default.searchCheck;
-                keyinCheck = Properties.Settings.Default.keyinCheck;
-                detail_check = Properties.Settings.Default.detail_check;
-                option1 = Properties.Settings.Default.option1;
-                presultcount = Properties.Settings.Default.presultcount;
-                twoSum = Properties.Settings.Default.twoSum;
-                accountCheck = Properties.Settings.Default.accountCheck;
-                productionCheck = Properties.Settings.Default.productionCheck;
-                scrollvarCheck = Properties.Settings.Default.scrollvarCheck;
-                index = Properties.Settings.Default.index;
-                error = Properties.Settings.Default.error;
-                error1 = Properties.Settings.Default.error1;
-                Plc = Properties.Settings.Default.Plc;
-                ChangeCheck = Properties.Settings.Default.ChangeCheck;
-                ip = Properties.Settings.Default.ip;
-                port = Properties.Settings.Default.port;
-                Gap = Properties.Settings.Default.Gap;
-                mimi = Properties.Settings.Default.mimi;
-                jang = Properties.Settings.Default.jang;
-                pok = Properties.Settings.Default.pok;
-                go = Properties.Settings.Default.go;
-                setCount = Properties.Settings.Default.setCount;
-                boxType = Properties.Settings.Default.boxType;
-                plcCheck = Properties.Settings.Default.plcCheck;
-                completeValue_checked = Properties.Settings.Default.completeValue_checked;
-                checkMerc = Properties.Settings.Default.checkMerc;
-                robotchecked = Properties.Settings.Default.robotchecked;
-                robotIP = Properties.Settings.Default.robotIP;
-                robotPort = Properties.Settings.Default.robotPort;
-                manager = Properties.Settings.Default.manager;
-                authKey = Properties.Settings.Default.authKey;
-                SerialName1 = Properties.Settings.Default.SerialName1;
-                consumCount = Properties.Settings.Default.consumCount;
-                dbUse = Properties.Settings.Default.dbUse;
-
-                LogManager.Info("셋팅(user.config) → 셋팅정보(Class) Save 완료", MethodBase.GetCurrentMethod().DeclaringType);
-            }
-            catch (Exception ex)
-            {
-                LogManager.Error("셋팅(user.config) → 셋팅정보(Class) Save 실패: " + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
                 return false;
             }
             return true;

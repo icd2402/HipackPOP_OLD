@@ -79,6 +79,7 @@ namespace PopProject.Input
             boxCheck.IsChecked = SettingJsonManager.boxCheck; //상자수 사용
             completeValue.IsChecked = SettingJsonManager.completeValue_checked; //완료항목 제거
             detailPass.IsChecked = SettingJsonManager.detailPass; //상세창 넘기기 사용
+            detailPopup.IsChecked = SettingJsonManager.detailPopup; //상세창 먼저 팝업 사용
 
 
             //자재명세서 출력정보 화면
@@ -290,30 +291,6 @@ namespace PopProject.Input
                     default:
                         break;
                 }
-            }
-
-            //오주 또는 대양포장일때 PLC 선택 체크박스 보이도록함
-            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") || SettingJsonManager.corp_name.Equals("대양포장") || SettingJsonManager.corp_name.Equals("대양포장테스트") || SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
-            {
-                plcText.Visibility = Visibility.Visible;
-                plc.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                plcText.Visibility = Visibility.Collapsed;
-                plc.Visibility = Visibility.Collapsed;
-            }
-
-            //오주포장일때 상세창 넘기기 선택 체크박스 보이도록함
-            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
-            {
-                detailPass.Visibility = Visibility.Visible;
-                detailPass.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                detailPass.Visibility = Visibility.Collapsed;
-                detailPass.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1162,17 +1139,55 @@ namespace PopProject.Input
             }
         }
 
+        //로봇사용 
+        private void robotChecked(object sender, RoutedEventArgs e)
+        {
+            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") || 
+                SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
+            {
+                SettingJsonManager.robotchecked = robotcheck.IsChecked.Value;
+                SettingJsonManager.SaveJsonFile();
+            }
+            else
+            {
+                robotcheck.IsChecked = false;
+            }
+        }
+
         //PLC사용
         private void PlcCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            SettingJsonManager.Plc = plc.IsChecked.Value;
-            SettingJsonManager.SaveJsonFile();
+            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") || 
+                SettingJsonManager.corp_name.Equals("대양포장") || SettingJsonManager.corp_name.Equals("대양포장테스트") || 
+                SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
+            {
+                SettingJsonManager.Plc = plc.IsChecked.Value;
+                SettingJsonManager.SaveJsonFile();
+            }
+            else
+            {
+                plc.IsChecked = false;
+            }
         }
 
         //상세화면 넘기기
         private void detailPass_Checked(object sender, RoutedEventArgs e)
         {
-            SettingJsonManager.detailPass = detailPass.IsChecked.Value;
+            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
+            {
+                SettingJsonManager.detailPass = detailPass.IsChecked.Value;
+                SettingJsonManager.SaveJsonFile();
+            }
+            else
+            {
+                detailPass.IsChecked = false;
+            }
+        }
+
+        //상세화면 먼저 팝업
+        private void detailPopup_Checked(object sender, RoutedEventArgs e)
+        {
+            SettingJsonManager.detailPopup = detailPopup.IsChecked.Value;
             SettingJsonManager.SaveJsonFile();
         }
 
@@ -1253,12 +1268,7 @@ namespace PopProject.Input
             }
         }
 
-        //로봇사용 
-        private void robotChecked(object sender, RoutedEventArgs e)
-        {
-            SettingJsonManager.robotchecked = robotcheck.IsChecked.Value;
-            SettingJsonManager.SaveJsonFile();
-        }
+        
 
         private void 구룡제품명세서저장()
         {

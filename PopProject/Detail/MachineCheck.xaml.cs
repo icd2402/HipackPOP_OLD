@@ -184,7 +184,7 @@ namespace PopProject.Detail
                             }
                             else if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
                             {
-                                점검내용 = "C" + "/" + s구분 + "/" + s점검명 + "/" + s시간;
+                                점검내용 = "C" + "," + s구분 + "," + s점검명 + "," + s시간;
 
                             }
                         }

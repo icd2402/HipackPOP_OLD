@@ -120,7 +120,7 @@ namespace PopProject.Util
             rollingAppender.AppendToFile = true;
             rollingAppender.RollingStyle = log4net.Appender.RollingFileAppender.RollingMode.Date;
             rollingAppender.LockingModel = new log4net.Appender.FileAppender.MinimalLock();
-            rollingAppender.DatePattern = "yyyy-MM-dd\".log\""; // 날짜가 지나간 경우 이전 로그에 붙을 이름 구성
+            rollingAppender.DatePattern = "yyyy-MM-dd\".log\""; // 날짜가 지나간 경우 이전 로그에 붙을 이름 구성c
             rollingAppender.StaticLogFileName = false;
             log4net.Layout.PatternLayout layout = new log4net.Layout.PatternLayout("[%date] [%level] [%thread] [%logger] %message%newline");
             rollingAppender.Layout = layout;

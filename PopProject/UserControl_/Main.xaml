@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PopProject.UserControl_"
              mc:Ignorable="d"  
-             d:DesignHeight="1024" d:DesignWidth="1280" KeyDown="Main_keydownEvent" Unloaded="UserControl_Unloaded" >
+             d:DesignHeight="1024" d:DesignWidth="1280" KeyDown="Main_keydownEvent" Unloaded="UserControl_Unloaded" Loaded="UserControl_Loaded" >
 
     <UserControl.Resources>
         <local:IndexConverter x:Key="IndexConverter"/>

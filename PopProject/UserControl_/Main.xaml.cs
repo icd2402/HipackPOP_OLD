@@ -33,6 +33,7 @@ using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
 using WpfAnimatedGif;
 using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace PopProject.UserControl_
 {
@@ -66,7 +67,6 @@ namespace PopProject.UserControl_
         private double hOff = 1;
         private double vOff = 1;
         public static bool passCheck = true; //넘기기
-        public static DateTime dt = DateTime.Now;
         private bool CheckDateValue = true;
         private bool DateCheck = false;
         private bool CNS_Barcode_Send = false; //true이면 바코드 읽으면 CNS로 데이터 전송
@@ -87,12 +87,9 @@ namespace PopProject.UserControl_
                 InitializeComponent();
                 production = null;
 
-                Console.WriteLine("상자수 사용 : " + SettingJsonManager.boxCheck);
                 // 버전 번호를 텍스트 블록에 할당
                 //string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
                 //versionTextBlock.Text += version;
-
-                //DateTimeManager.; // DateTimeManager 객체 생성
 
                 //왼쪽상단 업체명
                 corp_name.Text = SettingJsonManager.corp_name;
@@ -213,7 +210,7 @@ namespace PopProject.UserControl_
                     Timer_1s();         // 1초 - 시계, 바코드, 종료시간 체크
                     Timer_60s();        // 60초(1분) - POP 켜짐 신호 전송
                     Timer_300s();       // 300초(5분) - 계획/결과 갱신, 아두이노 연결 확인, 카운팅 값 전송
-                    Timer_ycbox_1s();   // 1초 - 유창 기계(POP)별로 시간 다르게 계획/결과 갱신
+                    //Timer_ycbox_1s();   // 1초 - 유창 기계(POP)별로 시간 다르게 계획/결과 갱신
 
                     //if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
                     //{
@@ -256,33 +253,11 @@ namespace PopProject.UserControl_
         // 시계, 바코드, 종료시간 체크
         private void Timer_1s_Tick(object sender, EventArgs e)
         {
-            //string currentDateTime = DateTimeManager.GetCurrentDateTime();
-            //string currentDate = dateTimeManager.GetCurrentDate();
-            //string currentTime = dateTimeManager.GetCurrentTime();
-            //Console.WriteLine("날짜 및 시간: " + currentDateTime);
-            //Console.WriteLine("현재 날짜: " + currentDate);
-            //Console.WriteLine("현재 시간: " + currentTime);
-
-            //DateTime dateTime = DateTime.ParseExact(currentDateTime, "yyyy-MM-dd HH:mm:ss", null);
             txtDate.Text = DateTimeManager.GetSelectedDate().ToString("yyyy년 MM월 dd일 dddd");
             txtClock.Text = DateTimeManager.GetSelectedDT().ToString("HH시 mm분 ss초");
 
-
-            //var clock = DateTime.Now; //현재 시간
-
-            ////POP날짜와 현재 날짜가 일치할때에 현재시간 갱신
-            //if (CheckDateValue && !dt.ToString("D").Equals(DateTime.Now.ToString("D")))
-            //{
-            //    dt = DateTime.Now;
-            //}
-
-            //string datePart = dt.ToString("yyyy년 MM월 dd일 dddd"); //날짜
-            //string datetime = string.Format("{0:D2}시 {1:D2}분 {2:D2}초", clock.Hour, clock.Minute, clock.Second);//시간
-            //txtDate.Text = datePart;  //날짜
-            //txtClock.Text = datetime; //시간
-
             //지정된 시간에 컴퓨터를 종료
-            if (dt.Hour == SettingJsonManager.hour && dt.Minute == SettingJsonManager.minute)
+            if (DateTime.Now.Hour == SettingJsonManager.hour && DateTime.Now.Minute == SettingJsonManager.minute)
             {
                 _ = Process.Start("shutdown.exe", "-s");
             }
@@ -429,109 +404,109 @@ namespace PopProject.UserControl_
 
         // 타이머 1초(only 유창포장) - 기계(POP)별로 시간 다르게 계획/결과 갱신
         #region Timer_ycbox_1s
-        private void Timer_ycbox_1s()
-        {
-            if (SettingJsonManager.corp_name.Equals("유창포장")
-                        || SettingJsonManager.corp_name.Equals("유창포장테스트"))
-            {
-                timer = new DispatcherTimer
-                {
-                    Interval = TimeSpan.FromSeconds(1)
-                };
-                timer.Tick += new EventHandler(Timer_ycbox_1s_Tick);
-                timer.Start();
-            }
-        }
+        //private void Timer_ycbox_1s()
+        //{
+        //    if (SettingJsonManager.corp_name.Equals("유창포장")
+        //                || SettingJsonManager.corp_name.Equals("유창포장테스트"))
+        //    {
+        //        timer = new DispatcherTimer
+        //        {
+        //            Interval = TimeSpan.FromSeconds(1)
+        //        };
+        //        timer.Tick += new EventHandler(Timer_ycbox_1s_Tick);
+        //        timer.Start();
+        //    }
+        //}
 
         // 유창 기계(POP)별로 시간 다르게 계획/결과 갱신
-        private void Timer_ycbox_1s_Tick(object sender, EventArgs e)
-        {
-            switch (SettingJsonManager.processType)
-            {
-                case 1:
-                    if (dt.Minute == 0 && dt.Second == 0)   UpdateWorkPlanNResult();
-                    break;
+        //private void Timer_ycbox_1s_Tick(object sender, EventArgs e)
+        //{
+        //    switch (SettingJsonManager.processType)
+        //    {
+        //        case 1:
+        //            if (dt.Minute == 0 && dt.Second == 0)   UpdateWorkPlanNResult();
+        //            break;
 
-                case 2:
-                    if (dt.Minute == 3 && dt.Second == 0)   UpdateWorkPlanNResult();
-                    break;
+        //        case 2:
+        //            if (dt.Minute == 3 && dt.Second == 0)   UpdateWorkPlanNResult();
+        //            break;
 
-                case 3:
-                    if (dt.Minute == 6 && dt.Second == 0)   UpdateWorkPlanNResult();
-                    break;
+        //        case 3:
+        //            if (dt.Minute == 6 && dt.Second == 0)   UpdateWorkPlanNResult();
+        //            break;
 
-                case 4:
-                    if (dt.Minute == 9 && dt.Second == 0)   UpdateWorkPlanNResult();
-                    break;
+        //        case 4:
+        //            if (dt.Minute == 9 && dt.Second == 0)   UpdateWorkPlanNResult();
+        //            break;
 
-                case 5:
-                    if (dt.Minute == 12 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 5:
+        //            if (dt.Minute == 12 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                case 6:
-                    if (dt.Minute == 15 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 6:
+        //            if (dt.Minute == 15 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                case 7:
-                    if (dt.Minute == 18 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 7:
+        //            if (dt.Minute == 18 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                case 8:
-                    if (dt.Minute == 21 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 8:
+        //            if (dt.Minute == 21 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                case 9:
-                    if (dt.Minute == 24 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 9:
+        //            if (dt.Minute == 24 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                case 10:
-                    if (dt.Minute == 27 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 10:
+        //            if (dt.Minute == 27 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                case 11:
-                    if (dt.Minute == 30 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 11:
+        //            if (dt.Minute == 30 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                case 12:
-                    if (dt.Minute == 33 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 12:
+        //            if (dt.Minute == 33 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                case 13:
-                    if (dt.Minute == 36 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 13:
+        //            if (dt.Minute == 36 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                case 14:
-                    if (dt.Minute == 39 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 14:
+        //            if (dt.Minute == 39 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                case 15:
-                    if (dt.Minute == 42 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 15:
+        //            if (dt.Minute == 42 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                case 16:
-                    if (dt.Minute == 45 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 16:
+        //            if (dt.Minute == 45 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                case 17:
-                    if (dt.Minute == 48 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 17:
+        //            if (dt.Minute == 48 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                case 18:
-                    if (dt.Minute == 51 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 18:
+        //            if (dt.Minute == 51 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                case 19:
-                    if (dt.Minute == 54 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 19:
+        //            if (dt.Minute == 54 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                case 20:
-                    if (dt.Minute == 57 && dt.Second == 0)  UpdateWorkPlanNResult();
-                    break;
+        //        case 20:
+        //            if (dt.Minute == 57 && dt.Second == 0)  UpdateWorkPlanNResult();
+        //            break;
 
-                default:
-                    break;
-            }
-        }
+        //        default:
+        //            break;
+        //    }
+        //}
         #endregion
 
         // 타이머 1초 넘기기 신호 && 실수요자(대세)
@@ -703,7 +678,7 @@ namespace PopProject.UserControl_
                                         try
                                         {
                                             can.Visibility = Visibility.Visible; //화면 어둡게 처리
-                                            Win_Detail win_detail = new Win_Detail(model, special, workList, SettingJsonManager.detail_check, false, dt); //모델,참고사항,workList,듀얼모니터,바코드
+                                            Win_Detail win_detail = new Win_Detail(model, special, workList, SettingJsonManager.detail_check, false); //모델,참고사항,workList,듀얼모니터,바코드
                                             win_detail.ShowDialog();
 
                                             win_Input = null;
@@ -960,109 +935,6 @@ namespace PopProject.UserControl_
         }
         #endregion
 
-        // 현황판으로 카운터 전송 // 확인
-        //public void InvokeCount(int str, string mercName)
-        //{
-        //    try
-        //    {
-        //        if (SettingJsonManager.corp_name.Equals("광성수출포장") || 
-        //            SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
-        //            SettingJsonManager.corp_name.Equals("대세물산") ||
-        //            SettingJsonManager.corp_name.Equals("대세물산테스트") ||
-        //            SettingJsonManager.corp_name.Equals("유창포장") ||
-        //            SettingJsonManager.corp_name.Equals("유창포장테스트") ||
-        //            SettingJsonManager.corp_name.Equals("금화") ||
-        //            SettingJsonManager.corp_name.Equals("금화테스트"))
-        //        {
-        //            popService(mercName, str.ToString());
-        //        }
-        //        else
-        //        {
-        //        _ = SignalRAdministrator.허브.Invoke("invokeCount", SettingJsonManager.corp_id, mercName, str + ""); //invokeCount, DB명, 설비명, 문자(카운터값)
-        //            Console.WriteLine("SignalR 전송값(main): invokeCount, " + SettingJsonManager.corp_id  + ", " + mercName + ", " + str);
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        log.Error("현황판으로 데이터 전송 오류 : " + e.Message);
-        //        Console.WriteLine("SignalR 전송실패(main)");
-        //    }
-        //}
-
-        //신규 서비스 Http 셋팅    // 확인
-        //private static HttpClient client = new HttpClient();
-        //async void popService(string mercName, string str)
-        //{
-        //    //주소
-        //    if (SettingJsonManager.corp_name.Equals("광성수출포장"))
-        //    {
-        //        Url = "http://ksbox.iptime.org:18888/pop/gathering"; //광성
-        //    }
-        //    else if (SettingJsonManager.corp_name.Equals("대세물산"))
-        //    {
-        //        Url = "http://dsbox.iptime.org:18888/pop/gathering"; //대세
-        //    }
-        //    else if (SettingJsonManager.corp_name.Equals("유창포장"))
-        //    {
-        //        Url = "http://211.253.37.232:18888/pop/gathering"; //유창
-        //    }
-        //    else if (SettingJsonManager.corp_name.Equals("금화"))
-        //    {
-        //        Url = "http://khbox.iptime.org:18888/pop/gathering"; //금화
-        //    }
-        //    else if (SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
-        //            SettingJsonManager.corp_name.Equals("대세물산테스트") ||
-        //            SettingJsonManager.corp_name.Equals("유창포장테스트") ||
-        //            SettingJsonManager.corp_name.Equals("금화테스트"))
-        //    {
-        //        Url = "http://localhost:18888/pop/gathering"; //테스트용 주소(개인 DeskTop)
-        //    }
-
-        //    string CompanyCode = SettingJsonManager.corp_id; //업체코드
-        //    string MercName = mercName; //설비명
-        //    string Data = str.ToString(); //데이터
-
-        //    await workCnt(Url, CompanyCode, MercName, Data);
-        //}
-
-        //신규 서비스 Http Get   // 확인
-        //async Task workCnt(string url, string companyCode, string mercName, string data)
-        //{
-        //    try
-        //    {
-        //        // 파라미터를 포함한 URL 생성
-        //        string urlWithParameters = $"{url}/{companyCode}/{mercName}/{data}";
-        //        // HTTP GET 요청 보내기
-        //        await client.GetAsync(urlWithParameters).ContinueWith((t) =>
-        //        {
-        //            HttpResponseMessage response;
-
-        //            if (t.IsFaulted)
-        //            {
-        //                log.Error("서비스 전송 후 대기 중 문제가 발생했습니다.");
-        //            }
-        //            else
-        //            {
-        //                response = t.Result;
-        //            }
-        //        }, TaskScheduler.FromCurrentSynchronizationContext());
-
-
-        //        //HttpResponseMessage response = await client.GetAsync(urlWithParameters);
-
-        //        //if(response.IsSuccessStatusCode == false)
-        //        //{
-        //        //    log.Error("서비스로 데이터 전송 실패");
-        //        //}
-
-        //        Console.WriteLine("서비스로 데이터 전송 값(Main) : " + urlWithParameters);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        log.Error("신규 서비스 데이터 전송 오류 : " + e.Message);
-        //    }
-        //}
-
         //자동 로그인 해제
         private void Serial_click(object sender, RoutedEventArgs e)
         {
@@ -1081,18 +953,7 @@ namespace PopProject.UserControl_
         private void TxtDate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DateTimeManager.SetTodayDate();
-            //dt = DateTime.Now;
-            //txtDate.Text = dt.ToString("D");
-            //if (dt.ToString("D").Equals(DateTime.Now.ToString("D")))
-            //{
-            //    CheckDateValue = true;
-            //}
-            //else
-            //{
-            //    CheckDateValue = false;
-            //}
-
-            UpdateWorkPlanNResult();    // 계획/결과 조회
+            UpdateWorkPlanNResult(); // 계획/결과 조회
         }
 
         //설비명 클릭
@@ -2809,7 +2670,7 @@ namespace PopProject.UserControl_
             try
             {
                 //두성포장은 상태버튼 클릭시 Detail창으로 진입
-                if (SettingJsonManager.corp_name.Equals("두성포장") || SettingJsonManager.corp_name.Equals("두성포장테스트"))
+                if (SettingJsonManager.corp_name.Equals("두성포장") || SettingJsonManager.corp_name.Equals("두성포장테스트") || SettingJsonManager.detailPopup)
                 {
                     // Canvas 객체를 생성하여 sender로 전달
                     Canvas canvas = FindParent<Canvas>((FrameworkElement)sender);
@@ -2819,7 +2680,7 @@ namespace PopProject.UserControl_
                     }
                     return;
                 }
-
+               
                 bool carryForwardButton = true; //이월 버튼 상태
                 if (sender.GetType().Name.Equals("Image"))
                 {
@@ -2835,7 +2696,7 @@ namespace PopProject.UserControl_
                         if (model.imagePath.Equals("/img/bn_02.png"))
                         {
                             carryForwardButton = false; //이월 버튼 비활성화
-                            model.sDatetime = dt.ToString("yyyy-MM-dd HH:mm:ss"); //시작시간
+                            model.sDatetime = DateTimeManager.GetSelectedDateStr(); //yyyy-MM-dd
 
                             //관리자 로그인 아닐때 키 생성
                             if (!SettingJsonManager.manager.Equals("1"))
@@ -2867,7 +2728,7 @@ namespace PopProject.UserControl_
                         }
                         var vvvv = dSConsumer;
                         e.Handled = false;
-                        dSConsumer = new DSConsumer(model, carryForwardButton, dt);
+                        dSConsumer = new DSConsumer(model, carryForwardButton);
                         dSConsumer.ShowDialog(); //실수요자 리스트 창 팝업
                         dSConsumer = null;
 
@@ -2878,7 +2739,7 @@ namespace PopProject.UserControl_
                     //일반생산
                     else
                     {
-                        win_Input = new Win_input(model, workList, false, dt);
+                        win_Input = new Win_input(model, workList, false);
                         _ = win_Input.ShowDialog(); //인풋창 팝업
 
                         //팝업창 종료 후
@@ -2943,6 +2804,23 @@ namespace PopProject.UserControl_
         //실수요자 생산 시작
         private int PopResultStart(MainModel model)
         {
+            if (SettingJsonManager.corp_name.Contains("테스트") && model.bMember)
+            {
+                Console.WriteLine("---------------------------------------------------------------------------" + Environment.NewLine +
+                                  "실수요자 팝업 : PopResultStart" + Environment.NewLine +
+                                  "pworkDate:" + DateTimeManager.GetSelectedDateStr() + Environment.NewLine +
+                                  "orderKey:" + model.orderKey + Environment.NewLine +
+                                  "pplanKey:" + model.pplanKey + Environment.NewLine +
+                                  "ProcessType:" + model.ProcessType + Environment.NewLine +
+                                  "mercName:" + SettingJsonManager.mercName + Environment.NewLine +
+                                  "UpUserID:" + MainWindow.userID +
+                                  "UpUserName:" + MainWindow.userName + Environment.NewLine +
+                                  "workerName:" + "" + Environment.NewLine +
+                                  "workerID:" + "" + Environment.NewLine +
+                                  "SCMKey:" + "" + Environment.NewLine +
+                                 "---------------------------------------------------------------------------");
+            }
+
 
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
@@ -2950,7 +2828,7 @@ namespace PopProject.UserControl_
                 "[PopResultStart]",
                 new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey" },
                 new object[] {
-                DateTimeManager.GetSelectedDateStr(),
+                DateTimeManager.GetSelectedDateStr(), //yyyy-MM-dd
                 model.orderKey,
                 model.pplanKey,
                 model.ProcessType,
@@ -2961,7 +2839,6 @@ namespace PopProject.UserControl_
                 "",
                 ""},
                 1
-
                 );
 
             if (returnData.결과 == 1)
@@ -2972,7 +2849,7 @@ namespace PopProject.UserControl_
                     model.ConsumWorkKey = returnData.리턴값;
                 }
 
-                model.sDatetime = dt.ToString("yyyy-MM-dd HH:mm:ss");
+                model.sDatetime = DateTimeManager.GetSelectedStr(); //yyyy-MM-dd HH:mm:ss
                 CountManager.SendMsg(SettingJsonManager.mercName, "S");
                 
                 SettingJsonManager.pworkkey = returnData.리턴값;
@@ -2988,30 +2865,6 @@ namespace PopProject.UserControl_
             }
             return returnData.결과;
         }
-
-        //private void InvokeCount(string mercName, string v) //설비명,POP상태 // 확인
-        //{
-        //    try
-        //    {
-        //        if (SettingJsonManager.corp_name.Equals("광성수출포장") ||
-        //            SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
-        //            SettingJsonManager.corp_name.Equals("대세물산") ||
-        //            SettingJsonManager.corp_name.Equals("대세물산테스트") ||
-        //            SettingJsonManager.corp_name.Equals("유창포장") ||
-        //            SettingJsonManager.corp_name.Equals("유창포장테스트"))
-        //        {
-        //            popService(mercName, v);
-        //        }
-        //        else
-        //        {
-        //            SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v); //invokeCount, DB명, 설비명, 문자
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        log.Error("설비명 클릭시 POP상태 전송 오류 : " + e.Message);
-        //    }
-        //}
 
         //리스트 Canvas클릭 이벤트 처리
         private void Canvas_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -3085,7 +2938,7 @@ namespace PopProject.UserControl_
                     try
                     {
                         CNS_Barcode_Send = false;
-                        Win_Detail win_detail = new Win_Detail(context, special, workList, SettingJsonManager.detail_check, false,dt);
+                        Win_Detail win_detail = new Win_Detail(context, special, workList, SettingJsonManager.detail_check, false);
                         _ = win_detail.ShowDialog();
 
                         if (SettingJsonManager.corp_name.Equals("유창포장"))
@@ -3179,7 +3032,7 @@ namespace PopProject.UserControl_
                     //PLC 사용시 
                     CNS_Barcode_Send = SettingJsonManager.Plc ? true : false;
 
-                    Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send, dt);
+                    Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send);
                     _ = win_Detail.ShowDialog();
                     win_Input = null;
                     win_Detail = null;
@@ -3208,50 +3061,6 @@ namespace PopProject.UserControl_
             e.Handled = false;
         }
 
-        //로그 기록(구)
-        #region LogWrite
-        private void LogWrite(string str)
-        {
-            // 현재 작업 디렉토리와 로그 파일 및 디렉토리 경로 지정
-            string DirPath = Environment.CurrentDirectory + @"\Log";
-            string FilePath = DirPath + "\\Log_" + DateTime.Today.ToString("yyyyMMdd") + ".log";
-            string temp;
-
-            // 작업 디렉토리와 파일 정보 가져오기
-            DirectoryInfo di = new DirectoryInfo(DirPath);
-            FileInfo fi = new FileInfo(FilePath);
-
-            try
-            {
-                // 디렉토리가 없으면 생성
-                if (!di.Exists) Directory.CreateDirectory(DirPath);
-
-                // 파일이 없으면 생성하고 로그 기록
-                if (!fi.Exists)
-                {
-                    using (StreamWriter sw = new StreamWriter(FilePath))
-                    {
-                        temp = string.Format("[{0}] {1}", DateTime.Now, str);
-                        sw.WriteLine(temp);
-                        sw.Close();
-                    }
-                }
-                // 파일이 있으면 로그 기록 추가
-                else
-                {
-                    using (StreamWriter sw = File.AppendText(FilePath))
-                    {
-                        temp = string.Format("[{0}] {1}", DateTime.Now, str);
-                        sw.WriteLine(temp);
-                        sw.Close();
-                    }
-                }
-            }
-            catch (Exception)
-            {
-            }
-        }
-        #endregion
 
         #region BarcodeCheck
         private void BarcodeCheck()
@@ -3284,16 +3093,9 @@ namespace PopProject.UserControl_
             _ = sv.CaptureMouse();
         }
 
-        
-
         private void Logout_click(object sender, RoutedEventArgs e)
         {
-            setLock(); //설비명 LOCK /UNLOCK 버튼
-
-            //SettingJsonManager.Reset();
-            //SettingJsonManager.SaveJsonFile();
-            //Application.Current.Shutdown();
-            //_ = Process.Start(Application.ResourceAssembly.Location);
+            setLock();
         }
 
         //설비명 LOCK /UNLOCK
@@ -3381,16 +3183,13 @@ namespace PopProject.UserControl_
                     break;
 
                 default:
-
-                    //info.Text = "원단정보";
-                    //  Canvas.SetLeft(info, 1000);    
                     break;
             }
         }
 
         private void Change_workList(object sender, MouseButtonEventArgs e)
         {
-            ChangeWorkList ch = new ChangeWorkList(workList1, dt);
+            ChangeWorkList ch = new ChangeWorkList(workList1);
             _ = ch.ShowDialog();
 
             foreach (MainModel item in workList)
@@ -3422,7 +3221,7 @@ namespace PopProject.UserControl_
             switch (e.Key.ToString())
             {
                 case "F1":
-                    SearchList search = new SearchList(workList, dt);
+                    SearchList search = new SearchList(workList);
                     _ = search.ShowDialog();
                     break;
                 case "F2":
@@ -3443,12 +3242,8 @@ namespace PopProject.UserControl_
                     }
                     break;
                 case "F12":
-                    //SettingJsonManager.Reset();
-                    //SettingJsonManager.SaveJsonFile();
-                    //Application.Current.Shutdown();
-                    //_ = Process.Start(Application.ResourceAssembly.Location);
-
                     break;
+
                 default:
                     break;
             }
@@ -3457,9 +3252,10 @@ namespace PopProject.UserControl_
 
         private void Search_(object sender, MouseButtonEventArgs e)
         {
-            SearchList search = new SearchList(workList, dt);
+            SearchList search = new SearchList(workList);
             _ = search.ShowDialog();
-
+            
+            SelectWorkList();
             ResultSearchDate();
         }
 
@@ -3471,9 +3267,10 @@ namespace PopProject.UserControl_
 
         private void workList_search(object sender, MouseButtonEventArgs e)
         {
-            SearchList search = new SearchList(workList, dt);
+            SearchList search = new SearchList(workList);
             _ = search.ShowDialog();
 
+            SelectWorkList();
             ResultSearchDate();
         }
 
@@ -3576,17 +3373,6 @@ namespace PopProject.UserControl_
         {
             DateTimeManager.SetPreviousDate();
 
-            //dt = dt.AddDays(-1);
-            //txtDate.Text = dt.ToString("D");
-            //if (dt.ToString("D").Equals(DateTime.Now.ToString("D")))
-            //{
-            //    CheckDateValue = true;
-            //}
-            //else
-            //{
-            //    CheckDateValue = false;
-            //}
-
             SelectWorkList(); //계획 조회
             ResultSearchDate(); //결과 조회
         }
@@ -3595,17 +3381,6 @@ namespace PopProject.UserControl_
         private void Date_Click2(object sender, MouseButtonEventArgs e)
         {
             DateTimeManager.SetNextDate();
-
-            //dt = dt.AddDays(1);
-            //txtDate.Text = dt.ToString("D");
-            //if (dt.ToString("D").Equals(DateTime.Now.ToString("D")))
-            //{
-            //    CheckDateValue = true;
-            //}
-            //else
-            //{
-            //    CheckDateValue = false;
-            //}
 
             SelectWorkList(); //계획 조회
             ResultSearchDate(); //결과 조회
@@ -3683,26 +3458,28 @@ namespace PopProject.UserControl_
 
         private void testBT_Click(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
-            //   ReturnModel returnData = ServiceModel.GetData(
-            //           SettingJsonManager.serverIndex,
-            //           "[tmp_table1_Insert]",
-            //            new string[] { "@orderKey", "@orderDate", "@id", "@password", "@address", "@memo" },
-            //             new object[] { 100, DateTime.Now, "asd", 123, "aaaa", "ㄱㄴㄷㄹ" },
-            //             0
-            //             );
-            //    if (returnData.결과 == 1)
-            //    {
-            //        Console.WriteLine("Insert 성공");
-            //        JArray Data_Jarry = JArray.Parse(returnData.리턴값);
+            
+        }
 
-            //    }
-            //}
-            //catch
-            //{
-            //    Console.WriteLine("Insert 실패");
-            //}
+        public class WindowInteropHelper
+        {
+            [DllImport("user32.dll", SetLastError = true)]
+            private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+            private static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
+            private const UInt32 SWP_NOSIZE = 0x0001;
+            private const UInt32 SWP_NOMOVE = 0x0002;
+            private const UInt32 SWP_NOACTIVATE = 0x0010;
+
+            public static void SendWindowToBack(IntPtr windowHandle)
+            {
+                SetWindowPos(windowHandle, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+            }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 

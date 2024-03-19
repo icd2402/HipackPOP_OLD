@@ -29,21 +29,19 @@ namespace PopProject.Input
 
         ObservableCollection<MainModel> searchList;
 
-        public SearchList(ObservableCollection<MainModel> workList, DateTime _selectedDate)
+        public SearchList(ObservableCollection<MainModel> workList)
         {
             InitializeComponent();
             worklist = workList;
             _ = textbox_search.Focus();
-            selectedDate = _selectedDate;
         }
 
-        public SearchList(ObservableCollection<MainModel> workList, bool check, DateTime _selectedDate)
+        public SearchList(ObservableCollection<MainModel> workList, bool check)
         {
             InitializeComponent();
             changeCheck = check;
             worklist = workList;
             _ = textbox_search.Focus();
-            selectedDate = _selectedDate;
         }
 
         //키보드 호출
@@ -208,7 +206,7 @@ namespace PopProject.Input
              consumer_ = null;
             */
             string special = "";
-            Win_Detail win_detail = new Win_Detail(context, special, worklist, SettingJsonManager.detail_check, CNS_Barcode_Send, selectedDate);
+            Win_Detail win_detail = new Win_Detail(context, special, worklist, SettingJsonManager.detail_check, CNS_Barcode_Send);
             _ = win_detail.ShowDialog();
         }
 

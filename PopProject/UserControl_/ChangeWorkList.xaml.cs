@@ -26,11 +26,10 @@ namespace PopProject.UserControl_
 
         private DateTime selectedDate = new DateTime();
 
-        public ChangeWorkList(ObservableCollection<MainModel> list, DateTime _selectedDate)
+        public ChangeWorkList(ObservableCollection<MainModel> list)
         {
             InitializeComponent();
 
-            selectedDate = _selectedDate;
             string merName = SettingJsonManager.mercName;
             tbMercName.Text = merName;
             workList = new ObservableCollection<MainModel>();
@@ -339,7 +338,7 @@ namespace PopProject.UserControl_
 
         private void Select_prod(object sender, MouseButtonEventArgs e)
         {
-            SearchList searchList = new SearchList(workList, true, selectedDate);
+            SearchList searchList = new SearchList(workList, true);
             searchList.ShowDialog();
             foreach (MainModel item in workList)
             {
