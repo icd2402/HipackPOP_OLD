@@ -47,15 +47,21 @@
             <Image Source="/img/back_06.png" Canvas.Left="558" Canvas.Top="798"  Stretch="Fill" Width="670" Height="90"/>
             <Image Source="/img/bn_04.png" Canvas.Left="1065" Canvas.Top="802" MouseDown="Detail_close"/>
             <!--<Image Source="/img/Dot.png" Canvas.Left="1" Canvas.Top="369" Width="556" Visibility=""/>-->
-            <Border x:Name="Pass_detail" Visibility="Visible"  BorderThickness="2"  CornerRadius="5" BorderBrush="DarkGray" Background="#485563" Width="120" Height="62"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="735" Canvas.Top="812" MouseLeftButtonDown="Pass_detailInfo" MouseLeftButtonUp="Pass_detail_MouseLeftButtonUp" >
+            <Border x:Name="Pass_detail" Visibility="Collapsed"  BorderThickness="2"  CornerRadius="5" BorderBrush="DarkGray" Background="#485563" Width="120" Height="62"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="735" Canvas.Top="812" MouseLeftButtonDown="Pass_detailInfo" MouseLeftButtonUp="Pass_detail_MouseLeftButtonUp" >
 
                 <TextBlock Text="넘 기 기"  FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Wheat" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium"  />
             </Border>
 
-            <Border x:Name="R_Value" Visibility="Collapsed"  BorderThickness="2"  CornerRadius="5" BorderBrush="DarkGray" Background="#485563" Width="120" Height="62"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="735" Canvas.Top="812" MouseLeftButtonDown="R_Value_MouseLeftButtonDown" MouseLeftButtonUp="R_Value_MouseLeftButtonUp" >
-                <TextBlock x:Name="rValueTxt" Text=""  FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium" Margin="60,15,0,15" Width="56"  />
+            <Border x:Name="R_Value" Visibility="Collapsed"  BorderThickness="2"  CornerRadius="5" BorderBrush="DarkGray" Background="#485563" Width="120" Height="36"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="735" Canvas.Top="805" MouseLeftButtonDown="R_Value_MouseLeftButtonDown" MouseLeftButtonUp="R_Value_MouseLeftButtonUp" >
+                <TextBlock x:Name="rValueTxt" Text=""  FontSize="24" FontWeight="Bold" TextAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium" Margin="51,3,8,3" Width="57"  />
             </Border>
-            <TextBlock x:Name="R_ValueTxt" Visibility="Collapsed" Text="R값 :" FontSize="24" FontWeight="Bold" Foreground="White" FontFamily="/font/#KoPubDotum Medium" Canvas.Left="742" Canvas.Top="830" />
+            <TextBlock x:Name="R_ValueTxt" Visibility="Collapsed" Text="R값 :" FontSize="23" FontWeight="Bold" Foreground="White" FontFamily="/font/#KoPubDotum Medium" Canvas.Left="740" Canvas.Top="811" />
+
+            <Border x:Name="H_Value" Visibility="Collapsed"  BorderThickness="2"  CornerRadius="5" BorderBrush="DarkGray" Background="#485563" Width="120" Height="36"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="735" Canvas.Top="847" MouseLeftButtonDown="H_Value_MouseLeftButtonDown" MouseLeftButtonUp="H_Value_MouseLeftButtonUp" >
+                <TextBlock x:Name="hValueTxt" Text=""  FontSize="24" FontWeight="Bold" TextAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium" Margin="50,3,8,3" Width="58"  />
+            </Border>
+            <TextBlock x:Name="H_ValueTxt" Visibility="Collapsed" Text="타공 :" FontSize="21" FontWeight="Bold" Foreground="White" FontFamily="/font/#KoPubDotum Medium" Canvas.Left="740" Canvas.Top="854" />
+
 
             <Image Source="/img/Dot.png" Canvas.Top="529" Width="616" Height="4" Stretch="Fill" Canvas.Left="609"/>
             <Image x:Name="pic" Width="632" Height="484" Canvas.Left="577" Canvas.Top="17" MouseDown="Image_Detail"  Stretch="Fill"></Image>

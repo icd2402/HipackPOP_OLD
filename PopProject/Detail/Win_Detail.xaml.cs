@@ -188,10 +188,17 @@ namespace PopProject.Detail
             PopSearchPhoto(); //인쇄사양 조회
 
             R_Value.Visibility = SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트") ? Visibility.Visible : Visibility.Collapsed;
+            R_Value.Visibility = SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트") ? Visibility.Visible : Visibility.Collapsed;
             R_ValueTxt.Visibility = SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트") ? Visibility.Visible : Visibility.Collapsed;
+
+            H_Value.Visibility = SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트") ? Visibility.Visible : Visibility.Collapsed;
+            H_Value.Visibility = SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트") ? Visibility.Visible : Visibility.Collapsed;
+            H_ValueTxt.Visibility = SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트") ? Visibility.Visible : Visibility.Collapsed;
+
             if (SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트"))
             {
                 rValueSearch(); //금화 인쇄기 레지스타 조회
+                holeValueSearch(); //금화 인쇄기 레지스타 조회
             }
         }
 
@@ -2581,7 +2588,26 @@ namespace PopProject.Detail
             Win_KeyBoard3 keyBoard3 = new Win_KeyBoard3(this.mainModel.prodID);
             keyBoard3.ShowDialog();
 
-            rValueSearch(); //금화 인쇄기 레지스타 조회
+            rValueSearch(); //금화 인쇄기 R값 조회
+        }
+
+        //금화 타공 값 클릭 down
+        private void H_Value_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Border clickedBorder = (Border)sender;
+            clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D353D"));
+        }
+
+        //금화 타공 값 클릭 up
+        private void H_Value_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Border clickedBorder = (Border)sender;
+            clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#485563"));
+
+            Win_KeyBoard4 keyBoard4 = new Win_KeyBoard4(this.mainModel.prodID);
+            keyBoard4.ShowDialog();
+
+            holeValueSearch(); //금화 인쇄기 타공값 조회
         }
 
         //금화 인쇄기 레지스타 조회
@@ -2612,6 +2638,37 @@ namespace PopProject.Detail
                 MessageBox_Dialog msg = new MessageBox_Dialog("rRegistaSearch 조회 오류!!");
                 msg.ShowDialog();
                 Console.WriteLine("rRegistaSearch 실패");
+            }
+        }
+
+        //금화 인쇄기 타공값 조회
+        private void holeValueSearch()
+        {
+            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ReturnModel returnData = ServiceModel.GetData(
+               SettingJsonManager.serverIndex,
+               "[holeRegistaSearch]",
+               new string[] { "prodID" },
+               new object[] { this.mainModel.prodID },
+               0
+             );
+
+            if (returnData.결과 == 1)
+            {
+                string HValue = "";
+
+                JArray Data_Jarry = JArray.Parse(returnData.리턴값);
+                foreach (JObject result in Data_Jarry)
+                {
+                    HValue = result["hValue"].ToString();
+                }
+                hValueTxt.Text = HValue;
+            }
+            else
+            {
+                MessageBox_Dialog msg = new MessageBox_Dialog("holeRegistaSearch 조회 오류!!");
+                msg.ShowDialog();
+                Console.WriteLine("holeRegistaSearch 실패");
             }
         }
 

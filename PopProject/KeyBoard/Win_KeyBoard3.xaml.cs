@@ -21,8 +21,10 @@ namespace PopProject.KeyBoard
             InitializeComponent();
             this.ProdID = prodID;
             txtbox.Text = "";
+            txtbox.Focus();
+            txtbox.PreviewKeyDown += txtbox_PreviewKeyDown;
         }
-        
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -155,19 +157,33 @@ namespace PopProject.KeyBoard
                 }
             }
         }
+        private void txtbox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (!txtbox.Text.StartsWith("-") && !txtbox.Text.StartsWith("+"))
+                {
+                    txtbox.Text = "+" + txtbox.Text;
+                }
+                rValueUpdate();
+                Close();
+            }
+        }
 
         private void rValueUpdate()
         {
+            Console.WriteLine(this.ProdID + " / " + txtbox.Text + " / " + DateTimeManager.GetSelectedStr());
+
             ReturnModel returnData = ServiceModel.GetData(
                         SettingJsonManager.serverIndex,
                         "[rRegistaUpdate]",
-                        new string[] { "@prodID", "@rValue" },
-                        new object[] { this.ProdID, txtbox.Text },
+                        new string[] { "@prodID", "@rValue", "@UpDatetime" },
+                        new object[] { this.ProdID, txtbox.Text, DateTimeManager.GetSelectedStr() },
                         0
                         );
             if (returnData.결과 == 1)
             {
-                Console.WriteLine("rRegistaUpdate 성공 : " + this.ProdID + " / " + txtbox.Text);
+                Console.WriteLine("rRegistaUpdate 성공 : " + this.ProdID + " / " + txtbox.Text + " / " + DateTimeManager.GetSelectedStr());
             }
             else
             {

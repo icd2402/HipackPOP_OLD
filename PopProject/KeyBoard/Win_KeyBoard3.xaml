@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PopProject.KeyBoard"
         mc:Ignorable="d"
-       Title="Win_KeyBoard3" Height="540" Width="287.733" AllowsTransparency="True" WindowStyle="None"  Loaded="Keyboard_loaded">
+        Title="Win_KeyBoard3" Height="540" Width="287.733" AllowsTransparency="True" WindowStyle="None"  Loaded="Keyboard_loaded">
     <Border BorderThickness="1" BorderBrush="Black">
         <Canvas>
             <Image Source="/img/back_03-1.png" Stretch="Fill" Canvas.Left="-1" Width="287" Height="71" MouseLeftButtonDown="Image_MouseLeftButtonDown"></Image>
