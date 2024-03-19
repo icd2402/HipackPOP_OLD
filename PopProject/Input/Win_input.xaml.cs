@@ -1652,6 +1652,27 @@ namespace PopProject.Input
                 }       
             }
 
+            if (SettingJsonManager.corp_name.Contains("테스트") || SettingJsonManager.corp_name.Contains("금"))
+            {
+                Console.WriteLine("---------------------------------------------------------------------------" + Environment.NewLine +
+                                  "일반 생산 종료 [PopResultEnd] : " + Environment.NewLine +
+                                  "AllChkAED:" + "1" + Environment.NewLine +
+                                  ", 작업일자:" + DateTimeManager.GetSelectedDateStr() + Environment.NewLine +
+                                  ", 오더Key:" + inputModel.orderKey + Environment.NewLine +
+                                  ", arrChkAED:" + arrChkAED + Environment.NewLine +
+                                  ", arr공정구분:" + inputModel.ProcessType + Environment.NewLine +
+                                  ", arr계획Key:" + inputModel.pplanKey + Environment.NewLine +
+                                  ", arr작업Key:" + inputModel.pworkKey + Environment.NewLine +
+                                  ", arr작업량:" + Math.Ceiling(inputModel.pworkCount) + Environment.NewLine +
+                                  ", arr불량:" + inputModel.perrCount + Environment.NewLine +
+                                  ". arr비고:" + inputModel.pMemo + Environment.NewLine +
+                                  ", 시작시간:" + inputModel.sDatetime + Environment.NewLine +
+                                  ", 설비명:" + SettingJsonManager.mercName + Environment.NewLine +
+                                  ", 전체공정" + 전체공정 + Environment.NewLine +
+                                  "---------------------------------------------------------------------------");
+            }
+
+
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             string parameter = "[" + SettingJsonManager.mercName + "] " + this.inputModel.customSName + Environment.NewLine + inputModel.prodName + " " + inputModel.pworkCount.ToString("N0") + "개";
             ReturnModel returnData = ServiceModel.GetData(
@@ -1678,20 +1699,7 @@ namespace PopProject.Input
 
             if (returnData.결과 == 1)
             {
-                Console.WriteLine("일반 생산 종료 [PopResultEnd] : " +
-                                  "AllChkAED:" + "1" +
-                                  ", 작업일자:" + DateTimeManager.GetSelectedDateStr() +
-                                  ", 오더Key:" + inputModel.orderKey +
-                                  ", arrChkAED:" + arrChkAED +
-                                  ", arr공정구분:" + inputModel.ProcessType +
-                                  ", arr계획Key:" + inputModel.pplanKey +
-                                  ", arr작업Key:" + inputModel.pworkKey +
-                                  ", arr작업량:" + Math.Ceiling(inputModel.pworkCount) +
-                                  ", arr불량:" + inputModel.perrCount +
-                                  ". arr비고:" + inputModel.pMemo +
-                                  ", 시작시간:" + inputModel.sDatetime +
-                                  ", 설비명:" + SettingJsonManager.mercName +
-                                  ", 전체공정" + 전체공정);
+                Console.WriteLine();
 
 
                 Canvas.SetTop(box, 490); //세부내역 버튼
@@ -1753,7 +1761,8 @@ namespace PopProject.Input
                 }
 
                 //금화 인라인기 완제품 처리
-                if (SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트") && SettingJsonManager.mercName.Equals("인라인") && SettingJsonManager.processType == 1)
+                if (SettingJsonManager.corp_name.Equals("금화")  && SettingJsonManager.mercName.Equals("인라인") && SettingJsonManager.processType == 1 ||
+                    SettingJsonManager.corp_name.Equals("금화테스트") && SettingJsonManager.mercName.Equals("인라인") && SettingJsonManager.processType == 1)
                 {
                     for (int i = 0; i < mainModel.subOb.Count; i++)
                     {
