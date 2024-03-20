@@ -9,7 +9,8 @@
     <Border BorderThickness="1" BorderBrush="Black">
         <Canvas>
             <Image Source="/img/back_03-1.png" Stretch="Fill" Canvas.Left="-1" Width="287" Height="71" MouseLeftButtonDown="Image_MouseLeftButtonDown"></Image>
-            <TextBox x:Name="txtbox" Text="" FontWeight="Bold" TextAlignment="Center" FontSize="40"  Width="172" Height="56" Canvas.Left="59" Canvas.Top="6" />
+            <TextBox x:Name="txtbox" Text="" FontWeight="Bold" TextAlignment="Center" FontSize="35"  Width="131" Height="56" Canvas.Left="82" Canvas.Top="6" />
+            <TextBlock Text="R값" FontSize="25" FontWeight="Bold" Foreground="White" Canvas.Top="17" Canvas.Left="20"/>
 
             <Button x:Name="key_1" Width="80" Height="80" Content="1" FontSize="25" FontWeight="Bold" Canvas.Top="90" Canvas.Left="11" Click="Button_Click"/>
             <Button x:Name="key_2" Width="80" Height="80" Content="2" FontSize="25" FontWeight="Bold" Canvas.Top="90" Canvas.Left="104" Click="Button_Click"/>

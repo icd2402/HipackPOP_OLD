@@ -71,6 +71,10 @@ namespace PopProject.KeyBoard
                 holeValueUpdate();
                 Close();
             }
+            else if (e.Key == Key.Escape)
+            {
+                Close();
+            }
         }
 
         private void holeValueUpdate()

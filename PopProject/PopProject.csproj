@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.401</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.403</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>402</ApplicationRevision>
+    <ApplicationRevision>404</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -1557,6 +1557,8 @@
     <Resource Include="img\Search2.png" />
     <Resource Include="img\Search3.png" />
     <Resource Include="img\Search4.png" />
+    <Resource Include="img\lock.png" />
+    <Resource Include="img\unlock.png" />
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

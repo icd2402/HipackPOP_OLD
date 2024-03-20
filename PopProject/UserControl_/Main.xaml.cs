@@ -102,13 +102,17 @@ namespace PopProject.UserControl_
                 // 설비명 변경 Lock / Unlock 설정
                 if (!SettingJsonManager.checkMerc)
                 {
-                    btnLogout.Background = Brushes.Green;
+                    unlock_img.Visibility = Visibility.Visible;
+                    lock_img.Visibility = Visibility.Collapsed;
+                    //btnLogout.Background = Brushes.Green;
                     merc_lock.Text = "UNLOCK";
                 }
                 else
                 {
+                    unlock_img.Visibility = Visibility.Collapsed;
+                    lock_img.Visibility = Visibility.Visible;
+                    //btnLogout.Background = Brushes.Red;
                     merc_lock.Text = "LOCK";
-                    btnLogout.Background = Brushes.Red;
                 }
 
                 // 당분간 DB 미사용 (사용시 해제 및 설정값에 따라 색 변경 예정)
@@ -1015,7 +1019,7 @@ namespace PopProject.UserControl_
         //계획 리스트 조회
         public void SelectWorkList()
         {
-            Console.WriteLine("[PopWorkList] 조회");
+            Console.WriteLine("[PopWorkList] 조회: " + DateTimeManager.GetSelectedDateStr());
             wdIGCOunt = 0;
             LogData logData = new LogData("조회");
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
@@ -1079,7 +1083,7 @@ namespace PopProject.UserControl_
                                 run품명.Text = "품명";
 
                                 //div.Text = "[수주날짜] [납품일자] 거래처/품명";
-                                Canvas.SetLeft(div, 93);
+                                Canvas.SetLeft(div, 85);
                                 listitem.visibility = Visibility.Visible;  //ScrollViewer 수주날짜
                                 listitem.visibility1 = Visibility.Visible; //ScrollViewer 납품일자
                                 listitem.left = 250;
@@ -1252,7 +1256,7 @@ namespace PopProject.UserControl_
                         listitem.pplanCount = int.Parse(result["pplanCount"].ToString()); //계획량
 
                         //신우,우리,누리
-                        if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("신우수출포장테스트") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("우리포장산업테스트") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("누리팩테스트"))
+                        if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("신우포장테스트") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("우리포장산업테스트") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("누리팩테스트"))
                         {
                             ss.Visibility = Visibility.Visible; //집계창 표시
                         }
@@ -1341,11 +1345,10 @@ namespace PopProject.UserControl_
                         listitem.bMember = bool.Parse(result["bMember"].ToString()); //실수요자 포함확인
                         listitem.workMemo = result["workMemo"].ToString();
 
-                        
+
 
                         //오주,대양 외
-                        if (!SettingJsonManager.corp_name.Equals("오주포장") && !SettingJsonManager.corp_name.Equals("오주포장테스트") &&
-                            !SettingJsonManager.corp_name.Equals("대양포장") && !SettingJsonManager.corp_name.Equals("대양포장테스트"))
+                        if (!SettingJsonManager.corp_name.Equals("오주포장") && !SettingJsonManager.corp_name.Equals("대양포장") && !SettingJsonManager.corp_name.Equals("오주포장테스트"))
                         {
                             listitem.icback = listitem.bMember ? "#AFE1FF" : "White"; //실수요자일때 하늘색 바탕으로 표시
                             listitem.pStateVisi = Visibility.Collapsed;
@@ -1393,8 +1396,8 @@ namespace PopProject.UserControl_
                             }
                         }
 
-                        if ((SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트")) &&
-                            (SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기")))
+                        if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("인라인2호기") ||
+                            SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("인라인3호기"))
                         {
                             if (listitem.ProcessType == 7 || listitem.ProcessType == 8) //후렉소(1), 1공장철(7), 베가(8), 인라인(13)
                             {
@@ -1529,7 +1532,7 @@ namespace PopProject.UserControl_
                             }
                         }
                         //오주포장 (풀접합)
-                        else if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") && SettingJsonManager.mercName.Equals("풀접합"))
+                        else if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("풀접합"))
                         {
                             if (listitem.ProcessType == 8 || listitem.ProcessType == 7 || listitem.ProcessType == 5) //7:철접합  8: 풀접합
                             {
@@ -1799,7 +1802,7 @@ namespace PopProject.UserControl_
 
                         }
                         //오주포장 (2공장인쇄기)
-                        else if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") && SettingJsonManager.mercName.Equals("2공장인쇄기"))
+                        else if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("2공장인쇄기"))
                         {
                             if (listitem.ProcessType == 27) //2공장 인쇄기
                             {
@@ -3103,14 +3106,18 @@ namespace PopProject.UserControl_
         {
             if (SettingJsonManager.checkMerc)
             {
-                btnLogout.Background = Brushes.Green;
+                unlock_img.Visibility = Visibility.Visible;
+                lock_img.Visibility = Visibility.Collapsed;
+                //btnLogout.Background = Brushes.Green;
                 merc_lock.Text = "UNLOCK";
                 SettingJsonManager.checkMerc = false;
             }
             else
             {
+                unlock_img.Visibility = Visibility.Collapsed;
+                lock_img.Visibility = Visibility.Visible;
+                //btnLogout.Background = Brushes.Red;
                 merc_lock.Text = "LOCK";
-                btnLogout.Background = Brushes.Red;
                 SettingJsonManager.checkMerc = true;
             }
             SettingJsonManager.SaveJsonFile();

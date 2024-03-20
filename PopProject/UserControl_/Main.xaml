@@ -38,8 +38,10 @@
         <Button x:Name="testBT" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="testBT_Click" Visibility="Collapsed" Margin="224,-1,0,91"/>
 
         <!--Lock/Unlock-->
-        <TextBlock x:Name="merc_lock" Text="LOCK" Foreground="White" Padding="5,0,0,0" TextAlignment="Justify" FontSize="15"  Margin="18,0,0,0" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" MouseLeftButtonDown="Logout_click"></TextBlock>
-        <Button x:Name="btnLogout" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="Logout_click"/>
+        <TextBlock x:Name="merc_lock" Text="LOCK" Foreground="White" Padding="5,0,0,0" TextAlignment="Justify" FontSize="15"  Margin="24,0,0,0" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" MouseLeftButtonDown="Logout_click"></TextBlock>
+        <Image x:Name="unlock_img" Source="/img/unlock.png" Height="23" Width="23" Visibility="Collapsed" Margin="1,83,1252,0" MouseLeftButtonDown="Logout_click"/>
+        <Image x:Name="lock_img" Source="/img/lock.png" Height="23" Width="23" Visibility="Collapsed" Margin="6,83,1252,0" MouseLeftButtonDown="Logout_click"/>
+
 
         <!--<TextBlock x:Name="versionTextBlock" Foreground="White" Text="Ver."  TextAlignment="Justify" FontSize="15"  Margin="101,0,0,90" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" MouseLeftButtonDown="Logout_click"></TextBlock>-->
 

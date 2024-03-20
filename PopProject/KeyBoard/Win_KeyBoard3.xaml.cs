@@ -168,6 +168,10 @@ namespace PopProject.KeyBoard
                 rValueUpdate();
                 Close();
             }
+            else if (e.Key == Key.Escape)
+            {
+                Close();
+            }
         }
 
         private void rValueUpdate()

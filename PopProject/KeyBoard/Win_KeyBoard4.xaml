@@ -9,8 +9,9 @@
     <Border BorderThickness="1" BorderBrush="Black">
         <Canvas>
             <Image Source="/img/back_03-1.png" Stretch="Fill" Canvas.Left="-1" Width="287" Height="71" MouseLeftButtonDown="Image_MouseLeftButtonDown"></Image>
-            <TextBox x:Name="txtbox" Text="" FontWeight="Bold" TextAlignment="Center" FontSize="40"  Width="172" Height="56" Canvas.Left="59" Canvas.Top="6" />
+            <TextBox x:Name="txtbox" Text="" FontWeight="Bold" TextAlignment="Center" FontSize="35"  Width="131" Height="56" Canvas.Left="82" Canvas.Top="6" />
 
+            <TextBlock Text="타공값" FontSize="24" FontWeight="Bold" Foreground="White" Canvas.Top="18" Canvas.Left="4"/>
             <Button x:Name="key_13" Width="80" Height="80" Content="지움" FontSize="25" FontWeight="Bold" Canvas.Top="83" Canvas.Left="11" Click="Button_Click"/>
             <Button x:Name="key_14" Background="Green" Foreground="White" Width="80" Height="80" Content="저장" FontSize="25" FontWeight="Bold" Canvas.Top="83" Canvas.Left="104" Click="Button_Click"/>
             <Button x:Name="key_15" Background="Red" Width="80" Height="80" Content="닫기" FontSize="25" FontWeight="Bold" Canvas.Top="83" Canvas.Left="196" Click="Button_Click"/>
