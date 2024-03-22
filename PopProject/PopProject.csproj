@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.403</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.405</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>404</ApplicationRevision>
+    <ApplicationRevision>406</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -337,6 +337,7 @@
     <Compile Include="Input\Pop_noty.xaml.cs">
       <DependentUpon>Pop_noty.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Input\Recipe_Model2.cs" />
     <Compile Include="Input\Recipe_Model.cs" />
     <Compile Include="Input\SearchList.xaml.cs">
       <DependentUpon>SearchList.xaml</DependentUpon>

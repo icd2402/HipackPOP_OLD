@@ -128,7 +128,7 @@ namespace PopProject.Detail
                     ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
                     ReturnModel returnDataCheck = ServiceModel.GetData(
                        SettingJsonManager.serverIndex,
-                       "[PopCNSSearch]",
+                       "[PopCNSSearch2]",
                        new string[] { "MachineName", "prodID" },
                        new object[] { SettingJsonManager.mercName, this.mainModel.prodID }, 0);
 
@@ -259,13 +259,13 @@ namespace PopProject.Detail
 
         }
 
-        //DB데이터 CNS로 전송
+        //DB => CNS 데이터 전송
         private void CNS_DB_Send()
         {
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
                SettingJsonManager.serverIndex,
-               "[PopCNSSearch]",
+               "[PopCNSSearch2]",
                new string[] { "prodID", "MachineName" },
                new object[] { this.mainModel.prodID, SettingJsonManager.mercName }, 0);
 
@@ -286,66 +286,67 @@ namespace PopProject.Detail
                 int saveDone = 0;
                 int workSpeed = 0;
                 int saveState = 0;
-                int spare = 0;
-                int aRecipe = 0;
-                int bRecipe = 0;
-                int cRecipe = 0;
-                int dRecipe = 0;
-                int eRecipe = 0;
-                int f1Recipe = 0;
-                int f2Recipe = 0;
-                int g2pRecipe = 0;
-                int oRecipe = 0;
-                int p1Recipe = 0;
-                int p2pRecipe = 0;
-                int p3Recipe = 0;
-                int p4Recipe = 0;
-                int spare2 = 0;
-                int spare3 = 0;
-                int slotter = 0;
-                int dRagista = 0;
-                int printerPull1 = 0;
-                int printerRoll1 = 0;
-                int printerPull2 = 0;
-                int printerRoll2 = 0;
-                int printerPull3 = 0;
-                int printerRoll3 = 0;
-                int printerPull4 = 0;
-                int printerRoll4 = 0;
-                int spare4 = 0;
-                int spare5 = 0;
-                int spare6 = 0;
-                int spare7 = 0;
-                int feederGap = 0;
-                int feederRoll = 0;
-                int slotterSubGap = 0;
-                int slotterMiddleGap = 0;
-                int slotterConnection = 0;
-                int dieCutterRollGap = 0;
-                int dieCutterConnectionGap = 0;
-                int dummy1 = 0;
-                int gluerbeltF1 = 0;
-                int gluerbeltF2 = 0;
-                int gluerPressA = 0;
-                int gluerPressB = 0;
-                int gluerPE = 0;
-                int dummy2 = 0;
-                int bRSub = 0;
-                int bRMain = 0;
-                int bRConnection = 0;
-                int bRmiddle = 0;
-                int spare8 = 0;
-                int spare9 = 0;
-                int spare10 = 0;
-                int spare11 = 0;
-                int spare12 = 0;
-                int spare13 = 0;
-                int spare14 = 0;
-                int totalCount1 = 0;
-                int totalCount2 = 0;
-                int count1 = 0;
-                int count2 = 0;
-
+                int spare1 = 0;
+                int recipe1 = 0;
+                int recipe2 = 0;
+                int recipe3 = 0;
+                int recipe4 = 0;
+                int recipe5 = 0;
+                int recipe6 = 0;
+                int recipe7 = 0;
+                int recipe8 = 0;
+                int recipe9 = 0;
+                int recipe10 = 0;
+                int recipe11 = 0;
+                int recipe12 = 0;
+                int recipe13 = 0;
+                int recipe14 = 0;
+                int recipe15 = 0;
+                int recipe16 = 0;
+                int recipe17 = 0;
+                int recipe18 = 0;
+                int recipe19 = 0;
+                int recipe20 = 0;
+                int recipe21 = 0;
+                int recipe22 = 0;
+                int recipe23 = 0;
+                int recipe24 = 0;
+                int recipe25 = 0;
+                int recipe26 = 0;
+                int recipe27 = 0;
+                int recipe28 = 0;
+                int recipe29 = 0;
+                int recipe30 = 0;
+                int recipe31 = 0;
+                int recipe32 = 0;
+                int recipe33 = 0;
+                int recipe34 = 0;
+                int recipe35 = 0;
+                int recipe36 = 0;
+                int recipe37 = 0;
+                int recipe38 = 0;
+                int recipe39 = 0;
+                int recipe40 = 0;
+                int recipe41 = 0;
+                int recipe42 = 0;
+                int recipe43 = 0;
+                int recipe44 = 0;
+                int recipe45 = 0;
+                int recipe46 = 0;
+                int recipe47 = 0;
+                int recipe48 = 0;
+                int recipe49 = 0;
+                int recipe50 = 0;
+                int recipe51 = 0;
+                int recipe52 = 0;
+                int recipe53 = 0;
+                int recipe54 = 0;
+                int recipe55 = 0;
+                int recipe56 = 0;
+                int recipe57 = 0;
+                int recipe58 = 0;
+                int recipe59 = 0;
+                int recipe60 = 0;
 
                 try
                 {
@@ -367,76 +368,73 @@ namespace PopProject.Detail
                         saveDone = Convert.ToInt32(result["SaveDone"]);
                         workSpeed = Convert.ToInt32(result["WorkSpeed"]);
                         saveState = Convert.ToInt32(result["SaveState"]);
-                        spare = Convert.ToInt32(result["spare"]);
+                        spare1 = Convert.ToInt32(result["Spare1"]);
 
-                        aRecipe = Convert.ToInt32(Convert.ToSingle(result["aRecipe"]) * 10);     //A
-                        bRecipe = Convert.ToInt32(Convert.ToSingle(result["bRecipe"]) * 10);     //B
-                        cRecipe = Convert.ToInt32(Convert.ToSingle(result["cRecipe"]) * 10);     //C
-                        dRecipe = Convert.ToInt32(Convert.ToSingle(result["dRecipe"]) * 10);     //D
-                        eRecipe = Convert.ToInt32(Convert.ToSingle(result["eRecipe"]) * 10);     //E
-                        f1Recipe = Convert.ToInt32(Convert.ToSingle(result["f1Recipe"]) * 10);   //F1
-                        f2Recipe = Convert.ToInt32(Convert.ToSingle(result["f2Recipe"]) * 10);   //F2
-                        g2pRecipe = Convert.ToInt32(Convert.ToSingle(result["g2pRecipe"]) * 10); //G
-                        oRecipe = Convert.ToInt32(Convert.ToSingle(result["oRecipe"]) * 10);     //O
+                        recipe1 = Convert.ToInt32(Convert.ToSingle(result["Recipe1"])); //A
+                        recipe2 = Convert.ToInt32(Convert.ToSingle(result["Recipe2"])); //B
+                        recipe3 = Convert.ToInt32(Convert.ToSingle(result["Recipe3"])); //C
+                        recipe4 = Convert.ToInt32(Convert.ToSingle(result["Recipe4"])); //D
+                        recipe5 = Convert.ToInt32(Convert.ToSingle(result["Recipe5"])); //E
+                        recipe6 = Convert.ToInt32(Convert.ToSingle(result["Recipe6"])); //F1
+                        recipe7 = Convert.ToInt32(Convert.ToSingle(result["Recipe7"])); //F2
+                        recipe8 = Convert.ToInt32(Convert.ToSingle(result["Recipe8"])); //G
+                        recipe9 = Convert.ToInt32(Convert.ToSingle(result["Recipe9"])); //O
+                        recipe10 = Convert.ToInt32(Convert.ToSingle(result["Recipe10"])); //P1
 
-                        p1Recipe = Convert.ToInt32(Convert.ToSingle(result["p1Recipe"]) * 10);   //P1
-                        p2pRecipe = Convert.ToInt32(Convert.ToSingle(result["p2pRecipe"]) * 10); //P2
-                        p3Recipe = Convert.ToInt32(Convert.ToSingle(result["p3Recipe"]) * 10);   //P3
-                        p4Recipe = Convert.ToInt32(Convert.ToSingle(result["p4Recipe"]) * 10);   //P4
+                        recipe11 = Convert.ToInt32(Convert.ToSingle(result["Recipe11"])); //P1
+                        recipe12 = Convert.ToInt32(Convert.ToSingle(result["Recipe12"])); //P2
+                        recipe13 = Convert.ToInt32(Convert.ToSingle(result["Recipe13"])); //P3
+                        recipe14 = Convert.ToInt32(Convert.ToSingle(result["Recipe14"])); //P4
+                        recipe15 = Convert.ToInt32(Convert.ToSingle(result["Recipe15"])); //
+                        recipe16 = Convert.ToInt32(Convert.ToSingle(result["Recipe16"])); //
+                        recipe17 = Convert.ToInt32(Convert.ToSingle(result["Recipe17"])); //
+                        recipe18 = Convert.ToInt32(Convert.ToSingle(result["Recipe18"])); //
+                        recipe19 = Convert.ToInt32(Convert.ToSingle(result["Recipe19"])); //
+                        recipe20 = Convert.ToInt32(Convert.ToSingle(result["Recipe20"])); //
 
-                        spare2 = Convert.ToInt32(Convert.ToSingle(result["spare2"]) * 10); //spare
-                        spare3 = Convert.ToInt32(Convert.ToSingle(result["spare3"]) * 10); //spare
+                        recipe21 = Convert.ToInt32(Convert.ToSingle(result["Recipe21"])); //
+                        recipe22 = Convert.ToInt32(Convert.ToSingle(result["Recipe22"])); //
+                        recipe23 = Convert.ToInt32(Convert.ToSingle(result["Recipe23"])); //
+                        recipe24 = Convert.ToInt32(Convert.ToSingle(result["Recipe24"])); //
+                        recipe25 = Convert.ToInt32(Convert.ToSingle(result["Recipe25"])); //
+                        recipe26 = Convert.ToInt32(Convert.ToSingle(result["Recipe26"])); //
+                        recipe27 = Convert.ToInt32(Convert.ToSingle(result["Recipe27"])); //
+                        recipe28 = Convert.ToInt32(Convert.ToSingle(result["Recipe28"])); //
+                        recipe29 = Convert.ToInt32(Convert.ToSingle(result["Recipe29"])); //
+                        recipe30 = Convert.ToInt32(Convert.ToSingle(result["Recipe30"])); //
 
-                        slotter = Convert.ToInt32(Convert.ToSingle(result["@Slotter"]) * 10);
-                        dRagista = Convert.ToInt32(Convert.ToSingle(result["@DieCutter"]) * 10); //D레지스타
+                        recipe31 = Convert.ToInt32(Convert.ToSingle(result["Recipe31"])); //
+                        recipe32 = Convert.ToInt32(Convert.ToSingle(result["Recipe32"])); //
+                        recipe33 = Convert.ToInt32(Convert.ToSingle(result["Recipe33"])); //
+                        recipe34 = Convert.ToInt32(Convert.ToSingle(result["Recipe34"])); //
+                        recipe35 = Convert.ToInt32(Convert.ToSingle(result["Recipe35"])); //
+                        recipe36 = Convert.ToInt32(Convert.ToSingle(result["Recipe36"])); //
+                        recipe37 = Convert.ToInt32(Convert.ToSingle(result["Recipe37"])); //
+                        recipe38 = Convert.ToInt32(Convert.ToSingle(result["Recipe38"])); //
+                        recipe39 = Convert.ToInt32(Convert.ToSingle(result["Recipe39"])); //
+                        recipe40 = Convert.ToInt32(Convert.ToSingle(result["Recipe40"])); //
 
-                        printerPull1 = Convert.ToInt32(Convert.ToSingle(result["PrinterPull1"]) * 10);  //1도 롤
-                        printerRoll1 = Convert.ToInt32(Convert.ToSingle(result["PrinterRoll1"]) * 10);  //1도 
-                        printerPull2 = Convert.ToInt32(Convert.ToSingle(result["PrinterPull2"]) * 10);  //2도 롤
-                        printerRoll2 = Convert.ToInt32(Convert.ToSingle(result["PrinterRoll2"]) * 10);  //2도 
-                        printerPull3 = Convert.ToInt32(Convert.ToSingle(result["PrinterPull3"]) * 10);  //3도 롤
-                        printerRoll3 = Convert.ToInt32(Convert.ToSingle(result["PrinterRoll3"]) * 10);  //3도 
-                        printerPull4 = Convert.ToInt32(Convert.ToSingle(result["PrinterPull4"]) * 10);  //4도 롤
-                        printerRoll4 = Convert.ToInt32(Convert.ToSingle(result["PrinterRoll4"]) * 10);  //4도
+                        recipe41 = Convert.ToInt32(Convert.ToSingle(result["Recipe41"])); //
+                        recipe42 = Convert.ToInt32(Convert.ToSingle(result["Recipe42"])); //
+                        recipe43 = Convert.ToInt32(Convert.ToSingle(result["Recipe43"])); //
+                        recipe44 = Convert.ToInt32(Convert.ToSingle(result["Recipe44"])); //
+                        recipe45 = Convert.ToInt32(Convert.ToSingle(result["Recipe45"])); //
+                        recipe46 = Convert.ToInt32(Convert.ToSingle(result["Recipe46"])); //
+                        recipe47 = Convert.ToInt32(Convert.ToSingle(result["Recipe47"])); //
+                        recipe48 = Convert.ToInt32(Convert.ToSingle(result["Recipe48"])); //
+                        recipe49 = Convert.ToInt32(Convert.ToSingle(result["Recipe49"])); //
+                        recipe50 = Convert.ToInt32(Convert.ToSingle(result["Recipe50"])); //
 
-                        spare4 = Convert.ToInt32(Convert.ToSingle(result["spare4"]) * 10); //spare
-                        spare5 = Convert.ToInt32(Convert.ToSingle(result["spare5"]) * 10); //spare
-                        spare6 = Convert.ToInt32(Convert.ToSingle(result["spare6"]) * 10); //spare
-                        spare7 = Convert.ToInt32(Convert.ToSingle(result["spare7"]) * 10); //spare
-
-                        feederGap = Convert.ToInt32(Convert.ToSingle(result["FeederGap"]) * 10);           //피다진입 갭
-                        feederRoll = Convert.ToInt32(Convert.ToSingle(result["FeederRoll"]) * 10);         //피다진입 롤
-
-                        slotterSubGap = Convert.ToInt32(Convert.ToSingle(result["SlotterSubGap"]) * 10);        //슬로다 보조 갭
-                        slotterMiddleGap = Convert.ToInt32(Convert.ToSingle(result["SlotterMiddleGap"]) * 10);  //슬로다 본 갭
-                        slotterConnection = Convert.ToInt32(Convert.ToSingle(result["SlotterConnection"]) * 10);//슬로다 연결갭
-
-                        dieCutterRollGap = Convert.ToInt32(Convert.ToSingle(result["DieCutterRollGap"]) * 10); //다이캇타 롤 갭
-                        dieCutterConnectionGap = Convert.ToInt32(Convert.ToSingle(result["GluerbeltF1"]) * 10); //다이캇타 연결 갭
-                        dummy1 = Convert.ToInt32(Convert.ToSingle(result["GluerbeltF2"]) * 10);
-                        gluerbeltF1 = Convert.ToInt32(Convert.ToSingle(result["GluerPressA"]) * 10);     //글루어벨트 진입 갭 F1
-                        gluerbeltF2 = Convert.ToInt32(Convert.ToSingle(result["GluerPressB"]) * 10);     //글루어벨트 진입 갭 F2
-                        gluerPressA = Convert.ToInt32(Convert.ToSingle(result["DieCutterRollA"]) * 10);  //글루어 프레스롤 A
-                        gluerPressB = Convert.ToInt32(Convert.ToSingle(result["DieCutterRollB"]) * 10);  //글루어 프레스롤 B
-
-                        gluerPE = Convert.ToInt32(Convert.ToSingle(result["GluerPE"]) * 10);             //글루어 PE
-                        dummy2 = Convert.ToInt32(Convert.ToSingle(result["BRSub"]) * 10);
-                        bRSub = Convert.ToInt32(Convert.ToSingle(result["BRMain"]) * 10);           //보조괘선 갭  
-                        bRMain = Convert.ToInt32(Convert.ToSingle(result["BRConnection"]) * 10);    //본괘선 갭
-                        bRConnection = Convert.ToInt32(Convert.ToSingle(result["BRmiddle"]) * 10);  //연결롤 갭
-                        bRmiddle = Convert.ToInt32(Convert.ToSingle(result["spare8"]) * 10);        //중간롤 갭
-
-                        spare9 = Convert.ToInt32(Convert.ToSingle(result["spare9"]) * 10); //spare
-                        spare10 = Convert.ToInt32(Convert.ToSingle(result["spare10"]) * 10); //spare
-                        spare11 = Convert.ToInt32(Convert.ToSingle(result["spare11"]) * 10); //spare
-                        spare12 = Convert.ToInt32(Convert.ToSingle(result["spare12"]) * 10); //spare
-                        spare13 = Convert.ToInt32(Convert.ToSingle(result["spare13"]) * 10); //spare
-                        spare14 = Convert.ToInt32(Convert.ToSingle(result["spare14"]) * 10); //spare
-
-                        totalCount1 = Convert.ToInt32(Convert.ToSingle(result["TotalCount1"]) * 1);
-                        totalCount2 = Convert.ToInt32(Convert.ToSingle(result["TotalCount2"]) * 1);
-                        count1 = Convert.ToInt32(Convert.ToSingle(result["Count1"]) * 1);
-                        count2 = Convert.ToInt32(Convert.ToSingle(result["Count2"]) * 1);
+                        recipe51 = Convert.ToInt32(Convert.ToSingle(result["Recipe51"])); //
+                        recipe52 = Convert.ToInt32(Convert.ToSingle(result["Recipe52"])); //
+                        recipe53 = Convert.ToInt32(Convert.ToSingle(result["Recipe53"])); //
+                        recipe54 = Convert.ToInt32(Convert.ToSingle(result["Recipe54"])); //
+                        recipe55 = Convert.ToInt32(Convert.ToSingle(result["Recipe55"])); //
+                        recipe56 = Convert.ToInt32(Convert.ToSingle(result["Recipe56"])); //
+                        recipe57 = Convert.ToInt32(Convert.ToSingle(result["Recipe57"])); //
+                        recipe58 = Convert.ToInt32(Convert.ToSingle(result["Recipe58"])); //
+                        recipe59 = Convert.ToInt32(Convert.ToSingle(result["Recipe59"])); //
+                        recipe60 = Convert.ToInt32(Convert.ToSingle(result["Recipe60"])); //
                     }
                 }
                 catch (Exception e)
@@ -473,63 +471,66 @@ namespace PopProject.Detail
                             items.Add(0); //WorkSpeed
                             items.Add(0); //SaveState
                             items.Add(0); //Spare
-                            items.Add(aRecipe);                //A
-                            items.Add(bRecipe);                //B
-                            items.Add(cRecipe);                //C
-                            items.Add(dRecipe);                //D
-                            items.Add(eRecipe);                //E
-                            items.Add(f1Recipe);               //F1
-                            items.Add(f2Recipe);               //F2
-                            items.Add(g2pRecipe);              //G
-                            items.Add(oRecipe);                //O
-                            items.Add(p1Recipe);               //P1
-                            items.Add(p2pRecipe);              //P2
-                            items.Add(p3Recipe);               //P3
-                            items.Add(p4Recipe);               //P4
-                            items.Add(spare2);                 //Spare
-                            items.Add(spare3);                 //Spare
-                            items.Add(slotter);                //Spare
-                            items.Add(dRagista);               //D레지스타
-                            items.Add(printerPull1);           //1도 ?
-                            items.Add(printerRoll1);           //1도 프레스
-                            items.Add(printerPull2);           //2도 ?
-                            items.Add(printerRoll2);           //2도 프레스
-                            items.Add(printerPull3);           //3도 ?
-                            items.Add(printerRoll3);           //3도 프레스
-                            items.Add(printerPull4);           //4도 ?
-                            items.Add(printerRoll4);           //4도 프레스
-                            items.Add(spare4);                      //Spare
-                            items.Add(spare5);                      //Spare
-                            items.Add(spare6);                      //Spare
-                            items.Add(spare7);                      //Spare
-                            items.Add(feederGap);              //피다진입 갭
-                            items.Add(feederRoll);             //피다진입 롤
-                            items.Add(slotterSubGap);          //슬로다 보조 갭
-                            items.Add(slotterMiddleGap);       //슬로다 본 갭
-                            items.Add(slotterConnection);      //슬로다 연결갭
-                            items.Add(dieCutterRollGap);       //다이캇타 롤 갭
-                            items.Add(dieCutterConnectionGap); //다이캇타 연결 갭
-                            items.Add(dummy1);                 //Spare
-                            items.Add(gluerbeltF1);            //글루어벨트 진입 갭 F1
-                            items.Add(gluerbeltF2);            //글루어벨트 진입 갭 F2
-                            items.Add(gluerPressA);            //글루어 프레스롤 A
-                            items.Add(gluerPressB);            //글루어 프레스롤 B
-                            items.Add(gluerPE);                //글루어 PE
-                            items.Add(dummy2);                 //Spare
-                            items.Add(bRSub);                  //보조괘선 갭
-                            items.Add(bRMain);                 //본괘선 갭
-                            items.Add(bRConnection);           //연결롤 갭
-                            items.Add(bRmiddle);               //중간롤 갭
-                            items.Add(0);                      //spare9
-                            items.Add(0);                      //spare10
-                            items.Add(0);                      //spare11
-                            items.Add(0);                      //spare12
-                            items.Add(0);                      //spare13
-                            items.Add(0);                      //spare14
-                            items.Add(0);                      //TotalCount1
-                            items.Add(0);                      //TotalCount2
-                            items.Add(0);                      //Count1
-                            items.Add(0);                      //Count2
+                            items.Add(ValueConvert2(recipe1));
+                            items.Add(ValueConvert2(recipe2));
+                            items.Add(ValueConvert2(recipe3));
+                            items.Add(ValueConvert2(recipe4));
+                            items.Add(ValueConvert2(recipe5));
+                            items.Add(ValueConvert2(recipe6));
+                            items.Add(ValueConvert2(recipe7));
+                            items.Add(ValueConvert2(recipe8));
+                            items.Add(ValueConvert2(recipe9));
+                            items.Add(ValueConvert2(recipe10));
+                            items.Add(ValueConvert2(recipe11));
+                            items.Add(ValueConvert2(recipe12));
+                            items.Add(ValueConvert2(recipe13));
+                            items.Add(ValueConvert2(recipe14));
+                            items.Add(ValueConvert2(recipe15));
+                            items.Add(ValueConvert2(recipe16));
+                            items.Add(ValueConvert2(recipe17));
+                            items.Add(ValueConvert2(recipe18));
+                            items.Add(ValueConvert2(recipe19));
+                            items.Add(ValueConvert2(recipe20));
+                            items.Add(ValueConvert2(recipe21));
+                            items.Add(ValueConvert2(recipe22));
+                            items.Add(ValueConvert2(recipe23));
+                            items.Add(ValueConvert2(recipe24));
+                            items.Add(ValueConvert2(recipe25));
+                            items.Add(ValueConvert2(recipe26));
+                            items.Add(ValueConvert2(recipe27));
+                            items.Add(ValueConvert2(recipe28));
+                            items.Add(ValueConvert2(recipe29));
+                            items.Add(ValueConvert2(recipe30));
+                            items.Add(ValueConvert2(recipe31));
+                            items.Add(ValueConvert2(recipe32));
+                            items.Add(ValueConvert2(recipe33));
+                            items.Add(ValueConvert2(recipe34));
+                            items.Add(ValueConvert2(recipe35));
+                            items.Add(ValueConvert2(recipe36));
+                            items.Add(ValueConvert2(recipe37));
+                            items.Add(ValueConvert2(recipe38));
+                            items.Add(ValueConvert2(recipe39));
+                            items.Add(ValueConvert2(recipe40));
+                            items.Add(ValueConvert2(recipe41));
+                            items.Add(ValueConvert2(recipe42));
+                            items.Add(ValueConvert2(recipe43));
+                            items.Add(ValueConvert2(recipe44));
+                            items.Add(ValueConvert2(recipe45));
+                            items.Add(ValueConvert2(recipe46));
+                            items.Add(ValueConvert2(recipe47));
+                            items.Add(ValueConvert2(recipe48));
+                            items.Add(ValueConvert2(recipe49));
+                            items.Add(ValueConvert2(recipe50));
+                            items.Add(ValueConvert2(recipe51));
+                            items.Add(ValueConvert2(recipe52));
+                            items.Add(ValueConvert2(recipe53));
+                            items.Add(ValueConvert2(recipe54));
+                            items.Add(ValueConvert2(recipe55));
+                            items.Add(ValueConvert2(recipe56));
+                            items.Add(ValueConvert2(recipe57));
+                            items.Add(ValueConvert2(recipe58));
+                            items.Add(ValueConvert2(recipe59));
+                            items.Add(ValueConvert2(recipe60));
 
                             int WriteCount = items.Count() * 2;
                             byte[] bDts = wd.continuous_Write("%DB7600", WriteCount, items); //연속쓰기 시작점(D3800), 데이터 개수, 값
@@ -565,6 +566,23 @@ namespace PopProject.Detail
             }
         }
 
+        private int ValueConvert2(int data)
+        {
+            //앞뒤 두자리 묶음 자리변환
+            int value = data;
+
+            //값이 양수일때
+            if (value >= 0)
+            {
+                return value;
+            }
+            //값이 음수일때
+            else
+            {
+                int positiveValue = 65536 + value;
+                return positiveValue;
+            }
+        }
 
         //기본값만 CNS로 전송
         private void CNS_defaultData_Send()
@@ -768,11 +786,9 @@ namespace PopProject.Detail
 
         void DataReceived(IAsyncResult ar) // 데이터 수신
         {
-            Resipe_Model itemModel = new Resipe_Model();
-
+            Resipe_Model2 itemModel = new Resipe_Model2();
             try
             {
-                // BeginReceive에서 추가적으로 넘어온 데이터를 AsyncObject 형식으로 변환한다.
                 AsyncObject obj = (AsyncObject)ar.AsyncState;
 
                 // 수신한 데이터 16진수로 변환
@@ -780,13 +796,12 @@ namespace PopProject.Detail
                 for (int i = 0; i < obj.Buffer.Length; i++)
                 {
                     Receive_Data += obj.Buffer[i].ToString("x2");
-
                 }
 
                 //Word 연속읽기
                 string continuous_read = string.Empty;
                 string RD = Receive_Data.Substring(64); //앞에 데이터 지우고 데이터 정보부터 읽음
-                Console.WriteLine("PLC수신 데이터(Detail) : " + RD);
+                Console.WriteLine("CNS수신 데이터(input) : " + RD);
 
                 for (int i = 0; i < RD.Length / 4; i++)
                 {
@@ -798,218 +813,153 @@ namespace PopProject.Detail
                     switch (i)
                     {
                         case 0: //작업모델 번호
-                            itemModel.ModelNum = ValueConvert(data, false);
-                            break;
+                            itemModel.ModelNum = ValueConvert(data, false); break;
                         case 1: //작업지시 매수
-                            itemModel.WorkPlan1 = ValueConvert(data, false);
-                            break;
+                            itemModel.WorkPlan1 = ValueConvert(data, false); break;
                         case 2: //작업지시 매수
-                            itemModel.WorkPlan2 = ValueConvert(data, false);
-                            break;
+                            itemModel.WorkPlan2 = ValueConvert(data, false); break;
                         case 3: //박스타입
-                            itemModel.BoxType = ValueConvert(data, false);
-                            break;
+                            itemModel.BoxType = ValueConvert(data, false); break;
                         case 4: //폭
-                            itemModel.Pock = ValueConvert(data, false);
-                            break;
+                            itemModel.Pock = ValueConvert(data, false); break;
                         case 5: //장
-                            itemModel.Jang = ValueConvert(data, false);
-                            break;
+                            itemModel.Jang = ValueConvert(data, false); break;
                         case 6: //고
-                            itemModel.Go = ValueConvert(data, false);
-                            break;
+                            itemModel.Go = ValueConvert(data, false); break;
                         case 7: //갭
-                            itemModel.Gap = ValueConvert(data, false);
-                            break;
+                            itemModel.Gap = ValueConvert(data, false); break;
                         case 8: //앞날개
-                            itemModel.Wing = ValueConvert(data, false);
-                            break;
-                        case 9: //미미
-                            itemModel.Cutting = ValueConvert(data, false);
-                            break;
+                            itemModel.Wing = ValueConvert(data, false); break;
+                        case 9: //미미,컷팅
+                            itemModel.Cutting = ValueConvert(data, false); break;
                         case 10: //저장 완료
-                            itemModel.SaveDone = ValueConvert(data, false);
-                            break;
+                            itemModel.SaveDone = ValueConvert(data, false); break;
                         case 11: //생산속도
-                            itemModel.WorkSpeed = ValueConvert(data, false);
-                            break;
-                        case 12: //저장값 쓰기 가능상태
-                            itemModel.SaveState = ValueConvert(data, false);
-                            break;
-                        case 13: //spare
-                            itemModel.spare = ValueConvert(data, false);
-                            break;
-                        case 14: //A
-                            itemModel.aRecipe = ValueConvert(data, true);
-                            break;
-                        case 15: //B
-                            itemModel.bRecipe = ValueConvert(data, true);
-                            break;
-                        case 16: //C
-                            itemModel.cRecipe = ValueConvert(data, true);
-                            break;
-                        case 17: //D
-                            itemModel.dRecipe = ValueConvert(data, true);
-                            break;
-                        case 18: //E
-                            itemModel.eRecipe = ValueConvert(data, true);
-                            break;
-                        case 19: //F1
-                            itemModel.f1Recipe = ValueConvert(data, true);
-                            break;
-                        case 20: //F2
-                            itemModel.f2Recipe = ValueConvert(data, true);
-                            break;
-                        case 21: //G
-                            itemModel.g2pRecipe = ValueConvert(data, true);
-                            break;
-                        case 22: //O
-                            itemModel.oRecipe = ValueConvert(data, true);
-                            break;
-                        case 23: //P1
-                            itemModel.p1Recipe = ValueConvert(data, true);
-                            break;
-                        case 24: //P2
-                            itemModel.p2pRecipe = ValueConvert(data, true);
-                            break;
-                        case 25: //P3
-                            itemModel.p3Recipe = ValueConvert(data, true);
-                            break;
-                        case 26: //P4
-                            itemModel.p4Recipe = ValueConvert(data, true);
-                            break;
-                        case 27: //spare2
-                            itemModel.spare2 = ValueConvert(data, true);
-                            break;
-                        case 28: //spare3
-                            itemModel.spare3 = ValueConvert(data, true);
-                            break;
-                        case 29: //슬로타
-                            itemModel.Slotter = ValueConvert(data, true);
-                            break;
-                        case 30: //타이캇타
-                            itemModel.DieCutter = ValueConvert(data, true);
-                            break;
-                        case 31: //프린터1 풀 롤
-                            itemModel.PrinterPull1 = ValueConvert(data, true);
-                            break;
-                        case 32: //프린터1 프레스 롤
-                            itemModel.PrinterRoll1 = ValueConvert(data, true);
-                            break;
-                        case 33: //프린터2 풀 롤
-                            itemModel.PrinterPull2 = ValueConvert(data, true);
-                            break;
-                        case 34: //프린터2 프레스 롤
-                            itemModel.PrinterRoll2 = ValueConvert(data, true);
-                            break;
-                        case 35: //프린터3 풀 롤
-                            itemModel.PrinterPull3 = ValueConvert(data, true);
-                            break;
-                        case 36: //프린터3 프레스 롤
-                            itemModel.PrinterRoll3 = ValueConvert(data, true);
-                            break;
-                        case 37: //프린터4 풀 롤
-                            itemModel.PrinterPull4 = ValueConvert(data, true);
-                            break;
-                        case 38: //프린터 프레스 롤
-                            itemModel.PrinterRoll4 = ValueConvert(data, true);
-                            break;
-                        case 39: //spare4
-                            itemModel.spare4 = ValueConvert(data, true);
-                            break;
-                        case 40: //spare5
-                            itemModel.spare5 = ValueConvert(data, true);
-                            break;
-                        case 41: //spare6
-                            itemModel.spare6 = ValueConvert(data, true);
-                            break;
-                        case 42: //spare
-                            itemModel.spare7 = ValueConvert(data, true);
-                            break;
-                        case 43: //피다진입 갭
-                            itemModel.FeederGap = ValueConvert(data, true);
-                            break;
-                        case 44: //피타진입 롤
-                            itemModel.FeederRoll = ValueConvert(data, true);
-                            break;
-                        case 45: //슬로타 보조쾌선 갭
-                            itemModel.SlotterSubGap = ValueConvert(data, true);
-                            break;
-                        case 46: //슬로타 본(중간) 갭
-                            itemModel.SlotterMiddleGap = ValueConvert(data, true);
-                            break;
-                        case 47: //슬로타 연결(배출) 갭
-                            itemModel.SlotterConnection = ValueConvert(data, true);
-                            break;
-                        case 48: //다이캇타 롤 갭
-                            itemModel.DieCutterRollGap = ValueConvert(data, true);
-                            break;
-                        case 49: //글루어벨트 진앱 갭 F1
-                            itemModel.GluerbeltF1 = ValueConvert(data, true);
-                            break;
-                        case 50: //글루어벨트 진앱 갭 F2
-                            itemModel.GluerbeltF2 = ValueConvert(data, true);
-                            break;
-                        case 51: //글루어 프레스롤 갭 A
-                            itemModel.GluerPressA = ValueConvert(data, true);
-                            break;
-                        case 52: //글루어 프레스롤 갭 B
-                            itemModel.GluerPressB = ValueConvert(data, true);
-                            break;
-                        case 53: //다이캇타 롤 갭A
-                            itemModel.DieCutterRollA = ValueConvert(data, true);
-                            break;
-                        case 54: //다이캇타 롤 갭B
-                            itemModel.DieCutterRollB = ValueConvert(data, true);
-                            break;
-                        case 55: //글루어 PE 가이드
-                            itemModel.GluerPE = ValueConvert(data, true);
-                            break;
-                        case 56: //R/B 보조괘선 진입 롤
-                            itemModel.BRSub = ValueConvert(data, true);
-                            break;
-                        case 57: //R/B 본괘선 중간 롤
-                            itemModel.BRMain = ValueConvert(data, true);
-                            break;
-                        case 58: //R/B 연결 배출 롤
-                            itemModel.BRConnection = ValueConvert(data, true);
-                            break;
-                        case 59: //R/B 연결 중간 롤
-                            itemModel.BRmiddle = ValueConvert(data, true);
-                            break;
-                        case 60: //spare
-                            itemModel.spare8 = ValueConvert(data, true);
-                            break;
-                        case 61: //spare
-                            itemModel.spare9 = ValueConvert(data, true);
-                            break;
-                        case 62: //spare
-                            itemModel.spare10 = ValueConvert(data, true);
-                            break;
-                        case 63: //spare
-                            itemModel.spare11 = ValueConvert(data, true);
-                            break;
-                        case 64: //spare
-                            itemModel.spare12 = ValueConvert(data, true);
-                            break;
-                        case 65: //spare
-                            itemModel.spare13 = ValueConvert(data, true);
-                            break;
-                        case 66: //spare
-                            itemModel.spare14 = ValueConvert(data, true);
-                            break;
-                        case 67: //총생산량(하위) 
-                            itemModel.TotalCount1 = ValueConvert(data, false);
-                            break;
-                        case 68: //총생산량(상위)
-                            itemModel.TotalCount2 = ValueConvert(data, false);
-                            break;
-                        case 69: //현재생산량(하위)
-                            itemModel.Count1 = ValueConvert(data, false);
-                            break;
-                        case 70: //현재생산량(상위)
-                            itemModel.Count2 = ValueConvert(data, false);
-                            break;
+                            itemModel.WorkSpeed = ValueConvert(data, false); break;
+                        case 12: //저장값 쓰기 가능상태                      
+                            itemModel.SaveState = ValueConvert(data, false); break;
+                        case 13: //Spare1              
+                            itemModel.Spare1 = ValueConvert(data, false); break;
+                        case 14: //
+                            itemModel.Recipe1 = ValueConvert(data, false); break;
+                        case 15: //
+                            itemModel.Recipe2 = ValueConvert(data, false); break;
+                        case 16: //                               
+                            itemModel.Recipe3 = ValueConvert(data, false); break;
+                        case 17: //                         
+                            itemModel.Recipe4 = ValueConvert(data, false); break;
+                        case 18: //                               
+                            itemModel.Recipe5 = ValueConvert(data, false); break;
+                        case 19: //                               
+                            itemModel.Recipe6 = ValueConvert(data, false); break;
+                        case 20: //                            
+                            itemModel.Recipe7 = ValueConvert(data, false); break;
+                        case 21: //
+                            itemModel.Recipe8 = ValueConvert(data, false); break;
+                        case 22: //
+                            itemModel.Recipe9 = ValueConvert(data, false); break;
+                        case 23: //
+                            itemModel.Recipe10 = ValueConvert(data, false); break;
+                        case 24: //
+                            itemModel.Recipe11 = ValueConvert(data, false); break;
+                        case 25: //
+                            itemModel.Recipe12 = ValueConvert(data, false); break;
+                        case 26: //
+                            itemModel.Recipe13 = ValueConvert(data, false); break;
+                        case 27: //
+                            itemModel.Recipe14 = ValueConvert(data, false); break;
+                        case 28: //
+                            itemModel.Recipe15 = ValueConvert(data, false); break;
+                        case 29: //
+                            itemModel.Recipe16 = ValueConvert(data, false); break;
+                        case 30: //
+                            itemModel.Recipe17 = ValueConvert(data, false); break;
+                        case 31: //
+                            itemModel.Recipe18 = ValueConvert(data, false); break;
+                        case 32: //
+                            itemModel.Recipe19 = ValueConvert(data, false); break;
+                        case 33: //
+                            itemModel.Recipe20 = ValueConvert(data, false); break;
+                        case 34: //
+                            itemModel.Recipe21 = ValueConvert(data, false); break;
+                        case 35: //
+                            itemModel.Recipe22 = ValueConvert(data, false); break;
+                        case 36: //
+                            itemModel.Recipe23 = ValueConvert(data, false); break;
+                        case 37: //
+                            itemModel.Recipe24 = ValueConvert(data, false); break;
+                        case 38: //
+                            itemModel.Recipe25 = ValueConvert(data, false); break;
+                        case 39: //
+                            itemModel.Recipe26 = ValueConvert(data, false); break;
+                        case 40: //
+                            itemModel.Recipe27 = ValueConvert(data, false); break;
+                        case 41: //
+                            itemModel.Recipe28 = ValueConvert(data, false); break;
+                        case 42: //
+                            itemModel.Recipe29 = ValueConvert(data, false); break;
+                        case 43: //
+                            itemModel.Recipe30 = ValueConvert(data, false); break;
+                        case 44: //
+                            itemModel.Recipe31 = ValueConvert(data, false); break;
+                        case 45: //
+                            itemModel.Recipe32 = ValueConvert(data, false); break;
+                        case 46: //
+                            itemModel.Recipe33 = ValueConvert(data, false); break;
+                        case 47: //
+                            itemModel.Recipe34 = ValueConvert(data, false); break;
+                        case 48: //
+                            itemModel.Recipe35 = ValueConvert(data, false); break;
+                        case 49: //
+                            itemModel.Recipe36 = ValueConvert(data, false); break;
+                        case 50: //
+                            itemModel.Recipe37 = ValueConvert(data, false); break;
+                        case 51: //
+                            itemModel.Recipe38 = ValueConvert(data, false); break;
+                        case 52: //
+                            itemModel.Recipe39 = ValueConvert(data, false); break;
+                        case 53: //
+                            itemModel.Recipe40 = ValueConvert(data, false); break;
+                        case 54: //
+                            itemModel.Recipe41 = ValueConvert(data, false); break;
+                        case 55: //
+                            itemModel.Recipe42 = ValueConvert(data, false); break;
+                        case 56: //
+                            itemModel.Recipe43 = ValueConvert(data, false); break;
+                        case 57: //    
+                            itemModel.Recipe44 = ValueConvert(data, false); break;
+                        case 58: //    
+                            itemModel.Recipe45 = ValueConvert(data, false); break;
+                        case 59: //
+                            itemModel.Recipe46 = ValueConvert(data, false); break;
+                        case 60: //
+                            itemModel.Recipe47 = ValueConvert(data, false); break;
+                        case 61: //
+                            itemModel.Recipe48 = ValueConvert(data, false); break;
+                        case 62: //
+                            itemModel.Recipe49 = ValueConvert(data, false); break;
+                        case 63: //
+                            itemModel.Recipe50 = ValueConvert(data, false); break;
+                        case 64: //                           
+                            itemModel.Recipe51 = ValueConvert(data, false); break;
+                        case 65: //                          
+                            itemModel.Recipe52 = ValueConvert(data, false); break;
+                        case 66: //                        
+                            itemModel.Recipe53 = ValueConvert(data, false); break;
+                        case 67: //                          
+                            itemModel.Recipe54 = ValueConvert(data, false); break;
+                        case 68: // 
+                            itemModel.Recipe55 = ValueConvert(data, false); break;
+                        case 69: //                   
+                            itemModel.Recipe56 = ValueConvert(data, false); break;
+                        case 70: //    
+                            itemModel.Recipe57 = ValueConvert(data, false); break;
+                        case 71: //             
+                            itemModel.Recipe58 = ValueConvert(data, false); break;
+                        case 72: //             
+                            itemModel.Recipe59 = ValueConvert(data, false); break;
+                        case 73: //             
+                            itemModel.Recipe60 = ValueConvert(data, false); break;
 
                         default:
                             break;
@@ -1018,118 +968,123 @@ namespace PopProject.Detail
                     //RD = RD.Substring(4); //변환 끝낸 4자리 데이터 자르기
                 }
 
-                Console.WriteLine("CNS수신 데이터(input) : " + continuous_read); //수신값 확인용
+                //Console.WriteLine("CNS수신 데이터(input) : " + continuous_read); //수신값 확인용
 
-                //CNS값 요청 성공시 DB 업데이트
+
                 if (cnsProcessing)
                 {
                     ReturnModel returnData = ServiceModel.GetData(
                         SettingJsonManager.serverIndex,
-                        "[PopCNSUpdate]",
+                        "[PopCNSUpdate2]",
                         new string[] {
+                            "@prodID",
                             "@MachineName",
                             "@ModelNum",
-                            "@prodID",
                             "@WorkPlan1",
                             "@WorkPlan2",
                             "@BoxType",
                             "@Pock",
                             "@Jang",
                             "@Go",
-                            "Gap",
+                            "@Gap",
                             "@Wing",
                             "@Cutting",
                             "@SaveDone",
                             "@WorkSpeed",
                             "@SaveState",
-                            "@spare",
-                            "@aRecipe",
-                            "@bRecipe",
-                            "@cRecipe",
-                            "@dRecipe",
-                            "@eRecipe",
-                            "@f1Recipe",
-                            "@f2Recipe",
-                            "@g2pRecipe",
-                            "@oRecipe",
-                            "@p1Recipe",
-                            "@p2pRecipe",
-                            "@p3Recipe",
-                            "@p4Recipe",
-                            "@spare2",
-                            "@spare3",
-                            "@Slotter",
-                            "@DieCutter",
-                            "@PrinterPull1",
-                            "@PrinterRoll1",
-                            "@PrinterPull2",
-                            "@PrinterRoll2",
-                            "@PrinterPull3",
-                            "@PrinterRoll3",
-                            "@PrinterPull4",
-                            "@PrinterRoll4",
-                            "@spare4",
-                            "@spare5",
-                            "@spare6",
-                            "@spare7",
-                            "@FeederGap",
-                            "@FeederRoll",
-                            "@SlotterSubGap",
-                            "@SlotterMiddleGap",
-                            "@SlotterConnection",
-                            "@DieCutterRollGap",
-                            "@GluerbeltF1",
-                            "@GluerbeltF2",
-                            "@GluerPressA",
-                            "@GluerPressB",
-                            "@DieCutterRollA",
-                            "@DieCutterRollB",
-                            "@GluerPE",
-                            "@BRSub",
-                            "@BRMain",
-                            "@BRConnection",
-                            "@BRmiddle",
-                            "@spare8",
-                            "@spare9",
-                            "@spare10",
-                            "@spare11",
-                            "@spare12",
-                            "@spare13",
-                            "@spare14",
-                            "@TotalCount1",
-                            "@TotalCount2",
-                            "@Count1",
-                            "@Count2" },
-                        new object[] { SettingJsonManager.mercName, itemModel.ModelNum, this.mainModel.prodID, itemModel.WorkPlan1, itemModel.WorkPlan2, itemModel.BoxType,
-                                   itemModel.Pock, itemModel.Jang, itemModel.Go, itemModel.Gap, itemModel.Wing, itemModel.Cutting, itemModel.SaveDone, itemModel.WorkSpeed,
-                                   itemModel.SaveState, itemModel.spare, itemModel.aRecipe, itemModel.bRecipe, itemModel.cRecipe, itemModel.dRecipe, itemModel.eRecipe,
-                                   itemModel.f1Recipe, itemModel.f2Recipe, itemModel.g2pRecipe, itemModel.oRecipe, itemModel.p1Recipe, itemModel.p2pRecipe,
-                                   itemModel.p3Recipe, itemModel.p4Recipe, itemModel.spare2, itemModel.spare3, itemModel.Slotter, itemModel.DieCutter, itemModel.PrinterPull1,
-                                   itemModel.PrinterRoll1, itemModel.PrinterPull2, itemModel.PrinterRoll2, itemModel.PrinterPull3, itemModel.PrinterRoll3, itemModel.PrinterPull4,
-                                   itemModel.PrinterRoll4, itemModel.spare4, itemModel.spare5, itemModel.spare6, itemModel.spare7, itemModel.FeederGap, itemModel.FeederRoll,
-                                   itemModel.SlotterSubGap, itemModel.SlotterMiddleGap, itemModel.SlotterConnection, itemModel.DieCutterRollGap, itemModel.GluerbeltF1,
-                                   itemModel.GluerbeltF2, itemModel.GluerPressA, itemModel.GluerPressB, itemModel.DieCutterRollA, itemModel.DieCutterRollB, itemModel.GluerPE,
-                                   itemModel.BRSub, itemModel.BRMain, itemModel.BRConnection, itemModel.BRmiddle, itemModel.spare8, itemModel.spare9, itemModel.spare10,
-                                   itemModel.spare11, itemModel.spare12, itemModel.spare13, itemModel.spare14, itemModel.TotalCount1, itemModel.TotalCount2, itemModel.Count1,
-                                   itemModel.Count2 },
+                            "@Spare1",
+                            "@Recipe1",
+                            "@Recipe2",
+                            "@Recipe3",
+                            "@Recipe4",
+                            "@Recipe5",
+                            "@Recipe6",
+                            "@Recipe7",
+                            "@Recipe8",
+                            "@Recipe9",
+                            "@Recipe10",
+                            "@Recipe11",
+                            "@Recipe12",
+                            "@Recipe13",
+                            "@Recipe14",
+                            "@Recipe15",
+                            "@Recipe16",
+                            "@Recipe17",
+                            "@Recipe18",
+                            "@Recipe19",
+                            "@Recipe20",
+                            "@Recipe21",
+                            "@Recipe22",
+                            "@Recipe23",
+                            "@Recipe24",
+                            "@Recipe25",
+                            "@Recipe26",
+                            "@Recipe27",
+                            "@Recipe28",
+                            "@Recipe29",
+                            "@Recipe30",
+                            "@Recipe31",
+                            "@Recipe32",
+                            "@Recipe33",
+                            "@Recipe34",
+                            "@Recipe35",
+                            "@Recipe36",
+                            "@Recipe37",
+                            "@Recipe38",
+                            "@Recipe39",
+                            "@Recipe40",
+                            "@Recipe41",
+                            "@Recipe42",
+                            "@Recipe43",
+                            "@Recipe44",
+                            "@Recipe45",
+                            "@Recipe46",
+                            "@Recipe47",
+                            "@Recipe48",
+                            "@Recipe49",
+                            "@Recipe50",
+                            "@Recipe51",
+                            "@Recipe52",
+                            "@Recipe53",
+                            "@Recipe54",
+                            "@Recipe55",
+                            "@Recipe56",
+                            "@Recipe57",
+                            "@Recipe58",
+                            "@Recipe59",
+                            "@Recipe60",
+                            "@UpDatetime"},
+                        new object[] { this.mainModel.prodID, SettingJsonManager.mercName,
+                                       itemModel.ModelNum, itemModel.WorkPlan1, itemModel.WorkPlan2, itemModel.BoxType, itemModel.Pock, itemModel.Jang, itemModel.Go, itemModel.Gap, itemModel.Wing, itemModel.Cutting, itemModel.SaveDone, itemModel.WorkSpeed,itemModel.SaveState, itemModel.Spare1,
+                                       itemModel.Recipe1, itemModel.Recipe2, itemModel.Recipe3, itemModel.Recipe4, itemModel.Recipe5, itemModel.Recipe6, itemModel.Recipe7, itemModel.Recipe8, itemModel.Recipe9, itemModel.Recipe10,
+                                       itemModel.Recipe11,itemModel.Recipe12,itemModel.Recipe13,itemModel.Recipe14,itemModel.Recipe15,itemModel.Recipe16,itemModel.Recipe17,itemModel.Recipe18,itemModel.Recipe19,itemModel.Recipe20,
+                                       itemModel.Recipe21,itemModel.Recipe22,itemModel.Recipe23,itemModel.Recipe24,itemModel.Recipe25,itemModel.Recipe26,itemModel.Recipe27,itemModel.Recipe28,itemModel.Recipe29,itemModel.Recipe30,
+                                       itemModel.Recipe31,itemModel.Recipe32,itemModel.Recipe33,itemModel.Recipe34,itemModel.Recipe35,itemModel.Recipe36,itemModel.Recipe37,itemModel.Recipe38,itemModel.Recipe39,itemModel.Recipe40,
+                                       itemModel.Recipe41,itemModel.Recipe42,itemModel.Recipe43,itemModel.Recipe44,itemModel.Recipe45,itemModel.Recipe46,itemModel.Recipe47,itemModel.Recipe48,itemModel.Recipe49,itemModel.Recipe50,
+                                       itemModel.Recipe51,itemModel.Recipe52,itemModel.Recipe53,itemModel.Recipe54,itemModel.Recipe55,itemModel.Recipe56,itemModel.Recipe57,itemModel.Recipe58,itemModel.Recipe59,itemModel.Recipe60,
+                                       DateTimeManager.GetSelectedStr()
+                        },
                         1
                         );
 
                     if (returnData.결과 == 1)
                     {
+                        MessageBoxResult result = System.Windows.MessageBox.Show("저장 완료.", "CNS 데이터 저장");
                     }
                     else
                     {
+                        MessageBoxResult resultf = System.Windows.MessageBox.Show("저장 실패.", "CNS 데이터 저장");
                     }
-
                     cnsProcessing = false;
-                    MessageBoxResult result = System.Windows.MessageBox.Show("저장이 완료되었습니다", "CNS 데이터 저장");
                 }
 
                 obj.ClearBuffer();
+                Console.WriteLine("CNS => DB 저장완료 prodID :  " + this.mainModel.prodID);
             }
             catch (Exception)
             {
+                MessageBox_Dialog messageBox = new MessageBox_Dialog("레시피 저장 실패");
+                _ = messageBox.ShowDialog();
                 mainSock.Close();
             }
             finally
@@ -2683,7 +2638,7 @@ namespace PopProject.Detail
                     ConnectSocket(); //CNS 통신 연결
                     Ls_Fenet wd = new Ls_Fenet(); //헤더
 
-                    byte[] bDts = wd.Word_continuous_Read("%DB7804", 71); //연속읽기 D3902 ~ D3972 (71개)
+                    byte[] bDts = wd.Word_continuous_Read("%DB7804", 74); //연속읽기 D3902 ~ D3975 (74개)
 
                     //송신한 데이터 값 보는용도
                     string Send_Data = string.Empty;
@@ -2720,7 +2675,7 @@ namespace PopProject.Detail
                     ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
                     ReturnModel returnDataCheck = ServiceModel.GetData(
                        SettingJsonManager.serverIndex,
-                       "[PopCNSSearch]",
+                       "[PopCNSSearch2]",
                        new string[] { "MachineName", "prodID" },
                        new object[] { SettingJsonManager.mercName, this.mainModel.prodID }, 0);
 

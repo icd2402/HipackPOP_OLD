@@ -25,9 +25,9 @@
         <!--<Image Visibility="{Binding newProd}" Width="48" Height="28" Source="/img/new.png" HorizontalAlignment="Left" VerticalAlignment="Bottom" Canvas.Left="47" Canvas.Top="119" ></Image>-->
         <TextBlock Text="{Binding customSName}" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="46" Canvas.Top="18" FontFamily="/font/#KoPubDotum Medium" />
         <TextBlock Text="{Binding prodName}" FontSize="38"  HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="46" Canvas.Top="54" Width="450" FontFamily="/font/#KoPubDotum Bold"/>
-        <TextBlock x:Name="boxType"  FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="380" Canvas.Top="85" FontFamily="/font/#KoPubDotum Medium"/>
+        <TextBlock x:Name="boxType"  FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="380" Canvas.Top="110" FontFamily="/font/#KoPubDotum Medium"/>
 
-        <TextBlock Text="{Binding pSize}" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="380" Canvas.Top="128" FontFamily="/font/#KoPubDotum Medium"  />
+        <TextBlock Text="{Binding pSize}" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="380" Canvas.Top="135" FontFamily="/font/#KoPubDotum Medium"  />
 
         <Border  BorderThickness="2" Background="White" CornerRadius="10" BorderBrush="#FF747474" Width="120" Height="50"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="45" Canvas.Top="110" MouseLeftButtonDown="Unique" >
             <TextBlock Text="특이사항" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF565656" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium"  />
@@ -70,11 +70,12 @@
         <TextBlock Text="|" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="170" Canvas.Top="361"/>
         <TextBlock Text="|" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="170" Canvas.Top="431"/>
 
-        <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="170" Height="1" Canvas.Left="239" Canvas.Top="340"></Border>
-        <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="170" Height="1" Canvas.Left="239" Canvas.Top="406"/>
+        <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="135" Height="1" Canvas.Left="239" Canvas.Top="340"/>
+        <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="135" Height="1" Canvas.Left="239" Canvas.Top="406"/>
+        <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="135" Height="1" Canvas.Left="239" Canvas.Top="475"/>
 
         <TextBlock Grid.Row="1" Text="{Binding sumPlanCount ,Converter={StaticResource converter}}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="179" TextAlignment="Right" Width="183" Canvas.Top="226" Foreground="#26414A" FontFamily="/font/#KoPubDotum Bold"/>
-        <TextBlock x:Name="Pre_Count" Grid.Row="1"  FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="179" TextAlignment="Right" Width="183" Canvas.Top="261" Foreground="Blue" FontFamily="/font/#KoPubDotum Bold"/>
+        <TextBlock x:Name="Pre_Count" Grid.Row="1"  FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="177" TextAlignment="Right" Width="183" Canvas.Top="261" Foreground="Blue" FontFamily="/font/#KoPubDotum Bold"/>
 
 
         <TextBlock Name="pCnt" Visibility="{Binding pCntVisible}" Canvas.Left="426" Canvas.Top="236" FontSize="28" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
@@ -83,7 +84,7 @@
         <TextBox Grid.Row="1" Focusable="False" Text="{Binding count, UpdateSourceTrigger=PropertyChanged}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="100"  Canvas.Top="302" FontFamily="/font/#KoPubDotum Bold" BorderBrush="{x:Null}"/>
         <TextBlock x:Name="perrcount" Grid.Row="1"  FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="259" TextAlignment="Right" Width="100"  Canvas.Top="368" Foreground="Red" FontFamily="/font/#KoPubDotum Bold"/>
 
-        <TextBox x:Name="tbResult" Grid.Row="1" Focusable="false" BorderBrush="{x:Null}"  MouseLeftButtonDown="TbResult_MouseLeftButtonDown" Text="{Binding count, UpdateSourceTrigger=PropertyChanged}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="100" Canvas.Top="434" Foreground="#26414A" FontFamily="/font/#KoPubDotum Bold" KeyDown="TextBox_KeyDown"/>
+        <TextBox x:Name="tbResult" Grid.Row="1" Focusable="false" BorderBrush="{x:Null}"  MouseLeftButtonDown="TbResult_MouseLeftButtonDown" Text="{Binding count, UpdateSourceTrigger=PropertyChanged}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="262" TextAlignment="Right" Width="100" Canvas.Top="437" Foreground="#26414A" FontFamily="/font/#KoPubDotum Bold" KeyDown="TextBox_KeyDown"/>
         <Image Height="50" Width="80" Source="/img/plus_01.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Canvas.Left="382" Canvas.Top="427" MouseLeftButtonDown="Result_count_minus"></Image>
         <Image  Height="50" Width="80" Source="/img/plus_02.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Canvas.Left="461" Canvas.Top="427" MouseLeftButtonDown="Result_count_plus"></Image>
 
