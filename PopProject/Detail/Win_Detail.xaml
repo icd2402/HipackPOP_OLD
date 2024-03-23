@@ -25,7 +25,7 @@
             <TextBlock Name="prodName"  Text="{Binding prodName}" FontSize="38" Foreground="White" Canvas.Left="27" Canvas.Top="135" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock Name="boxType" Text="{Binding boxType }" FontSize="22" Foreground="White" Canvas.Left="406" Canvas.Top="135"/>
             <Image Source="/img/b_02.png" Canvas.Left="430" Canvas.Top="2" MouseDown="Detail_List"/>
-            <Border x:Name="robot" BorderThickness="2" Background="#495664" CornerRadius="2" BorderBrush="#43505E" Width="90" Height="45" Canvas.Top="9" Canvas.Left="238"   VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="robot_setting">
+            <Border x:Name="robot" BorderThickness="2" Background="#495664" CornerRadius="5" BorderBrush="#43505E" Width="101" Height="45" Canvas.Top="9" Canvas.Left="215"   VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="robot_setting">
                 <TextBlock Text="로봇 설정" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="/font/#KoPubDotum Light" Foreground="White" />
             </Border>
 
@@ -33,7 +33,7 @@
                 <TextBlock x:Name="wharehouselocation" Text="창고 적재" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="/font/#KoPubDotum Light" Foreground="White" />
             </Border>
 
-            <Border x:Name="CNS_Save" BorderThickness="2" Background="#495664" CornerRadius="5" BorderBrush="#43505E" Width="90" Height="45" Canvas.Top="9" Canvas.Left="338"   VerticalAlignment="Bottom" MouseLeftButtonDown="CNS_Save_MouseLeftButtonDown" MouseLeftButtonUp="CNS_Save_MouseLeftButtonUp" >
+            <Border x:Name="CNS_Save" BorderThickness="2" Background="#495664" CornerRadius="5" BorderBrush="#43505E" Width="105" Height="45" Canvas.Top="9" Canvas.Left="325"   VerticalAlignment="Bottom" MouseLeftButtonDown="CNS_Save_MouseLeftButtonDown" MouseLeftButtonUp="CNS_Save_MouseLeftButtonUp" >
                 <TextBlock x:Name="CNS_Savelocation" Text="     CNS &#x0a;레시피 저장" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" FontFamily="/font/#KoPubDotum Light" Foreground="White" />
             </Border>
 
