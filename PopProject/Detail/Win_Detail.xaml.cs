@@ -709,6 +709,24 @@ namespace PopProject.Detail
                 items.Add(갭);   //갭
                 items.Add(0);    //앞날개
                 items.Add(미미); //미미
+                //items.Add(0); //컷팅
+                //items.Add(0); //D3813
+                //items.Add(0); //D3814
+                //items.Add(0); //D3815
+                //items.Add(0); //D3816
+                //items.Add(0); //D3817
+                //items.Add(0); //D3818
+                //items.Add(0); //D3819
+                //items.Add(0); //D3820
+                //items.Add(0); //D3821
+                //items.Add(0); //D3822
+                //items.Add(0); //D3823
+                //items.Add(0); //D3824
+                //items.Add(0); //D3825
+                //items.Add(0); //D3826
+                //items.Add(0); //D3827
+                //items.Add(0); //D3828
+                //items.Add(1600); //D3829 //뒷날개
 
                 int WriteCount = items.Count() * 2;
                 byte[] bDts = wd.continuous_Write("%DB7600", WriteCount, items);
@@ -2521,6 +2539,7 @@ namespace PopProject.Detail
             Ls_Fenet wd = new Ls_Fenet(); //헤더
             byte[] bDts2 = wd.single_Write("%DW3814", 02, 2); //개별쓰기 (변수명, 데이터 타입, 쓸 데이터값) 
             mainSock.Send(bDts2); //데이터 쓰기
+            Console.WriteLine("데이터를 읽기위한 데이터 전송 : " + bDts2);
             mainSock.Close();
 
             CNS_Send = false;
