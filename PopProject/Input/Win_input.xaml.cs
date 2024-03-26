@@ -1269,15 +1269,15 @@ namespace PopProject.Input
                             itemModel.Gap = ValueConvert(data, false); break;
                         case 8: //앞날개
                             itemModel.Wing = ValueConvert(data, false); break;
-                        case 9: //미미,컷팅
-                            itemModel.Cutting = ValueConvert(data, false); break;
-                        case 10: //저장 완료
-                            itemModel.SaveDone = ValueConvert(data, false); break;
-                        case 11: //생산속도
+                        case 9: //미미
+                            itemModel.Mimi = ValueConvert(data, false); break;
+                        case 10: //원단
+                            itemModel.WonDan = ValueConvert(data, false); break;
+                        case 11: //
                             itemModel.WorkSpeed = ValueConvert(data, false); break;
-                        case 12: //저장값 쓰기 가능상태                      
+                        case 12: //                    
                             itemModel.SaveState = ValueConvert(data, false); break;
-                        case 13: //Spare1              
+                        case 13: //           
                             itemModel.Spare1 = ValueConvert(data, false); break;
                         case 14: //
                             itemModel.Recipe1 = ValueConvert(data, false); break;
@@ -1427,8 +1427,8 @@ namespace PopProject.Input
                             "@Go",
                             "@Gap",
                             "@Wing",
-                            "@Cutting",
-                            "@SaveDone",
+                            "@Mimi",
+                            "@WonDan",
                             "@WorkSpeed",
                             "@SaveState",
                             "@Spare1",
@@ -1494,7 +1494,7 @@ namespace PopProject.Input
                             "@Recipe60",
                             "@UpDatetime"},
                         new object[] { this.mainModel.prodID, SettingJsonManager.mercName, 
-                                       itemModel.ModelNum, itemModel.WorkPlan1, itemModel.WorkPlan2, itemModel.BoxType, itemModel.Pock, itemModel.Jang, itemModel.Go, itemModel.Gap, itemModel.Wing, itemModel.Cutting, itemModel.SaveDone, itemModel.WorkSpeed,itemModel.SaveState, itemModel.Spare1,
+                                       itemModel.ModelNum, itemModel.WorkPlan1, itemModel.WorkPlan2, itemModel.BoxType, itemModel.Pock, itemModel.Jang, itemModel.Go, itemModel.Gap, itemModel.Wing, itemModel.Mimi, itemModel.WonDan, itemModel.WorkSpeed,itemModel.SaveState, itemModel.Spare1,
                                        itemModel.Recipe1, itemModel.Recipe2, itemModel.Recipe3, itemModel.Recipe4, itemModel.Recipe5, itemModel.Recipe6, itemModel.Recipe7, itemModel.Recipe8, itemModel.Recipe9, itemModel.Recipe10,
                                        itemModel.Recipe11,itemModel.Recipe12,itemModel.Recipe13,itemModel.Recipe14,itemModel.Recipe15,itemModel.Recipe16,itemModel.Recipe17,itemModel.Recipe18,itemModel.Recipe19,itemModel.Recipe20,
                                        itemModel.Recipe21,itemModel.Recipe22,itemModel.Recipe23,itemModel.Recipe24,itemModel.Recipe25,itemModel.Recipe26,itemModel.Recipe27,itemModel.Recipe28,itemModel.Recipe29,itemModel.Recipe30,
@@ -2318,8 +2318,8 @@ namespace PopProject.Input
                     int go = 0;
                     int gap = 0;
                     int wing = 0;
-                    int cutting = 0;
-                    int saveDone = 0;
+                    int mimi = 0;
+                    int wonDan = 0;
                     int workSpeed = 0;
                     int saveState = 0;
                     int spare1 = 0;
@@ -2398,8 +2398,8 @@ namespace PopProject.Input
                         go = Convert.ToInt32(result["Go"]);//D3808
                         gap = Convert.ToInt32(result["Gap"]);//D3809
                         wing = Convert.ToInt32(result["Wing"]);//D3810
-                        cutting = Convert.ToInt32(result["Cutting"]);//D3811
-                        saveDone = Convert.ToInt32(result["SaveDone"]);//D3812
+                        mimi = Convert.ToInt32(result["Mimi"]);//D3811
+                        wonDan = Convert.ToInt32(result["WonDan"]);//D3812
                         workSpeed = Convert.ToInt32(result["WorkSpeed"]);//D3813
                         saveState = Convert.ToInt32(result["SaveState"]);//D3814
                         spare1 = Convert.ToInt32(result["Spare1"]);//D3815
@@ -2478,22 +2478,22 @@ namespace PopProject.Input
                                 Ls_Fenet wd = new Ls_Fenet();
                                 List<int> items = new List<int>();
 
-                                items.Add(99);  //설정 변경요구 (99로 요청하면 1로바뀜)
-                                items.Add(1);   //설정 byte[] bDts = wd.continuous_Read("%DB7800", 70); 요구 (0=> 신규설정요구, 1=>데이터 설정 변경요구
-                                items.Add(1); //작업 모델 번호
-                                items.Add(10000); //작업지시 매수(하위)
-                                items.Add(0); //작업지시 매수(상위)
-                                items.Add(boxType); //BOX TYPE (1=>1합, 3=>2합, 5=>인쇄물, 6=>H형, 7=>H-Cover형 
-                                items.Add(pock); //폭
-                                items.Add(jang); //장
-                                items.Add(go); //고
-                                items.Add(gap); //갭
-                                items.Add(wing); //앞날개
-                                items.Add(cutting); //미미 컷팅
-                                items.Add(0); //SaveDone 
-                                items.Add(0); //WorkSpeed
-                                items.Add(0); //SaveState
-                                items.Add(0); //Spare
+                                items.Add(99);      //D3800 설정 변경요구 (99로 요청하면 1로바뀜)
+                                items.Add(1);       //D3801 지령모드 (0=> 신규설정요구, 1=>데이터 설정 변경요구
+                                items.Add(1);       //D3802 작업 모델 번호 
+                                items.Add(10000);   //D3803 작업지시 매수(하위)
+                                items.Add(0);       //D3804 작업지시 매수(상위)
+                                items.Add(boxType); //D3805 BOX TYPE 
+                                items.Add(pock);    //D3806 폭
+                                items.Add(jang);    //D3807 장
+                                items.Add(go);      //D3808 고
+                                items.Add(gap);     //D3809 갭
+                                items.Add(wing);    //D3810 앞날개
+                                items.Add(mimi);    //D3811 미미
+                                items.Add(wonDan);  //D3812 원단
+                                items.Add(0);       //D3813 
+                                items.Add(0);       //D3814 
+                                items.Add(0);       //D3815 
 
                                 items.Add(ValueConvert2(recipe1));//D3816
                                 items.Add(ValueConvert2(recipe2));//D3817 

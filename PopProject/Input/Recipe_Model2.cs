@@ -173,33 +173,33 @@ namespace PopProject.input
             }
         }
 
-        private string _Cutting;
+        private string _Mimi;
 
-        public string Cutting
+        public string Mimi
         {
             get
             {
-                return _Cutting;
+                return _Mimi;
             }
             set
             {
-                _Cutting = value;
-                onPropertyChanged("Cutting");
+                _Mimi = value;
+                onPropertyChanged("Mimi");
             }
         }
 
-        private string _Cutting2;
+        private string _WonDan;
 
-        public string Cutting2
+        public string WonDan
         {
             get
             {
-                return _Cutting2;
+                return _WonDan;
             }
             set
             {
-                _Cutting2 = value;
-                onPropertyChanged("Cutting2");
+                _WonDan = value;
+                onPropertyChanged("WonDan");
             }
         }
 

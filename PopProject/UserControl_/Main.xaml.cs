@@ -88,8 +88,8 @@ namespace PopProject.UserControl_
                 production = null;
 
                 // 버전 번호를 텍스트 블록에 할당
-                //string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-                //versionTextBlock.Text += version;
+                string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                versionTextBlock.Text = $"Version {version}";
 
                 //왼쪽상단 업체명
                 corp_name.Text = SettingJsonManager.corp_name;
@@ -530,21 +530,21 @@ namespace PopProject.UserControl_
         }
 
         // 타이머 1초 실수요자(대세) 안씀
-        private void Timer_1s_DsConsumer()
-        {
-            timer6 = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(1)
-            };
-            timer6.Tick += new EventHandler(Timer_1s_DsConsumer_Tick);
-            timer6.Start();
-        }
+        //private void Timer_1s_DsConsumer()
+        //{
+        //    timer6 = new DispatcherTimer
+        //    {
+        //        Interval = TimeSpan.FromSeconds(1)
+        //    };
+        //    timer6.Tick += new EventHandler(Timer_1s_DsConsumer_Tick);
+        //    timer6.Start();
+        //}
 
         //안씀
-        private void Timer_1s_DsConsumer_Tick(object sender, EventArgs e)
-        {
-            DSConsumerDataRead();
-        }
+        //private void Timer_1s_DsConsumer_Tick(object sender, EventArgs e)
+        //{
+        //    DSConsumerDataRead();
+        //}
         
         //유창 시간별 업데이트
         private void UpdateWorkPlanNResult()
@@ -554,28 +554,28 @@ namespace PopProject.UserControl_
         }
 
         //대세물산 실시간 값 읽기
-        async Task DSConsumerDataRead()
-        {
-            //Console.WriteLine("신호 읽는중 ---");
-            string jsonString = await CountManager.ReadMsg();
-            Dictionary<string, string> jsonData = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonString);
+        //async Task DSConsumerDataRead()
+        //{
+        //    //Console.WriteLine("신호 읽는중 ---");
+        //    string jsonString = await CountManager.ReadMsg();
+        //    Dictionary<string, string> jsonData = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonString);
 
-            string popMerName = SettingJsonManager.mercName;
+        //    string popMerName = SettingJsonManager.mercName;
 
-            foreach (KeyValuePair<string, string> item in jsonData)
-            {
-                if (item.Key.Equals(SettingJsonManager.mercName))
-                {
-                    if (item.Value.Equals("ConsumerRenew"))
-                    {
-                        //SelectWorkList();   //생산계획 조회
-                        //ResultSearchDate(); //생산결과 조회
-                        Console.WriteLine("조회완료");
-                        CountManager.SendMsg(SettingJsonManager.mercName, "empty"); //실수요자 계획키 생성
-                    }
-                }
-            }
-        }
+        //    foreach (KeyValuePair<string, string> item in jsonData)
+        //    {
+        //        if (item.Key.Equals(SettingJsonManager.mercName))
+        //        {
+        //            if (item.Value.Equals("ConsumerRenew"))
+        //            {
+        //                //SelectWorkList();   //생산계획 조회
+        //                //ResultSearchDate(); //생산결과 조회
+        //                Console.WriteLine("조회완료");
+        //                CountManager.SendMsg(SettingJsonManager.mercName, "empty"); //실수요자 계획키 생성
+        //            }
+        //        }
+        //    }
+        //}
 
         #region 넘기기 신호 조회(1초) 오주포장
         //async Task serviceDataRead()
@@ -950,7 +950,6 @@ namespace PopProject.UserControl_
         private void Remote_click(object sender, MouseButtonEventArgs e)
         {
             _ = Process.Start("http://2007.asw.co.kr/client/index.jsp?cpcode=icd&autostart=true");
-            MainModel production = null;
         }
 
         //날짜 클릭

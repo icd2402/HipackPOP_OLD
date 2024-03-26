@@ -622,8 +622,8 @@ namespace PopProject.Input
 
                     D3909 = Convert.ToSingle(result["Gap"]);//D3909
                     D3910 = Convert.ToSingle(result["Wing"]);//D3910
-                    D3911 = Convert.ToSingle(result["Cutting"]);//D3911
-                    D3912 = Convert.ToSingle(result["SaveDone"]);//D3912
+                    D3911 = Convert.ToSingle(result["Mimi"]);//D3911
+                    D3912 = Convert.ToSingle(result["WonDan"]);//D3912
                     D3913 = Convert.ToSingle(result["WorkSpeed"]);//D3913
                     D3914 = Convert.ToSingle(result["SaveState"]);//D3914
                     D3915 = Convert.ToSingle(result["Spare1"]);//D3915
@@ -1193,12 +1193,12 @@ namespace PopProject.Input
                     items.Add(1); //작업 모델 번호
                     items.Add(10000); //작업지시 매수(하위)
                     items.Add(0); //작업지시 매수(상위)
-                    items.Add(SettingJsonManager.boxType); //BOX TYPE (1=>1합, 3=>2합, 5=>인쇄물, 6=>H형, 7=>H-Cover형 
+                    items.Add(SettingJsonManager.boxType); //BOX TYPE
                     items.Add(SettingJsonManager.pok);  //폭
                     items.Add(SettingJsonManager.jang); //장
                     items.Add(SettingJsonManager.go);   //고
                     items.Add(SettingJsonManager.Gap);  //갭
-                    items.Add(0);                                //앞날개
+                    items.Add(0);                       //앞날개
                     items.Add(SettingJsonManager.mimi); //미미
 
                     int WriteCount = items.Count() * 2;

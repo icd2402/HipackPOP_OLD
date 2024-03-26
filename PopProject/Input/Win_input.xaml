@@ -74,8 +74,8 @@
         <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="135" Height="1" Canvas.Left="239" Canvas.Top="406"/>
         <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="135" Height="1" Canvas.Left="239" Canvas.Top="475"/>
 
-        <TextBlock Grid.Row="1" Text="{Binding sumPlanCount ,Converter={StaticResource converter}}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="179" TextAlignment="Right" Width="183" Canvas.Top="226" Foreground="#26414A" FontFamily="/font/#KoPubDotum Bold"/>
-        <TextBlock x:Name="Pre_Count" Grid.Row="1"  FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="177" TextAlignment="Right" Width="183" Canvas.Top="261" Foreground="Blue" FontFamily="/font/#KoPubDotum Bold"/>
+        <TextBlock Grid.Row="1" Text="{Binding sumPlanCount ,Converter={StaticResource converter}}" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="176" TextAlignment="Right" Width="183" Canvas.Top="226" Foreground="#26414A" FontFamily="/font/#KoPubDotum Bold"/>
+        <TextBlock x:Name="Pre_Count" Grid.Row="1"  FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="176" TextAlignment="Right" Width="183" Canvas.Top="261" Foreground="Blue" FontFamily="/font/#KoPubDotum Bold"/>
 
 
         <TextBlock Name="pCnt" Visibility="{Binding pCntVisible}" Canvas.Left="426" Canvas.Top="236" FontSize="28" FontFamily="/font/#KoPubDotum Bold"></TextBlock>

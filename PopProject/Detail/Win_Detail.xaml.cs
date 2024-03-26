@@ -50,12 +50,16 @@ namespace PopProject.Detail
 
         private string 거래처;
         private string 품명;
+        private int 박스타입;
         private string[] 규격pSize;
+        private string[] 스코아pSize;
         private int 장;
         private int 폭;
         private int 고;
         private int 갭;
+        private int 앞날개;
         private int 미미;
+        private int 뒷날개;
         private bool success = false; //CNS 통신연결 확인
         private bool CNS_Send = false;
 
@@ -455,22 +459,23 @@ namespace PopProject.Detail
                             Ls_Fenet wd = new Ls_Fenet();
                             List<int> items = new List<int>();
 
-                            items.Add(99);  //설정 변경요구 (99로 요청하면 1로바뀜)
-                            items.Add(1);   //설정 byte[] bDts = wd.continuous_Read("%DB7800", 70); 요구 (0=> 신규설정요구, 1=>데이터 설정 변경요구
-                            items.Add(1); //작업 모델 번호
-                            items.Add(10000); //작업지시 매수(하위)
-                            items.Add(0); //작업지시 매수(상위)
-                            items.Add(boxType); //BOX TYPE (1=>1합, 3=>2합, 5=>인쇄물, 6=>H형, 7=>H-Cover형 
-                            items.Add(pock); //폭
-                            items.Add(jang); //장
-                            items.Add(go); //고
-                            items.Add(gap); //갭
-                            items.Add(wing); //앞날개
-                            items.Add(cutting); //미미 컷팅
-                            items.Add(0); //SaveDone
-                            items.Add(0); //WorkSpeed
-                            items.Add(0); //SaveState
-                            items.Add(0); //Spare
+                            items.Add(99);      //D3800 설정 변경요구 (99로 요청하면 1로바뀜)
+                            items.Add(1);       //D3801 지령모드 (0=> 신규설정요구, 1=>데이터 설정 변경요구
+                            items.Add(1);       //D3802 작업 모델 번호
+                            items.Add(10000);   //D3803 작업지시 매수(하위)
+                            items.Add(0);       //D3804 작업지시 매수(상위)
+                            items.Add(boxType); //D3805 BOX TYPE 
+                            items.Add(pock);    //D3806 폭
+                            items.Add(jang);    //D3807 장
+                            items.Add(go);      //D3808 고
+                            items.Add(gap);     //D3809 갭
+                            items.Add(wing);    //D3810 앞날개
+                            items.Add(cutting); //D3811 미미컷팅
+                            items.Add(0);       //D3812 원단컷팅
+                            items.Add(0);       //D3813 
+                            items.Add(0);       //D3814 
+                            items.Add(0);       //D3815 
+
                             items.Add(ValueConvert2(recipe1));//D3816
                             items.Add(ValueConvert2(recipe2));//D3817
                             items.Add(ValueConvert2(recipe3));//D3818
@@ -593,18 +598,54 @@ namespace PopProject.Detail
                 거래처 = mainModel.customSName; //거래처
                 품명 = mainModel.prodName; //품명
 
+                if (SettingJsonManager.mercName.Equals("후렉소1호기"))
+                {
+                    //if (mainModel.pCnt == 1)
+                    //{
+                    //    박스타입 = 1; //1합
+                    //}
+                    //else if (mainModel.pCnt == 0.5)
+                    //{
+                    //    박스타입 = 4; //2합
+                    //}
+                    //else//기본값
+                    //{
+                    //    박스타입 = 1;
+                    //}
+                    박스타입 = 1; //1합
+
+                }
+                else if (SettingJsonManager.mercName.Equals("인라인2호기"))
+                {
+                    박스타입 = 1; //1합
+                }
+                else if (SettingJsonManager.mercName.Equals("인라인2호기"))
+                {
+                    박스타입 = 1; //1합
+                }
+                else
+                {
+                    박스타입 = 1; //1합
+                }
+
                 //생산매수
                 작업지시 = 10000;
 
                 //규격(장*폭*고)
                 규격pSize = mainModel.pSize.Split('*');
-
                 string s장 = 규격pSize[0] == null ? "" : 규격pSize[0].Trim();
                 string s폭 = 규격pSize[1] == null ? "" : 규격pSize[1].Trim();
                 string s고 = 규격pSize[2] == null ? "" : 규격pSize[2].Trim();
                 장 = int.Parse(s장.ToString());
                 폭 = int.Parse(s폭.ToString());
                 고 = int.Parse(s고.ToString());
+
+                //스코아 값으로 날개값 송신은 나중에 요청시 작업예정(PLC에서 자동연산 제외하는 수정이 필요함)
+                //스코아pSize = mainModel.SCBJCount.Split('*');
+                //string s앞날개 = 규격pSize[0] == null ? "" : 스코아pSize[0].Trim();
+                //string s뒷날개 = 규격pSize[2] == null ? "" : 스코아pSize[2].Trim();
+                //앞날개 = int.Parse(s앞날개.ToString());
+                //뒷날개 = int.Parse(s뒷날개.ToString());
 
                 if (SettingJsonManager.corp_name.Equals("오주포장"))
                 {
@@ -697,36 +738,20 @@ namespace PopProject.Detail
                 ConnectSocket(); //CNS 통신연결
                 Ls_Fenet wd = new Ls_Fenet();
                 List<int> items = new List<int>();
-                items.Add(99);  //설정 변경요구 (99로 요청하면 1로바뀜)
-                items.Add(0);   //설정 byte[] bDts = wd.continuous_Read("%DB7800", 70); 요구 (0=> 신규설정요구, 1=>데이터 설정 변경요구
-                items.Add(1); //작업 모델 번호
-                items.Add(작업지시); //작업지시 매수(하위)
-                items.Add(0); //작업지시 매수(상위)
-                items.Add(1); //BOX TYPE (1=>1합, 3=>2합, 5=>인쇄물, 6=>H형, 7=>H-Cover형 3호기(1합철)
-                items.Add(폭);   //폭
-                items.Add(장);   //장
-                items.Add(고);   //고
-                items.Add(갭);   //갭
-                items.Add(0);    //앞날개
-                items.Add(미미); //미미
-                //items.Add(0); //컷팅
-                //items.Add(0); //D3813
-                //items.Add(0); //D3814
-                //items.Add(0); //D3815
-                //items.Add(0); //D3816
-                //items.Add(0); //D3817
-                //items.Add(0); //D3818
-                //items.Add(0); //D3819
-                //items.Add(0); //D3820
-                //items.Add(0); //D3821
-                //items.Add(0); //D3822
-                //items.Add(0); //D3823
-                //items.Add(0); //D3824
-                //items.Add(0); //D3825
-                //items.Add(0); //D3826
-                //items.Add(0); //D3827
-                //items.Add(0); //D3828
-                //items.Add(1600); //D3829 //뒷날개
+                items.Add(99);       //D3800 설정 변경요구 (99로 요청하면 1로바뀜)
+                items.Add(0);        //D3801 지령모드 (0=> 신규설정요구, 1=>데이터 설정 변경요구)
+                items.Add(1);        //D3802 작업 모델 번호
+                items.Add(작업지시); //D3803 작업지시 매수(하위)
+                items.Add(0);        //D3804 작업지시 매수(상위)
+                items.Add(박스타입); //D3805 BOX TYPE
+                items.Add(폭);  //D3806 폭
+                items.Add(장);  //D3807 장
+                items.Add(고);  //D3808 고
+                items.Add(갭);  //D3809 갭
+                items.Add(0);   //D3810 앞날개
+                items.Add(미미);//D3811 미미
+                items.Add(0);   //D3812 컷팅
+               
 
                 int WriteCount = items.Count() * 2;
                 byte[] bDts = wd.continuous_Write("%DB7600", WriteCount, items);
@@ -848,10 +873,10 @@ namespace PopProject.Detail
                             itemModel.Gap = ValueConvert(data, false); break;
                         case 8: //앞날개
                             itemModel.Wing = ValueConvert(data, false); break;
-                        case 9: //미미,컷팅
-                            itemModel.Cutting = ValueConvert(data, false); break;
-                        case 10: //저장 완료
-                            itemModel.SaveDone = ValueConvert(data, false); break;
+                        case 9: //미미
+                            itemModel.Mimi = ValueConvert(data, false); break;
+                        case 10: //원단
+                            itemModel.WonDan = ValueConvert(data, false); break;
                         case 11: //생산속도
                             itemModel.WorkSpeed = ValueConvert(data, false); break;
                         case 12: //저장값 쓰기 가능상태                      
@@ -1006,8 +1031,8 @@ namespace PopProject.Detail
                             "@Go",
                             "@Gap",
                             "@Wing",
-                            "@Cutting",
-                            "@SaveDone",
+                            "@Mimi",
+                            "@WonDan",
                             "@WorkSpeed",
                             "@SaveState",
                             "@Spare1",
@@ -1073,7 +1098,7 @@ namespace PopProject.Detail
                             "@Recipe60",
                             "@UpDatetime"},
                         new object[] { this.mainModel.prodID, SettingJsonManager.mercName,
-                                       itemModel.ModelNum, itemModel.WorkPlan1, itemModel.WorkPlan2, itemModel.BoxType, itemModel.Pock, itemModel.Jang, itemModel.Go, itemModel.Gap, itemModel.Wing, itemModel.Cutting, itemModel.SaveDone, itemModel.WorkSpeed,itemModel.SaveState, itemModel.Spare1,
+                                       itemModel.ModelNum, itemModel.WorkPlan1, itemModel.WorkPlan2, itemModel.BoxType, itemModel.Pock, itemModel.Jang, itemModel.Go, itemModel.Gap, itemModel.Wing, itemModel.Mimi, itemModel.WonDan, itemModel.WorkSpeed,itemModel.SaveState, itemModel.Spare1,
                                        itemModel.Recipe1, itemModel.Recipe2, itemModel.Recipe3, itemModel.Recipe4, itemModel.Recipe5, itemModel.Recipe6, itemModel.Recipe7, itemModel.Recipe8, itemModel.Recipe9, itemModel.Recipe10,
                                        itemModel.Recipe11,itemModel.Recipe12,itemModel.Recipe13,itemModel.Recipe14,itemModel.Recipe15,itemModel.Recipe16,itemModel.Recipe17,itemModel.Recipe18,itemModel.Recipe19,itemModel.Recipe20,
                                        itemModel.Recipe21,itemModel.Recipe22,itemModel.Recipe23,itemModel.Recipe24,itemModel.Recipe25,itemModel.Recipe26,itemModel.Recipe27,itemModel.Recipe28,itemModel.Recipe29,itemModel.Recipe30,

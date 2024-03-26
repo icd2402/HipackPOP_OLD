@@ -465,5 +465,19 @@ namespace PopProject.Consumer_
             }
         }
 
+        private int _totalWorkCount;
+        public int totalWorkCount
+        {
+            get
+            {
+                return _totalWorkCount;
+            }
+            set
+            {
+                _totalWorkCount = value;
+                onPropertyChanged("totalWorkCount");
+            }
+        }
+
     }
 }

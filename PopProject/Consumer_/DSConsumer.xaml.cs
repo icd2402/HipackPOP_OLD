@@ -142,6 +142,8 @@ namespace PopProject.Consumer_
                             listitem.pWorkCount /= (int)mainModel.pCnt;  //금일 작업량 ÷ 통수
                         }
 
+                        listitem.totalWorkCount = listitem.workCount + Convert.ToInt32(listitem.pWorkCount);
+
                         //리스트에서 금일결과량이 있으면 완료버튼으로 표시
                         if (listitem.pWorkCount > 0)
                         {
