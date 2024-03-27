@@ -50,6 +50,7 @@ namespace PopProject.Detail
 
         private string 거래처;
         private string 품명;
+        private int WorkModelNum;
         private int 박스타입;
         private string[] 규격pSize;
         private string[] 스코아pSize;
@@ -85,6 +86,7 @@ namespace PopProject.Detail
             subOb.ItemsSource = mainModel.subOb;
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
+            PreviewKeyDown += OnPreviewKeyDown;
 
             //dateTimeManager = DateTimeManager.Instance; // DateTimeManager 객체 생성
 
@@ -123,6 +125,24 @@ namespace PopProject.Detail
                 //바코드로 디테일창 팝업시 동작
                 if (SettingJsonManager.mercName.Equals("후렉소1호기") || SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기"))
                 {
+                    WorkModelNum = 0;
+                    string pattern1 = @"1호기\s*:\s*(\d+)";
+                    string pattern2 = @"2호기\s*:\s*(\d+)";
+                    string pattern3 = @"3호기\s*:\s*(\d+)";
+
+                    if (SettingJsonManager.mercName.Equals("후렉소1호기"))
+                    {
+                        WorkModelNum = CNS_ModelNumReq(this.mainModel.PrintNo, pattern1);
+                    }
+                    else if (SettingJsonManager.mercName.Equals("인라인2호기"))
+                    {
+                        WorkModelNum = CNS_ModelNumReq(this.mainModel.PrintNo, pattern2);
+                    }
+                    else if (SettingJsonManager.mercName.Equals("인라인3호기"))
+                    {
+                        WorkModelNum = CNS_ModelNumReq(this.mainModel.PrintNo, pattern3);
+                    }
+
                     LogManager.Info("CNS사용 체크 후 바코드로 상세화면 팝업 성공" + SettingJsonManager.mercName + "/" + this.mainModel.prodID, MethodBase.GetCurrentMethod().DeclaringType);
 
                     //DB에 데이터 있는거 확인용 변수
@@ -598,28 +618,25 @@ namespace PopProject.Detail
                 거래처 = mainModel.customSName; //거래처
                 품명 = mainModel.prodName; //품명
 
-                if (SettingJsonManager.mercName.Equals("후렉소1호기"))
+
+                //
+                if (SettingJsonManager.mercName.Equals("후렉소1호기") || SettingJsonManager.mercName.Equals("인라인2호기"))
                 {
-                    //if (mainModel.pCnt == 1)
-                    //{
-                    //    박스타입 = 1; //1합
-                    //}
-                    //else if (mainModel.pCnt == 0.5)
-                    //{
-                    //    박스타입 = 4; //2합
-                    //}
-                    //else//기본값
-                    //{
-                    //    박스타입 = 1;
-                    //}
-                    박스타입 = 1; //1합
+                    if (mainModel.pCnt == 1)
+                    {
+                        박스타입 = 1; //1합
+                    }
+                    else if (mainModel.pCnt == 0.5)
+                    {
+                        박스타입 = 4; //2합
+                    }
+                    else//기본값
+                    {
+                        박스타입 = 1;
+                    }
 
                 }
-                else if (SettingJsonManager.mercName.Equals("인라인2호기"))
-                {
-                    박스타입 = 1; //1합
-                }
-                else if (SettingJsonManager.mercName.Equals("인라인2호기"))
+                else if (SettingJsonManager.mercName.Equals("인라인3호기"))
                 {
                     박스타입 = 1; //1합
                 }
@@ -641,41 +658,29 @@ namespace PopProject.Detail
                 고 = int.Parse(s고.ToString());
 
                 //스코아 값으로 날개값 송신은 나중에 요청시 작업예정(PLC에서 자동연산 제외하는 수정이 필요함)
-                //스코아pSize = mainModel.SCBJCount.Split('*');
-                //string s앞날개 = 규격pSize[0] == null ? "" : 스코아pSize[0].Trim();
-                //string s뒷날개 = 규격pSize[2] == null ? "" : 스코아pSize[2].Trim();
-                //앞날개 = int.Parse(s앞날개.ToString());
-                //뒷날개 = int.Parse(s뒷날개.ToString());
+
+                string s앞날개 = "";
+                string s뒷날개 = "";
+                
+                스코아pSize = mainModel.SCBJCount.Split('*');
+                if (스코아pSize.Length == 3)
+                {
+                    s앞날개 = 규격pSize[0] == null ? "" : 스코아pSize[0].Trim();
+                    s뒷날개 = 규격pSize[2] == null ? "" : 스코아pSize[2].Trim();
+                }
+                else
+                {
+                    스코아pSize = mainModel.SCBJCount.Split('+');
+                    s앞날개 = 규격pSize[0] == null ? "" : 스코아pSize[0].Trim();
+                    s뒷날개 = 규격pSize[2] == null ? "" : 스코아pSize[2].Trim();
+                }
+                
+                앞날개 = int.Parse(s앞날개.ToString()) * 10;
+                뒷날개 = int.Parse(s뒷날개.ToString()) * 10;
 
                 if (SettingJsonManager.corp_name.Equals("오주포장"))
                 {
-                    if (SettingJsonManager.mercName.Equals("후렉소1호기"))
-                    {
-                        switch (mainModel.paperGor.Replace("골", "").Trim())
-                        {
-                            case "AB":
-                            case "BA":
-                                갭 = 70;
-                                break;
-
-                            case "BB":
-                                갭 = 50;
-                                break;
-
-                            case "A":
-                            case "EB":
-                                갭 = 40;
-                                break;
-
-                            case "B":
-                            case "E":
-                                갭 = 20;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    else if (SettingJsonManager.mercName.Equals("인라인2호기"))
+                    if (SettingJsonManager.mercName.Equals("후렉소1호기") || SettingJsonManager.mercName.Equals("인라인2호기"))
                     {
                         switch (mainModel.paperGor.Replace("골", "").Trim())
                         {
@@ -738,20 +743,55 @@ namespace PopProject.Detail
                 ConnectSocket(); //CNS 통신연결
                 Ls_Fenet wd = new Ls_Fenet();
                 List<int> items = new List<int>();
-                items.Add(99);       //D3800 설정 변경요구 (99로 요청하면 1로바뀜)
-                items.Add(0);        //D3801 지령모드 (0=> 신규설정요구, 1=>데이터 설정 변경요구)
-                items.Add(1);        //D3802 작업 모델 번호
-                items.Add(작업지시); //D3803 작업지시 매수(하위)
-                items.Add(0);        //D3804 작업지시 매수(상위)
-                items.Add(박스타입); //D3805 BOX TYPE
-                items.Add(폭);  //D3806 폭
-                items.Add(장);  //D3807 장
-                items.Add(고);  //D3808 고
-                items.Add(갭);  //D3809 갭
-                items.Add(0);   //D3810 앞날개
-                items.Add(미미);//D3811 미미
-                items.Add(0);   //D3812 컷팅
-               
+
+                if (SettingJsonManager.mercName.Equals("후렉소1호기") || SettingJsonManager.mercName.Equals("인라인2호기"))
+                {
+                    items.Add(99);       //D3800 설정 변경요구 (99로 요청하면 1로바뀜)
+                    items.Add(0);        //D3801 지령모드 (0=> 신규설정요구, 1=>데이터 설정 변경요구)
+                    items.Add(1);        //D3802 작업 모델 번호
+                    items.Add(작업지시); //D3803 작업지시 매수(하위)
+                    items.Add(0);        //D3804 작업지시 매수(상위)
+                    items.Add(박스타입); //D3805 BOX TYPE
+                    items.Add(폭);     //D3806 폭
+                    items.Add(장);     //D3807 장
+                    items.Add(고);     //D3808 고
+                    items.Add(갭);     //D3809 갭
+                    items.Add(앞날개); //D3810 앞날개
+                    items.Add(미미);   //D3811 미미
+                    items.Add(0);//D3812 원단
+                    items.Add(0);//D3813 
+                    items.Add(0);//D3814 
+                    items.Add(0);//D3815 
+                    items.Add(0);//D3816 A
+                    items.Add(0);//D3817 B
+                    items.Add(0);//D3818 C
+                    items.Add(0);//D3819 D
+                    items.Add(0);//D3820 E
+                    items.Add(0);//D3821 F1
+                    items.Add(0);//D3822 F2
+                    items.Add(0);//D3823 G
+                    items.Add(0);//D3824 O
+                    items.Add(0);//D3825 P1
+                    items.Add(0);//D3826 P2
+                    items.Add(0);//D3827 P3
+                    items.Add(0);//D3828 P4
+                    items.Add(뒷날개);//D3829
+                }
+                else
+                {
+                    items.Add(99);       //D3800 설정 변경요구 (99로 요청하면 1로바뀜)
+                    items.Add(0);        //D3801 지령모드 (0=> 신규설정요구, 1=>데이터 설정 변경요구)
+                    items.Add(1);        //D3802 작업 모델 번호
+                    items.Add(작업지시); //D3803 작업지시 매수(하위)
+                    items.Add(0);        //D3804 작업지시 매수(상위)
+                    items.Add(박스타입); //D3805 BOX TYPE
+                    items.Add(폭);     //D3806 폭
+                    items.Add(장);     //D3807 장
+                    items.Add(고);     //D3808 고
+                    items.Add(갭);     //D3809 갭
+                    items.Add(앞날개); //D3810 앞날개
+                    items.Add(미미);   //D3811 미미
+                }
 
                 int WriteCount = items.Count() * 2;
                 byte[] bDts = wd.continuous_Write("%DB7600", WriteCount, items);
@@ -2701,6 +2741,28 @@ namespace PopProject.Detail
             }
         }
 
+        private void OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Main.passCheck = true;
+                pic.Source = null;
+                Barcode_Enter = false;
+                Close();
+            }
+        }
+
+        private int CNS_ModelNumReq(string printNo, string pattern)
+        {
+            Match match = Regex.Match(printNo, pattern);
+            if (match.Success)
+            {
+                return Convert.ToInt32(match.Groups[1].Value);
+            }
+
+            return 0; // 일치하는 패턴이 없을 경우 -1 반환
+        }
+
         //CNS 테스트용
         private void hiddenBt(object sender, MouseButtonEventArgs e)
         {
@@ -2710,6 +2772,24 @@ namespace PopProject.Detail
                 //바코드로 디테일창 팝업시 동작
                 if (SettingJsonManager.mercName.Equals("후렉소1호기") || SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기"))
                 {
+                    WorkModelNum = 0;
+                    string pattern1 = @"1호기\s*:\s*(\d+)";
+                    string pattern2 = @"2호기\s*:\s*(\d+)";
+                    string pattern3 = @"3호기\s*:\s*(\d+)";
+
+                    if (SettingJsonManager.mercName.Equals("후렉소1호기"))
+                    {
+                        WorkModelNum = CNS_ModelNumReq(this.mainModel.PrintNo, pattern1);
+                    }
+                    else if (SettingJsonManager.mercName.Equals("인라인2호기"))
+                    {
+                        WorkModelNum = CNS_ModelNumReq(this.mainModel.PrintNo, pattern2);
+                    }
+                    else if (SettingJsonManager.mercName.Equals("인라인3호기"))
+                    {
+                        WorkModelNum = CNS_ModelNumReq(this.mainModel.PrintNo, pattern3);
+                    }
+
                     LogManager.Info("CNS사용 체크 후 바코드로 상세화면 팝업 성공" + SettingJsonManager.mercName + "/" + this.mainModel.prodID, MethodBase.GetCurrentMethod().DeclaringType);
 
                     //DB에 데이터 있는거 확인용 변수
