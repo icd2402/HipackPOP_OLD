@@ -409,7 +409,7 @@ namespace PopProject.Detail
                         recipe12 = Convert.ToInt32(Convert.ToSingle(result["Recipe12"])); //P2
                         recipe13 = Convert.ToInt32(Convert.ToSingle(result["Recipe13"])); //P3
                         recipe14 = Convert.ToInt32(Convert.ToSingle(result["Recipe14"])); //P4
-                        recipe15 = Convert.ToInt32(Convert.ToSingle(result["Recipe15"])); //
+                        recipe15 = Convert.ToInt32(Convert.ToSingle(result["Recipe15"])); //1,2,호기는 뒷날개
                         recipe16 = Convert.ToInt32(Convert.ToSingle(result["Recipe16"])); //
                         recipe17 = Convert.ToInt32(Convert.ToSingle(result["Recipe17"])); //
                         recipe18 = Convert.ToInt32(Convert.ToSingle(result["Recipe18"])); //
@@ -2779,6 +2779,7 @@ namespace PopProject.Detail
 
                     if (SettingJsonManager.mercName.Equals("후렉소1호기"))
                     {
+
                         WorkModelNum = CNS_ModelNumReq(this.mainModel.PrintNo, pattern1);
                     }
                     else if (SettingJsonManager.mercName.Equals("인라인2호기"))

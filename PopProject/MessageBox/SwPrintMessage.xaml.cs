@@ -33,6 +33,12 @@ namespace PopProject.MessageBox
         FixedPage Set_FixedPage1;
         FixedDocument FixedDocument1;
 
+        ClsUc_완제품명세서_Control4add.ProductReport pr12 = new ClsUc_완제품명세서_Control4add.ProductReport();
+        ClsUc_완제품명세서_Control4add 완제품명세서_Uc12 = new ClsUc_완제품명세서_Control4add();
+        ClsUc_명세서_Report2 명세서양식_Uc12 = new ClsUc_명세서_Report2();
+        FixedPage Set_FixedPage2;
+        FixedDocument FixedDocument2;
+
         MainModel mainModel;
         DetailModel detailitem;
         PrintWindow reportWindow;
@@ -40,6 +46,7 @@ namespace PopProject.MessageBox
         private readonly int metrialBJKey;
         private readonly string scmServerIndex;
         private readonly string scmDBName;
+        private bool igVisible = false;
 
         public SwPrintMessage(MainModel main, DetailModel detailitem)
         {
@@ -59,6 +66,13 @@ namespace PopProject.MessageBox
             if (SettingJsonManager.productionCheck)
             {
                 production_check.IsChecked = true;
+            }
+
+            if (SettingJsonManager.corp_name.Equals("우리포장산업"))
+            {
+                account_check.Margin = new Thickness(20,10,0,0);
+                production_check.Margin = new Thickness(0,10,0,0);
+                IG_check.Margin = new Thickness(-20,10,0,0);
             }
 
             //부착수 콤보박스
@@ -321,6 +335,11 @@ namespace PopProject.MessageBox
                     }
                     pr1.corpName = (bool)account_check.IsChecked ? "" : mainModel.corpName;
                     pr1.MycustomSName = (bool)production_check.IsChecked ? "" : SettingJsonManager.corp_name.Equals("대양포장") ? "    " : SettingJsonManager.corp_name;
+                   
+                    if (igVisible)
+                    {
+                        pr1.corpName = SettingJsonManager.corp_name;
+                    }
 
                     Print_(pr1.customSName,
                         result["prodName"].ToString(),
@@ -330,9 +349,7 @@ namespace PopProject.MessageBox
                         DateTime.Today.ToString("yyyy/MM/dd"),
                         result["pStockKey"].ToString()
                         );
-
                 }
-
             }
             catch (Exception ex)
             {
@@ -341,6 +358,7 @@ namespace PopProject.MessageBox
             Close();
         }
 
+        //우리포장
         private void Print_(string customSName, string prodName, string orderLast, string pMemo, string pSize, string DateTime, string pStockKey)
         {
             //출력 매수가 1장일떄
@@ -355,12 +373,14 @@ namespace PopProject.MessageBox
                 {
                     pr1.loadCount = box_Count.Text.ToString();
                 }
-                
+
+
                 완제품명세서_Uc1.ViewModel = pr1;
-                완제품명세서_Uc1.Set_BarCode();
+                완제품명세서_Uc1.Set_BarCode(igVisible);
                 Grid.SetRow(완제품명세서_Uc1, 0);
                 명세서양식_Uc.ItemPanel.Children.Add(완제품명세서_Uc1);
                 Set_FixedPage.Children.Add(명세서양식_Uc as UIElement);
+                                              
 
                 PageContent Set_PageContent = new PageContent();
                 // 픽셀 페이지 페이지 콘텐츠 객체 자식 형태로 저장
@@ -416,7 +436,7 @@ namespace PopProject.MessageBox
             pr1.loadCount = remainder.ToString();
 
             완제품명세서_Uc1.ViewModel = pr1;
-            완제품명세서_Uc1.Set_BarCode();
+            완제품명세서_Uc1.Set_BarCode(igVisible);
             Grid.SetRow(완제품명세서_Uc1, 0);
             명세서양식_Uc.ItemPanel.Children.Add(완제품명세서_Uc1);
             Set_FixedPage.Children.Add(명세서양식_Uc as UIElement);
@@ -653,7 +673,7 @@ namespace PopProject.MessageBox
             }
 
             완제품명세서_Uc11.ViewModel = pr1;
-            완제품명세서_Uc11.Set_BarCode();
+            완제품명세서_Uc11.Set_BarCode(igVisible);
             Grid.SetRow(완제품명세서_Uc11, 0);
 
             명세서양식_Uc1.ItemPanel.Children.Add(완제품명세서_Uc11);
@@ -678,6 +698,26 @@ namespace PopProject.MessageBox
             reportWindow.Close();
             this.Focus();
             this.Close();
+        }
+
+        //입고처,입고일 표현 체크(우리포장 요청)
+        private void IG_check_Checked(object sender, RoutedEventArgs e)
+        {
+            igVisible = true;
+            Console.WriteLine("tttt");
+        }
+        
+        //입고처,입고일 표현 미체크(우리포장 요청)
+        private void IG_check_Unchecked(object sender, RoutedEventArgs e)
+        {
+            igVisible = false;
+            Console.WriteLine("ffff");
+
+        }
+
+        private void metrialinfo_IG_search ()
+        {
+
         }
     }
 }

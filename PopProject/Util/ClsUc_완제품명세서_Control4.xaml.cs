@@ -19,9 +19,16 @@ namespace PopProject.Util
         }
 
 
-        public void Set_BarCode()
+        public void Set_BarCode(bool igState) //igState 
         {
             this.DataContext = ViewModel;
+
+
+            if (igState)
+            {
+                title1.Content = "입고일자";
+                title2.Content = "입 고 처";
+            }
         }
 
         public class ProductReport

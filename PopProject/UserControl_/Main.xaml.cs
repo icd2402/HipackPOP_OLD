@@ -1395,8 +1395,8 @@ namespace PopProject.UserControl_
                             }
                         }
 
-                        if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("인라인2호기") ||
-                            SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("인라인3호기"))
+                        if (SettingJsonManager.corp_name.Equals("오주포장") && (SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기")) ||
+                            SettingJsonManager.corp_name.Equals("오주포장테스트") && (SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기")))
                         {
                             if (listitem.ProcessType == 7 || listitem.ProcessType == 8) //후렉소(1), 1공장철(7), 베가(8), 인라인(13)
                             {
@@ -1531,7 +1531,8 @@ namespace PopProject.UserControl_
                             }
                         }
                         //오주포장 (풀접합)
-                        else if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("풀접합"))
+                        else if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("풀접합") ||
+                                 SettingJsonManager.corp_name.Equals("오주포장테스트") && SettingJsonManager.mercName.Equals("풀접합"))
                         {
                             if (listitem.ProcessType == 8 || listitem.ProcessType == 7 || listitem.ProcessType == 5) //7:철접합  8: 풀접합
                             {

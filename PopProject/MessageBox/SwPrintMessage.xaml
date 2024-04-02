@@ -24,10 +24,9 @@
                 </StackPanel.Background>
             </StackPanel>
             <StackPanel Grid.Row="1" Orientation="Vertical" Background="White" >
-                <TextBlock  Text="제품명세서를 출력 하시겠습니까?" Foreground="Black" VerticalAlignment="Center"  FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" Margin="60,30,10,0"/>
-
-
-                <StackPanel Orientation="Horizontal" Margin="0,30,0,0"  x:Name="pallet">
+                <TextBlock  Text="제품명세서를 출력 하시겠습니까?" Foreground="Black" VerticalAlignment="Center"  FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" Margin="60,20,10,0"/>
+                
+                <StackPanel Orientation="Horizontal" Margin="0,20,0,0"  x:Name="pallet">
                     <TextBlock  Text="총수량 : " Foreground="Black" VerticalAlignment="Center"  FontSize="20" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,0,0,0"/>
                     <TextBlock x:Name="total_count" Text="1000"   Margin="0,3,0,0" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Canvas.Left="262" TextAlignment="Left" Width="70"  Foreground="#26414A" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="Pallet_count"/>
                     <TextBlock  Text="적재수량 : " Foreground="Black" VerticalAlignment="Center"  FontSize="20" FontWeight="Bold" HorizontalAlignment="Left" />
@@ -43,6 +42,7 @@
                         </ComboBox>
                     </Border>
                 </StackPanel>
+                
                 <StackPanel Orientation="Horizontal" Height="33"  >
                     <CheckBox  x:Name="account_check"  Content="거래처공백" Margin="60,10,0,0"  HorizontalAlignment="Left" Width="120">
                         <CheckBox.LayoutTransform>
@@ -54,16 +54,21 @@
                             <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                         </CheckBox.LayoutTransform>
                     </CheckBox>
+                    <CheckBox  x:Name="IG_check"  Content="입고처표현" Margin="40,10,0,0"   HorizontalAlignment="Left" Width="85" Checked="IG_check_Checked" Unchecked="IG_check_Unchecked" >
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" x:Name="set_count" Margin="0,10" >
+                
+                <StackPanel Orientation="Horizontal" x:Name="set_count" Margin="0,20" >
                     <TextBlock  Text="출력 매수 : " Foreground="Black" VerticalAlignment="Center"  FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" Margin="150,0,10,0"/>
                     <TextBox x:Name="copy_count" Text="1" Focusable="False"     Margin="0,0,30,0" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Right" Width="70" Canvas.Top="434" Foreground="#26414A" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="Copy_count_click" />
-                  
                     <!--<Image Height="40" Width="60" Source="/img/plus_01.png" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="10,0,5,0" MouseLeftButtonDown="Result_count_minus"></Image>
                     <Image  Height="40" Width="60" Source="/img/plus_02.png" HorizontalAlignment="Right" VerticalAlignment="Bottom"  MouseLeftButtonDown="Result_count_plus"></Image>-->
-
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Height="50" x:Name="print_stack">
+                
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Height="50" x:Name="print_stack">
                     <TextBlock Text="취소" Padding="0,12,0,0" TextAlignment="Center"  Width="100" FontSize="20" Foreground="White" VerticalAlignment="Bottom" Margin="100,0,0,0" Height="50" MouseDown="Messagebox_exit">
                         <TextBlock.Background>
                             <ImageBrush ImageSource="/img/back_06.png"/>
@@ -75,13 +80,8 @@
                             <ImageBrush ImageSource="/img/back_06.png"/>
                         </TextBlock.Background>
                     </TextBlock>
-
-
                 </StackPanel>
-
             </StackPanel>
-
-
         </Grid>
     </Border>
 </Window>

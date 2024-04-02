@@ -115,7 +115,7 @@
                 </DockPanel>
 
                 <DockPanel>
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="거 래 처" HorizontalContentAlignment="Center" Height="70"  Width="152" />
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="거 래 처" HorizontalContentAlignment="Center" Height="70"  Width="152" x:Name="title2" />
                     <Label Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource 명세서value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding corpName}" />
 
                 </DockPanel>

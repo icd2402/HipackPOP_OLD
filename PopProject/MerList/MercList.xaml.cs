@@ -57,7 +57,7 @@ namespace PopProject.MerList
                         }
                     }
 
-                    if (SettingJsonManager.corp_name.Equals("오주포장"))
+                    if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
                     {
                         // 해당 순서로 정렬
                         List<string> customOrder = new List<string>
