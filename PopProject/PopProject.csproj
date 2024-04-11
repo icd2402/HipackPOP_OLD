@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.425</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.426</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>426</ApplicationRevision>
+    <ApplicationRevision>427</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -331,6 +331,10 @@
     <Compile Include="Input\Ip_input.xaml.cs">
       <DependentUpon>Ip_input.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Input\Notice.xaml.cs">
+      <DependentUpon>Notice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Input\NoticeModel.cs" />
     <Compile Include="Input\Plc_Pop.xaml.cs">
       <DependentUpon>Plc_Pop.xaml</DependentUpon>
     </Compile>
@@ -548,6 +552,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Input\Ip_input.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Input\Notice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -57,6 +57,10 @@
         <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_01.png" Margin="0,11,95,11" MouseLeftButtonDown="Remote_click"/>
         <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_exit.png" Margin="0,11,5,11" MouseLeftButtonDown="Program_exit"/>
 
+        <!--공지사항-->
+        <TextBlock x:Name="notice" MouseLeftButtonDown ="notice_MouseLeftButtonDown" Visibility="Collapsed" Background="DimGray" Foreground="White" FontSize="23"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="9" Margin="872,82,0,0" FontFamily="/font/#KoPubBatang Medium" Text="공지사항" Grid.RowSpan="2"></TextBlock>
+
+
         <!--날짜-->
         <TextBlock x:Name="txtDate"  FontSize="23" VerticalAlignment="Top" Text="2020년 10월 28일 화요일"  Margin="220,27,792,0"  FontFamily="/font/#KoPubBatang Medium" MouseLeftButtonDown="TxtDate_MouseLeftButtonDown"/>
         <TextBlock x:Name="txtClock"   FontSize="23" VerticalAlignment="Top" Text="오전 11:11" Margin="220,60,792,0"  FontFamily="/font/#KoPubBatang Medium" MouseLeftButtonDown="TxtTime_MouseLeftButtonDown"/>

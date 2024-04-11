@@ -2,7 +2,7 @@
 using PopProject.KeyBoard;
 using PopProject.Util;
 using System;
-
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -136,6 +136,7 @@ namespace PopProject.Input
 
                 if (returnData.결과 == 1)
                 {
+                    LogManager.Info("실수요자 생산결과 수정 완료", MethodBase.GetCurrentMethod().DeclaringType);
 
                     Close();
                 }
@@ -186,6 +187,7 @@ namespace PopProject.Input
 
                 if (returnData.결과 == 1)
                 {
+                    LogManager.Info("일반 생산결과 수정 완료", MethodBase.GetCurrentMethod().DeclaringType);
                     SettingJsonManager.presultcount = float.Parse(pworkCount.Text);
                     SettingJsonManager.SaveJsonFile();
                     Close();

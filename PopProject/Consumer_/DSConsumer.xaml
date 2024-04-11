@@ -46,8 +46,8 @@
             <TextBlock Canvas.Left="480" Canvas.Top="11" FontSize="18" Text="이전 생산량" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock Canvas.Left="580" Canvas.Top="11" FontSize="18" Text="금일 생산량" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock Canvas.Left="690" Canvas.Top="11" FontSize="18" Text="총 생산량" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock Canvas.Left="850" Canvas.Top="11" FontSize="18" Text="비고" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock Canvas.Left="1104" Canvas.Top="11" FontSize="18" Text="상태" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock Canvas.Left="895" Canvas.Top="11" FontSize="18" Text="비고" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock Canvas.Left="1105" Canvas.Top="11" FontSize="18" Text="상태" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
         </Canvas>
 
         <Border Grid.Row="2" Margin="5,10,5,5" BorderBrush="Black" BorderThickness="1,1,1,1" Background="WhiteSmoke" Focusable="False">

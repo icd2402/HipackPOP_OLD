@@ -88,6 +88,16 @@ namespace PopProject.Detail
             pSize.Text = mainModel.pSize;
             PreviewKeyDown += OnPreviewKeyDown;
 
+            //바코드로 입장시
+            if (Barcode_Enter)
+            {
+                LogManager.Info("바코드로 Detail창 팝업", MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            else
+            {
+                LogManager.Info("일반 Detail창 팝업", MethodBase.GetCurrentMethod().DeclaringType);
+            }
+
             //dateTimeManager = DateTimeManager.Instance; // DateTimeManager 객체 생성
 
             Console.WriteLine("ProdID : " + mainModel.prodID);
@@ -158,6 +168,8 @@ namespace PopProject.Detail
 
                     if (returnDataCheck.결과 == 1)
                     {
+                        LogManager.Info("PopCNSSearch2 조회 완료", MethodBase.GetCurrentMethod().DeclaringType);
+
                         string machineName = "";
                         string ProdID = "";
                         int pock = 0;
@@ -177,12 +189,14 @@ namespace PopProject.Detail
                         //DB에 데이터가 있을경우
                         if (ProdID != "" && pock * jang != 0)
                         {
+                            LogManager.Info("CNS DB데이터 전송", MethodBase.GetCurrentMethod().DeclaringType);
                             DB_DataOK = true;
                             CNS_DB_Send(); //DB 데이터 전송
                         }
                         //DB에 데이터가 없을경우
                         else
                         {
+                            LogManager.Info("CNS 신규데이터 전송", MethodBase.GetCurrentMethod().DeclaringType);
                             DB_DataOK = false;
                             CNS_defaultData_Send(); //신규 데이터 전송
                         }
@@ -572,6 +586,7 @@ namespace PopProject.Detail
                             mainSock.Send(bDts);
                         }
                     });
+                    LogManager.Info("CNS DB 데이터 전송 완료", MethodBase.GetCurrentMethod().DeclaringType);
                 }
                 catch (Exception)
                 {
@@ -808,10 +823,13 @@ namespace PopProject.Detail
 
                 //데이터 쓰기
                 mainSock.Send(bDts);
-
+                
+                LogManager.Info("CNS 신규 데이터 전송 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
             catch (Exception)
             {
+                LogManager.Error("CNS 신규 데이터 전송 실패", MethodBase.GetCurrentMethod().DeclaringType);
+
             }
             finally
             {
@@ -1152,10 +1170,12 @@ namespace PopProject.Detail
 
                     if (returnData.결과 == 1)
                     {
+                        LogManager.Info("CNS => DB 저장 완료", MethodBase.GetCurrentMethod().DeclaringType);
                         MessageBoxResult result = System.Windows.MessageBox.Show("저장 완료.", "CNS 데이터 저장");
                     }
                     else
                     {
+                        LogManager.Error("CNS => DB 저장 실패", MethodBase.GetCurrentMethod().DeclaringType);
                         MessageBoxResult resultf = System.Windows.MessageBox.Show("저장 실패.", "CNS 데이터 저장");
                     }
                     cnsProcessing = false;
@@ -1166,6 +1186,7 @@ namespace PopProject.Detail
             }
             catch (Exception)
             {
+                LogManager.Error("CNS => DB 저장 실패", MethodBase.GetCurrentMethod().DeclaringType);
                 MessageBox_Dialog messageBox = new MessageBox_Dialog("레시피 저장 실패");
                 _ = messageBox.ShowDialog();
                 mainSock.Close();
@@ -1234,19 +1255,29 @@ namespace PopProject.Detail
                     PALLET_D = result["PALLET_D"].ToString();
                     string UpDatetime = result["UpDatetime"].ToString();
                 }
+                LogManager.Info("spSelIFrobotdata_info 로봇데이터 조회 완료", MethodBase.GetCurrentMethod().DeclaringType);
 
                 //DB에 데이터가 있으면
                 if (Data_Jarry.Count > 0)
                 {
+                    LogManager.Info("DB에 저장된 로봇 데이터 있음", MethodBase.GetCurrentMethod().DeclaringType);
+
                     //로봇으로 데이터 전송
                     DataSend(BOX_W, BOX_H, BOX_D, BOX_DADAN, BOX_DANSU, BOX_PAT, PALLET_W, PALLET_H, PALLET_D);
                 }
                 else //저장된 데이터가 없으면 로봇설정 창 팝업
                 {
+                    LogManager.Info("DB에 저장된 로봇 데이터 없음", MethodBase.GetCurrentMethod().DeclaringType);
+
                     Main.robot_Setting = new Robot_Setting(mainModel.prodID, mainModel.customSName, mainModel.prodName);
                     Main.robot_Setting.ShowDialog();
                     Main.robot_Setting = null;
                 }
+                
+            }
+            else
+            {
+                LogManager.Error("spSelIFrobotdata_info 로봇데이터 조회 실패", MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 
@@ -1366,6 +1397,7 @@ namespace PopProject.Detail
 
                     mainSock.Send(bDts); //데이터 쓰기
 
+                    LogManager.Info("로봇으로 데이터 전송 완료", MethodBase.GetCurrentMethod().DeclaringType);
                 }
                 catch (Exception)
                 {
@@ -1379,6 +1411,7 @@ namespace PopProject.Detail
             }
             else
             {
+                LogManager.Error("로봇으로 데이터 전송 실패", MethodBase.GetCurrentMethod().DeclaringType);
                 mainSock.Close();
                 msg = new MessageBox_Dialog("로봇 연결 실패!!");
                 msg.ShowDialog();
@@ -2308,6 +2341,8 @@ namespace PopProject.Detail
         // 상세 화면 종료
         private void Detail_close(object sender, MouseButtonEventArgs e)
         {
+            LogManager.Info("Detail화면 종료", MethodBase.GetCurrentMethod().DeclaringType);
+
             try
             {
                 Main.passCheck = true;
@@ -2356,6 +2391,8 @@ namespace PopProject.Detail
         //제품명세서 출력 요청 
         private void Image_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
         {
+            LogManager.Info("제품명세서 발행 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+
             if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("지온"))
             {
                 SwPrintMessage swPrintMessage = new SwPrintMessage(mainModel, Detailitem);
@@ -2379,7 +2416,8 @@ namespace PopProject.Detail
         //시작 버튼
         private void Image_MouseLeftButtonDown_2(object sender, MouseButtonEventArgs e)
         {
-            //Close();
+            LogManager.Info("Detail화면의 시작버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+
             switch (metrialitem)
             {
                 case "19": //마닐라 
@@ -2522,6 +2560,8 @@ namespace PopProject.Detail
         //넘기기 버튼
         private void Pass_detailInfo(object sender, MouseButtonEventArgs e)
         {
+            LogManager.Info("Detail화면 넘기기 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+
             Border clickedBorder = (Border)sender;
             clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D353D"));
 
@@ -2556,6 +2596,8 @@ namespace PopProject.Detail
         //박스적재 창고
         private void Wharehouse(object sender, MouseButtonEventArgs e)
         {
+            LogManager.Info("Detail화면 박스적재창고 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+
             Wharehouse_info wharehouse = new Wharehouse_info(mainModel,Detailitem.LocationName);
             wharehouse.ShowDialog();
             DetailSearch();
@@ -2564,6 +2606,8 @@ namespace PopProject.Detail
         //가입고 버튼 클릭
         private void GIGButton_Click(object sender, RoutedEventArgs e)
         {
+            LogManager.Info("Detail화면 가입고 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+
             IgSmModel item = ((Button)sender).DataContext as IgSmModel;
 
             Win_GigUpdate win_GigUpdate = new Win_GigUpdate(item.metrialBJKey, item.SCMServerIndex, item.SCMDBName);
@@ -2582,6 +2626,8 @@ namespace PopProject.Detail
         //CNS 레시피 저장 버튼
         private void CNS_Save_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            LogManager.Info("Detail화면 CNS 레시피 저장버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+
             Border clickedBorder = (Border)sender;
             clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D353D"));
 
@@ -2614,6 +2660,7 @@ namespace PopProject.Detail
         //금화 R값 클릭 down
         private void R_Value_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+
             Border clickedBorder = (Border)sender;
             clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D353D"));
         }
@@ -2621,6 +2668,8 @@ namespace PopProject.Detail
         //금화 R값 클릭 up
         private void R_Value_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            LogManager.Info("Detail화면 R값 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+
             Border clickedBorder = (Border)sender;
             clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#485563"));
 
@@ -2640,6 +2689,8 @@ namespace PopProject.Detail
         //금화 타공 값 클릭 up
         private void H_Value_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            LogManager.Info("Detail화면 타공값 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+
             Border clickedBorder = (Border)sender;
             clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#485563"));
 
@@ -2663,6 +2714,8 @@ namespace PopProject.Detail
 
             if (returnData.결과 == 1)
             {
+                LogManager.Info("rRegistaSearch 조회 완료", MethodBase.GetCurrentMethod().DeclaringType);
+
                 string RValue = "";
 
                 JArray Data_Jarry = JArray.Parse(returnData.리턴값);
@@ -2674,6 +2727,7 @@ namespace PopProject.Detail
             }
             else
             {
+                LogManager.Error("rRegistaSearch 조회 실패", MethodBase.GetCurrentMethod().DeclaringType);
                 MessageBox_Dialog msg = new MessageBox_Dialog("rRegistaSearch 조회 오류!!");
                 msg.ShowDialog();
                 Console.WriteLine("rRegistaSearch 실패");
@@ -2694,6 +2748,8 @@ namespace PopProject.Detail
 
             if (returnData.결과 == 1)
             {
+                LogManager.Info("holeRegistaSearch 조회 완료", MethodBase.GetCurrentMethod().DeclaringType);
+
                 string HValue = "";
 
                 JArray Data_Jarry = JArray.Parse(returnData.리턴값);
@@ -2705,6 +2761,7 @@ namespace PopProject.Detail
             }
             else
             {
+                LogManager.Error("holeRegistaSearch 조회 실패", MethodBase.GetCurrentMethod().DeclaringType);
                 MessageBox_Dialog msg = new MessageBox_Dialog("holeRegistaSearch 조회 오류!!");
                 msg.ShowDialog();
                 Console.WriteLine("holeRegistaSearch 실패");
@@ -2779,7 +2836,6 @@ namespace PopProject.Detail
 
                     if (SettingJsonManager.mercName.Equals("후렉소1호기"))
                     {
-
                         WorkModelNum = CNS_ModelNumReq(this.mainModel.PrintNo, pattern1);
                     }
                     else if (SettingJsonManager.mercName.Equals("인라인2호기"))

@@ -1,0 +1,59 @@
+﻿<Window x:Class="PopProject.Input.Notice"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PopProject.Input"
+        mc:Ignorable="d"
+        Title="공지사항" Height="550" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/img/back_02.png"/>
+        </Grid.Background>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Canvas Grid.Row="0" Background="White" Opacity="0.5"/>
+        <Canvas x:Name="cName" Grid.Row="0">
+            <TextBlock Text="No" FontSize="18" Canvas.Top="10" Canvas.Left="20" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock Text="공정" FontSize="18" Canvas.Top="10" Canvas.Left="100" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock Text="내용" FontSize="18" Canvas.Top="10" Canvas.Left="420" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock Text="날짜" FontSize="18" Canvas.Top="10" Canvas.Left="710" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+        </Canvas>
+
+        <Border x:Name="NoticeListBorder" Grid.Row="1" Margin="5,10,5,5" BorderBrush="Black" BorderThickness="1,1,1,1" Background="WhiteSmoke" Focusable="False">
+            <ScrollViewer x:Name="sv" VerticalScrollBarVisibility="Visible" >
+
+                <ItemsControl x:Name="ic" Focusable="False"  AlternationCount="10000" >
+                    
+                    <ItemsControl.ItemsPanel >
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" Focusable="False" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    
+                    <ItemsControl.ItemTemplate  >
+                        <DataTemplate x:Name="dt" >
+                            <Canvas  Height="40" Focusable="False" PreviewMouseLeftButtonDown="Canvas_PreviewMouseDown"  >
+
+                                <!--넘버-->
+
+                                <!--공정 구분-->
+                                <TextBlock Canvas.Left="100" Canvas.Top="10" FontSize="16" Width="100" TextAlignment="Center" Text="{Binding mLmW}" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold" />
+
+                                <!--내용-->
+                                <!--날짜-->
+
+
+                            </Canvas>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+
+    </Grid>
+</Window>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -213,11 +214,14 @@ namespace PopProject.KeyBoard
                         {
                             inputContext.pworkCount = SettingJsonManager.option1 ? int.Parse(txtbox.Text) * inputContext.pCnt : int.Parse(txtbox.Text);
                             inputContext.count = SettingJsonManager.option1 ? int.Parse(txtbox.Text) * inputContext.pCnt : int.Parse(txtbox.Text);
+                            LogManager.Info("키보드 생산 값: " + inputContext.count, MethodBase.GetCurrentMethod().DeclaringType);
+
                         }
 
                         else if (errorContext != null)
                         {
                             errorContext.perrCount = SettingJsonManager.option1 ? int.Parse(txtbox.Text) * pCnt : int.Parse(txtbox.Text);
+                            LogManager.Info("키보드 불량 값: " + errorContext.perrCount, MethodBase.GetCurrentMethod().DeclaringType);
                         }
 
                         Close();

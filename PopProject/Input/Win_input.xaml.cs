@@ -58,6 +58,7 @@ namespace PopProject.Input
 
         private bool success = false; //CNS 통신연결 확인
         private bool startPBLock = false;
+        private int inLineDone = 0;
 
         private DateTime selectedDate = new DateTime();
 
@@ -879,8 +880,11 @@ namespace PopProject.Input
                 //Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
                 SettingJsonManager.SaveJsonFile();
                 mainModel.sDatetime = DateTimeManager.GetSelectedStr(); //yyyy-MM-dd HH:mm:ss
-                CountManager.SendMsg(SettingJsonManager.mercName, "S");
-                CountManager.SendMsg(SettingJsonManager.mercName, "0");
+                if (!SettingJsonManager.corp_name.Equals("오주포장") && !SettingJsonManager.corp_name.Equals("오주포장테스트"))
+                {
+                    CountManager.SendMsg(SettingJsonManager.mercName, "S");
+                    CountManager.SendMsg(SettingJsonManager.mercName, "0");
+                }
                 SettingJsonManager.count = 0;
                 SettingJsonManager.saveDate = "";
                 SettingJsonManager.pplanKey = 0;
@@ -1129,9 +1133,27 @@ namespace PopProject.Input
                 else
                 {
                     startPBLock = false;
+                    inLineDone = 0;
 
                     PopResultEnd(); //결과값 삽입
-                    
+
+                    //불량수량 자동 입력
+                    if (tbError.Text != "0" && tbError.Text != "" && textbox_error.Text != "" )
+                    {
+                        if (inputModel.pworkKey != 0)
+                        {
+                            if (popErrorInsert() == 1)
+                            {
+                                tbError.Text = "0";
+                            }
+                            else
+                            {
+                                MessageBox_Dialog msg = new MessageBox_Dialog("불량 데이터 저장 오류 !!");
+                                msg.ShowDialog();
+                            }
+                        }
+                    }
+
                     inputModel.perrCount = 0;
                     inputModel.count = 0;
                     inputModel.pMemo = "";
@@ -1677,9 +1699,9 @@ namespace PopProject.Input
                 CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
                 CountManager.SendMsg(SettingJsonManager.mercName, "0"); //
 
-                //오주포장 인라인기 온제품 처리 (철접합(7),베가(8),인라인2,3호기(13), 5는 없음)
-                if (SettingJsonManager.corp_name.Equals("오주포장") && (SettingJsonManager.processType == 5 || SettingJsonManager.processType == 7 || SettingJsonManager.processType == 8 || SettingJsonManager.processType == 13) ||
-                    SettingJsonManager.corp_name.Equals("오주포장테스트") && (SettingJsonManager.processType == 5 || SettingJsonManager.processType == 7 || SettingJsonManager.processType == 8 || SettingJsonManager.processType == 13))
+                //오주포장 인라인기 온제품 처리 (철접합(7),베가(8),인라인2,3호기(13))
+                if (SettingJsonManager.corp_name.Equals("오주포장") && (SettingJsonManager.processType == 7 || SettingJsonManager.processType == 8 || SettingJsonManager.processType == 13) ||
+                    SettingJsonManager.corp_name.Equals("오주포장테스트") && (SettingJsonManager.processType == 7 || SettingJsonManager.processType == 8 || SettingJsonManager.processType == 13))
                 {
                     for (int i = 0; i < mainModel.subOb.Count; i++)
                     {
@@ -1884,6 +1906,7 @@ namespace PopProject.Input
             return returnData.결과;
         }
 
+        //불량수량 적용 버튼
         private void Image_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
         {
             if (sender.GetType().Name.Equals("Image"))
@@ -1905,6 +1928,16 @@ namespace PopProject.Input
                             msg.ShowDialog();
                         }
                     }
+                    else
+                    {
+                        MessageBox_Dialog msg = new MessageBox_Dialog(" 생산결과 건이 있거나 \n 시작버튼을 누른 상태에서 저장해주세요.");
+                        msg.ShowDialog();
+                    }
+                }
+                else
+                {
+                    MessageBox_Dialog msg = new MessageBox_Dialog("불량 수량과 불량사유를 확인해주세요.");
+                    msg.ShowDialog();
                 }
             }
         }

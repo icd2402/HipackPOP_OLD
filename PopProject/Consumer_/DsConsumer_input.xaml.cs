@@ -202,8 +202,11 @@ namespace PopProject.Consumer_
         //확장 창 클릭
         private void ChangeButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
+
             if (checkChangeButton)
             {
+                LogManager.Info("실수요자input창 축소", MethodBase.GetCurrentMethod().DeclaringType);
+
                 changeButtonIn.Visibility = Visibility.Collapsed;
                 changeButtonOut.Visibility = Visibility.Visible;
                 checkChangeButton = false;
@@ -212,6 +215,8 @@ namespace PopProject.Consumer_
             }
             else
             {
+                LogManager.Info("실수요자input창 확장", MethodBase.GetCurrentMethod().DeclaringType);
+
                 changeButtonIn.Visibility = Visibility.Visible;
                 changeButtonOut.Visibility = Visibility.Collapsed;
                 checkChangeButton = true;
@@ -229,6 +234,8 @@ namespace PopProject.Consumer_
         //생산수량 텍스트 클릭
         private void TbResult_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            LogManager.Info("실수요자input창 생산수량 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+
             if (sender.GetType().Name.Equals("TextBox"))
             {
                 TextBox context = (TextBox)sender;
@@ -282,6 +289,8 @@ namespace PopProject.Consumer_
             // 시작 버튼 클릭
             if (inputModel.imagePath.Equals("/img/bn_05.png") && startPBLock.Equals(false))
             {
+                LogManager.Info("실수요자input 시작버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+
                 startPBLock = true;
 
                 if (Main.production != null)
@@ -322,6 +331,7 @@ namespace PopProject.Consumer_
             // 종료 버튼 클릭
             else if (inputModel.imagePath.Equals("/img/bn_06.png"))
             {
+                LogManager.Info("실수요자input 종료버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
                 startPBLock = false;
 
                 MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장", MessageBoxButton.YesNo);
@@ -970,6 +980,8 @@ namespace PopProject.Consumer_
 
             if (e.ClickCount == 2)
             {
+                LogManager.Info("실수요자input창 생산결과 수량 수정", MethodBase.GetCurrentMethod().DeclaringType);
+
                 if (sender.GetType().Name.Equals("Border"))
                 {
                     Border border = (Border)sender;

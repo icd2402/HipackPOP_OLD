@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,6 +54,7 @@ namespace PopProject.Consumer_
             InitializeComponent();
             this.mainModel = mainModel;
             CarryForwardButtonState = carryForwardButtonState;
+            LogManager.Info("실수요자 리스트 팝업", MethodBase.GetCurrentMethod().DeclaringType);
 
             // 작업중 버튼으로 창을 열면 이월버튼 숨김 (이월버튼은 대기/완료일때만 가능)
             if (!CarryForwardButtonState)
@@ -92,9 +94,6 @@ namespace PopProject.Consumer_
             ReturnModel returnData = ServiceModel.GetData(
 
                SettingJsonManager.serverIndex,
-              //"[PopWorkListMember]",
-              // new string[] { "@orderKey", "@ProcessType", "@pplanDate" },
-              // new object[] { mainModel.orderKey, mainModel.ProcessType, DateTime.Now.ToString("yyyy-MM-dd") },
                "[PopWorkListMemberPlanKey]",
                 new string[] { "@orderKey", "@ProcessType", "@pplanDate", "@pplanKey" },
                 new object[] { mainModel.orderKey, mainModel.ProcessType, DateTimeManager.GetSelectedDateStr(), mainModel.pplanKey },
@@ -214,9 +213,12 @@ namespace PopProject.Consumer_
                     }
                 }
                 Console.WriteLine("------------------------------------------------------");
+                LogManager.Info("PopWorkListMemberPlanKey 실수요자 리스트 조회 완료", MethodBase.GetCurrentMethod().DeclaringType);
+
             }
             else
             {
+                LogManager.Error("PopWorkListMemberPlanKey 실수요자 리스트 조회 오류", MethodBase.GetCurrentMethod().DeclaringType);
                 MessageBox_Dialog box = new MessageBox_Dialog("PopWorkListMember 조회 오류!!");
                 _ = box.ShowDialog();
             }
@@ -246,118 +248,118 @@ namespace PopProject.Consumer_
         
 
         //인라인 설비 DB저장
-        private int PopInlineStart(SubModel subOb)
-        {
-            Console.WriteLine("인라인시작");
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
-            ReturnModel returnData = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
-                "[PopResultStart]",
-                new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey" },
-                new object[] {
-                DateTimeManager.GetSelectedDateStr(),
-                subOb.orderKey,
-                subOb.pplanKey,
-                subOb.processType,
-                subOb.ProcessTypeName,
-                MainWindow.userID,
-                MainWindow.userName,
-                "",
-                "",
-                ""},
-                1
-                );
+        //private int PopInlineStart(SubModel subOb)
+        //{
+        //    Console.WriteLine("인라인시작");
+        //    ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+        //    ReturnModel returnData = ServiceModel.GetData(
+        //        SettingJsonManager.serverIndex,
+        //        "[PopResultStart]",
+        //        new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey" },
+        //        new object[] {
+        //        DateTimeManager.GetSelectedDateStr(),
+        //        subOb.orderKey,
+        //        subOb.pplanKey,
+        //        subOb.processType,
+        //        subOb.ProcessTypeName,
+        //        MainWindow.userID,
+        //        MainWindow.userName,
+        //        "",
+        //        "",
+        //        ""},
+        //        1
+        //        );
 
-            if (returnData.결과 == 1)
-            {
+        //    if (returnData.결과 == 1)
+        //    {
                 
-                //리턴값 저장,확인
-                Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
-                SettingJsonManager.pworkkey = returnData.리턴값;
-                SettingJsonManager.SaveJsonFile();
+        //        //리턴값 저장,확인
+        //        Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
+        //        SettingJsonManager.pworkkey = returnData.리턴값;
+        //        SettingJsonManager.SaveJsonFile();
 
-                //시작시간 저장
-                mainModel.sDatetime = (DateTime.Now.ToString("yyyy-MM-dd") == DateTimeManager.GetSelectedDateStr()) ?     
-                                       DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTimeManager.GetSelectedStr();// 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
+        //        //시작시간 저장
+        //        mainModel.sDatetime = (DateTime.Now.ToString("yyyy-MM-dd") == DateTimeManager.GetSelectedDateStr()) ?     
+        //                               DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTimeManager.GetSelectedStr();// 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
 
-                //현황판으로 시작신호 보냄
-                CountManager.SendMsg(SettingJsonManager.mercName, "S");
+        //        //현황판으로 시작신호 보냄
+        //        CountManager.SendMsg(SettingJsonManager.mercName, "S");
 
-                //값 리셋
-                SettingJsonManager.count = 0;
-                SettingJsonManager.saveDate = "";
-                SettingJsonManager.pplanKey = 0;
-                SettingJsonManager.SaveJsonFile();
+        //        //값 리셋
+        //        SettingJsonManager.count = 0;
+        //        SettingJsonManager.saveDate = "";
+        //        SettingJsonManager.pplanKey = 0;
+        //        SettingJsonManager.SaveJsonFile();
 
-                //온라인 설비 종료 실행 
-                PopInlineEnd(subOb, int.Parse(returnData.리턴값));
-            }
-            else
-            {
-                MessageBox_Dialog msg = new MessageBox_Dialog("저장실패");
-                msg.ShowDialog();
-            }
-            return returnData.결과;
+        //        //온라인 설비 종료 실행 
+        //        PopInlineEnd(subOb, int.Parse(returnData.리턴값));
+        //    }
+        //    else
+        //    {
+        //        MessageBox_Dialog msg = new MessageBox_Dialog("저장실패");
+        //        msg.ShowDialog();
+        //    }
+        //    return returnData.결과;
 
-        }
+        //}
 
-        //인라인 설비 종료
-        private void PopInlineEnd(SubModel subOb, int pWorkkey)
-        {
+        ////인라인 설비 종료
+        //private void PopInlineEnd(SubModel subOb, int pWorkkey)
+        //{
 
-            string 전체공정 = "0";
-            if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
-            {
-                if (SettingJsonManager.mercName.Contains("인라인"))
-                {
-                    if (mainModel.subOb.Count == 2)
-                    {
-                        전체공정 = "1";
-                    }
-                    else
-                    {
-                        전체공정 = "0";
-                    }
-                }
-            }
-            string arrChkAED = "1|";
+        //    string 전체공정 = "0";
+        //    if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
+        //    {
+        //        if (SettingJsonManager.mercName.Contains("인라인"))
+        //        {
+        //            if (mainModel.subOb.Count == 2)
+        //            {
+        //                전체공정 = "1";
+        //            }
+        //            else
+        //            {
+        //                전체공정 = "0";
+        //            }
+        //        }
+        //    }
+        //    string arrChkAED = "1|";
 
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
-            string parameter = "[" + subOb.ProcessTypeName + "] " + mainModel.customSName + Environment.NewLine + mainModel.prodName + " " + SettingJsonManager.consumCount.ToString("N0") + "개";
-            ReturnModel returnData = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
-                "[PopResultEnd]",
-                new string[] { "@AllChkAED","@작업일자","@오더Key","@arrChkAED","@arr공정구분","@arr계획Key","@arr작업Key","@arr작업량","@arr불량","@arr비고","@시작시간","@설비명","@전체공정"},
-                new object[] {
-                "1",
-                DateTimeManager.GetSelectedDateStr(),
-                subOb.orderKey,
-                arrChkAED,
-                subOb.processType + "|",
-                subOb.pplanKey + "|",
-                pWorkkey + "|",
-                SettingJsonManager.consumCount + "|",
-                getErrorCount() + "|",
-                "" + "|",
-                mainModel.sDatetime,
-                subOb.ProcessTypeName,
-                전체공정
-                }, 1, parameter
-              );
-            if (returnData.결과 == 1)
-            {
-                Console.WriteLine("인라인END");
+        //    ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+        //    string parameter = "[" + subOb.ProcessTypeName + "] " + mainModel.customSName + Environment.NewLine + mainModel.prodName + " " + SettingJsonManager.consumCount.ToString("N0") + "개";
+        //    ReturnModel returnData = ServiceModel.GetData(
+        //        SettingJsonManager.serverIndex,
+        //        "[PopResultEnd]",
+        //        new string[] { "@AllChkAED","@작업일자","@오더Key","@arrChkAED","@arr공정구분","@arr계획Key","@arr작업Key","@arr작업량","@arr불량","@arr비고","@시작시간","@설비명","@전체공정"},
+        //        new object[] {
+        //        "1",
+        //        DateTimeManager.GetSelectedDateStr(),
+        //        subOb.orderKey,
+        //        arrChkAED,
+        //        subOb.processType + "|",
+        //        subOb.pplanKey + "|",
+        //        pWorkkey + "|",
+        //        SettingJsonManager.consumCount + "|",
+        //        getErrorCount() + "|",
+        //        "" + "|",
+        //        mainModel.sDatetime,
+        //        subOb.ProcessTypeName,
+        //        전체공정
+        //        }, 1, parameter
+        //      );
+        //    if (returnData.결과 == 1)
+        //    {
+        //        Console.WriteLine("인라인END");
 
-            }
+        //    }
 
-            //값 초기화
-            SettingJsonManager.consumersumcount = 0;
-            SettingJsonManager.count = 0;
-            SettingJsonManager.saveDate = "";
-            SettingJsonManager.pplanKey = 0;
-            SettingJsonManager.pworkkey = "";
-            SettingJsonManager.SaveJsonFile();
-        }
+        //    //값 초기화
+        //    SettingJsonManager.consumersumcount = 0;
+        //    SettingJsonManager.count = 0;
+        //    SettingJsonManager.saveDate = "";
+        //    SettingJsonManager.pplanKey = 0;
+        //    SettingJsonManager.pworkkey = "";
+        //    SettingJsonManager.SaveJsonFile();
+        //}
 
 
         //생산 종료
@@ -421,10 +423,14 @@ namespace PopProject.Consumer_
 
             if (returnData.결과 == 1)
             {
+                LogManager.Info("PopResultEnd 실행 완료" + ", arrChkAED: " + arrChkAED, MethodBase.GetCurrentMethod().DeclaringType);
                 Main.production = null;
-
-                
             }
+            else
+            {
+                LogManager.Error("PopResultEnd 실행 실패", MethodBase.GetCurrentMethod().DeclaringType);
+            }
+
             SettingJsonManager.pplanKey = 0;
             SettingJsonManager.pworkkey = ""; 
             SettingJsonManager.SaveJsonFile();
@@ -492,17 +498,20 @@ namespace PopProject.Consumer_
                 {
                     if (product.membID.Equals(consumerModel.membID))
                     {
-                        Console.WriteLine("일치하는 싱수요자임!!");
+                        Console.WriteLine("일치하는 실수요자임!!");
                     }
+                    LogManager.Info("실수요자 대기버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
                 }
                 //작업중 버튼
                 else if (consumerModel.imgSource.Equals("/img/bn_01.png"))
                 {
+                    LogManager.Info("실수요자 작업중버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
 
                 }
                 //완료 버튼
                 else if (consumerModel.imgSource.Equals("/img/bn_03.png"))
                 {
+                    LogManager.Info("실수요자 완료버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
 
                 }
 
@@ -536,6 +545,8 @@ namespace PopProject.Consumer_
         //이월 버튼
         private void 이월(object sender, MouseButtonEventArgs e)
         {
+            LogManager.Info("실수요자 이월버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+
             이월체크 = true;
             var result = System.Windows.MessageBox.Show(mainModel.prodName + " 품목을 이월 하시겠습니까 ?", "이월", MessageBoxButton.YesNo);
 
@@ -572,11 +583,13 @@ namespace PopProject.Consumer_
 
             if (returnData.결과 == 1)
             {
+                LogManager.Info("spAdd410processinfo_workplan 실수요자 이월 완료", MethodBase.GetCurrentMethod().DeclaringType);
                 MessageBox_Dialog msg = new MessageBox_Dialog("이월 완료");
                 msg.ShowDialog();
             }
             else
             {
+                LogManager.Error("spAdd410processinfo_workplan 실행 이월 실패", MethodBase.GetCurrentMethod().DeclaringType);
                 MessageBox_Dialog msg = new MessageBox_Dialog("이월 실패");
                 msg.ShowDialog();
             }
@@ -591,6 +604,8 @@ namespace PopProject.Consumer_
         //실수요자 창 종료시
         private void consumClosed(object sender, EventArgs e)
         {
+            LogManager.Info("실수요자 창 닫기 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+
             Console.WriteLine("실수요자 리스트 닫기 = " + "pworkkey : " + SettingJsonManager.pworkkey);
             float TempTotalCount = 0;
             float TempTotalErrorCount = 0;
@@ -691,15 +706,18 @@ namespace PopProject.Consumer_
 
             if (returnData.결과 == 1)
             {
+                LogManager.Info("spUdt431processinfo_workTimeChange 실행 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
             else
             {
+                LogManager.Info("spUdt431processinfo_workTimeChange 실행 실패", MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 
         //원격연결 버튼
         private void Remote_click(object sender, MouseButtonEventArgs e)
         {
+            LogManager.Info("원격연결 버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
             _ = Process.Start("http://2007.asw.co.kr/client/index.jsp?cpcode=icd&autostart=true");
         }
     }

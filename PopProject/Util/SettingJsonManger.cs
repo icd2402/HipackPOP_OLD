@@ -103,7 +103,7 @@ namespace PopProject.Util
         // Settings.json 파일 Load, 키가 없는 경우 초기화
         public static bool LoadJsonFile()
         {
-            LogManager.Info("json → 셋팅정보(Class) Load 시작", MethodBase.GetCurrentMethod().DeclaringType);
+            //LogManager.Info("json → 셋팅정보(Class) Load 시작", MethodBase.GetCurrentMethod().DeclaringType);
 
             try
             {
@@ -277,7 +277,7 @@ namespace PopProject.Util
                     Directory.CreateDirectory(Path.GetDirectoryName(filePath));
                 }
 
-                LogManager.Info("셋팅정보(Class) → json Save 시작", MethodBase.GetCurrentMethod().DeclaringType);
+                //LogManager.Info("셋팅정보(Class) → json Save 시작", MethodBase.GetCurrentMethod().DeclaringType);
 
                 //파일 내용
                 var settings = new Dictionary<string, string>
@@ -362,7 +362,7 @@ namespace PopProject.Util
                 //인증코드 파일이 있는지 확인 후 해당 파일을 숨김 처리 (숨김 이후 수정되지 않음)
                 File.WriteAllText(filePath, json);
                  
-                LogManager.Info("셋팅정보(Class) → json Save 완료", MethodBase.GetCurrentMethod().DeclaringType);
+                //LogManager.Info("셋팅정보(Class) → json Save 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
             catch (Exception ex)
             {

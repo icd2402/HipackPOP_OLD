@@ -287,6 +287,15 @@ namespace PopProject.UserControl_
                 Console.Write("production == null, ");
             }
 
+            if (win_Input != null)
+            {
+                Console.Write("win_Input != null, ");
+            }
+            else
+            {
+                Console.Write("win_Input == null, ");
+            }
+
             if (dSConsumer != null)
             {
                 Console.WriteLine("dSConsumer != null");
@@ -641,7 +650,7 @@ namespace PopProject.UserControl_
         //}
         #endregion
 
-        #region 아두이노 신호 송/수신
+        #region
         //넘기기 신호 받는용
         private void recive(string arg1, string arg2) //설비명, 데이터
         {
@@ -653,9 +662,9 @@ namespace PopProject.UserControl_
                     //오주포장
                     switch (arg1)
                     {
-                        case "인라인3호기":
-                        case "인라인2호기":
                         case "후렉소1호기":
+                        case "인라인2호기":
+                        case "인라인3호기":
 
                             Console.WriteLine("넘기기 받은 신호" + arg1 + " : " + arg2);
 
@@ -2986,6 +2995,7 @@ namespace PopProject.UserControl_
         //바코드 읽기
         private void TbBarcode_KeyDown(object sender, KeyEventArgs e)
         {
+            Console.WriteLine("바코드 리드");
             Barcode_Scan++;
 
             MainModel tempItem = null;
@@ -3098,7 +3108,9 @@ namespace PopProject.UserControl_
 
         private void Logout_click(object sender, RoutedEventArgs e)
         {
-            setLock();
+            //setLock();
+            txtDate2.Visibility = Visibility.Visible;
+            txtDate3.Visibility = Visibility.Visible;
         }
 
         //설비명 LOCK /UNLOCK
@@ -3487,6 +3499,12 @@ namespace PopProject.UserControl_
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void notice_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Notice notice = new Notice();
+            _ = notice.ShowDialog();
         }
     }
 
