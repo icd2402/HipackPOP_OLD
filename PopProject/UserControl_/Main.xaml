@@ -43,7 +43,7 @@
         <Image x:Name="lock_img" Source="/img/lock.png" Height="23" Width="23" Visibility="Collapsed" Margin="6,83,1252,0" MouseLeftButtonDown="Logout_click"/>
 
 
-        <TextBlock x:Name="versionTextBlock" Foreground="White" Text="Ver."  TextAlignment="Justify" FontSize="15" Opacity="0.6" Margin="101,0,0,90" Width="150" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" MouseLeftButtonDown="Logout_click"></TextBlock>
+        <TextBlock x:Name="versionTextBlock" Foreground="White" Text="Ver."  TextAlignment="Justify" FontSize="15" Opacity="0.6" Margin="101,0,0,90" Width="150" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" MouseLeftButtonDown="versionTextBlock_MouseLeftButtonDown"></TextBlock>
 
 
         <!--업체명, 설비명-->

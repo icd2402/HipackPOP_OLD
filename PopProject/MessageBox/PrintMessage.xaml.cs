@@ -34,6 +34,7 @@ namespace PopProject.MessageBox
             mainModel = main;
             this.detailitem = detailitem;
 
+            //키인 체크시
             if (SettingJsonManager.keyinCheck)
             {
                 copy_count.Focusable = true;
@@ -45,15 +46,14 @@ namespace PopProject.MessageBox
                 _ = box_count.Dispatcher.BeginInvoke(new Action(() => { copy_count.SelectAll(); }));
             }
 
-            //오주, 대세, 구룡
-            if (SettingJsonManager.corp_id.Equals("3125247246") || SettingJsonManager.corp_id.Equals("C91950615") || SettingJsonManager.corp_id.Equals("766562426")) // 오주포장
+            //파렛트당 적재수량 사용
+            if (SettingJsonManager.corp_name.Equals("오주포장") || 
+                SettingJsonManager.corp_name.Equals("대세물산") || 
+                SettingJsonManager.corp_name.Equals("구룡산업제2공장") ||
+                SettingJsonManager.corp_name.Equals("대양포장")) 
             {
                 //팔레트당 적재수량 표기 
                 pallet.Visibility = Visibility.Visible;
-
-                //각종 버튼 위치 이동
-                //print_stack.Margin = new Thickness(0, 0, 0, 0);
-                //set_count.Margin = new Thickness(0, 20, 0, 0);
             }
             else//그외 업체
             {
@@ -84,15 +84,13 @@ namespace PopProject.MessageBox
                 _ = box_count.Dispatcher.BeginInvoke(new Action(() => { copy_count.SelectAll(); }));
             }
 
-            //오주, 대세, 구룡
-            if (SettingJsonManager.corp_id.Equals("3125247246") || SettingJsonManager.corp_id.Equals("C91950615") || SettingJsonManager.corp_id.Equals("766562426")) // 오주포장
+            //파렛트당 적재수량 사용
+            if (SettingJsonManager.corp_name.Equals("오주포장") ||
+                SettingJsonManager.corp_name.Equals("대세물산") ||
+                SettingJsonManager.corp_name.Equals("구룡산업제2공장"))
             {
                 //팔레트당 적재수량 표기 
                 pallet.Visibility = Visibility.Visible;
-
-                //각종 버튼 위치 이동
-                //print_stack.Margin = new Thickness(0, 0, 0, 0);
-                //set_count.Margin = new Thickness(0, 20, 0, 0);
             }
             else//그외 업체
             {

@@ -67,6 +67,7 @@ namespace PopProject.Detail
         private int 작업지시;
         private bool consumer = false;
         private bool MemoLock = true;
+        private bool PopUpPosition = false; //
 
         //private DateTimeManager dateTimeManager;
 
@@ -87,6 +88,8 @@ namespace PopProject.Detail
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
             PreviewKeyDown += OnPreviewKeyDown;
+            Loaded += DetailWindow_Loaded;
+
 
             //바코드로 입장시
             if (Barcode_Enter)
@@ -238,6 +241,39 @@ namespace PopProject.Detail
                 rValueSearch(); //금화 인쇄기 레지스타 조회
                 holeValueSearch(); //금화 인쇄기 레지스타 조회
             }
+        }
+
+        //로드 시 디테일창이 어디에 팝업됐는지 판단
+        private void DetailWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // 현재 창이 떠 있는 모니터의 정보를 얻기 위해 Left와 Top 속성을 사용
+            double left = Left;
+            double top = Top;
+
+            // 현재 창의 화면 좌표를 이용하여 화면 정보를 가져옴
+            System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromPoint(new System.Drawing.Point((int)left, (int)top));
+
+            char lastChar = screen.DeviceName[screen.DeviceName.Length - 1];
+
+            if (screen.DeviceName == "\\\\.\\DISPLAY1")
+            {
+
+                //MessageBox_Dialog msg = new MessageBox_Dialog("메인화면");
+                //_ = msg.ShowDialog();
+
+                Console.WriteLine("메인화면");
+                PopUpPosition = false;
+            }
+            else if (screen.DeviceName == "\\\\.\\DISPLAY2")
+            {
+                //MessageBox_Dialog msg = new MessageBox_Dialog("듀얼화면");
+                //_ = msg.ShowDialog();
+
+                Console.WriteLine("듀얼화면");
+                PopUpPosition = true;
+            }
+
+            Console.WriteLine($"현재 창은 {screen.DeviceName} 모니터에 있습니다.\n해상도: {screen.Bounds.Width}x{screen.Bounds.Height}");
         }
 
         public Win_Detail(MainModel mainModel, string special, bool detail_check)
@@ -2554,6 +2590,10 @@ namespace PopProject.Detail
                 {
                     WindowState = WindowState.Normal;
                 }
+            }
+            else
+            {
+
             }
         }
 

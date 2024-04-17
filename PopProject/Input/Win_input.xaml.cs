@@ -1709,7 +1709,9 @@ namespace PopProject.Input
                         {
                             if (mainModel.subOb[i].presultCount < 1)
                             {
+                                Console.WriteLine(mainModel.subOb[i].stateColor); 
                                 PopInlineStart(mainModel.subOb[i]);
+                                Console.WriteLine(mainModel.subOb[i].stateColor); 
                             }
                         }
                     }

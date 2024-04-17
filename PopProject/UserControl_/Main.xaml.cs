@@ -79,6 +79,8 @@ namespace PopProject.UserControl_
         public static string jsonString = "";
         private Canvas previousClickedCanvas = null;
         //private DateTimeManager dateTimeManager;
+        private bool isTextVisible = false; //날짜 변경버튼 
+        private string plusDate = "";
 
         public Main()
         {
@@ -1029,6 +1031,19 @@ namespace PopProject.UserControl_
         {
             Console.WriteLine("[PopWorkList] 조회: " + DateTimeManager.GetSelectedDateStr());
             wdIGCOunt = 0;
+
+            //생산계획의 미래 날짜까지 표현하고 싶을때 사용
+            if (SettingJsonManager.corp_name.Equals("금화"))
+            {
+                DateTime dt = DateTimeManager.GetSelectedDate();
+                plusDate = dt.AddDays(15).ToString("yyyy-MM-dd");
+            }
+            else
+            {
+                plusDate = DateTimeManager.GetSelectedDateStr();
+            }
+
+
             LogData logData = new LogData("조회");
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
@@ -3108,9 +3123,8 @@ namespace PopProject.UserControl_
 
         private void Logout_click(object sender, RoutedEventArgs e)
         {
-            //setLock();
-            txtDate2.Visibility = Visibility.Visible;
-            txtDate3.Visibility = Visibility.Visible;
+            setLock();
+
         }
 
         //설비명 LOCK /UNLOCK
@@ -3505,6 +3519,25 @@ namespace PopProject.UserControl_
         {
             Notice notice = new Notice();
             _ = notice.ShowDialog();
+        }
+
+        //버전 클릭시 날짜조절 가능하도록 함
+        private void versionTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!isTextVisible)
+            {
+                // 텍스트 블록이 보이지 않는 경우, 보이도록 설정
+                txtDate2.Visibility = Visibility.Visible;
+                txtDate3.Visibility = Visibility.Visible;
+                isTextVisible = true;
+            }
+            else
+            {
+                // 텍스트 블록이 보이는 경우, 숨기도록 설정
+                txtDate2.Visibility = Visibility.Collapsed;
+                txtDate3.Visibility = Visibility.Collapsed;
+                isTextVisible = false;
+            }
         }
     }
 

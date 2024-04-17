@@ -50,6 +50,8 @@ namespace PopProject.Consumer_
             this.mainModel = mainModel;
             inputModel = new InputModel();
 
+            LogManager.Info("실수요자 input창 팝업: " + consumerModel.membName + " / " + consumerModel.vendorName, MethodBase.GetCurrentMethod().DeclaringType);
+
             //이월버튼 비활성화
             box1.Visibility = Visibility.Collapsed; //이월버튼 비활성화
             Canvas.SetTop(box, 540);
@@ -205,7 +207,7 @@ namespace PopProject.Consumer_
 
             if (checkChangeButton)
             {
-                LogManager.Info("실수요자input창 축소", MethodBase.GetCurrentMethod().DeclaringType);
+                LogManager.Info("실수요자 input창 축소", MethodBase.GetCurrentMethod().DeclaringType);
 
                 changeButtonIn.Visibility = Visibility.Collapsed;
                 changeButtonOut.Visibility = Visibility.Visible;
@@ -215,7 +217,7 @@ namespace PopProject.Consumer_
             }
             else
             {
-                LogManager.Info("실수요자input창 확장", MethodBase.GetCurrentMethod().DeclaringType);
+                LogManager.Info("실수요자 input창 확장", MethodBase.GetCurrentMethod().DeclaringType);
 
                 changeButtonIn.Visibility = Visibility.Visible;
                 changeButtonOut.Visibility = Visibility.Collapsed;
@@ -234,7 +236,7 @@ namespace PopProject.Consumer_
         //생산수량 텍스트 클릭
         private void TbResult_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            LogManager.Info("실수요자input창 생산수량 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+            LogManager.Info("실수요자 input창 생산수량 클릭", MethodBase.GetCurrentMethod().DeclaringType);
 
             if (sender.GetType().Name.Equals("TextBox"))
             {
@@ -289,7 +291,7 @@ namespace PopProject.Consumer_
             // 시작 버튼 클릭
             if (inputModel.imagePath.Equals("/img/bn_05.png") && startPBLock.Equals(false))
             {
-                LogManager.Info("실수요자input 시작버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+                LogManager.Info("실수요자 input창 시작버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
 
                 startPBLock = true;
 
@@ -331,7 +333,7 @@ namespace PopProject.Consumer_
             // 종료 버튼 클릭
             else if (inputModel.imagePath.Equals("/img/bn_06.png"))
             {
-                LogManager.Info("실수요자input 종료버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+                LogManager.Info("실수요자 input창 종료버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
                 startPBLock = false;
 
                 MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장", MessageBoxButton.YesNo);
@@ -418,7 +420,7 @@ namespace PopProject.Consumer_
 
             if (SettingJsonManager.corp_name.Contains("테스트"))
             {
-                LogManager.Debug("실수요자 input창 종료 : [PopResultEndMember] : " + Environment.NewLine +
+                LogManager.Debug("실수요자 input창 결과저장 : [PopResultEndMember] : " + Environment.NewLine +
                                  "작업일자: " + DateTimeManager.GetSelectedDateStr() + Environment.NewLine +      // 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
                                  "오더Key: " + inputModel.orderKey + Environment.NewLine +
                                  "ChkAED: " + ChkAED + Environment.NewLine +
@@ -427,7 +429,7 @@ namespace PopProject.Consumer_
                                  "불량: " + inputModel.perrCount, MethodBase.GetCurrentMethod().DeclaringType);
 
                 Console.WriteLine("---------------------------------------------------------------------------" + Environment.NewLine +
-                                 "실수요자 input창 종료 : [PopResultEndMember] : " + Environment.NewLine +
+                                 "실수요자 input창 결과저장 : [PopResultEndMember] : " + Environment.NewLine +
                                  "작업일자: " + DateTimeManager.GetSelectedDateStr() + Environment.NewLine +      // 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
                                  "오더Key: " + inputModel.orderKey + Environment.NewLine +
                                  "ChkAED: " + ChkAED + Environment.NewLine +
@@ -907,6 +909,7 @@ namespace PopProject.Consumer_
 
         private void Win_input_exit(object sender, MouseButtonEventArgs e)
         {
+            LogManager.Info("실수요자 input창 닫기 클릭", MethodBase.GetCurrentMethod().DeclaringType);
             Close();
         }
 
@@ -980,7 +983,7 @@ namespace PopProject.Consumer_
 
             if (e.ClickCount == 2)
             {
-                LogManager.Info("실수요자input창 생산결과 수량 수정", MethodBase.GetCurrentMethod().DeclaringType);
+                LogManager.Info("실수요자 input창 생산결과 수량 수정", MethodBase.GetCurrentMethod().DeclaringType);
 
                 if (sender.GetType().Name.Equals("Border"))
                 {
