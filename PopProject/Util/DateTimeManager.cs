@@ -9,24 +9,15 @@ namespace PopProject.Util
 {
     public static class DateTimeManager
     {
-        //private static DateTimeManager instance;
         static private DispatcherTimer timer;
         static private DateTime nowDT = new DateTime();
         static private DateTime selectedDT = new DateTime();
-
-        //static private string currentDateTime; // 날짜,시간
-        //static private string currentDate; // 날짜
-        //static private string currentTime; // 시간
 
         static DateTimeManager()
         {
             //초기 설정
             nowDT = DateTime.Now;
             selectedDT = DateTime.Now;
-
-            //currentDate = DateTime.Now.ToString("yyyy-MM-dd");
-            //currentDateTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
-
             StartTimer();
         }
 

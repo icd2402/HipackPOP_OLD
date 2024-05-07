@@ -96,19 +96,6 @@ namespace PopProject.Util
                 log.Debug(_msg);
             }
         }
-        //private static void CheckFolderExits(string path)
-        //{
-        //    if (Directory.Exists(path) == false)
-        //    {
-        //        CreateFolder(path);
-        //    }
-        //}
-
-        //private static void CreateFolder(string path)
-        //{
-        //    Directory.CreateDirectory(path);
-        //    Info("폴더가 생성되었습니다: " + path, MethodBase.GetCurrentMethod().DeclaringType);
-        //}
 
         private static void SetLogOptions()
         {

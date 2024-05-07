@@ -80,7 +80,7 @@ namespace PopProject.Input
             completeValue.IsChecked = SettingJsonManager.completeValue_checked; //완료항목 제거
             detailPass.IsChecked = SettingJsonManager.detailPass; //상세창 넘기기 사용
             detailPopup.IsChecked = SettingJsonManager.detailPopup; //상세창 먼저 팝업 사용
-
+            windowMax.IsChecked = SettingJsonManager.windowState; //윈도우 창 설정
 
             //자재명세서 출력정보 화면
             count_check.IsChecked = SettingJsonManager.count_check; //총수량 표현
@@ -1188,6 +1188,13 @@ namespace PopProject.Input
         private void detailPopup_Checked(object sender, RoutedEventArgs e)
         {
             SettingJsonManager.detailPopup = detailPopup.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
+        }
+
+        //윈도우 전체화면 설정
+        private void windowMax_Checked(object sender, RoutedEventArgs e)
+        {
+            SettingJsonManager.windowState = windowMax.IsChecked.Value;
             SettingJsonManager.SaveJsonFile();
         }
 

@@ -20,6 +20,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PopProject.KeyBoard;
 using PopProject.input;
+using System.Windows.Threading;
 
 namespace PopProject.Detail
 {
@@ -67,7 +68,8 @@ namespace PopProject.Detail
         private int 작업지시;
         private bool consumer = false;
         private bool MemoLock = true;
-        private bool PopUpPosition = false; //
+        private bool PopUpPosition_M = false; //
+        private bool PopUpPosition_S = false; //
 
         //private DateTimeManager dateTimeManager;
 
@@ -89,6 +91,8 @@ namespace PopProject.Detail
             pSize.Text = mainModel.pSize;
             PreviewKeyDown += OnPreviewKeyDown;
             Loaded += DetailWindow_Loaded;
+
+            Timer_1s();         // 1초
 
 
             //바코드로 입장시
@@ -262,7 +266,7 @@ namespace PopProject.Detail
                 //_ = msg.ShowDialog();
 
                 Console.WriteLine("메인화면");
-                PopUpPosition = false;
+                Properties.Settings.Default.PopUpPosition_M = true;
             }
             else if (screen.DeviceName == "\\\\.\\DISPLAY2")
             {
@@ -270,10 +274,56 @@ namespace PopProject.Detail
                 //_ = msg.ShowDialog();
 
                 Console.WriteLine("듀얼화면");
-                PopUpPosition = true;
+                Properties.Settings.Default.PopUpPosition_S = true;
             }
 
             Console.WriteLine($"현재 창은 {screen.DeviceName} 모니터에 있습니다.\n해상도: {screen.Bounds.Width}x{screen.Bounds.Height}");
+        }
+
+        private void Detail_Unloaded(object sender, RoutedEventArgs e)
+        {
+            // 현재 창이 떠 있는 모니터의 정보를 얻기 위해 Left와 Top 속성을 사용
+            double left = Left;
+            double top = Top;
+
+            // 현재 창의 화면 좌표를 이용하여 화면 정보를 가져옴
+            System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromPoint(new System.Drawing.Point((int)left, (int)top));
+
+            char lastChar = screen.DeviceName[screen.DeviceName.Length - 1];
+
+            if (screen.DeviceName == "\\\\.\\DISPLAY1")
+            {
+
+                //MessageBox_Dialog msg = new MessageBox_Dialog("메인화면");
+                //_ = msg.ShowDialog();
+
+                Console.WriteLine("메인화면 종료");
+                Properties.Settings.Default.PopUpPosition_M = false;
+            }
+            else if (screen.DeviceName == "\\\\.\\DISPLAY2")
+            {
+                //MessageBox_Dialog msg = new MessageBox_Dialog("듀얼화면");
+                //_ = msg.ShowDialog();
+
+                Console.WriteLine("듀얼화면 종료");
+                Properties.Settings.Default.PopUpPosition_S = false;
+            }
+        }
+
+        private void Timer_1s()
+        {
+            timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            timer.Tick += new EventHandler(Timer_1s_Tick);
+            timer.Start();
+        }
+
+        // 시계, 바코드, 종료시간 체크
+        private void Timer_1s_Tick(object sender, EventArgs e)
+        {
+            
         }
 
         public Win_Detail(MainModel mainModel, string special, bool detail_check)
@@ -2178,6 +2228,7 @@ namespace PopProject.Detail
                         else
                         {
                             tb손잡이위치.Text = Detailitem.HandPosition;
+                            tb손잡이위치.Foreground = Brushes.Blue; //금화 요청
                         }
 
                         //디자인No.
@@ -2277,6 +2328,7 @@ namespace PopProject.Detail
                         else
                         {
                             tb손잡이.Text = Detailitem.handChk;
+                            tb손잡이.Foreground = Brushes.Blue; //금화 요청
                         }
 
                         //접합방법
@@ -2570,21 +2622,56 @@ namespace PopProject.Detail
                 {
                     System.Drawing.Rectangle rec;
 
-                    if (SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기"))
+                    //오주포장
+                    if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
                     {
-                        //메인화면 팝업
-                        rec = System.Windows.Forms.Screen.AllScreens[0].WorkingArea;
+                        if (SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기"))
+                        {
+                            //메인화면 팝업
+                            rec = System.Windows.Forms.Screen.AllScreens[0].WorkingArea;
+                        }
+                        else
+                        {
+                            //듀얼화면 팝업
+                            rec = System.Windows.Forms.Screen.AllScreens[1].WorkingArea;
+                        }
+
+                        if (SettingJsonManager.mercName.Equals("후렉소1호기"))
+                        {
+                            if (!Properties.Settings.Default.PopUpPosition_M && !Properties.Settings.Default.PopUpPosition_S) //둘다 false
+                            {
+                                rec = System.Windows.Forms.Screen.AllScreens[1].WorkingArea;
+                            }
+                            else if (!Properties.Settings.Default.PopUpPosition_M && Properties.Settings.Default.PopUpPosition_S) //듀얼창만 true
+                            {
+                                rec = System.Windows.Forms.Screen.AllScreens[0].WorkingArea;
+                            }
+                            else if (Properties.Settings.Default.PopUpPosition_M && !Properties.Settings.Default.PopUpPosition_S) //메인창만 true
+                            {
+                                rec = System.Windows.Forms.Screen.AllScreens[1].WorkingArea;
+                            }
+                            else if (Properties.Settings.Default.PopUpPosition_M && Properties.Settings.Default.PopUpPosition_S) //둘다 true
+                            {
+
+                            }
+
+                        }
+
+                        Left = rec.Left + 40;
+                        Top = rec.Top + 40;
+                        WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                        WindowState = WindowState.Normal;
                     }
                     else
                     {
                         //듀얼화면 팝업
                         rec = System.Windows.Forms.Screen.AllScreens[1].WorkingArea;
-                    }
 
-                    Left = rec.Left + 40;
-                    Top = rec.Top + 40;
-                    WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                    WindowState = WindowState.Normal;
+                        Left = rec.Left + 40;
+                        Top = rec.Top + 40;
+                        WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                        WindowState = WindowState.Normal;
+                    }
                 }
                 else
                 {
@@ -2593,7 +2680,7 @@ namespace PopProject.Detail
             }
             else
             {
-
+                 
             }
         }
 
@@ -2809,6 +2896,8 @@ namespace PopProject.Detail
         }
 
         bool cnsProcessing = false;
+        private DispatcherTimer timer;
+
         //데이터 수신 요청
         private void CNSDataRead() 
         {
@@ -2933,6 +3022,11 @@ namespace PopProject.Detail
                     }
                 }
             }
+
+        }
+
+        private void tbBarcode_KeyDown(object sender, KeyEventArgs e)
+        {
 
         }
     }

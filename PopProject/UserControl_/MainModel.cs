@@ -1317,7 +1317,8 @@ namespace PopProject.UserControl_
                 _inputModel = value;
             }
         }
-       
+
+        public object MainScrollViewer { get; internal set; }
     }
 
     public class SubModel :ViewModelBase
@@ -1851,6 +1852,20 @@ namespace PopProject.UserControl_
             {
                 _workM2 = value;
                 onPropertyChanged("workM2");
+            }
+        }
+
+        private int _aaa;
+        public int aaa
+        {
+            get
+            {
+                return _aaa;
+            }
+            set
+            {
+                _aaa = value;
+                onPropertyChanged("aaa");
             }
         }
     }

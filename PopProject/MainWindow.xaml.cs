@@ -58,6 +58,9 @@ namespace PopProject
                     
                     // 로긴 확인 및 MainCP Load
                     MainCP.Content = new Login();
+
+                    //윈도우 전체화면 옵션
+                    WindowState = SettingJsonManager.windowState ? WindowState.Maximized : WindowState.Normal;
                 }
                 else
                 {

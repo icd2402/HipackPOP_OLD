@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PopProject.Detail"
         mc:Ignorable="d"
-       Title="Win_Detail" Height="890" Width="1230" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" Loaded="Detail_Loaded">
+       Title="Win_Detail" Height="890" Width="1230" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" Loaded="Detail_Loaded" Unloaded="Detail_Unloaded">
     <Border BorderBrush="Black"  BorderThickness="1">
         <Canvas>
             <Image x:Name="jonggu" Width="287" Height="183" Canvas.Left="266" Canvas.Top="350"></Image>
@@ -14,6 +14,8 @@
             <TextBlock Text="공정" FontSize="24" Foreground="White" Canvas.Top="18" Canvas.Left="25" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
             <TextBlock Text="세부정보" FontSize="24" Foreground="White" Canvas.Top="18" Canvas.Left="79" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown ="hiddenBt"></TextBlock>
             <Border BorderBrush="Black" Height="890" Canvas.Left="557" BorderThickness="0,0,1,0"/>
+            <TextBox x:Name="tbBarcode" Text="00000000000" Background="Black" HorizontalAlignment="Left" Width="80" Height="12" Visibility="Visible" Opacity="0.2" KeyDown="tbBarcode_KeyDown"  Canvas.Left="19" Canvas.Top="48"/>
+
             <!--<TextBlock Text="최종 수정 일자:" FontSize="18" Foreground="White" Canvas.Top="21" Canvas.Left="311" FontFamily="/font/#KoPubDotum Medium"></TextBlock>
             <TextBlock Text="2019.10.23" FontSize="18" Foreground="White" Canvas.Top="21" Canvas.Left="446" FontFamily="/font/#KoPubDotum Medium" ></TextBlock>-->
             <Image Source="/img/back_04.png" Canvas.Top="62" Canvas.Left="-3" Width="560"/>
@@ -25,7 +27,7 @@
             <TextBlock Name="prodName"  Text="{Binding prodName}" FontSize="38" Foreground="White" Canvas.Left="27" Canvas.Top="135" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock Name="boxType" Text="{Binding boxType }" FontSize="22" Foreground="White" Canvas.Left="406" Canvas.Top="180"/>
             <Image Source="/img/b_02.png" Canvas.Left="430" Canvas.Top="2" MouseDown="Detail_List"/>
-            
+
             <Border x:Name="robot" BorderThickness="2" Background="#495664" CornerRadius="5" BorderBrush="#43505E" Width="101" Height="45" Canvas.Top="9" Canvas.Left="215"   VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="robot_setting">
                 <TextBlock Text="로봇 설정" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="/font/#KoPubDotum Light" Foreground="White" />
             </Border>

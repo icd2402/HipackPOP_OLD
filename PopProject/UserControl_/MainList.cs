@@ -1270,5 +1270,19 @@ namespace PopProject.UserControl_
                 _inputModel = value;
             }
         }
+
+        private int _aaa;
+        public int aaa
+        {
+            get
+            {
+                return _aaa;
+            }
+            set
+            {
+                _aaa = value;
+                onPropertyChanged("aaa");
+            }
+        }
     }
 }

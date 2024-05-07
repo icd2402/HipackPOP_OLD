@@ -42,9 +42,7 @@
         <Image x:Name="unlock_img" Source="/img/unlock.png" Height="23" Width="23" Visibility="Collapsed" Margin="1,83,1252,0" MouseLeftButtonDown="Logout_click"/>
         <Image x:Name="lock_img" Source="/img/lock.png" Height="23" Width="23" Visibility="Collapsed" Margin="6,83,1252,0" MouseLeftButtonDown="Logout_click"/>
 
-
         <TextBlock x:Name="versionTextBlock" Foreground="White" Text="Ver."  TextAlignment="Justify" FontSize="15" Opacity="0.6" Margin="101,0,0,90" Width="150" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" MouseLeftButtonDown="versionTextBlock_MouseLeftButtonDown"></TextBlock>
-
 
         <!--업체명, 설비명-->
         <TextBlock x:Name="corp_name" Foreground="White" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="24,36,0,0" ></TextBlock>
@@ -68,7 +66,8 @@
         <TextBlock x:Name="txtDate3" Text="   》 " FontSize="22" FontWeight="Bold" VerticalAlignment="Center"  Visibility="Collapsed" HorizontalAlignment="Center" Margin="467,24,764,56" Width="49" MouseLeftButtonDown="Date_Click2"/>
 
         <!--바코드-->
-        <TextBox x:Name="tbBarcode" Text="00000000000" Background="#DE3D52" HorizontalAlignment="Left" Width="80" Height="20" Visibility="Visible" Opacity="0.2" KeyDown="TbBarcode_KeyDown" Margin="20,0,0,90"></TextBox>
+        <!--KeyDown="TbBarcode_KeyDown"-->
+        <TextBox x:Name="tbBarcode" Text="" Background="#DE3D52" HorizontalAlignment="Left" Width="80" Height="20" Visibility="Visible" Opacity="0.2" Margin="20,0,0,90"></TextBox>
 
         <!--상단 바-->
         <Canvas Grid.Row="1" Background="White" Opacity="0.5"/>

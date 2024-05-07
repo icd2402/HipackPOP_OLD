@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PopProject"
         mc:Ignorable="d"
-        Title="Win_TimePicke" Height="130" Width="400" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen">
+        Title="Win_TimePicke" Height="140" Width="400" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen">
     <Border BorderThickness="1" BorderBrush="Black">
         <Grid>
             <Grid.RowDefinitions>
@@ -13,6 +13,7 @@
                 <RowDefinition Height="98"/>
             </Grid.RowDefinitions>
             <Image Source="/img/back_06.png" Stretch="Fill"  MouseLeftButtonDown="Image_MouseLeftButtonDown"></Image>
+            <TextBlock Text="PC 자동 종료 예약" FontSize="20" TextAlignment="Center"  Width="170" Height="27" FontWeight="Normal" Foreground="White"/>
             <Button HorizontalAlignment="Right" Width="30" Background="{x:Null}" BorderBrush="{x:Null}" Content="X" Foreground="White" FontSize="20" Click="Button_Click_4"></Button>
             <Grid Grid.Row="1">
                 <Button Content="▲"  FontSize="30" Height="48" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Hour_up" Grid.RowSpan="2"/>
