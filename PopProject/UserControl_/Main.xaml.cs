@@ -122,10 +122,6 @@ namespace PopProject.UserControl_
                 tbDB_lock.Visibility = Visibility.Hidden;
                 btnDB_lock.Visibility = Visibility.Hidden;
 
-
-                Properties.Settings.Default.PopUpPosition_S = false;
-                Properties.Settings.Default.PopUpPosition_S = false;
-
                 try
                 {
                     SignalRAdministrator conn = new SignalRAdministrator();
@@ -216,12 +212,11 @@ namespace PopProject.UserControl_
                     {
                         SelectWorkList(); //생산 계획 리스트 조회
                     }
-                    ResultSearchDate(); //생산 결과 리스트 조회
 
+                    ResultSearchDate(); //생산 결과 리스트 조회
                     Timer_1s();         // 1초 - 시계, 바코드, 종료시간 체크
                     Timer_60s();        // 60초(1분) - POP 켜짐 신호 전송
                     Timer_300s();       // 300초(5분) - 계획/결과 갱신, 아두이노 연결 확인, 카운팅 값 전송
-
                 }
                 else
                 {
@@ -237,7 +232,6 @@ namespace PopProject.UserControl_
                 MessageBox_Dialog box = new MessageBox_Dialog("");
                 Console.WriteLine(e.Message);
                 LogManager.Error("메인화면 업로드 실패 : " + e.Message, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
             }
         }
 
@@ -279,12 +273,15 @@ namespace PopProject.UserControl_
             }
             else
             {
-                if (Properties.Settings.Default.PopUpPosition_M == false)
-                {
-                    //바코드
-                    _ = tbBarcode.Focus();
-                    tbBarcode.SelectAll();
-                }
+                //if (Properties.Settings.Default.PopUpPosition_M == false)
+                //{
+                //    //바코드
+                //    _ = tbBarcode.Focus();
+                //    tbBarcode.SelectAll();
+                //}
+
+                _ = tbBarcode.Focus();
+                tbBarcode.SelectAll();
             }
 
             //실시간 확인용
@@ -410,7 +407,7 @@ namespace PopProject.UserControl_
                 }
 
                 //실수요자 리스트 팝업 안됐을때만 갱신
-                if (dSConsumer == null && win_Input == null && !searchListWindow.IsVisible)
+                if (dSConsumer == null && win_Input == null)
                 {
                     SelectWorkList();
                     ResultSearchDate();
@@ -3014,151 +3011,19 @@ namespace PopProject.UserControl_
             }
         }
 
-        private List<Win_Detail> activeDetails = new List<Win_Detail>();
         int Barcode_Scan = 0;
 
         //바코드 읽기
-        //private void TbBarcode_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    Console.WriteLine("바코드 리드");
-        //    Barcode_Scan++;
-
-        //    MainModel tempItem = null;
-
-        //    CNS_Barcode_Send = false;
-        //    string code = tbBarcode.Text; //바코드 값 저장 
-        //    _ = int.TryParse(code, out int pCode); //바코드 값  정수로 변환
-
-
-        //    //바코드 정보 있으면
-        //    if (pCode > 0)
-        //    {
-        //        //workList.orderKey와 pCode값과 같은지 검사
-        //        if (workList.Count(x => x.orderKey == pCode.ToString()) > 0)
-        //        {
-        //            tempItem = workList.FirstOrDefault(x => x.orderKey == pCode.ToString());
-        //        }
-        //    }
-
-        //    //일치하는 계획이 없으면 실행
-        //    if (Barcode_Scan == 11 && tempItem == null)
-        //    {
-        //        Barcode_Scan = 0;
-
-        //        MessageBox_Dialog box = new MessageBox_Dialog("일치하는 생산 계획이 없습니다.");
-        //        _ = box.ShowDialog();
-        //    }
-
-        //    //일치하는 계획건 찾으면 실행
-        //    if (tempItem != null)
-        //    {
-        //        Barcode_Scan = 0;
-
-        //        tbBarcode.Text = "";
-        //        //can.Visibility = Visibility.Visible;
-        //        string special = "";
-        //        for (int i = 0; i < workList.Count; i++)
-        //        {
-        //            if (tempItem.orderKey.Equals(workList[i].orderKey.ToString()))
-        //            {
-        //                special += workList[i].ProcessTypeName + " 참고 사항 : " + workList[i].ProcessMemo + "|";
-        //            }
-        //        }
-
-        //        //디테일창 팝업
-        //        try
-        //        {
-        //            //PLC 사용시 
-        //            CNS_Barcode_Send = SettingJsonManager.Plc ? true : false;
-
-        //            if ((SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트")) && SettingJsonManager.mercName.Equals("후렉소1호기"))
-        //            {
-        //                Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send);
-        //                activeDetails.Add(win_Detail);
-        //                win_Detail.Show();
-        //            }
-        //            else
-        //            {
-        //                Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send);
-        //                _ = win_Detail.ShowDialog();
-        //                win_Input = null;
-        //                win_Detail = null;
-        //            }
-        //        }
-        //        catch (Exception e1)
-        //        {
-        //            LogManager.Error("디테일 창 팝업 실패 : " + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
-        //        }
-
-        //        //생산중이면
-        //        if (production != null)
-        //        {
-        //            try
-        //            {
-        //                arduSerial.Write("B"); //아두이노 현재카운터 요청
-        //            }
-        //            catch (Exception ex)
-        //            {                                                                                                                               
-        //                string exception = ex.Message;
-        //            }
-
-        //        }
-        //        //can.Visibility = Visibility.Collapsed;
-        //    }
-        //    e.Handled = false;
-        //}
-
-        #region BarcodeCheck
-        private void BarcodeCheck()
+        private void TbBarcode_KeyDown(object sender, KeyEventArgs e)
         {
-        }
-        #endregion
-
-
-        private System.Threading.Timer timers;
-        private void StartTimer()
-        {
-            Console.WriteLine("StartTimer() 실행");
-            // 타이머 시작, 1초마다 Callback 메소드 호출
-            timers = new System.Threading.Timer(Callback, null, 0, 1000);
-        }
-
-        private void Callback(object state)
-        {
-            Console.WriteLine("Callback(object state) 실행");
-
-            // Task를 사용하여 백그라운드 작업 수행
-            Task.Run(() =>
-            {
-                // UI 컨트롤에 안전하게 접근하기 위해 Dispatcher 사용
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    // TextBox에 포커스 주고 전체 선택
-                    tbBarcode.Focus();
-                    tbBarcode.SelectAll();
-                });
-
-                // 여기에 추가적인 백그라운드 로직 구현
-                ProcessBarcode();
-            });
-        }
-
-        private void ProcessBarcode()
-        {
-            Console.WriteLine("ProcessBarcode() 실행");
-
+            Console.WriteLine("바코드 리드");
             Barcode_Scan++;
 
             MainModel tempItem = null;
 
             CNS_Barcode_Send = false;
-            string code = "";
-
-            Application.Current.Dispatcher.Invoke(() => {
-                code = tbBarcode.Text; 
-            });
+            string code = tbBarcode.Text; //바코드 값 저장 
             _ = int.TryParse(code, out int pCode); //바코드 값  정수로 변환
-            Console.WriteLine("pCode: " + code);
 
 
             //바코드 정보 있으면
@@ -3183,10 +3048,12 @@ namespace PopProject.UserControl_
             //일치하는 계획건 찾으면 실행
             if (tempItem != null)
             {
+                Console.WriteLine("일치라는 계획건 찾음");
+
                 Barcode_Scan = 0;
 
                 tbBarcode.Text = "";
-                //can.Visibility = Visibility.Visible;
+                can.Visibility = Visibility.Visible;
                 string special = "";
                 for (int i = 0; i < workList.Count; i++)
                 {
@@ -3196,30 +3063,20 @@ namespace PopProject.UserControl_
                     }
                 }
 
-                //디테일창 팝업
                 try
                 {
                     //PLC 사용시 
                     CNS_Barcode_Send = SettingJsonManager.Plc ? true : false;
 
-                    if ((SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트")) && SettingJsonManager.mercName.Equals("후렉소1호기"))
-                    {
-                        Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send);
-                        activeDetails.Add(win_Detail);
-                        win_Detail.Show();
-                    }
-                    else
-                    {
-                        Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send);
-                        _ = win_Detail.ShowDialog();
-                        win_Input = null;
-                        win_Detail = null;
-                    }
+                    Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send);
+                    _ = win_Detail.ShowDialog();
+                    win_Input = null;
+                    win_Detail = null;
                 }
                 catch (Exception e1)
                 {
-                    Console.WriteLine("예외");
                     LogManager.Error("디테일 창 팝업 실패 : " + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
+                    LogManager.Error("디테일 창 팝업 실패 : " + e1.StackTrace, MethodBase.GetCurrentMethod().DeclaringType);
                 }
 
                 //생산중이면
@@ -3231,25 +3088,14 @@ namespace PopProject.UserControl_
                     }
                     catch (Exception ex)
                     {
-                    Console.WriteLine("예외");
                         string exception = ex.Message;
                     }
 
                 }
-                //can.Visibility = Visibility.Collapsed;
+                can.Visibility = Visibility.Collapsed;
             }
-
+            e.Handled = false;
         }
-
-
-
-
-
-
-
-
-
-
 
         private void Sv_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {

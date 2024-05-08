@@ -67,7 +67,7 @@
 
         <!--바코드-->
         <!--KeyDown="TbBarcode_KeyDown"-->
-        <TextBox x:Name="tbBarcode" Text="" Background="#DE3D52" HorizontalAlignment="Left" Width="80" Height="20" Visibility="Visible" Opacity="0.2" Margin="20,0,0,90"></TextBox>
+        <TextBox x:Name="tbBarcode" Text="" Background="#DE3D52" HorizontalAlignment="Left" Width="80" Height="20" Visibility="Visible" Opacity="0.2" Margin="20,0,0,90" KeyDown="TbBarcode_KeyDown"></TextBox>
 
         <!--상단 바-->
         <Canvas Grid.Row="1" Background="White" Opacity="0.5"/>

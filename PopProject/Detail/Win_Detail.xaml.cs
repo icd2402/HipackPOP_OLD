@@ -68,8 +68,6 @@ namespace PopProject.Detail
         private int 작업지시;
         private bool consumer = false;
         private bool MemoLock = true;
-        private bool PopUpPosition_M = false; //
-        private bool PopUpPosition_S = false; //
 
         //private DateTimeManager dateTimeManager;
 
@@ -91,8 +89,6 @@ namespace PopProject.Detail
             pSize.Text = mainModel.pSize;
             PreviewKeyDown += OnPreviewKeyDown;
             Loaded += DetailWindow_Loaded;
-
-            Timer_1s();         // 1초
 
 
             //바코드로 입장시
@@ -228,9 +224,21 @@ namespace PopProject.Detail
             {
                 wharehouse.Visibility = Visibility.Collapsed;
             }
+
             DetailSearch(); //세부정보 조회 (왼쪽화면)
-            MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
             PopSearchPhoto(); //인쇄사양 조회
+
+            //우리6사 원단 입고,발주내역 
+            if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("신우수출포장테스트") ||
+                SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("누리팩테스트") ||
+                SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("우리포장산업테스트") ||
+                SettingJsonManager.corp_name.Equals("채움팩") || SettingJsonManager.corp_name.Equals("채움팩테스트") ||
+                SettingJsonManager.corp_name.Equals("유램") || SettingJsonManager.corp_name.Equals("유램테스트") ||
+                SettingJsonManager.corp_name.Equals("지온") || SettingJsonManager.corp_name.Equals("지온테스트"))
+            {
+                MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
+            }
+
 
             R_Value.Visibility = SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트") ? Visibility.Visible : Visibility.Collapsed;
             R_Value.Visibility = SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트") ? Visibility.Visible : Visibility.Collapsed;
@@ -266,7 +274,6 @@ namespace PopProject.Detail
                 //_ = msg.ShowDialog();
 
                 Console.WriteLine("메인화면");
-                Properties.Settings.Default.PopUpPosition_M = true;
             }
             else if (screen.DeviceName == "\\\\.\\DISPLAY2")
             {
@@ -274,7 +281,6 @@ namespace PopProject.Detail
                 //_ = msg.ShowDialog();
 
                 Console.WriteLine("듀얼화면");
-                Properties.Settings.Default.PopUpPosition_S = true;
             }
 
             Console.WriteLine($"현재 창은 {screen.DeviceName} 모니터에 있습니다.\n해상도: {screen.Bounds.Width}x{screen.Bounds.Height}");
@@ -298,7 +304,6 @@ namespace PopProject.Detail
                 //_ = msg.ShowDialog();
 
                 Console.WriteLine("메인화면 종료");
-                Properties.Settings.Default.PopUpPosition_M = false;
             }
             else if (screen.DeviceName == "\\\\.\\DISPLAY2")
             {
@@ -306,25 +311,9 @@ namespace PopProject.Detail
                 //_ = msg.ShowDialog();
 
                 Console.WriteLine("듀얼화면 종료");
-                Properties.Settings.Default.PopUpPosition_S = false;
             }
         }
 
-        private void Timer_1s()
-        {
-            timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(1)
-            };
-            timer.Tick += new EventHandler(Timer_1s_Tick);
-            timer.Start();
-        }
-
-        // 시계, 바코드, 종료시간 체크
-        private void Timer_1s_Tick(object sender, EventArgs e)
-        {
-            
-        }
 
         public Win_Detail(MainModel mainModel, string special, bool detail_check)
         {
@@ -2634,27 +2623,6 @@ namespace PopProject.Detail
                         {
                             //듀얼화면 팝업
                             rec = System.Windows.Forms.Screen.AllScreens[1].WorkingArea;
-                        }
-
-                        if (SettingJsonManager.mercName.Equals("후렉소1호기"))
-                        {
-                            if (!Properties.Settings.Default.PopUpPosition_M && !Properties.Settings.Default.PopUpPosition_S) //둘다 false
-                            {
-                                rec = System.Windows.Forms.Screen.AllScreens[1].WorkingArea;
-                            }
-                            else if (!Properties.Settings.Default.PopUpPosition_M && Properties.Settings.Default.PopUpPosition_S) //듀얼창만 true
-                            {
-                                rec = System.Windows.Forms.Screen.AllScreens[0].WorkingArea;
-                            }
-                            else if (Properties.Settings.Default.PopUpPosition_M && !Properties.Settings.Default.PopUpPosition_S) //메인창만 true
-                            {
-                                rec = System.Windows.Forms.Screen.AllScreens[1].WorkingArea;
-                            }
-                            else if (Properties.Settings.Default.PopUpPosition_M && Properties.Settings.Default.PopUpPosition_S) //둘다 true
-                            {
-
-                            }
-
                         }
 
                         Left = rec.Left + 40;
