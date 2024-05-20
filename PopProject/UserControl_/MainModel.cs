@@ -1854,5 +1854,19 @@ namespace PopProject.UserControl_
                 onPropertyChanged("workM2");
             }
         }
+
+        private int _aaa;
+        public int aaa
+        {
+            get
+            {
+                return _aaa;
+            }
+            set
+            {
+                _aaa = value;
+                onPropertyChanged("aaa");
+            }
+        }
     }
 }

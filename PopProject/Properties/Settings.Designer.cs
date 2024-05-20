@@ -850,5 +850,29 @@ namespace PopProject.Properties {
                 this["dbUse"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool PopUpPosition_M {
+            get {
+                return ((bool)(this["PopUpPosition_M"]));
+            }
+            set {
+                this["PopUpPosition_M"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool PopUpPosition_S {
+            get {
+                return ((bool)(this["PopUpPosition_S"]));
+            }
+            set {
+                this["PopUpPosition_S"] = value;
+            }
+        }
     }
 }
