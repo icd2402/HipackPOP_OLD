@@ -3019,95 +3019,95 @@ namespace PopProject.UserControl_
         int Barcode_Scan = 0;
 
         //바코드 읽기
-        //private void TbBarcode_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    Console.WriteLine("바코드 리드");
-        //    Barcode_Scan++;
+        private void TbBarcode_KeyDown(object sender, KeyEventArgs e)
+        {
+            Console.WriteLine("바코드 리드");
+            Barcode_Scan++;
 
-        //    MainModel tempItem = null;
+            MainModel tempItem = null;
 
-        //    CNS_Barcode_Send = false;
-        //    string code = tbBarcode.Text; //바코드 값 저장 
-        //    _ = int.TryParse(code, out int pCode); //바코드 값  정수로 변환
+            CNS_Barcode_Send = false;
+            string code = tbBarcode.Text; //바코드 값 저장 
+            _ = int.TryParse(code, out int pCode); //바코드 값  정수로 변환
 
 
-        //    //바코드 정보 있으면
-        //    if (pCode > 0)
-        //    {
-        //        //workList.orderKey와 pCode값과 같은지 검사
-        //        if (workList.Count(x => x.orderKey == pCode.ToString()) > 0)
-        //        {
-        //            tempItem = workList.FirstOrDefault(x => x.orderKey == pCode.ToString());
-        //        }
-        //    }
+            //바코드 정보 있으면
+            if (pCode > 0)
+            {
+                //workList.orderKey와 pCode값과 같은지 검사
+                if (workList.Count(x => x.orderKey == pCode.ToString()) > 0)
+                {
+                    tempItem = workList.FirstOrDefault(x => x.orderKey == pCode.ToString());
+                }
+            }
 
-        //    //일치하는 계획이 없으면 실행
-        //    if (Barcode_Scan == 11 && tempItem == null)
-        //    {
-        //        Barcode_Scan = 0;
+            //일치하는 계획이 없으면 실행
+            if (Barcode_Scan == 11 && tempItem == null)
+            {
+                Barcode_Scan = 0;
 
-        //        MessageBox_Dialog box = new MessageBox_Dialog("일치하는 생산 계획이 없습니다.");
-        //        _ = box.ShowDialog();
-        //    }
+                MessageBox_Dialog box = new MessageBox_Dialog("일치하는 생산 계획이 없습니다.");
+                _ = box.ShowDialog();
+            }
 
-        //    //일치하는 계획건 찾으면 실행
-        //    if (tempItem != null)
-        //    {
-        //        Barcode_Scan = 0;
+            //일치하는 계획건 찾으면 실행
+            if (tempItem != null)
+            {
+                Barcode_Scan = 0;
 
-        //        tbBarcode.Text = "";
-        //        //can.Visibility = Visibility.Visible;
-        //        string special = "";
-        //        for (int i = 0; i < workList.Count; i++)
-        //        {
-        //            if (tempItem.orderKey.Equals(workList[i].orderKey.ToString()))
-        //            {
-        //                special += workList[i].ProcessTypeName + " 참고 사항 : " + workList[i].ProcessMemo + "|";
-        //            }
-        //        }
+                tbBarcode.Text = "";
+                //can.Visibility = Visibility.Visible;
+                string special = "";
+                for (int i = 0; i < workList.Count; i++)
+                {
+                    if (tempItem.orderKey.Equals(workList[i].orderKey.ToString()))
+                    {
+                        special += workList[i].ProcessTypeName + " 참고 사항 : " + workList[i].ProcessMemo + "|";
+                    }
+                }
 
-        //        //디테일창 팝업
-        //        try
-        //        {
-        //            //PLC 사용시 
-        //            CNS_Barcode_Send = SettingJsonManager.Plc ? true : false;
+                //디테일창 팝업
+                try
+                {
+                    //PLC 사용시 
+                    CNS_Barcode_Send = SettingJsonManager.Plc ? true : false;
 
-        //            if ((SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트")) && SettingJsonManager.mercName.Equals("후렉소1호기"))
-        //            {
-        //                Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send);
-        //                activeDetails.Add(win_Detail);
-        //                win_Detail.Show();
-        //            }
-        //            else
-        //            {
-        //                Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send);
-        //                _ = win_Detail.ShowDialog();
-        //                win_Input = null;
-        //                win_Detail = null;
-        //            }
-        //        }
-        //        catch (Exception e1)
-        //        {
-        //            LogManager.Error("디테일 창 팝업 실패 : " + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
-        //        }
+                    if ((SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트")) && SettingJsonManager.mercName.Equals("후렉소1호기"))
+                    {
+                        Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send);
+                        activeDetails.Add(win_Detail);
+                        win_Detail.Show();
+                    }
+                    else
+                    {
+                        Win_Detail win_Detail = new Win_Detail(tempItem, special, workList, SettingJsonManager.detail_check, CNS_Barcode_Send);
+                        _ = win_Detail.ShowDialog();
+                        win_Input = null;
+                        win_Detail = null;
+                    }
+                }
+                catch (Exception e1)
+                {
+                    LogManager.Error("디테일 창 팝업 실패 : " + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
+                }
 
-        //        //생산중이면
-        //        if (production != null)
-        //        {
-        //            try
-        //            {
-        //                arduSerial.Write("B"); //아두이노 현재카운터 요청
-        //            }
-        //            catch (Exception ex)
-        //            {                                                                                                                               
-        //                string exception = ex.Message;
-        //            }
+                //생산중이면
+                if (production != null)
+                {
+                    try
+                    {
+                        arduSerial.Write("B"); //아두이노 현재카운터 요청
+                    }
+                    catch (Exception ex)
+                    {
+                        string exception = ex.Message;
+                    }
 
-        //        }
-        //        //can.Visibility = Visibility.Collapsed;
-        //    }
-        //    e.Handled = false;
-        //}
+                }
+                //can.Visibility = Visibility.Collapsed;
+            }
+            e.Handled = false;
+        }
 
         #region BarcodeCheck
         private void BarcodeCheck()
