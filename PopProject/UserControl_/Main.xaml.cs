@@ -135,12 +135,13 @@ namespace PopProject.UserControl_
                 {
                     LogManager.Error("SignalR 연결 오류" + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
                 }
-               
+
                 //날짜 변경 버튼 활성화
                 if (SettingJsonManager.corp_name.Equals("대세물산") || 
                     SettingJsonManager.corp_name.Equals("유창포장") || 
                     SettingJsonManager.corp_name.Equals("광성수출포장") ||
-                    SettingJsonManager.corp_name.Contains("테스트"))
+                    SettingJsonManager.corp_name.Contains("테스트") ||
+                    Environment.MachineName.Equals("PRG-PJH-DESK"))
                 {
                     txtDate2.Visibility = Visibility.Visible;
                     txtDate3.Visibility = Visibility.Visible;
@@ -410,7 +411,7 @@ namespace PopProject.UserControl_
                 }
 
                 //실수요자 리스트 팝업 안됐을때만 갱신
-                if (dSConsumer == null && win_Input == null && !searchListWindow.IsVisible)
+                if (dSConsumer == null && win_Input == null)
                 {
                     SelectWorkList();
                     ResultSearchDate();
@@ -2816,7 +2817,7 @@ namespace PopProject.UserControl_
                     //아두이노 현재값 요청
                     if (production != null)
                     {
-                        arduSerial.Write("B");
+                        //arduSerial.Write("B");
                     }
 
                     e.Handled = false;

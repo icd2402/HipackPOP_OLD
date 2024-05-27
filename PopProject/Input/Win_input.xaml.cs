@@ -628,6 +628,8 @@ namespace PopProject.Input
                         fontVisible = Visibility.Collapsed
                     };
 
+                    DateTime parsedDate;
+
                     ob.Add(startItem);
                     foreach (JObject result in Data_JArray)
                     {
@@ -1041,6 +1043,42 @@ namespace PopProject.Input
             LogManager.Info("인풋창 닫기", MethodBase.GetCurrentMethod().DeclaringType);
         }
 
+        //취소 버튼 클릭
+        private void Win_input_cancel(object sender, MouseButtonEventArgs e)
+        {
+            //종료버튼 활성화 일때
+            if (inputModel.imagePath.Equals("/img/bn_06.png"))
+            {
+                MessageBoxResult result = System.Windows.MessageBox.Show("작업을 취소하면 결과가 저장되지 않습니다." + Environment.NewLine + "정말로 취소 하시겠습니까?", "작업 취소", MessageBoxButton.YesNo);
+
+                if (result == MessageBoxResult.No)
+                {
+                    //Close();
+                }
+                else
+                {
+                    PopResultEnd("cancel"); //결과값 삽입
+
+                    inputModel.perrCount = 0;
+                    inputModel.count = 0;
+                    inputModel.pMemo = "";
+                    inputModel.pworkCount = 0;
+                    PopResultSearch();
+
+                    LogManager.Info(inputModel.customSName + " / " + inputModel.prodName + " [생산취소] " + inputModel.sumPworkCount + "개", MethodBase.GetCurrentMethod().DeclaringType);
+
+                    if (SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트"))
+                    {
+                        Close();
+                    }
+                }
+            }
+            else
+            {
+                MessageBoxResult result = System.Windows.MessageBox.Show("작업 중일 때만 취소할 수 있습니다.", "취소 불가", MessageBoxButton.OK);
+            }
+        }
+
         //상세 내역 화면 호출
         private void Detail_item(object sender, MouseButtonEventArgs e)
         {
@@ -1135,7 +1173,7 @@ namespace PopProject.Input
                     startPBLock = false;
                     inLineDone = 0;
 
-                    PopResultEnd(); //결과값 삽입
+                    PopResultEnd("end"); //결과값 삽입
 
                     //불량수량 자동 입력
                     if (tbError.Text != "0" && tbError.Text != "" && textbox_error.Text != "" )
@@ -1577,7 +1615,7 @@ namespace PopProject.Input
         }
 
         //생산 종료
-        private int PopResultEnd()
+        private int PopResultEnd(string request)
         {
             string 전체공정 = "0";
 
@@ -1590,7 +1628,14 @@ namespace PopProject.Input
             }
 
             //결과수량
-            inputModel.pworkCount = int.Parse(tbResult.Text.ToString());
+            if (request == "end")
+            {
+                inputModel.pworkCount = int.Parse(tbResult.Text.ToString());
+            }
+            else
+            {
+                inputModel.pworkCount = 0;
+            }
 
             //생산,불량수량 0이면 3| 결과수량 있으면 1|
             string arrChkAED = inputModel.pworkCount == 0 && inputModel.perrCount == 0 ? "3|" : "1|";
@@ -2154,7 +2199,7 @@ namespace PopProject.Input
                 SettingJsonManager.serverIndex,
                 "[spAdd410processinfo_workplan]",
                 new string[] { "@오더Key", "@계획Key" },
-                new object[] { inputModel.orderKey, inputModel.pplanKey },
+                new object[] {  inputModel.orderKey, inputModel.pplanKey },
                 1
                 );
 

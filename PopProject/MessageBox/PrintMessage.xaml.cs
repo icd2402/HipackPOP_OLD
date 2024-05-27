@@ -393,7 +393,7 @@ namespace PopProject.MessageBox
                     }
 
                     //구룡산업
-                    else if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
+                    else if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장테스트"))
                     {
                         //실수요자
                         if (consumCheck)

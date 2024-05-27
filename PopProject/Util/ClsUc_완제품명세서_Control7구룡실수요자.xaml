@@ -126,8 +126,7 @@
                     <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,0" BorderBrush="Black" Content="실수요자" HorizontalContentAlignment="Center" Height="85"  Width="152" />
                     <Label Style="{StaticResource 명세서value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0" Content="{Binding membName}" Width="230" />
                     <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="0,1,0,0" BorderBrush="Black" Content="전화번호" HorizontalContentAlignment="Center" Height="85"  Width="144" />
-                    <Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="20,0"   HorizontalContentAlignment="Center" Content="{Binding PhonNo}" />
-
+                    <Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" FontSize="28" BorderThickness="1,1,1,0" BorderBrush="Black" Padding="5,0"   HorizontalContentAlignment="Center" Content="{Binding PhonNo}" />
 
                 </DockPanel>
                 <DockPanel>

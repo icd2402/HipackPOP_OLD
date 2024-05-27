@@ -228,8 +228,23 @@ namespace PopProject.Detail
             {
                 wharehouse.Visibility = Visibility.Collapsed;
             }
+
             DetailSearch(); //세부정보 조회 (왼쪽화면)
-            MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
+
+            //두성,혜성,지온 일때 적재창고 버튼 표시
+            if (SettingJsonManager.corp_name.Equals("신우수출포장") ||
+                SettingJsonManager.corp_name.Equals("신우수출포장테스트") ||
+                SettingJsonManager.corp_name.Contains("우리포장산업") ||
+                SettingJsonManager.corp_name.Contains("우리포장산업테스트") ||
+                SettingJsonManager.corp_name.Contains("누리팩") ||
+                SettingJsonManager.corp_name.Contains("누리팩테스트") ||
+                SettingJsonManager.corp_name.Contains("지온") ||
+                SettingJsonManager.corp_name.Contains("지온테스트"))
+            {
+                MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
+
+            }
+
             PopSearchPhoto(); //인쇄사양 조회
 
             R_Value.Visibility = SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트") ? Visibility.Visible : Visibility.Collapsed;
@@ -378,7 +393,21 @@ namespace PopProject.Detail
             consumcheck = v;
             
             DetailSearch(); //세부정보 조회 (왼쪽화면)
-            MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
+
+            //두성,혜성,지온 일때 적재창고 버튼 표시
+            if (SettingJsonManager.corp_name.Equals("신우수출포장") ||
+                SettingJsonManager.corp_name.Equals("신우수출포장테스트") ||
+                SettingJsonManager.corp_name.Contains("우리포장산업") ||
+                SettingJsonManager.corp_name.Contains("우리포장산업테스트") ||
+                SettingJsonManager.corp_name.Contains("누리팩") ||
+                SettingJsonManager.corp_name.Contains("누리팩테스트") ||
+                SettingJsonManager.corp_name.Contains("지온") ||
+                SettingJsonManager.corp_name.Contains("지온테스트"))
+            {
+                MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
+
+            }
+
             PopSearchPhoto(); //인쇄사양
 
         }

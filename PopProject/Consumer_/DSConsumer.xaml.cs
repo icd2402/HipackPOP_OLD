@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -112,6 +113,7 @@ namespace PopProject.Consumer_
                         ConsumerModel listitem = new ConsumerModel
                         {
                             orderKey = result["orderKey"].ToString(),                       //오더키
+                            pworkDate = DateTime.Parse(result["pworkDate"].ToString()),     //작업일자
                             pworkKey = int.Parse(result["pworkKey"].ToString()),            //작업키
                             orderDate = result["orderDate"].ToString(),                     //수주일자
                             vendorID = result["vendorID"].ToString(),                       //납춤처ID
@@ -123,7 +125,6 @@ namespace PopProject.Consumer_
                             PhonNo = result["PhonNo"].ToString(),                           //연락처
                             orderCount = int.Parse(result["orderCount"].ToString()),        //수주량
                             workCount = int.Parse(result["workCount"].ToString()),          //이전 생산량
-                            pworkDate = DateTime.Parse(result["pworkDate"].ToString()),     //작업일자
                             pplanKey = int.Parse(result["pplanKey"].ToString()),            //계획키
                         };
 

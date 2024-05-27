@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.429</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.432</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>430</ApplicationRevision>
+    <ApplicationRevision>433</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -378,6 +378,9 @@
       <DependentUpon>MercList.xaml</DependentUpon>
     </Compile>
     <Compile Include="MerList\MerModel.cs" />
+    <Compile Include="MessageBox\MessageBox_Dialog2.xaml.cs">
+      <DependentUpon>MessageBox_Dialog2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MessageBox\MessageBox_Dialog.xaml.cs">
       <DependentUpon>MessageBox_Dialog.xaml</DependentUpon>
     </Compile>
@@ -622,6 +625,10 @@
     <Page Include="MerList\MercList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessageBox\MessageBox_Dialog2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MessageBox\MessageBox_Dialog.xaml">
       <SubType>Designer</SubType>

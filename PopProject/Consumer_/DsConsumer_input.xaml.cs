@@ -9,6 +9,7 @@ using PopProject.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -297,9 +298,11 @@ namespace PopProject.Consumer_
 
                 if (Main.production != null)
                 {
-                    //MessageBox_Dialog messageBox = new MessageBox_Dialog("작업중인 건이 있습니다.");
                     MessageBox_Dialog messageBox = new MessageBox_Dialog(inputModel.prodName + "\n" + "해당 건이 작업중입니다.");
                     _ = messageBox.ShowDialog();
+
+                    //MessageBox_Dialog2 messageBox2 = new MessageBox_Dialog2(inputModel, mainModel, inputModel.prodName + "\n" + "해당 건이 작업중입니다.", true);
+                    //_ = messageBox2.ShowDialog();
                     startPBLock = false;
 
                 }
@@ -311,7 +314,6 @@ namespace PopProject.Consumer_
                         MessageBox_Dialog messageBox = new MessageBox_Dialog("실수요자 작업중인 건이 있습니다.");
                         _ = messageBox.ShowDialog();
                         startPBLock = false;
-
                     }
                     else //작업 중인건 없음
                     {
@@ -758,6 +760,7 @@ namespace PopProject.Consumer_
                     {
                         ConsumerModel listitem = new ConsumerModel
                         {
+
                             workMemberKey = result["workMemberKey"].ToString(),         //실수요자 작업키
                             pworkDate = DateTime.Parse(result["pworkDate"].ToString()), //작업일자
                             pWorkCount = float.Parse(result["pworkCount"].ToString()),  //작업량
