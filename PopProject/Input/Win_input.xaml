@@ -23,8 +23,8 @@
         <Image x:Name="changeButtonIn"  Visibility="Collapsed" Width="66" Height="66" Source="/img/close_01.png" HorizontalAlignment="Right" VerticalAlignment="Top" Canvas.Left="484" Canvas.Top="20" MouseDown="ChangeButton_MouseDown"/>
 
         <!--<Image Visibility="{Binding newProd}" Width="48" Height="28" Source="/img/new.png" HorizontalAlignment="Left" VerticalAlignment="Bottom" Canvas.Left="47" Canvas.Top="119" ></Image>-->
-        <TextBlock Text="거래처" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="46" Canvas.Top="18" FontFamily="/font/#KoPubDotum Medium" />
-        <TextBlock Text="품명" FontSize="38"  HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="46" Canvas.Top="54" Width="450" FontFamily="/font/#KoPubDotum Bold"/>
+        <TextBlock Text="{Binding customSName}" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="46" Canvas.Top="18" FontFamily="/font/#KoPubDotum Medium" />
+        <TextBlock Text="{Binding prodName}" FontSize="38"  HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="46" Canvas.Top="54" Width="450" FontFamily="/font/#KoPubDotum Bold"/>
         <TextBlock x:Name="boxType"  FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="380" Canvas.Top="110" FontFamily="/font/#KoPubDotum Medium"/>
 
         <TextBlock Text="{Binding pSize}" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Canvas.Left="380" Canvas.Top="135" FontFamily="/font/#KoPubDotum Medium"  />
