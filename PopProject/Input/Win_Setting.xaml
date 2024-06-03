@@ -295,6 +295,17 @@
                         </CheckBox.LayoutTransform>
                     </CheckBox>
 
+                    <Border BorderBrush="#2c3e50" BorderThickness="0,0,0,1" Canvas.Top="445" Canvas.Left="15" Width="570" Canvas.Bottom="0"></Border>
+                    
+                    <TextBlock Text="공지사항 자동 팝업 끄기" FontSize="22" Foreground="Black" Canvas.Left="40" Canvas.Top="640" FontFamily="/font/#KoPubDotum Medium"/>
+                    <CheckBox x:Name="noticePopup" Canvas.Top="675" Content="사  용" Checked="noticePopup_Checked" Unchecked="noticePopup_Checked" HorizontalAlignment="Left" Width="140" Canvas.Left="40">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+
+
+
                     <Border BorderBrush="#2c3e50" BorderThickness="0,0,0,1" Canvas.Top="535" Canvas.Left="15" Width="570" Canvas.Bottom="0"></Border>
                     <Border BorderBrush="#2c3e50" BorderThickness="0,0,0,1" Canvas.Top="625" Canvas.Left="15" Width="570" Canvas.Bottom="0"></Border>
                     <Border BorderBrush="#2c3e50" BorderThickness="0,0,0,1" Canvas.Top="715" Canvas.Left="15" Width="570" Canvas.Bottom="0"></Border>

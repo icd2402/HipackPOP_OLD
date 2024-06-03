@@ -26,19 +26,25 @@
 
             <TextBlock Name="prodName"  Text="{Binding prodName}" FontSize="38" Foreground="White" Canvas.Left="27" Canvas.Top="135" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock Name="boxType" Text="{Binding boxType }" FontSize="22" Foreground="White" Canvas.Left="406" Canvas.Top="180"/>
-            <Image Source="/img/b_02.png" Canvas.Left="430" Canvas.Top="2" MouseDown="Detail_List"/>
+            <Image Source="/img/b_06.png" Canvas.Left="430" Canvas.Top="2" MouseDown="Detail_List"/>
 
-            <Border x:Name="robot" BorderThickness="2" Background="#495664" CornerRadius="5" BorderBrush="#43505E" Width="101" Height="45" Canvas.Top="9" Canvas.Left="215"   VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="robot_setting">
+
+            <Image x:Name="robot" Source="/img/b_07.png" Canvas.Left="190" Canvas.Top="2" MouseLeftButtonDown="robot_setting"/>
+
+            <Image x:Name="wharehouse" Source="/img/b_08.png" Canvas.Left="310" Canvas.Top="2" MouseLeftButtonDown="Wharehouse"/>
+            <Image x:Name="CNS_Save" Source="/img/b_09.png" Canvas.Left="190" Canvas.Top="2" MouseLeftButtonDown="CNS_Save_MouseLeftButtonDown"/>
+
+            <!--<Border x:Name="robot" BorderThickness="2" Background="#495664" CornerRadius="5" BorderBrush="#43505E" Width="101" Height="45" Canvas.Top="9" Canvas.Left="215"   VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="robot_setting">
                 <TextBlock Text="로봇 설정" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="/font/#KoPubDotum Light" Foreground="White" />
-            </Border>
+            </Border>-->
 
-            <Border x:Name="wharehouse" BorderThickness="2" Background="#495664" CornerRadius="2" BorderBrush="#43505E" Width="90" Height="45" Canvas.Top="9" Canvas.Left="338"   VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="Wharehouse">
+            <!--<Border x:Name="wharehouse" BorderThickness="2" Background="#495664" CornerRadius="2" BorderBrush="#43505E" Width="90" Height="45" Canvas.Top="9" Canvas.Left="338"   VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="Wharehouse">
                 <TextBlock x:Name="wharehouselocation" Text="창고 적재" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="/font/#KoPubDotum Light" Foreground="White" />
-            </Border>
+            </Border>-->
 
-            <Border x:Name="CNS_Save" BorderThickness="2" Background="#495664" CornerRadius="5" BorderBrush="#43505E" Width="105" Height="45" Canvas.Top="9" Canvas.Left="325"   VerticalAlignment="Bottom" MouseLeftButtonDown="CNS_Save_MouseLeftButtonDown" MouseLeftButtonUp="CNS_Save_MouseLeftButtonUp" >
+            <!--<Border x:Name="CNS_Save" BorderThickness="2" Background="#495664" CornerRadius="5" BorderBrush="#43505E" Width="105" Height="45" Canvas.Top="9" Canvas.Left="325"   VerticalAlignment="Bottom" MouseLeftButtonDown="CNS_Save_MouseLeftButtonDown" MouseLeftButtonUp="CNS_Save_MouseLeftButtonUp" >
                 <TextBlock x:Name="CNS_Savelocation" Text="     CNS &#x0a;레시피 저장" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" FontFamily="/font/#KoPubDotum Light" Foreground="White" />
-            </Border>
+            </Border>-->
 
             <!--<Border x:Name="Pass_detail" Visibility="Visible"  BorderThickness="2"  CornerRadius="5" BorderBrush="DarkGray" Background="#485563" Width="120" Height="60"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Left="735" Canvas.Top="812" MouseLeftButtonDown="Pass_detailInfo" MouseLeftButtonUp="Pass_detail_MouseLeftButtonUp" >
 

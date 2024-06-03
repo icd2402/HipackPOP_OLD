@@ -84,6 +84,7 @@ namespace PopProject.Util
         public static bool detailPass { get; set; }
         public static bool detailPopup { get; set; }
         public static bool windowState { get; set; }
+        public static bool noticePopup { get; set; }
 
         // JSON 파일 경로
         public static string filePath { get; set; }
@@ -257,6 +258,8 @@ namespace PopProject.Util
                 detailPopup = jObject.ContainsKey("detailPopup") ? bool.Parse(jObject["detailPopup"].ToString()) : false;
                 // windowState 없는 경우 false
                 windowState = jObject.ContainsKey("windowState") ? bool.Parse(jObject["windowState"].ToString()) : false;
+                // noticePopup 없는 경우 false
+                noticePopup = jObject.ContainsKey("noticePopup") ? bool.Parse(jObject["noticePopup"].ToString()) : false;
 
                 LogManager.Info("json → 셋팅정보(Class) Load 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
@@ -356,7 +359,8 @@ namespace PopProject.Util
                                 {"dbUse", dbUse.ToString()},
                                 {"detailPass", detailPass.ToString()},
                                 {"detailPopup", detailPopup.ToString()},
-                                {"windowState", windowState.ToString()}
+                                {"windowState", windowState.ToString()},
+                                {"noticePopup", noticePopup.ToString()}
 
                             };
 

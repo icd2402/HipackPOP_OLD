@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.434</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.435</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>435</ApplicationRevision>
+    <ApplicationRevision>436</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -349,6 +349,8 @@
     <Compile Include="Input\Unique_input.xaml.cs">
       <DependentUpon>Unique_input.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Input\UpdateInfor_Model.cs" />
+    <Compile Include="Input\UserBaseModel.cs" />
     <Compile Include="Input\Win_input.xaml.cs">
       <DependentUpon>Win_input.xaml</DependentUpon>
     </Compile>
@@ -1582,6 +1584,15 @@
     <Resource Include="img\Search4.png" />
     <Resource Include="img\lock.png" />
     <Resource Include="img\unlock.png" />
+    <Resource Include="img\change.png" />
+    <Resource Include="img\change2.png" />
+    <Resource Include="img\notice.png" />
+    <Resource Include="img\machineCheck.png" />
+    <Resource Include="img\b_05.png" />
+    <Resource Include="img\b_06.png" />
+    <Resource Include="img\b_07.png" />
+    <Resource Include="img\b_08.png" />
+    <Resource Include="img\b_09.png" />
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

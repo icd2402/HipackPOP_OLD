@@ -2096,19 +2096,18 @@ namespace PopProject.Detail
                         }
 
                         //두성
-                        if (SettingJsonManager.corp_name.Equals("두성포장") || SettingJsonManager.corp_name.Equals("두성포장테스트"))
-                        {
-                            JToken token = result["LocationName"];
-                            if (token != null)
-                            {
-                                Detailitem.LocationName = result["LocationName"].ToString();
-                                if (Detailitem.LocationName.Length > 2)
-                                {
-                                    wharehouselocation.Text = Detailitem.LocationName;
-                                }
-                            }
-                            
-                        }
+                        //if (SettingJsonManager.corp_name.Equals("두성포장") || SettingJsonManager.corp_name.Equals("두성포장테스트"))
+                        //{
+                        //    JToken token = result["LocationName"];
+                        //    if (token != null)
+                        //    {
+                        //        Detailitem.LocationName = result["LocationName"].ToString();
+                        //        if (Detailitem.LocationName.Length > 2)
+                        //        {
+                        //            wharehouselocation.Text = Detailitem.LocationName;
+                        //        }
+                        //    }
+                        //}
 
                         //오주
                         if (SettingJsonManager.corp_name.Equals("오주포장"))

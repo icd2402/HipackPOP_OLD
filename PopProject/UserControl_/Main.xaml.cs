@@ -83,6 +83,9 @@ namespace PopProject.UserControl_
         private bool isTextVisible = false; //날짜 변경버튼 
         private string plusDate = "";
         private SearchList searchListWindow;
+        bool tempLock = false;
+        bool settingPopupCheck = false;
+
         public Main()
         {
             try
@@ -126,6 +129,7 @@ namespace PopProject.UserControl_
                 Properties.Settings.Default.PopUpPosition_S = false;
                 Properties.Settings.Default.PopUpPosition_S = false;
 
+                //SignalR 연결
                 try
                 {
                     SignalRAdministrator conn = new SignalRAdministrator();
@@ -192,19 +196,10 @@ namespace PopProject.UserControl_
                     sv.PreviewMouseMove += Sv_PreviewMouseMove;
                 }
 
-                //설비점검 버튼 
+                //설비점검 버튼
                 if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트") || SettingJsonManager.corp_name.Equals("광성수출포장") || SettingJsonManager.corp_name.Equals("광성수출포장테스트"))
                 {
-                    TextBlock tb계획순서변경 = this.계획순서변경;
-                    tb계획순서변경.Margin = new Thickness(850, 10, 0, 0);
-
-                    TextBlock tb설비점검 = this.설비점검;
-                    tb설비점검.Margin = new Thickness(850, 60, 0, 0);
-
-                    설비점검.Visibility = Visibility.Visible;
-                }
-                else
-                {
+                    mcBt.Visibility = Visibility.Visible;
                 }
 
                 //인터넷 연결 확인
@@ -258,6 +253,13 @@ namespace PopProject.UserControl_
         // 시계, 바코드, 종료시간 체크
         private void Timer_1s_Tick(object sender, EventArgs e)
         {
+            //공지사항 팝업
+            if (settingPopupCheck == false && !SettingJsonManager.noticePopup && tempLock == false)
+            {
+                Notice_PopUp();
+                tempLock = true;
+            }
+
             txtDate.Text = DateTimeManager.GetSelectedDate().ToString("yyyy년 MM월 dd일 dddd");
             txtClock.Text = DateTimeManager.GetSelectedDT().ToString("HH시 mm분 ss초");
 
@@ -567,7 +569,7 @@ namespace PopProject.UserControl_
         //    DSConsumerDataRead();
         //}
         
-        //유창 시간별 업데이트
+        //계획,결과 조회
         private void UpdateWorkPlanNResult()
         {
             SelectWorkList();
@@ -974,7 +976,7 @@ namespace PopProject.UserControl_
         //날짜 클릭
         private void TxtDate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            DateTimeManager.SetTodayDate();
+            DateTimeManager.SetTodayDate(); //당일 날짜로 변경
             UpdateWorkPlanNResult(); // 계획/결과 조회
         }
 
@@ -3311,9 +3313,11 @@ namespace PopProject.UserControl_
         {
             LogManager.Info("설정창 열기", MethodBase.GetCurrentMethod().DeclaringType);
             can.Visibility = Visibility.Visible;
+            settingPopupCheck = true;
             Win_Setting win_Setting = new Win_Setting();
             _ = win_Setting.ShowDialog();
             string metrialitem = SettingJsonManager.meterialinfo;
+            settingPopupCheck = false;
 
             SetSetting(metrialitem);
             //arduSerial.DataReceived -= ArduReReceive;
@@ -3671,7 +3675,13 @@ namespace PopProject.UserControl_
         {
         }
 
+        //공지사항 버튼
         private void notice_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Notice_PopUp();
+        }
+
+        private void Notice_PopUp()
         {
             Notice notice = new Notice();
             _ = notice.ShowDialog();

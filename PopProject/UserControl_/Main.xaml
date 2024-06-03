@@ -49,15 +49,29 @@
         <TextBlock x:Name="tbMercName" Text="공 정" Foreground="White" Width="357" FontSize="38" TextAlignment="Center" Height="50" HorizontalAlignment="Center" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="Mer_click" Margin="458,35,435,30"></TextBlock>
 
         <!--계획순서변경, 설정, 원격연결, 종료-->
-        <TextBlock x:Name="계획순서변경" MouseLeftButtonDown="Change_workList" Background="DimGray" Foreground="White" FontSize="23"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="9" Margin="850,34,0,0" FontFamily="/font/#KoPubBatang Medium" Text="계획순서변경"></TextBlock>
-        <TextBlock x:Name="설비점검" MouseLeftButtonDown="Machine_Check" Background="DimGray" Foreground="White" FontSize="23"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="9" Visibility="Collapsed" Margin="850,34,0,0" FontFamily="/font/#KoPubBatang Medium" Text="   설비점검" Width="147"></TextBlock>
-        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/setting.png" Margin="0,12,185,10" MouseLeftButtonDown="Setting"/>
-        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_01.png" Margin="0,11,95,11" MouseLeftButtonDown="Remote_click"/>
-        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_exit.png" Margin="0,11,5,11" MouseLeftButtonDown="Program_exit"/>
+        <!--<Border x:Name="계획순서변경_border" MouseLeftButtonDown="Change_workList" Background="DimGray" CornerRadius="5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="850,34,0,0">
+            <TextBlock x:Name="계획순서변경" Foreground="White" FontSize="23" Padding="9" FontFamily="/font/#KoPubBatang Medium" Text="계획순서변경" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150"/>
+        </Border>-->
 
+
+
+        <!--설비 점검-->
+        <!--<Border x:Name="설비점검_border" MouseLeftButtonDown="Machine_Check" Background="DimGray" CornerRadius="10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="850,34,0,0" Width="150">
+            <TextBlock x:Name="설비점검" Foreground="White" FontSize="23" Padding="9" Visibility="Collapsed" FontFamily="/font/#KoPubBatang Medium" Text="설비점검" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>-->
+        
         <!--공지사항-->
-        <TextBlock x:Name="notice" MouseLeftButtonDown ="notice_MouseLeftButtonDown" Visibility="Collapsed" Background="DimGray" Foreground="White" FontSize="23"  HorizontalAlignment="Left" VerticalAlignment="Top" Padding="9" Margin="872,82,0,0" FontFamily="/font/#KoPubBatang Medium" Text="공지사항" Grid.RowSpan="2"></TextBlock>
-
+        <!--<Border x:Name="notice_border" MouseLeftButtonDown="notice_MouseLeftButtonDown" Background="DimGray" CornerRadius="5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="872,82,0,0" Grid.RowSpan="2">
+            <TextBlock x:Name="notice" Visibility="Visible" Foreground="White" FontSize="23" Padding="9" FontFamily="/font/#KoPubBatang Medium" Text="공지사항" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>-->
+        
+        <!--설정, 원격연결, 종료-->
+        <Image x:Name="mcBt" HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/machineCheck.png" Margin="0,12,430,10" MouseLeftButtonDown="Machine_Check" Visibility="Collapsed"/>
+        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/notice.png" Margin="0,12,345,10" MouseLeftButtonDown="notice_MouseLeftButtonDown"/>
+        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/change2.png" Margin="0,12,260,10" MouseLeftButtonDown="Change_workList"/>
+        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/setting.png" Margin="0,12,175,10" MouseLeftButtonDown="Setting"/>
+        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_01.png" Margin="0,11,90,10" MouseLeftButtonDown="Remote_click"/>
+        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Height="88" Width="88" Source="/img/b_exit.png" Margin="0,11,5,10" MouseLeftButtonDown="Program_exit"/>
 
         <!--날짜-->
         <TextBlock x:Name="txtDate"  FontSize="23" VerticalAlignment="Top" Text="2020년 10월 28일 화요일"  Margin="220,27,792,0"  FontFamily="/font/#KoPubBatang Medium" MouseLeftButtonDown="TxtDate_MouseLeftButtonDown"/>
