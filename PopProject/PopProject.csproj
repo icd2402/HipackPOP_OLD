@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.435</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.436</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>436</ApplicationRevision>
+    <ApplicationRevision>437</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -411,6 +411,9 @@
     <Compile Include="UserControl_\AuthCode.xaml.cs">
       <DependentUpon>AuthCode.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl_\AuthCodeChange.xaml.cs">
+      <DependentUpon>AuthCodeChange.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl_\ChangeWorkList.xaml.cs">
       <DependentUpon>ChangeWorkList.xaml</DependentUpon>
     </Compile>
@@ -665,6 +668,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControl_\AuthCode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl_\AuthCodeChange.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

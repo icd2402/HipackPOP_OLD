@@ -4,6 +4,8 @@ using PopProject.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -1438,7 +1440,114 @@ namespace PopProject.Input
             return settindValue;
         }
 
-       
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //배치파일 내용
+            string batContent = @"@echo off
+                                  :: PopProject 프로그램 종료
+                                  taskkill /IM PopProject.exe /F
+                                  
+                                  :: 사용자 폴더 삭제
+                                  rmdir /S /Q ""C:\Users\%USERNAME%\AppData\Local\Apps\2.0""
+                                  
+                                  :: admin 폴더 삭제
+                                  rmdir /S /Q ""C:\Users\admin\AppData\Local\Apps\2.0""
+                                  
+                                  :: Test 폴더 삭제
+                                  rmdir /S /Q ""C:\Users\wlgns\AppData\Local\Apps\3.0""
+
+                                  :: Test 폴더 삭제
+                                  rmdir /S /Q ""C:\Users\SungPC\AppData\Local\Apps\2.0""
+
+                                  :: 창 닫기
+                                  exit";
+
+            // 배치파일 생성 폴더 경로, 이름
+            string folderPath = @"C:\ICD\POP";
+            string filePath = Path.Combine(folderPath, "CleanPopProject.bat");
+
+            try
+            {
+                // 폴더가 존재하지 않으면 생성
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                // 배치 파일 작성
+                File.WriteAllText(filePath, batContent);
+
+                // 배치파일 실행
+                ProcessStartInfo processInfo = new ProcessStartInfo("cmd.exe", "/c " + filePath);
+                processInfo.CreateNoWindow = true;
+                processInfo.UseShellExecute = false;
+                Process process = Process.Start(processInfo);
+            }
+            catch (Exception ex)
+            {
+            }
+
+           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //string folderPath = @"C:\Users\admin\AppData\Local\Apps\2.0"; //
+            //try
+            //{
+            //    // 폴더가 존재하는지 확인
+            //    if (Directory.Exists(folderPath))
+            //    {
+            //        // 폴더와 하위 폴더 및 파일 삭제
+            //        Directory.Delete(folderPath, true);
+            //        Console.WriteLine("폴더가 성공적으로 삭제되었습니다.");
+            //        MessageBox_Dialog dialog = new MessageBox_Dialog("프로그램을 재실행 해주세요.");
+            //        dialog.ShowDialog();
+            //    }
+            //    else //폴더가 없으면 다른경로 삭제시도
+            //    {
+            //        folderPath = @"C:\Users\USER\AppData\Local\Apps\2.0";
+
+            //        tryㄷ
+            //        {
+            //            if (Directory.Exists(folderPath))
+            //            {
+            //                Directory.Delete(folderPath, true);
+            //                Console.WriteLine("대체 폴더가 성공적으로 삭제되었습니다.");
+            //                MessageBox_Dialog dialog = new MessageBox_Dialog("프로그램을 재실행 해주세요.");
+            //                dialog.ShowDialog();
+            //            }
+            //            else
+            //            {
+            //                MessageBox_Dialog dialog = new MessageBox_Dialog("업데이트 다시받기 실패.");
+            //                dialog.ShowDialog();
+            //            }
+            //        }
+            //        catch (Exception ex2)
+            //        {
+
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //}
+        }
     }
 
 }

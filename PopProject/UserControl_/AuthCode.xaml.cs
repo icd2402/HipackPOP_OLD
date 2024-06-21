@@ -20,44 +20,87 @@ namespace PopProject.UserControl_
     /// </summary>
     public partial class AuthCode : Window
     {
+        public int PasswordCorrect { get; private set; }
+
         public AuthCode()
         {
             InitializeComponent();
-            
+            DefaultSetting();
+            authCode.Focus();
+            authCode.PreviewKeyDown += authKey_KeyDown;
+
+           
+
         }
 
-        private void AuthCodeSave(object sender, RoutedEventArgs e)
+        private void DefaultSetting()
         {
-            if (authCode.Password.Equals("icd4662402"))
+            if (SettingJsonManager.lockPassword.Equals(""))
             {
-                SettingJsonManager.authKey = "";
+                SettingJsonManager.lockPassword = "0000";
                 SettingJsonManager.SaveJsonFile();
             }
-        
+        }
+
+        //확인버튼
+        private void AuthCodeSave(object sender, RoutedEventArgs e)
+        {
+            PasswordCheck();
             Close();
         }
 
-        private void Image_MouseDown_1(object sender, MouseButtonEventArgs e)
+        //키보드 이벤트
+        private void authKey_KeyDown(object sender, KeyEventArgs e)
         {
-            Close();
-        }
-
-        private void KeyDown_event(object sender, KeyEventArgs e)
-        {
-            switch (e.Key.ToString())
+            if (e.Key == Key.Enter)
             {
-                case "F1":
-                    SettingJsonManager.authKey = "";
-                    SettingJsonManager.SaveJsonFile();
-                    Close();
-                    break;
+                PasswordCheck();
+                Close();
             }
-         
         }
 
+        private void PasswordCheck()
+        {
+            if (authCode.Password.Equals(SettingJsonManager.lockPassword))
+            {
+                PasswordCorrect = 1; //비밀번호 일치
+            }
+            else
+            {
+                PasswordCorrect = 2; //비밀번호 불일치
+            }
+
+        }
+
+        //드래그
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            DragMove();
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                try
+                {
+                    DragMove();
+                }
+                catch (InvalidOperationException)
+                {
+                    // 예외를 처리하지 않고 무시합니다.
+                }
+            }
+        }
+
+        //닫기
+        private void Image_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+            PasswordCorrect = 0;
+            Close();
+        }
+
+        //비밀번호 변경
+        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            AuthCodeChange authCodeChange = new AuthCodeChange();
+            authCodeChange.Owner = this; // this는 AuthCode 창을 의미합니다.
+            authCodeChange.ShowDialog();
         }
     }
 }

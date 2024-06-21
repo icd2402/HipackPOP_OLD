@@ -141,11 +141,11 @@ namespace PopProject.UserControl_
                 }
 
                 //날짜 변경 버튼 활성화
-                if (SettingJsonManager.corp_name.Equals("대세물산") || 
+                if (!SettingJsonManager.checkMerc && (SettingJsonManager.corp_name.Equals("대세물산") || 
                     SettingJsonManager.corp_name.Equals("유창포장") || 
                     SettingJsonManager.corp_name.Equals("광성수출포장") ||
                     SettingJsonManager.corp_name.Contains("테스트") ||
-                    Environment.MachineName.Equals("PRG-PJH-DESK"))
+                    Environment.MachineName.Equals("PRG-PJH-DESK")))
                 {
                     txtDate2.Visibility = Visibility.Visible;
                     txtDate3.Visibility = Visibility.Visible;
@@ -291,32 +291,32 @@ namespace PopProject.UserControl_
             }
 
             //실시간 확인용
-            if (production != null)
-            {
-                Console.Write("production != null, ");
-            }
-            else
-            {
-                Console.Write("production == null, ");
-            }
+            //if (production != null)
+            //{
+            //    Console.Write("production != null, ");
+            //}
+            //else
+            //{
+            //    Console.Write("production == null, ");
+            //}
 
-            if (win_Input != null)
-            {
-                Console.Write("win_Input != null, ");
-            }
-            else
-            {
-                Console.Write("win_Input == null, ");
-            }
+            //if (win_Input != null)
+            //{
+            //    Console.Write("win_Input != null, ");
+            //}
+            //else
+            //{
+            //    Console.Write("win_Input == null, ");
+            //}
 
-            if (dSConsumer != null)
-            {
-                Console.WriteLine("dSConsumer != null");
-            }
-            else
-            {
-                Console.WriteLine("dSConsumer == null");
-            }
+            //if (dSConsumer != null)
+            //{
+            //    Console.WriteLine("dSConsumer != null");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("dSConsumer == null");
+            //}
 
             //옵션에서 상세창 넘기기 체크 확인
             //if (SettingJsonManager.detailPass)
@@ -835,11 +835,6 @@ namespace PopProject.UserControl_
             {
                 str = Math.Abs(int.Parse(arduSerial.ReadLine().Trim())); //아두이노 카운터값 공백 제거 후 절댓값으로 변경
                 Console.WriteLine("아두이노 값(Main) : " + str); //실시간 값 확인용
-
-                if (SettingJsonManager.corp_name.Equals("대세물산") && SettingJsonManager.mercName.Equals("합지기"))
-                {
-                    LogManager.Info("아두이노 값(Main) : " + str, MethodBase.GetCurrentMethod().DeclaringType);
-                }
 
                 //생산중일때(생산정보 있을때)
                 if (production != null)
@@ -3285,27 +3280,51 @@ namespace PopProject.UserControl_
 
         }
 
-        //설비명 LOCK /UNLOCK
+        //LOCK /UNLOCK
         private void setLock()
         {
+            //lock일때
             if (SettingJsonManager.checkMerc)
             {
-                unlock_img.Visibility = Visibility.Visible;
-                lock_img.Visibility = Visibility.Collapsed;
-                //btnLogout.Background = Brushes.Green;
-                merc_lock.Text = "UNLOCK";
-                SettingJsonManager.checkMerc = false;
+                AuthCode auth = new AuthCode();
+                auth.ShowDialog();
+
+                //비밀번호 일치시
+                if (auth.PasswordCorrect == 1)
+                {
+                    unlock_img.Visibility = Visibility.Visible;
+                    lock_img.Visibility = Visibility.Collapsed;
+                    merc_lock.Text = "UNLOCK";
+                    txtDate2.Visibility = Visibility.Visible; //날짜변경 버튼 표시
+                    txtDate3.Visibility = Visibility.Visible; //날짜변경 버튼 표시
+
+                    SettingJsonManager.checkMerc = false;
+                    LogManager.Info("Lock => UnLock", MethodBase.GetCurrentMethod().DeclaringType);
+                }
+                else if(auth.PasswordCorrect == 2)//비밀번호 미일치
+                {
+                    MessageBox_Dialog box = new MessageBox_Dialog("비밀번호가 일치하지 않습니다. \n\n비밀번호 분실 시 국제전산에 문의해주세요.");
+                    _ = box.ShowDialog();
+                }
+                else if (auth.PasswordCorrect == 0)
+                {
+
+                }
             }
-            else
+            else//unlock일때
             {
                 unlock_img.Visibility = Visibility.Collapsed;
                 lock_img.Visibility = Visibility.Visible;
-                //btnLogout.Background = Brushes.Red;
                 merc_lock.Text = "LOCK";
+                txtDate2.Visibility = Visibility.Collapsed; //날짜변경 버튼 숨김
+                txtDate3.Visibility = Visibility.Collapsed; //날짜변경 버튼 숨김
+
                 SettingJsonManager.checkMerc = true;
+                LogManager.Info("UnLock => Lock", MethodBase.GetCurrentMethod().DeclaringType);
+
             }
+
             SettingJsonManager.SaveJsonFile();
-            LogManager.Info("설비 => " + merc_lock.Text, MethodBase.GetCurrentMethod().DeclaringType);
         }
 
         //설정 버튼

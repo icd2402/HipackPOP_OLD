@@ -1385,7 +1385,7 @@ namespace PopProject.Detail
                     LogManager.Info("DB에 저장된 로봇 데이터 없음", MethodBase.GetCurrentMethod().DeclaringType);
 
                     Main.robot_Setting = new Robot_Setting(mainModel.prodID, mainModel.customSName, mainModel.prodName);
-                    Main.robot_Setting.ShowDialog();
+                    Main.robot_Setting.ShowDialog(); 
                     Main.robot_Setting = null;
                 }
                 
@@ -1603,7 +1603,7 @@ namespace PopProject.Detail
                         {
                             tbNoCount.Visibility = Visibility.Collapsed;
                             tbPicCount.Visibility = Visibility.Visible;
-                            picCount.Visibility = Visibility.Visible;
+                            picCount.Visibility = Visibility.Visible; 
                             tbPicCount.Text = "1/" + uriPathOB.Count;
 
                             BitmapImage bitmap = new BitmapImage();

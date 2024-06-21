@@ -1,0 +1,27 @@
+﻿<Window x:Class="PopProject.UserControl_.AuthCodeChange"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PopProject.UserControl_"
+        mc:Ignorable="d"
+        Title="비밀번호 변경" Height="200" Width="320" WindowStartupLocation="CenterScreen">
+    <Border BorderBrush="Black" BorderThickness="0" CornerRadius="0">
+        <Canvas>
+            <TextBlock Text="기존 비밀번호 :" Canvas.Top="17" Canvas.Left="25" FontSize="20"/>
+            <TextBox x:Name="password1" Canvas.Top="15" Canvas.Left="175" FontSize="20" Width="100" Height="35" />
+
+            <TextBlock Text="변경 비밀번호 :" Canvas.Top="65" Canvas.Left="25" FontSize="20"/>
+            <TextBox x:Name="password2" Canvas.Top="63" Canvas.Left="175" FontSize="20" Width="100" Height="35" />
+
+            <Button  Width="90" Height="40" Canvas.Top="110" Canvas.Left="110" Content="변경" FontSize="20" FontWeight="Bold" Foreground="White" Background="DarkOrange" Click="Button_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+        </Canvas>
+    </Border>
+</Window>

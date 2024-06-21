@@ -382,14 +382,14 @@ namespace PopProject.Consumer_
                                   "실수요자 리스트 닫기 : PopResultEnd" + Environment.NewLine +
                                   "AllChkAED:" + "2" + Environment.NewLine +
                                   "작업일자:" + DateTimeManager.GetSelectedDateStr() + Environment.NewLine +
-                                  "orderKey:" + mainModel.orderKey + Environment.NewLine +
+                                  "오더Key:" + mainModel.orderKey + Environment.NewLine +
                                   "arrChkAED:" + arrChkAED + Environment.NewLine +
-                                  "arr공정구분:" + mainModel.ProcessType + Environment.NewLine +
+                                  "arr공정구분:" + mainModel.ProcessType + "|" + Environment.NewLine +
                                   "arr계획키:" + mainModel.pplanKey + Environment.NewLine +
-                                  "arr작업키:" + pWorkKey + Environment.NewLine +
-                                  "arr작업량:" + totalCount + Environment.NewLine +
-                                  "arr불량:" + totalErrorCount + Environment.NewLine +
-                                  "arr비고:" + "" + Environment.NewLine +
+                                  "arr작업키:" + pWorkKey + "|" + Environment.NewLine +
+                                  "arr작업량:" + totalCount + "|" + Environment.NewLine +
+                                  "arr불량:" + totalErrorCount + "|" + Environment.NewLine +
+                                  "arr비고:" + "" + "|" + Environment.NewLine +
                                   "시작시간:" + mainModel.sDatetime + Environment.NewLine +
                                   "설비명:" + SettingJsonManager.mercName + Environment.NewLine +
                                   "전체공정" + 전체공정 + Environment.NewLine +

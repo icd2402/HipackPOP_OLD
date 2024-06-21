@@ -43,7 +43,7 @@ namespace PopProject.Util
                 {"대양포장", "http://dybox.iptime.org:18888/pop"},
                 {"신우수출포장", "http://swbox.iptime.org:18888/pop"},
                 {"누리팩", "http://erboxtest.iptime.org:18888/pop"},
-                {"우리포장", "http://wrbox.iptime.org:18888/pop"},
+                {"우리포장산업", "http://wrbox.iptime.org:18888/pop"},
                 {"혜성수출포장", "http://hsbox.iptime.org:18888/pop"},
                 {"㈜혜성수출포장", "http://hssbox.iptime.org:18888/pop"},
                 {"성주포장", "http://sjbox.iptime.org:18888/pop"},

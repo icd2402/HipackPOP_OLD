@@ -54,7 +54,7 @@
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                             </CheckBox.LayoutTransform>
                         </CheckBox>
-                        
+
                         <CheckBox x:Name="cb15" Content="파렛트 종류"  Width="140" Margin="10" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked">
                             <CheckBox.LayoutTransform>
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
@@ -167,7 +167,7 @@
                     </StackPanel>
                 </Canvas>
             </TabItem>
-            
+
             <TabItem Header="기본 설정2" FontSize="15" Height="50" Width="100">
                 <Canvas>
                     <TextBlock Text="키인 사용" FontSize="22" Foreground="Black" Canvas.Left="40" Canvas.Top="10" FontFamily="/font/#KoPubDotum Medium"/>
@@ -188,7 +188,7 @@
                             </CheckBox.LayoutTransform>
                         </CheckBox>
                     </StackPanel>
-                    
+
                     <Border BorderBrush="#2c3e50" BorderThickness="0,0,0,1" Canvas.Top="85" Canvas.Left="8" Width="580" Canvas.Bottom="0"></Border>
                     <TextBlock Text="듀얼 모니터 상세화면 표현" FontSize="22" Foreground="Black" Canvas.Left="40" Canvas.Top="100" FontFamily="/font/#KoPubDotum Medium"/>
                     <StackPanel  Orientation="Horizontal" Canvas.Top="125" Width="280" Height="60">
@@ -198,7 +198,7 @@
                             </CheckBox.LayoutTransform>
                         </CheckBox>
                     </StackPanel>
-                    
+
                     <TextBlock Text="상자수 자동 계산" FontSize="22" Foreground="Black" Canvas.Left="320" Canvas.Top="100" FontFamily="/font/#KoPubDotum Medium"/>
                     <StackPanel Orientation="Horizontal" Canvas.Top="125" Width="280" Height="60" Canvas.Left="280">
                         <CheckBox x:Name="option1" Content="사  용" Checked="Optionchecked" Unchecked="Optionchecked" Margin="40,10,0,0" HorizontalAlignment="Left" Width="140">
@@ -236,7 +236,7 @@
                             </CheckBox.LayoutTransform>
                         </CheckBox>
                     </StackPanel>
-                    
+
                     <TextBlock Text="스크롤 바 " FontSize="22" Foreground="Black" Canvas.Left="320" Canvas.Top="280" FontFamily="/font/#KoPubDotum Medium"/>
                     <StackPanel  Orientation="Horizontal" Canvas.Left="280" Canvas.Top="305" Width="280" Height="60">
                         <CheckBox x:Name="scrollvar_Check" Content="사  용" Margin="40,10,0,0" Checked="scrollvar_Checked" Unchecked="scrollvar_Checked" HorizontalAlignment="Left" Width="140">
@@ -296,7 +296,7 @@
                     </CheckBox>
 
                     <Border BorderBrush="#2c3e50" BorderThickness="0,0,0,1" Canvas.Top="445" Canvas.Left="15" Width="570" Canvas.Bottom="0"></Border>
-                    
+
                     <TextBlock Text="공지사항 자동 팝업 끄기" FontSize="22" Foreground="Black" Canvas.Left="40" Canvas.Top="640" FontFamily="/font/#KoPubDotum Medium"/>
                     <CheckBox x:Name="noticePopup" Canvas.Top="675" Content="사  용" Checked="noticePopup_Checked" Unchecked="noticePopup_Checked" HorizontalAlignment="Left" Width="140" Canvas.Left="40">
                         <CheckBox.LayoutTransform>
@@ -432,7 +432,7 @@
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                             </CheckBox.LayoutTransform>
                         </CheckBox>
-                        
+
                     </StackPanel>
 
                     <StackPanel x:Name="str4" Canvas.Top="50" Canvas.Left="330" Width="265">
@@ -514,12 +514,16 @@
 
         <Image Source="/img/back_06.png"  Canvas.Top="931"  Stretch="Fill" Width="600" Height="90"/>
         <Image Source="/img/bn_03.png"  Canvas.Top="931"  Canvas.Left="450"  Width="150" Height="90" MouseLeftButtonDown="Setting_done"/>
-        <Border  BorderThickness="2" Background="White" CornerRadius="10" Canvas.Left="10" BorderBrush="#FF747474" Width="140" Height="50"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Top="951" MouseLeftButtonDown="upload_setting" >
+        <!--<Border  BorderThickness="2" Background="White" CornerRadius="10" Canvas.Left="10" BorderBrush="#FF747474" Width="140" Height="50"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Top="951" MouseLeftButtonDown="upload_setting" >
             <TextBlock Text="설정 업로드" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF565656" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium"  />
-        </Border>
+        </Border>-->
 
-        <Border  BorderThickness="2" Background="White" CornerRadius="10" Canvas.Left="170" BorderBrush="#FF747474" Width="140" Height="50"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Top="951" MouseLeftButtonDown="load_setting" >
+        <!--<Border  BorderThickness="2" Background="White" CornerRadius="10" Canvas.Left="170" BorderBrush="#FF747474" Width="140" Height="50"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Top="951" MouseLeftButtonDown="load_setting" >
             <TextBlock Text="설정 로드" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF565656" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium"  />
+        </Border>-->
+
+        <Border  BorderThickness="2" Background="White" CornerRadius="10" Canvas.Left="10" BorderBrush="#FF747474" Width="140" Height="60"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Canvas.Top="946" MouseLeftButtonDown="Border_MouseLeftButtonDown" >
+            <TextBlock Text="업데이트&#x0a;다시받기" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF565656" Canvas.Left="20" Canvas.Top="118" FontFamily="/font/#KoPubDotum Medium"  />
         </Border>
 
     </Canvas>

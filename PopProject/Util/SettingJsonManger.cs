@@ -85,6 +85,8 @@ namespace PopProject.Util
         public static bool detailPopup { get; set; }
         public static bool windowState { get; set; }
         public static bool noticePopup { get; set; }
+        public static string lockPassword { get; set; }
+
 
         // JSON 파일 경로
         public static string filePath { get; set; }
@@ -260,6 +262,8 @@ namespace PopProject.Util
                 windowState = jObject.ContainsKey("windowState") ? bool.Parse(jObject["windowState"].ToString()) : false;
                 // noticePopup 없는 경우 false
                 noticePopup = jObject.ContainsKey("noticePopup") ? bool.Parse(jObject["noticePopup"].ToString()) : false;
+                // lockPassword 없는 경우 ""
+                lockPassword = jObject.ContainsKey("lockPassword") ? jObject["lockPassword"].ToString() : "";
 
                 LogManager.Info("json → 셋팅정보(Class) Load 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
@@ -360,7 +364,9 @@ namespace PopProject.Util
                                 {"detailPass", detailPass.ToString()},
                                 {"detailPopup", detailPopup.ToString()},
                                 {"windowState", windowState.ToString()},
-                                {"noticePopup", noticePopup.ToString()}
+                                {"noticePopup", noticePopup.ToString()},
+                                {"lockPassword", string.IsNullOrEmpty(lockPassword) == false ? lockPassword : ""}
+
 
                             };
 
