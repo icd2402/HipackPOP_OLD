@@ -2850,8 +2850,7 @@ namespace PopProject.UserControl_
                                   "UpUserName:" + MainWindow.userName + Environment.NewLine +
                                   "workerName:" + "" + Environment.NewLine +
                                   "workerID:" + "" + Environment.NewLine +
-                                  "SCMKey:" + "" + Environment.NewLine +
-                                 "---------------------------------------------------------------------------");
+                                  "SCMKey:" + "");
             }
 
 

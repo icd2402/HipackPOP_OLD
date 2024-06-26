@@ -31,9 +31,9 @@ namespace PopProject.UserControl_
             //기존 패스워드 일치 시
             if (SettingJsonManager.lockPassword.Equals(password1.Text))
             {
-                if (password2.Text != "")
+                if (password2.Password != "")
                 {
-                    SettingJsonManager.lockPassword = password2.Text; //변경 비밀번호 저장
+                    SettingJsonManager.lockPassword = password2.Password; //변경 비밀번호 저장
                     SettingJsonManager.SaveJsonFile(); //저장
 
                     MessageBoxResult result = System.Windows.MessageBox.Show("비밀번호 변경 완료.", "알림", MessageBoxButton.OK);
@@ -51,8 +51,6 @@ namespace PopProject.UserControl_
                 MessageBox_Dialog box = new MessageBox_Dialog("기존 비밀번호가 일치하지 않습니다.");
                 _ = box.ShowDialog();
             }
-
-
         }
 
         private bool IsNumeric(string password)

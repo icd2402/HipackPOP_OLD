@@ -289,109 +289,118 @@ namespace PopProject.Consumer_
         //시작,종료 버튼 클릭
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // 시작 버튼 클릭
-            if (inputModel.imagePath.Equals("/img/bn_05.png") && startPBLock.Equals(false))
+            //관리자 로그인이 아닐때
+            if (!SettingJsonManager.manager.Equals("1"))
             {
-                LogManager.Info("실수요자 input창 시작버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
-
-                startPBLock = true;
-
-                if (Main.production != null)
+                // 시작 버튼 클릭
+                if (inputModel.imagePath.Equals("/img/bn_05.png") && startPBLock.Equals(false))
                 {
-                    MessageBox_Dialog messageBox = new MessageBox_Dialog(inputModel.prodName + "\n" + "해당 건이 작업중입니다.");
-                    _ = messageBox.ShowDialog();
+                    LogManager.Info("실수요자 input창 시작버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
 
-                    //MessageBox_Dialog2 messageBox2 = new MessageBox_Dialog2(inputModel, mainModel, inputModel.prodName + "\n" + "해당 건이 작업중입니다.", true);
-                    //_ = messageBox2.ShowDialog();
-                    startPBLock = false;
+                    startPBLock = true;
 
-                }
-                else
-                {
-                    // 실수요자 작업중인건이 있을 경우
-                    if (CheckConsumerWork())
+                    if (Main.production != null)
                     {
-                        MessageBox_Dialog messageBox = new MessageBox_Dialog("실수요자 작업중인 건이 있습니다.");
+                        MessageBox_Dialog messageBox = new MessageBox_Dialog(inputModel.prodName + "\n" + "해당 건이 작업중입니다.");
                         _ = messageBox.ShowDialog();
+
+                        //MessageBox_Dialog2 messageBox2 = new MessageBox_Dialog2(inputModel, mainModel, inputModel.prodName + "\n" + "해당 건이 작업중입니다.", true);
+                        //_ = messageBox2.ShowDialog();
                         startPBLock = false;
-                    }
-                    else //작업 중인건 없음
-                    {
-                        try
-                        {
-                            Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
-                        }
-                        catch
-                        {
-                        }
-
-                        PopResultStartMember(); //생산시작 [PopResultStartMember]
-                        PopResultSearchMember(); //생산결과 건 조회 [PopResultSearchMember]
-                        CountManager.SendMsg(SettingJsonManager.mercName, "S"); //현황판으로 생산종료 송신
-
-                    }
-                }
-            }
-            // 종료 버튼 클릭
-            else if (inputModel.imagePath.Equals("/img/bn_06.png"))
-            {
-                LogManager.Info("실수요자 input창 종료버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
-                startPBLock = false;
-
-                MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장", MessageBoxButton.YesNo);
-
-                if (result == MessageBoxResult.No)
-                {
-                }
-                else //yes
-                {
-                    string metrialitem = SettingJsonManager.meterialinfo; //작업정보 설정 저장
-                    Console.WriteLine("실수요자 결과수량 : " + inputModel.count);
-
-                    if (PopResultEndMember() == 1)
-                    {
-                        SettingJsonManager.consumersumcount = SettingJsonManager.consumersumcount + inputModel.pworkCount; //생산
-                        SettingJsonManager.consumersumerrorcount = SettingJsonManager.consumersumerrorcount + inputModel.perrCount; //불량
-                        Console.WriteLine("consumerCount : " + SettingJsonManager.consumersumcount);
-                        SettingJsonManager.SaveJsonFile();
-
-                        Main.production = null; //생산정보 리셋
-                        inputModel.perrCount = 0; //불량수량 리셋
-                        inputModel.count = 0; //생산수량 리셋
-                        inputModel.pMemo = ""; //비고 리셋
-                        inputModel.pworkCount = 0; //방금 생산량 리셋
-                        PopResultSearchMember(); //생산 결과 조회
-                        DSConsumer.product.imgSource = "/img/bn_03.png"; //완료버튼으로 변경
-
-                        //아두이노 카운터 리셋
-                        try
-                        {
-                            Main.arduSerial.Write("A"); 
-                        }
-                        catch(Exception ardu)
-                        {
-                            MessageBox_Dialog msg = new MessageBox_Dialog("아두이노 연결 오류!!");
-                        }
-
-                        //구룡포장 
-                        if(SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
-                        {
-                            if (SettingJsonManager.mercName.Contains("인라인"))
-                            {
-                                if (mainModel.subOb.Count == 2)
-                                {
-                                    //PopResultInlineStartMember(mainModel.subOb[mainModel.subOb.Count - 1]);
-                                }
-                            }
-                        }
 
                     }
                     else
                     {
-                        MessageBox_Dialog box = new MessageBox_Dialog("저장 오류!!");
-                        _ = box.ShowDialog();
+                        // 실수요자 작업중인건이 있을 경우
+                        if (CheckConsumerWork())
+                        {
+                            MessageBox_Dialog messageBox = new MessageBox_Dialog("실수요자 작업중인 건이 있습니다.");
+                            _ = messageBox.ShowDialog();
+                            startPBLock = false;
+                        }
+                        else //작업 중인건 없음
+                        {
+                            try
+                            {
+                                Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
+                            }
+                            catch
+                            {
+                            }
+
+                            PopResultStartMember(); //생산시작 [PopResultStartMember]
+                            PopResultSearchMember(); //생산결과 건 조회 [PopResultSearchMember]
+                            CountManager.SendMsg(SettingJsonManager.mercName, "S"); //현황판으로 생산종료 송신
+
+                        }
                     }
                 }
+                // 종료 버튼 클릭
+                else if (inputModel.imagePath.Equals("/img/bn_06.png"))
+                {
+                    LogManager.Info("실수요자 input창 종료버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+                    startPBLock = false;
+
+                    MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장", MessageBoxButton.YesNo);
+
+                    if (result == MessageBoxResult.No)
+                    {
+                    }
+                    else //yes
+                    {
+                        string metrialitem = SettingJsonManager.meterialinfo; //작업정보 설정 저장
+                        Console.WriteLine("실수요자 결과수량 : " + inputModel.count);
+
+                        if (PopResultEndMember() == 1)
+                        {
+                            SettingJsonManager.consumersumcount = SettingJsonManager.consumersumcount + inputModel.pworkCount; //생산
+                            SettingJsonManager.consumersumerrorcount = SettingJsonManager.consumersumerrorcount + inputModel.perrCount; //불량
+                            Console.WriteLine("consumerCount : " + SettingJsonManager.consumersumcount);
+                            SettingJsonManager.SaveJsonFile();
+
+                            Main.production = null; //생산정보 리셋
+                            inputModel.perrCount = 0; //불량수량 리셋
+                            inputModel.count = 0; //생산수량 리셋
+                            inputModel.pMemo = ""; //비고 리셋
+                            inputModel.pworkCount = 0; //방금 생산량 리셋
+                            PopResultSearchMember(); //생산 결과 조회
+                            DSConsumer.product.imgSource = "/img/bn_03.png"; //완료버튼으로 변경
+
+                            //아두이노 카운터 리셋
+                            try
+                            {
+                                Main.arduSerial.Write("A");
+                            }
+                            catch (Exception ardu)
+                            {
+                                MessageBox_Dialog msg = new MessageBox_Dialog("아두이노 연결 오류!!");
+                            }
+
+                            //구룡포장 
+                            if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
+                            {
+                                if (SettingJsonManager.mercName.Contains("인라인"))
+                                {
+                                    if (mainModel.subOb.Count == 2)
+                                    {
+                                        //PopResultInlineStartMember(mainModel.subOb[mainModel.subOb.Count - 1]);
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            MessageBox_Dialog box = new MessageBox_Dialog("저장 오류!!");
+                            _ = box.ShowDialog();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox_Dialog box = new MessageBox_Dialog("관리자 로그인 시 조작할 수 없습니다.");
+                _ = box.ShowDialog();
             }
         }
 
@@ -982,38 +991,44 @@ namespace PopProject.Consumer_
         //생산 완료수량 수정
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            e.Handled = true;
-
-            if (e.ClickCount == 2)
+            if (!SettingJsonManager.manager.Equals("1"))
             {
-                LogManager.Info("실수요자 input창 생산결과 수량 수정", MethodBase.GetCurrentMethod().DeclaringType);
+                e.Handled = true;
 
-                if (sender.GetType().Name.Equals("Border"))
+                if (e.ClickCount == 2)
                 {
-                    Border border = (Border)sender;
-                    errorModel context = (errorModel)border.DataContext;
+                    LogManager.Info("실수요자 input창 생산결과 수량 수정", MethodBase.GetCurrentMethod().DeclaringType);
 
-                    //Console.WriteLine("메모" + context.memo);
-
-                    if (!context.memo.Equals("작업시작") && !context.memo.Equals("작업완료"))
+                    if (sender.GetType().Name.Equals("Border"))
                     {
-                        //can.Visibility = Visibility.Visible;
-                        //Win_Update win_Update = new Win_Update(context,inputModel);
-                        //_ = win_Update.ShowDialog();
+                        Border border = (Border)sender;
+                        errorModel context = (errorModel)border.DataContext;
 
-                        //PopResultSearchMember();
-                        //can.Visibility = Visibility.Collapsed;
-                    }
-                    else if (context.memo.Equals("작업완료"))
-                    {
-                        can.Visibility = Visibility.Visible;
-                        Win_resultUpdate win_resultUpdate = new Win_resultUpdate(context, inputModel, true);
-                        _ = win_resultUpdate.ShowDialog();
-                        PopResultSearchMember(); //생산 결과 조회
-                        can.Visibility = Visibility.Collapsed;
+                        //Console.WriteLine("메모" + context.memo);
+
+                        if (!context.memo.Equals("작업시작") && !context.memo.Equals("작업완료"))
+                        {
+                            //can.Visibility = Visibility.Visible;
+                            //Win_Update win_Update = new Win_Update(context,inputModel);
+                            //_ = win_Update.ShowDialog();
+
+                            //PopResultSearchMember();
+                            //can.Visibility = Visibility.Collapsed;
+                        }
+                        else if (context.memo.Equals("작업완료"))
+                        {
+                            can.Visibility = Visibility.Visible;
+                            Win_resultUpdate win_resultUpdate = new Win_resultUpdate(context, inputModel, true);
+                            _ = win_resultUpdate.ShowDialog();
+                            PopResultSearchMember(); //생산 결과 조회
+                            can.Visibility = Visibility.Collapsed;
+                        }
                     }
                 }
             }
+
+
+            
         }
     }
 }

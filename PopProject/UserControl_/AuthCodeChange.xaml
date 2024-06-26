@@ -12,7 +12,9 @@
             <TextBox x:Name="password1" Canvas.Top="15" Canvas.Left="175" FontSize="20" Width="100" Height="35" />
 
             <TextBlock Text="변경 비밀번호 :" Canvas.Top="65" Canvas.Left="25" FontSize="20"/>
-            <TextBox x:Name="password2" Canvas.Top="63" Canvas.Left="175" FontSize="20" Width="100" Height="35" />
+            <PasswordBox  x:Name="password2" Canvas.Top="63" Canvas.Left="175" FontSize="20" Width="100" Height="35" />
+
+
 
             <Button  Width="90" Height="40" Canvas.Top="110" Canvas.Left="110" Content="변경" FontSize="20" FontWeight="Bold" Foreground="White" Background="DarkOrange" Click="Button_Click">
                 <Button.Resources>

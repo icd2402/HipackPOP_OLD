@@ -1046,36 +1046,44 @@ namespace PopProject.Input
         //취소 버튼 클릭
         private void Win_input_cancel(object sender, MouseButtonEventArgs e)
         {
-            //종료버튼 활성화 일때
-            if (inputModel.imagePath.Equals("/img/bn_06.png"))
+            if (!SettingJsonManager.manager.Equals("1"))
             {
-                MessageBoxResult result = System.Windows.MessageBox.Show("작업을 취소하면 결과가 저장되지 않습니다." + Environment.NewLine + "정말로 취소 하시겠습니까?", "작업 취소", MessageBoxButton.YesNo);
-
-                if (result == MessageBoxResult.No)
+                //종료버튼 활성화 일때
+                if (inputModel.imagePath.Equals("/img/bn_06.png"))
                 {
-                    //Close();
+                    MessageBoxResult result = System.Windows.MessageBox.Show("작업을 취소하면 결과가 저장되지 않습니다." + Environment.NewLine + "정말로 취소 하시겠습니까?", "작업 취소", MessageBoxButton.YesNo);
+
+                    if (result == MessageBoxResult.No)
+                    {
+                        //Close();
+                    }
+                    else
+                    {
+                        PopResultEnd("cancel"); //결과값 삽입
+
+                        inputModel.perrCount = 0;
+                        inputModel.count = 0;
+                        inputModel.pMemo = "";
+                        inputModel.pworkCount = 0;
+                        PopResultSearch();
+
+                        LogManager.Info(inputModel.customSName + " / " + inputModel.prodName + " [생산취소] " + inputModel.sumPworkCount + "개", MethodBase.GetCurrentMethod().DeclaringType);
+
+                        if (SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트"))
+                        {
+                            Close();
+                        }
+                    }
                 }
                 else
                 {
-                    PopResultEnd("cancel"); //결과값 삽입
-
-                    inputModel.perrCount = 0;
-                    inputModel.count = 0;
-                    inputModel.pMemo = "";
-                    inputModel.pworkCount = 0;
-                    PopResultSearch();
-
-                    LogManager.Info(inputModel.customSName + " / " + inputModel.prodName + " [생산취소] " + inputModel.sumPworkCount + "개", MethodBase.GetCurrentMethod().DeclaringType);
-
-                    if (SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트"))
-                    {
-                        Close();
-                    }
+                    MessageBoxResult result = System.Windows.MessageBox.Show("작업 중일 때만 취소할 수 있습니다.", "취소 불가", MessageBoxButton.OK);
                 }
             }
             else
             {
-                MessageBoxResult result = System.Windows.MessageBox.Show("작업 중일 때만 취소할 수 있습니다.", "취소 불가", MessageBoxButton.OK);
+                MessageBox_Dialog box = new MessageBox_Dialog("관리자 로그인 시 조작할 수 없습니다.");
+                _ = box.ShowDialog();
             }
         }
 
@@ -1100,115 +1108,122 @@ namespace PopProject.Input
         //시작 & 종료 버튼
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            //시작 버튼 활성화 일때
-            if (inputModel.imagePath.Equals("/img/bn_05.png") && startPBLock.Equals(false)) 
+            //관리자 로그인이 아닐때
+            if (!SettingJsonManager.manager.Equals("1"))
             {
-                startPBLock = true;
-
-                Console.WriteLine("생산 시작한 prodID : " + this.mainModel.prodID);
-                string metrialitem = SettingJsonManager.meterialinfo;
-                string sCustomSName = "";
-                string sProdName = "";
-
-                switch (metrialitem)
+                //시작 버튼 활성화 일때
+                if (inputModel.imagePath.Equals("/img/bn_05.png") && startPBLock.Equals(false))
                 {
-                    //마닐라
-                    case "19":
-                    case "20":
-                        if (Main1.production != null)
-                        {
-                            //생상중이 거래서/품명 표현
-                            sCustomSName = Main.production.customSName;
-                            sProdName = Main.production.prodName;
-                            MessageBox_Dialog messageBox = new MessageBox_Dialog("거래처: " + sCustomSName + "\n" +
-                                                                                 "품명: " + sProdName + "\n" +
-                                                                                 "해당 건이 작업중입니다.");
-                            _ = messageBox.ShowDialog();
-                        }
-                        else
-                        {
-                            _ = new LogData("작업시작");
-                            _ = PopResultStart();
-                            PopResultSearch();
-                            LogManager.Info(Main.production.customSName + " / " + Main.production.prodName + " [생산시작]", MethodBase.GetCurrentMethod().DeclaringType);
-                        }
+                    startPBLock = true;
 
-                        break;
+                    Console.WriteLine("생산 시작한 prodID : " + this.mainModel.prodID);
+                    string metrialitem = SettingJsonManager.meterialinfo;
+                    string sCustomSName = "";
+                    string sProdName = "";
 
-                    //일반
-                    default:
-                        if (Main.production != null)
-                        {
-                            //생상중이 거래서/품명 표현
-                            sCustomSName = Main.production.customSName;
-                            sProdName= Main.production.prodName;
-
-                            MessageBox_Dialog messageBox = new MessageBox_Dialog("거래처: " + sCustomSName + "\n" +
-                                                                                 "품명: " + sProdName + "\n" + 
-                                                                                 "해당 건이 작업중입니다.");
-                            _ = messageBox.ShowDialog();
-                        }
-                        else
-                        {
-                            _ = new LogData("작업시작");
-                            _ = PopResultStart();
-                            PopResultSearch();
-                            LogManager.Info(Main.production.customSName + " / " + Main.production.prodName + " [생산시작]", MethodBase.GetCurrentMethod().DeclaringType);
-                        }
-                        break;
-                }
-
-            }
-            //종료버튼 활성화 일때
-            else if (inputModel.imagePath.Equals("/img/bn_06.png")) 
-            {
-                MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장", MessageBoxButton.YesNo);
-
-                if (result == MessageBoxResult.No)
-                {
-                    Close();
-                }
-                else
-                {
-                    startPBLock = false;
-                    inLineDone = 0;
-
-                    PopResultEnd("end"); //결과값 삽입
-
-                    //불량수량 자동 입력
-                    if (tbError.Text != "0" && tbError.Text != "" && textbox_error.Text != "" )
+                    switch (metrialitem)
                     {
-                        if (inputModel.pworkKey != 0)
-                        {
-                            if (popErrorInsert() == 1)
+                        //마닐라
+                        case "19":
+                        case "20":
+                            if (Main1.production != null)
                             {
-                                tbError.Text = "0";
+                                //생상중이 거래서/품명 표현
+                                sCustomSName = Main.production.customSName;
+                                sProdName = Main.production.prodName;
+                                MessageBox_Dialog messageBox = new MessageBox_Dialog("거래처: " + sCustomSName + "\n" +
+                                                                                     "품명: " + sProdName + "\n" +
+                                                                                     "해당 건이 작업중입니다.");
+                                _ = messageBox.ShowDialog();
                             }
                             else
                             {
-                                MessageBox_Dialog msg = new MessageBox_Dialog("불량 데이터 저장 오류 !!");
-                                msg.ShowDialog();
+                                _ = new LogData("작업시작");
+                                _ = PopResultStart();
+                                PopResultSearch();
+                                LogManager.Info(Main.production.customSName + " / " + Main.production.prodName + " [생산시작]", MethodBase.GetCurrentMethod().DeclaringType);
                             }
-                        }
+
+                            break;
+
+                        //일반
+                        default:
+                            if (Main.production != null)
+                            {
+                                //생상중이 거래서/품명 표현
+                                sCustomSName = Main.production.customSName;
+                                sProdName = Main.production.prodName;
+
+                                MessageBox_Dialog messageBox = new MessageBox_Dialog("거래처: " + sCustomSName + "\n" +
+                                                                                     "품명: " + sProdName + "\n" +
+                                                                                     "해당 건이 작업중입니다.");
+                                _ = messageBox.ShowDialog();
+                            }
+                            else
+                            {
+                                _ = new LogData("작업시작");
+                                _ = PopResultStart();
+                                PopResultSearch();
+                                LogManager.Info(Main.production.customSName + " / " + Main.production.prodName + " [생산시작]", MethodBase.GetCurrentMethod().DeclaringType);
+                            }
+                            break;
                     }
 
-                    inputModel.perrCount = 0;
-                    inputModel.count = 0;
-                    inputModel.pMemo = "";
-                    inputModel.pworkCount = 0;
-                    PopResultSearch();
+                }
+                //종료버튼 활성화 일때
+                else if (inputModel.imagePath.Equals("/img/bn_06.png"))
+                {
+                    MessageBoxResult result = System.Windows.MessageBox.Show("작업을 저장 하시겠습니까 ?", "작업 저장", MessageBoxButton.YesNo);
 
-                    LogManager.Info(inputModel.customSName + " / " + inputModel.prodName + " [생산종료] " + inputModel.sumPworkCount + "개", MethodBase.GetCurrentMethod().DeclaringType);
-
-                    if (SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트"))
+                    if (result == MessageBoxResult.No)
                     {
                         Close();
                     }
+                    else
+                    {
+                        startPBLock = false;
+                        inLineDone = 0;
+
+                        PopResultEnd("end"); //결과값 삽입
+
+                        //불량수량 자동 입력
+                        if (tbError.Text != "0" && tbError.Text != "" && textbox_error.Text != "")
+                        {
+                            if (inputModel.pworkKey != 0)
+                            {
+                                if (popErrorInsert() == 1)
+                                {
+                                    tbError.Text = "0";
+                                }
+                                else
+                                {
+                                    MessageBox_Dialog msg = new MessageBox_Dialog("불량 데이터 저장 오류 !!");
+                                    msg.ShowDialog();
+                                }
+                            }
+                        }
+
+                        inputModel.perrCount = 0;
+                        inputModel.count = 0;
+                        inputModel.pMemo = "";
+                        inputModel.pworkCount = 0;
+                        PopResultSearch();
+
+                        LogManager.Info(inputModel.customSName + " / " + inputModel.prodName + " [생산종료] " + inputModel.sumPworkCount + "개", MethodBase.GetCurrentMethod().DeclaringType);
+
+                        if (SettingJsonManager.corp_name.Equals("금화") || SettingJsonManager.corp_name.Equals("금화테스트"))
+                        {
+                            Close();
+                        }
+                    }
                 }
             }
+            else
+            {
+                MessageBox_Dialog box = new MessageBox_Dialog("관리자 로그인 시 조작할 수 없습니다.");
+                _ = box.ShowDialog();
+            }
         }
-
-
 
 
         bool cnsProcessing = false;

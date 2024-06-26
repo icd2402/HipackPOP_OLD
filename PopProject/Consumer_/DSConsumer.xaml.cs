@@ -103,7 +103,6 @@ namespace PopProject.Consumer_
 
             if (returnData.결과 == 1)
             {
-                Console.WriteLine("------------------------------------------------------");
                 JArray Data_Jarry = JArray.Parse(returnData.리턴값);
                 if (Data_Jarry != null)
                 {
@@ -385,7 +384,7 @@ namespace PopProject.Consumer_
                                   "오더Key:" + mainModel.orderKey + Environment.NewLine +
                                   "arrChkAED:" + arrChkAED + Environment.NewLine +
                                   "arr공정구분:" + mainModel.ProcessType + "|" + Environment.NewLine +
-                                  "arr계획키:" + mainModel.pplanKey + Environment.NewLine +
+                                  "arr계획키:" + mainModel.pplanKey + "|" + Environment.NewLine +
                                   "arr작업키:" + pWorkKey + "|" + Environment.NewLine +
                                   "arr작업량:" + totalCount + "|" + Environment.NewLine +
                                   "arr불량:" + totalErrorCount + "|" + Environment.NewLine +
@@ -611,24 +610,25 @@ namespace PopProject.Consumer_
             float TempTotalCount = 0;
             float TempTotalErrorCount = 0;
 
-            //pworkKey가 같으면
-            if (consumerList.Where((x) => x.pworkKey.ToString() == SettingJsonManager.pworkkey).Count() > 0)
+            //관리자 로그인이 아닐때
+            if (!SettingJsonManager.manager.Equals("1"))
             {
-                //총 생산 합산
-                TempTotalCount = consumerList.Where((x) => x.pworkKey.ToString() == SettingJsonManager.pworkkey).Sum((x) => x.pWorkCount);
-                //총 불량 합산
-                TempTotalErrorCount = consumerList.Where((x) => x.pworkKey.ToString() == SettingJsonManager.pworkkey).Sum((x) => x.perrCnt);
-
-                //상자수 체크시 매수 표현을 위해 통수 곱해줌
-                if (SettingJsonManager.boxCheck)
+                //pworkKey가 같으면
+                if (consumerList.Where((x) => x.pworkKey.ToString() == SettingJsonManager.pworkkey).Count() > 0)
                 {
-                    TempTotalCount *= int.Parse(mainModel.pCnt.ToString());
-                    TempTotalErrorCount *= int.Parse(mainModel.pCnt.ToString());
-                }
+                    //총 생산 합산
+                    TempTotalCount = consumerList.Where((x) => x.pworkKey.ToString() == SettingJsonManager.pworkkey).Sum((x) => x.pWorkCount);
+                    //총 불량 합산
+                    TempTotalErrorCount = consumerList.Where((x) => x.pworkKey.ToString() == SettingJsonManager.pworkkey).Sum((x) => x.perrCnt);
 
-                // 관리자 로그인이 아닐때
-                if (!SettingJsonManager.manager.Equals("1"))
-                {
+                    //상자수 체크시 매수 표현을 위해 통수 곱해줌
+                    if (SettingJsonManager.boxCheck)
+                    {
+                        TempTotalCount *= int.Parse(mainModel.pCnt.ToString());
+                        TempTotalErrorCount *= int.Parse(mainModel.pCnt.ToString());
+                    }
+
+
                     if (consumerList.Where((x) => x.pworkKey.ToString() == SettingJsonManager.pworkkey && (!string.IsNullOrEmpty(x.sDatetime.ToString()) && (string.IsNullOrEmpty(x.eDatetime.ToString())))).Count() > 0)
                     {
                         //실수요자 작업 진행 중일 때는 아무 작업 하지 않음
@@ -669,22 +669,26 @@ namespace PopProject.Consumer_
                         }
                     }
                 }
+                else
+                {
+                    arrChkAED = "3|"; //삭제
+                }
+
+                if (arrChkAED != "")
+                {
+                    string refPworkKey = string.Format("{0}", SettingJsonManager.pworkkey);
+                    PopresultEnd(Convert.ToInt32(TempTotalCount), Convert.ToInt32(TempTotalErrorCount), arrChkAED, SettingJsonManager.pworkkey);
+
+                    //수정이면 생산종료 시간 기록
+                    if (arrChkAED == "2|")
+                    {
+                        PopResultEndTimeSetting(refPworkKey);
+                    }
+                }
             }
             else
             {
-                arrChkAED = "3|"; //삭제
-            }
 
-            if (arrChkAED != "")
-            {
-                string refPworkKey = string.Format("{0}", SettingJsonManager.pworkkey);
-                PopresultEnd(Convert.ToInt32(TempTotalCount), Convert.ToInt32(TempTotalErrorCount), arrChkAED, SettingJsonManager.pworkkey);
-                
-                //수정이면 생산종료 시간 기록
-                if (arrChkAED == "2|")
-                {
-                    PopResultEndTimeSetting(refPworkKey);
-                }
             }
         }
 
