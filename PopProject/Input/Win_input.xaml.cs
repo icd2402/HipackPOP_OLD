@@ -818,7 +818,7 @@ namespace PopProject.Input
         {
             e.Handled = true;
 
-            if (e.ClickCount == 2) //더블클릭
+            if (e.ClickCount == 1) //더블클릭
             {
                 if (sender.GetType().Name.Equals("Border"))
                 {

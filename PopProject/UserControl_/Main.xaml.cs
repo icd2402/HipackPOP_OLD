@@ -3294,8 +3294,16 @@ namespace PopProject.UserControl_
                     unlock_img.Visibility = Visibility.Visible;
                     lock_img.Visibility = Visibility.Collapsed;
                     merc_lock.Text = "UNLOCK";
-                    txtDate2.Visibility = Visibility.Visible; //날짜변경 버튼 표시
-                    txtDate3.Visibility = Visibility.Visible; //날짜변경 버튼 표시
+
+                    if (SettingJsonManager.corp_name.Equals("대세물산") ||
+                        SettingJsonManager.corp_name.Equals("유창포장") ||
+                        SettingJsonManager.corp_name.Equals("광성수출포장") ||
+                        SettingJsonManager.corp_name.Contains("테스트") ||
+                        Environment.MachineName.Equals("PRG-PJH-DESK"))
+                    {
+                        txtDate2.Visibility = Visibility.Visible; //날짜변경 버튼 표시
+                        txtDate3.Visibility = Visibility.Visible; //날짜변경 버튼 표시
+                    }
 
                     SettingJsonManager.checkMerc = false;
                     LogManager.Info("Lock => UnLock", MethodBase.GetCurrentMethod().DeclaringType);
