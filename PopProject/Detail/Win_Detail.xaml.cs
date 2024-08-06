@@ -814,6 +814,10 @@ namespace PopProject.Detail
                     {
                         switch (mainModel.paperGor.Replace("골", "").Trim())
                         {
+                            case "AA":
+                                갭 = 90;
+                                break;
+
                             case "AB":
                             case "BA":
                                 갭 = 70;
@@ -907,7 +911,7 @@ namespace PopProject.Detail
                     items.Add(0);//D3828 P4
                     items.Add(뒷날개);//D3829
                 }
-                else
+                else //인라인3호기
                 {
                     items.Add(99);       //D3800 설정 변경요구 (99로 요청하면 1로바뀜)
                     items.Add(0);        //D3801 지령모드 (0=> 신규설정요구, 1=>데이터 설정 변경요구)
@@ -2137,7 +2141,7 @@ namespace PopProject.Detail
                             {
                                 if (MemoLock)
                                 {
-                                    tb공정별.Text = tb공정별.Text.ToString() + "\n" + "메  모 : " + result["prodMemo"].ToString();
+                                    tb공정별.Text = tb공정별.Text.ToString() + "\n" + "메 모 : " + result["prodMemo"].ToString();
                                 }
                                 MemoLock = false;
                             }
