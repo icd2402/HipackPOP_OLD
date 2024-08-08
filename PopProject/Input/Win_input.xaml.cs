@@ -1129,8 +1129,8 @@ namespace PopProject.Input
                             if (Main1.production != null)
                             {
                                 //생상중이 거래서/품명 표현
-                                sCustomSName = Main.production.customSName;
-                                sProdName = Main.production.prodName;
+                                sCustomSName = Main1.production.customSName;
+                                sProdName = Main1.production.prodName;
                                 MessageBox_Dialog messageBox = new MessageBox_Dialog("거래처: " + sCustomSName + "\n" +
                                                                                      "품명: " + sProdName + "\n" +
                                                                                      "해당 건이 작업중입니다.");
@@ -1141,7 +1141,7 @@ namespace PopProject.Input
                                 _ = new LogData("작업시작");
                                 _ = PopResultStart();
                                 PopResultSearch();
-                                LogManager.Info(Main.production.customSName + " / " + Main.production.prodName + " [생산시작]", MethodBase.GetCurrentMethod().DeclaringType);
+                                LogManager.Info(Main1.production.customSName + " / " + Main1.production.prodName + " [생산시작]", MethodBase.GetCurrentMethod().DeclaringType);
                             }
 
                             break;

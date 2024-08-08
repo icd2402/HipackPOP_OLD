@@ -22,6 +22,7 @@ using System.Windows.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Reflection;
 
 namespace PopProject.UserControl_
 {
@@ -51,16 +52,36 @@ namespace PopProject.UserControl_
         private double hOff = 1;
         private double vOff = 1;
         private bool CNS_Barcode_Send = false; //true이면 바코드 읽으면 CNS로 데이터 전송
+        private SearchList searchListWindow;
+        bool tempLock = false;
+        bool settingPopupCheck = false;
 
         public Main1()
         {
             InitializeComponent();
+
             production = null;
-            setLock();
             string metrialitem = SettingJsonManager.meterialinfo;
             SetSetting(metrialitem);
             string merName = SettingJsonManager.mercName;
             tbMercName.Text = merName;
+
+
+            // 설비명 변경 Lock / Unlock 설정
+            if (!SettingJsonManager.checkMerc)
+            {
+                unlock_img.Visibility = Visibility.Visible;
+                lock_img.Visibility = Visibility.Collapsed;
+                //btnLogout.Background = Brushes.Green;
+                merc_lock.Text = "UNLOCK";
+            }
+            else
+            {
+                unlock_img.Visibility = Visibility.Collapsed;
+                lock_img.Visibility = Visibility.Visible;
+                //btnLogout.Background = Brushes.Red;
+                merc_lock.Text = "LOCK";
+            }
 
             try
             {
@@ -277,208 +298,42 @@ namespace PopProject.UserControl_
         private void Timer_Tick(object sender, EventArgs e)
         {
 
-            DateTime dt = DateTime.Now;
-            string datePart = DateTime.Today.ToString("D");
-            string datetime = string.Format("{0:D2}시 {1:D2}분 {2:D2}초",
-                              dt.Hour, dt.Minute, dt.Second);
-            txtDate.Text = datePart;
-            txtClock.Text = datetime;
-
-            if (dt.Hour == SettingJsonManager.hour)
+            //공지사항 팝업
+            if (settingPopupCheck == false && !SettingJsonManager.noticePopup && tempLock == false)
             {
-                if (dt.Minute == SettingJsonManager.minute)
-                {
-                    if (dt.Second == 0)
-                    {
-                        _ = Process.Start("shutdown.exe", "-s");
-                    }
-                }
+                Notice_PopUp();
+                tempLock = true;
             }
 
-            _ = tbBarcode.Focus();
-            tbBarcode.SelectAll();
-          
-            if (minuite == 300)
+            txtDate.Text = DateTimeManager.GetSelectedDate().ToString("yyyy년 MM월 dd일 dddd");
+            txtClock.Text = DateTimeManager.GetSelectedDT().ToString("HH시 mm분 ss초");
+
+            //지정된 시간에 컴퓨터를 종료
+            if (DateTime.Now.Hour == SettingJsonManager.hour && DateTime.Now.Minute == SettingJsonManager.minute)
             {
-                bool connected = NetworkInterface.GetIsNetworkAvailable();
-                Console.WriteLine("네트워크 연결 체크 : " + connected);
-                if (connected)
-                {
-                    if (production != null) { CountManager.SendMsg(SettingJsonManager.mercName, production.presultCount.ToString()); }
-                    if (win_Input == null)
-                    {
-
-                        if (!SettingJsonManager.corp_name.Equals("유창포장"))
-                        {
-
-                            SelectWorkList();
-                            ResultSearchDate();
-
-                        }
-
-                    }
-
-                    if (!arduSerial.IsOpen)
-                    {
-                        ArduConn();
-                    }
-
-                    minuite = 0;
-                }
-
+                _ = Process.Start("shutdown.exe", "-s");
             }
 
-            if (SettingJsonManager.corp_name.Equals("유창포장"))
+            //검색창이 팝업일때만 실행
+            if (searchListWindow != null && searchListWindow.IsVisible)
             {
-                switch (SettingJsonManager.processType)
-                {
-                    case 1:
-                        if (dt.Minute == 0 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 2:
-                        if (dt.Minute == 3 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 3:
-                        if (dt.Minute == 6 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 4:
-                        if (dt.Minute == 9 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 5:
-                        if (dt.Minute == 12 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 6:
-                        if (dt.Minute == 15 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 7:
-                        if (dt.Minute == 18 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 8:
-                        if (dt.Minute == 21 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 9:
-                        if (dt.Minute == 24 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 10:
-                        if (dt.Minute == 27 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 11:
-                        if (dt.Minute == 30 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 12:
-                        if (dt.Minute == 33 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 13:
-                        if (dt.Minute == 36 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 14:
-                        if (dt.Minute == 39 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 15:
-                        if (dt.Minute == 42 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 16:
-                        if (dt.Minute == 45 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 17:
-                        if (dt.Minute == 48 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 18:
-                        if (dt.Minute == 51 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 19:
-                        if (dt.Minute == 54 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                    case 20:
-                        if (dt.Minute == 57 && dt.Second == 0)
-                        {
-                            SelectWorkList();
-                            ResultSearchDate();
-                        }
-                        break;
-                }
-
+                SearchList_Pointer();
+                Console.WriteLine("검색창 팝업됨");
             }
 
-            minuite += 1;
-
-            //  Console.WriteLine("minuite - " + minuite);
+            //대세,광성은 바코드 동작 x
+            if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트") || SettingJsonManager.corp_name.Equals("광성수출포장") || SettingJsonManager.corp_name.Equals("광성수출포장테스트"))
+            {
+            }
+            else
+            {
+                if (Properties.Settings.Default.PopUpPosition_M == false)
+                {
+                    //바코드
+                    _ = tbBarcode.Focus();
+                    tbBarcode.SelectAll();
+                }
+            }
 
         }
 
@@ -498,9 +353,10 @@ namespace PopProject.UserControl_
         {
         }
 
+        //원격연결 버튼
         private void Remote_click(object sender, MouseButtonEventArgs e)
         {
-            _ = Process.Start("http://onefax.co.kr/w_onefax/remotebox_view.aspx");
+            _ = Process.Start("http://2007.asw.co.kr/client/index.jsp?cpcode=icd&autostart=true");
         }
 
         private void TxtDate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -544,22 +400,7 @@ namespace PopProject.UserControl_
            
 
         }
-        private void setLock()
-        {
-            if (SettingJsonManager.checkMerc)
-            {
-                btnLogout.Background = Brushes.Green;
-                merc_lock.Text = "UNLOCK";
-                SettingJsonManager.checkMerc = false;
-            }
-            else
-            {
-                merc_lock.Text = "LOCK";
-                btnLogout.Background = Brushes.Red;
-                SettingJsonManager.checkMerc = true;
-            }
-            SettingJsonManager.SaveJsonFile();
-        }
+       
         public void SelectWorkList()
         {
             LogData logData = new LogData("조회");
@@ -1549,13 +1390,63 @@ namespace PopProject.UserControl_
         }
         private void Logout_click(object sender, RoutedEventArgs e)
         {
-
             setLock();
-            //SettingJsonManager.SaveJsonFile();
-            //SettingJsonManager.Reset();
-            //SettingJsonManager.SaveJsonFile();
-            //_ = Process.Start(Application.ResourceAssembly.Location);
-            //Application.Current.Shutdown();
+
+        }
+
+        //LOCK /UNLOCK
+        private void setLock()
+        {
+            //lock일때
+            if (SettingJsonManager.checkMerc)
+            {
+                AuthCode auth = new AuthCode();
+                auth.ShowDialog();
+
+                //비밀번호 일치시
+                if (auth.PasswordCorrect == 1)
+                {
+                    unlock_img.Visibility = Visibility.Visible;
+                    lock_img.Visibility = Visibility.Collapsed;
+                    merc_lock.Text = "UNLOCK";
+
+                    if (SettingJsonManager.corp_name.Equals("대세물산") ||
+                        SettingJsonManager.corp_name.Equals("유창포장") ||
+                        SettingJsonManager.corp_name.Equals("광성수출포장") ||
+                        SettingJsonManager.corp_name.Contains("테스트") ||
+                        Environment.MachineName.Equals("PRG-PJH-DESK"))
+                    {
+                        txtDate2.Visibility = Visibility.Visible; //날짜변경 버튼 표시
+                        txtDate3.Visibility = Visibility.Visible; //날짜변경 버튼 표시
+                    }
+
+                    SettingJsonManager.checkMerc = false;
+                    LogManager.Info("Lock => UnLock", MethodBase.GetCurrentMethod().DeclaringType);
+                }
+                else if (auth.PasswordCorrect == 2)//비밀번호 미일치
+                {
+                    MessageBox_Dialog box = new MessageBox_Dialog("비밀번호가 일치하지 않습니다. \n\n비밀번호 분실 시 국제전산에 문의해주세요.");
+                    _ = box.ShowDialog();
+                }
+                else if (auth.PasswordCorrect == 0)
+                {
+
+                }
+            }
+            else//unlock일때
+            {
+                unlock_img.Visibility = Visibility.Collapsed;
+                lock_img.Visibility = Visibility.Visible;
+                merc_lock.Text = "LOCK";
+                txtDate2.Visibility = Visibility.Collapsed; //날짜변경 버튼 숨김
+                txtDate3.Visibility = Visibility.Collapsed; //날짜변경 버튼 숨김
+
+                SettingJsonManager.checkMerc = true;
+                LogManager.Info("UnLock => Lock", MethodBase.GetCurrentMethod().DeclaringType);
+
+            }
+
+            SettingJsonManager.SaveJsonFile();
         }
 
         private void Setting(object sender, MouseButtonEventArgs e)
@@ -1665,6 +1556,87 @@ namespace PopProject.UserControl_
             SelectWorkList();
             ResultSearchDate();
         }
+
+        //공지사항 버튼
+        private void notice_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Notice_PopUp();
+        }
+
+        private void Notice_PopUp()
+        {
+            Notice notice = new Notice();
+            _ = notice.ShowDialog();
+        }
+
+
+        //날짜 뒤로 이동
+        private void Date_Click1(object sender, MouseButtonEventArgs e)
+        {
+            DateTimeManager.SetPreviousDate();
+
+            SelectWorkList(); //계획 조회
+            ResultSearchDate(); //결과 조회
+        }
+
+        //날짜 앞으로 이동
+        private void Date_Click2(object sender, MouseButtonEventArgs e)
+        {
+            DateTimeManager.SetNextDate();
+
+            SelectWorkList(); //계획 조회
+            ResultSearchDate(); //결과 조회
+        }
+
+        private void TxtTime_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Time_pick.Time_pick time_Pick = new Time_pick.Time_pick();
+            _ = time_Pick.ShowDialog();
+        }
+
+        //검색창에서 클릭한 품목으로 스크롤 이동
+        private void SearchList_Pointer()
+        {
+            for (int i = 0; i < workList.Count; i++)
+            {
+                //하늘색처리된 계획건 수량
+                if (workList[i].icback.Equals("#6799FF"))
+                {
+                    sv.ScrollToVerticalOffset((77.8 * i) - (77.8 * 4));
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
     public class StrConverte : IValueConverter
     {
