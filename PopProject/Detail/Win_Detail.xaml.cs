@@ -2542,6 +2542,15 @@ namespace PopProject.Detail
             {
                 case "19": //마닐라 
                 case "20": //원단
+
+                    if (consumcheck)
+                    {
+                        MessageBox_Dialog msg = new MessageBox_Dialog("정상적인 경로가 아닙니다.");
+                        _ = msg.ShowDialog();
+                        return;
+                    }
+
+
                     Close();
 
                     Win_input input = new Win_input(mainModel, workList, true);

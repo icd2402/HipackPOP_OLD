@@ -56,6 +56,7 @@ namespace PopProject.Consumer_
             this.mainModel = mainModel;
             CarryForwardButtonState = carryForwardButtonState;
             LogManager.Info("실수요자 리스트 팝업: " + mainModel.corpName + " / " + mainModel.prodName, MethodBase.GetCurrentMethod().DeclaringType);
+            string metrialitem = SettingJsonManager.meterialinfo;
 
             // 작업중 버튼으로 창을 열면 이월버튼 숨김 (이월버튼은 대기/완료일때만 가능)
             if (!CarryForwardButtonState)
@@ -424,7 +425,15 @@ namespace PopProject.Consumer_
             if (returnData.결과 == 1)
             {
                 LogManager.Info("PopResultEnd 실행 완료" + ", arrChkAED: " + arrChkAED, MethodBase.GetCurrentMethod().DeclaringType);
-                Main.production = null;
+                if (SettingJsonManager.meterialinfo.Equals("19"))
+                {
+                    Main1.production = null;
+
+                }
+                else
+                {
+                    Main.production = null;
+                }
             }
             else
             {

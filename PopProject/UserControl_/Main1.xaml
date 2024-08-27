@@ -53,19 +53,25 @@
             
         </Canvas>
 
-        <Canvas x:Name="can1" Grid.Row="1" Margin="10,0,10,0">
-            <Image Width="40" Height="40" Canvas.Left="8" Source="/img/title_01.png" MouseLeftButtonDown="Refresh"/>
-
-            <TextBlock x:Name="tbNo" Text="NO" TextAlignment="Center" Width="30" Canvas.Top="11" MouseLeftButtonDown="Refresh" FontSize="18" Canvas.Left="14" FontWeight="Bold" Foreground="White" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock x:Name="div"  Canvas.Left="133" Canvas.Top="10" FontSize="18" Text="[수주일자] 거래처/품명" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="Search_"/>
-            <!--<TextBlock Canvas.Left="390" Canvas.Top="10" FontSize="18" Text="골" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>!-->
-            <TextBlock x:Name="info" Canvas.Left="395" Canvas.Top="10" FontSize="18" Text="원단정보" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock Canvas.Left="586" Canvas.Top="10" FontSize="18" Text="공정" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock x:Name="tbPrintNo" Canvas.Left="835" Canvas.Top="10" FontSize="18" Text="작업정보" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock Canvas.Left="1018" Canvas.Top="10" FontSize="18" Text="계획" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+        <Canvas x:Name="can1" Grid.Row="1" Margin="10,0,10,0" >
+            <Image Width="40" Height="40" Canvas.Left="4" Source="/img/title_01.png" MouseLeftButtonDown="Refresh"/>
+            <TextBlock x:Name="tbNo" Text="NO" TextAlignment="Center" Width="34" Canvas.Top="11" FontSize="18" Canvas.Left="8" MouseLeftButtonDown="Refresh" FontWeight="Bold" Foreground="White" FontFamily="/font/#KoPubDotum Bold"/>
+            <Image Width="41" Height="40" Canvas.Left="48" Source="/img/Search4.png" MouseLeftButtonDown="workList_search"/>
+            <TextBlock x:Name="div"  Canvas.Left="93" Canvas.Top="10" FontSize="18"  FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="sort" >
+                <Run x:Name="run수주일자" Text="[수주일자]"/>
+                <Run x:Name="run납품일자" Text="[납품일자]"/>
+                <Run x:Name="run거래처" Text="거래처"/>
+                <Run Text="/"/>
+                <Run x:Name="run품명" Text="품명"/>
+            </TextBlock>
+            <TextBlock x:Name="info" Canvas.Left="400" Canvas.Top="10" FontSize="18" Text="마닐라정보" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="Search_"/>
+            <TextBlock Canvas.Left="600" Canvas.Top="10" FontSize="18" Text="공정" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock x:Name="tbPrintNo" Canvas.Left="845" Canvas.Top="10" FontSize="18" Text="작업정보" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock x:Name="work" Canvas.Left="1018" Canvas.Top="10" FontSize="18" Text="계획" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
+            <TextBlock x:Name="box" Foreground="Blue" Visibility="Collapsed" Canvas.Left="1018" Canvas.Top="20" FontSize="16" Text="작업수" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock Canvas.Left="1076" Canvas.Top="10" FontSize="18" Text="결과" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
-            <TextBlock Canvas.Left="1168" Canvas.Top="10" FontSize="18" Text="상태" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"/>
-
+            <TextBlock x:Name="SState" Canvas.Left="1168" Canvas.Top="10" FontSize="18" Text="상태" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" />
+            <Image Source="/img/plan.png" x:Name="pop_Noty" Visibility="Collapsed" Canvas.Left="1220" Canvas.Top="3" MouseLeftButtonDown="Pop_noty"></Image>
         </Canvas>
 
         <Border Grid.Row="2" Margin="5,10,5,5" BorderBrush="Black" BorderThickness="1,1,1,1" Background="WhiteSmoke" Focusable="False">
@@ -121,10 +127,10 @@
 
                                 <Border Canvas.Left="745" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
                                 <!--<TextBlock Canvas.Left="755" Canvas.Top="11" FontSize="18" Text="색도" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>-->
-                                <TextBlock Canvas.Left="833" Canvas.Top="1" FontSize="15"  Text="{Binding item1}" Foreground="Green"  Width="170"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
-                                <TextBlock Canvas.Left="833" Canvas.Top="20" FontSize="15" Text="{Binding item2}" Foreground="Black"  Width="170"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
-                                <TextBlock Canvas.Left="833" Canvas.Top="40" FontSize="15" Text="{Binding item3}" Foreground="Green"  Width="170"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
-                                <TextBlock Canvas.Left="833" Canvas.Top="60" FontSize="15" Text="{Binding item4}" Foreground="Black"  Width="170"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <TextBlock Canvas.Left="753" Canvas.Top="1" FontSize="15"  Text="{Binding item1}" Foreground="Green"  Width="170"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <TextBlock Canvas.Left="753" Canvas.Top="20" FontSize="15" Text="{Binding item2}" Foreground="Black"  Width="170"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <TextBlock Canvas.Left="753" Canvas.Top="40" FontSize="15" Text="{Binding item3}" Foreground="Green"  Width="170"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
+                                <TextBlock Canvas.Left="753" Canvas.Top="60" FontSize="15" Text="{Binding item4}" Foreground="Black"  Width="170"  FontFamily="/font/#KoPubDotum Bold"></TextBlock>
                                 <Border    Canvas.Left="1010" Width="1" Height="76.5" BorderBrush="#2c3e50" BorderThickness="0,0,1,0"></Border>
                                 
                                 <TextBlock Canvas.Left="984" Canvas.Top="28" FontSize="15" Width="80" Text="{Binding pplanCount}" TextAlignment="Right" FontWeight="Bold" FontFamily="/font/#KoPubDotum Bold"></TextBlock>

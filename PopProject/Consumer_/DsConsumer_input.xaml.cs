@@ -50,6 +50,7 @@ namespace PopProject.Consumer_
             this.consumerModel = consumerModel;
             this.mainModel = mainModel;
             inputModel = new InputModel();
+            string metrialitem = SettingJsonManager.meterialinfo;
 
             LogManager.Info("실수요자 input창 팝업: " + consumerModel.membName + " / " + consumerModel.vendorName, MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -158,10 +159,19 @@ namespace PopProject.Consumer_
             if(second == 10)
             {
                 mainModel.inputModel = inputModel;
-                Main.production = mainModel;
+
+                if (SettingJsonManager.meterialinfo.Equals("19"))
+                {
+                    Main1.production = mainModel;
+                }
+                else
+                {
+                    Main.production = mainModel;
+                }
+                
                 second = 0;
             }
-           
+
         }
 
         //불량건 조회
@@ -299,41 +309,85 @@ namespace PopProject.Consumer_
 
                     startPBLock = true;
 
-                    if (Main.production != null)
+                    if (SettingJsonManager.meterialinfo.Equals("19"))
                     {
-                        MessageBox_Dialog messageBox = new MessageBox_Dialog(inputModel.prodName + "\n" + "해당 건이 작업중입니다.");
-                        _ = messageBox.ShowDialog();
+                        if (Main1.production != null)
+                        {
+                            MessageBox_Dialog messageBox = new MessageBox_Dialog(inputModel.prodName + "\n" + "해당 건이 작업중입니다.");
+                            _ = messageBox.ShowDialog();
 
-                        //MessageBox_Dialog2 messageBox2 = new MessageBox_Dialog2(inputModel, mainModel, inputModel.prodName + "\n" + "해당 건이 작업중입니다.", true);
-                        //_ = messageBox2.ShowDialog();
-                        startPBLock = false;
+                            //MessageBox_Dialog2 messageBox2 = new MessageBox_Dialog2(inputModel, mainModel, inputModel.prodName + "\n" + "해당 건이 작업중입니다.", true);
+                            //_ = messageBox2.ShowDialog();
+                            startPBLock = false;
 
+                        }
+                        else
+                        {
+                            // 실수요자 작업중인건이 있을 경우
+                            if (CheckConsumerWork())
+                            {
+                                MessageBox_Dialog messageBox = new MessageBox_Dialog("실수요자 작업중인 건이 있습니다.");
+                                _ = messageBox.ShowDialog();
+                                startPBLock = false;
+                            }
+                            else //작업 중인건 없음
+                            {
+                                try
+                                {
+                                    Main1.arduSerial.Write("A"); //아두이노 카운터 리셋
+                                    Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청
+                                }
+                                catch
+                                {
+                                }
+
+                                PopResultStartMember(); //생산시작 [PopResultStartMember]
+                                PopResultSearchMember(); //생산결과 건 조회 [PopResultSearchMember]
+                                CountManager.SendMsg(SettingJsonManager.mercName, "S"); //현황판으로 생산종료 송신
+
+                            }
+                        }
                     }
                     else
                     {
-                        // 실수요자 작업중인건이 있을 경우
-                        if (CheckConsumerWork())
+                        if (Main.production != null)
                         {
-                            MessageBox_Dialog messageBox = new MessageBox_Dialog("실수요자 작업중인 건이 있습니다.");
+                            MessageBox_Dialog messageBox = new MessageBox_Dialog(inputModel.prodName + "\n" + "해당 건이 작업중입니다.");
                             _ = messageBox.ShowDialog();
+
+                            //MessageBox_Dialog2 messageBox2 = new MessageBox_Dialog2(inputModel, mainModel, inputModel.prodName + "\n" + "해당 건이 작업중입니다.", true);
+                            //_ = messageBox2.ShowDialog();
                             startPBLock = false;
+
                         }
-                        else //작업 중인건 없음
+                        else
                         {
-                            try
+                            // 실수요자 작업중인건이 있을 경우
+                            if (CheckConsumerWork())
                             {
-                                Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
+                                MessageBox_Dialog messageBox = new MessageBox_Dialog("실수요자 작업중인 건이 있습니다.");
+                                _ = messageBox.ShowDialog();
+                                startPBLock = false;
                             }
-                            catch
+                            else //작업 중인건 없음
                             {
+                                try
+                                {
+                                    Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
+                                }
+                                catch
+                                {
+                                }
+
+                                PopResultStartMember(); //생산시작 [PopResultStartMember]
+                                PopResultSearchMember(); //생산결과 건 조회 [PopResultSearchMember]
+                                CountManager.SendMsg(SettingJsonManager.mercName, "S"); //현황판으로 생산종료 송신
+
                             }
-
-                            PopResultStartMember(); //생산시작 [PopResultStartMember]
-                            PopResultSearchMember(); //생산결과 건 조회 [PopResultSearchMember]
-                            CountManager.SendMsg(SettingJsonManager.mercName, "S"); //현황판으로 생산종료 송신
-
                         }
                     }
+
+                    
                 }
                 // 종료 버튼 클릭
                 else if (inputModel.imagePath.Equals("/img/bn_06.png"))
@@ -358,7 +412,15 @@ namespace PopProject.Consumer_
                             Console.WriteLine("consumerCount : " + SettingJsonManager.consumersumcount);
                             SettingJsonManager.SaveJsonFile();
 
-                            Main.production = null; //생산정보 리셋
+                            if (SettingJsonManager.meterialinfo.Equals("19"))
+                            {
+                                Main1.production = null; //생산정보 리셋
+
+                            }
+                            else
+                            {
+                                Main.production = null; //생산정보 리셋
+                            }
                             inputModel.perrCount = 0; //불량수량 리셋
                             inputModel.count = 0; //생산수량 리셋
                             inputModel.pMemo = ""; //비고 리셋
@@ -369,7 +431,15 @@ namespace PopProject.Consumer_
                             //아두이노 카운터 리셋
                             try
                             {
-                                Main.arduSerial.Write("A");
+                                if (SettingJsonManager.meterialinfo.Equals("19"))
+                                {
+                                    Main1.arduSerial.Write("A");
+
+                                }
+                                else
+                                {
+                                    Main.arduSerial.Write("A");
+                                }
                             }
                             catch (Exception ardu)
                             {
@@ -657,7 +727,15 @@ namespace PopProject.Consumer_
                 inputModel.workMemberKey = int.Parse(result[1]);
                 mainModel.sDatetime = (DateTime.Now.ToString("yyyy-MM-dd") == DateTimeManager.GetSelectedDateStr()) ?
                                        DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTimeManager.GetSelectedStr();
-                Main.production = mainModel;
+
+                if (SettingJsonManager.meterialinfo.Equals("19"))
+                {
+                    Main1.production = mainModel;
+                }
+                else
+                {
+                    Main.production = mainModel;
+                }
 
                 Console.WriteLine("result[0]" + result[0]);
                 Console.WriteLine("result[0]" + result[1]);

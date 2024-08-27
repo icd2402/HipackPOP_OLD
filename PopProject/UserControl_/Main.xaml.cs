@@ -3238,16 +3238,6 @@ namespace PopProject.UserControl_
 
         }
 
-
-
-
-
-
-
-
-
-
-
         private void Sv_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
