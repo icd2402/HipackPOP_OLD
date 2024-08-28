@@ -1573,7 +1573,7 @@ namespace PopProject.Detail
                     uriPathOB = ob;
 
                     //FTP(가비아서버)
-                    if (SettingJsonManager.corp_name.Equals("대양포장"))
+                    if (SettingJsonManager.corp_name.Equals("대양포장") || SettingJsonManager.corp_name.Equals("대양포장테스트"))
                     {
                         //이미지 있을때
                         if (uriPathOB.Count > 0)
@@ -1584,8 +1584,10 @@ namespace PopProject.Detail
                             tbPicCount.Text = "1/" + uriPathOB.Count;
 
                             string uri = ftpUri;
-                            string id = "BOXWAS";
-                            string pwd = "WAS2402!";
+                            //string id = "BOXWAS";
+                            //string pwd = "WAS2402!";
+                            string id = "administrator";
+                            string pwd = "Dybox0211!";
                             string imageName = ImagName;
 
                             //ftp 연결
