@@ -98,11 +98,11 @@ namespace PopProject.Detail
             //바코드로 입장시
             if (Barcode_Enter)
             {
-                LogManager.Info("바코드로 Detail창 팝업", MethodBase.GetCurrentMethod().DeclaringType);
+                LogManager.Info("바코드로 Detail창 팝업(" + mainModel.customSName + "/" + mainModel.prodName + ")", MethodBase.GetCurrentMethod().DeclaringType);
             }
             else
             {
-                LogManager.Info("일반 Detail창 팝업", MethodBase.GetCurrentMethod().DeclaringType);
+                LogManager.Info("일반 Detail창 팝업(" + mainModel.customSName + "/" + mainModel.prodName +")", MethodBase.GetCurrentMethod().DeclaringType);
             }
 
             //dateTimeManager = DateTimeManager.Instance; // DateTimeManager 객체 생성
@@ -214,20 +214,20 @@ namespace PopProject.Detail
             //로봇사용 체크시 로봇설정 버튼 표시
             robot.Visibility = SettingJsonManager.robotchecked ? Visibility.Visible : Visibility.Collapsed;
 
-            //두성,혜성,지온 일때 적재창고 버튼 표시
-            if (SettingJsonManager.corp_name.Equals("두성포장테스트") ||
-                SettingJsonManager.corp_name.Equals("두성포장") ||
-                SettingJsonManager.corp_name.Contains("혜성") ||
-                SettingJsonManager.corp_name.Contains("광성수출포장") ||
-                SettingJsonManager.corp_name.Contains("대세물산") ||
-                SettingJsonManager.corp_name.Contains("지온"))
-            {
-                wharehouse.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                wharehouse.Visibility = Visibility.Collapsed;
-            }
+            //두성,혜성,지온 일때 적재창고 버튼 표시 (일단 사용안함)
+            //if (SettingJsonManager.corp_name.Equals("두성포장테스트") ||
+            //    SettingJsonManager.corp_name.Equals("두성포장") ||
+            //    SettingJsonManager.corp_name.Contains("혜성") ||
+            //    SettingJsonManager.corp_name.Contains("광성수출포장") ||
+            //    SettingJsonManager.corp_name.Contains("대세물산") ||
+            //    SettingJsonManager.corp_name.Contains("지온"))
+            //{
+            //    wharehouse.Visibility = Visibility.Visible;
+            //}
+            //else
+            //{
+            //    wharehouse.Visibility = Visibility.Collapsed;
+            //}
 
             DetailSearch(); //세부정보 조회 (왼쪽화면)
 

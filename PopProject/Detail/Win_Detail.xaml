@@ -29,9 +29,9 @@
             <Image Source="/img/b_06.png" Canvas.Left="430" Canvas.Top="2" MouseDown="Detail_List"/>
 
 
-            <Image x:Name="robot" Source="/img/b_07.png" Canvas.Left="190" Canvas.Top="2" MouseLeftButtonDown="robot_setting"/>
+            <Image x:Name="robot" Source="/img/b_07.png" Canvas.Left="310" Canvas.Top="2" MouseLeftButtonDown="robot_setting"/>
 
-            <Image x:Name="wharehouse" Source="/img/b_08.png" Canvas.Left="310" Canvas.Top="2" MouseLeftButtonDown="Wharehouse"/>
+            <Image x:Name="wharehouse" Source="/img/b_08.png" Canvas.Left="310" Canvas.Top="2" Visibility="Collapsed" MouseLeftButtonDown="Wharehouse"/>
             <Image x:Name="CNS_Save" Source="/img/b_09.png" Canvas.Left="190" Canvas.Top="2" MouseLeftButtonDown="CNS_Save_MouseLeftButtonDown"/>
 
             <!--<Border x:Name="robot" BorderThickness="2" Background="#495664" CornerRadius="5" BorderBrush="#43505E" Width="101" Height="45" Canvas.Top="9" Canvas.Left="215"   VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="robot_setting">

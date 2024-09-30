@@ -72,6 +72,9 @@ namespace PopProject.Input
             this.mainModel = mainModel;
             boxType.Text = "형 태 : " + mainModel.boxType;
 
+            LogManager.Info("인풋창 팝업: " + mainModel.customSName + "/" + mainModel.prodName, MethodBase.GetCurrentMethod().DeclaringType);
+
+
             //현재 카운터값 송신
             if (this.mainModel.presultCount > 0)
             {
@@ -837,7 +840,7 @@ namespace PopProject.Input
                     }
                     else if (context.memo.Equals("작업완료")) //작업완료칸 클릭
                     {
-
+                        LogManager.Info("생산결과 수정 클릭", MethodBase.GetCurrentMethod().DeclaringType);
                         can.Visibility = Visibility.Visible;
                         Win_resultUpdate win_resultUpdate = new Win_resultUpdate(context, inputModel);
                         _ = win_resultUpdate.ShowDialog();
@@ -853,6 +856,7 @@ namespace PopProject.Input
         //인라인설비 시작
         private int PopInlineStart(SubModel subOb)
         {
+            LogManager.Info("PopResultStart실행 (" + subOb.ProcessTypeName + " 완제품 처리 시작)", MethodBase.GetCurrentMethod().DeclaringType);
 
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
@@ -956,6 +960,9 @@ namespace PopProject.Input
 
         private void PopInlineEnd(SubModel subOb, int pWorkkey)
         {
+            LogManager.Info("PopInlineEnd실행 (" + subOb.ProcessTypeName + " 완제품 처리 중)", MethodBase.GetCurrentMethod().DeclaringType);
+
+
             string 전체공정 = "0";
             if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
             {
@@ -1030,6 +1037,8 @@ namespace PopProject.Input
             SettingJsonManager.pplanKey = 0;
             SettingJsonManager.pworkkey = "";
             SettingJsonManager.SaveJsonFile();
+
+            LogManager.Info("PopInlineEnd실행 (" + subOb.ProcessTypeName + " 완제품 처리 완료)", MethodBase.GetCurrentMethod().DeclaringType);
         }
 
         //닫기 버튼 클릭
@@ -1039,13 +1048,15 @@ namespace PopProject.Input
             //{
             //    mainSock.Close();
             //}
+            LogManager.Info("인풋창 닫기: " +  mainModel.corpName + "/" + mainModel.prodName, MethodBase.GetCurrentMethod().DeclaringType);
             Close();
-            LogManager.Info("인풋창 닫기", MethodBase.GetCurrentMethod().DeclaringType);
         }
 
         //취소 버튼 클릭
         private void Win_input_cancel(object sender, MouseButtonEventArgs e)
         {
+            LogManager.Info("작업 취소버튼 클릭", MethodBase.GetCurrentMethod().DeclaringType);
+
             if (!SettingJsonManager.manager.Equals("1"))
             {
                 //종료버튼 활성화 일때
@@ -1632,6 +1643,8 @@ namespace PopProject.Input
         //생산 종료
         private int PopResultEnd(string request)
         {
+            LogManager.Info("PopResultEnd 실행(" + SettingJsonManager.corp_name +", " + SettingJsonManager.mercName + ", 설비번호:" + SettingJsonManager.processType + ")", MethodBase.GetCurrentMethod().DeclaringType);
+
             string 전체공정 = "0";
 
             if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
@@ -1690,6 +1703,7 @@ namespace PopProject.Input
                                   ", 전체공정" + 전체공정 + Environment.NewLine +
                                   "---------------------------------------------------------------------------");
             }
+            LogManager.Info("오더Key:" + inputModel.orderKey + ", 계획Key:" + inputModel.pplanKey + ", 작업Key:" + inputModel.pworkKey + ", 전체공정:" + 전체공정, MethodBase.GetCurrentMethod().DeclaringType);
 
 
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
@@ -1759,19 +1773,19 @@ namespace PopProject.Input
                 CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
                 CountManager.SendMsg(SettingJsonManager.mercName, "0"); //
 
-                //오주포장 인라인기 온제품 처리 (철접합(7),베가(8),인라인2,3호기(13))
+                //오주포장 인라인기 온제품 처리(철접합(7),베가(8),인라인2,3호기(13))
                 if (SettingJsonManager.corp_name.Equals("오주포장") && (SettingJsonManager.processType == 7 || SettingJsonManager.processType == 8 || SettingJsonManager.processType == 13) ||
                     SettingJsonManager.corp_name.Equals("오주포장테스트") && (SettingJsonManager.processType == 7 || SettingJsonManager.processType == 8 || SettingJsonManager.processType == 13))
                 {
+                    LogManager.Info("해당품목 공정 수량:" + mainModel.subOb.Count, MethodBase.GetCurrentMethod().DeclaringType);
+
                     for (int i = 0; i < mainModel.subOb.Count; i++)
                     {
                         if (mainModel.subOb[i].ProcessTypeName.Equals("인쇄"))
                         {
                             if (mainModel.subOb[i].presultCount < 1)
                             {
-                                Console.WriteLine(mainModel.subOb[i].stateColor); 
                                 PopInlineStart(mainModel.subOb[i]);
-                                Console.WriteLine(mainModel.subOb[i].stateColor); 
                             }
                         }
                     }
@@ -2196,6 +2210,7 @@ namespace PopProject.Input
                 // 결과값 있을때만
                 if ((mainModel.presultCount > 0 || count > 0) && inputModel.sumPlanCount > 0)
                 {
+                    LogManager.Info("이월 버튼 클릭(" + mainModel.customSName +"/"+ mainModel.prodName + ")", MethodBase.GetCurrentMethod().DeclaringType);
                     spAdd410processinfo_workplan();
                 }
                 else
@@ -2220,6 +2235,7 @@ namespace PopProject.Input
 
             if (returnData.결과 == 1)
             {
+                LogManager.Info("이월 완료", MethodBase.GetCurrentMethod().DeclaringType);
                 MessageBox_Dialog msg = new MessageBox_Dialog("이월 완료");
                 msg.ShowDialog();
                 box1.Visibility = Visibility.Collapsed;
@@ -2227,8 +2243,10 @@ namespace PopProject.Input
             }
             else
             {
+                LogManager.Info("이월 실패", MethodBase.GetCurrentMethod().DeclaringType);
                 MessageBox_Dialog msg = new MessageBox_Dialog("이월 실패");
                 msg.ShowDialog();
+
             }
         }
 

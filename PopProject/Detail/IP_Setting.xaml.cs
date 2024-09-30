@@ -14,6 +14,7 @@ namespace PopProject.Detail
             InitializeComponent();
             ipaddress.Text = SettingJsonManager.robotIP;
             PortNum.Text = SettingJsonManager.robotPort;
+            this.Topmost = true;
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
