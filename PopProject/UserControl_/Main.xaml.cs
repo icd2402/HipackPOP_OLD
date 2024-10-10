@@ -130,14 +130,20 @@ namespace PopProject.UserControl_
                 Properties.Settings.Default.PopUpPosition_S = false;
 
                 //SignalR 연결
-                try
+                if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
                 {
-                    SignalRAdministrator conn = new SignalRAdministrator();
-                    conn.Setconnection(true);
-                }
-                catch (Exception e)
-                {
-                    LogManager.Error("SignalR 연결 오류" + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
+                    try
+                    {
+                        SignalRAdministrator conn = new SignalRAdministrator();
+                        conn.Setconnection(true);
+                    }
+                    catch (Exception e)
+                    {
+                        LogManager.Error("SignalR 연결 오류" + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
+                    }
+
+                    //오주포장 넘기기 정보 받기위한 SiganlR recive
+                    SignalRAdministrator.허브.On<string, string>("returnCount", recive);
                 }
 
                 //날짜 변경 버튼 활성화
@@ -150,9 +156,6 @@ namespace PopProject.UserControl_
                     txtDate2.Visibility = Visibility.Visible;
                     txtDate3.Visibility = Visibility.Visible;
                 }
-
-                //오주포장 넘기기 정보 받기위한 SiganlR recive
-                SignalRAdministrator.허브.On<string, string>("returnCount", recive);
 
                 //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 
                 if (!SettingJsonManager.manager.Equals("1"))
@@ -1037,16 +1040,16 @@ namespace PopProject.UserControl_
             Console.WriteLine("[PopWorkList] 조회: " + DateTimeManager.GetSelectedDateStr());
             wdIGCOunt = 0;
 
-            //생산계획의 미래 날짜까지 표현하고 싶을때 사용
-            if (SettingJsonManager.corp_name.Equals("금화"))
-            {
-                DateTime dt = DateTimeManager.GetSelectedDate();
-                plusDate = dt.AddDays(15).ToString("yyyy-MM-dd");
-            }
-            else
-            {
-                plusDate = DateTimeManager.GetSelectedDateStr();
-            }
+            //생산계획의 미래 날짜까지 합하여 표현하고 싶을때 사용(+15일)
+            //if (SettingJsonManager.corp_name.Equals("금화"))
+            //{
+            //    DateTime dt = DateTimeManager.GetSelectedDate();
+            //    plusDate = dt.AddDays(15).ToString("yyyy-MM-dd");
+            //}
+            //else
+            //{
+            //    plusDate = DateTimeManager.GetSelectedDateStr();
+            //}
 
 
             LogData logData = new LogData("조회");

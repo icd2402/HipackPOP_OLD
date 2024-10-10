@@ -1060,22 +1060,22 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ServiceReference_shbox\Service_CRUD.wsdl" />
-    <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD.xsd">
+    <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD4.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD1.xsd">
+    <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD41.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD2.xsd">
+    <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD42.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD3.xsd">
+    <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD43.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\ServiceReference_sjbox\PopProject.ServiceReference_sjbox.Return_Model.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\ServiceReference_sjbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_sjbox\Service_CRUD1.wsdl" />
     <None Include="Connected Services\ServiceReference_swbox\Access_MiddleWare_CRUD.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1478,9 +1478,6 @@
     <Resource Include="img\box9.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD.disco" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Connected Services\ServiceReference_sjbox\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
@@ -1600,6 +1597,7 @@
     <Resource Include="img\b_07.png" />
     <Resource Include="img\b_08.png" />
     <Resource Include="img\b_09.png" />
+    <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD1.disco" />
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
