@@ -8,6 +8,34 @@ namespace PopProject.UserControl_
 {
     public class MainModel : ViewModelBase
     {
+        private String _ServerIndex;
+        public String ServerIndex
+        {
+            get
+            {
+                return _ServerIndex;
+            }
+            set
+            {
+                _ServerIndex = value;
+                onPropertyChanged("ServerIndex");
+            }
+        }
+
+        private String _DBName;
+        public String DBName
+        {
+            get
+            {
+                return _DBName;
+            }
+            set
+            {
+                _DBName = value;
+                onPropertyChanged("DBName");
+            }
+        }
+
         private String _PackCount = "";
         public String PackCount
         {
@@ -1868,5 +1896,7 @@ namespace PopProject.UserControl_
                 onPropertyChanged("aaa");
             }
         }
+
+       
     }
 }

@@ -304,6 +304,13 @@
                         </CheckBox.LayoutTransform>
                     </CheckBox>
 
+                    <TextBlock Text="업체 통합 표현" FontSize="22" Foreground="Black" Canvas.Left="320" Canvas.Top="640" FontFamily="/font/#KoPubDotum Medium"/>
+                    <CheckBox x:Name="companyIntegration" Canvas.Top="675" Content="사  용" Checked="companyIntegration_Checked"  Unchecked="companyIntegration_Checked" HorizontalAlignment="Left" Width="140" Canvas.Left="320">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+
 
 
                     <Border BorderBrush="#2c3e50" BorderThickness="0,0,0,1" Canvas.Top="535" Canvas.Left="15" Width="570" Canvas.Bottom="0"></Border>

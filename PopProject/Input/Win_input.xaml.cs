@@ -60,6 +60,7 @@ namespace PopProject.Input
         private bool startPBLock = false;
         private int inLineDone = 0;
 
+
         private DateTime selectedDate = new DateTime();
 
 
@@ -69,9 +70,11 @@ namespace PopProject.Input
         
             this.workList = workList;
             inputModel = new InputModel();
+            inputModel.ServerIndex = mainModel.ServerIndex;
+            inputModel.DBName = mainModel.DBName;
+
             this.mainModel = mainModel;
             boxType.Text = "형 태 : " + mainModel.boxType;
-
             LogManager.Info("인풋창 팝업: " + mainModel.customSName + "/" + mainModel.prodName, MethodBase.GetCurrentMethod().DeclaringType);
 
 
@@ -374,9 +377,9 @@ namespace PopProject.Input
         private void PopErrorSearch()
         {
             _ = new LogData("불량사유조회");
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
+                mainModel.ServerIndex,
                "[PopErrorSearch]",
                 new string[] { "@ProcessType" },
                 new object[] { inputModel.ProcessType },
@@ -457,9 +460,9 @@ namespace PopProject.Input
             // Console.WriteLine("PopResultSearch 시작");
             totalPerrCount = 0;
             float tempCount = inputModel.count;
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
+                mainModel.ServerIndex,
                 "[PopResultSearch]",
                 new string[] { "@pplankey" },
                 new object[] { inputModel.pplanKey },
@@ -608,10 +611,10 @@ namespace PopProject.Input
         private ObservableCollection<errorModel> PopErrorListSearch(InputModel inputModel)
         {
             ObservableCollection<errorModel> ob = null;
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData = ServiceModel.GetData(
 
-                SettingJsonManager.serverIndex,
+                mainModel.ServerIndex,
                 "[PopErrorListSearch]",
                 new string[] { "@pworkKey", "@ProcessType" },
                 new object[] { inputModel.pworkKey, SettingJsonManager.processType }, 0
@@ -1706,10 +1709,10 @@ namespace PopProject.Input
             LogManager.Info("오더Key:" + inputModel.orderKey + ", 계획Key:" + inputModel.pplanKey + ", 작업Key:" + inputModel.pworkKey + ", 전체공정:" + 전체공정, MethodBase.GetCurrentMethod().DeclaringType);
 
 
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             string parameter = "[" + SettingJsonManager.mercName + "] " + this.inputModel.customSName + Environment.NewLine + inputModel.prodName + " " + inputModel.pworkCount.ToString("N0") + "개";
             ReturnModel returnData = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
+                mainModel.ServerIndex,
                 "[PopResultEnd]",
                 new string[] { "@AllChkAED", "@작업일자", "@오더Key", "@arrChkAED", "@arr공정구분", "@arr계획Key",
                 "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@시작시간","@설비명", "@전체공정"},
@@ -1878,9 +1881,9 @@ namespace PopProject.Input
         private int PopResultStart()
         {
 
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
+                mainModel.ServerIndex,
                 "[PopResultStart]",
                 new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName", "@workerID", "@SCMKey" },
                 new object[] {
@@ -2021,7 +2024,7 @@ namespace PopProject.Input
         private int popErrorInsert()
         {
             _ = new LogData("불량입력");
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             float value;
             switch (SettingJsonManager.processType)
             {
@@ -2038,7 +2041,7 @@ namespace PopProject.Input
             }
 
             ReturnModel returnData = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
+                mainModel.ServerIndex,
                 "[PopErrorInsert]",
                 new string[] { "@pworkKey", "@perrorCount", "@Memo" },
                 new object[] { inputModel.pworkKey, int.Parse(tbError.Text) * value, inputModel.errorModel.memo },
@@ -2224,9 +2227,9 @@ namespace PopProject.Input
 
         private void spAdd410processinfo_workplan()
         {
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
+                mainModel.ServerIndex,
                 "[spAdd410processinfo_workplan]",
                 new string[] { "@오더Key", "@계획Key" },
                 new object[] {  inputModel.orderKey, inputModel.pplanKey },

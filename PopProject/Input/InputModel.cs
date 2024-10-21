@@ -7,6 +7,34 @@ namespace PopProject.input
 {
    public class InputModel: ViewModelBase
     {
+        private String _ServerIndex;
+        public String ServerIndex
+        {
+            get
+            {
+                return _ServerIndex;
+            }
+            set
+            {
+                _ServerIndex = value;
+                onPropertyChanged("ServerIndex");
+            }
+        }
+
+        private String _DBName;
+        public String DBName
+        {
+            get
+            {
+                return _DBName;
+            }
+            set
+            {
+                _DBName = value;
+                onPropertyChanged("DBName");
+            }
+        }
+
 
         private bool _bMember;
         public bool BMember

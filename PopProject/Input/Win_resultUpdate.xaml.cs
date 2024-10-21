@@ -163,10 +163,10 @@ namespace PopProject.Input
                     arrChkAED = "2|"; //수정
                 }
 
-                ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+                ServiceModel.ServiceModelClean(inputModel.ServerIndex, inputModel.DBName);
                 string parameter = "[" + SettingJsonManager.mercName + "] " + inputModel.customSName + Environment.NewLine + inputModel.prodName + " " + inputModel.pworkCount.ToString("N0") + "개";
                 ReturnModel returnData = ServiceModel.GetData(
-                    SettingJsonManager.serverIndex,
+                    inputModel.ServerIndex,
                     "[PopResultEnd]",
                     new string[] { "@AllChkAED", "@작업일자", "@오더Key", "@arrChkAED", "@arr공정구분", "@arr계획Key",
                 "@arr작업Key", "@arr작업량", "@arr불량", "@arr비고","@전체공정"},

@@ -86,7 +86,8 @@ namespace PopProject.Util
         public static bool windowState { get; set; }
         public static bool noticePopup { get; set; }
         public static string lockPassword { get; set; }
-
+        public static bool companyIntegration { get; set; }
+        
 
         // JSON 파일 경로
         public static string filePath { get; set; }
@@ -264,6 +265,8 @@ namespace PopProject.Util
                 noticePopup = jObject.ContainsKey("noticePopup") ? bool.Parse(jObject["noticePopup"].ToString()) : false;
                 // lockPassword 없는 경우 ""
                 lockPassword = jObject.ContainsKey("lockPassword") ? jObject["lockPassword"].ToString() : "";
+                // companyIntegration 없는 경우 false
+                companyIntegration = jObject.ContainsKey("companyIntegration") ? bool.Parse(jObject["companyIntegration"].ToString()) : false;
 
                 LogManager.Info("json → 셋팅정보(Class) Load 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
@@ -322,7 +325,7 @@ namespace PopProject.Util
                                 {"baudrate", string.IsNullOrEmpty(baudrate.ToString()) == false ? "9600" : ""},
                                 {"SensorRate", string.IsNullOrEmpty(SensorRate) == false ? SensorRate : "0"},
                                 {"RadioChecked", RadioChecked.ToString()},
-                                {"printItem", string.IsNullOrEmpty(printItem) == false ? printItem : ""},//
+                                {"printItem", string.IsNullOrEmpty(printItem) == false ? printItem : ""},
                                 {"samework", samework.ToString()},
                                 {"color_check", color_check.ToString()},
                                 {"count_check", count_check.ToString()},
@@ -365,9 +368,8 @@ namespace PopProject.Util
                                 {"detailPopup", detailPopup.ToString()},
                                 {"windowState", windowState.ToString()},
                                 {"noticePopup", noticePopup.ToString()},
-                                {"lockPassword", string.IsNullOrEmpty(lockPassword) == false ? lockPassword : ""}
-
-
+                                {"lockPassword", string.IsNullOrEmpty(lockPassword) == false ? lockPassword : ""},
+                                {"companyIntegration", companyIntegration.ToString()}
                             };
 
                 //인증코드 파일 작성

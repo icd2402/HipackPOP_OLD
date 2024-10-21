@@ -1037,860 +1037,643 @@ namespace PopProject.UserControl_
         //계획 리스트 조회
         public void SelectWorkList()
         {
-            Console.WriteLine("[PopWorkList] 조회: " + DateTimeManager.GetSelectedDateStr());
-            wdIGCOunt = 0;
+            // 서버 인덱스와 DBName을 저장할 Dictionary 생성
+            Dictionary<string, string> serverIndices = new Dictionary<string, string>();
 
-            //생산계획의 미래 날짜까지 합하여 표현하고 싶을때 사용(+15일)
-            //if (SettingJsonManager.corp_name.Equals("금화"))
-            //{
-            //    DateTime dt = DateTimeManager.GetSelectedDate();
-            //    plusDate = dt.AddDays(15).ToString("yyyy-MM-dd");
-            //}
-            //else
-            //{
-            //    plusDate = DateTimeManager.GetSelectedDateStr();
-            //}
-
-
-            LogData logData = new LogData("조회");
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
-            ReturnModel returnData = ServiceModel.GetData(
-               SettingJsonManager.serverIndex, 
-               "[PopWorkList]",
-               new string[] { "@pplanDate" },
-               new string[] { DateTimeManager.GetSelectedDateStr() }, //날짜 변경용
-               0
-               );
-            if (returnData.결과 == 1)
+            if (SettingJsonManager.companyIntegration)
             {
-                JArray Data_Jarry = JArray.Parse(returnData.리턴값);
-                if (Data_Jarry != null)
+                //if (SettingJsonManager.corp_name.Equals("하나포장"))
+                //{
+                //    serverIndices.Add("hnbox", "A07E164641");
+                //    serverIndices.Add("shbox", "75BB212362");
+                //}
+                //else if (SettingJsonManager.corp_name.Equals("하나포장테스트"))
+                //{
+                //    serverIndices.Add("hnbox", "icdtest3");
+                //    serverIndices.Add("shbox", "icdtest5");
+                //}
+                //else
+                //{
+                //    serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
+                //}
+
+                serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id); //임시
+            }
+            else
+            {
+                serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
+            }
+            
+            // workList와 workList1을 초기화
+            workList = new ObservableCollection<MainModel>(); // 메인 화면
+            workList1 = new ObservableCollection<MainModel>(); // 순서변경 화면
+            wdIGCOunt = 0; //원단입고값 초기화
+
+            // 각 서버 인덱스와 DBName에 대해 데이터 조회 및 처리
+            foreach (var server in serverIndices)
+            {
+                string ServerIndex = server.Key;
+                string DBName = server.Value;
+
+                Console.WriteLine("현재 서버 인덱스: " + ServerIndex + ", DBName: " + DBName);
+
+                // 현재 서버에 맞게 서비스 모델 초기화 (DBName 추가)
+                ServiceModel.ServiceModelClean(ServerIndex, DBName);
+
+                // 현재 서버에서 데이터 조회
+                ReturnModel returnData = ServiceModel.GetData(
+                    ServerIndex,
+                    "[PopWorkList]",
+                    new string[] { "@pplanDate" },
+                    new string[] { DateTimeManager.GetSelectedDateStr() }, // 날짜 변경용
+                    0
+                );
+
+
+                if (returnData.결과 == 1)
                 {
-                    Visibility newProd;
-                    workList = new ObservableCollection<MainModel>(); //메인 화면
-                    workList1 = new ObservableCollection<MainModel>(); //순서변경 화면
-                    foreach (JObject result in Data_Jarry)
+                    JArray Data_Jarry = JArray.Parse(returnData.리턴값);
+                    if (Data_Jarry != null)
                     {
-                        double pplanNo = double.Parse(result["pplanNo"].ToString()) == 0 ? double.MaxValue : double.Parse(result["pplanNo"].ToString());
-                        newProd = result["newProd"].Equals("1") ? Visibility.Visible : Visibility.Hidden;
-                        MainModel listitem = new MainModel
+                        Visibility newProd;
+                        foreach (JObject result in Data_Jarry)
                         {
-                            pCnt = float.Parse(result["pCnt"].ToString()), //통수
-                            pplanNo = pplanNo
-                        };
+                            
 
-                        if (result["boxType"].ToString() != null)
-                        {
-                            listitem.boxType = result["boxType"].ToString(); //상자 형식
-                        }
+                            // pplanNo 처리
+                            double pplanNo = double.Parse(result["pplanNo"].ToString()) == 0 ? double.MaxValue : double.Parse(result["pplanNo"].ToString());
+                            newProd = result["newProd"].Equals("1") ? Visibility.Visible : Visibility.Hidden;
 
-                        if (result["PalletHeight"].ToString() != null)
-                        {
-                            listitem.PalletHeight = result["PalletHeight"].ToString(); //파레트 높이
-                        }
-
-                        if (result["PalletCount"].ToString() != null)
-                        {
-                            listitem.PalletCount = result["PalletCount"].ToString(); //파레트 적재매수
-                        }
-
-                        if (result["givWD"].ToString() != null)
-                        {
-                            listitem.givWD = result["givWD"].ToString(); //원단 발주
-                        }
-
-                        if (result["givSC"].ToString() != null)
-                        {
-                            listitem.givSC = result["givSC"].ToString(); //마닐라 발주
-                        }
-
-                        switch (SettingJsonManager.corp_name) //업체명따른 처래처 품명 텍스트 변경
-                        {
-                            case "오주포장":
-                            case "대양포장":
-                                run수주일자.Text = "[수주일자]";
-                                run납품일자.Text = "[납품일자]";
-                                run거래처.Text = "거래처";
-                                run품명.Text = "품명";
-
-                                //div.Text = "[수주날짜] [납품일자] 거래처/품명";
-                                Canvas.SetLeft(div, 85);
-                                listitem.visibility = Visibility.Visible;  //ScrollViewer 수주날짜
-                                listitem.visibility1 = Visibility.Visible; //ScrollViewer 납품일자
-                                listitem.left = 250;
-                                break;
-
-                            case "신우수출포장":
-                            case "신우포장테스트":
-                                run수주일자.Text = "[수주일자]";
-                                run납품일자.Text = "";
-                                run거래처.Text = "거래처";
-                                run품명.Text = "품명";
-
-                                //div.Text = "[수주날짜] 거래처/품명";
-                                Canvas.SetLeft(div, 133);
-                                listitem.visibility = Visibility.Visible;    //ScrollViewer 수주날짜
-                                listitem.visibility1 = Visibility.Collapsed; //ScrollViewer 납품일자
-                                listitem.left = 160;
-                                break;
-
-                            //기본 업체
-                            default:
-                                run수주일자.Text = "";
-                                run납품일자.Text = "";
-                                run거래처.Text = "거래처";
-                                run품명.Text = "품명";
-
-                                //div.Text = "거래처/품명";
-                                Canvas.SetLeft(div, 160);
-                                listitem.visibility = Visibility.Collapsed;  //ScrollViewer 수주날짜
-                                listitem.visibility1 = Visibility.Collapsed; //ScrollViewer 납품일자
-                                listitem.left = 70;
-                                break;
-                        }
-
-                        //세팅에서 마닐라 정보 미체크시 (기본)
-                        if (SettingJsonManager.meterialinfo.Equals(""))
-                        {
-                            info.Text = "장 * 폭 * 고";
-                            listitem.SCBJCount = result["WDScore"].ToString(); //스코아
-                            listitem.scbjcountColor = Brushes.Blue;
-                            string[] split = result["WDScore"].ToString().Split('*');
-                            if (split.Length > 0 && split.Length != 1)
+                            // MainModel 인스턴스 생성 및 기본 속성 설정
+                            MainModel listitem = new MainModel
                             {
-                                if (!split[0].Equals(split[2]))
-                                {
-                                    listitem.scbjcountColor = Brushes.Red;
-                                }
+                                pCnt = float.Parse(result["pCnt"].ToString()), // 통수
+                                pplanNo = pplanNo
+                            };
+
+                            if (result["boxType"].ToString() != null)
+                            {
+                                listitem.boxType = result["boxType"].ToString(); //상자 형식
                             }
-                            else
+
+                            if (result["PalletHeight"].ToString() != null)
                             {
-                                split = result["WDScore"].ToString().Split('+');
-                                if (split.Length == 4)
-                                {
-                                    listitem.scbjcountColor = Brushes.Red;
-                                }
+                                listitem.PalletHeight = result["PalletHeight"].ToString(); //파레트 높이
                             }
-                            listitem.SCIGCount = "";     //마닐라 입고 수량
-                            listitem.SCmetrialName = "";
-                            listitem.mLmW = result["pSize"].ToString(); //제품규격
-                        }
-                        //세팅에서 마닐라 정보 체크시
-                        else
-                        {
-                            info.Text = "마닐라정보";
-                            listitem.mLmW = result["SCmW"].ToString() + "*" + result["SCmL"].ToString();
 
-                            if (listitem.givSC.Equals("2"))
+                            if (result["PalletCount"].ToString() != null)
                             {
-                                listitem.SCBJCount = "대체량   " + string.Format("{0:n0}", result["SCBJCount"]);
-                                listitem.SCIGCount = "";
+                                listitem.PalletCount = result["PalletCount"].ToString(); //파레트 적재매수
                             }
-                            else
+
+                            if (result["givWD"].ToString() != null)
                             {
-                                listitem.SCBJCount = "발주   " + string.Format("{0:n0}", result["SCBJCount"]);
-                                listitem.SCIGCount = "입고   " + string.Format("{0:n0}", result["SCIGCount"]);
-
-                                if (result["SCIGCount"].ToString().Equals("0") && !result["SCBJCount"].ToString().Equals("0"))
-                                {
-
-                                    listitem.SCIGCount = result["SCIGCount"].ToString();
-                                }
+                                listitem.givWD = result["givWD"].ToString(); //원단 발주
                             }
-                            listitem.SCmetrialName = result["SCmetrialName"].ToString();
-                        }
 
-                        listitem.pAccount = !result["pAccount"].ToString().Equals("0") ? "(" + result["pAccount"].ToString() + "차)" : "";  //생산 차수
-                        listitem.ProcessMemo = result["ProcessMemo"].ToString(); //공정 비고
-                        listitem.ProcessTypeName = result["ProcessTypeName"].ToString(); //공정명
-                        listitem.pplanMemo = result["pplanMemo"].ToString(); //비고
-                        listitem.SpecialMemo = result["SpecialMemo"].ToString(); //특별지시사항
-
-                        if (result["orderDate"].ToString() != null) //수주일자
-                        {
-                            listitem.orderDate = "[" + result["orderDate"].ToString().Replace("-", "/").Substring(2, 8) + "]";
-                        }
-
-                        //원단입고 0:발주, 1:미발주, 2:대체
-                        if (listitem.givWD.Equals("2"))
-                        {
-                            listitem.WDBJCount = "대체량   " + string.Format("{0:n0}", result["WDBJCount"]);
-                            listitem.WDIGCount = "";
-                        }
-                        else
-                        {
-                            listitem.WDBJCount = "발주   " + string.Format("{0:n0}", result["WDBJCount"]);
-                            listitem.WDIGCount = "입고   " + string.Format("{0:n0}", result["WDIGCount"]);
-                            if (result["WDIGCount"].ToString().Equals("0") && !result["WDBJCount"].ToString().Equals("0"))
+                            if (result["givSC"].ToString() != null)
                             {
-                                try
+                                listitem.givSC = result["givSC"].ToString(); //마닐라 발주
+                            }
+
+                            switch (SettingJsonManager.corp_name) //업체명따른 처래처 품명 텍스트 변경
+                            {
+                                case "오주포장":
+                                case "대양포장":
+                                    run수주일자.Text = "[수주일자]";
+                                    run납품일자.Text = "[납품일자]";
+                                    run거래처.Text = "거래처";
+                                    run품명.Text = "품명";
+
+                                    //div.Text = "[수주날짜] [납품일자] 거래처/품명";
+                                    Canvas.SetLeft(div, 85);
+                                    listitem.visibility = Visibility.Visible;  //ScrollViewer 수주날짜
+                                    listitem.visibility1 = Visibility.Visible; //ScrollViewer 납품일자
+                                    listitem.left = 250;
+                                    break;
+
+                                case "신우수출포장":
+                                case "신우포장테스트":
+                                    run수주일자.Text = "[수주일자]";
+                                    run납품일자.Text = "";
+                                    run거래처.Text = "거래처";
+                                    run품명.Text = "품명";
+
+                                    //div.Text = "[수주날짜] 거래처/품명";
+                                    Canvas.SetLeft(div, 133);
+                                    listitem.visibility = Visibility.Visible;    //ScrollViewer 수주날짜
+                                    listitem.visibility1 = Visibility.Collapsed; //ScrollViewer 납품일자
+                                    listitem.left = 160;
+                                    break;
+
+                                //기본 업체
+                                default:
+                                    run수주일자.Text = "";
+                                    run납품일자.Text = "";
+                                    run거래처.Text = "거래처";
+                                    run품명.Text = "품명";
+
+                                    //div.Text = "거래처/품명";
+                                    Canvas.SetLeft(div, 160);
+                                    listitem.visibility = Visibility.Collapsed;  //ScrollViewer 수주날짜
+                                    listitem.visibility1 = Visibility.Collapsed; //ScrollViewer 납품일자
+                                    listitem.left = 70;
+                                    break;
+                            }
+
+                            //세팅에서 마닐라 정보 미체크시 (기본)
+                            if (SettingJsonManager.meterialinfo.Equals(""))
+                            {
+                                info.Text = "장 * 폭 * 고";
+                                listitem.SCBJCount = result["WDScore"].ToString(); //스코아
+                                listitem.scbjcountColor = Brushes.Blue;
+                                string[] split = result["WDScore"].ToString().Split('*');
+                                if (split.Length > 0 && split.Length != 1)
                                 {
-                                    if (result["metCustomSname"] != null)
+                                    if (!split[0].Equals(split[2]))
                                     {
-                                        listitem.WDIGCount = result["metCustomSname"].ToString();
+                                        listitem.scbjcountColor = Brushes.Red;
                                     }
-
                                 }
-                                catch (Exception)
+                                else
                                 {
-                                    listitem.WDIGCount = "입고   " + string.Format("{0:n0}", result["WDIGCount"]);
+                                    split = result["WDScore"].ToString().Split('+');
+                                    if (split.Length == 4)
+                                    {
+                                        listitem.scbjcountColor = Brushes.Red;
+                                    }
+                                }
+                                listitem.SCIGCount = "";     //마닐라 입고 수량
+                                listitem.SCmetrialName = "";
+                                listitem.mLmW = result["pSize"].ToString(); //제품규격
+                            }
+                            //세팅에서 마닐라 정보 체크시
+                            else
+                            {
+                                info.Text = "마닐라정보";
+                                listitem.mLmW = result["SCmW"].ToString() + "*" + result["SCmL"].ToString();
+
+                                if (listitem.givSC.Equals("2"))
+                                {
+                                    listitem.SCBJCount = "대체량   " + string.Format("{0:n0}", result["SCBJCount"]);
+                                    listitem.SCIGCount = "";
+                                }
+                                else
+                                {
+                                    listitem.SCBJCount = "발주   " + string.Format("{0:n0}", result["SCBJCount"]);
+                                    listitem.SCIGCount = "입고   " + string.Format("{0:n0}", result["SCIGCount"]);
+
+                                    if (result["SCIGCount"].ToString().Equals("0") && !result["SCBJCount"].ToString().Equals("0"))
+                                    {
+
+                                        listitem.SCIGCount = result["SCIGCount"].ToString();
+                                    }
+                                }
+                                listitem.SCmetrialName = result["SCmetrialName"].ToString();
+                            }
+
+                            listitem.pAccount = !result["pAccount"].ToString().Equals("0") ? "(" + result["pAccount"].ToString() + "차)" : "";  //생산 차수
+                            listitem.ProcessMemo = result["ProcessMemo"].ToString(); //공정 비고
+                            listitem.ProcessTypeName = result["ProcessTypeName"].ToString(); //공정명
+                            listitem.pplanMemo = result["pplanMemo"].ToString(); //비고
+                            listitem.SpecialMemo = result["SpecialMemo"].ToString(); //특별지시사항
+
+                            if (result["orderDate"].ToString() != null) //수주일자
+                            {
+                                listitem.orderDate = "[" + result["orderDate"].ToString().Replace("-", "/").Substring(2, 8) + "]";
+                            }
+
+                            //원단입고 0:발주, 1:미발주, 2:대체
+                            if (listitem.givWD.Equals("2"))
+                            {
+                                listitem.WDBJCount = "대체량   " + string.Format("{0:n0}", result["WDBJCount"]);
+                                listitem.WDIGCount = "";
+                            }
+                            else
+                            {
+                                listitem.WDBJCount = "발주   " + string.Format("{0:n0}", result["WDBJCount"]);
+                                listitem.WDIGCount = "입고   " + string.Format("{0:n0}", result["WDIGCount"]);
+                                if (result["WDIGCount"].ToString().Equals("0") && !result["WDBJCount"].ToString().Equals("0"))
+                                {
+                                    try
+                                    {
+                                        if (result["metCustomSname"] != null)
+                                        {
+                                            listitem.WDIGCount = result["metCustomSname"].ToString();
+                                        }
+
+                                    }
+                                    catch (Exception)
+                                    {
+                                        listitem.WDIGCount = "입고   " + string.Format("{0:n0}", result["WDIGCount"]);
+                                    }
                                 }
                             }
-                        }
 
-                        //품명 길이가 넘어갈 경우 두줄 표현 (오주 요청)
-                        string prodNames = result["prodName"].ToString();
-                        if (prodNames.Length > 32)
-                        {
-                            listitem.prodName = prodNames.Substring(0, 32); //첫번째 줄
-                            listitem.prodName2 = prodNames.Substring(32); //두번째 줄
-                            listitem.Canvas = "35"; //높이 조절
-                        }
-                        //안넘어 가면 한줄 표현 (기본)
-                        else
-                        {
-                            listitem.Canvas = "43"; //높이 조절
-                            listitem.prodName = result["prodName"].ToString(); //품명
-                        }
+                            //품명 길이가 넘어갈 경우 두줄 표현 (오주 요청)
+                            string prodNames = result["prodName"].ToString();
+                            if (prodNames.Length > 32)
+                            {
+                                listitem.prodName = prodNames.Substring(0, 32); //첫번째 줄
+                                listitem.prodName2 = prodNames.Substring(32); //두번째 줄
+                                listitem.Canvas = "35"; //높이 조절
+                            }
+                            //안넘어 가면 한줄 표현 (기본)
+                            else
+                            {
+                                listitem.Canvas = "43"; //높이 조절
+                                listitem.prodName = result["prodName"].ToString(); //품명
+                            }
 
-                        listitem.pplanKey = int.Parse(result["pplanKey"].ToString()); //계획키
-                        listitem.orderKey = result["orderKey"].ToString(); //수주키
-                        listitem.ProcessType = int.Parse(result["ProcessType"].ToString()); //공정IC
-                        listitem.pplanDate = "[" + result["pplanDate"].ToString().Replace("-", "/").Substring(2, 8) + "]"; //계획일자
-                        listitem.prodName = result["prodName"].ToString(); //제품명
-                        listitem.customSName = result["customSName"].ToString(); //거래처명
-                        listitem.paperGor = result["paperGor"].ToString() + " 골"; //골
-                        listitem.orderWorkNo = int.Parse(result["orderWorkNo"].ToString()); //수주 생산순번
-                        listitem.mercName = result["mercName"].ToString(); //설비명
-                        listitem.urgency = result["urgency"].ToString(); //긴급
-                        listitem.aL = result["aL"].ToString(); //전장
-                        listitem.aW = result["aW"].ToString(); //전폭
-                        listitem.aLaW = result["WDmL"].ToString() + "*" + result["WDmW"].ToString(); //전장 * 전폭
+                            listitem.pplanKey = int.Parse(result["pplanKey"].ToString()); //계획키
+                            listitem.orderKey = result["orderKey"].ToString(); //수주키
+                            listitem.ProcessType = int.Parse(result["ProcessType"].ToString()); //공정IC
+                            listitem.pplanDate = "[" + result["pplanDate"].ToString().Replace("-", "/").Substring(2, 8) + "]"; //계획일자
+                            listitem.prodName = result["prodName"].ToString(); //제품명
+                            listitem.customSName = result["customSName"].ToString(); //거래처명
+                            listitem.paperGor = result["paperGor"].ToString() + " 골"; //골
+                            listitem.orderWorkNo = int.Parse(result["orderWorkNo"].ToString()); //수주 생산순번
+                            listitem.mercName = result["mercName"].ToString(); //설비명
+                            listitem.urgency = result["urgency"].ToString(); //긴급
+                            listitem.aL = result["aL"].ToString(); //전장
+                            listitem.aW = result["aW"].ToString(); //전폭
+                            listitem.aLaW = result["WDmL"].ToString() + "*" + result["WDmW"].ToString(); //전장 * 전폭
 
-                        listitem.ColorType = result["ColorType"].ToString().Replace("|", ""); //인쇄색도
-                        listitem.ConnetingType = result["ConnetingType"].ToString(); //접합방법
-                        listitem.PrintNo = result["PrintNo"].ToString(); //조판번호
-                        listitem.Printposition = result["Printposition"].ToString(); //조판위치
-                        listitem.PushingNo = result["PushingNo"].ToString(); //목형번호
-                        listitem.Pushingposition = result["Pushingposition"].ToString(); //목형위치
-                        
-                        if (result["corpName"] != null)
-                        {
-                            listitem.corpName = result["corpName"].ToString();
-                        }
-                        listitem.handChk = result["handChk"].ToString(); //손잡이사용
-                        listitem.PackType = result["PackType"].ToString(); //포장방법
-                        listitem.filmNo = result["filmNo"].ToString(); //필름번호
-                        listitem.CoatingType = result["CoatingType"].ToString(); //코팅방법
-                        listitem.PalletType = result["PalletType"].ToString(); //파렛트종류
-                        listitem.PackCount = result["PackCount"].ToString(); //포장매수
-                        listitem.pplanCount = int.Parse(result["pplanCount"].ToString()); //계획량
+                            listitem.ColorType = result["ColorType"].ToString().Replace("|", ""); //인쇄색도
+                            listitem.ConnetingType = result["ConnetingType"].ToString(); //접합방법
+                            listitem.PrintNo = result["PrintNo"].ToString(); //조판번호
+                            listitem.Printposition = result["Printposition"].ToString(); //조판위치
+                            listitem.PushingNo = result["PushingNo"].ToString(); //목형번호
+                            listitem.Pushingposition = result["Pushingposition"].ToString(); //목형위치
 
-                        //신우,우리,누리
-                        if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("신우포장테스트") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("우리포장산업테스트") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("누리팩테스트"))
-                        {
-                            ss.Visibility = Visibility.Visible; //집계창 표시
-                        }
-                        else//기본
-                        {
-                            Grid.SetRowSpan(workListBorder, 3); //WorkList Grid.Row3까지 확장 
-                            ss.Visibility = Visibility.Collapsed; //집계창 표시해제
-                        }
+                            if (result["corpName"] != null)
+                            {
+                                listitem.corpName = result["corpName"].ToString();
+                            }
+                            listitem.handChk = result["handChk"].ToString(); //손잡이사용
+                            listitem.PackType = result["PackType"].ToString(); //포장방법
+                            listitem.filmNo = result["filmNo"].ToString(); //필름번호
+                            listitem.CoatingType = result["CoatingType"].ToString(); //코팅방법
+                            listitem.PalletType = result["PalletType"].ToString(); //파렛트종류
+                            listitem.PackCount = result["PackCount"].ToString(); //포장매수
+                            listitem.pplanCount = int.Parse(result["pplanCount"].ToString()); //계획량
 
-                        //신우,우리,누리,혜성,성주
-                        if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("혜성수출포장") || SettingJsonManager.corp_name.Equals("신우포장테스트") || SettingJsonManager.corp_name.Equals("성주포장"))
-                        {
-                            //매수
-                            if (SettingJsonManager.CountType == 0)
+                            //신우,우리,누리
+                            if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("신우포장테스트") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("우리포장산업테스트") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("누리팩테스트"))
+                            {
+                                ss.Visibility = Visibility.Visible; //집계창 표시
+                            }
+                            else//기본
+                            {
+                                Grid.SetRowSpan(workListBorder, 3); //WorkList Grid.Row3까지 확장 
+                                ss.Visibility = Visibility.Collapsed; //집계창 표시해제
+                            }
+
+                            //신우,우리,누리,혜성,성주
+                            if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("혜성수출포장") || SettingJsonManager.corp_name.Equals("신우포장테스트") || SettingJsonManager.corp_name.Equals("성주포장"))
+                            {
+                                //매수
+                                if (SettingJsonManager.CountType == 0)
+                                {
+                                    listitem.boxvisibility = Visibility.Collapsed;
+                                }
+                                else//통수
+                                {
+                                    listitem.pplanboxCount = (float)Math.Ceiling(listitem.pplanCount / (float)listitem.pCnt);
+                                }
+                            }
+                            else//기본
                             {
                                 listitem.boxvisibility = Visibility.Collapsed;
                             }
-                            else//통수
+
+                            //신우, 우리, 누리, 혜성, 성주
+                            //옵션>상자수 사용시 계획수량
+                            if (SettingJsonManager.boxCheck)
                             {
-                                listitem.pplanboxCount = (float)Math.Ceiling(listitem.pplanCount / (float)listitem.pCnt);
+                                listitem.pplanCount = SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("혜성수출포장") || SettingJsonManager.corp_name.Equals("신우포장테스트") || SettingJsonManager.corp_name.Equals("성주포장")
+                                    ? int.Parse(result["pplanCount"].ToString())
+                                    : (float)Math.Ceiling(listitem.pplanCount / (float)listitem.pCnt);
                             }
-                        }
-                        else//기본
-                        {
-                            listitem.boxvisibility = Visibility.Collapsed;
-                        }
 
-                        //신우, 우리, 누리, 혜성, 성주
-                        //옵션>상자수 사용시 계획수량
-                        if (SettingJsonManager.boxCheck)
-                        {
-                            listitem.pplanCount = SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("혜성수출포장") || SettingJsonManager.corp_name.Equals("신우포장테스트") || SettingJsonManager.corp_name.Equals("성주포장")
-                                ? int.Parse(result["pplanCount"].ToString())
-                                : (float)Math.Ceiling(listitem.pplanCount / (float)listitem.pCnt);
-                        }
+                            listitem.presultCount = float.Parse(result["presultCount"].ToString()); //결과량
 
-                        listitem.presultCount = float.Parse(result["presultCount"].ToString()); //결과량
-
-                        //옵션>상자수 사용시 결과수량에 나누기 통수
-                        if (SettingJsonManager.boxCheck)
-                        {
-                            listitem.presultCount /= listitem.pCnt;
-                            listitem.presultCount1 /= listitem.pCnt;
-                        }
-                        else
-                        {
-                            //통수
-                            if (SettingJsonManager.CountType == 1)
+                            //옵션>상자수 사용시 결과수량에 나누기 통수
+                            if (SettingJsonManager.boxCheck)
                             {
-                                //신우,우리,누리,성주
-                                //결과값에 통스 나누기
-                                if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("성주포장"))
+                                listitem.presultCount /= listitem.pCnt;
+                                listitem.presultCount1 /= listitem.pCnt;
+                            }
+                            else
+                            {
+                                //통수
+                                if (SettingJsonManager.CountType == 1)
                                 {
-                                    listitem.presultCount = float.Parse(result["presultCount"].ToString()) / listitem.pCnt;
-                                    listitem.presultCount1 = float.Parse(result["presultCount"].ToString()) / listitem.pCnt;
+                                    //신우,우리,누리,성주
+                                    //결과값에 통스 나누기
+                                    if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("성주포장"))
+                                    {
+                                        listitem.presultCount = float.Parse(result["presultCount"].ToString()) / listitem.pCnt;
+                                        listitem.presultCount1 = float.Parse(result["presultCount"].ToString()) / listitem.pCnt;
+                                    }
+                                    else//그외 업체
+                                    {
+                                        listitem.presultCount = float.Parse(result["presultCount"].ToString());
+                                        listitem.presultCount1 = float.Parse(result["presultCount"].ToString());
+                                    }
                                 }
-                                else//그외 업체
+                                else//매수
                                 {
                                     listitem.presultCount = float.Parse(result["presultCount"].ToString());
                                     listitem.presultCount1 = float.Parse(result["presultCount"].ToString());
                                 }
-                            }
-                            else//매수
-                            {
-                                listitem.presultCount = float.Parse(result["presultCount"].ToString());
-                                listitem.presultCount1 = float.Parse(result["presultCount"].ToString());
+
                             }
 
-                        }
+                            listitem.pSize = result["pSize"].ToString(); //규격
+                            listitem.orderCount = int.Parse(result["orderCount"].ToString()); //수주량
 
-                        listitem.pSize = result["pSize"].ToString(); //규격
-                        listitem.orderCount = int.Parse(result["orderCount"].ToString()); //수주량
-
-                        listitem.orderLast = result["orderLast"].ToString(); //납기일
-                        if (result["orderLast"].ToString() != null)
-                        {
-                            listitem.orderLast = "[" + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8) + "]";
-                        }
-
-                        listitem.prodID = result["prodID"].ToString(); //제품ID
-                        listitem.newProd = newProd;
-                        listitem.eDatetime = "";
-                        listitem.sDatetime = "E";
-                        listitem.subOb = new List<SubModel>();
-                        listitem.resultList = new ObservableCollection<InputModel>();
-                        listitem.bMember = bool.Parse(result["bMember"].ToString()); //실수요자 포함확인
-                        listitem.workMemo = result["workMemo"].ToString();
-
-
-
-                        //오주,대양 외
-                        if (!SettingJsonManager.corp_name.Equals("오주포장") && !SettingJsonManager.corp_name.Equals("대양포장") && !SettingJsonManager.corp_name.Equals("오주포장테스트"))
-                        {
-                            listitem.icback = listitem.bMember ? "#AFE1FF" : "White"; //실수요자일때 하늘색 바탕으로 표시
-                            listitem.pStateVisi = Visibility.Collapsed;
-                        }
-                        else //오주,대양
-                        {
-                            listitem.pStateVisi = Visibility.Visible;
-                            listitem.icback = result["WDIGCount"].ToString().Equals("0") || result["WDIGCount"].ToString().Equals("0.0") ? "White" : "#AFE1FF";
-                            if (result["WDIGCount"].ToString().Equals("0") || result["WDIGCount"].ToString().Equals("0.0"))
+                            listitem.orderLast = result["orderLast"].ToString(); //납기일
+                            if (result["orderLast"].ToString() != null)
                             {
-                                wdIGCOunt++;
+                                listitem.orderLast = "[" + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8) + "]";
                             }
-                            if (listitem.givWD.Equals("2"))
-                            {
-                                listitem.icback = "#AFE1FF";
-                            }
-                        }
 
-                        //상태표시
-                        if (result["pState"].ToString() != null)
-                        {
-                            listitem.pState = result["pState"].ToString();
-                            switch (listitem.pState)
-                            {
-                                case "0":
-                                    listitem.pStateString = "정상";
-                                    listitem.pStateSColor = "BLUE";
-                                    break;
-                                case "1":
-                                    listitem.pStateString = "보류";
-                                    listitem.pStateSColor = "GREEN";
-                                    break;
-                                case "2":
-                                    listitem.pStateString = "지급";
-                                    listitem.pStateSColor = "BLUE";
-                                    break;
-                                case "3":
-                                    listitem.pStateString = "초지급";
-                                    listitem.pStateSColor = "BLUE";
-                                    break;
-                                case "4":
-                                    listitem.pStateString = "상차";
-                                    listitem.pStateSColor = "BLUE";
-                                    break;
-                            }
-                        }
+                            listitem.prodID = result["prodID"].ToString(); //제품ID
+                            listitem.newProd = newProd;
+                            listitem.eDatetime = "";
+                            listitem.sDatetime = "E";
+                            listitem.subOb = new List<SubModel>();
+                            listitem.resultList = new ObservableCollection<InputModel>();
+                            listitem.bMember = bool.Parse(result["bMember"].ToString()); //실수요자 포함확인
+                            listitem.workMemo = result["workMemo"].ToString();
 
-                        if (SettingJsonManager.corp_name.Equals("오주포장") && (SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기")) ||
-                            SettingJsonManager.corp_name.Equals("오주포장테스트") && (SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기")))
-                        {
-                            if (listitem.ProcessType == 7 || listitem.ProcessType == 8) //후렉소(1), 1공장철(7), 베가(8), 인라인(13)
+
+                            //오주, 대양
+                            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") || 
+                                SettingJsonManager.corp_name.Equals("대양포장") || SettingJsonManager.corp_name.Equals("대양포장테스트"))
                             {
-                                //작업정보 설정값
-                                string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
-                                for (int i = 0; i < setting.Length; i++)
+                                listitem.pStateVisi = Visibility.Visible;
+                                listitem.icback = result["WDIGCount"].ToString().Equals("0") || result["WDIGCount"].ToString().Equals("0.0") ? "White" : "#AFE1FF";
+                                if (result["WDIGCount"].ToString().Equals("0") || result["WDIGCount"].ToString().Equals("0.0"))
                                 {
-                                    string item = "";
-                                    switch (setting[i])
+                                    wdIGCOunt++;
+                                }
+                                if (listitem.givWD.Equals("2"))
+                                {
+                                    listitem.icback = "#AFE1FF";
+                                }
+
+                                listitem.ServerIndex = ServerIndex;
+                                listitem.DBName = DBName;
+                            }
+                            //하나포장 (프로그램 통합 시 주업체, 부업체 구분용)
+                            else if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
+                            {
+                                if (ServerIndex == "hnbox")
+                                {
+                                    listitem.icback = "#AFE1FF";
+                                    listitem.ServerIndex = ServerIndex;
+                                    listitem.DBName = DBName;
+                                }
+                                else if (ServerIndex == "shbox")
+                                {
+                                    listitem.icback = "Whute";
+                                    listitem.ServerIndex = ServerIndex;
+                                    listitem.DBName = DBName;
+                                }
+                            }
+                            //그 외 업체
+                            else
+                            {
+                                listitem.icback = listitem.bMember ? "#AFE1FF" : "White"; //실수요자일때 하늘색 바탕으로 표시
+                                listitem.pStateVisi = Visibility.Collapsed;
+                                listitem.ServerIndex = ServerIndex;
+                                listitem.DBName = DBName;
+                            }
+
+                            //상태표시
+                            if (result["pState"].ToString() != null)
+                            {
+                                listitem.pState = result["pState"].ToString();
+                                switch (listitem.pState)
+                                {
+                                    case "0":
+                                        listitem.pStateString = "정상";
+                                        listitem.pStateSColor = "BLUE";
+                                        break;
+                                    case "1":
+                                        listitem.pStateString = "보류";
+                                        listitem.pStateSColor = "GREEN";
+                                        break;
+                                    case "2":
+                                        listitem.pStateString = "지급";
+                                        listitem.pStateSColor = "BLUE";
+                                        break;
+                                    case "3":
+                                        listitem.pStateString = "초지급";
+                                        listitem.pStateSColor = "BLUE";
+                                        break;
+                                    case "4":
+                                        listitem.pStateString = "상차";
+                                        listitem.pStateSColor = "BLUE";
+                                        break;
+                                }
+                            }
+
+                            if (SettingJsonManager.corp_name.Equals("오주포장") && (SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기")) ||
+                                SettingJsonManager.corp_name.Equals("오주포장테스트") && (SettingJsonManager.mercName.Equals("인라인2호기") || SettingJsonManager.mercName.Equals("인라인3호기")))
+                            {
+                                if (listitem.ProcessType == 7 || listitem.ProcessType == 8) //후렉소(1), 1공장철(7), 베가(8), 인라인(13)
+                                {
+                                    //작업정보 설정값
+                                    string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
+                                    for (int i = 0; i < setting.Length; i++)
                                     {
-                                        case "1":
-                                            item = result["filmNo"].ToString();
-                                            break;
-                                        case "2":
-                                            item = result["CoatingType"].ToString();
-                                            break;
-                                        case "3":
-                                            item = result["PrintNo"].ToString();
-                                            break;
-                                        case "4":
-                                            item = result["Printposition"].ToString();
-                                            break;
-                                        case "5":
-                                            item = result["PushingNo"].ToString();
-                                            break;
-                                        case "6":
-                                            item = result["Pushingposition"].ToString();
-                                            break;
-                                        case "7":
-                                            item = SettingJsonManager.color_check
-                                                   ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ")
-                                                   : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
-                                            break;
-                                        case "8":
-                                            item = result["ConnetingType"].ToString();
-                                            break;
-                                        case "9":
-                                            item = result["handChk"].ToString();
-                                            break;
-                                        case "10":
-                                            item = result["PackCount"].ToString();
-                                            break;
-                                        case "11":
-                                            item = result["PackType"].ToString();
-                                            break;
-                                        case "12":
-                                            item = result["workMemo"].ToString();
-                                            break;
-                                        case "13":
-                                            item = result["pplanMemo"].ToString();
-                                            break;
-                                        case "14":
-                                            item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
+                                        string item = "";
+                                        switch (setting[i])
+                                        {
+                                            case "1":
+                                                item = result["filmNo"].ToString();
+                                                break;
+                                            case "2":
+                                                item = result["CoatingType"].ToString();
+                                                break;
+                                            case "3":
+                                                item = result["PrintNo"].ToString();
+                                                break;
+                                            case "4":
+                                                item = result["Printposition"].ToString();
+                                                break;
+                                            case "5":
+                                                item = result["PushingNo"].ToString();
+                                                break;
+                                            case "6":
+                                                item = result["Pushingposition"].ToString();
+                                                break;
+                                            case "7":
+                                                item = SettingJsonManager.color_check
+                                                       ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ")
+                                                       : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
+                                                break;
+                                            case "8":
+                                                item = result["ConnetingType"].ToString();
+                                                break;
+                                            case "9":
+                                                item = result["handChk"].ToString();
+                                                break;
+                                            case "10":
+                                                item = result["PackCount"].ToString();
+                                                break;
+                                            case "11":
+                                                item = result["PackType"].ToString();
+                                                break;
+                                            case "12":
+                                                item = result["workMemo"].ToString();
+                                                break;
+                                            case "13":
+                                                item = result["pplanMemo"].ToString();
+                                                break;
+                                            case "14":
+                                                item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
+                                                       ? "-"
+                                                       : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
+                                                break;
+                                            case "15":
+                                                item = result["PalletType"].ToString();
+                                                break;
+                                            case "16":
+                                                item = result["SpecialMemo"].ToString();
+                                                break;
+
+                                            default:
+                                                break;
+                                        }
+
+                                        //작업정보 표현
+                                        if (i == 0)
+                                        {
+                                            listitem.item1 = item.Replace("\r\n", ""); //첫째줄
+                                        }
+                                        else if (i == 1)
+                                        {
+                                            listitem.item2 = item.Replace("\r\n", ""); //둘째줄
+                                        }
+                                        else if (i == 2)
+                                        {
+                                            listitem.item3 = item.Replace("\r\n", ""); //셋째줄
+                                        }
+                                        else if (i == 3)
+                                        {
+                                            listitem.item4 = item.Replace("\r\n", ""); //넷째줄
+                                        }
+
+                                    }
+
+                                    //orderKey와 orderWorkNo일치 값 찾기
+                                    foreach (JObject resultSub in Data_Jarry.Where((x) => (listitem.orderKey + listitem.orderWorkNo).Equals(x["orderKey"].ToString() + x["orderWorkNo"].ToString())))
+                                    {
+                                        SubModel subItem = new SubModel();
+
+                                        subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();              //공정 순번
+                                        subItem.ProcessTypeName = resultSub["ProcessTypeName"].ToString();    //공정명
+                                        subItem.processType = int.Parse(resultSub["ProcessType"].ToString()); //공정ID
+                                        subItem.orderKey = resultSub["orderKey"].ToString();                  //오더키
+                                        subItem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());       //계획량
+
+                                        //결과값 있을때 공정 아이콘 검정으로 처리
+                                        if (int.Parse(resultSub["presultCount"].ToString()) > 0)
+                                        {
+                                            subItem.stateColor = Brushes.Black; //배경
+                                            subItem.stateFontColor = Brushes.White; //글자
+                                            subItem.presultCount = int.Parse(resultSub["presultCount"].ToString()); //결과수량
+
+                                            //불량수량 있으면 결과값에 - 불량수량
+                                            if (!resultSub["perrCount"].ToString().Equals(""))
+                                            {
+                                                subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
+                                            }
+                                        }
+                                        //결과값 없을때 공정 아이콘 흰색 처리
+                                        else
+                                        {
+                                            subItem.stateColor = Brushes.White;
+                                            subItem.stateFontColor = Brushes.Black;
+                                        }
+
+                                        listitem.subOb.Add(subItem);
+                                    }
+
+                                    //공정 순번으로 오름차순 정렬
+                                    listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
+                                    if (listitem.subOb.Count == 2)
+                                    {
+                                        //공정명에 톰슨이 없거나 "2"라는 글자가 없을 경우에만 리스트 등록 
+                                        if (listitem.subOb.Where((x) => x.ProcessTypeName.ToString().Equals("톰슨") || x.ProcessTypeName.ToString().Contains("2")).Count() == 0)
+                                        {
+                                            workList.Add(listitem);
+                                        }
+                                    }
+                                }
+                            }
+                            //오주포장 (풀접합)
+                            else if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("풀접합") ||
+                                     SettingJsonManager.corp_name.Equals("오주포장테스트") && SettingJsonManager.mercName.Equals("풀접합"))
+                            {
+                                if (listitem.ProcessType == 8 || listitem.ProcessType == 7 || listitem.ProcessType == 5) //7:철접합  8: 풀접합
+                                {
+                                    //작업정보 설정값
+                                    string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
+                                    for (int i = 0; i < setting.Length; i++)
+                                    {
+                                        string item = "";
+                                        switch (setting[i])
+                                        {
+                                            case "1":
+                                                item = result["filmNo"].ToString();
+                                                break;
+                                            case "2":
+                                                item = result["CoatingType"].ToString();
+                                                break;
+                                            case "3":
+                                                item = result["PrintNo"].ToString();
+                                                break;
+                                            case "4":
+                                                item = result["Printposition"].ToString();
+                                                break;
+                                            case "5":
+                                                item = result["PushingNo"].ToString();
+                                                break;
+                                            case "6":
+                                                item = result["Pushingposition"].ToString();
+                                                break;
+                                            case "7":
+                                                item = SettingJsonManager.color_check
+                                                       ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ")
+                                                       : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
+                                                break;
+                                            case "8":
+                                                item = result["ConnetingType"].ToString();
+                                                break;
+                                            case "9":
+                                                item = result["handChk"].ToString();
+                                                break;
+                                            case "10":
+                                                item = result["PackCount"].ToString();
+                                                break;
+                                            case "11":
+                                                item = result["PackType"].ToString();
+                                                break;
+                                            case "12":
+                                                item = result["workMemo"].ToString();
+                                                break;
+                                            case "13":
+                                                item = result["pplanMemo"].ToString();
+                                                break;
+                                            case "14":
+                                                item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
                                                    ? "-"
                                                    : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
-                                            break;
-                                        case "15":
-                                            item = result["PalletType"].ToString();
-                                            break;
-                                        case "16":
-                                            item = result["SpecialMemo"].ToString();
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    //작업정보 표현
-                                    if (i == 0)
-                                    {
-                                        listitem.item1 = item.Replace("\r\n", ""); //첫째줄
-                                    }
-                                    else if (i == 1)
-                                    {
-                                        listitem.item2 = item.Replace("\r\n", ""); //둘째줄
-                                    }
-                                    else if (i == 2)
-                                    {
-                                        listitem.item3 = item.Replace("\r\n", ""); //셋째줄
-                                    }
-                                    else if (i == 3)
-                                    {
-                                        listitem.item4 = item.Replace("\r\n", ""); //넷째줄
-                                    }
-
-                                }
-
-                                //orderKey와 orderWorkNo일치 값 찾기
-                                foreach (JObject resultSub in Data_Jarry.Where((x) => (listitem.orderKey + listitem.orderWorkNo).Equals(x["orderKey"].ToString() + x["orderWorkNo"].ToString())))
-                                {
-                                    SubModel subItem = new SubModel();
-
-                                    subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();              //공정 순번
-                                    subItem.ProcessTypeName = resultSub["ProcessTypeName"].ToString();    //공정명
-                                    subItem.processType = int.Parse(resultSub["ProcessType"].ToString()); //공정ID
-                                    subItem.orderKey = resultSub["orderKey"].ToString();                  //오더키
-                                    subItem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());       //계획량
-
-                                    //결과값 있을때 공정 아이콘 검정으로 처리
-                                    if (int.Parse(resultSub["presultCount"].ToString()) > 0)
-                                    {
-                                        subItem.stateColor = Brushes.Black; //배경
-                                        subItem.stateFontColor = Brushes.White; //글자
-                                        subItem.presultCount = int.Parse(resultSub["presultCount"].ToString()); //결과수량
-
-                                        //불량수량 있으면 결과값에 - 불량수량
-                                        if (!resultSub["perrCount"].ToString().Equals(""))
-                                        {
-                                            subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
-                                        }
-                                    }
-                                    //결과값 없을때 공정 아이콘 흰색 처리
-                                    else
-                                    {
-                                        subItem.stateColor = Brushes.White;
-                                        subItem.stateFontColor = Brushes.Black;
-                                    }
-
-                                    listitem.subOb.Add(subItem);
-                                }
-
-                                //공정 순번으로 오름차순 정렬
-                                listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
-                                if (listitem.subOb.Count == 2)
-                                {
-                                    //공정명에 톰슨이 없거나 "2"라는 글자가 없을 경우에만 리스트 등록 
-                                    if (listitem.subOb.Where((x) => x.ProcessTypeName.ToString().Equals("톰슨") || x.ProcessTypeName.ToString().Contains("2")).Count() == 0)
-                                    {
-                                        workList.Add(listitem);
-                                    }
-                                }
-                            }
-                        }
-                        //오주포장 (풀접합)
-                        else if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("풀접합") ||
-                                 SettingJsonManager.corp_name.Equals("오주포장테스트") && SettingJsonManager.mercName.Equals("풀접합"))
-                        {
-                            if (listitem.ProcessType == 8 || listitem.ProcessType == 7 || listitem.ProcessType == 5) //7:철접합  8: 풀접합
-                            {
-                                //작업정보 설정값
-                                string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
-                                for (int i = 0; i < setting.Length; i++)
-                                {
-                                    string item = "";
-                                    switch (setting[i])
-                                    {
-                                        case "1":
-                                            item = result["filmNo"].ToString();
-                                            break;
-                                        case "2":
-                                            item = result["CoatingType"].ToString();
-                                            break;
-                                        case "3":
-                                            item = result["PrintNo"].ToString();
-                                            break;
-                                        case "4":
-                                            item = result["Printposition"].ToString();
-                                            break;
-                                        case "5":
-                                            item = result["PushingNo"].ToString();
-                                            break;
-                                        case "6":
-                                            item = result["Pushingposition"].ToString();
-                                            break;
-                                        case "7":
-                                            item = SettingJsonManager.color_check
-                                                   ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ")
-                                                   : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
-                                            break;
-                                        case "8":
-                                            item = result["ConnetingType"].ToString();
-                                            break;
-                                        case "9":
-                                            item = result["handChk"].ToString();
-                                            break;
-                                        case "10":
-                                            item = result["PackCount"].ToString();
-                                            break;
-                                        case "11":
-                                            item = result["PackType"].ToString();
-                                            break;
-                                        case "12":
-                                            item = result["workMemo"].ToString();
-                                            break;
-                                        case "13":
-                                            item = result["pplanMemo"].ToString();
-                                            break;
-                                        case "14":
-                                            item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
-                                               ? "-"
-                                               : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
-                                            break;
-                                        case "15":
-                                            item = result["PalletType"].ToString();
-                                            break;
-                                        case "16":
-                                            item = result["SpecialMemo"].ToString();
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    //작업정보 표현
-                                    if (i == 0)
-                                    {
-                                        listitem.item1 = item.Replace("\r\n", ""); //첫째줄
-                                    }
-                                    else if (i == 1)
-                                    {
-                                        listitem.item2 = item.Replace("\r\n", ""); //둘째줄
-                                    }
-                                    else if (i == 2)
-                                    {
-                                        listitem.item3 = item.Replace("\r\n", ""); //셋째줄
-                                    }
-                                    else if (i == 3)
-                                    {
-                                        listitem.item4 = item.Replace("\r\n", ""); //넷째줄
-                                    }
-                                }
-
-                                foreach (JObject resultSub in Data_Jarry)
-                                {
-                                    SubModel subItem = new SubModel();
-                                    if (listitem.orderKey.Equals(resultSub["orderKey"].ToString()))
-                                    {
-                                        if (listitem.pplanKey.Equals(resultSub["pplanKey"].ToString()))
-                                        {
-
-                                        }
-                                    }
-
-                                    //orderKey와 orderWorkNo일치 값 찾기
-                                    if ((listitem.orderKey + listitem.orderWorkNo).Equals(resultSub["orderKey"].ToString() + resultSub["orderWorkNo"].ToString()))
-                                    {
-                                        subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();              //공정 순번
-                                        subItem.ProcessTypeName = resultSub["ProcessTypeName"].ToString();    //공정명
-                                        subItem.processType = int.Parse(resultSub["ProcessType"].ToString()); //공정ID
-                                        subItem.orderKey = resultSub["orderKey"].ToString();                  //오더키
-                                        subItem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());       //계획량
-
-                                        //결과값 있을때 공정 아이콘 검정으로 처리
-                                        if (int.Parse(resultSub["presultCount"].ToString()) > 0)
-                                        {
-                                            subItem.stateColor = Brushes.Black;
-                                            subItem.stateFontColor = Brushes.White;
-                                            subItem.presultCount = int.Parse(resultSub["presultCount"].ToString());
-
-                                            if (!resultSub["perrCount"].ToString().Equals(""))
-                                            {
-                                                subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
-                                            }
-                                        }
-                                        //결과값 없을때 공정 아이콘 흰색으로 처리
-                                        else
-                                        {
-                                            subItem.stateColor = Brushes.White;
-                                            subItem.stateFontColor = Brushes.Black;
-                                        }
-                                        listitem.subOb.Add(subItem);
-                                    }
-                                }
-                                listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
-                                workList.Add(listitem);
-                            }
-                        }
-                        //오주포장 (베가)
-                        else if (SettingJsonManager.corp_name.Equals("오주포장") && 
-                                (SettingJsonManager.mercName.Equals("베가") ||
-                                 SettingJsonManager.mercName.Equals("1공장1합철") ||
-                                 SettingJsonManager.mercName.Equals("1공장2합철") ||
-                                 SettingJsonManager.mercName.Equals("1공장수동철")))
-                        {
-                            if (listitem.ProcessType == 7 || listitem.ProcessType == 8) //풀접합
-                            {
-                                string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
-                                for (int i = 0; i < setting.Length; i++)
-                                {
-                                    string item = "";
-                                    switch (setting[i])
-                                    {
-                                        case "1":
-                                            item = result["filmNo"].ToString();
-                                            break;
-                                        case "2":
-                                            item = result["CoatingType"].ToString();
-                                            break;
-                                        case "3":
-                                            item = result["PrintNo"].ToString();
-                                            break;
-                                        case "4":
-                                            item = result["Printposition"].ToString();
-                                            break;
-                                        case "5":
-                                            item = result["PushingNo"].ToString();
-                                            break;
-                                        case "6":
-                                            item = result["Pushingposition"].ToString();
-                                            break;
-                                        case "7":
-                                            item = SettingJsonManager.color_check
-                                                ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ")
-                                                : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
-                                            break;
-                                        case "8":
-                                            item = result["ConnetingType"].ToString();
-                                            break;
-                                        case "9":
-                                            item = result["handChk"].ToString();
-                                            break;
-                                        case "10":
-                                            item = result["PackCount"].ToString();
-                                            break;
-                                        case "11":
-                                            item = result["PackType"].ToString();
-                                            break;
-                                        case "12":
-                                            item = result["workMemo"].ToString();
-                                            break;
-                                        case "13":
-                                            item = result["pplanMemo"].ToString();
-                                            break;
-                                        case "14":
-                                            item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
-                                               ? "-"
-                                               : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
-                                            break;
-                                        case "15":
-                                            item = result["PalletType"].ToString();
-                                            break;
-                                        case "16":
-                                            item = result["SpecialMemo"].ToString();
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    //작업정보 표현
-                                    if (i == 0)
-                                    {
-                                        listitem.item1 = item.Replace("\r\n", ""); //첫째줄
-                                    }
-                                    else if (i == 1)
-                                    {
-                                        listitem.item2 = item.Replace("\r\n", ""); //둘째줄
-                                    }
-                                    else if (i == 2)
-                                    {
-                                        listitem.item3 = item.Replace("\r\n", ""); //셋째줄
-                                    }
-                                    else if (i == 3)
-                                    {
-                                        listitem.item4 = item.Replace("\r\n", ""); //넷째줄
-                                    }
-                                }
-
-                                foreach (JObject resultSub in Data_Jarry)
-                                {
-                                    SubModel subItem = new SubModel();
-                                    if (listitem.orderKey.Equals(resultSub["orderKey"].ToString()))
-                                    {
-                                        if (listitem.pplanKey.Equals(resultSub["pplanKey"].ToString()))
-                                        {
-                                        }
-                                    }
-
-                                    //orderKey와 orderWorkNo일치 값 찾기
-                                    if ((listitem.orderKey + listitem.orderWorkNo).Equals(resultSub["orderKey"].ToString() + resultSub["orderWorkNo"].ToString()))
-                                    {
-                                        subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();              //공정 순번
-                                        subItem.ProcessTypeName = resultSub["ProcessTypeName"].ToString();    //공정명
-                                        subItem.processType = int.Parse(resultSub["ProcessType"].ToString()); //공정ID
-                                        subItem.orderKey = resultSub["orderKey"].ToString();                  //오더키
-                                        subItem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());       //계획량
-
-                                        //결과값 있을때 공정 아이콘 검정으로 처리
-                                        if (int.Parse(resultSub["presultCount"].ToString()) > 0)
-                                        {
-                                            subItem.stateColor = Brushes.Black;
-                                            subItem.stateFontColor = Brushes.White;
-                                            subItem.presultCount = int.Parse(resultSub["presultCount"].ToString());
-
-                                            if (!resultSub["perrCount"].ToString().Equals(""))
-                                            {
-                                                subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
-                                            }
-                                        }
-                                        //결과값 없을때 공정 아이콘 흰색으로 처리
-                                        else
-                                        {
-                                            subItem.stateColor = Brushes.White;
-                                            subItem.stateFontColor = Brushes.Black;
-                                        }
-
-                                        listitem.subOb.Add(subItem);
-                                    }
-                                }
-
-                                listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
-                                workList.Add(listitem);
-                            }
-
-                        }
-                        //오주포장 (2공장인쇄기)
-                        else if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("2공장인쇄기"))
-                        {
-                            if (listitem.ProcessType == 27) //2공장 인쇄기
-                            {
-                                if (listitem.ProcessType == SettingJsonManager.processType)
-                                {
-                                    //작업정보 설정값
-                                    string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
-                                    for (int i = 0; i < setting.Length; i++)
-                                    {
-                                        string item = "";
-                                        switch (setting[i])
-                                        {
-                                            case "1":
-                                                item = result["filmNo"].ToString();
-                                                break;
-                                            case "2":
-                                                item = result["CoatingType"].ToString();
-                                                break;
-                                            case "3":
-                                                item = result["PrintNo"].ToString();
-                                                break;
-                                            case "4":
-                                                item = result["Printposition"].ToString();
-                                                break;
-                                            case "5":
-                                                item = result["PushingNo"].ToString();
-                                                break;
-                                            case "6":
-                                                item = result["Pushingposition"].ToString();
-                                                break;
-                                            case "7":
-                                                item = SettingJsonManager.color_check ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ") : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
-                                                break;
-                                            case "8":
-                                                item = result["ConnetingType"].ToString();
-                                                break;
-                                            case "9":
-                                                item = result["handChk"].ToString();
-                                                break;
-                                            case "10":
-                                                item = result["PackCount"].ToString();
-                                                break;
-                                            case "11":
-                                                item = result["PackType"].ToString();
-                                                break;
-                                            case "12":
-                                                item = result["workMemo"].ToString();
-                                                break;
-                                            case "13":
-                                                item = result["pplanMemo"].ToString();
-                                                break;
-                                            case "14":
-                                                item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
-                                                ? "-"
-                                                : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
                                                 break;
                                             case "15":
                                                 item = result["PalletType"].ToString();
@@ -1925,141 +1708,22 @@ namespace PopProject.UserControl_
                                     foreach (JObject resultSub in Data_Jarry)
                                     {
                                         SubModel subItem = new SubModel();
-                                        //Console.WriteLine(resultSub["pplanKey"].ToString());
-                                        if ((listitem.orderKey + listitem.orderWorkNo).Equals(resultSub["orderKey"].ToString() + resultSub["orderWorkNo"].ToString()))
+                                        if (listitem.orderKey.Equals(resultSub["orderKey"].ToString()))
                                         {
-                                            subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();             //공정 순번
-                                            subItem.ProcessTypeName = resultSub["ProcessTypeName"].ToString();   //공정명
-                                            subItem.processType = int.Parse(resultSub["ProcessType"].ToString());//공정ID
-                                            subItem.orderKey = resultSub["orderKey"].ToString();                 //오더키
-                                            subItem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());      //계획량
-
-                                            //결과값 있을때 공정 아이콘 검정으로 처리
-                                            if (int.Parse(resultSub["presultCount"].ToString()) > 0)
+                                            if (listitem.pplanKey.Equals(resultSub["pplanKey"].ToString()))
                                             {
-                                                subItem.stateColor = Brushes.Black;
-                                                subItem.stateFontColor = Brushes.White;
-                                                subItem.presultCount = int.Parse(resultSub["presultCount"].ToString());
-                                                if (!resultSub["perrCount"].ToString().Equals(""))
-                                                {
-                                                    subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
-                                                }
+
                                             }
-                                            //결과값 없을때 공정 아이콘 흰색으로 처리
-                                            else
-                                            {
-                                                subItem.stateColor = Brushes.White;
-                                                subItem.stateFontColor = Brushes.Black;
-                                            }
-                                            listitem.subOb.Add(subItem);
-                                        }
-                                    }
-                                    listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
-                                    workList.Add(listitem);
-                                }
-                            }
-                        }
-                        //기본업체
-                        else
-                        {
-                            //공정명 없을때
-                            if (listitem.mercName.Equals(""))
-                            {
-                                //설비 번호로 구별
-                                if (listitem.ProcessType == SettingJsonManager.processType)
-                                {
-                                    //작업정보 설정값
-                                    string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
-                                    for (int i = 0; i < setting.Length; i++)
-                                    {
-                                        string item = "";
-                                        switch (setting[i])
-                                        {
-                                            case "1":
-                                                item = result["filmNo"].ToString();
-                                                break;
-                                            case "2":
-                                                item = result["CoatingType"].ToString();
-                                                break;
-                                            case "3":
-                                                item = result["PrintNo"].ToString();
-                                                break;
-                                            case "4":
-                                                item = result["Printposition"].ToString();
-                                                break;
-                                            case "5":
-                                                item = result["PushingNo"].ToString();
-                                                break;
-                                            case "6":
-                                                item = result["Pushingposition"].ToString();
-                                                break;
-                                            case "7":
-                                                item = SettingJsonManager.color_check ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ") : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
-                                                break;
-                                            case "8":
-                                                item = result["ConnetingType"].ToString();
-                                                break;
-                                            case "9":
-                                                item = result["handChk"].ToString();
-                                                break;
-                                            case "10":
-                                                item = result["PackCount"].ToString();
-                                                break;
-                                            case "11":
-                                                item = result["PackType"].ToString();
-                                                break;
-                                            case "12":
-                                                item = result["workMemo"].ToString();
-                                                break;
-                                            case "13":
-                                                item = result["pplanMemo"].ToString();
-                                                break;
-                                            case "14":
-                                                item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
-                                                ? "-"
-                                                : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
-                                                break;
-                                            case "15":
-                                                item = result["PalletType"].ToString();
-                                                break;
-                                            case "16":
-                                                item = result["SpecialMemo"].ToString();
-                                                break;
-
-                                            default:
-                                                break;
                                         }
 
-                                        //작업정보 표현
-                                        if (i == 0)
-                                        {
-                                            listitem.item1 = item.Replace("\r\n", ""); //첫째줄
-                                        }
-                                        else if (i == 1)
-                                        {
-                                            listitem.item2 = item.Replace("\r\n", ""); //둘째줄
-                                        }
-                                        else if (i == 2)
-                                        {
-                                            listitem.item3 = item.Replace("\r\n", ""); //셋째줄
-                                        }
-                                        else if (i == 3)
-                                        {
-                                            listitem.item4 = item.Replace("\r\n", ""); //넷째줄
-                                        }
-                                    }
-
-                                    foreach (JObject resultSub in Data_Jarry)
-                                    {
-                                        SubModel subItem = new SubModel();
-                                        //Console.WriteLine(resultSub["pplanKey"].ToString());
+                                        //orderKey와 orderWorkNo일치 값 찾기
                                         if ((listitem.orderKey + listitem.orderWorkNo).Equals(resultSub["orderKey"].ToString() + resultSub["orderWorkNo"].ToString()))
                                         {
                                             subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();              //공정 순번
                                             subItem.ProcessTypeName = resultSub["ProcessTypeName"].ToString();    //공정명
                                             subItem.processType = int.Parse(resultSub["ProcessType"].ToString()); //공정ID
                                             subItem.orderKey = resultSub["orderKey"].ToString();                  //오더키
-                                            subItem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());       //계획키
+                                            subItem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());       //계획량
 
                                             //결과값 있을때 공정 아이콘 검정으로 처리
                                             if (int.Parse(resultSub["presultCount"].ToString()) > 0)
@@ -2067,6 +1731,7 @@ namespace PopProject.UserControl_
                                                 subItem.stateColor = Brushes.Black;
                                                 subItem.stateFontColor = Brushes.White;
                                                 subItem.presultCount = int.Parse(resultSub["presultCount"].ToString());
+
                                                 if (!resultSub["perrCount"].ToString().Equals(""))
                                                 {
                                                     subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
@@ -2081,18 +1746,19 @@ namespace PopProject.UserControl_
                                             listitem.subOb.Add(subItem);
                                         }
                                     }
-
                                     listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
                                     workList.Add(listitem);
                                 }
                             }
-                            //공정명 있을때
-                            else
+                            //오주포장 (베가)
+                            else if (SettingJsonManager.corp_name.Equals("오주포장") &&
+                                    (SettingJsonManager.mercName.Equals("베가") ||
+                                     SettingJsonManager.mercName.Equals("1공장1합철") ||
+                                     SettingJsonManager.mercName.Equals("1공장2합철") ||
+                                     SettingJsonManager.mercName.Equals("1공장수동철")))
                             {
-                                //공정명으로 구분
-                                if (listitem.mercName.Equals(SettingJsonManager.mercName))
+                                if (listitem.ProcessType == 7 || listitem.ProcessType == 8) //풀접합
                                 {
-                                    //작업정보 설정값
                                     string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
                                     for (int i = 0; i < setting.Length; i++)
                                     {
@@ -2118,7 +1784,9 @@ namespace PopProject.UserControl_
                                                 item = result["Pushingposition"].ToString();
                                                 break;
                                             case "7":
-                                                item = result["ColorType"].ToString().Replace("|", "");
+                                                item = SettingJsonManager.color_check
+                                                    ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ")
+                                                    : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
                                                 break;
                                             case "8":
                                                 item = result["ConnetingType"].ToString();
@@ -2140,8 +1808,8 @@ namespace PopProject.UserControl_
                                                 break;
                                             case "14":
                                                 item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
-                                               ? "-"
-                                               : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
+                                                   ? "-"
+                                                   : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
                                                 break;
                                             case "15":
                                                 item = result["PalletType"].ToString();
@@ -2171,68 +1839,457 @@ namespace PopProject.UserControl_
                                         {
                                             listitem.item4 = item.Replace("\r\n", ""); //넷째줄
                                         }
-
                                     }
 
                                     foreach (JObject resultSub in Data_Jarry)
                                     {
-                                        SubModel subitem = new SubModel();
+                                        SubModel subItem = new SubModel();
+                                        if (listitem.orderKey.Equals(resultSub["orderKey"].ToString()))
+                                        {
+                                            if (listitem.pplanKey.Equals(resultSub["pplanKey"].ToString()))
+                                            {
+                                            }
+                                        }
 
+                                        //orderKey와 orderWorkNo일치 값 찾기
                                         if ((listitem.orderKey + listitem.orderWorkNo).Equals(resultSub["orderKey"].ToString() + resultSub["orderWorkNo"].ToString()))
                                         {
-                                            subitem.ProcessSeq = resultSub["ProcessSeq"].ToString();              //공정 순번
-                                            subitem.ProcessTypeName = resultSub["ProcessTypeName"].ToString();    //공정명
-                                            subitem.processType = int.Parse(resultSub["ProcessType"].ToString()); //공정ID
-                                            subitem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());       //오더키
-                                            subitem.orderKey = resultSub["orderKey"].ToString();                  //계획량
+                                            subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();              //공정 순번
+                                            subItem.ProcessTypeName = resultSub["ProcessTypeName"].ToString();    //공정명
+                                            subItem.processType = int.Parse(resultSub["ProcessType"].ToString()); //공정ID
+                                            subItem.orderKey = resultSub["orderKey"].ToString();                  //오더키
+                                            subItem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());       //계획량
 
                                             //결과값 있을때 공정 아이콘 검정으로 처리
                                             if (int.Parse(resultSub["presultCount"].ToString()) > 0)
                                             {
-                                                subitem.stateColor = Brushes.Black;
-                                                subitem.stateFontColor = Brushes.White;
-                                                subitem.presultCount = int.Parse(resultSub["presultCount"].ToString());
+                                                subItem.stateColor = Brushes.Black;
+                                                subItem.stateFontColor = Brushes.White;
+                                                subItem.presultCount = int.Parse(resultSub["presultCount"].ToString());
 
                                                 if (!resultSub["perrCount"].ToString().Equals(""))
                                                 {
-                                                    subitem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
+                                                    subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
                                                 }
                                             }
                                             //결과값 없을때 공정 아이콘 흰색으로 처리
                                             else
                                             {
-                                                subitem.stateColor = Brushes.White;
-                                                subitem.stateFontColor = Brushes.Black;
+                                                subItem.stateColor = Brushes.White;
+                                                subItem.stateFontColor = Brushes.Black;
                                             }
 
-                                            listitem.subOb.Add(subitem);
+                                            listitem.subOb.Add(subItem);
                                         }
                                     }
+
                                     listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
                                     workList.Add(listitem);
                                 }
+
+                            }
+                            //오주포장 (2공장인쇄기)
+                            else if (SettingJsonManager.corp_name.Equals("오주포장") && SettingJsonManager.mercName.Equals("2공장인쇄기"))
+                            {
+                                if (listitem.ProcessType == 27) //2공장 인쇄기
+                                {
+                                    if (listitem.ProcessType == SettingJsonManager.processType)
+                                    {
+                                        //작업정보 설정값
+                                        string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
+                                        for (int i = 0; i < setting.Length; i++)
+                                        {
+                                            string item = "";
+                                            switch (setting[i])
+                                            {
+                                                case "1":
+                                                    item = result["filmNo"].ToString();
+                                                    break;
+                                                case "2":
+                                                    item = result["CoatingType"].ToString();
+                                                    break;
+                                                case "3":
+                                                    item = result["PrintNo"].ToString();
+                                                    break;
+                                                case "4":
+                                                    item = result["Printposition"].ToString();
+                                                    break;
+                                                case "5":
+                                                    item = result["PushingNo"].ToString();
+                                                    break;
+                                                case "6":
+                                                    item = result["Pushingposition"].ToString();
+                                                    break;
+                                                case "7":
+                                                    item = SettingJsonManager.color_check ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ") : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
+                                                    break;
+                                                case "8":
+                                                    item = result["ConnetingType"].ToString();
+                                                    break;
+                                                case "9":
+                                                    item = result["handChk"].ToString();
+                                                    break;
+                                                case "10":
+                                                    item = result["PackCount"].ToString();
+                                                    break;
+                                                case "11":
+                                                    item = result["PackType"].ToString();
+                                                    break;
+                                                case "12":
+                                                    item = result["workMemo"].ToString();
+                                                    break;
+                                                case "13":
+                                                    item = result["pplanMemo"].ToString();
+                                                    break;
+                                                case "14":
+                                                    item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
+                                                    ? "-"
+                                                    : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
+                                                    break;
+                                                case "15":
+                                                    item = result["PalletType"].ToString();
+                                                    break;
+                                                case "16":
+                                                    item = result["SpecialMemo"].ToString();
+                                                    break;
+
+                                                default:
+                                                    break;
+                                            }
+
+                                            //작업정보 표현
+                                            if (i == 0)
+                                            {
+                                                listitem.item1 = item.Replace("\r\n", ""); //첫째줄
+                                            }
+                                            else if (i == 1)
+                                            {
+                                                listitem.item2 = item.Replace("\r\n", ""); //둘째줄
+                                            }
+                                            else if (i == 2)
+                                            {
+                                                listitem.item3 = item.Replace("\r\n", ""); //셋째줄
+                                            }
+                                            else if (i == 3)
+                                            {
+                                                listitem.item4 = item.Replace("\r\n", ""); //넷째줄
+                                            }
+                                        }
+
+                                        foreach (JObject resultSub in Data_Jarry)
+                                        {
+                                            SubModel subItem = new SubModel();
+                                            //Console.WriteLine(resultSub["pplanKey"].ToString());
+                                            if ((listitem.orderKey + listitem.orderWorkNo).Equals(resultSub["orderKey"].ToString() + resultSub["orderWorkNo"].ToString()))
+                                            {
+                                                subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();             //공정 순번
+                                                subItem.ProcessTypeName = resultSub["ProcessTypeName"].ToString();   //공정명
+                                                subItem.processType = int.Parse(resultSub["ProcessType"].ToString());//공정ID
+                                                subItem.orderKey = resultSub["orderKey"].ToString();                 //오더키
+                                                subItem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());      //계획량
+
+                                                //결과값 있을때 공정 아이콘 검정으로 처리
+                                                if (int.Parse(resultSub["presultCount"].ToString()) > 0)
+                                                {
+                                                    subItem.stateColor = Brushes.Black;
+                                                    subItem.stateFontColor = Brushes.White;
+                                                    subItem.presultCount = int.Parse(resultSub["presultCount"].ToString());
+                                                    if (!resultSub["perrCount"].ToString().Equals(""))
+                                                    {
+                                                        subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
+                                                    }
+                                                }
+                                                //결과값 없을때 공정 아이콘 흰색으로 처리
+                                                else
+                                                {
+                                                    subItem.stateColor = Brushes.White;
+                                                    subItem.stateFontColor = Brushes.Black;
+                                                }
+                                                listitem.subOb.Add(subItem);
+                                            }
+                                        }
+                                        listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
+                                        workList.Add(listitem);
+                                    }
+                                }
+                            }
+                            //기본업체
+                            else
+                            {
+                                //공정명 없을때
+                                if (listitem.mercName.Equals(""))
+                                {
+                                    //설비 번호로 구별
+                                    if (listitem.ProcessType == SettingJsonManager.processType)
+                                    {
+                                        //작업정보 설정값
+                                        string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
+                                        for (int i = 0; i < setting.Length; i++)
+                                        {
+                                            string item = "";
+                                            switch (setting[i])
+                                            {
+                                                case "1":
+                                                    item = result["filmNo"].ToString();
+                                                    break;
+                                                case "2":
+                                                    item = result["CoatingType"].ToString();
+                                                    break;
+                                                case "3":
+                                                    item = result["PrintNo"].ToString();
+                                                    break;
+                                                case "4":
+                                                    item = result["Printposition"].ToString();
+                                                    break;
+                                                case "5":
+                                                    item = result["PushingNo"].ToString();
+                                                    break;
+                                                case "6":
+                                                    item = result["Pushingposition"].ToString();
+                                                    break;
+                                                case "7":
+                                                    item = SettingJsonManager.color_check ? result["ColorType"].ToString().Replace("|", "").Replace("색", "색 ") : ExtractKorean(result["ColorType"].ToString().Replace("|", "")).Replace("색", "색 ");
+                                                    break;
+                                                case "8":
+                                                    item = result["ConnetingType"].ToString();
+                                                    break;
+                                                case "9":
+                                                    item = result["handChk"].ToString();
+                                                    break;
+                                                case "10":
+                                                    item = result["PackCount"].ToString();
+                                                    break;
+                                                case "11":
+                                                    item = result["PackType"].ToString();
+                                                    break;
+                                                case "12":
+                                                    item = result["workMemo"].ToString();
+                                                    break;
+                                                case "13":
+                                                    item = result["pplanMemo"].ToString();
+                                                    break;
+                                                case "14":
+                                                    item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
+                                                    ? "-"
+                                                    : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
+                                                    break;
+                                                case "15":
+                                                    item = result["PalletType"].ToString();
+                                                    break;
+                                                case "16":
+                                                    item = result["SpecialMemo"].ToString();
+                                                    break;
+
+                                                default:
+                                                    break;
+                                            }
+
+                                            //작업정보 표현
+                                            if (i == 0)
+                                            {
+                                                listitem.item1 = item.Replace("\r\n", ""); //첫째줄
+                                            }
+                                            else if (i == 1)
+                                            {
+                                                listitem.item2 = item.Replace("\r\n", ""); //둘째줄
+                                            }
+                                            else if (i == 2)
+                                            {
+                                                listitem.item3 = item.Replace("\r\n", ""); //셋째줄
+                                            }
+                                            else if (i == 3)
+                                            {
+                                                listitem.item4 = item.Replace("\r\n", ""); //넷째줄
+                                            }
+                                        }
+
+                                        foreach (JObject resultSub in Data_Jarry)
+                                        {
+                                            SubModel subItem = new SubModel();
+                                            //Console.WriteLine(resultSub["pplanKey"].ToString());
+                                            if ((listitem.orderKey + listitem.orderWorkNo).Equals(resultSub["orderKey"].ToString() + resultSub["orderWorkNo"].ToString()))
+                                            {
+                                                subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();              //공정 순번
+                                                subItem.ProcessTypeName = resultSub["ProcessTypeName"].ToString();    //공정명
+                                                subItem.processType = int.Parse(resultSub["ProcessType"].ToString()); //공정ID
+                                                subItem.orderKey = resultSub["orderKey"].ToString();                  //오더키
+                                                subItem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());       //계획키
+
+                                                //결과값 있을때 공정 아이콘 검정으로 처리
+                                                if (int.Parse(resultSub["presultCount"].ToString()) > 0)
+                                                {
+                                                    subItem.stateColor = Brushes.Black;
+                                                    subItem.stateFontColor = Brushes.White;
+                                                    subItem.presultCount = int.Parse(resultSub["presultCount"].ToString());
+                                                    if (!resultSub["perrCount"].ToString().Equals(""))
+                                                    {
+                                                        subItem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
+                                                    }
+                                                }
+                                                //결과값 없을때 공정 아이콘 흰색으로 처리
+                                                else
+                                                {
+                                                    subItem.stateColor = Brushes.White;
+                                                    subItem.stateFontColor = Brushes.Black;
+                                                }
+                                                listitem.subOb.Add(subItem);
+                                            }
+                                        }
+
+                                        listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
+                                        workList.Add(listitem);
+                                    }
+                                }
+                                //공정명 있을때
+                                else
+                                {
+                                    //공정명으로 구분
+                                    if (listitem.mercName.Equals(SettingJsonManager.mercName))
+                                    {
+                                        //작업정보 설정값
+                                        string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
+                                        for (int i = 0; i < setting.Length; i++)
+                                        {
+                                            string item = "";
+                                            switch (setting[i])
+                                            {
+                                                case "1":
+                                                    item = result["filmNo"].ToString();
+                                                    break;
+                                                case "2":
+                                                    item = result["CoatingType"].ToString();
+                                                    break;
+                                                case "3":
+                                                    item = result["PrintNo"].ToString();
+                                                    break;
+                                                case "4":
+                                                    item = result["Printposition"].ToString();
+                                                    break;
+                                                case "5":
+                                                    item = result["PushingNo"].ToString();
+                                                    break;
+                                                case "6":
+                                                    item = result["Pushingposition"].ToString();
+                                                    break;
+                                                case "7":
+                                                    item = result["ColorType"].ToString().Replace("|", "");
+                                                    break;
+                                                case "8":
+                                                    item = result["ConnetingType"].ToString();
+                                                    break;
+                                                case "9":
+                                                    item = result["handChk"].ToString();
+                                                    break;
+                                                case "10":
+                                                    item = result["PackCount"].ToString();
+                                                    break;
+                                                case "11":
+                                                    item = result["PackType"].ToString();
+                                                    break;
+                                                case "12":
+                                                    item = result["workMemo"].ToString();
+                                                    break;
+                                                case "13":
+                                                    item = result["pplanMemo"].ToString();
+                                                    break;
+                                                case "14":
+                                                    item = result["orderLast"].ToString().Substring(0, 4).Equals("9999")
+                                                   ? "-"
+                                                   : "납기 : " + result["orderLast"].ToString().Replace("-", "/").Substring(2, 8);
+                                                    break;
+                                                case "15":
+                                                    item = result["PalletType"].ToString();
+                                                    break;
+                                                case "16":
+                                                    item = result["SpecialMemo"].ToString();
+                                                    break;
+
+                                                default:
+                                                    break;
+                                            }
+
+                                            //작업정보 표현
+                                            if (i == 0)
+                                            {
+                                                listitem.item1 = item.Replace("\r\n", ""); //첫째줄
+                                            }
+                                            else if (i == 1)
+                                            {
+                                                listitem.item2 = item.Replace("\r\n", ""); //둘째줄
+                                            }
+                                            else if (i == 2)
+                                            {
+                                                listitem.item3 = item.Replace("\r\n", ""); //셋째줄
+                                            }
+                                            else if (i == 3)
+                                            {
+                                                listitem.item4 = item.Replace("\r\n", ""); //넷째줄
+                                            }
+
+                                        }
+
+                                        foreach (JObject resultSub in Data_Jarry)
+                                        {
+                                            SubModel subitem = new SubModel();
+
+                                            if ((listitem.orderKey + listitem.orderWorkNo).Equals(resultSub["orderKey"].ToString() + resultSub["orderWorkNo"].ToString()))
+                                            {
+                                                subitem.ProcessSeq = resultSub["ProcessSeq"].ToString();              //공정 순번
+                                                subitem.ProcessTypeName = resultSub["ProcessTypeName"].ToString();    //공정명
+                                                subitem.processType = int.Parse(resultSub["ProcessType"].ToString()); //공정ID
+                                                subitem.pplanKey = int.Parse(resultSub["pplanKey"].ToString());       //오더키
+                                                subitem.orderKey = resultSub["orderKey"].ToString();                  //계획량
+
+                                                //결과값 있을때 공정 아이콘 검정으로 처리
+                                                if (int.Parse(resultSub["presultCount"].ToString()) > 0)
+                                                {
+                                                    subitem.stateColor = Brushes.Black;
+                                                    subitem.stateFontColor = Brushes.White;
+                                                    subitem.presultCount = int.Parse(resultSub["presultCount"].ToString());
+
+                                                    if (!resultSub["perrCount"].ToString().Equals(""))
+                                                    {
+                                                        subitem.presultCount -= int.Parse(resultSub["perrCount"].ToString());
+                                                    }
+                                                }
+                                                //결과값 없을때 공정 아이콘 흰색으로 처리
+                                                else
+                                                {
+                                                    subitem.stateColor = Brushes.White;
+                                                    subitem.stateFontColor = Brushes.Black;
+                                                }
+
+                                                listitem.subOb.Add(subitem);
+                                            }
+                                        }
+                                        listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
+                                        workList.Add(listitem);
+                                    }
+                                }
                             }
                         }
+                        workList1 = workList;
+                        ic.ItemsSource = workList;
+                        Console.WriteLine("계획리스트 수량: " + workList.Count);
+
                     }
-                    workList1 = workList;
-                    ic.ItemsSource = workList;
+                    else
+                    {
+                        //MessageBox_Dialog box = new MessageBox_Dialog("PopWorkList 조회 오류!!");
+                        //_ = box.ShowDialog();
+                    }
                 }
                 else
                 {
-                    //MessageBox_Dialog box = new MessageBox_Dialog("PopWorkList 조회 오류!!");
-                    //_ = box.ShowDialog();
+                    Console.WriteLine("생산계획 조회 오류");
                 }
-            }
-            else
-            {
-                Console.WriteLine("생산계획 조회 오류");
-            }
 
-            if (SettingJsonManager.corp_name.Equals("신우수출포장") && SettingJsonManager.mercName.Equals("신우수출포장테스트") ||
-                SettingJsonManager.corp_name.Equals("우리포장") && SettingJsonManager.mercName.Equals("우리포장테스트") ||
-                SettingJsonManager.corp_name.Equals("누리팩") && SettingJsonManager.mercName.Equals("누리팩테스트"))
-            {
-                실적현황조회();
+                if (SettingJsonManager.corp_name.Equals("신우수출포장") && SettingJsonManager.mercName.Equals("신우수출포장테스트") ||
+                    SettingJsonManager.corp_name.Equals("우리포장") && SettingJsonManager.mercName.Equals("우리포장테스트") ||
+                    SettingJsonManager.corp_name.Equals("누리팩") && SettingJsonManager.mercName.Equals("누리팩테스트"))
+                {
+                    실적현황조회();
+                }
             }
         }
 
@@ -2319,143 +2376,170 @@ namespace PopProject.UserControl_
         {
             Console.WriteLine("[PopResultSearchDate] 조회");
 
-            production = null;
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
-            ReturnModel returnData = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
-                "[PopResultSearchDate]",
-                new string[] { "@pworkDate" },
-                new string[] { DateTimeManager.GetSelectedDateStr() },
-            0
-        );
-            if (returnData.결과 == 1)
+            // 서버 인덱스를 저장할 리스트 생성
+            Dictionary<string, string> serverIndices2 = new Dictionary<string, string>();
+
+            if (SettingJsonManager.corp_name.Equals("하나포장"))
             {
-                JArray Data_Jarry = JArray.Parse(returnData.리턴값);
-                if (Data_Jarry != null)
+                serverIndices2.Add("hnbox", "A07E164641");
+                serverIndices2.Add("shbox", "75BB212362");
+            }
+            else if (SettingJsonManager.corp_name.Equals("하나포장테스트"))
+            {
+                serverIndices2.Add("hnbox", "icdtest3");
+                serverIndices2.Add("shbox", "icdtest5");
+            }
+            else
+            {
+                serverIndices2.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
+            }
+
+            foreach (var server in serverIndices2)
+            {
+                string ServerIndex = server.Key;
+                string DBName = server.Value;
+
+                production = null;
+                ServiceModel.ServiceModelClean(ServerIndex, DBName);
+                ReturnModel returnData = ServiceModel.GetData(
+                    ServerIndex,
+                    "[PopResultSearchDate]",
+                    new string[] { "@pworkDate" },
+                    new string[] { DateTimeManager.GetSelectedDateStr() },
+                0
+                );
+                if (returnData.결과 == 1)
                 {
-                    ObservableCollection<MainModel> tempOb = new ObservableCollection<MainModel>();
-                    foreach (MainModel workItem in workList)
+                    JArray Data_Jarry = JArray.Parse(returnData.리턴값);
+                    if (Data_Jarry != null)
                     {
-                        foreach (JObject result in Data_Jarry)
+                        ObservableCollection<MainModel> tempOb = new ObservableCollection<MainModel>();
+                        foreach (MainModel workItem in workList)
                         {
-                            _ = new InputModel();
-                            //해당 설비의 계획리스트에서 pplanKey일치
-                            if (workItem.pplanKey.ToString().Equals(result["pplanKey"].ToString()))
+                            foreach (JObject result in Data_Jarry)
                             {
-                                //현재POP 설정된 설비명과 일치
-                                if (result["mercName"].ToString().Equals(SettingJsonManager.mercName))
+                                _ = new InputModel();
+                                //해당 설비의 계획리스트에서 pplanKey일치
+                                if (workItem.pplanKey.ToString().Equals(result["pplanKey"].ToString()))
                                 {
-                                    workItem.presultCount = float.Parse(result["pworkCount"].ToString());   //생산결과 수량
-                                    workItem.sumPworkCount += float.Parse(result["pworkCount"].ToString()); //생산결과 총 수량
-                                    workItem.sDatetime = result["sDatetime"].ToString(); //시작시간
-
-                                    if (!result["perrorCount"].ToString().Equals("")) //불량수량
+                                    //현재POP 설정된 설비명과 일치
+                                    if (result["mercName"].ToString().Equals(SettingJsonManager.mercName))
                                     {
-                                        workItem.perrorCount += int.Parse(result["perrorCount"].ToString());
-                                    }
+                                        workItem.presultCount = float.Parse(result["pworkCount"].ToString());   //생산결과 수량
+                                        workItem.sumPworkCount += float.Parse(result["pworkCount"].ToString()); //생산결과 총 수량
+                                        workItem.sDatetime = result["sDatetime"].ToString(); //시작시간
 
-                                    workItem.imagePath = "/img/bn_01.png"; //작업중 버튼
-
-                                    //완료시간 있으면
-                                    if (!result["eDatetime"].ToString().Equals(""))
-                                    {
-                                        workItem.eDatetime = result["eDatetime"].ToString();
-                                    }
-                                    else//완료시간 없으면
-                                    {
-                                        //생산중이면
-                                        if (production != null)
+                                        if (!result["perrorCount"].ToString().Equals("")) //불량수량
                                         {
-                                            if (!production.pplanKey.ToString().Equals(workItem.pplanKey.ToString()))
+                                            workItem.perrorCount += int.Parse(result["perrorCount"].ToString());
+                                        }
+
+                                        workItem.imagePath = "/img/bn_01.png"; //작업중 버튼
+
+                                        //완료시간 있으면
+                                        if (!result["eDatetime"].ToString().Equals(""))
+                                        {
+                                            workItem.eDatetime = result["eDatetime"].ToString();
+                                        }
+                                        else//완료시간 없으면
+                                        {
+                                            //생산중이면
+                                            if (production != null)
                                             {
-                                                production = workItem;
+                                                if (!production.pplanKey.ToString().Equals(workItem.pplanKey.ToString()))
+                                                {
+                                                    production = workItem;
+                                                }
+                                                else
+                                                {
+                                                    float tempSum = production.sumPworkCount;
+                                                    float tempPresult = production.presultCount;
+                                                    production = workItem;
+                                                    production.sumPworkCount = tempSum;
+                                                    production.presultCount = tempPresult;
+                                                }
                                             }
+                                            //생산중이 아니면
                                             else
                                             {
-                                                float tempSum = production.sumPworkCount;
-                                                float tempPresult = production.presultCount;
                                                 production = workItem;
-                                                production.sumPworkCount = tempSum;
-                                                production.presultCount = tempPresult;
-                                            }
-                                        }
-                                        //생산중이 아니면
-                                        else
-                                        {
-                                            production = workItem;
 
-                                            //카운터 집계용 로컬DB
-                                            if (SettingJsonManager.dbUse)
-                                            {
-                                                DataTable temp = new LocalDBManager().GetRawData("Last");
-                                                
-                                                // 설비명 동일 && 제품 orderKey 동일 && 메세지 타입은 N
-                                                if(temp.Rows[0]["MercName"].ToString().Equals(SettingJsonManager.mercName)
-                                                    && temp.Rows[0]["OrderKey"].ToString().Equals(production.orderKey)
-                                                    && temp.Rows[0]["MsgType"].ToString().Equals("N"))
+                                                //카운터 집계용 로컬DB
+                                                if (SettingJsonManager.dbUse)
                                                 {
-                                                    production.sumPworkCount = Convert.ToInt32(temp.Rows[0]["Msg"]) + production.sumPworkCount;
-                                                    production.presultCount = Convert.ToInt32(temp.Rows[0]["Msg"]);
-                                                    // 계속해서 아두이노로 들어오는 카운터 값에 + 방법 연구 필요
+                                                    DataTable temp = new LocalDBManager().GetRawData("Last");
+
+                                                    // 설비명 동일 && 제품 orderKey 동일 && 메세지 타입은 N
+                                                    if (temp.Rows[0]["MercName"].ToString().Equals(SettingJsonManager.mercName)
+                                                        && temp.Rows[0]["OrderKey"].ToString().Equals(production.orderKey)
+                                                        && temp.Rows[0]["MsgType"].ToString().Equals("N"))
+                                                    {
+                                                        production.sumPworkCount = Convert.ToInt32(temp.Rows[0]["Msg"]) + production.sumPworkCount;
+                                                        production.presultCount = Convert.ToInt32(temp.Rows[0]["Msg"]);
+                                                        // 계속해서 아두이노로 들어오는 카운터 값에 + 방법 연구 필요
+                                                    }
                                                 }
                                             }
                                         }
                                     }
-                                }
-                                else
-                                {
-                                    tempOb.Add(workItem);
+                                    else
+                                    {
+                                        tempOb.Add(workItem);
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    //리스트 만큼 반복
-                    for (int i = 0; i < workList.Count; i++)
-                    {
-                        //상자수 체크시 결과값에 통수 나누기
-                        if (SettingJsonManager.boxCheck)
+                        //리스트 만큼 반복
+                        for (int i = 0; i < workList.Count; i++)
                         {
-                            workList[i].sumPworkCount = workList[i].sumPworkCount / workList[i].pCnt;
-                        }
-
-                        //완료항목 제거 체크시
-                        if (SettingJsonManager.completeValue_checked)
-                        {
-                            //종료시간 있으면 삭제
-                            if (workList[i].eDatetime.Length > 5)
+                            //상자수 체크시 결과값에 통수 나누기
+                            if (SettingJsonManager.boxCheck)
                             {
-                                workList.Remove(workList[i]);
+                                workList[i].sumPworkCount = workList[i].sumPworkCount / workList[i].pCnt;
                             }
-                        }
-                    }
 
-                    //동시작업 설정 체크시
-                    if (!SettingJsonManager.samework)
-                    {
-                        foreach (MainModel item in tempOb)
-                        {
-                            if (!SettingJsonManager.mercName.Equals(item.mercName))
+                            //완료항목 제거 체크시
+                            if (SettingJsonManager.completeValue_checked)
                             {
-                                //작업중 버튼이 아니면 삭제
-                                if (!item.imagePath.Equals("/img/bn_01.png"))
+                                //종료시간 있으면 삭제
+                                if (workList[i].eDatetime.Length > 5)
                                 {
-                                    _ = workList.Remove(item);
+                                    workList.Remove(workList[i]);
                                 }
                             }
                         }
+
+                        //동시작업 설정 체크시
+                        if (!SettingJsonManager.samework)
+                        {
+                            foreach (MainModel item in tempOb)
+                            {
+                                if (!SettingJsonManager.mercName.Equals(item.mercName))
+                                {
+                                    //작업중 버튼이 아니면 삭제
+                                    if (!item.imagePath.Equals("/img/bn_01.png"))
+                                    {
+                                        _ = workList.Remove(item);
+                                    }
+                                }
+                            }
+                        }
+                        txtNoPlan.Visibility = workList.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+                        SortWorkList();
                     }
-                    txtNoPlan.Visibility = workList.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-                    SortWorkList();
+                    LogManager.Info("생산결과 리스트 조회 완료", MethodBase.GetCurrentMethod().DeclaringType);
                 }
-                LogManager.Info("생산결과 리스트 조회 완료", MethodBase.GetCurrentMethod().DeclaringType);
+                else
+                {
+                    LogManager.Error("생산결과 리스트 조회 오류", MethodBase.GetCurrentMethod().DeclaringType);
+                }
+                실적현황조회();
+                실수요자진행현황조회();
+
             }
-            else
-            {
-                LogManager.Error("생산결과 리스트 조회 오류", MethodBase.GetCurrentMethod().DeclaringType);
-            }
-            실적현황조회();
-            실수요자진행현황조회();
+
+            
         }
 
 
@@ -3439,12 +3523,14 @@ namespace PopProject.UserControl_
                     //_ = search.ShowDialog();
                     OpenSearchList();
                     break;
+
                 case "F2":
                     Ip_input ip_Input = new Ip_input();
                     ip_Input.ShowDialog();
                     break;
+
                 case "F8":
-                    if (SettingJsonManager.manager.Equals("0"))
+                    if (SettingJsonManager.manager.Equals("1"))
                     {
                         MessageBox_Dialog msg = new MessageBox_Dialog("관리자 계정이 아닙니다.");
                         msg.ShowDialog();
@@ -3453,9 +3539,9 @@ namespace PopProject.UserControl_
                     {
                         UserSetting user = new UserSetting();
                         user.ShowDialog();
-
                     }
                     break;
+
                 case "F12":
                     break;
 

@@ -51,16 +51,16 @@ namespace PopProject.UserControl_
                     for(int i = 0; i < jarr.Count; i++)
                     {
                         UserModel user = new UserModel();
-                        user.login_id = jarr[i]["login_id"].ToString();
-                        user.login_password = jarr[i]["login_password"].ToString();
-                        user.corp_name = jarr[i]["corp_name"].ToString();
-                        user.corp_id = jarr[i]["corp_id"].ToString();
-                        user.url = jarr[i]["url"].ToString();
-                        user.signalR = jarr[i]["signalR"].ToString();
-                        user.serverIndex = jarr[i]["serverIndex"].ToString();
-                        user.manager = jarr[i]["manager"].ToString();
-                        user.user_name = jarr[i]["user_name"].ToString();
-                        user.login_time = jarr[i]["login_time"].ToString();
+                        user.login_id = jarr[i]["login_id"].ToString(); //아이디
+                        user.login_password = jarr[i]["login_password"].ToString(); //패스워드
+                        user.corp_name = jarr[i]["corp_name"].ToString(); //업체명
+                        user.corp_id = jarr[i]["corp_id"].ToString(); //업체코드
+                        user.url = jarr[i]["url"].ToString(); //
+                        user.signalR = jarr[i]["signalR"].ToString(); //시그널R 주소
+                        user.serverIndex = jarr[i]["serverIndex"].ToString(); //서버인덱스
+                        user.manager = jarr[i]["manager"].ToString(); //관리자 모드
+                        user.user_name = jarr[i]["user_name"].ToString(); //사용자 명
+                        user.login_time = jarr[i]["login_time"].ToString(); //로그인 시간
 
                         userlist.Add(user);
                     }

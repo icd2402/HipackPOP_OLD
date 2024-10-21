@@ -84,6 +84,7 @@ namespace PopProject.Input
             detailPopup.IsChecked = SettingJsonManager.detailPopup; //상세창 먼저 팝업 사용
             windowMax.IsChecked = SettingJsonManager.windowState; //윈도우 창 설정
             noticePopup.IsChecked = SettingJsonManager.noticePopup; //공지사항 자동 팝업
+            companyIntegration.IsChecked = SettingJsonManager.companyIntegration; //업체 통합 사용
 
 
             //자재명세서 출력정보 화면
@@ -1206,6 +1207,12 @@ namespace PopProject.Input
         private void noticePopup_Checked(object sender, RoutedEventArgs e)
         {
             SettingJsonManager.noticePopup = noticePopup.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
+        }
+
+        private void companyIntegration_Checked(object sender, RoutedEventArgs e)
+        {
+            SettingJsonManager.companyIntegration = companyIntegration.IsChecked.Value;
             SettingJsonManager.SaveJsonFile();
         }
 
