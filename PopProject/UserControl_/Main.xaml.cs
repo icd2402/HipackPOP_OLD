@@ -2379,20 +2379,33 @@ namespace PopProject.UserControl_
             // 서버 인덱스를 저장할 리스트 생성
             Dictionary<string, string> serverIndices2 = new Dictionary<string, string>();
 
-            if (SettingJsonManager.corp_name.Equals("하나포장"))
+
+            if (SettingJsonManager.companyIntegration)
             {
-                serverIndices2.Add("hnbox", "A07E164641");
-                serverIndices2.Add("shbox", "75BB212362");
-            }
-            else if (SettingJsonManager.corp_name.Equals("하나포장테스트"))
-            {
-                serverIndices2.Add("hnbox", "icdtest3");
-                serverIndices2.Add("shbox", "icdtest5");
+                //if (SettingJsonManager.corp_name.Equals("하나포장"))
+                //{
+                //    serverIndices2.Add("hnbox", "A07E164641");
+                //    serverIndices2.Add("shbox", "75BB212362");
+                //}
+                //else if (SettingJsonManager.corp_name.Equals("하나포장테스트"))
+                //{
+                //    serverIndices2.Add("hnbox", "icdtest3");
+                //    serverIndices2.Add("shbox", "icdtest5");
+                //}
+                //else
+                //{
+                //    serverIndices2.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
+                //}
+
+                serverIndices2.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
             }
             else
             {
                 serverIndices2.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
             }
+
+            
+
 
             foreach (var server in serverIndices2)
             {

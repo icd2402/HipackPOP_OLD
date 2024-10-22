@@ -376,6 +376,7 @@ namespace PopProject.Input
         // 불량 사유 리스트 조회
         private void PopErrorSearch()
         {
+
             _ = new LogData("불량사유조회");
             ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData = ServiceModel.GetData(
@@ -448,8 +449,8 @@ namespace PopProject.Input
             }
             else
             {
-                MessageBox_Dialog msg = new MessageBox_Dialog("PopErrorSearch 조회 오류");
-                _ = msg.ShowDialog();
+                //MessageBox_Dialog msg = new MessageBox_Dialog("PopErrorSearch 조회 오류");
+                //_ = msg.ShowDialog();
                 LogManager.Error("불량사유 리스트 조회 실패", MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
@@ -892,7 +893,7 @@ namespace PopProject.Input
                 if (!SettingJsonManager.corp_name.Equals("오주포장") && !SettingJsonManager.corp_name.Equals("오주포장테스트"))
                 {
                     CountManager.SendMsg(SettingJsonManager.mercName, "S");
-                    CountManager.SendMsg(SettingJsonManager.mercName, "0");
+                    //CountManager.SendMsg(SettingJsonManager.mercName, "0");
                 }
                 SettingJsonManager.count = 0;
                 SettingJsonManager.saveDate = "";
@@ -1774,7 +1775,7 @@ namespace PopProject.Input
                 }
 
                 CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
-                CountManager.SendMsg(SettingJsonManager.mercName, "0"); //
+                //CountManager.SendMsg(SettingJsonManager.mercName, "0"); //
 
                 //오주포장 인라인기 온제품 처리(철접합(7),베가(8),인라인2,3호기(13))
                 if (SettingJsonManager.corp_name.Equals("오주포장") && (SettingJsonManager.processType == 7 || SettingJsonManager.processType == 8 || SettingJsonManager.processType == 13) ||
@@ -1909,7 +1910,7 @@ namespace PopProject.Input
                 //Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
                 mainModel.sDatetime = DateTimeManager.GetSelectedStr();
                 CountManager.SendMsg(SettingJsonManager.mercName, "S");//현황판으로 시작신호 송신 (설비명,S)
-                CountManager.SendMsg(SettingJsonManager.mercName, "0"); //현황판으로 생산종료 송신
+                //CountManager.SendMsg(SettingJsonManager.mercName, "0"); //현황판으로 생산종료 송신
                 SettingJsonManager.count = 0;
                 SettingJsonManager.saveDate = "";
                 SettingJsonManager.pplanKey = 0;

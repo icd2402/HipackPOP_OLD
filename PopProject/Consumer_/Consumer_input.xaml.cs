@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using PopProject.KeyBoard;
 using PopProject.Input;
+using System.Reflection;
 
 namespace PopProject.Consumer_
 {
@@ -336,8 +337,9 @@ namespace PopProject.Consumer_
             }
             else
             {
-                MessageBox_Dialog msg = new MessageBox_Dialog("PopErrorSearch 조회 오류");
-                _ = msg.ShowDialog();
+                //MessageBox_Dialog msg = new MessageBox_Dialog("PopErrorSearch 조회 오류");
+                //_ = msg.ShowDialog();
+                LogManager.Error("불량사유 리스트 조회 실패", MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 

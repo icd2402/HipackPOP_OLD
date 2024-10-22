@@ -53,7 +53,7 @@ namespace PopProject.Util
                 {"구룡산업제2공장", "http://grbox.iptime.org:18888/pop"},
                 {"금화", "http://khbox.iptime.org:18888/pop"},
                 //{"오주포장", "http://ojbox.iptime.org:18888/pop"},
-                //{"미래포장", "http://miraebox.float-zone.com:18888/pop"},
+                {"미래포장", "http://miraebox.float-zone.com:18888/pop"},
 
                 {"하나포장테스트", "http://hnbox.iptime.org:18888/pop"},
                 {"광성수출포장테스트", "http://ksbox.iptime.org:18888/pop"},
@@ -73,7 +73,7 @@ namespace PopProject.Util
                 {"구룡산업제2공장테스트", "http://grbox.iptime.org:18888/pop"},
                 {"금화테스트", "http://khbox.iptime.org:18888/pop"},
                 //{"오주포장테스트", "http://ojbox.iptime.org:18888/pop"},
-                //{"미래포장테스트", "http://miraebox.float-zone.com:18888/pop"},
+                {"미래포장테스트", "http://miraebox.float-zone.com:18888/pop"},
 
                 {"국제포장테스트", "http://localhost:18888/pop"},
             };
