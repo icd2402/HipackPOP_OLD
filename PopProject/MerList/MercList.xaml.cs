@@ -8,6 +8,7 @@ using PopProject.UserControl_;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 
 namespace PopProject.MerList
 {
@@ -82,7 +83,7 @@ namespace PopProject.MerList
                             "2공장(손)조립",
                             "2공장랩핑",
                             "2공장P교체",
-                            "2공장명세서"
+                            "원단 P교체 명세서"
                         };
 
                         list = new ObservableCollection<MerModel>(list.OrderBy(item => customOrder.IndexOf(item.mercName)).ToList());

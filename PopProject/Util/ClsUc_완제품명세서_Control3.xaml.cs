@@ -105,8 +105,8 @@ namespace PopProject.Util
                 }
             }
 
-            private DateTime _orderLast;
-            public DateTime orderLast
+            private string _orderLast;
+            public string orderLast
             {
                 get
                 {
@@ -114,7 +114,7 @@ namespace PopProject.Util
                 }
                 set
                 {
-                    _orderLast = value;
+                    _orderLast = value.Replace("-", "/");
                     onPropertyChanged("orderLast");
                 }
             }

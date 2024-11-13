@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using PopProject.Detail;
 using PopProject.input;
 using PopProject.KeyBoard;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -525,6 +527,7 @@ namespace PopProject.Input
                new object[] { this.mainModel.prodID, SettingJsonManager.mercName },
                0);
 
+
             if (returnData.결과 == 1)
             {
                 string ProdID = "";
@@ -606,6 +609,11 @@ namespace PopProject.Input
                 float recipe60 = 0;
 
                 JArray Data_Jarry = JArray.Parse(returnData.리턴값);
+
+                //DataTable dt = JsonConvert.DeserializeObject<DataTable>(Data_Jarry.ToString());
+                //Data_GeumSeongPrint1.SetColumns(dt);
+                //Data_GeumSeongPrint1.SetDic(dt);
+
                 foreach (JObject result in Data_Jarry)
                 {
                     ProdID = result["prodID"].ToString();
@@ -1098,10 +1106,8 @@ namespace PopProject.Input
                             default:
                                 break;
                         }
-                        //continuous_read += Convert.ToInt32(low_data + high_data, 16) + "/"; //앞 뒤 자리바꾸고 10진수 변환
                     }
                 });
-                //Console.WriteLine("CNS PLC수신 데이터 확인(Plc_Pop) : " + continuous_read); //수신값 확인용
             }
             catch (Exception)
             {
@@ -1362,7 +1368,6 @@ namespace PopProject.Input
          
             textChange(TextChangeState);
             Console.WriteLine(TextChangeState);
-            //TextChangeState = !TextChangeState;
         }
     }
 }

@@ -303,7 +303,7 @@ namespace PopProject.MessageBox
                         pr3.MycustomSName = SettingJsonManager.productionCheck ? "" : SettingJsonManager.corp_name; //생산처
                         pr3.customSName = result["customSName"].ToString();           //거래처명
                         pr3.prodName = result["prodName"].ToString();                 //품명
-                        pr3.orderLast = Convert.ToDateTime(result["orderLast"]);      //납기일
+                        pr3.orderLast = Convert.ToDateTime(result["orderLast"]).ToString("yyyy/MM/dd");      //납기일
                         pr3.pSize = result["pSize"].ToString();                       //규격
                         pr3.pGol = mainModel.paperGor;                                //골
                         pr3.PalletType = detailitem.PalletType;                       //파렛트 종류
@@ -343,6 +343,7 @@ namespace PopProject.MessageBox
                     else if(SettingJsonManager.corp_name.Equals("두성포장") || SettingJsonManager.corp_name.Equals("두성포장테스트") || SettingJsonManager.corp_name.Contains("혜성"))
                     {
 
+                        pr5.corpName = SettingJsonManager.accountCheck ? "" : mainModel.corpName; //거래처 상호
                         pr5.customSName = result["customSName"].ToString();      //거래처명
                         pr5.prodName = result["prodName"].ToString();            //품명
                         pr5.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
@@ -714,7 +715,7 @@ namespace PopProject.MessageBox
             pr3.MycustomSName = SettingJsonManager.productionCheck ? "" : SettingJsonManager.corp_name;
             pr3.customSName = customSName;
             pr3.prodName = prodName;
-            pr3.orderLast = Convert.ToDateTime(orderLast);
+            pr3.orderLast = Convert.ToDateTime(orderLast).ToString("yyyy/MM/dd");
             pr3.pSize = pSize;
             pr3.pGol = mainModel.paperGor;
             string memo = getMemo(SettingJsonManager.printItem);

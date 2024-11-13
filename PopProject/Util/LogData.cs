@@ -12,6 +12,11 @@ namespace PopProject.Util
 {
     public class LogData
     {
+        /// <summary>
+        /// 스마트공장 사업 로그 API 인증키 관리
+        /// https://www.smart-factory.kr/
+        /// </summary>
+
         private string crtfcKey = "";
         private string logDt = "";
         private string useSe = "";
@@ -21,12 +26,11 @@ namespace PopProject.Util
 
         public LogData(string useSe)
         {
-            this.useSe = useSe;
+            this.useSe = useSe; //로그 내용
             crtfcKey = CrtfcKey(SettingJsonManager.corp_id); //업체코드
             logDt = GetTime(); //시간
             sysUser = SettingJsonManager.mercName; //설비명
-
-            conectIp = GetIP();
+            conectIp = GetIP(); //접속 IP
             dataUsgqty = 0;
 
             JsonObjectCollection json = new JsonObjectCollection
@@ -44,6 +48,7 @@ namespace PopProject.Util
 
         }
 
+        //시간
         public string GetTime()
         {
             string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
@@ -51,6 +56,7 @@ namespace PopProject.Util
         }
 
 
+        //접속 IP
         public string GetIP()
         {
             string strHostName = Dns.GetHostName();
@@ -68,153 +74,145 @@ namespace PopProject.Util
 
         }
 
+        //업체코드로 API 인증키 분류
         public string CrtfcKey(string corp_id)
         {
             string crtfcKey;
             switch (corp_id)
             {
-                case "F2A6214640":
+                case "75BD170261": //정일
                     {
-                        // 혜성: $5$API$WFRMJMEi/JIWzHjSbEFNqO54g5ewV94Q4ppXtiM5ou2
-                        crtfcKey = "$5$API$oeowtfLWrN5dLzEkTmVXaIGamdOJsRHy.t9PZ08R5ED";
-                        break;
-                    }
-
-                case "75BD170261":
-                    {
-                        // 정일: $5$API$9pgZWUx7Qgy0z/asRpn4l6VS.a8A0E.mfo2Yjb0BLjD
                         crtfcKey = "$5$API$9pgZWUx7Qgy0z/asRpn4l6VS.a8A0E.mfo2Yjb0BLjD";
                         break;
                     }
 
-                case "7C2564433":
+                case "7C2564433": //거성
                     {
-                        // 거성: $5$API$gswLJkqbSGriKu8Gt4Nh3ycrrEeQbxJl6tSHDE.JRw7
                         crtfcKey = "$5$API$gswLJkqbSGriKu8Gt4Nh3ycrrEeQbxJl6tSHDE.JRw7";
                         break;
                     }
 
-                case "C4E5132036":
+                case "3125247246": //오주
                     {
-                        // 미래: $5$API$1gtA7rTAzERz8hh18pTixIkIp6yDhq0vYA5gi6TkEQ1
+                        crtfcKey = "$5$API$vdZaR4Lyk12Z/NhS3bXUUKYZsP9gLgnx20GckLkfPk3";
+                        break;
+                    }
+
+                case "C4E5132036": //미래
+                    {
                         crtfcKey = "$5$API$1gtA7rTAzERz8hh18pTixIkIp6yDhq0vYA5gi6TkEQ1";
                         break;
                     }
 
-                case "3464250413":
+                case "A07E164641": //하나
                     {
-                        // 광성: $5$API$Srsh8f7I/QgnjX2QC3IIYF0bfChx6YmERjK5n/Q2OQA
-                        crtfcKey = "$5$API$Srsh8f7I/QgnjX2QC3IIYF0bfChx6YmERjK5n/Q2OQA";
-                        break;
-                    }
-
-                case "A07E164641":
-                    {
-                        // 하나: $5$API$tVvR3cwTa7CTErv3wui/zXIh8pUUxhD73TjckvwqjN7
                         crtfcKey = "$5$API$tVvR3cwTa7CTErv3wui/zXIh8pUUxhD73TjckvwqjN7";
                         break;
                     }
 
-                case "75BB212362":
+                case "3464250413": //광성
                     {
-                        // 선호: $5$API$Lqb0ylQQhtW2lYmGTA8oBnVnBiFMA5JGiu8XpA539.7
+                        crtfcKey = "$5$API$Srsh8f7I/QgnjX2QC3IIYF0bfChx6YmERjK5n/Q2OQA";
+                        break;
+                    }
+                
+                case "75BB212362": //선호
+                    {
                         crtfcKey = "$5$API$Lqb0ylQQhtW2lYmGTA8oBnVnBiFMA5JGiu8XpA539.7";
                         break;
                     }
 
-                case "C8B516524":
+                case "C8B516524": //유창
                     {
-                        // 유창:
                         crtfcKey = "$5$API$dOlFU/fI7Muxm1h40PiUJj5VSmdxXLOIxArRMV0sS.4";
                         break;
                     }
 
-                case "D85A2100":
+                case "D85A2100": //광무
                     {
-                        // 광무: $5$API$7OQpaXYXv0jbVOfwzdtQ3Gek7rT/MXdSyibahaAS3W/
                         crtfcKey = "$5$API$7OQpaXYXv0jbVOfwzdtQ3Gek7rT/MXdSyibahaAS3W/";
                         break;
                     }
-                case "A07E67034":
+
+                case "C53155632": //대양
                     {
-                        // 신우: $5$API$XiMBhWIUg.rz39Q15GxRuYHGYnNAOPC8p.LcQlmBkH8
+                        crtfcKey = "$5$API$ZTlTdHPNO9nN4FFPYdBqSqOoKZKsy50/3cO9NP.qZG4";
+                        break;
+                    }
+
+                case "A07E67034": //신우
+                    {
                         crtfcKey = "$5$API$XiMBhWIUg.rz39Q15GxRuYHGYnNAOPC8p.LcQlmBkH8";
                         break;
                     }
 
-                case "A07E265671":
+                case "A07E265671": //누리
                     {
-                        // 누리: $5$API$BQJWitsO4EMnhC8Va/qEdE.ud2Uj4l9CdJ3kUVfiSb5
                         crtfcKey = "$5$API$BQJWitsO4EMnhC8Va/qEdE.ud2Uj4l9CdJ3kUVfiSb5";
                         break;
                     }
 
-                case "A07E144572":
-                    //우리:   $5$API$3ZoVWHfWxIlw1bvMuIy1VONQGALcFNv4MmsqCpLC1n4
-                    crtfcKey = "$5$API$3ZoVWHfWxIlw1bvMuIy1VONQGALcFNv4MmsqCpLC1n4";
-                    break;
+                case "A07E144572": //우리
+                    {
+                        crtfcKey = "$5$API$htyE4jLhKRKANA7EJqLa/n7XuH1wiY33NlCbDVWxKx1";
+                        break;
+                    }
 
-                case "3125247246":
-                    //오주:   $5$API$vdZaR4Lyk12Z/NhS3bXUUKYZsP9gLgnx20GckLkfPk3
-                    crtfcKey = "$5$API$vdZaR4Lyk12Z/NhS3bXUUKYZsP9gLgnx20GckLkfPk3";
-                    break;
+                case "F2A6214640": //혜성
+                    {
+                        crtfcKey = "$5$API$oeowtfLWrN5dLzEkTmVXaIGamdOJsRHy.t9PZ08R5ED";
+                        break;
+                    }
 
-                case "C53155632":
-                    //대양 : $5$API$ZTlTdHPNO9nN4FFPYdBqSqOoKZKsy50/3cO9NP.qZG4
-                    crtfcKey = "$5$API$ZTlTdHPNO9nN4FFPYdBqSqOoKZKsy50/3cO9NP.qZG4";
-                    break;
+                case "D2E31043": //주)혜성
+                    {
+                        crtfcKey = "$5$API$e.xyAf/XO.s.39o56dy5CwbieTCATkYKu/5oJLJo/33";
+                        break;
+                    }
+
+                case "5579217615": //성주
+                    {
+                        crtfcKey = "$5$API$sQrmHHmidufXn9kMU21tR97uywZVIPWNFo9R7CZWr8B";
+                        break;
+                    }
+
+                case "13C554403": //지온
+                    {
+                        crtfcKey = "$5$API$.q11WFEWM3minNDNHFXie3LeUFtUSC5aAEpI9EA6x88";
+                        break;
+                    }
+
+                case "C919111143": //두성
+                    {
+                        crtfcKey = "$5$API$Ji3O4bFySk437RPI7sALQ1dyynUlWmt3SyqSP/h9bN2";
+                        break;
+                    }
+
+                case "C91950615": //대세
+                    {
+                        crtfcKey = "$5$API$.NliYTwsduENTDEMjTcjtI9hppOfaLFwDCxdb7g6TU5";
+                        break;
+                    }
+
+                case "766562426": //구룡
+                    {
+                        crtfcKey = "$5$API$vHQrr9yDymkTOgbP4uUPfMfh6KRn/qmbJ9LfwRRRUl9";
+                        break;
+                    }
+               
+                case "9DBD134371": //금화
+                    {
+                        crtfcKey = "$5$API$osZ29gtnQgI8k4cCxXgKLm1f7CL6MR9X5dMryhMJdTB";
+                        break;
+                    }
 
                 default:
                     {
                         crtfcKey = "";
                         break;
                     }
-
             }
-            return crtfcKey;
+            return crtfcKey; //인증키 반환
         }
     }
-
-    //private async void sendlog(string session)
-    //{
-
-    //    crtfcKey = CrtfcKey(SettingJsonManager.corp_id);
-    //    logDt = GetTime();
-    //    sysUser = SettingJsonManager.mercName;
-
-    //    conectIp = GetIP();
-
-    //    string loginjson = new JavaScriptSerializer().Serialize(new PMSItem()
-    //    {
-    //        crtfcKey = crtfcKey,
-    //        logDt = logDt,
-    //        useSe = useSe,
-    //        sysUser = sysUser,
-    //        conectIp = conectIp,
-    //        dataUsgqty = "0"
-    //    });
-
-    //    HttpClient hc = new HttpClient();
-    //    Uri requestUri = new Uri("https://log.smart-factory.kr/apisvc/sendLogDataJSON.do?logData=" + loginjson);
-    //    StringContent content = new StringContent("", Encoding.UTF8, "application/json");
-
-    //    try
-    //    {
-    //        await hc.PostAsync(requestUri, content);
-    //    }
-    //    catch (Exception)
-    //    {
-    //    }
-
-    //}
-
-    //public class PMSItem
-    //{
-    //    public string crtfcKey;
-    //    public string logDt;
-    //    public string useSe;
-    //    public string sysUser;
-    //    public string conectIp;
-    //    public string dataUsgqty;
-    //}
 }

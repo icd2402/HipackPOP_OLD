@@ -390,9 +390,8 @@ namespace PopProject.Util
 
         public static void MoveSettingsFIle()
         {
-            string oldFilePath = @"C:\ICD\settings.json";
-
             // settings.json 파일을 C:\ICD\ 에서 C:\ICD\POP\ 로 이동하기 위함
+            string oldFilePath = @"C:\ICD\settings.json";
 
             // C:\ICD\POP\ 에 settings.json 파일 있으면 정지
             if (File.Exists(filePath) == true)

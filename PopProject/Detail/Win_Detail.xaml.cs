@@ -91,7 +91,6 @@ namespace PopProject.Detail
             pSize.Text = mainModel.pSize;
             PreviewKeyDown += OnPreviewKeyDown;
             Loaded += DetailWindow_Loaded;
-
             Timer_1s();         // 1초
 
 
@@ -105,8 +104,7 @@ namespace PopProject.Detail
                 LogManager.Info("일반 Detail창 팝업(" + mainModel.customSName + "/" + mainModel.prodName +")", MethodBase.GetCurrentMethod().DeclaringType);
             }
 
-            //dateTimeManager = DateTimeManager.Instance; // DateTimeManager 객체 생성
-
+            _ = new LogData("상세내역창 조회");
             Console.WriteLine("ProdID : " + mainModel.prodID);
 
             //실수요자
@@ -744,7 +742,7 @@ namespace PopProject.Detail
         {
             try
             {
-                string ProdID = mainModel.prodID;
+                string ProdID = mainModel.prodID; //생산ID
                 거래처 = mainModel.customSName; //거래처
                 품명 = mainModel.prodName; //품명
 
@@ -1184,12 +1182,7 @@ namespace PopProject.Detail
                         default:
                             break;
                     }
-                    //continuous_read += Convert.ToInt32(low_data + high_data, 16) + "/"; //앞 뒤 자리바꾸고 10진수 변환
-                    //RD = RD.Substring(4); //변환 끝낸 4자리 데이터 자르기
                 }
-
-                //Console.WriteLine("CNS수신 데이터(input) : " + continuous_read); //수신값 확인용
-
 
                 if (cnsProcessing)
                 {
@@ -1564,7 +1557,7 @@ namespace PopProject.Detail
                         string imageName = result["photoName"].ToString();
 
                         //ftp용 uri, 파일명 저장
-                        ftpUri = uri; 
+                        ftpUri = uri;
                         ImagName = result["photoName"].ToString();
 
                         Console.WriteLine("인쇄사양 이미지 uri : " + uri);
@@ -1588,6 +1581,32 @@ namespace PopProject.Detail
                             //string pwd = "WAS2402!";
                             string id = "administrator";
                             string pwd = "Dybox0211!";
+                            string imageName = ImagName;
+
+                            //ftp 연결
+                            ftpConnection(uri, id, pwd, imageName);
+                        }
+                        //이미지 없을때
+                        else
+                        {
+                            tbNoCount.Visibility = Visibility.Visible;
+                            tbPicCount.Visibility = Visibility.Collapsed;
+                            picCount.Visibility = Visibility.Collapsed;
+                        }
+                    }
+                    else if (SettingJsonManager.corp_name.Equals("성주포장") || SettingJsonManager.corp_name.Equals("성주포장테스트"))
+                    {
+                        //이미지 있을때
+                        if (uriPathOB.Count > 0)
+                        {
+                            tbNoCount.Visibility = Visibility.Collapsed;
+                            tbPicCount.Visibility = Visibility.Visible;
+                            picCount.Visibility = Visibility.Visible;
+                            tbPicCount.Text = "1/" + uriPathOB.Count;
+
+                            string uri = ftpUri;
+                            string id = "sjboxuser";
+                            string pwd = "Sjbox5836!";
                             string imageName = ImagName;
 
                             //ftp 연결
@@ -2100,20 +2119,6 @@ namespace PopProject.Detail
                         {
 
                         }
-
-                        //두성
-                        //if (SettingJsonManager.corp_name.Equals("두성포장") || SettingJsonManager.corp_name.Equals("두성포장테스트"))
-                        //{
-                        //    JToken token = result["LocationName"];
-                        //    if (token != null)
-                        //    {
-                        //        Detailitem.LocationName = result["LocationName"].ToString();
-                        //        if (Detailitem.LocationName.Length > 2)
-                        //        {
-                        //            wharehouselocation.Text = Detailitem.LocationName;
-                        //        }
-                        //    }
-                        //}
 
                         //오주
                         if (SettingJsonManager.corp_name.Equals("오주포장"))
@@ -3065,7 +3070,6 @@ namespace PopProject.Detail
                     }
                 }
             }
-
         }
 
         private void tbBarcode_KeyDown(object sender, KeyEventArgs e)

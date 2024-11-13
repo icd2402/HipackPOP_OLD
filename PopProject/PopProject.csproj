@@ -29,10 +29,10 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.451</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.457</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>452</ApplicationRevision>
+    <ApplicationRevision>458</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -326,6 +326,7 @@
     <Compile Include="Detail\Win_WorkList.xaml.cs">
       <DependentUpon>Win_WorkList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Input\Data_GeumSeongPrint1.cs" />
     <Compile Include="Input\Error_Model.cs" />
     <Compile Include="Input\InputModel.cs" />
     <Compile Include="Input\Ip_input.xaml.cs">

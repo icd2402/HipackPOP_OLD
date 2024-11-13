@@ -29,7 +29,7 @@ namespace PopProject.UserControl_
             authCode.Focus();
             authCode.PreviewKeyDown += authKey_KeyDown;
 
-            Keyboard_call();
+            //Keyboard_call();
 
         }
 

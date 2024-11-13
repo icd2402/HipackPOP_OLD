@@ -123,8 +123,10 @@
                
                 <DockPanel >
                     <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,1" BorderBrush="Black" Content="수      량" HorizontalContentAlignment="Center" Height="130"  Width="165" />
-                    <Label DockPanel.Dock="Left" Style="{StaticResource ValueLabel1}" BorderThickness="1,1,0,1" BorderBrush="Black" Padding="10,0" Content="{Binding resultCount}" Height="130" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="500"/>
+                    <Label DockPanel.Dock="Left" Style="{StaticResource ValueLabel1}" BorderThickness="1,1,0,1" BorderBrush="Black" Padding="10,0" Content="{Binding resultCount}" Height="130" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="233"/>
                     <Label DockPanel.Dock="Left" FontSize="50" FontWeight="Bold" BorderThickness="0,1,1,1" BorderBrush="Black" Padding="0,0,0,0" Content="EA" Height="130" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="82"/>
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="0,1,0,1" BorderBrush="Black" Content="골" HorizontalContentAlignment="Center" Height="130"  Width="70" />
+                    <Label DockPanel.Dock="Left" Style="{StaticResource ValueLabel1}" BorderThickness="1,1,1,1" BorderBrush="Black" Padding="10,0" Content="{Binding pGol}" Height="130" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="197"/>
 
 
 
@@ -133,16 +135,16 @@
 
 
                 <DockPanel >
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,1" BorderBrush="Black" Content="박스규격" HorizontalContentAlignment="Center" Height="75"  Width="165" />
-                    <Label x:Name="result_count" DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,1" BorderBrush="Black"  Content="{Binding pSize}"  Width="220" HorizontalContentAlignment="Center"  />
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="0,1,0,1" BorderBrush="Black" Content="골" HorizontalContentAlignment="Center" Height="75"  Width="165" />
-                    <Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,1" BorderBrush="Black"    HorizontalContentAlignment="Center" Content="{Binding pGol}"/>
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,0,0,1" BorderBrush="Black" Content="박스규격" HorizontalContentAlignment="Center" Height="75"  Width="165" />
+                    <Label x:Name="result_count" DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,0,1,1" BorderBrush="Black"  Content="{Binding pSize}"  Width="220" HorizontalContentAlignment="Center"  />
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="0,0,0,1" BorderBrush="Black" Content="생산일자" HorizontalContentAlignment="Center" Height="75"  Width="165" />
+                    <Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,0,1,1" BorderBrush="Black"    HorizontalContentAlignment="Center" Content="{Binding pworkDate}"/>
                 </DockPanel>
                 <DockPanel >
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,1,0,1" BorderBrush="Black" Content="파렛트종류" HorizontalContentAlignment="Center" Height="75"  Width="165" />
-                    <Label  DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,1" BorderBrush="Black"  Content="{Binding PalletType}" ContentStringFormat="N0" Width="220" HorizontalContentAlignment="Center"  />
-                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="0,1,0,1" BorderBrush="Black" Content="생산일자" HorizontalContentAlignment="Center" Height="75"  Width="165" />
-                    <Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,1,1,1" BorderBrush="Black"    HorizontalContentAlignment="Center" Content="{Binding pworkDate}"/> 
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="1,0,0,1" BorderBrush="Black" Content="파렛트종류" HorizontalContentAlignment="Center" Height="75"  Width="165" />
+                    <Label  DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,0,1,1" BorderBrush="Black"  Content="{Binding PalletType}" ContentStringFormat="N0" Width="220" HorizontalContentAlignment="Center"  />
+                    <Label DockPanel.Dock="Left"  Style="{StaticResource 명세서Label}" BorderThickness="0,0,0,1" BorderBrush="Black" Content="납품일자" HorizontalContentAlignment="Center" Height="75"  Width="165" />
+                    <Label DockPanel.Dock="Left" Style="{StaticResource 명세서Value}" BorderThickness="1,0,1,1" BorderBrush="Black"    HorizontalContentAlignment="Center" Content="{Binding orderLast}"/> 
                 </DockPanel>
 
             </StackPanel>
