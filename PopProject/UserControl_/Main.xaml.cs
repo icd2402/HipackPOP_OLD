@@ -110,23 +110,15 @@ namespace PopProject.UserControl_
                 {
                     unlock_img.Visibility = Visibility.Visible;
                     lock_img.Visibility = Visibility.Collapsed;
-                    //btnLogout.Background = Brushes.Green;
                     merc_lock.Text = "UNLOCK";
                 }
                 else
                 {
                     unlock_img.Visibility = Visibility.Collapsed;
                     lock_img.Visibility = Visibility.Visible;
-                    //btnLogout.Background = Brushes.Red;
                     merc_lock.Text = "LOCK";
                 }
-
-                // 당분간 DB 미사용 (사용시 해제 및 설정값에 따라 색 변경 예정)
-                tbDB_lock.Visibility = Visibility.Hidden;
-                btnDB_lock.Visibility = Visibility.Hidden;
-
-
-                Properties.Settings.Default.PopUpPosition_S = false;
+                
                 Properties.Settings.Default.PopUpPosition_S = false;
 
                 //SignalR 연결
@@ -164,7 +156,6 @@ namespace PopProject.UserControl_
                 }
 
                 SettingJsonManager.consumersumcount = 0;
-                //SettingJsonManager.SaveJsonFile();
 
                 SetSetting(metrialitem); //작업정보 설장 값 저장
                 ArduConn(); //아두이노 통신연결(로드시)
@@ -210,33 +201,24 @@ namespace PopProject.UserControl_
                 
                 if (connected)
                 {
-                    // 최초 생산계획 및 생산결과 조회
-                    if (win_Input == null || robot_Setting == null)
-                    {
-                        SelectWorkList(); //생산 계획 리스트 조회
-                    }
+                    SelectWorkList(); //생산 계획 리스트 조회
                     ResultSearchDate(); //생산 결과 리스트 조회
 
                     Timer_1s();         // 1초 - 시계, 바코드, 종료시간 체크
                     Timer_60s();        // 60초(1분) - POP 켜짐 신호 전송
                     Timer_300s();       // 300초(5분) - 계획/결과 갱신, 아두이노 연결 확인, 카운팅 값 전송
-
                 }
                 else
                 {
                     MessageBox_Dialog dialog = new MessageBox_Dialog("인터넷 상태를 확인해 주세요");
                     _ = dialog.ShowDialog();
-                    LogManager.Error("인터넷 연결 실패", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
                 }
-                //StartTimer(); //백그라운드 바코드 실행 
             }
             catch (Exception e)
             {
                 MessageBox_Dialog box = new MessageBox_Dialog("");
                 Console.WriteLine(e.Message);
                 LogManager.Error("메인화면 업로드 실패 : " + e.Message, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
             }
         }
 
@@ -292,53 +274,6 @@ namespace PopProject.UserControl_
                     tbBarcode.SelectAll();
                 }
             }
-
-            //실시간 확인용
-            //if (production != null)
-            //{
-            //    Console.Write("production != null, ");
-            //}
-            //else
-            //{
-            //    Console.Write("production == null, ");
-            //}
-
-            //if (win_Input != null)
-            //{
-            //    Console.Write("win_Input != null, ");
-            //}
-            //else
-            //{
-            //    Console.Write("win_Input == null, ");
-            //}
-
-            //if (dSConsumer != null)
-            //{
-            //    Console.WriteLine("dSConsumer != null");
-            //}
-            //else
-            //{
-            //    Console.WriteLine("dSConsumer == null");
-            //}
-
-            //옵션에서 상세창 넘기기 체크 확인
-            //if (SettingJsonManager.detailPass)
-            //{
-            //    if (timer5 == null) //타이머가 생성되었는지 확인
-            //    {
-            //        Timer_1s_DetailPass(); //상세화면 넘기기 신호받는용
-            //        Console.WriteLine("넘기기 타이머 실행");
-            //    }
-            //}
-            //else
-            //{
-            //    if (timer5 != null) //타이머가 생성되었는지 확인
-            //    {
-            //        timer5.Stop(); //타이머를 중지
-            //        timer5 = null;
-            //        Console.WriteLine("넘기기 타이머 종료");
-            //    }
-            //}
         }
         #endregion
 
@@ -1175,7 +1110,8 @@ namespace PopProject.UserControl_
                             listitem.resultList = new ObservableCollection<InputModel>();
                             listitem.bMember = bool.Parse(result["bMember"].ToString()); //실수요자 포함확인
                             listitem.workMemo = result["workMemo"].ToString();
-
+                            listitem.ServerIndex = ServerIndex;
+                            listitem.DBName = DBName;
 
                             //오주, 대양
                             if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") || 
@@ -1191,33 +1127,17 @@ namespace PopProject.UserControl_
                                 {
                                     listitem.icback = "#AFE1FF";
                                 }
-
-                                listitem.ServerIndex = ServerIndex;
-                                listitem.DBName = DBName;
                             }
                             //하나포장 (프로그램 통합 시 주업체, 부업체 구분용)
                             else if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
                             {
-                                if (ServerIndex == "hnbox")
-                                {
-                                    listitem.icback = "#AFE1FF";
-                                    listitem.ServerIndex = ServerIndex;
-                                    listitem.DBName = DBName;
-                                }
-                                else if (ServerIndex == "shbox")
-                                {
-                                    listitem.icback = "Whute";
-                                    listitem.ServerIndex = ServerIndex;
-                                    listitem.DBName = DBName;
-                                }
+                                listitem.icback = (ServerIndex == "hnbox") ? "#AFE1FF" : (ServerIndex == "shbox" ? "White" : listitem.icback);
                             }
                             //그 외 업체
                             else
                             {
                                 listitem.icback = listitem.bMember ? "#AFE1FF" : "White"; //실수요자일때 하늘색 바탕으로 표시
                                 listitem.pStateVisi = Visibility.Collapsed;
-                                listitem.ServerIndex = ServerIndex;
-                                listitem.DBName = DBName;
                             }
 
                             //상태표시
@@ -1747,7 +1667,6 @@ namespace PopProject.UserControl_
                                         foreach (JObject resultSub in Data_Jarry)
                                         {
                                             SubModel subItem = new SubModel();
-                                            //Console.WriteLine(resultSub["pplanKey"].ToString());
                                             if ((listitem.orderKey + listitem.orderWorkNo).Equals(resultSub["orderKey"].ToString() + resultSub["orderWorkNo"].ToString()))
                                             {
                                                 subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();             //공정 순번
@@ -1872,7 +1791,6 @@ namespace PopProject.UserControl_
                                         foreach (JObject resultSub in Data_Jarry)
                                         {
                                             SubModel subItem = new SubModel();
-                                            //Console.WriteLine(resultSub["pplanKey"].ToString());
                                             if ((listitem.orderKey + listitem.orderWorkNo).Equals(resultSub["orderKey"].ToString() + resultSub["orderWorkNo"].ToString()))
                                             {
                                                 subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();             //공정 순번
@@ -1999,7 +1917,6 @@ namespace PopProject.UserControl_
                                         foreach (JObject resultSub in Data_Jarry)
                                         {
                                             SubModel subItem = new SubModel();
-                                            //Console.WriteLine(resultSub["pplanKey"].ToString());
                                             if ((listitem.orderKey + listitem.orderWorkNo).Equals(resultSub["orderKey"].ToString() + resultSub["orderWorkNo"].ToString()))
                                             {
                                                 subItem.ProcessSeq = resultSub["ProcessSeq"].ToString();              //공정 순번
@@ -3019,6 +2936,7 @@ namespace PopProject.UserControl_
             string code = tbBarcode.Text; //바코드 값 저장 
             _ = int.TryParse(code, out int pCode); //바코드 값  정수로 변환
 
+            Console.WriteLine(code);
 
             //바코드 정보 있으면
             if (pCode > 0)
@@ -3096,21 +3014,6 @@ namespace PopProject.UserControl_
                 //can.Visibility = Visibility.Collapsed;
             }
             e.Handled = false;
-        }
-
-        #region BarcodeCheck
-        private void BarcodeCheck()
-        {
-        }
-        #endregion
-
-
-        private System.Threading.Timer timers;
-        private void StartTimer()
-        {
-            Console.WriteLine("StartTimer() 실행");
-            // 타이머 시작, 1초마다 Callback 메소드 호출
-            timers = new System.Threading.Timer(Callback, null, 0, 1000);
         }
 
         private void Callback(object state)
@@ -3226,9 +3129,7 @@ namespace PopProject.UserControl_
                     }
 
                 }
-                //can.Visibility = Visibility.Collapsed;
             }
-
         }
 
         private void Sv_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -3424,18 +3325,16 @@ namespace PopProject.UserControl_
             // Console.WriteLine(e.Key.ToString());
             switch (e.Key.ToString())
             {
-                case "F1":
-                    //SearchList search = new SearchList(workList);
-                    //_ = search.ShowDialog();
+                case "F1": //품목 검색창 팝업
                     OpenSearchList();
                     break;
 
-                case "F2":
+                case "F2": //IP설정창 팝업
                     Ip_input ip_Input = new Ip_input();
                     ip_Input.ShowDialog();
                     break;
 
-                case "F8":
+                case "F8": //로그인 관리(사용안함)
                     if (SettingJsonManager.manager.Equals("1"))
                     {
                         MessageBox_Dialog msg = new MessageBox_Dialog("관리자 계정이 아닙니다.");
@@ -3459,8 +3358,6 @@ namespace PopProject.UserControl_
 
         private void Search_(object sender, MouseButtonEventArgs e)
         {
-            //SearchList search = new SearchList(workList);
-            //_ = search.ShowDialog();
             OpenSearchList();
             SelectWorkList();
             ResultSearchDate();
@@ -3474,45 +3371,9 @@ namespace PopProject.UserControl_
 
         private void workList_search(object sender, MouseButtonEventArgs e)
         {
-            //SearchList search = new SearchList(workList);
-            //_ = search.ShowDialog();
             OpenSearchList();
             SelectWorkList();
             ResultSearchDate();
-        }
-
-        //설정>업로드
-        private void upload_setting()
-        {
-            string macAddress = NetworkInterface.GetAllNetworkInterfaces().Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
-            .Select(nic => nic.GetPhysicalAddress().ToString()).FirstOrDefault();
-
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
-            ReturnModel returnData = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
-                "[Pop_machinfo_update]",
-                new string[] { "@설비명", "@작업정보", "@상자수", "@동시작업", "@이합설비", "@상자수계산", "@맥주소" },
-                new object[] {
-                    SettingJsonManager.mercName,
-                    SettingJsonManager.settingitem,
-                    SettingJsonManager.boxCheck,
-                    SettingJsonManager.samework,
-                    SettingJsonManager.twoSum,
-                    SettingJsonManager.option1,
-                    macAddress
-                },
-                1
-                );
-            if (returnData.결과 == 1)
-            {
-                MessageBox_Dialog msg = new MessageBox_Dialog("업로드 성공");
-                msg.ShowDialog();
-            }
-            else
-            {
-                MessageBox_Dialog msg = new MessageBox_Dialog("저장 실패");
-                msg.ShowDialog();
-            }
         }
 
         private void Pop_noty(object sender, MouseButtonEventArgs e)
@@ -3620,51 +3481,11 @@ namespace PopProject.UserControl_
             }
         }
 
-        //SIgnalR 재연결 
-        public void TimerSetting() 
-        {
-            try
-            {
-                DispatcherTimer Timer = new DispatcherTimer();
-                Timer.Interval = new TimeSpan(0, 30, 0);
-                Timer.Tick += Timer_Ticks;
-                Timer.Start();
-            }
-            catch (Exception ex)
-            {
-                LogManager.Error("SignalR 재연결 Timer 에러\n" + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
-            }
-        }
-
-        private void Timer_Ticks(object sender, EventArgs e)
-        {
-        }
-
+        //프로그램 종료시
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             // 프로그램 종료 시 JSON 파일에 설정 정보 저장
             SettingJsonManager.SaveJsonFile();
-        }
-
-        //로컬 카운터 집계 DB 사용 버튼 (현재 사용안함)
-        private void btnUseDB_click(object sender, RoutedEventArgs e)
-        {
-            if (SettingJsonManager.dbUse)
-            {
-                SettingJsonManager.dbUse = false;
-                tbDB_lock.Text = "DB Use: N";
-                btnDB_lock.Background = Brushes.Red;
-            }
-            else
-            {
-                SettingJsonManager.dbUse = true;
-                tbDB_lock.Text = "DB Use: Y";
-                btnDB_lock.Background = Brushes.Green;
-            }
-        }
-
-        private void testBT_Click(object sender, RoutedEventArgs e)
-        {
         }
 
         public class WindowInteropHelper
@@ -3682,16 +3503,13 @@ namespace PopProject.UserControl_
             }
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
-
         //공지사항 버튼
         private void notice_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Notice_PopUp();
         }
 
+        //공지사항 팝업
         private void Notice_PopUp()
         {
             Notice notice = new Notice();
