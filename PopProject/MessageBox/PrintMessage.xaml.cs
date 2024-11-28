@@ -592,7 +592,7 @@ namespace PopProject.MessageBox
                         pr1.loadCount = "";                                    //파레트당 적재수량
                         if (box_count.Text.ToString().Length > 0)
                         {
-                            pr1.loadCount = box_count.Text;
+                            pr1.loadCount = string.Format("{0:N0}", double.Parse(box_count.Text));
                         }
                        
                         
@@ -605,7 +605,7 @@ namespace PopProject.MessageBox
                             pr1.pStockKey = "0" + pr1.pStockKey;
                         }
 
-                        pr1.resultCount = result["resultCount"].ToString();    //총수량
+                        pr1.resultCount = string.Format("{0:N0}", Convert.ToInt32(result["resultCount"]));    //총수량
                         if (Convert.ToInt32(mainModel.sumPworkCount) > 0)
                         {
                             pr1.resultCount = mainModel.sumPworkCount == 0 ? "" : mainModel.sumPworkCount + "";

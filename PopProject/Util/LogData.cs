@@ -77,142 +77,31 @@ namespace PopProject.Util
         //업체코드로 API 인증키 분류
         public string CrtfcKey(string corp_id)
         {
-            string crtfcKey;
-            switch (corp_id)
+            var crtfcKeys = new Dictionary<string, string> //업체코드, 인증키
             {
-                case "75BD170261": //정일
-                    {
-                        crtfcKey = "$5$API$9pgZWUx7Qgy0z/asRpn4l6VS.a8A0E.mfo2Yjb0BLjD";
-                        break;
-                    }
-
-                case "7C2564433": //거성
-                    {
-                        crtfcKey = "$5$API$gswLJkqbSGriKu8Gt4Nh3ycrrEeQbxJl6tSHDE.JRw7";
-                        break;
-                    }
-
-                case "3125247246": //오주
-                    {
-                        crtfcKey = "$5$API$vdZaR4Lyk12Z/NhS3bXUUKYZsP9gLgnx20GckLkfPk3";
-                        break;
-                    }
-
-                case "C4E5132036": //미래
-                    {
-                        crtfcKey = "$5$API$1gtA7rTAzERz8hh18pTixIkIp6yDhq0vYA5gi6TkEQ1";
-                        break;
-                    }
-
-                case "A07E164641": //하나
-                    {
-                        crtfcKey = "$5$API$tVvR3cwTa7CTErv3wui/zXIh8pUUxhD73TjckvwqjN7";
-                        break;
-                    }
-
-                case "3464250413": //광성
-                    {
-                        crtfcKey = "$5$API$Srsh8f7I/QgnjX2QC3IIYF0bfChx6YmERjK5n/Q2OQA";
-                        break;
-                    }
-                
-                case "75BB212362": //선호
-                    {
-                        crtfcKey = "$5$API$Lqb0ylQQhtW2lYmGTA8oBnVnBiFMA5JGiu8XpA539.7";
-                        break;
-                    }
-
-                case "C8B516524": //유창
-                    {
-                        crtfcKey = "$5$API$dOlFU/fI7Muxm1h40PiUJj5VSmdxXLOIxArRMV0sS.4";
-                        break;
-                    }
-
-                case "D85A2100": //광무
-                    {
-                        crtfcKey = "$5$API$7OQpaXYXv0jbVOfwzdtQ3Gek7rT/MXdSyibahaAS3W/";
-                        break;
-                    }
-
-                case "C53155632": //대양
-                    {
-                        crtfcKey = "$5$API$ZTlTdHPNO9nN4FFPYdBqSqOoKZKsy50/3cO9NP.qZG4";
-                        break;
-                    }
-
-                case "A07E67034": //신우
-                    {
-                        crtfcKey = "$5$API$XiMBhWIUg.rz39Q15GxRuYHGYnNAOPC8p.LcQlmBkH8";
-                        break;
-                    }
-
-                case "A07E265671": //누리
-                    {
-                        crtfcKey = "$5$API$BQJWitsO4EMnhC8Va/qEdE.ud2Uj4l9CdJ3kUVfiSb5";
-                        break;
-                    }
-
-                case "A07E144572": //우리
-                    {
-                        crtfcKey = "$5$API$htyE4jLhKRKANA7EJqLa/n7XuH1wiY33NlCbDVWxKx1";
-                        break;
-                    }
-
-                case "F2A6214640": //혜성
-                    {
-                        crtfcKey = "$5$API$oeowtfLWrN5dLzEkTmVXaIGamdOJsRHy.t9PZ08R5ED";
-                        break;
-                    }
-
-                case "D2E31043": //주)혜성
-                    {
-                        crtfcKey = "$5$API$e.xyAf/XO.s.39o56dy5CwbieTCATkYKu/5oJLJo/33";
-                        break;
-                    }
-
-                case "5579217615": //성주
-                    {
-                        crtfcKey = "$5$API$sQrmHHmidufXn9kMU21tR97uywZVIPWNFo9R7CZWr8B";
-                        break;
-                    }
-
-                case "13C554403": //지온
-                    {
-                        crtfcKey = "$5$API$.q11WFEWM3minNDNHFXie3LeUFtUSC5aAEpI9EA6x88";
-                        break;
-                    }
-
-                case "C919111143": //두성
-                    {
-                        crtfcKey = "$5$API$Ji3O4bFySk437RPI7sALQ1dyynUlWmt3SyqSP/h9bN2";
-                        break;
-                    }
-
-                case "C91950615": //대세
-                    {
-                        crtfcKey = "$5$API$.NliYTwsduENTDEMjTcjtI9hppOfaLFwDCxdb7g6TU5";
-                        break;
-                    }
-
-                case "766562426": //구룡
-                    {
-                        crtfcKey = "$5$API$vHQrr9yDymkTOgbP4uUPfMfh6KRn/qmbJ9LfwRRRUl9";
-                        break;
-                    }
-               
-                case "9DBD134371": //금화
-                    {
-                        crtfcKey = "$5$API$osZ29gtnQgI8k4cCxXgKLm1f7CL6MR9X5dMryhMJdTB";
-                        break;
-                    }
-
-                default:
-                    {
-                        crtfcKey = "";
-                        break;
-                    }
-            }
-            return crtfcKey; //인증키 반환
+                { "75BD170261", "$5$API$9pgZWUx7Qgy0z/asRpn4l6VS.a8A0E.mfo2Yjb0BLjD" }, // 정일
+                { "7C2564433", "$5$API$gswLJkqbSGriKu8Gt4Nh3ycrrEeQbxJl6tSHDE.JRw7" }, // 거성
+                { "3125247246", "$5$API$vdZaR4Lyk12Z/NhS3bXUUKYZsP9gLgnx20GckLkfPk3" }, // 오주
+                { "C4E5132036", "$5$API$1gtA7rTAzERz8hh18pTixIkIp6yDhq0vYA5gi6TkEQ1" }, // 미래
+                { "A07E164641", "$5$API$tVvR3cwTa7CTErv3wui/zXIh8pUUxhD73TjckvwqjN7" }, // 하나
+                { "3464250413", "$5$API$Srsh8f7I/QgnjX2QC3IIYF0bfChx6YmERjK5n/Q2OQA" }, // 광성
+                { "75BB212362", "$5$API$Lqb0ylQQhtW2lYmGTA8oBnVnBiFMA5JGiu8XpA539.7" }, // 선호
+                { "C8B516524", "$5$API$dOlFU/fI7Muxm1h40PiUJj5VSmdxXLOIxArRMV0sS.4" }, // 유창
+                { "D85A2100", "$5$API$7OQpaXYXv0jbVOfwzdtQ3Gek7rT/MXdSyibahaAS3W/" }, // 광무
+                { "C53155632", "$5$API$ZTlTdHPNO9nN4FFPYdBqSqOoKZKsy50/3cO9NP.qZG4" }, // 대양
+                { "A07E67034", "$5$API$XiMBhWIUg.rz39Q15GxRuYHGYnNAOPC8p.LcQlmBkH8" }, // 신우
+                { "A07E265671", "$5$API$BQJWitsO4EMnhC8Va/qEdE.ud2Uj4l9CdJ3kUVfiSb5" }, // 누리
+                { "A07E144572", "$5$API$htyE4jLhKRKANA7EJqLa/n7XuH1wiY33NlCbDVWxKx1" }, // 우리
+                { "F2A6214640", "$5$API$oeowtfLWrN5dLzEkTmVXaIGamdOJsRHy.t9PZ08R5ED" }, // 혜성
+                { "D2E31043", "$5$API$e.xyAf/XO.s.39o56dy5CwbieTCATkYKu/5oJLJo/33" }, // 주)혜성
+                { "5579217615", "$5$API$sQrmHHmidufXn9kMU21tR97uywZVIPWNFo9R7CZWr8B" }, // 성주
+                { "13C554403", "$5$API$.q11WFEWM3minNDNHFXie3LeUFtUSC5aAEpI9EA6x88" }, // 지온
+                { "C919111143", "$5$API$Ji3O4bFySk437RPI7sALQ1dyynUlWmt3SyqSP/h9bN2" }, // 두성
+                { "C91950615", "$5$API$.NliYTwsduENTDEMjTcjtI9hppOfaLFwDCxdb7g6TU5" }, // 대세
+                { "766562426", "$5$API$vHQrr9yDymkTOgbP4uUPfMfh6KRn/qmbJ9LfwRRRUl9" }, // 구룡
+                { "9DBD134371", "$5$API$osZ29gtnQgI8k4cCxXgKLm1f7CL6MR9X5dMryhMJdTB" }  // 금화
+            };
+            return crtfcKeys.TryGetValue(corp_id, out string crtfcKey) ? crtfcKey : "";
         }
     }
 }

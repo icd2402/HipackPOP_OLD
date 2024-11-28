@@ -28,20 +28,6 @@ namespace PopProject.UserControl_
             DefaultSetting();
             authCode.Focus();
             authCode.PreviewKeyDown += authKey_KeyDown;
-
-            //Keyboard_call();
-
-        }
-
-        private void Keyboard_call()
-        {
-            var path64 = System.IO.Path.Combine(System.IO.Directory.GetDirectories(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "winsxs"), "amd64_microsoft-windows-osk_*")[0], "osk.exe");
-            var path32 = @"C:\windows\system32\osk.exe";
-            var path = (Environment.Is64BitOperatingSystem) ? path64 : path32;
-            if (System.IO.File.Exists(path))
-            {
-                System.Diagnostics.Process.Start(path);
-            }
         }
 
         private void DefaultSetting()

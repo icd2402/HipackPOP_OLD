@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PopProject.UserControl_"
              mc:Ignorable="d"  
-             d:DesignHeight="1024" d:DesignWidth="1280" KeyDown="Main_keydownEvent" Unloaded="UserControl_Unloaded" Loaded="UserControl_Loaded" >
+             d:DesignHeight="1024" d:DesignWidth="1280" KeyDown="Main_keydownEvent" Unloaded="UserControl_Unloaded" >
 
     <UserControl.Resources>
         <local:IndexConverter x:Key="IndexConverter"/>
@@ -32,10 +32,6 @@
 
         <!--LogOut-->
         <Button x:Name="btrSerial" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="Serial_click" Margin="0,0,0,90"/>
-
-        <TextBlock x:Name="tbDB_lock" Text="DB Use: N" Foreground="White" Padding="5,0,0,0" TextAlignment="Justify" FontSize="15"  Margin="133,-1,1069,91" Width="78" Height="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" MouseLeftButtonDown="btnUseDB_click"></TextBlock>
-        <Button x:Name="btnDB_lock" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="btnUseDB_click" Margin="114,-1,0,91" RenderTransformOrigin="5.75,0.55"/>
-        <Button x:Name="testBT" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FFE00000" BorderBrush="{x:Null}" Click="testBT_Click" Visibility="Collapsed" Margin="224,-1,0,91"/>
 
         <!--Lock/Unlock-->
         <TextBlock x:Name="merc_lock" Text="LOCK" Foreground="White" Padding="5,0,0,0" TextAlignment="Justify" FontSize="15"  Margin="24,0,0,0" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" MouseLeftButtonDown="Logout_click"></TextBlock>

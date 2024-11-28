@@ -18,7 +18,7 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>ftp://packcom.net:61028/Setup/POP_TEST/</PublishUrl>
+    <PublishUrl>ftp://packcom.net:61028/Setup/POP_NEW/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -28,11 +28,11 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://www.packcom.net/Setup/POP_TEST/</InstallUrl>
-    <MinimumRequiredVersion>1.0.1.457</MinimumRequiredVersion>
+    <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
+    <MinimumRequiredVersion>1.0.1.459</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>459</ApplicationRevision>
+    <ApplicationRevision>460</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>

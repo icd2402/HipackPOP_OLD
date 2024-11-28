@@ -93,84 +93,6 @@ namespace PopProject
             }
         }
 
-        //화면켜짐 신호 송신    // 확인
-        //private void invokeMercName(string mercName, string v)
-        //{
-        //    try
-        //    {
-        //        if (SettingJsonManager.corp_name.Equals("광성수출포장") || 
-        //            SettingJsonManager.corp_name.Equals("대세물산") ||
-        //            SettingJsonManager.corp_name.Equals("유창포장"))
-        //        {
-        //            popService(mercName, v);
-        //        }
-        //        else
-        //        {
-        //            SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
-
-        //        }
-        //    }
-        //    catch (Exception )
-        //    {
-        //    }
-        //}
-
-        //신규 서비스 Http 셋팅
-        //private static HttpClient client = new HttpClient();
-        //async void popService(string mercName, string str)
-        //{
-        //    //주소
-        //    if (SettingJsonManager.corp_name.Equals("광성수출포장"))
-        //    {
-        //        Url = "http://ksbox.iptime.org:18888/pop/gathering"; //광성
-        //    }
-        //    else if (SettingJsonManager.corp_name.Equals("대세물산"))
-        //    {
-        //        Url = "http://dsbox.iptime.org:18888/pop/gathering"; //대세
-        //    }
-        //    else if (SettingJsonManager.corp_name.Equals("유창포장"))
-        //    {
-        //        Url = "http://211.253.37.232:18888/pop/gathering"; //유창
-        //    }
-        //    else if (SettingJsonManager.corp_name.Equals("금화"))
-        //    {
-        //        Url = "http://khbox.iptime.org:18888/pop/gathering"; //금화
-        //    }
-        //    else if (SettingJsonManager.corp_name.Equals("광성수출포장테스트") ||
-        //            SettingJsonManager.corp_name.Equals("대세물산테스트") ||
-        //            SettingJsonManager.corp_name.Equals("유창포장테스트") ||
-        //            SettingJsonManager.corp_name.Equals("금화테스트"))
-        //    {
-        //        Url = "http://localhost:18888/pop/gathering"; //테스트용 주소(개인 DeskTop)
-        //    }
-
-        //    string CompanyCode = SettingJsonManager.corp_id; //업체코드
-        //    string MercName = mercName; //설비명
-        //    string Data = str.ToString(); //데이터
-
-        //    await workCnt(Url, CompanyCode, MercName, Data);
-        //}
-
-        //신규 서비스 Http Get
-        //async Task workCnt(string url, string companyCode, string mercName, string data)
-        //{
-        //    try
-        //    {
-        //        // 파라미터를 포함한 URL 생성
-        //        string urlWithParameters = $"{url}/{companyCode}/{mercName}/{data}";
-        //        // HTTP GET 요청 보내기
-        //        HttpResponseMessage response = await client.GetAsync(urlWithParameters);
-
-        //        if (response.IsSuccessStatusCode == false)
-        //        {
-        //            log.Error("서비스로 데이터 전송 실패");
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //    }
-        //}
-
         //키보드 이벤트
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
@@ -183,7 +105,6 @@ namespace PopProject
                     break;
             }
         }
-
         private void Win_closed(object sender, EventArgs e)
         {
             //관리자 계정이 아닐때만 현황판으로 꺼짐 신호 보냄 

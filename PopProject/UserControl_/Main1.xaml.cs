@@ -282,12 +282,6 @@ namespace PopProject.UserControl_
                     ResultSearchDate();
                     Console.WriteLine("계획/결과 조회(5분 타이머)");
                 }
-
-                //if (win_Input == null || robot_Setting == null)
-                //{
-                //    SelectWorkList();
-                //    ResultSearchDate();
-                //}
             }
         }
 
@@ -2908,8 +2902,6 @@ namespace PopProject.UserControl_
             switch (e.Key.ToString())
             {
                 case "F1":
-                    //SearchList search = new SearchList(workList);
-                    //_ = search.ShowDialog();
                     OpenSearchList();
                     break;
                 case "F2":
@@ -2926,7 +2918,6 @@ namespace PopProject.UserControl_
                     {
                         UserSetting user = new UserSetting();
                         user.ShowDialog();
-
                     }
                     break;
                 case "F12":
@@ -2958,42 +2949,7 @@ namespace PopProject.UserControl_
             SelectWorkList();
             ResultSearchDate();
         }
-
         
-
-        //설정>업로드
-        private void upload_setting()
-        {
-            string macAddress = NetworkInterface.GetAllNetworkInterfaces().Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
-            .Select(nic => nic.GetPhysicalAddress().ToString()).FirstOrDefault();
-
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
-            ReturnModel returnData = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
-                "[Pop_machinfo_update]",
-                new string[] { "@설비명", "@작업정보", "@상자수", "@동시작업", "@이합설비", "@상자수계산", "@맥주소" },
-                new object[] {
-                    SettingJsonManager.mercName,
-                    SettingJsonManager.settingitem,
-                    SettingJsonManager.boxCheck,
-                    SettingJsonManager.samework,
-                    SettingJsonManager.twoSum,
-                    SettingJsonManager.option1,
-                    macAddress
-                },
-                1
-                );
-            if (returnData.결과 == 1)
-            {
-                MessageBox_Dialog msg = new MessageBox_Dialog("업로드 성공");
-                msg.ShowDialog();
-            }
-            else
-            {
-                MessageBox_Dialog msg = new MessageBox_Dialog("저장 실패");
-                msg.ShowDialog();
-            }
-        }
 
         private void Pop_noty(object sender, MouseButtonEventArgs e)
         {
@@ -3078,7 +3034,6 @@ namespace PopProject.UserControl_
         private void Machine_Check(object sender, MouseButtonEventArgs e)
         {
             MachineCheck machineCheck = new MachineCheck();
-            //machineCheck.Owner = this;
             machineCheck.Show();
         }
 
@@ -3101,48 +3056,10 @@ namespace PopProject.UserControl_
             }
         }
 
-        //SIgnalR 재연결 
-        public void TimerSetting()
-        {
-            try
-            {
-                DispatcherTimer Timer = new DispatcherTimer();
-                Timer.Interval = new TimeSpan(0, 30, 0);
-                Timer.Tick += Timer_Ticks;
-                Timer.Start();
-            }
-            catch (Exception ex)
-            {
-                LogManager.Error("SignalR 재연결 Timer 에러\n" + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
-            }
-        }
-
-        private void Timer_Ticks(object sender, EventArgs e)
-        {
-
-        }
-
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             // 프로그램 종료 시 JSON 파일에 설정 정보 저장
             SettingJsonManager.SaveJsonFile();
-        }
-
-        //로컬 카운터 집계 DB 사용 버튼 (현재 사용안함)
-        private void btnUseDB_click(object sender, RoutedEventArgs e)
-        {
-            //if (SettingJsonManager.dbUse)
-            //{
-            //    SettingJsonManager.dbUse = false;
-            //    tbDB_lock.Text = "DB Use: N";
-            //    btnDB_lock.Background = Brushes.Red;
-            //}
-            //else
-            //{
-            //    SettingJsonManager.dbUse = true;
-            //    tbDB_lock.Text = "DB Use: Y";
-            //    btnDB_lock.Background = Brushes.Green;
-            //}
         }
 
         //공지사항 버튼
