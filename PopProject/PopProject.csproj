@@ -18,7 +18,7 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>ftp://packcom.net:61028/Setup/POP_NEW/</PublishUrl>
+    <PublishUrl>ftp://packcom.net:61028/Setup/POP_TEST/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -28,11 +28,11 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://www.packcom.net/Setup/POP_NEW/</InstallUrl>
+    <InstallUrl>http://www.packcom.net/Setup/POP_TEST/</InstallUrl>
     <MinimumRequiredVersion>1.0.1.457</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>458</ApplicationRevision>
+    <ApplicationRevision>459</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -240,6 +240,11 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Connected Services\ServiceReference_ksbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_npbox\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -997,6 +1002,22 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ServiceReference_ksbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_npbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_npbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_npbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_npbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_npbox\PopProject.ServiceReference_npbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_npbox\Service_CRUD.wsdl" />
     <None Include="Connected Services\ServiceReference_nrbox\Access_MiddleWare_CRUD4.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1220,6 +1241,7 @@
     <WCFMetadataStorage Include="Connected Services\ServiceReference_mirae\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_hnbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_ksbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_npbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_nrbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_ojbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_real_ojbox\" />
@@ -1599,6 +1621,13 @@
     <Resource Include="img\b_08.png" />
     <Resource Include="img\b_09.png" />
     <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD1.disco" />
+    <None Include="Connected Services\ServiceReference_npbox\Access_MiddleWare_CRUD.disco" />
+    <None Include="Connected Services\ServiceReference_npbox\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceReference_npbox\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceReference_npbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

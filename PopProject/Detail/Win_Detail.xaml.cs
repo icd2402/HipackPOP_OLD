@@ -1620,6 +1620,32 @@ namespace PopProject.Detail
                             picCount.Visibility = Visibility.Collapsed;
                         }
                     }
+                    else if (SettingJsonManager.corp_name.Equals("내포수출포장") || SettingJsonManager.corp_name.Equals("내포수출포장테스트"))
+                    {
+                        //이미지 있을때
+                        if (uriPathOB.Count > 0)
+                        {
+                            tbNoCount.Visibility = Visibility.Collapsed;
+                            tbPicCount.Visibility = Visibility.Visible;
+                            picCount.Visibility = Visibility.Visible;
+                            tbPicCount.Text = "1/" + uriPathOB.Count;
+
+                            string uri = ftpUri;
+                            string id = "onefax";
+                            string pwd = "Fax2402!!!";
+                            string imageName = ImagName;
+
+                            //ftp 연결
+                            ftpConnection(uri, id, pwd, imageName);
+                        }
+                        //이미지 없을때
+                        else
+                        {
+                            tbNoCount.Visibility = Visibility.Visible;
+                            tbPicCount.Visibility = Visibility.Collapsed;
+                            picCount.Visibility = Visibility.Collapsed;
+                        }
+                    }
                     //HTTP(NAS)
                     else
                     {

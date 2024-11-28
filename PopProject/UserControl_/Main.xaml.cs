@@ -2780,6 +2780,7 @@ namespace PopProject.UserControl_
                             SettingJsonManager.corp_name.Equals("대세물산테스트") ||
                             SettingJsonManager.corp_name.Equals("구룡산업제2공장") ||
                             SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트") ||
+                            SettingJsonManager.corp_name.Equals("내포수출포장") ||
                             SettingJsonManager.corp_name.Equals("금화") ||
                             SettingJsonManager.corp_name.Equals("금화테스트"))
                         {
