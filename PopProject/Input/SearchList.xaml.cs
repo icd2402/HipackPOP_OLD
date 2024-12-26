@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using PopProject.MessageBox;
 
 namespace PopProject.Input
 {
@@ -212,12 +213,28 @@ namespace PopProject.Input
         private void KeyBoardCall()
         {
 
-            var path64 = System.IO.Path.Combine(System.IO.Directory.GetDirectories(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "winsxs"), "amd64_microsoft-windows-osk_*")[0], "osk.exe");
-            var path32 = @"C:\windows\system32\osk.exe";
-            var path = (Environment.Is64BitOperatingSystem) ? path64 : path32;
-            if (System.IO.File.Exists(path))
+            string oskPath="";
+            try
             {
-                System.Diagnostics.Process.Start(path);
+                // 32비트 응용 프로그램에서 32비트 버전의 osk.exe 실행
+                oskPath = Environment.Is64BitOperatingSystem && Environment.Is64BitProcess
+                    ? @"C:\Windows\SysWOW64\osk.exe"
+                    : @"C:\Windows\System32\osk.exe";
+                if (System.IO.File.Exists(oskPath))
+                {
+                    Process.Start(oskPath);
+                }
+                else
+                {
+                    MessageBox_Dialog messageBox = new MessageBox_Dialog("오류 " + oskPath + " 없음." );
+                    _ = messageBox.ShowDialog();
+                }
+
+            }
+            catch (Exception ex)            {
+                Console.WriteLine("오류 발생: " + oskPath + " " + ex.Message);
+                MessageBox_Dialog messageBox = new MessageBox_Dialog("오류 " + oskPath + " " + ex.Message);
+                _ = messageBox.ShowDialog();
             }
         }
 

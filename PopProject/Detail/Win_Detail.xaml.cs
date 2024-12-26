@@ -1718,17 +1718,27 @@ namespace PopProject.Detail
                         fileStream.Write(buffer, 0, bytesRead);
                     }
                 }
+                try
+                {
+                    // 파일 다운로드 후 BitmapImage 생성 및 할당
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.UriSource = new Uri(localFilePath, UriKind.Absolute);
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.DecodePixelWidth = 2000;
+                    bitmap.EndInit();
 
-                // 파일 다운로드 후 BitmapImage 생성 및 할당
-                BitmapImage bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri(localFilePath, UriKind.Absolute);
-                bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmap.DecodePixelWidth = 2000;
-                bitmap.EndInit();
+                    // pic.Source에 할당
+                    pic.Source = bitmap;
 
-                // pic.Source에 할당
-                pic.Source = bitmap;
+                }catch (Exception ex)
+                {
+                    
+                    MessageBox_Dialog msg = new MessageBox_Dialog("인쇄사양이 올바르지 않습니다.");
+                    _ = msg.ShowDialog();
+
+                }
+
             }
             catch (WebException ex)
             {
