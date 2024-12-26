@@ -747,22 +747,22 @@ namespace PopProject.UserControl_
             // 현재 선호(shbox)로 테스트 했으며 그 자리에 원팩정보를 넣으면 동작함
             if (SettingJsonManager.companyIntegration)
             {
-                //if (SettingJsonManager.corp_name.Equals("하나포장"))
-                //{
-                //    serverIndices.Add("hnbox", "A07E164641");
-                //    serverIndices.Add("shbox", "75BB212362");
-                //}
+                if (SettingJsonManager.corp_name.Equals("하나포장"))
+                {
+                    serverIndices.Add("hnbox", "A07E164641");
+                    serverIndices.Add("opbox", "8E874414");
+                }
                 //else if (SettingJsonManager.corp_name.Equals("하나포장테스트"))
                 //{
                 //    serverIndices.Add("hnbox", "icdtest3");
-                //    serverIndices.Add("shbox", "icdtest5");
+                //    serverIndices.Add("opbox", "icdtest5");
                 //}
-                //else
-                //{
-                //    serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
-                //}
+                else
+                {
+                    serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
+                }
 
-                serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id); //임시(원팩 정보 넣을때 삭제하면 됨)
+                //serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id); //임시(원팩 정보 넣을때 삭제하면 됨)
             }
             else
             {
@@ -2192,22 +2192,22 @@ namespace PopProject.UserControl_
 
             if (SettingJsonManager.companyIntegration)
             {
-                //if (SettingJsonManager.corp_name.Equals("하나포장"))
-                //{
-                //    serverIndices2.Add("hnbox", "A07E164641");
-                //    serverIndices2.Add("shbox", "75BB212362");
-                //}
+                if (SettingJsonManager.corp_name.Equals("하나포장"))
+                {
+                    serverIndices2.Add("hnbox", "A07E164641");
+                    serverIndices2.Add("opbox", "8E874414");
+                }
                 //else if (SettingJsonManager.corp_name.Equals("하나포장테스트"))
                 //{
                 //    serverIndices2.Add("hnbox", "icdtest3");
                 //    serverIndices2.Add("shbox", "icdtest5");
                 //}
-                //else
-                //{
-                //    serverIndices2.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
-                //}
+                else
+                {
+                    serverIndices2.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
+                }
 
-                serverIndices2.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
+                //serverIndices2.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
             }
             else
             {
@@ -2357,8 +2357,11 @@ namespace PopProject.UserControl_
                 {
                     LogManager.Error("생산결과 리스트 조회 오류", MethodBase.GetCurrentMethod().DeclaringType);
                 }
-                실적현황조회();
-                실수요자진행현황조회();
+                if (returnData.결과 == 1)
+                {
+                    실적현황조회();
+                    실수요자진행현황조회();
+                }
 
             }
 

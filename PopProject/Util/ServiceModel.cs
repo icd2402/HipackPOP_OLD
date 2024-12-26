@@ -126,6 +126,12 @@ namespace PopProject.Util
         public static ServiceReference_npbox.Access_Model np_Access_Model;
         public static ServiceReference_npbox.Return_Model np_Return_Model;
 
+        //원팩
+        public static ServiceReference_opbox.Service_CRUDClient op_Service;
+        public static ServiceReference_opbox.DBHandle_Model op_DB_Handle_Model;
+        public static ServiceReference_opbox.Access_Model op_Access_Model;
+        public static ServiceReference_opbox.Return_Model op_Return_Model;
+
         //로컬
         public static ServiceReference_jobox.Service_CRUDClient local_Service;
         public static ServiceReference_jobox.DBHandle_Model local_DB_Handle_Model;
@@ -147,6 +153,23 @@ namespace PopProject.Util
 
             switch (serverIndex)
             {
+
+                //원팩
+                case "opbox":
+                    op_Service = new ServiceReference_opbox.Service_CRUDClient();
+                    op_Access_Model = new ServiceReference_opbox.Access_Model();
+                    op_Return_Model = new ServiceReference_opbox.Return_Model();
+                    op_DB_Handle_Model = new ServiceReference_opbox.DBHandle_Model
+                    {
+                        접속정보 = 접속정보,
+                        BroadCasting = 0,
+                        BroadCastingName = string.Empty,
+                        inputPkey = "0",
+                        inputContent = string.Empty,
+                        inputProcessContent = string.Empty
+                    };
+                    break;
+
                 //내포
                 case "npbox":
                     np_Service = new ServiceReference_npbox.Service_CRUDClient();
@@ -495,6 +518,22 @@ namespace PopProject.Util
             {
                 switch (serverIndex)
                 {
+                    //원팩
+                    case "opbox":
+                        op_Access_Model.SP명 = SP명;
+                        op_Access_Model.파라미터 = 파라미터;
+                        op_Access_Model.값 = 값;
+                        op_DB_Handle_Model.프로시저 = new ServiceReference_opbox.Access_Model[1] { op_Access_Model };
+                        op_DB_Handle_Model.BroadCasting = 0;
+                        op_Return_Model = 갱신 == 1 ? op_Service.갱신(op_DB_Handle_Model, 갱신) : op_Service.조회(op_DB_Handle_Model);
+
+                        returnModel.결과 = op_Return_Model.결과;
+                        returnModel.리턴값 = op_Return_Model.Retrun값;
+
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + kh_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + kh_Return_Model.Retrun값);
+                        break;
+
                     //내포
                     case "npbox":
                         np_Access_Model.SP명 = SP명;

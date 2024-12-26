@@ -53,6 +53,7 @@ namespace PopProject.Util
                 {"구룡산업제2공장", "http://grbox.iptime.org:18888/pop"},
                 {"금화", "http://khbox.iptime.org:18888/pop"},
                 {"내포수출포장", "http://106.249.249.82:18888/pop"},
+                {"원팩", "http://hnbox.iptime.org:18888/pop"},
                 //{"오주포장", "http://ojbox.iptime.org:18888/pop"},
                 {"미래포장", "http://miraebox.float-zone.com:18888/pop"},
 

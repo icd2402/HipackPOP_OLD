@@ -259,6 +259,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\ServiceReference_opbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\ServiceReference_real_ojbox\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1050,6 +1055,22 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ServiceReference_ojbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_opbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_opbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_opbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_opbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_opbox\PopProject.ServiceReference_opbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_opbox\Service_CRUD.wsdl" />
     <None Include="Connected Services\ServiceReference_real_ojbox\Access_MiddleWare_CRUD.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1244,6 +1265,7 @@
     <WCFMetadataStorage Include="Connected Services\ServiceReference_npbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_nrbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_ojbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_opbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_real_ojbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_shbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_sjbox\" />
@@ -1625,6 +1647,13 @@
     <None Include="Connected Services\ServiceReference_npbox\configuration91.svcinfo" />
     <None Include="Connected Services\ServiceReference_npbox\configuration.svcinfo" />
     <None Include="Connected Services\ServiceReference_npbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\ServiceReference_opbox\Access_MiddleWare_CRUD.disco" />
+    <None Include="Connected Services\ServiceReference_opbox\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceReference_opbox\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceReference_opbox\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
