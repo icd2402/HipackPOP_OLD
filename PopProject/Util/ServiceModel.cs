@@ -514,6 +514,16 @@ namespace PopProject.Util
         public static ReturnModel GetData(string serverIndex, string SP명, string[] 파라미터, object[] 값, int 갱신)
         {
             ReturnModel returnModel = new ReturnModel();
+            if (값.Length >0)
+            {
+                if (!SP명[0].Equals("[PopSearchMerc]") && 값[0].Equals(""))
+                {
+                    //returnModel.결과 = 0;
+                    //returnModel.리턴값 = "";
+                    return returnModel;
+                };
+            }
+
             try
             {
                 switch (serverIndex)
@@ -874,6 +884,23 @@ namespace PopProject.Util
             ReturnModel returnModel = new ReturnModel();
             switch (serverIndex)
             {
+                //내포
+                case "opbox":
+                    op_Access_Model.SP명 = SP명;
+                    op_Access_Model.파라미터 = 파라미터;
+                    op_Access_Model.값 = 값;
+
+                    op_DB_Handle_Model.프로시저 = new ServiceReference_opbox.Access_Model[1] { op_Access_Model };
+                    op_DB_Handle_Model.BroadCasting = 1;
+                    op_DB_Handle_Model.BroadCastingName = "생산입력완료";
+                    op_DB_Handle_Model.inputPkey = "14201";
+                    op_DB_Handle_Model.inputContent = parameter;
+                    op_Return_Model = 갱신 == 1 ? op_Service.갱신(op_DB_Handle_Model, 갱신) : op_Service.조회(op_DB_Handle_Model);
+
+                    returnModel.결과 = op_Return_Model.결과;
+                    returnModel.리턴값 = op_Return_Model.Retrun값;
+                    break;
+
                 //내포
                 case "npbox":
                     np_Access_Model.SP명 = SP명;

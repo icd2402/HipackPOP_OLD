@@ -2,6 +2,7 @@
 using PopProject.MessageBox;
 using PopProject.Util;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -121,6 +122,16 @@ namespace PopProject.UserControl_
                             list[i].item8 = item.Replace("\r\n", "");
                     }
                 }
+                //하나포장 (프로그램 통합 시 주업체, 부업체 구분용)
+                if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
+                {
+                    list[i].icback = list[i].ServerIndex.Equals("hnbox") ? "#AFE1FF" : "White";
+                }
+                //그 외 업체
+                else
+                {
+                    list[i].icback = "White";
+                }
                 workList.Add(list[i]);
             }
 
@@ -162,7 +173,15 @@ namespace PopProject.UserControl_
                     if (workList[index].check)
                     {
                         workList[index].check = false;
-                        workList[index].icback = "White";
+                        //하나포장 (프로그램 통합 시 주업체, 부업체 구분용)
+                        if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
+                        {
+                            workList[index].icback = workList[index].ServerIndex.Equals("hnbox") ? "#AFE1FF" : "White";
+                        }
+                        else
+                        {
+                            workList[index].icback = "White";
+                        }
                         indexCheck = false;
                     }
 
@@ -180,7 +199,16 @@ namespace PopProject.UserControl_
                             if (workList[j].icback.Equals("#6799FF"))
                             {
                                 workList[j].check = false;
-                                workList[j].icback = "White";
+                                //하나포장 (프로그램 통합 시 주업체, 부업체 구분용)
+                                if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
+                                {
+                                    workList[j].icback = workList[j].ServerIndex.Equals("hnbox") ? "#AFE1FF" : "White";
+                                }
+                                else
+                                {
+                                    workList[j].icback = "White";
+                                }
+
                             }
                         }
                     }
@@ -265,30 +293,64 @@ namespace PopProject.UserControl_
 
         private void ChangeWorkListFinished()
         {
-            string orderkey = "";
-            string orderWorkNo = "";
-            string customSName = "";
 
-            for (int i = 0; i < workList.Count; i++)
+            Dictionary<string, string> serverIndices = new Dictionary<string, string>();
+            if (SettingJsonManager.companyIntegration
+                && SettingJsonManager.corp_name.Equals("하나포장"))
             {
-                if (SettingJsonManager.processType.Equals(workList[i].ProcessType))
-                {
-                    orderkey = orderkey + workList[i].orderKey + "|";
-                    orderWorkNo = orderWorkNo + workList[i].orderWorkNo + "|";
-                    customSName = customSName + workList[i].customSName + "|";
-                }
+                serverIndices.Add("hnbox", "A07E164641");
+                serverIndices.Add("opbox", "8E874414");
+            }
+            else
+            {
+                serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
             }
 
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
-            _ = ServiceModel.GetData(
+            string pDate = DateTimeManager.GetSelectedDate().ToString("yyMMdd");
+            string splanNo = "";
 
-               SettingJsonManager.serverIndex,
-               "[spUdt410processinfo_workSeq]",
-               new string[] { "@공정구분", "@arr오더키", "@arr생산계획번호" },
-               new string[] { SettingJsonManager.processType + "", orderkey, orderWorkNo },
-               1
-               );
+            //통합 업체 순서 정렬 없데이트 시
+            foreach (var server in serverIndices)
+            {
+                string ServerIndex = server.Key;
+                string DBName = server.Value;
 
+                //업체별 갱신할 정보 추출.
+                string orderkey = "";
+                string p_Plankey = "";
+                string orderWorkNo = "";
+                string customSName = "";
+                string s_NewPlanNo = "";
+                int pNo = 0;
+
+                for (int i = 0; i < workList.Count; i++)
+                {
+                    pNo += 1;
+                    splanNo = pDate + pNo.ToString("D4");
+                    if (workList[i].ServerIndex.Equals(ServerIndex))
+                    {
+                        if (SettingJsonManager.processType.Equals(workList[i].ProcessType))
+                        {
+                            orderkey = orderkey + workList[i].orderKey + "|";
+                            p_Plankey = p_Plankey + workList[i].pplanKey + "|";
+
+                            orderWorkNo = orderWorkNo + workList[i].orderWorkNo + "|";
+
+                            customSName = customSName + workList[i].customSName + "|";
+                            s_NewPlanNo = s_NewPlanNo + splanNo + "|";
+                        }
+                    }
+                }
+
+                ServiceModel.ServiceModelClean(ServerIndex, DBName);
+                _ = ServiceModel.GetData(
+                   ServerIndex,
+                   "[PopUdt410processinfo_workSeq]",
+                   new string[] { "@공정구분", "@arr오더키", "@arr생산계획Key", "@arrNew계획번호" },
+                   new string[] { SettingJsonManager.processType + "", orderkey, p_Plankey, s_NewPlanNo },
+                   1
+                   );
+            }
         }
 
         private void Exit_mouse(object sender, MouseButtonEventArgs e)
@@ -343,7 +405,15 @@ namespace PopProject.UserControl_
             foreach (MainModel item in workList)
             {
                 item.check = false;
-                item.icback = "White";
+                //하나포장 (프로그램 통합 시 주업체, 부업체 구분용)
+                if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
+                {
+                    item.icback = item.ServerIndex.Equals("hnbox") ? "#AFE1FF" : "White";
+                }
+                else
+                {
+                    item.icback = "White";
+                }
             }
             workList[SettingJsonManager.index].check = true;
             workList[SettingJsonManager.index].icback = "#6799FF";

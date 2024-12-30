@@ -602,28 +602,23 @@ namespace PopProject.UserControl_
             // 서버 인덱스와 DBName을 저장할 Dictionary 생성
             Dictionary<string, string> serverIndices = new Dictionary<string, string>();
 
-            if (SettingJsonManager.companyIntegration)
+            if (SettingJsonManager.companyIntegration
+                && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
             {
-                //if (SettingJsonManager.corp_name.Equals("하나포장"))
-                //{
-                //    serverIndices.Add("hnbox", "A07E164641");
-                //    serverIndices.Add("shbox", "75BB212362");
-                //}
-                //else if (SettingJsonManager.corp_name.Equals("하나포장테스트"))
-                //{
-                //    serverIndices.Add("hnbox", "icdtest3");
-                //    serverIndices.Add("shbox", "icdtest5");
-                //}
-                //else
-                //{
-                //    serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
-                //}
+                if (SettingJsonManager.corp_name.Equals("하나포장테스트"))
+                {
+                    serverIndices.Add("hnbox", "icdtest3"); serverIndices.Add("opbox", "icdtest23");
+                }
+                else
+                {
+                    serverIndices.Add("hnbox", "A07E164641");
+                    serverIndices.Add("opbox", "8E874414");
 
-                serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id); //임시
+                }
             }
             else
             {
-                serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
+                    serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
             }
 
             // workList와 workList1을 초기화
@@ -1846,142 +1841,182 @@ namespace PopProject.UserControl_
         {
             Console.WriteLine("[PopResultSearchDate] 조회");
 
-            production = null;
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
-            ReturnModel returnData = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
-                "[PopResultSearchDate]",
-                new string[] { "@pworkDate" },
-                new string[] { DateTimeManager.GetSelectedDateStr() },
-            0
-            );
+            // 서버 인덱스를 저장할 리스트 생성
+            Dictionary<string, string> serverIndices2 = new Dictionary<string, string>();
 
-            if (returnData.결과 == 1)
+
+            if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
             {
-                JArray Data_Jarry = JArray.Parse(returnData.리턴값);
-                if (Data_Jarry != null)
+                if (SettingJsonManager.corp_name.Equals("하나포장테스트"))
                 {
-                    ObservableCollection<MainModel> tempOb = new ObservableCollection<MainModel>();
-                    foreach (MainModel workItem in workList)
-                    {
-                        foreach (JObject result in Data_Jarry)
-                        {
-                            _ = new InputModel();
-                            //해당 설비의 계획리스트에서 pplanKey일치
-                            if (workItem.pplanKey.ToString().Equals(result["pplanKey"].ToString()))
-                            {
-                                //현재POP 설정된 설비명과 일치
-                                if (result["mercName"].ToString().Equals(SettingJsonManager.mercName))
-                                {
-                                    workItem.presultCount = float.Parse(result["pworkCount"].ToString());   //생산결과 수량
-                                    workItem.sumPworkCount += float.Parse(result["pworkCount"].ToString()); //생산결과 총 수량
-                                    workItem.sDatetime = result["sDatetime"].ToString(); //시작시간
-
-                                    if (!result["perrorCount"].ToString().Equals("")) //불량수량
-                                    {
-                                        workItem.perrorCount += int.Parse(result["perrorCount"].ToString());
-                                    }
-
-                                    workItem.imagePath = "/img/bn_01.png"; //작업중 버튼
-
-                                    //완료시간 있으면
-                                    if (!result["eDatetime"].ToString().Equals(""))
-                                    {
-                                        workItem.eDatetime = result["eDatetime"].ToString();
-                                    }
-                                    else//완료시간 없으면
-                                    {
-                                        //생산중이면
-                                        if (production != null)
-                                        {
-                                            if (!production.pplanKey.ToString().Equals(workItem.pplanKey.ToString()))
-                                            {
-                                                production = workItem;
-                                            }
-                                            else
-                                            {
-                                                float tempSum = production.sumPworkCount;
-                                                float tempPresult = production.presultCount;
-                                                production = workItem;
-                                                production.sumPworkCount = tempSum;
-                                                production.presultCount = tempPresult;
-                                            }
-                                        }
-                                        //생산중이 아니면
-                                        else
-                                        {
-                                            production = workItem;
-
-                                            //카운터 집계용 로컬DB
-                                            if (SettingJsonManager.dbUse)
-                                            {
-                                                DataTable temp = new LocalDBManager().GetRawData("Last");
-
-                                                // 설비명 동일 && 제품 orderKey 동일 && 메세지 타입은 N
-                                                if (temp.Rows[0]["MercName"].ToString().Equals(SettingJsonManager.mercName)
-                                                    && temp.Rows[0]["OrderKey"].ToString().Equals(production.orderKey)
-                                                    && temp.Rows[0]["MsgType"].ToString().Equals("N"))
-                                                {
-                                                    production.sumPworkCount = Convert.ToInt32(temp.Rows[0]["Msg"]) + production.sumPworkCount;
-                                                    production.presultCount = Convert.ToInt32(temp.Rows[0]["Msg"]);
-                                                    // 계속해서 아두이노로 들어오는 카운터 값에 + 방법 연구 필요
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    tempOb.Add(workItem);
-                                }
-                            }
-                        }
-                    }
-
-                    //리스트 만큼 반복
-                    for (int i = 0; i < workList.Count; i++)
-                    {
-                        //상자수 체크시 결과값에 통수 나누기
-                        if (SettingJsonManager.boxCheck)
-                        {
-                            workList[i].sumPworkCount = workList[i].sumPworkCount / workList[i].pCnt;
-                        }
-
-                        //완료항목 제거 체크시
-                        if (SettingJsonManager.completeValue_checked)
-                        {
-                            //종료시간 있으면 삭제
-                            if (workList[i].eDatetime.Length > 5)
-                            {
-                                workList.Remove(workList[i]);
-                            }
-                        }
-                    }
-
-                    //동시작업 설정 체크시
-                    if (!SettingJsonManager.samework)
-                    {
-                        foreach (MainModel item in tempOb)
-                        {
-                            if (!SettingJsonManager.mercName.Equals(item.mercName))
-                            {
-                                //작업중 버튼이 아니면 삭제
-                                if (!item.imagePath.Equals("/img/bn_01.png"))
-                                {
-                                    _ = workList.Remove(item);
-                                }
-                            }
-                        }
-                    }
-                    txtNoPlan.Visibility = workList.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-                    SortWorkList();
+                    serverIndices2.Add("hnbox", "icdtest3"); serverIndices2.Add("opbox", "icdtest23");
                 }
-                LogManager.Info("생산결과 리스트 조회 완료", MethodBase.GetCurrentMethod().DeclaringType);
+                else
+                {
+                    serverIndices2.Add("hnbox", "A07E164641");
+                    serverIndices2.Add("opbox", "8E874414");
+                }
             }
             else
             {
-                LogManager.Error("생산결과 리스트 조회 오류", MethodBase.GetCurrentMethod().DeclaringType);
+                serverIndices2.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
             }
+            foreach (var server in serverIndices2)
+            {
+                string ServerIndex = server.Key;
+                string DBName = server.Value;
+
+
+                production = null;
+                ServiceModel.ServiceModelClean(ServerIndex, DBName);
+                ReturnModel returnData = ServiceModel.GetData(
+                    ServerIndex,
+                    "[PopResultSearchDate]",
+                    new string[] { "@pworkDate" },
+                    new string[] { DateTimeManager.GetSelectedDateStr() },
+                0
+                );
+
+                if (returnData.결과 == 1)
+                {
+                    JArray Data_Jarry = JArray.Parse(returnData.리턴값);
+                    if (Data_Jarry != null)
+                    {
+                        ObservableCollection<MainModel> tempOb = new ObservableCollection<MainModel>();
+                        foreach (MainModel workItem in workList)
+                        {
+                            //결과값이 있는지에 따른 정보 관리.
+                            if (Data_Jarry.Count == 0)
+                            {
+                                workItem.presultCount = 0;   //생산결과 수량
+                                workItem.sumPworkCount += 0; //생산결과 총 수량
+                                workItem.sDatetime = ""; //시작시간
+                                workItem.perrorCount += 0;
+                                workItem.eDatetime = "";
+                            }
+                            else
+                            {
+                                foreach (JObject result in Data_Jarry)
+                                {
+                                    _ = new InputModel();
+                                    //해당 설비의 계획리스트에서 pplanKey일치
+                                    if (workItem.pplanKey.ToString().Equals(result["pplanKey"].ToString()))
+                                    {
+                                        //현재POP 설정된 설비명과 일치
+                                        if (result["mercName"].ToString().Equals(SettingJsonManager.mercName))
+                                        {
+                                            workItem.presultCount = float.Parse(result["pworkCount"].ToString());   //생산결과 수량
+                                            workItem.sumPworkCount += float.Parse(result["pworkCount"].ToString()); //생산결과 총 수량
+                                            workItem.sDatetime = result["sDatetime"].ToString(); //시작시간
+
+                                            if (!result["perrorCount"].ToString().Equals("")) //불량수량
+                                            {
+                                                workItem.perrorCount += int.Parse(result["perrorCount"].ToString());
+                                            }
+
+                                            workItem.imagePath = "/img/bn_01.png"; //작업중 버튼
+
+                                            //완료시간 있으면
+                                            if (!result["eDatetime"].ToString().Equals(""))
+                                            {
+                                                workItem.eDatetime = result["eDatetime"].ToString();
+                                            }
+                                            else//완료시간 없으면
+                                            {
+                                                //생산중이면
+                                                if (production != null)
+                                                {
+                                                    if (!production.pplanKey.ToString().Equals(workItem.pplanKey.ToString()))
+                                                    {
+                                                        production = workItem;
+                                                    }
+                                                    else
+                                                    {
+                                                        float tempSum = production.sumPworkCount;
+                                                        float tempPresult = production.presultCount;
+                                                        production = workItem;
+                                                        production.sumPworkCount = tempSum;
+                                                        production.presultCount = tempPresult;
+                                                    }
+                                                }
+                                                //생산중이 아니면
+                                                else
+                                                {
+                                                    production = workItem;
+
+                                                    //카운터 집계용 로컬DB
+                                                    if (SettingJsonManager.dbUse)
+                                                    {
+                                                        DataTable temp = new LocalDBManager().GetRawData("Last");
+
+                                                        // 설비명 동일 && 제품 orderKey 동일 && 메세지 타입은 N
+                                                        if (temp.Rows[0]["MercName"].ToString().Equals(SettingJsonManager.mercName)
+                                                            && temp.Rows[0]["OrderKey"].ToString().Equals(production.orderKey)
+                                                            && temp.Rows[0]["MsgType"].ToString().Equals("N"))
+                                                        {
+                                                            production.sumPworkCount = Convert.ToInt32(temp.Rows[0]["Msg"]) + production.sumPworkCount;
+                                                            production.presultCount = Convert.ToInt32(temp.Rows[0]["Msg"]);
+                                                            // 계속해서 아두이노로 들어오는 카운터 값에 + 방법 연구 필요
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            tempOb.Add(workItem);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        //리스트 만큼 반복
+                        for (int i = 0; i < workList.Count; i++)
+                        {
+                            //상자수 체크시 결과값에 통수 나누기
+                            if (SettingJsonManager.boxCheck)
+                            {
+                                workList[i].sumPworkCount = workList[i].sumPworkCount / workList[i].pCnt;
+                            }
+
+                            //완료항목 제거 체크시
+                            if (SettingJsonManager.completeValue_checked)
+                            {
+                                //종료시간 있으면 삭제
+                                if (workList[i].eDatetime.Length > 5)
+                                {
+                                    workList.Remove(workList[i]);
+                                }
+                            }
+                        }
+
+                        //동시작업 설정 체크시
+                        if (!SettingJsonManager.samework)
+                        {
+                            foreach (MainModel item in tempOb)
+                            {
+                                if (!SettingJsonManager.mercName.Equals(item.mercName))
+                                {
+                                    //작업중 버튼이 아니면 삭제
+                                    if (!item.imagePath.Equals("/img/bn_01.png"))
+                                    {
+                                        _ = workList.Remove(item);
+                                    }
+                                }
+                            }
+                        }
+                        txtNoPlan.Visibility = workList.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+                    }
+                    LogManager.Info("생산결과 리스트 조회 완료", MethodBase.GetCurrentMethod().DeclaringType);
+                }
+                else
+                {
+                    LogManager.Error("생산결과 리스트 조회 오류", MethodBase.GetCurrentMethod().DeclaringType);
+                }
+            }
+            SortWorkList();
+
         }
 
         //옵션>생산리스트 상단/하단 정렬
@@ -2064,10 +2099,20 @@ namespace PopProject.UserControl_
                     }
                     else//그외 업체
                     {
-                        collectionView.SortDescriptions.Add(sort3);
-                        collectionView.SortDescriptions.Add(sort1);
-                        collectionView.SortDescriptions.Add(sort2);
-                        collectionView.SortDescriptions.Add(sort4);
+                        //하나포장, 통합관리 설정값이 true일 경우
+                        if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
+                        {
+                            collectionView.SortDescriptions.Add(sort3); //긴급
+                            collectionView.SortDescriptions.Add(sort1); //계획번호
+                            collectionView.SortDescriptions.Add(sort4); //생산차수
+                        }
+                        else
+                        {
+                            collectionView.SortDescriptions.Add(sort3);
+                            collectionView.SortDescriptions.Add(sort1);
+                            collectionView.SortDescriptions.Add(sort2);
+                            collectionView.SortDescriptions.Add(sort4);
+                        }
                     }
                     collectionView.Refresh();
                 }
@@ -2087,10 +2132,20 @@ namespace PopProject.UserControl_
                     //그외 업체
                     else
                     {
-                        collectionView.SortDescriptions.Add(sort3); //긴급
-                        collectionView.SortDescriptions.Add(sort1); //계획번호
-                        collectionView.SortDescriptions.Add(sort2); //계획키
-                        collectionView.SortDescriptions.Add(sort4); //생산차수
+                        //하나포장, 통합관리 설정값이 true일 경우
+                        if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
+                        {
+                            collectionView.SortDescriptions.Add(sort3); //긴급
+                            collectionView.SortDescriptions.Add(sort1); //계획번호
+                            collectionView.SortDescriptions.Add(sort4); //생산차수
+                        }
+                        else
+                        {
+                            collectionView.SortDescriptions.Add(sort3); //긴급
+                            collectionView.SortDescriptions.Add(sort1); //계획번호
+                            collectionView.SortDescriptions.Add(sort2); //계획키
+                            collectionView.SortDescriptions.Add(sort4); //생산차수
+                        }
                     }
                     collectionView.Refresh();
                 }
@@ -2876,13 +2931,21 @@ namespace PopProject.UserControl_
             foreach (MainModel item in workList)
             {
                 item.check = false;
-                item.icback = "White";
+                //하나포장 (프로그램 통합 시 주업체, 부업체 구분용)
+                if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
+                {
+                    item.icback = item.ServerIndex.Equals("hnbox") ? "#AFE1FF" : "White";
+                }
+                //그 외 업체
+                else
+                {
+                    item.icback = "White";
+                }
             }
 
             if (!SettingJsonManager.ChangeCheck)
             {
-                SelectWorkList(); // 생산 계획 리스트 조회
-                ResultSearchDate();
+                UpdateWorkPlanNResult(); // 계획/결과 조회
             }
 
             SettingJsonManager.ChangeCheck = false;
