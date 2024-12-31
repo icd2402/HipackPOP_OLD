@@ -2733,6 +2733,13 @@ namespace PopProject.UserControl_
                         else if (model.imagePath.Equals("/img/bn_01.png"))
                         {
                             carryForwardButton = false; //이월 버튼 비활성화
+                            if (arduSerial.IsOpen)
+                            {
+                                if (production != null)
+                                {
+                                    arduSerial.Write("B"); //아두이노 현재카운터 요청 //종료
+                                }
+                            }
                         }
                         //완료 버튼 진입
                         else if (model.imagePath.Equals("/img/bn_03.png"))
@@ -2752,7 +2759,7 @@ namespace PopProject.UserControl_
                         dSConsumer = null;
 
                         CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
-                                    UpdateWorkPlanNResult(); // 계획/결과 조회
+                        UpdateWorkPlanNResult(); // 계획/결과 조회
                     }
                     //일반생산
                     else

@@ -134,7 +134,7 @@ namespace PopProject.Consumer_
 
             PopResultSearchMember();//생산 결과 조회
             PopErrorSearch();//불량수량 조회
-            TimerSet();
+            //TimerSet();
 
         }
 
@@ -335,8 +335,11 @@ namespace PopProject.Consumer_
                             {
                                 try
                                 {
-                                    Main1.arduSerial.Write("A"); //아두이노 카운터 리셋
-                                    Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청
+                                    if (Main1.arduSerial.IsOpen)
+                                    {
+                                        Main1.arduSerial.Write("A"); //아두이노 카운터 리셋
+                                        Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청
+                                    }
                                 }
                                 catch
                                 {
@@ -374,7 +377,10 @@ namespace PopProject.Consumer_
                             {
                                 try
                                 {
-                                    Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
+                                    if (Main.arduSerial.IsOpen)
+                                    {
+                                        Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
+                                    }
                                 }
                                 catch
                                 {
@@ -434,12 +440,18 @@ namespace PopProject.Consumer_
                             {
                                 if (SettingJsonManager.meterialinfo.Equals("19"))
                                 {
-                                    Main1.arduSerial.Write("A");
+                                    if (Main1.arduSerial.IsOpen)
+                                    {
+                                        Main1.arduSerial.Write("A");
+                                    }
 
                                 }
                                 else
                                 {
-                                    Main.arduSerial.Write("A");
+                                    if (Main.arduSerial.IsOpen)
+                                    {
+                                        Main.arduSerial.Write("A");
+                                    }
                                 }
                             }
                             catch (Exception ardu)
@@ -466,6 +478,8 @@ namespace PopProject.Consumer_
                             _ = box.ShowDialog();
                         }
                     }
+                    Close();
+
                 }
             }
             else
@@ -1064,7 +1078,7 @@ namespace PopProject.Consumer_
 
         private void consum_closed(object sender, EventArgs e)
         {
-            timer.Stop();
+            if (timer != null) { timer.Stop(); }
         }
 
         //생산 완료수량 수정
