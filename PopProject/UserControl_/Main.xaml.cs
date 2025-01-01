@@ -810,7 +810,7 @@ namespace PopProject.UserControl_
                             {
                                 pplanNo = double.Parse(result["pplanNo"].ToString());
                             }
-
+                           
                             // MainModel 인스턴스 생성 및 기본 속성 설정
                             MainModel listitem = new MainModel
                             {
@@ -1737,6 +1737,9 @@ namespace PopProject.UserControl_
                             {
                                 if (listitem.ProcessType == 12 || listitem.ProcessType == 29 || listitem.ProcessType == 30) //12:원단, 29:P교체, 30:명세서
                                 {
+                                    if (true)
+                                    {
+
                                         //작업정보 설정값
                                         string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
                                         for (int i = 0; i < setting.Length; i++)
@@ -1851,6 +1854,7 @@ namespace PopProject.UserControl_
                                         }
                                         listitem.subOb = listitem.subOb.OrderBy(x => x.ProcessSeq).ToList();
                                         workList.Add(listitem);
+                                    }
                                 }
                             }
                             //기본업체
@@ -2566,7 +2570,9 @@ namespace PopProject.UserControl_
                 }
                 else//상단정렬
                 {
-                    collectionView.SortDescriptions.Add(sort);  //시작시간
+                    sort = new SortDescription("eDatetime", ListSortDirection.Descending );
+                    collectionView.SortDescriptions.Add(sort);
+//                    collectionView.SortDescriptions.Add(sort);  //시작시간
                     collectionView.SortDescriptions.Add(sort8); //상태
                     if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("대양포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
                     {

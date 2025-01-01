@@ -2118,7 +2118,9 @@ namespace PopProject.UserControl_
                 }
                 else//상단정렬
                 {
-                    collectionView.SortDescriptions.Add(sort);  //시작시간
+                    sort = new SortDescription("eDatetime", ListSortDirection.Descending);
+                    collectionView.SortDescriptions.Add(sort);
+                    //collectionView.SortDescriptions.Add(sort);  //시작시간
                     collectionView.SortDescriptions.Add(sort8); //상태
                     if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("대양포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
                     {
