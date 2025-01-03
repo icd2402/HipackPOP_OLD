@@ -84,13 +84,17 @@ namespace PopProject
                 e.Handled = true;
                 if (e.ChangedButton == MouseButton.Left)
                 {
-                    DragMove();
+                    if (Cls_Variable.SharedValue==false)
+                    {
+                        DragMove();
+                    }
                 }
             }
             catch (Exception h)
             {
                 string message = h.Message;
             }
+            Cls_Variable.SharedValue = false;
         }
 
         //키보드 이벤트

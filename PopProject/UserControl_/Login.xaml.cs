@@ -95,6 +95,8 @@ namespace PopProject.UserControl_
         private void Login_button_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             //  Console.WriteLine("마우스 클릭");
+            Cls_Variable.SharedValue = true;
+
             if (textbox_login_id.Text.Equals(""))
             {
                 Grid.Effect = new BlurEffect();

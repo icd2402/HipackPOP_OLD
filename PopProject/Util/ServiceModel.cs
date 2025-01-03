@@ -514,15 +514,15 @@ namespace PopProject.Util
         public static ReturnModel GetData(string serverIndex, string SP명, string[] 파라미터, object[] 값, int 갱신)
         {
             ReturnModel returnModel = new ReturnModel();
-            if (값.Length >0)
-            {
-                if (!SP명[0].Equals("[PopSearchMerc]") && 값[0].Equals(""))
-                {
-                    //returnModel.결과 = 0;
-                    //returnModel.리턴값 = "";
-                    return returnModel;
-                };
-            }
+            //if (값.Length >0)
+            //{
+            //    if (!SP명[0].Equals("[PopSearchMerc]") && 값[0].Equals(""))
+            //    {
+            //        //returnModel.결과 = 0;
+            //        //returnModel.리턴값 = "";
+            //        return returnModel;
+            //    };
+            //}
 
             try
             {

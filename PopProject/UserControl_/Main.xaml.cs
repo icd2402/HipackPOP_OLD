@@ -684,6 +684,7 @@ namespace PopProject.UserControl_
             // UNLOCK 일때
             if (SettingJsonManager.checkMerc == false)
             {
+                Cls_Variable.SharedValue = true ;
                 //현재 설비명 before에 담기
                 string before = string.IsNullOrWhiteSpace(SettingJsonManager.mercName) ? "" : SettingJsonManager.mercName;
                 MercList mercList = new MercList(); //리스트 가져오기
@@ -2266,16 +2267,6 @@ namespace PopProject.UserControl_
                         foreach (MainModel workItem in workList)
                         {
                             //결과값이 있는지에 따른 정보 관리.
-                            if (Data_Jarry.Count == 0)
-                            {
-                                    workItem.presultCount = 0;   //생산결과 수량
-                                    workItem.sumPworkCount += 0; //생산결과 총 수량
-                                    workItem.sDatetime = ""; //시작시간
-                                    workItem.perrorCount += 0;
-                                    workItem.eDatetime = "";
-                            }
-                            else
-                            {
                                 foreach (JObject result in Data_Jarry)
                                 {
                                     _ = new InputModel();
@@ -2300,6 +2291,7 @@ namespace PopProject.UserControl_
                                             if (!result["eDatetime"].ToString().Equals(""))
                                             {
                                                 workItem.eDatetime = result["eDatetime"].ToString();
+                                                workItem.imagePath = "/img/bn_03.png"; //작업완료 버튼
                                             }
                                             else//완료시간 없으면
                                             {
@@ -2341,15 +2333,14 @@ namespace PopProject.UserControl_
                                                     }
                                                 }
                                             }
-                                        }
-                                        else
+                                    }
+                                    else
                                         {
                                             tempOb.Add(workItem);
                                         }
                                     }
                                 }
 
-                            }
                         }
 
                         //리스트 만큼 반복
@@ -2515,7 +2506,7 @@ namespace PopProject.UserControl_
                 SortDescription sort7 = new SortDescription("orderDate", ListSortDirection.Ascending);//수주일자
                 SortDescription sort8 = new SortDescription("pState", ListSortDirection.Descending);  //상태
                 SortDescription sort9 = new SortDescription("orderLast", ListSortDirection.Ascending);  //납품일자
-                bool sortCheck = SettingJsonManager.RadioChecked;
+                    bool sortCheck = SettingJsonManager.RadioChecked;
 
                 ICollectionView collectionView = CollectionViewSource.GetDefaultView(workList);
                 for (int i = 0; i < workList.Count; i++)
@@ -2572,7 +2563,7 @@ namespace PopProject.UserControl_
                 {
                     sort = new SortDescription("eDatetime", ListSortDirection.Descending );
                     collectionView.SortDescriptions.Add(sort);
-//                    collectionView.SortDescriptions.Add(sort);  //시작시간
+                    //                    collectionView.SortDescriptions.Add(sort);  //시작시간
                     collectionView.SortDescriptions.Add(sort8); //상태
                     if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("대양포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
                     {
@@ -2586,11 +2577,19 @@ namespace PopProject.UserControl_
                     //그외 업체
                     else
                     {
+                        MainModel model = new MainModel();
                         //하나포장, 통합관리 설정값이 true일 경우
                         if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장")|| SettingJsonManager.corp_name.Equals("하나포장테스트")))
                         {
+                            SortDescription sort11 = new SortDescription("sDatetime", ListSortDirection.Descending);  // 시작시간
+                            collectionView.SortDescriptions.Add(sort11);
+
                             collectionView.SortDescriptions.Add(sort3); //긴급
-                            collectionView.SortDescriptions.Add(sort1); //계획번호
+                            collectionView.SortDescriptions.Add(sort1); //계획번호(pplanNo)
+                            collectionView.SortDescriptions.Add(sort9); //납품일자
+                            SortDescription sort10 = new SortDescription("ServerIndex", ListSortDirection.Ascending);  // hnbox → opbox 순
+                            collectionView.SortDescriptions.Add(sort10);//통합업체명 순
+
                             collectionView.SortDescriptions.Add(sort4); //생산차수
                         }
                         else
