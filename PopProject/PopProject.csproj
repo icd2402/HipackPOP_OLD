@@ -184,7 +184,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AsyncObject.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Cls_Variable.cs" />
     <Compile Include="Connected Services\ServiceReference_dsbox\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -1170,7 +1169,6 @@
     </None>
     <None Include="Connected Services\ServiceReference_ycbox\Service_CRUD.wsdl" />
     <None Include="packages.config" />
-    <None Include="packcom_net_chain.pfx" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
