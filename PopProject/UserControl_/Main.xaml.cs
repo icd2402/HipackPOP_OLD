@@ -1138,7 +1138,7 @@ namespace PopProject.UserControl_
                             listitem.prodID = result["prodID"].ToString(); //제품ID
                             listitem.newProd = newProd;
                             listitem.eDatetime = "";
-                            listitem.sDatetime = "";
+                            listitem.sDatetime = "E"; //작업시작 시간 기준으로 정렬 우선순위를 위해 인위적으로 값 적용.
                             listitem.subOb = new List<SubModel>();
                             listitem.resultList = new ObservableCollection<InputModel>();
                             listitem.bMember = bool.Parse(result["bMember"].ToString()); //실수요자 포함확인
@@ -2561,7 +2561,8 @@ namespace PopProject.UserControl_
                 }
                 else//상단정렬
                 {
-                    sort = new SortDescription("eDatetime", ListSortDirection.Descending );
+
+                    sort = new SortDescription("sDatetime", ListSortDirection.Ascending );
                     collectionView.SortDescriptions.Add(sort);
                     //                    collectionView.SortDescriptions.Add(sort);  //시작시간
                     collectionView.SortDescriptions.Add(sort8); //상태

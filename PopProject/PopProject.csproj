@@ -32,7 +32,7 @@
     <MinimumRequiredVersion>1.0.1.459</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>465</ApplicationRevision>
+    <ApplicationRevision>466</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -184,6 +184,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AsyncObject.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Cls_Variable.cs" />
     <Compile Include="Connected Services\ServiceReference_dsbox\Reference.cs">
       <AutoGen>True</AutoGen>
