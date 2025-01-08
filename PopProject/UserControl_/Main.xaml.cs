@@ -799,19 +799,27 @@ namespace PopProject.UserControl_
                         {
                             // pplanNo 처리
                             //double pplanNo = double.Parse(result["pplanNo"].ToString()) == 0 ? double.MaxValue : double.Parse(result["pplanNo"].ToString());
-                            double pplanNo = 0;
                             newProd = result["newProd"].Equals("1") ? Visibility.Visible : Visibility.Hidden;
-                            pNo += 1;
-                            splanNo = pDate + pNo.ToString("D4");
-                            if (result["pplanNo"].Equals(0))
+                            double pplanNo = 0;
+                            if (SettingJsonManager.companyIntegration
+                                && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
                             {
-                                pplanNo = double.Parse(splanNo);
+                                pNo += 1;//통합시 업체조회 순대로 No를 정의토록 함.
+                                splanNo = pDate + pNo.ToString("D4");
+                                if (result["pplanNo"].Equals(0))
+                                {
+                                    pplanNo = double.Parse(splanNo);
+                                }
+                                else
+                                {
+                                    pplanNo = double.Parse(result["pplanNo"].ToString());
+                                }
                             }
                             else
                             {
-                                pplanNo = double.Parse(result["pplanNo"].ToString());
+                                pplanNo = double.Parse(result["pplanNo"].ToString()) == 0 ? double.MaxValue : double.Parse(result["pplanNo"].ToString());
                             }
-                           
+
                             // MainModel 인스턴스 생성 및 기본 속성 설정
                             MainModel listitem = new MainModel
                             {
@@ -2512,13 +2520,17 @@ namespace PopProject.UserControl_
                 for (int i = 0; i < workList.Count; i++)
                 {
                     Console.WriteLine("정렬전 "
-                        + " No" + workList[i].pplanNo + " key" + workList[i].pplanKey
-                        + " 긴급" + workList[i].urgency + " 차수" + workList[i].pAccount
-                        + workList[i].customSName  + workList[i].prodName
-                        + " 시작" + workList[i].sDatetime + " 상태" + workList[i].pState);
-                }
+                        //+ " No" + workList[i].pplanNo + " key" + workList[i].pplanKey
+                        //+ " 긴급" + workList[i].urgency + " 차수" + workList[i].pAccount
+                        //+ workList[i].customSName  + workList[i].prodName
+                        //+ " 시작" + workList[i].sDatetime + " 상태" + workList[i].pState);
+                    + " 시작" + workList[i].sDatetime
+                    + " sort3:" + workList[i].urgency + " sort1:" + workList[i].pplanNo + " sort2:" + workList[i].pplanKey
+                    + " sort4:" + workList[i].pAccount + " 상태" + workList[i].pState
+                    + " 거래처 /품명 :" + workList[i].customSName + workList[i].prodName);
+            }
 
-                collectionView.Filter = null;
+            collectionView.Filter = null;
                 collectionView.SortDescriptions.Clear();
 
                 //하단정렬
@@ -2610,10 +2622,10 @@ namespace PopProject.UserControl_
                 for (int i = 0; i < lists.Count; i++)
                 {
                     Console.WriteLine("정렬후 "
-                        + " No" + lists[i].pplanNo + " key" + lists[i].pplanKey
-                        + " 긴급" + lists[i].urgency + " 차수" + lists[i].pAccount
-                        + lists[i].customSName + lists[i].prodName 
-                        + " 시작" + lists[i].sDatetime + " 상태" + lists[i].pState);
+                        + " 시작" + lists[i].sDatetime 
+                        + " sort3:" + lists[i].urgency + " sort1:" + lists[i].pplanNo + " sort2:" + lists[i].pplanKey
+                        + " sort4:" + lists[i].pAccount + " 상태" + lists[i].pState
+                        + " 거래처 /품명 :" + lists[i].customSName + lists[i].prodName);
                     workList1[i] = lists[i];
                 }
             }
