@@ -195,6 +195,23 @@ namespace PopProject.UserControl_
                 {
                     mcBt.Visibility = Visibility.Visible;
                 }
+                //신우,우리,누리
+                if (SettingJsonManager.corp_name.Equals("신우수출포장") 
+                    || SettingJsonManager.corp_name.Equals("신우포장테스트") 
+                    || SettingJsonManager.corp_name.Equals("우리포장산업") 
+                    || SettingJsonManager.corp_name.Equals("우리포장산업테스트") 
+                    || SettingJsonManager.corp_name.Equals("누리팩") 
+                    || SettingJsonManager.corp_name.Equals("누리팩테스트")
+                    || SettingJsonManager.sumView 
+                    )
+                {
+                    ss.Visibility = Visibility.Visible; //집계창 표시
+                }
+                else//기본
+                {
+                    Grid.SetRowSpan(workListBorder, 3); //WorkList Grid.Row3까지 확장 
+                    ss.Visibility = Visibility.Collapsed; //집계창 표시해제
+                }
 
                 //인터넷 연결 확인
                 bool connected = NetworkInterface.GetIsNetworkAvailable();
@@ -748,12 +765,13 @@ namespace PopProject.UserControl_
                 if (SettingJsonManager.corp_name.Equals("하나포장테스트"))
                 {
                     serverIndices.Add("hnbox", "icdtest3"); serverIndices.Add("opbox", "icdtest23");
+                    corp_name.Text = "하나포장&원팩 테스트";
                 }
                 else
                 {
                     serverIndices.Add("hnbox", "A07E164641");
                     serverIndices.Add("opbox", "8E874414");
-
+                    corp_name.Text = "하나포장&원팩";
                 }
             }
             else
@@ -794,6 +812,7 @@ namespace PopProject.UserControl_
                     JArray Data_Jarry = JArray.Parse(returnData.리턴값);
                     if (Data_Jarry != null)
                     {
+
                         Visibility newProd;
                         foreach (JObject result in Data_Jarry)
                         {
@@ -1034,16 +1053,6 @@ namespace PopProject.UserControl_
                             listitem.PackCount = result["PackCount"].ToString(); //포장매수
                             listitem.pplanCount = int.Parse(result["pplanCount"].ToString()); //계획량
 
-                            //신우,우리,누리
-                            if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("신우포장테스트") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("우리포장산업테스트") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("누리팩테스트"))
-                            {
-                                ss.Visibility = Visibility.Visible; //집계창 표시
-                            }
-                            else//기본
-                            {
-                                Grid.SetRowSpan(workListBorder, 3); //WorkList Grid.Row3까지 확장 
-                                ss.Visibility = Visibility.Collapsed; //집계창 표시해제
-                            }
 
                             //신우,우리,누리,혜성,성주
                             if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("혜성수출포장") || SettingJsonManager.corp_name.Equals("신우포장테스트") || SettingJsonManager.corp_name.Equals("성주포장"))
@@ -1169,16 +1178,16 @@ namespace PopProject.UserControl_
                                     listitem.icback = "#AFE1FF";
                                 }
                             }
-                            //하나포장 (프로그램 통합 시 주업체, 부업체 구분용)
-                            else if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
-                            {
-                                listitem.icback = listitem.ServerIndex.Equals("hnbox") ? "#AFE1FF" : "White";
-                            }
                             //그 외 업체
                             else
                             {
                                 listitem.icback = listitem.bMember ? "#AFE1FF" : "White"; //실수요자일때 하늘색 바탕으로 표시
                                 listitem.pStateVisi = Visibility.Collapsed;
+                            }
+                            //하나포장 (프로그램 통합 시 주업체, 부업체 구분용)
+                            if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
+                            {
+                                listitem.icback = listitem.ServerIndex.Equals("hnbox") ? "#AFE1FF" : "White";
                             }
 
                             //상태표시
@@ -2203,7 +2212,18 @@ namespace PopProject.UserControl_
                         p6.Text = 실적List.Sum((x) => x.perrCount).ToString("N0"); //불량수 (매수)
                         p7.Text = 실적List.Sum((x) => x.perrCount / x.pCnt).ToString("N0"); //불량통 (통수)
                         p8.Text = 실적List.Sum((x) => x.workingTimeValue).ToString("D0") + "분"; //생산시간 
-
+                        if (SettingJsonManager.sumView) // 집계표기 사용시
+                        {
+                            t8.Text  = "생산시간";
+                            t8.Margin = new Thickness(15, 10, 100, 40);
+                            p8.Margin = new Thickness(0, 40, 15, 5);
+                            p8.Text = convertMinutesToHoursAndMinutes(실적List.Sum((x) => x.workingTimeValue)); //생산 시:분 
+                        }
+                        else
+                        {
+                            t8.Margin = new Thickness(15, 20, 100, 20);
+                            p8.Margin = new Thickness(0, 0, 15, 0);
+                        }
                         if (실적List.Sum((x) => x.pworkCount) == 0) //진행율
                         {
                             p9.Text = "0%";
@@ -2222,7 +2242,13 @@ namespace PopProject.UserControl_
                 LogManager.Error("실적현황 조회 오류", MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
-
+        // 시간(분)값을 시:분으로 변경하여 표기함
+        public static String convertMinutesToHoursAndMinutes(int minutes)
+        {
+            int hours = minutes / 60;
+            int remainingMinutes = minutes % 60;
+            return hours + "시간 " + remainingMinutes + "분";
+        }
         //생산결과 조회
         public void ResultSearchDate()
         {

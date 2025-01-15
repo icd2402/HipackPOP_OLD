@@ -608,12 +608,13 @@ namespace PopProject.UserControl_
                 if (SettingJsonManager.corp_name.Equals("하나포장테스트"))
                 {
                     serverIndices.Add("hnbox", "icdtest3"); serverIndices.Add("opbox", "icdtest23");
+                    corp_name.Text = "하나포장&원팩 테스트";
                 }
                 else
                 {
                     serverIndices.Add("hnbox", "A07E164641");
                     serverIndices.Add("opbox", "8E874414");
-
+                    corp_name.Text = "하나포장&원팩";
                 }
             }
             else
@@ -625,6 +626,9 @@ namespace PopProject.UserControl_
             workList = new ObservableCollection<MainModel>(); // 메인 화면
             workList1 = new ObservableCollection<MainModel>(); // 순서변경 화면
             wdIGCOunt = 0; //원단입고값 초기화
+            string pDate = DateTimeManager.GetSelectedDate().ToString("yyMMdd");
+            int pNo = 0;
+            string splanNo = "";
 
             // 각 서버 인덱스와 DBName에 대해 데이터 조회 및 처리
             foreach (var server in serverIndices)
@@ -655,18 +659,36 @@ namespace PopProject.UserControl_
                         Visibility newProd;
                         foreach (JObject result in Data_Jarry)
                         {
-
-
                             // pplanNo 처리
-                            double pplanNo = double.Parse(result["pplanNo"].ToString()) == 0 ? double.MaxValue : double.Parse(result["pplanNo"].ToString());
+                            //double pplanNo = double.Parse(result["pplanNo"].ToString()) == 0 ? double.MaxValue : double.Parse(result["pplanNo"].ToString());
                             newProd = result["newProd"].Equals("1") ? Visibility.Visible : Visibility.Hidden;
+                            double pplanNo = 0;
+                            if (SettingJsonManager.companyIntegration
+                                && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
+                            {
+                                pNo += 1;//통합시 업체조회 순대로 No를 정의토록 함.
+                                splanNo = pDate + pNo.ToString("D4");
+                                if (result["pplanNo"].Equals(0))
+                                {
+                                    pplanNo = double.Parse(splanNo);
+                                }
+                                else
+                                {
+                                    pplanNo = double.Parse(result["pplanNo"].ToString());
+                                }
+                            }
+                            else
+                            {
+                                pplanNo = double.Parse(result["pplanNo"].ToString()) == 0 ? double.MaxValue : double.Parse(result["pplanNo"].ToString());
+                            }
 
                             // MainModel 인스턴스 생성 및 기본 속성 설정
                             MainModel listitem = new MainModel
                             {
                                 pCnt = float.Parse(result["pCnt"].ToString()), // 통수
-                                pplanNo = pplanNo
+                                //pplanNo = pplanNo
                             };
+                            listitem.pplanNo = pplanNo;
 
                             if (result["boxType"].ToString() != null)
                             {
@@ -956,6 +978,8 @@ namespace PopProject.UserControl_
                             listitem.bMember = bool.Parse(result["bMember"].ToString()); //실수요자 포함확인
                             listitem.workMemo = result["workMemo"].ToString();
 
+                            listitem.ServerIndex = ServerIndex;
+                            listitem.DBName = DBName;
 
                             //오주, 대양
                             if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") ||
@@ -972,32 +996,17 @@ namespace PopProject.UserControl_
                                     listitem.icback = "#AFE1FF";
                                 }
 
-                                listitem.ServerIndex = ServerIndex;
-                                listitem.DBName = DBName;
                             }
-                            //하나포장 (프로그램 통합 시 주업체, 부업체 구분용)
-                            else if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
-                            {
-                                if (ServerIndex == "hnbox")
-                                {
-                                    listitem.icback = "#AFE1FF";
-                                    listitem.ServerIndex = ServerIndex;
-                                    listitem.DBName = DBName;
-                                }
-                                else if (ServerIndex == "shbox")
-                                {
-                                    listitem.icback = "Whute";
-                                    listitem.ServerIndex = ServerIndex;
-                                    listitem.DBName = DBName;
-                                }
-                            }
+                            ////하나포장 (프로그램 통합 시 주업체, 부업체 구분용)
+                            //elseif (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
+                            //{
+                            //    listitem.icback = ServerIndex.Equals("hnbox") ? "#AFE1FF" : "White";
+                            //}
                             //그 외 업체
                             else
                             {
                                 listitem.icback = listitem.bMember ? "#AFE1FF" : "White"; //실수요자일때 하늘색 바탕으로 표시
                                 listitem.pStateVisi = Visibility.Collapsed;
-                                listitem.ServerIndex = ServerIndex;
-                                listitem.DBName = DBName;
                             }
 
                             //상태표시

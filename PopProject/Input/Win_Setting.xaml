@@ -311,6 +311,12 @@
                         </CheckBox.LayoutTransform>
                     </CheckBox>
 
+                    <TextBlock Text="집계 표기" FontSize="22" Foreground="Black" Canvas.Left="40" Canvas.Top="730" FontFamily="/font/#KoPubDotum Medium"/>
+                    <CheckBox x:Name="sumView" Canvas.Top="765" Content="사  용" Checked="sumView_Checked" Unchecked="sumView_Checked" HorizontalAlignment="Left" Width="140" Canvas.Left="40">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
 
 
                     <Border BorderBrush="#2c3e50" BorderThickness="0,0,0,1" Canvas.Top="535" Canvas.Left="15" Width="570" Canvas.Bottom="0"></Border>

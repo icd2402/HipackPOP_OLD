@@ -30,6 +30,7 @@ namespace PopProject
             InitializeComponent();
 
             LogManager.Info("----------------------------Program Start------------------------------", MethodBase.GetCurrentMethod().DeclaringType);
+            this.Loaded += MainWindow_Loaded;
 
             try
             {
@@ -43,7 +44,11 @@ namespace PopProject
                 LogManager.Error("메인화면 업로드 실패 : " + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
-
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // 윈도우의 상단 위치를 0으로 설정
+            this.Top = 0;
+        }
         //POP프로그램이 이미 실행중인지 확인
         private void Duplicate_execution(string mutexName)
         {

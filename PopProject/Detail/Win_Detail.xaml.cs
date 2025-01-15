@@ -164,9 +164,9 @@ namespace PopProject.Detail
                     bool DB_DataOK = false; 
 
                     //DB 조회
-                    ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+                    ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
                     ReturnModel returnDataCheck = ServiceModel.GetData(
-                       SettingJsonManager.serverIndex,
+                       mainModel.ServerIndex,
                        "[PopCNSSearch2]",
                        new string[] { "MachineName", "prodID" },
                        new object[] { SettingJsonManager.mercName, this.mainModel.prodID }, 0);
@@ -229,19 +229,9 @@ namespace PopProject.Detail
 
             DetailSearch(); //세부정보 조회 (왼쪽화면)
 
-            //두성,혜성,지온 일때 적재창고 버튼 표시
-            if (SettingJsonManager.corp_name.Equals("신우수출포장") ||
-                SettingJsonManager.corp_name.Equals("신우수출포장테스트") ||
-                SettingJsonManager.corp_name.Contains("우리포장산업") ||
-                SettingJsonManager.corp_name.Contains("우리포장산업테스트") ||
-                SettingJsonManager.corp_name.Contains("누리팩") ||
-                SettingJsonManager.corp_name.Contains("누리팩테스트") ||
-                SettingJsonManager.corp_name.Contains("지온") ||
-                SettingJsonManager.corp_name.Contains("지온테스트"))
-            {
-                MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
 
-            }
+            MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
+
 
             PopSearchPhoto(); //인쇄사양 조회
 
@@ -392,19 +382,7 @@ namespace PopProject.Detail
             
             DetailSearch(); //세부정보 조회 (왼쪽화면)
 
-            //두성,혜성,지온 일때 적재창고 버튼 표시
-            if (SettingJsonManager.corp_name.Equals("신우수출포장") ||
-                SettingJsonManager.corp_name.Equals("신우수출포장테스트") ||
-                SettingJsonManager.corp_name.Contains("우리포장산업") ||
-                SettingJsonManager.corp_name.Contains("우리포장산업테스트") ||
-                SettingJsonManager.corp_name.Contains("누리팩") ||
-                SettingJsonManager.corp_name.Contains("누리팩테스트") ||
-                SettingJsonManager.corp_name.Contains("지온") ||
-                SettingJsonManager.corp_name.Contains("지온테스트"))
-            {
-                MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
-
-            }
+            MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
 
             PopSearchPhoto(); //인쇄사양
 
@@ -413,9 +391,9 @@ namespace PopProject.Detail
         //DB => CNS 데이터 전송
         private void CNS_DB_Send()
         {
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData = ServiceModel.GetData(
-               SettingJsonManager.serverIndex,
+               mainModel.ServerIndex,
                "[PopCNSSearch2]",
                new string[] { "prodID", "MachineName" },
                new object[] { this.mainModel.prodID, SettingJsonManager.mercName }, 0);
@@ -1332,9 +1310,9 @@ namespace PopProject.Detail
         //로봇데이터 DB조회
         private void serchRobotData()
         {
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData = ServiceModel.GetData(
-               SettingJsonManager.serverIndex,
+               mainModel.ServerIndex,
                "[spSelIFrobotdata_info]",
                new string[] { "@prodID" },
                new object[] {
@@ -1536,9 +1514,9 @@ namespace PopProject.Detail
         //인쇄사양 출력
         private void PopSearchPhoto()
         {
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData = ServiceModel.GetData(
-            SettingJsonManager.serverIndex,
+            mainModel.ServerIndex,
             "[PopSearchPhoto]",
             new string[] { "@prodID" },
             new object[] { mainModel.prodID },
@@ -1753,117 +1731,127 @@ namespace PopProject.Detail
             string scmDBName = ""; //접속정보(DB명)
 
             ObservableCollection<IgSmModel> ob = new ObservableCollection<IgSmModel>();
-
-            //거래처로 ServerIndex,DB명(접속정보)임시로 변경
-            if (Detailitem.SCMorderKey > 0)
+            if (SettingJsonManager.corp_name.Equals("신우수출포장") ||
+                SettingJsonManager.corp_name.Equals("신우수출포장테스트") ||
+                SettingJsonManager.corp_name.Contains("우리포장산업") ||
+                SettingJsonManager.corp_name.Contains("우리포장산업테스트") ||
+                SettingJsonManager.corp_name.Contains("누리팩") ||
+                SettingJsonManager.corp_name.Contains("누리팩테스트") ||
+                SettingJsonManager.corp_name.Contains("지온") ||
+                SettingJsonManager.corp_name.Contains("지온테스트"))
             {
-                switch (mainModel.customSName)
-                {
-                    case "신우수출포장":
-                    case "신우포장":
-                        scmServerIndex = "swbox";
-                        scmDBName = "A07E67034";
-                        break;
-                    case "누리팩":
-                        scmServerIndex = "nrbox";
-                        scmDBName = "A07E265671";
-                        break;
-                    case "우리포장산업":
-                    case "우리포장":
-                        scmServerIndex = "wrbox";
-                        scmDBName = "A07E144572";
-                        break;
-                    case "채움팩":
-                        scmServerIndex = "cwbox";
-                        scmDBName = "3ED73331";
-                        break;
-                    case "유램":
-                        scmServerIndex = "erboxtest";
-                        scmDBName = "1461E3757";
-                        break;
-                    case "지온":
-                        scmServerIndex = "jobox";
-                        scmDBName = "13C554403";
-                        break;
 
-                    default:
-                        break;
-                }
-
-                //테스트
-                if (SettingJsonManager.corp_id.ToUpper().Contains("ICDTEST"))
+                //거래처로 ServerIndex,DB명(접속정보)임시로 변경
+                if (Detailitem.SCMorderKey > 0)
                 {
                     switch (mainModel.customSName)
                     {
                         case "신우수출포장":
                         case "신우포장":
-                            scmDBName = "icdtest9";
+                            scmServerIndex = "swbox";
+                            scmDBName = "A07E67034";
                             break;
                         case "누리팩":
-                            scmDBName = "icdtest10";
+                            scmServerIndex = "nrbox";
+                            scmDBName = "A07E265671";
                             break;
                         case "우리포장산업":
                         case "우리포장":
-                            scmDBName = "icdtest11";
+                            scmServerIndex = "wrbox";
+                            scmDBName = "A07E144572";
                             break;
                         case "채움팩":
-                            scmDBName = "icdtest11";
+                            scmServerIndex = "cwbox";
+                            scmDBName = "3ED73331";
                             break;
                         case "유램":
-                            scmDBName = "icdtest10";
+                            scmServerIndex = "erboxtest";
+                            scmDBName = "1461E3757";
                             break;
                         case "지온":
-                            scmDBName = "icdtest16";
+                            scmServerIndex = "jobox";
+                            scmDBName = "13C554403";
                             break;
 
                         default:
                             break;
                     }
-                }
 
-                //////////////////////////////////////////////////////////////////SCM발주/////////////////////////////////////////////////////////////////////////
-                ServiceModel.ServiceModelClean(scmServerIndex, scmDBName);
-                ReturnModel returnDataSCM가입고 = ServiceModel.GetData(
-                    scmServerIndex,
-                    "[PopBJSearch]",
-                    new string[] { "@orderKey" },
-                    new object[] { Detailitem.SCMorderKey },
-                    0
-                    );
-                if (returnDataSCM가입고.결과 == 1)
-                {
-                    JArray Data_JArray = JArray.Parse(returnDataSCM가입고.리턴값);
-                    if (Data_JArray != null)
+                    //테스트
+                    if (SettingJsonManager.corp_id.ToUpper().Contains("ICDTEST"))
                     {
-                        foreach (JObject result in Data_JArray)
+                        switch (mainModel.customSName)
                         {
-                            IgSmModel listitem = new IgSmModel();
-                            listitem.metrialBJKey = int.Parse(result["metrialBJKey"].ToString());                //원단발주키
-                            listitem.wdjs = (result["Wdjs"] != null) ? int.Parse(result["Wdjs"].ToString()) : 1; //원단절수
-                            listitem.SubscriptionBJCount = int.Parse(result["SubscriptionBJCount"].ToString());  //가입고수량
+                            case "신우수출포장":
+                            case "신우포장":
+                                scmDBName = "icdtest9";
+                                break;
+                            case "누리팩":
+                                scmDBName = "icdtest10";
+                                break;
+                            case "우리포장산업":
+                            case "우리포장":
+                                scmDBName = "icdtest11";
+                                break;
+                            case "채움팩":
+                                scmDBName = "icdtest11";
+                                break;
+                            case "유램":
+                                scmDBName = "icdtest10";
+                                break;
+                            case "지온":
+                                scmDBName = "icdtest16";
+                                break;
 
-                            listitem.GigText = listitem.SubscriptionBJCount == 0 ? "가입고" : listitem.SubscriptionBJCount.ToString();  //가입고 버튼 텍스트
-                            listitem.BtVisibility = "Visible"; //가입고 버튼 표시
-
-                            listitem.SubscriptionBJCount *= listitem.wdjs; //가입고 수량에 절수 곱함
-                            listitem.SCMServerIndex = scmServerIndex;
-                            listitem.SCMDBName = scmDBName;
-
-                            ob.Add(listitem);
+                            default:
+                                break;
                         }
                     }
-                    else
+
+                    //////////////////////////////////////////////////////////////////SCM발주/////////////////////////////////////////////////////////////////////////
+                    ServiceModel.ServiceModelClean(scmServerIndex, scmDBName);
+                    ReturnModel returnDataSCM가입고 = ServiceModel.GetData(
+                        scmServerIndex,
+                        "[PopBJSearch]",
+                        new string[] { "@orderKey" },
+                        new object[] { Detailitem.SCMorderKey },
+                        0
+                        );
+                    if (returnDataSCM가입고.결과 == 1)
                     {
-                        MessageBox_Dialog msg = new MessageBox_Dialog("PopBJSearch 오류 발생 !!");
-                        _ = msg.ShowDialog();
+                        JArray Data_JArray = JArray.Parse(returnDataSCM가입고.리턴값);
+                        if (Data_JArray != null)
+                        {
+                            foreach (JObject result in Data_JArray)
+                            {
+                                IgSmModel listitem = new IgSmModel();
+                                listitem.metrialBJKey = int.Parse(result["metrialBJKey"].ToString());                //원단발주키
+                                listitem.wdjs = (result["Wdjs"] != null) ? int.Parse(result["Wdjs"].ToString()) : 1; //원단절수
+                                listitem.SubscriptionBJCount = int.Parse(result["SubscriptionBJCount"].ToString());  //가입고수량
+
+                                listitem.GigText = listitem.SubscriptionBJCount == 0 ? "가입고" : listitem.SubscriptionBJCount.ToString();  //가입고 버튼 텍스트
+                                listitem.BtVisibility = "Visible"; //가입고 버튼 표시
+
+                                listitem.SubscriptionBJCount *= listitem.wdjs; //가입고 수량에 절수 곱함
+                                listitem.SCMServerIndex = scmServerIndex;
+                                listitem.SCMDBName = scmDBName;
+
+                                ob.Add(listitem);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox_Dialog msg = new MessageBox_Dialog("PopBJSearch 오류 발생 !!");
+                            _ = msg.ShowDialog();
+                        }
                     }
                 }
             }
 
             /////////////////////////////////////////////////////////////////////발주/////////////////////////////////////////////////////////////////////////
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData가입고 = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
+                mainModel.ServerIndex,
                 "[PopBJSearch]",
                 new string[] { "@orderKey" },
                 new object[] { mainModel.orderKey },
@@ -1908,9 +1896,9 @@ namespace PopProject.Detail
             }
 
             //////////////////////////////////////////////////////////////////////////입고/////////////////////////////////////////////////////////////////////
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
+                mainModel.ServerIndex,
                 "[PopIGSearch]",
                 new string[] { "@orderKey" },
                 new object[] { mainModel.orderKey },
@@ -1982,9 +1970,9 @@ namespace PopProject.Detail
         //원단 소모내역 조회 (자재상태창)
         private void MetrialSM(ObservableCollection<IgSmModel> ob)
         {
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
+                mainModel.ServerIndex,
                 "[PopSMSearch]",
                 new string[] { "@orderKey" },
                 new object[] { mainModel.orderKey },
@@ -2015,11 +2003,11 @@ namespace PopProject.Detail
 
                         if (listitem.metType == 0)
                         {
-                            wdCount += listitem.metCount;
+                            wdCount -= listitem.metCount;
                         }
                         else
                         {
-                            scCount += listitem.metCount;
+                            scCount -= listitem.metCount;
                         }
 
                         //실입고 수량 확인 후 가입고 버튼 생성
@@ -2075,9 +2063,9 @@ namespace PopProject.Detail
         //세부정보 조회 (왼쪽화면)
         private void DetailSearch() 
         {
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName );
             ReturnModel returnData = ServiceModel.GetData(
-                SettingJsonManager.serverIndex,
+                mainModel.ServerIndex,
                 "[PopWorkDetail]",
                 new string[] { "@orderKey" },
                 new object[] { mainModel.orderKey }, 0
@@ -2908,9 +2896,9 @@ namespace PopProject.Detail
         //금화 인쇄기 레지스타 조회
         private void rValueSearch()
         {
-           ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+           ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData = ServiceModel.GetData(
-               SettingJsonManager.serverIndex,
+               mainModel.ServerIndex,
                "[rRegistaSearch]",
                new string[] { "prodID" },
                new object[] { this.mainModel.prodID }, 
@@ -2942,9 +2930,9 @@ namespace PopProject.Detail
         //금화 인쇄기 타공값 조회
         private void holeValueSearch()
         {
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData = ServiceModel.GetData(
-               SettingJsonManager.serverIndex,
+               mainModel.ServerIndex,
                "[holeRegistaSearch]",
                new string[] { "prodID" },
                new object[] { this.mainModel.prodID },
@@ -3060,9 +3048,9 @@ namespace PopProject.Detail
                     bool DB_DataOK = false;
 
                     //DB 조회
-                    ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
+                    ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
                     ReturnModel returnDataCheck = ServiceModel.GetData(
-                       SettingJsonManager.serverIndex,
+                       mainModel.ServerIndex,
                        "[PopCNSSearch2]",
                        new string[] { "MachineName", "prodID" },
                        new object[] { SettingJsonManager.mercName, this.mainModel.prodID }, 0);

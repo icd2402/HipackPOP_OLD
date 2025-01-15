@@ -206,7 +206,7 @@
             </ScrollViewer>
         </Border>
 
-        <TextBlock x:Name="txtNoPlan" Text="생산계획이 없습니다." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="35" Grid.Row="3" FontFamily="/font/#KoPubDotum Medium" Margin="492,229,492,465"></TextBlock>
+        <TextBlock x:Name="txtNoPlan" Text="생산계획이 없습니다." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="35" Grid.Row="3" FontFamily="/font/#KoPubDotum Medium" Margin="492,0,492,0"></TextBlock>
 
         <Canvas x:Name="can" Background="Black" Opacity="0.35" Grid.RowSpan="5" Visibility="Collapsed">
             <TextBlock Text="로딩중입니다..." FontSize="55" Foreground="White" Background="Black" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="/font/#KoPubDotum bold" Canvas.Left="474" Canvas.Top="439" Height="56" Width="372"/>
@@ -252,11 +252,13 @@
             <TextBlock Grid.Column="4" x:Name="p6" Text="0" FontSize="20" Foreground="Red" FontWeight="Bold" HorizontalAlignment="Right" Margin="100,7,15,40"/>
             <TextBlock Grid.Column="4" x:Name="p7" Text="0" FontSize="20" Foreground="Red" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,40,15,5"/>
 
-            <TextBlock Grid.Column="5" Text="작업시간" FontSize="20" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" Margin="15,20,100,20" />
-            <TextBlock Grid.Column="5" x:Name="p8" Text="0" FontSize="20" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0"/>
+            <TextBlock Grid.Column="5" x:Name="t8" Text="작업시간" FontSize="20" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" Margin="15,10,100,40" />
+            <TextBlock Grid.Column="5" x:Name="p8" ToolTip="생산결과 작업시간 합산" 
+                       Text="0" FontSize="20" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,40,15,5"/>
 
             <TextBlock Grid.Column="6" Text="진도율" FontSize="20" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" Margin="15,20,80,20" />
-            <TextBlock Grid.Column="6" x:Name="p9" Text="%" FontSize="20" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0"/>
+            <TextBlock Grid.Column="6" x:Name="p9" ToolTip="(생산매수합 / 계획매수합) * 100%" 
+                       Text="%" FontSize="20" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0"/>
         </Grid>
 
 

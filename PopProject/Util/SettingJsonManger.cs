@@ -87,7 +87,8 @@ namespace PopProject.Util
         public static bool noticePopup { get; set; }
         public static string lockPassword { get; set; }
         public static bool companyIntegration { get; set; }
-        
+        public static bool sumView { get; set; }
+
 
         // JSON 파일 경로
         public static string filePath { get; set; }
@@ -267,6 +268,8 @@ namespace PopProject.Util
                 lockPassword = jObject.ContainsKey("lockPassword") ? jObject["lockPassword"].ToString() : "";
                 // companyIntegration 없는 경우 false
                 companyIntegration = jObject.ContainsKey("companyIntegration") ? bool.Parse(jObject["companyIntegration"].ToString()) : false;
+                // sumView 없는 경우 false
+                sumView = jObject.ContainsKey("sumView") ? bool.Parse(jObject["sumView"].ToString()) : false;
 
                 LogManager.Info("json → 셋팅정보(Class) Load 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
@@ -369,7 +372,8 @@ namespace PopProject.Util
                                 {"windowState", windowState.ToString()},
                                 {"noticePopup", noticePopup.ToString()},
                                 {"lockPassword", string.IsNullOrEmpty(lockPassword) == false ? lockPassword : ""},
-                                {"companyIntegration", companyIntegration.ToString()}
+                                {"companyIntegration", companyIntegration.ToString()},
+                                {"sumView", sumView.ToString()}
                             };
 
                 //인증코드 파일 작성

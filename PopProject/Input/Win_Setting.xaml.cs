@@ -85,6 +85,7 @@ namespace PopProject.Input
             windowMax.IsChecked = SettingJsonManager.windowState; //윈도우 창 설정
             noticePopup.IsChecked = SettingJsonManager.noticePopup; //공지사항 자동 팝업
             companyIntegration.IsChecked = SettingJsonManager.companyIntegration; //업체 통합 사용
+            sumView.IsChecked = SettingJsonManager.sumView; //집계 사용
 
 
             //자재명세서 출력정보 화면
@@ -1217,6 +1218,11 @@ namespace PopProject.Input
             SettingJsonManager.SaveJsonFile();
         }
 
+        private void sumView_Checked(object sender, RoutedEventArgs e)
+        {
+            SettingJsonManager.sumView = sumView.IsChecked.Value;
+            SettingJsonManager.SaveJsonFile();
+        }
 
         //완료항목 제거
         private void completeValue_checked(object sender, RoutedEventArgs e)
@@ -1556,6 +1562,7 @@ namespace PopProject.Input
             //{
             //}
         }
+
     }
 
 }

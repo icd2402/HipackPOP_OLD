@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PopProject"
         mc:Ignorable="d"
-        Title="MainWindow" Closed="Win_closed"  Height="1024" Width="1280" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" KeyDown="Window_KeyDown" >
+        Title="MainWindow" Closed="Win_closed"  Height="1000" Width="1280" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" KeyDown="Window_KeyDown" >
 
     <Border BorderBrush="Aqua" BorderThickness="1" >
         <ContentPresenter x:Name="MainCP" MouseLeftButtonDown="MainCP_MouseLeftButtonDown" >
