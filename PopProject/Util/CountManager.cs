@@ -74,6 +74,7 @@ namespace PopProject.Util
                 {"대세물산테스트", "http://dsbox.iptime.org:18888/pop"},
                 {"구룡산업제2공장테스트", "http://grbox.iptime.org:18888/pop"},
                 {"금화테스트", "http://khbox.iptime.org:18888/pop"},
+                {"내포수출포장테스트", "http://106.249.249.82:18888/pop"},
                 //{"오주포장테스트", "http://ojbox.iptime.org:18888/pop"},
                 {"미래포장테스트", "http://miraebox.float-zone.com:18888/pop"},
 
@@ -102,6 +103,7 @@ namespace PopProject.Util
                 // Thread 동기화용 락(세마포어)
                 lock (lockWorkCnt)
                 {
+                    Console.WriteLine(v);
                     _ = PopService(mercName, v);
                 }
             }
@@ -109,7 +111,10 @@ namespace PopProject.Util
             {
                 try
                 {
-                    SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
+                    if (!mercName.Equals("")) {
+                        SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
+
+                    }
                 }
 
                 catch

@@ -8,6 +8,8 @@ namespace PopProject.UserControl_
 {
     class UserModel : ViewModelBase
     {
+
+
         private string _login_id = "";
         public string login_id
         {

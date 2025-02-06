@@ -1,0 +1,1982 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:publicConverter="clr-namespace:NewPackcomBoxClassLabrary.PublicConverter;assembly=NewPackcomBoxClassLabrary"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/NewPackcomBoxClassLabrary;component/Resources/PublicConverter.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <FontFamily x:Key="FontName">//application:,,,/Font/#NANUMGOTHIC</FontFamily>
+
+    <SolidColorBrush x:Key="B7B7B7_Color" Color="#B7B7B7"/>
+    <SolidColorBrush x:Key="4B4B4B_Color" Color="#4B4B4B"/>
+    <SolidColorBrush x:Key="CECECE_Color" Color="#CECECE"/>
+    <SolidColorBrush x:Key="DCDCDC_Color" Color="#DCDCDC"/>
+    <SolidColorBrush x:Key="F0F0F0_Color" Color="#F0F0F0"/>
+    <SolidColorBrush x:Key="E8E8E8_Color" Color="#E8E8E8"/>
+    <SolidColorBrush x:Key="F1F1F1_Color" Color="#F1F1F1"/>
+    <SolidColorBrush x:Key="White_Color" Color="#ffffff"/>
+    <SolidColorBrush x:Key="Black_Color" Color="Black"/>
+    <SolidColorBrush x:Key="Transparent_Color" Color="Transparent" />
+    <SolidColorBrush x:Key="EAF5FF_Color" Color="#EAF5FF"/>
+    <SolidColorBrush x:Key="707070_Color" Color="#707070"/>
+    <SolidColorBrush x:Key="FF57BD7F_Color" Color="#FF42AA6B"/>
+    <SolidColorBrush x:Key="FFE4F4EA_Color" Color="#FFE4F4EA"/>
+    <SolidColorBrush x:Key="3399FF_Color" Color="#3399FF"/>
+    <SolidColorBrush x:Key="FFE7E8EA_Color" Color="#FFE7E8EA"/>
+    <SolidColorBrush x:Key="FF385DAB_Color" Color="#FF385DAB"/>
+    <SolidColorBrush x:Key="EllipseBorderColor" Color="#BBF2FF"/>
+
+    <!-- DataGrid Cell 정렬 Left 스타일 정의 -->
+    <Style x:Key="기초_HorizontalLeft" TargetType="TextBlock" >
+        <Setter Property="VerticalAlignment"  Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Margin" Value="5,0,5,0"/>
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="LineHeight" Value="11"/>        
+    </Style>
+
+    <!-- DataGrid Cell 정렬 Center 스타일 정의 -->
+    <Style x:Key="기초_HorizontalCenter" TargetType="TextBlock" >
+        <Setter Property="VerticalAlignment"  Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="5,0,5,0"/>
+        <Setter Property="TextWrapping" Value="Wrap" />        
+    </Style>
+
+    <!-- DataGrid Cell 정렬 Right 스타일 정의 -->
+    <Style x:Key="기초_HorizontalRight" TargetType="TextBlock" >
+        <Setter Property="VerticalAlignment"  Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Margin" Value="5,0,5,0"/>
+        <Setter Property="TextWrapping" Value="Wrap" />        
+    </Style>
+
+
+    <Style TargetType="Button" x:Key="ButtonStyle">
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Height" Value="90"/>
+        <Setter Property="Margin" Value="0,15"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource Transparent_Color}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Label" x:Key="ButtonLabel">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="FontWeight" Value="ExtraBold" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="{StaticResource White_Color}"/>
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource White_Color}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Label" x:Key="SignLabel">
+        <Setter Property="VerticalAlignment" Value="Center"  />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="ExtraBold"  />
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Label" x:Key="InformationLabel">
+        <Setter Property="VerticalAlignment" Value="Center"  />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Label" x:Key="명세서Value">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontSize" Value="39"/>
+        <Setter Property="FontWeight" Value="Bold"  />
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Label" x:Key="명세서Label">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontSize" Value="39"/>
+        <Setter Property="FontWeight" Value="Bold"  />
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Label}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalAlignment }" VerticalAlignment="{TemplateBinding VerticalAlignment}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"   SnapsToDevicePixels="true" >
+                        <TextBlock TextWrapping="Wrap" Text="{TemplateBinding Content}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+    <Style TargetType="Label" x:Key="수주서FormatLabel">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontSize" Value="17"/>
+        <Setter Property="Height" Value="55"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource B7B7B7_Color}"/>
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground"  Value="{StaticResource Black_Color}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Label" x:Key="수주서Label">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="Width" Value="77"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Height" Value="45"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource B7B7B7_Color}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Label}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalAlignment }" VerticalAlignment="{TemplateBinding VerticalAlignment}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"   SnapsToDevicePixels="true" >
+                        <TextBlock TextWrapping="Wrap" Text="{TemplateBinding Content}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>  
+    </Style>
+    
+    <Style TargetType="Label" x:Key="생산계획서FormatLabel">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource B7B7B7_Color}"/>
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground"  Value="{StaticResource Black_Color}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Label" x:Key="생산계획서Label">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource B7B7B7_Color}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Label}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalAlignment }" VerticalAlignment="{TemplateBinding VerticalAlignment}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"   SnapsToDevicePixels="true" >
+                        <TextBlock TextWrapping="Wrap" Text="{TemplateBinding Content}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+    <Style TargetType="Label" x:Key="작업의뢰서FormatLabel">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource B7B7B7_Color}"/>
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground"  Value="{StaticResource Black_Color}"/>
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+    <Style TargetType="Label" x:Key="작업의뢰서Label">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource B7B7B7_Color}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Label}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalAlignment }" VerticalAlignment="{TemplateBinding VerticalAlignment}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"   SnapsToDevicePixels="true" >
+                        <TextBlock TextWrapping="Wrap" Text="{TemplateBinding Content}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+
+    <Style TargetType="Label" x:Key="ColumnLabel">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="Padding" Value="5,0"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground"  Value="{StaticResource Black_Color}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Label" x:Key="원가산출Label">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Height" Value="36"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource B7B7B7_Color}"/>
+
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+    
+    <Style TargetType="Label" x:Key="TitleLabel">
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontSize" Value="25"/>        
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+    <Style TargetType="Label" x:Key="TopLabel">
+        <Setter Property="VerticalAlignment" Value="Center"  />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+    <Style TargetType="Label" x:Key="ValueLabel">
+        <Setter Property="VerticalAlignment" Value="Center"  />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource B7B7B7_Color}"/>
+        <Setter Property="MinWidth" Value="100"/>
+        <Setter Property="MinHeight" Value="28"/>
+        <Setter Property="Padding" Value="5,0"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+
+    <Style TargetType="Label" x:Key="BottomLabel">
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+    <Style x:Key="거래명세서TemplateLabel_Style" TargetType="Label" >
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="ExtraLight" />
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Label}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalAlignment }" VerticalAlignment="{TemplateBinding VerticalAlignment}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"   SnapsToDevicePixels="true" >
+                        <TextBlock TextWrapping="Wrap" Text="{TemplateBinding Content}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+    <Style x:Key="CellTemplateLabel_Style" TargetType="Label" >
+        <Setter Property="HorizontalContentAlignment" Value="Right" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Height" Value="39"/>        
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="Padding" Value="10,0,10,0"/>
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground"  Value="{StaticResource Black_Color}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="Cell_TextBox" TargetType="TextBox" >
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Padding" Value="10,0,10,0"/>
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource CECECE_Color}"/>
+        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="InputMethod.PreferredImeState" Value="On" />
+        <Setter Property="InputMethod.PreferredImeConversionMode" Value="Native" />
+
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="DataGrid_Rectangle_Height" TargetType="Rectangle">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Stretch"  />
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Stroke" Value="{StaticResource CECECE_Color}"/>
+    </Style>
+
+    <Style x:Key="BoldRectangle" TargetType="Rectangle">
+        <Setter Property="StrokeThickness" Value="2"/>
+        <Setter Property="Stroke" Value="{StaticResource 4B4B4B_Color}"/>
+    </Style>
+
+    <Style x:Key="DottedRectangle" TargetType="Rectangle">
+        <Setter Property="StrokeThickness" Value="2"/>
+        <Setter Property="Stroke" Value="{StaticResource B7B7B7_Color}"/>
+        <Setter Property="StrokeDashArray" Value="2 2"/>
+        <Setter Property="Margin" Value="0,25,0,0"/>
+    </Style>
+
+    <Style x:Key="LightRectangle" TargetType="Rectangle">
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Stroke" Value="{StaticResource B7B7B7_Color}"/>
+    </Style>
+
+    <Style x:Key="Print_DockPanel" TargetType="DockPanel" >
+        <Setter Property="Height" Value="28"/>
+    </Style>
+
+    <Style x:Key="명세서CellStyle" TargetType="DataGridCell" >
+        <Setter Property="FontFamily" Value="굴림체"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Setter Property="Cursor" Value="{x:Null}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="FontFamily" Value="굴림체"/>
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+                <Setter Property="FontSize" Value="13"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style x:Key="거래명세서_DataGrid2"  TargetType="DataGrid">
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="ColumnHeaderHeight" Value="26" />
+        <Setter Property="RowHeight" Value="26"/>
+        <Setter Property="RowHeaderWidth" Value="0"/>
+        <Setter Property="Margin" Value="-1"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Transparent_Color}"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="SelectionUnit" Value="FullRow"  />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="CanUserSortColumns" Value="True" />
+        <Setter Property="GridLinesVisibility" Value="All" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource 3399FF_Color}"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource 3399FF_Color}"/>
+        <Setter Property="Background" Value="{StaticResource White_Color}" />
+        <Setter Property="Cursor" Value="{x:Null}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="False"/>
+
+        <!-- DataGrid HorizontalGridLine 속성 선처리  -->
+        <!--
+        <Setter Property="HorizontalGridLinesBrush">
+            <Setter.Value >
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,5" MappingMode="Absolute" SpreadMethod="Repeat">
+                    <GradientStop Offset="1" Color="#CECECE"/>
+                    <GradientStop Offset="0.5" Color="#CECECE"/>
+                    <GradientStop Offset="0.5" Color="Transparent"/>
+                    <GradientStop Offset="1" Color="Transparent"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+
+        -->
+        <!-- DataGrid VerticalGridLine 속성 점선처리  -->
+        <!--
+        <Setter Property="VerticalGridLinesBrush">
+            <Setter.Value >
+                <LinearGradientBrush StartPoint="0,0" EndPoint="5,0" MappingMode="Absolute" SpreadMethod="Repeat">
+                    <GradientStop Offset="1" Color="#CECECE"/>
+                    <GradientStop Offset="0.5" Color="#CECECE"/>
+                    <GradientStop Offset="0.5" Color="Transparent"/>
+                    <GradientStop Offset="1" Color="Transparent"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>-->
+
+        <!-- DataGrid Column 스타일 정의  -->
+        <Setter Property="ColumnHeaderStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridColumnHeader" >
+                    <Setter Property="Background" Value="{StaticResource White_Color}" />
+                    <Setter Property="Foreground" Value="{StaticResource 3399FF_Color}" />
+                    <Setter Property="BorderThickness" Value="0,1"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource 3399FF_Color}"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="FontWeight" Value="ExtraLight" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!-- DataGrid Cell 스타일 정의 -->
+        <Setter Property="CellStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridCell" >
+                    <Setter Property="Margin" Value="0,0,-1.5,0"/>
+                    <Setter Property="FontWeight" Value="ExtraLight"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                    <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+                    <Setter Property="Cursor" Value="{x:Null}"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Style.Triggers >
+                        <Trigger Property="IsSelected" Value="True" >
+                            <Setter Property="Template" >
+                                <Setter.Value >
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <DockPanel LastChildFill="True"  >
+                                            <Border DockPanel.Dock="Left" Margin="1.5,0,0,0"  x:Name="CellPanel" >
+                                                <ContentPresenter   />
+                                            </Border>
+                                        </DockPanel>
+
+                                        <ControlTemplate.Triggers >
+                                            <Trigger Property="IsSelected" Value="True" >
+                                                <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                                                <Setter TargetName="CellPanel" Property="Background" Value="{StaticResource EAF5FF_Color}" />
+                                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!--DataGrid Row 스타일 정의-->
+        <Setter Property="RowStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridRow" >
+                    <Setter Property="Focusable" Value="True"  />
+                    <Setter Property="IsHitTestVisible" Value="True"  />
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+    <Style x:Key="거래명세서_DataGrid"  TargetType="DataGrid">
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="ColumnHeaderHeight" Value="26" />
+        <Setter Property="RowHeight" Value="26"/>
+        <Setter Property="RowHeaderWidth" Value="0"/>
+        <Setter Property="Margin" Value="-1"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Transparent_Color}"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="SelectionUnit" Value="FullRow"  />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="CanUserSortColumns" Value="True" />
+        <Setter Property="GridLinesVisibility" Value="All" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource FF57BD7F_Color}"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource FF57BD7F_Color}"/>
+        <Setter Property="Background" Value="{StaticResource White_Color}" />
+        <Setter Property="Cursor" Value="{x:Null}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="False"/>
+
+        <!-- DataGrid HorizontalGridLine 속성 선처리  -->
+        <!--
+        <Setter Property="HorizontalGridLinesBrush">
+            <Setter.Value >
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,5" MappingMode="Absolute" SpreadMethod="Repeat">
+                    <GradientStop Offset="1" Color="#CECECE"/>
+                    <GradientStop Offset="0.5" Color="#CECECE"/>
+                    <GradientStop Offset="0.5" Color="Transparent"/>
+                    <GradientStop Offset="1" Color="Transparent"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+
+        -->
+        <!-- DataGrid VerticalGridLine 속성 점선처리  -->
+        <!--
+        <Setter Property="VerticalGridLinesBrush">
+            <Setter.Value >
+                <LinearGradientBrush StartPoint="0,0" EndPoint="5,0" MappingMode="Absolute" SpreadMethod="Repeat">
+                    <GradientStop Offset="1" Color="#CECECE"/>
+                    <GradientStop Offset="0.5" Color="#CECECE"/>
+                    <GradientStop Offset="0.5" Color="Transparent"/>
+                    <GradientStop Offset="1" Color="Transparent"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>-->
+
+        <!-- DataGrid Column 스타일 정의  -->
+        <Setter Property="ColumnHeaderStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridColumnHeader" >
+                    <Setter Property="Background" Value="{StaticResource White_Color}" />
+                    <Setter Property="Foreground" Value="{StaticResource FF57BD7F_Color}" />
+                    <Setter Property="BorderThickness" Value="0,1"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource FF57BD7F_Color}"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="FontWeight" Value="ExtraLight" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!-- DataGrid Cell 스타일 정의 -->
+        <Setter Property="CellStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridCell" >
+                    <Setter Property="Margin" Value="0,0,-1.5,0"/>
+                    <Setter Property="FontWeight" Value="ExtraLight"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                    <Setter Property="Cursor" Value="{x:Null}"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+                    <Style.Triggers >
+                        <Trigger Property="IsSelected" Value="True" >
+                            <Setter Property="Template" >
+                                <Setter.Value >
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <DockPanel LastChildFill="True"  >
+                                            <Border DockPanel.Dock="Left" Margin="1.5,0,0,0"  x:Name="CellPanel" >
+                                                <ContentPresenter   />
+                                            </Border>
+                                        </DockPanel>
+
+                                        <ControlTemplate.Triggers >
+                                            <Trigger Property="IsSelected" Value="True" >
+                                                <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                                                <Setter TargetName="CellPanel" Property="Background" Value="{StaticResource EAF5FF_Color}" />
+                                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!--DataGrid Row 스타일 정의-->
+        <Setter Property="RowStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridRow" >
+                    <Setter Property="Focusable" Value="True"  />
+                    <Setter Property="IsHitTestVisible" Value="True"  />
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+    <Style x:Key="거래명세서_DataGridBlack"  TargetType="DataGrid">
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="ColumnHeaderHeight" Value="26" />
+        <Setter Property="RowHeight" Value="26"/>
+        <Setter Property="RowHeaderWidth" Value="0"/>
+        <Setter Property="Margin" Value="-1"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Transparent_Color}"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="SelectionUnit" Value="FullRow"  />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="CanUserSortColumns" Value="True" />
+        <Setter Property="GridLinesVisibility" Value="All" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource Black_Color}"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource Black_Color}"/>
+        <Setter Property="Background" Value="{StaticResource White_Color}" />
+        <Setter Property="Cursor" Value="{x:Null}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="False"/>
+        <!-- DataGrid HorizontalGridLine 속성 선처리  -->
+        <!--
+        <Setter Property="HorizontalGridLinesBrush">
+            <Setter.Value >
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,5" MappingMode="Absolute" SpreadMethod="Repeat">
+                    <GradientStop Offset="1" Color="#CECECE"/>
+                    <GradientStop Offset="0.5" Color="#CECECE"/>
+                    <GradientStop Offset="0.5" Color="Transparent"/>
+                    <GradientStop Offset="1" Color="Transparent"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+
+        -->
+        <!-- DataGrid VerticalGridLine 속성 점선처리  -->
+        <!--
+        <Setter Property="VerticalGridLinesBrush">
+            <Setter.Value >
+                <LinearGradientBrush StartPoint="0,0" EndPoint="5,0" MappingMode="Absolute" SpreadMethod="Repeat">
+                    <GradientStop Offset="1" Color="#CECECE"/>
+                    <GradientStop Offset="0.5" Color="#CECECE"/>
+                    <GradientStop Offset="0.5" Color="Transparent"/>
+                    <GradientStop Offset="1" Color="Transparent"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>-->
+
+        <!-- DataGrid Column 스타일 정의  -->
+        <Setter Property="ColumnHeaderStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridColumnHeader" >
+                    <Setter Property="Background" Value="{StaticResource White_Color}" />
+                    <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+                    <Setter Property="BorderThickness" Value="0,1"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource Black_Color}"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="FontWeight" Value="ExtraLight" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!-- DataGrid Cell 스타일 정의 -->
+        <Setter Property="CellStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridCell" >
+                    <Setter Property="Margin" Value="0,0,-1.5,0"/>
+                    <Setter Property="FontWeight" Value="ExtraLight"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                    <Setter Property="Cursor" Value="{x:Null}"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+                    <Style.Triggers >
+                        <Trigger Property="IsSelected" Value="True" >
+                            <Setter Property="Template" >
+                                <Setter.Value >
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <DockPanel LastChildFill="True"  >
+                                            <Border DockPanel.Dock="Left" Margin="1.5,0,0,0"  x:Name="CellPanel" >
+                                                <ContentPresenter   />
+                                            </Border>
+                                        </DockPanel>
+
+                                        <ControlTemplate.Triggers >
+                                            <Trigger Property="IsSelected" Value="True" >
+                                                <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                                                <Setter TargetName="CellPanel" Property="Background" Value="{StaticResource Black_Color}" />
+                                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!--DataGrid Row 스타일 정의-->
+        <Setter Property="RowStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridRow" >
+                    <Setter Property="Focusable" Value="True"  />
+                    <Setter Property="IsHitTestVisible" Value="True"  />
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers >
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+    <Style x:Key="NewStyle_DataGrid"  TargetType="DataGrid">
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="ColumnHeaderHeight" Value="35"/>
+        <Setter Property="RowHeight" Value="35"/>
+        <Setter Property="RowHeaderWidth" Value="0"/>
+        <Setter Property="Margin" Value="-1"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="IsEnabled" Value="False"       />
+        <Setter Property="SelectionUnit" Value="FullRow"  />
+        <Setter Property="SelectionMode" Value="Extended"   />
+        <Setter Property="CanUserSortColumns" Value="False"/>
+        <Setter Property="GridLinesVisibility" Value="All"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource B7B7B7_Color}"/>
+        <Setter Property="HorizontalGridLinesBrush"  Value="{StaticResource B7B7B7_Color}"/>
+        <Setter Property="Cursor" Value="{x:Null}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="Background" Value="{StaticResource White_Color}" />
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="False"/>
+
+        <!-- DataGrid Column 스타일 정의  -->
+        <Setter Property="ColumnHeaderStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridColumnHeader" >
+                    <Setter Property="Background" Value="{StaticResource F1F1F1_Color}"/>
+                    <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+                    <Setter Property="FontSize" Value="13"/>
+                    <Setter Property="Margin" Value="-1,0,0,0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="BorderThickness" Value="0,2,0,2"/>
+                    <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource B7B7B7_Color}"/>
+                    <Setter Property="Cursor" Value="{x:Null}"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!--DataGrid Cell 스타일 정의-->
+        <Setter Property="CellStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridCell" >
+                    <Setter Property="FontFamily"  Value="{StaticResource FontName}"/>
+                    <Setter Property="FontWeight" Value="Light"/>
+                    <Setter Property="FontSize" Value="15"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                    <Setter Property="Cursor" Value="{x:Null}"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+
+                    <Style.Triggers >
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True" >
+                            <Setter Property="Template" >
+                                <Setter.Value >
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <DockPanel LastChildFill="True"  >
+                                            <Border DockPanel.Dock="Left" Margin="1.5,0,0,0"  x:Name="CellPanel" >
+                                                <ContentPresenter   />
+                                            </Border>
+                                        </DockPanel>
+
+                                        <ControlTemplate.Triggers >
+                                            <Trigger Property="IsSelected" Value="True" >
+                                                <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                                                <Setter TargetName="CellPanel" Property="Background" Value="{StaticResource EAF5FF_Color}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!--DataGrid Row 스타일 정의-->
+        <Setter Property="RowStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridRow" >
+                    <Setter Property="Focusable" Value="True"  />
+                    <Setter Property="IsHitTestVisible" Value="True"  />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="Black" />
+            </Trigger>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip"
+        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+        Path=(Validation.Errors)[0].ErrorContent}"/>
+            </Trigger>
+
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="OJNewStyle_DataGrid"  TargetType="DataGrid">
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="ColumnHeaderHeight" Value="35"/>
+        <Setter Property="RowHeight" Value="35"/>
+        <Setter Property="RowHeaderWidth" Value="0"/>
+        <Setter Property="Margin" Value="-1"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="IsEnabled" Value="False"       />
+        <Setter Property="SelectionUnit" Value="FullRow"  />
+        <Setter Property="SelectionMode" Value="Extended"   />
+        <Setter Property="CanUserSortColumns" Value="False"/>
+        <Setter Property="GridLinesVisibility" Value="All"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource Black_Color}"/>
+        <Setter Property="HorizontalGridLinesBrush"  Value="{StaticResource Black_Color}"/>
+        <Setter Property="Cursor" Value="{x:Null}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="Background" Value="{StaticResource White_Color}" />
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="False"/>
+
+        <!-- DataGrid Column 스타일 정의  -->
+        <Setter Property="ColumnHeaderStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridColumnHeader" >
+                    <Setter Property="Background" Value="{StaticResource F1F1F1_Color}"/>
+                    <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+                    <Setter Property="FontWeight" Value="Medium"/>
+                    <Setter Property="FontSize" Value="13"/>
+                    <Setter Property="Margin" Value="-1,0,0,0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="BorderThickness" Value="0,2,0,2"/>
+                    <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource B7B7B7_Color}"/>
+                    <Setter Property="Cursor" Value="{x:Null}"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!--DataGrid Cell 스타일 정의-->
+        <Setter Property="CellStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridCell" >
+                    <Setter Property="FontFamily"  Value="{StaticResource FontName}"/>
+                    <Setter Property="FontWeight" Value="Medium"/>
+                    <Setter Property="FontSize" Value="13"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                    <Setter Property="Cursor" Value="{x:Null}"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+
+                    <Style.Triggers >
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True" >
+                            <Setter Property="Template" >
+                                <Setter.Value >
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <DockPanel LastChildFill="True"  >
+                                            <Border DockPanel.Dock="Left" Margin="1.5,0,0,0"  x:Name="CellPanel" >
+                                                <ContentPresenter   />
+                                            </Border>
+                                        </DockPanel>
+
+                                        <ControlTemplate.Triggers >
+                                            <Trigger Property="IsSelected" Value="True" >
+                                                <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                                                <Setter TargetName="CellPanel" Property="Background" Value="{StaticResource EAF5FF_Color}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!--DataGrid Row 스타일 정의-->
+        <Setter Property="RowStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridRow" >
+                    <Setter Property="Focusable" Value="True"  />
+                    <Setter Property="IsHitTestVisible" Value="True"  />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="Black" />
+            </Trigger>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip"
+        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+        Path=(Validation.Errors)[0].ErrorContent}"/>
+            </Trigger>
+
+        </Style.Triggers>
+    </Style>
+
+
+
+    <Style x:Key="매입매출장부_DataGrid"  TargetType="DataGrid">
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="ColumnHeaderHeight" Value="41" />
+        <Setter Property="RowHeight" Value="40"/>
+        <Setter Property="RowHeaderWidth" Value="0"/>
+        <Setter Property="Margin" Value="-1"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Transparent_Color}"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="SelectionUnit" Value="FullRow"  />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="CanUserSortColumns" Value="True" />
+        <Setter Property="GridLinesVisibility" Value="All" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource CECECE_Color}"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource CECECE_Color}"/>
+        <Setter Property="Background" Value="{StaticResource White_Color}" />
+        <Setter Property="Cursor" Value="{x:Null}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="IsEnabled" Value="False" />
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="False"/>
+
+        <!-- DataGrid Column 스타일 정의  -->
+        <Setter Property="ColumnHeaderStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridColumnHeader" >
+                    <Setter Property="Background" Value="{StaticResource FF385DAB_Color}" />
+                    <Setter Property="Foreground" Value="{StaticResource White_Color}" />
+                    <Setter Property="BorderThickness" Value="0,1,1,1"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource CECECE_Color}"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!-- DataGrid Cell 스타일 정의 -->
+        <Setter Property="CellStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridCell" >
+                    <Setter Property="Margin" Value="0,0,-1.5,0"/>
+                    <Setter Property="FontWeight" Value="ExtraLight"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                    <Setter Property="Cursor" Value="{x:Null}"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+                    <Style.Triggers >
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True" >
+                            <Setter Property="Template" >
+                                <Setter.Value >
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <DockPanel LastChildFill="True"  >
+                                            <Border DockPanel.Dock="Left" Margin="0"  x:Name="CellPanel" >
+                                                <ContentPresenter   />
+                                            </Border>
+                                        </DockPanel>
+                                        <ControlTemplate.Triggers >
+                                            <Trigger Property="IsSelected" Value="True" >
+                                                <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                                                <Setter TargetName="CellPanel" Property="Background" Value="{StaticResource EAF5FF_Color}" />
+                                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!--DataGrid Row 스타일 정의-->
+        <Setter Property="RowStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridRow" >
+                    <Setter Property="Focusable" Value="True"  />
+                    <Setter Property="IsHitTestVisible" Value="True"  />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="Black" />
+            </Trigger>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip"
+        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+        Path=(Validation.Errors)[0].ErrorContent}"/>
+            </Trigger>
+
+        </Style.Triggers>
+    </Style>
+
+
+    <Style x:Key="ColorCellStyle" TargetType="DataGridCell" >
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="FontWeight" Value="Light"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Setter Property="Cursor" Value="{x:Null}"/>
+        <Style.Triggers >
+            <DataTrigger Binding="{Binding Type}" Value="1">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                <Setter Property="Background" Value="{StaticResource F1F1F1_Color}"/>
+            </DataTrigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True" >
+                <Setter Property="Template" >
+                    <Setter.Value >
+                        <ControlTemplate TargetType="DataGridCell">
+                            <DockPanel LastChildFill="True"  >
+                                <Border DockPanel.Dock="Left" Margin="0" x:Name="CellPanel" >
+                                    <ContentPresenter   />
+                                </Border>
+                            </DockPanel>
+                            <ControlTemplate.Triggers >
+                                <Trigger Property="IsSelected" Value="True" >
+                                    <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                                    <Setter TargetName="CellPanel" Property="Background" Value="{StaticResource EAF5FF_Color}" />
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+
+                </Setter>
+            </Trigger>
+
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ColumnMerge_DataGrid"  TargetType="DataGrid">
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="ColumnHeaderHeight" Value="80"/>
+        <Setter Property="RowHeaderWidth" Value="0"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Transparent_Color}"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="SelectionUnit" Value="FullRow"  />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="IsEnabled" Value="False"/>
+        <Setter Property="CanUserSortColumns" Value="False"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource CECECE_Color}"/>
+        <Setter Property="HorizontalGridLinesBrush"  Value="{StaticResource CECECE_Color}"/>
+        <Setter Property="GridLinesVisibility" Value="All"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Setter Property="Background" Value="{StaticResource White_Color}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="False"/>
+
+        <!-- DataGrid Column 스타일 정의  -->
+        <Setter Property="ColumnHeaderStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridColumnHeader" >
+                    <Setter Property="BorderBrush" Value="{StaticResource CECECE_Color}"/>
+                    <Setter Property="BorderThickness" Value="0,1,0,1"/>
+                    <Setter Property="Background" Value="{StaticResource F1F1F1_Color}"/>
+                    <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                    <Setter Property="FontSize" Value="13"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!-- DataGrid Cell 스타일 정의 -->
+        <Setter Property="CellStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridCell" >
+                    <Setter Property="Margin" Value="0,0,-1.5,0"/>
+                    <Setter Property="FontWeight" Value="Light"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                    <Setter Property="Cursor" Value="{x:Null}"/>
+                    <Style.Triggers >
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True" >
+                            <Setter Property="Template" >
+                                <Setter.Value >
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <DockPanel LastChildFill="True"  >
+                                            <Border DockPanel.Dock="Left" Margin="0,0,0,0"   x:Name="CellPanel" >
+                                                <ContentPresenter   />
+                                            </Border>
+                                        </DockPanel>
+                                        <ControlTemplate.Triggers >
+                                            <Trigger Property="IsSelected" Value="True" >
+                                                <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                                                <Setter TargetName="CellPanel" Property="Background" Value="{StaticResource EAF5FF_Color}" />
+                                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!--DataGrid Row 스타일 정의-->
+        <Setter Property="RowStyle" >
+            <Setter.Value >
+                <Style TargetType="DataGridRow" >
+                    <Setter Property="Focusable" Value="True"  />
+                    <Setter Property="IsHitTestVisible" Value="True"  />
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="Black" />
+            </Trigger>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip"
+        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+        Path=(Validation.Errors)[0].ErrorContent}"/>
+            </Trigger>
+
+        </Style.Triggers>
+
+    </Style>
+
+    <Style x:Key="ListViewStyle" TargetType="ListView" >
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource CECECE_Color}"/>        
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility"  Value="Disabled" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="IsEnabled" Value="False" />
+        <Setter Property="FontFamily" Value="굴림체"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                <Setter Property="Background" Value="White" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>    
+
+    <Style x:Key="ListViewItemStyle" TargetType="ListViewItem" >
+        <Setter Property="Margin" Value="1,0,0,0"/>
+        <Setter Property="BorderThickness" Value="0,1,0,0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource CECECE_Color}"/>
+        <!--<Setter Property="HorizontalContentAlignment" Value="Stretch"/>-->
+        <Setter Property="VerticalContentAlignment"  Value="Stretch"/>        
+        <Setter Property="IsEnabled" Value="False" />
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="FontFamily" Value="굴림체"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
+                        <GridViewRowPresenter />
+                    </Border>                   
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                <Setter Property="Background" Value="White"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="GridViewColumnStyle" TargetType="GridViewColumnHeader">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Margin" Value="-2,0,0,0"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource B7B7B7_Color}"/>
+        <Setter Property="Background" Value="{StaticResource F1F1F1_Color}"/>
+        <Setter Property="IsEnabled" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridViewColumnHeader" >
+                    <Border BorderBrush="{TemplateBinding BorderBrush }" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                <Setter Property="Background" Value="{StaticResource F1F1F1_Color}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style x:Key="GridViewColumnStyle2" TargetType="GridViewColumnHeader">
+        <Setter Property="Background" Value="{StaticResource FF385DAB_Color}" />
+        <Setter Property="Foreground" Value="{StaticResource White_Color}" />
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource CECECE_Color}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Margin" Value="-2,0,-2,0"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="IsEnabled" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridViewColumnHeader" >
+                    <Border BorderBrush="{TemplateBinding BorderBrush }" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource White_Color}"/>
+                <Setter Property="Background" Value="{StaticResource FF385DAB_Color}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style x:Key="DayViewColumnStyle" TargetType="GridViewColumnHeader">
+        <Setter Property="Height" Value="25"/>
+        <Setter Property="Margin" Value="-2,0,0,0"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource B7B7B7_Color}"/>
+        <Setter Property="Background" Value="{StaticResource F1F1F1_Color}"/>
+        <Setter Property="IsEnabled" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridViewColumnHeader" >
+                    <Border BorderBrush="{TemplateBinding BorderBrush }" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                <Setter Property="Background" Value="{StaticResource F1F1F1_Color}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="병합ListView" TargetType="ListView" >
+        <Setter Property="BorderThickness" Value="1,0,0,0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource CECECE_Color}"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility"  Value="Disabled" />
+        <Setter Property="SelectionMode" Value="Single" />
+    </Style>
+
+    <Style x:Key="DayListViewItem" TargetType="ListViewItem" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <!-- BorderBrush="{StaticResource CECECE_Color}" BorderThickness="1"-->
+                    <Border x:Name="ViewPanel" BorderThickness="0,1,0,0" Margin="0,-1,0,0" BorderBrush="{StaticResource CECECE_Color}" >
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers >
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="병합ListViewItem" TargetType="ListViewItem" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <!-- BorderBrush="{StaticResource CECECE_Color}" BorderThickness="1"-->
+                    <Border x:Name="ViewPanel" BorderThickness="0,1,0,0" Margin="0,-1,0,0" BorderBrush="{StaticResource CECECE_Color}" >
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers >
+                        <DataTrigger Binding="{Binding Type}" Value="1">
+                            <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                            <Setter TargetName="ViewPanel"  Property="Background" Value="{StaticResource F1F1F1_Color}"/>
+                        </DataTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True" >
+                            <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>
+                            <Setter TargetName="ViewPanel"  Property="Background" Value="{StaticResource EAF5FF_Color}"/>
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ReportListBox" TargetType="ListBox">
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="Local" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+    </Style>
+
+    <Style x:Key="ReportListBoxItem" TargetType="ListBoxItem">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <ContentPresenter/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--종료/전체화면/축소화면 TextBlock 스타일 정의 -->
+    <Style x:Key="TitleTextBlock" TargetType="TextBlock" >
+        <Setter Property="Margin" Value="15,0,15,5"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="Foreground" Value="#ffffffff"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+    </Style>
+
+    <!-- 메인 출력화면 타이틀 스타일 정의 -->
+    <Style x:Key="TitleValueTextBlock" TargetType="TextBlock" >
+        <Setter Property="Margin" Value="10,0,0,0"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Foreground" Value="#ffffffff"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+    </Style>
+
+    <!-- 페이지 표현 TextBlock 스타일 정의 -->
+    <Style x:Key="PageTextBlock" TargetType="TextBlock"  >
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Foreground" Value="#aaaeaf"/>
+        <Setter Property="Margin" Value="0,0,200,0"/>
+    </Style>
+
+    <!-- 확대/축소 현재 포커스 TextBlock 스타일 정의 -->
+    <Style x:Key="ToolTipTextBlock" TargetType="TextBlock"  >
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="#aaaeaf"/>
+
+    </Style>
+
+    <!-- 문서형태 TextBlock 스타일 정의 -->
+    <Style x:Key="TypeTextBlock" TargetType="TextBlock"  >
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="40,0,10,0"/>
+    </Style>
+
+    <Style x:Key="RptTextBoxStyle" TargetType="TextBox" >
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+        <Setter Property="FontWeight" Value="Light"/>
+        <Setter Property="Foreground" Value="{StaticResource Black_Color}"/>               
+        <Setter Property="InputMethod.PreferredImeState" Value="On" />
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="InputMethod.PreferredImeConversionMode" Value="Native" />
+        <Setter Property="ClipToBounds" Value="False"/>        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border Name="Border" Padding="0" Background="White" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness }" >
+                        <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+    <!--콤보 박스 왼쪽 버튼 스타일 정의 -->
+    <Style x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
+                        <Border
+                          x:Name="Border"
+                          Grid.ColumnSpan="2"
+                          CornerRadius="0"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="1" />
+                        <Border
+                          Grid.Column="0"
+                          CornerRadius="0"
+                          Background="Transparent"
+                          BorderBrush="Transparent"
+                          BorderThickness="1" />
+                        <Path
+                          x:Name="Arrow"
+                          Grid.Column="1"    
+                          Fill="{TemplateBinding Foreground}"
+                          Stroke="{TemplateBinding Foreground}"
+                          HorizontalAlignment="Left" 
+                          VerticalAlignment="Center"
+                          Data="M 0 0 L 6 6 L 12 0 Z"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="LightGray" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Gray" />
+                            <Setter Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Arrow" Property="Fill" Value="Gray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 콤보박스 스타일 정의  -->
+    <Style x:Key="StyleCombo" TargetType="ComboBox" >
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Foreground" Value="#aaaeaf"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility"  Value="Auto" />
+        <Setter Property="Width" Value="80" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="Margin" Value="10,0,60,0"/>
+        <Setter Property="Background" Value="#ffffff"/>
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <ToggleButton
+                                Name="ToggleButton"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Background="{TemplateBinding Background}"
+                                Foreground="{TemplateBinding Foreground}"
+                                Style="{StaticResource ComboBoxToggleButton}"
+                                Grid.Column="2"
+                                Focusable="false"
+                                IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                                ClickMode="Press">
+                        </ToggleButton>
+
+                        <ContentPresenter
+                                Name="ContentSite"
+                                IsHitTestVisible="False"
+                                Content="{TemplateBinding SelectionBoxItem}"
+                                ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                Margin="10,3,25,3"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center" />
+
+                        <Popup
+                                Name="Popup"
+                                Placement="Bottom"
+                                IsOpen="{TemplateBinding IsDropDownOpen}"
+                                AllowsTransparency="True"
+                                Focusable="False"
+                                PopupAnimation="Slide">
+                            <Grid
+                                  Name="DropDown"
+                                  SnapsToDevicePixels="True"               
+                                  MinWidth="{TemplateBinding ActualWidth}"
+                                  MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <Border
+                                        x:Name="DropDownBorder"
+                                        Background="#ffffff"
+                                        BorderThickness="1"
+                                        BorderBrush="#cccccc"/>
+                                <ScrollViewer  Margin="4,6,4,6" SnapsToDevicePixels="True"  >
+                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                </ScrollViewer>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasItems" Value="false">
+                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                        </Trigger>
+                        <Trigger Property="IsGrouping" Value="true">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                        </Trigger>
+                        <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true">
+                            <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="0"/>
+                            <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0"/>
+                        </Trigger>
+                        <Trigger Property="IsEditable" Value="true">
+                            <Setter Property="IsTabStop" Value="false"/>
+                            <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+    <!-- 체크박스 스타일 정의 -->
+    <Style x:Key="StyleCheckBox" TargetType="CheckBox" >
+        <Setter Property="FontFamily" Value="{StaticResource FontName}"/>
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Margin" Value="20,0,20,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <BulletDecorator>
+                        <BulletDecorator.Bullet>
+                            <Grid Height= "50" Width ="50" ShowGridLines="False">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="4*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="3*" />
+                                    <RowDefinition Height="1*" />
+                                    <RowDefinition Height="1*" />
+                                    <RowDefinition Height="1*" />
+                                    <RowDefinition Height="4*" />
+                                    <RowDefinition Height="1*" />
+                                    <RowDefinition Height="1*" />
+                                    <RowDefinition Height="4*" />
+                                </Grid.RowDefinitions>
+
+                                <Border Name="MainBorder"
+                                    Grid.ColumnSpan="9" Grid.RowSpan="9"
+                                    CornerRadius="4"
+                                    BorderThickness="1"
+                                    Background="Transparent" />
+
+                                <Border Name="InnerBorder"
+                                    Grid.Column="1" Grid.ColumnSpan="5"
+                                    Grid.Row="2" Grid.RowSpan="5"
+                                    BorderThickness="1"
+                                    BorderBrush="#cccccc" />
+
+                                <Path Name="InnerPath"
+                                  Grid.Column="1" Grid.ColumnSpan="5"
+                                  Grid.Row="2" Grid.RowSpan="5"
+                                  Data="M31,5 L19.5,5 19.5,19.5 34.5,19.5 34.5,11.75"
+                                  Stretch="Fill" Stroke="#cccccc"/>
+
+                                <Path Name="CheckMark"
+                                  Grid.Column="2" Grid.ColumnSpan="5"
+                                  Grid.Row="1" Grid.RowSpan="5"
+                                  Opacity="0"
+                                  Data="M9.07743946676476E-09,4.31805768640244L4.68740335877841,8.86361158398516C4.68740335877841,8.86361158398516,16.3281249985376,-2.42451336648723,16.3281249985376,-2.42451336648723L14.0622100581796,-4.77304938341948 4.68740335877846,4.31805791992662 2.22656251699567,1.93164208562579z"
+                                  Fill="#3babe3"
+                                  Stretch="Fill"
+                                  Stroke="#3babe3" />
+
+                            </Grid>
+                        </BulletDecorator.Bullet>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                             Storyboard.TargetName="CheckMark" Duration="0:0:0.2" To="1" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked" >
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                             Storyboard.TargetName="CheckMark" Duration="0:0:0.2" To="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ContentPresenter VerticalAlignment="Center"  />
+                    </BulletDecorator>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="InnerBorder" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="MainBorder" Property="Background" Value="#81d2eb" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="CheckMark" Property="Fill" Value="#cccccc" />
+                            <Setter TargetName="CheckMark" Property="Stroke" Value="#cccccc" />
+                            <Setter TargetName="InnerPath" Property="Stroke" Value="#cccccc" />
+                            <Setter TargetName="InnerBorder" Property="BorderBrush" Value="#cccccc" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 빈 슬라이더  스타일 정의 -->
+    <Style x:Key="SliderRepeatButton" TargetType="RepeatButton">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border  BorderThickness="2" BorderBrush="#cccccc" Background="#cccccc" Height="5"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 채워짐 슬라이더 스타일 정의 -->
+    <Style x:Key="SliderRepeatButton1" TargetType="RepeatButton">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border SnapsToDevicePixels="True" Background="#3399ff"  BorderThickness="2" BorderBrush="#3399ff" Height="5"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 슬라이더 버튼 이미지 정의 -->
+    <Style x:Key="SliderThumb" TargetType="Thumb">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Ellipse Height="13" Width="13" Fill="#3399ff"></Ellipse>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 슬라이더 스타일 정의 -->
+    <ControlTemplate x:Key="Slider"  TargetType="Slider">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Track Grid.Row="1" x:Name="PART_Track"   >
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource SliderRepeatButton1}"  Command="Slider.DecreaseLarge" />
+                </Track.DecreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource SliderThumb}"  />
+                </Track.Thumb>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource SliderRepeatButton}" Command="Slider.IncreaseLarge" />
+                </Track.IncreaseRepeatButton>
+            </Track>
+        </Grid>
+    </ControlTemplate>
+
+    <!-- 수직 슬라이더 스타일 적용 -->
+    <Style x:Key="Horizontal_Slider" TargetType="Slider">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Minimum" Value="1"/>
+        <Setter Property="Maximum" Value="200"/>
+        <Setter Property="Width" Value="200"/>
+        <Setter Property="Margin" Value="0,0,0,30"/>
+
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="MinHeight" Value="21" />
+                <Setter Property="MinWidth" Value="104" />
+                <Setter Property="Template" Value="{StaticResource Slider}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <CollectionViewSource x:Key="일보_MergeDataGrid" Source="{Binding 일보ItemList}" >
+
+        <CollectionViewSource.GroupDescriptions>
+            <PropertyGroupDescription PropertyName="customSName"/>
+        </CollectionViewSource.GroupDescriptions>
+
+    </CollectionViewSource>
+
+
+    <CollectionViewSource x:Key="보고서_MergeDataGrid" Source="{Binding 보고서_ItemList}" >
+
+        <CollectionViewSource.GroupDescriptions>
+            <PropertyGroupDescription PropertyName="customSName"/>
+        </CollectionViewSource.GroupDescriptions>
+
+    </CollectionViewSource>
+
+    <CollectionViewSource x:Key="경영일보_MergeDataGrid" Source="{Binding 경영일보_ListItem}" >
+
+        <CollectionViewSource.GroupDescriptions>
+            <PropertyGroupDescription PropertyName="ICLASS"/>
+        </CollectionViewSource.GroupDescriptions>
+
+    </CollectionViewSource>
+
+    <CollectionViewSource x:Key="경영월보_MergeDataGrid" Source="{Binding 경영월보_ListItem}" >
+
+        <CollectionViewSource.GroupDescriptions>
+            <PropertyGroupDescription PropertyName="CLASSNAME"/>
+        </CollectionViewSource.GroupDescriptions>
+
+    </CollectionViewSource>
+
+</ResourceDictionary>

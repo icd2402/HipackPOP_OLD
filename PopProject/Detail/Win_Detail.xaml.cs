@@ -2544,7 +2544,8 @@ namespace PopProject.Detail
         {
             LogManager.Info("제품명세서 발행 클릭", MethodBase.GetCurrentMethod().DeclaringType);
 
-            if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("지온"))
+            if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") 
+                || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("지온"))
             {
                 SwPrintMessage swPrintMessage = new SwPrintMessage(mainModel, Detailitem);
                 swPrintMessage.ShowDialog();

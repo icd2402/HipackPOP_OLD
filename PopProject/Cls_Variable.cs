@@ -16,5 +16,14 @@ namespace PopProject
             get { return _sharedValue; }
             set { _sharedValue = value; }
         }
+
+        private static double _Dbl_ReportPageTop;
+        public static double Dbl_ReportPageTop
+        {
+            get { return _Dbl_ReportPageTop; }
+            set { _Dbl_ReportPageTop = value; }
+        }
+
+
     }
 }

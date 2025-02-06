@@ -313,7 +313,22 @@ namespace PopProject.UserControl_
                 //관리자 계정이 아닐때만 켜짐 신호 전송
                 if (!SettingJsonManager.manager.Equals("1"))
                 {
-                    CountManager.SendMsg(SettingJsonManager.mercName, "A"); // A - 켜짐
+                    if (production != null)
+                    {
+                        if (production.presultCount == 0)
+                        {
+                            CountManager.SendMsg(SettingJsonManager.mercName, "A"); // A - 켜짐
+                        }
+                        else
+                        {
+                            CountManager.SendMsg(SettingJsonManager.mercName, "A"); // A - 켜짐
+                            CountManager.SendMsg(SettingJsonManager.mercName, production.presultCount.ToString());
+                        }
+                    }
+                    else
+                    {
+                        CountManager.SendMsg(SettingJsonManager.mercName, "A"); // A - 켜짐
+                    }
                 }
             }
         }
@@ -1019,7 +1034,7 @@ namespace PopProject.UserControl_
                                 listitem.Canvas = "43"; //높이 조절
                                 listitem.prodName = result["prodName"].ToString(); //품명
                             }
-
+                            
                             listitem.pplanKey = int.Parse(result["pplanKey"].ToString()); //계획키
                             listitem.orderKey = result["orderKey"].ToString(); //수주키
                             listitem.ProcessType = int.Parse(result["ProcessType"].ToString()); //공정IC
@@ -2157,89 +2172,127 @@ namespace PopProject.UserControl_
         //신우,우리,누리 사용중
         private void 실적현황조회()
         {
-            ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
-            ReturnModel 실적returnData = ServiceModel.GetData(
-               SettingJsonManager.serverIndex,
-               "[spSel425processinfo_workProcess]",
-               new string[] { "@출력일", "@출력일2", "@설비명" },
-               new string[] { DateTimeManager.GetSelectedDateStr(), DateTimeManager.GetSelectedDateStr(), SettingJsonManager.mercName },
-               0
-               );
-            if (실적returnData.결과 == 1)
+            // 서버 인덱스와 DBName을 저장할 Dictionary 생성
+            Dictionary<string, string> serverIndices = new Dictionary<string, string>();
+
+
+            // 하나포장,원팩 생산계획 리스트 합하여 보여주기위해 만들었으며, 테스트까지 완료함
+            if (SettingJsonManager.companyIntegration
+                && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
             {
-                JArray Data_Jarry = JArray.Parse(실적returnData.리턴값);
-                if (Data_Jarry != null)
+                if (SettingJsonManager.corp_name.Equals("하나포장테스트"))
                 {
-                    List<실적Model> 실적List = new List<실적Model>();
-
-                    foreach (JObject result in Data_Jarry)
-                    {
-                        실적Model 실적Item = new 실적Model();
-
-                        실적Item.pworkKey = Convert.ToInt32(result["pworkKey"].ToString());
-                        실적Item.ProcessSeq = Convert.ToInt32(result["ProcessSeq"].ToString());
-                        실적Item.ProcessType = Convert.ToInt32(result["ProcessType"].ToString());
-                        실적Item.ProcessName = result["ProcessName"].ToString();
-                        실적Item.customID = Convert.ToInt32(result["customID"].ToString());
-                        실적Item.customSName = result["customSName"].ToString();
-                        실적Item.prodID = Convert.ToInt32(result["prodID"].ToString());
-                        실적Item.prodName = result["prodName"].ToString();
-                        실적Item.pplanCount = Convert.ToInt32(result["pplanCount"].ToString());
-                        실적Item.pworkCount = Convert.ToInt32(result["pworkCount"].ToString());
-                        실적Item.perrCount = Convert.ToInt32(result["perrCount"].ToString());
-                        실적Item.sDatetime = result["sDatetime"].ToString();
-                        실적Item.eDatetime = result["eDatetime"].ToString();
-                        실적Item.workingTimeValue = Convert.ToInt32(result["workingTime"].ToString());
-                        실적Item.workingTime = String.Format("{0}분", result["workingTime"].ToString());
-                        실적Item.machineName = result["mercName"].ToString();
-                        실적Item.errMemo = result["workerName"].ToString();
-                        실적Item.pMemo = result["pMemo"].ToString();
-                        Double pCnt = 1.0;
-                        Double.TryParse(result["pCnt"].ToString(), out pCnt);
-                        실적Item.pCnt = pCnt;
-                        실적Item.workM2 = Convert.ToDouble(result["workM2"].ToString());
-
-                        실적List.Add(실적Item);
-                    }
-                    p1.Text = workList.Sum(x => x.pplanCount).ToString("N0"); //계획량 (매수)
-                    p2.Text = workList.Sum(x => x.pplanCount / x.pCnt).ToString("N0"); //계획통 (통수)
-
-                    if (실적List.Count() >= 0)
-                    {
-                        p3.Text = 실적List.Sum((x) => x.pworkCount).ToString("N0"); //생산량 (매수)
-                        p4.Text = 실적List.Sum((x) => x.pworkCount / x.pCnt).ToString("N0"); //생산통 (통수)
-                        p5.Text = 실적List.Sum((x) => x.workM2).ToString("N0"); //생산면적
-                        p6.Text = 실적List.Sum((x) => x.perrCount).ToString("N0"); //불량수 (매수)
-                        p7.Text = 실적List.Sum((x) => x.perrCount / x.pCnt).ToString("N0"); //불량통 (통수)
-                        p8.Text = 실적List.Sum((x) => x.workingTimeValue).ToString("D0") + "분"; //생산시간 
-                        if (SettingJsonManager.sumView) // 집계표기 사용시
-                        {
-                            t8.Text  = "생산시간";
-                            t8.Margin = new Thickness(15, 10, 100, 40);
-                            p8.Margin = new Thickness(0, 40, 15, 5);
-                            p8.Text = convertMinutesToHoursAndMinutes(실적List.Sum((x) => x.workingTimeValue)); //생산 시:분 
-                        }
-                        else
-                        {
-                            t8.Margin = new Thickness(15, 20, 100, 20);
-                            p8.Margin = new Thickness(0, 0, 15, 0);
-                        }
-                        if (실적List.Sum((x) => x.pworkCount) == 0) //진행율
-                        {
-                            p9.Text = "0%";
-                        }
-                        else
-                        {
-                            Double 진척률 = (실적List.Sum((x) => x.pworkCount) / workList.Sum(x => x.pplanCount)) * 100.0;
-                            p9.Text = 진척률.ToString("N2") + "%";
-                        }
-                    }
+                    serverIndices.Add("hnbox", "icdtest3"); serverIndices.Add("opbox", "icdtest23");
+                    corp_name.Text = "하나포장&원팩 테스트";
                 }
-                LogManager.Info("실적현황 조회 완료", MethodBase.GetCurrentMethod().DeclaringType);
+                else
+                {
+                    serverIndices.Add("hnbox", "A07E164641");
+                    serverIndices.Add("opbox", "8E874414");
+                    corp_name.Text = "하나포장&원팩";
+                }
             }
             else
             {
-                LogManager.Error("실적현황 조회 오류", MethodBase.GetCurrentMethod().DeclaringType);
+                serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
+            }
+
+            List<실적Model> 실적List = new List<실적Model>();
+
+            foreach (var server in serverIndices)
+            {
+                string ServerIndex = server.Key;
+                string DBName = server.Value;
+
+                Console.WriteLine("현재 서버 인덱스: " + ServerIndex + ", DBName: " + DBName);
+
+                // 현재 서버에 맞게 서비스 모델 초기화 (DBName 추가)
+                ServiceModel.ServiceModelClean(ServerIndex, DBName);
+
+                // 현재 서버에서 데이터 조회
+                ReturnModel 실적returnData = ServiceModel.GetData(
+                    ServerIndex,
+                   "[spSel425processinfo_workProcess]",
+                   new string[] { "@출력일", "@출력일2", "@설비명" },
+                   new string[] { DateTimeManager.GetSelectedDateStr(), DateTimeManager.GetSelectedDateStr(), SettingJsonManager.mercName },
+                    0
+                );
+
+                if (실적returnData.결과 == 1)
+                {
+                    JArray Data_Jarry = JArray.Parse(실적returnData.리턴값);
+                    if (Data_Jarry != null)
+                    {
+
+                        foreach (JObject result in Data_Jarry)
+                        {
+                            실적Model 실적Item = new 실적Model();
+
+                            실적Item.pworkKey = Convert.ToInt32(result["pworkKey"].ToString());
+                            실적Item.ProcessSeq = Convert.ToInt32(result["ProcessSeq"].ToString());
+                            실적Item.ProcessType = Convert.ToInt32(result["ProcessType"].ToString());
+                            실적Item.ProcessName = result["ProcessName"].ToString();
+                            실적Item.customID = Convert.ToInt32(result["customID"].ToString());
+                            실적Item.customSName = result["customSName"].ToString();
+                            실적Item.prodID = Convert.ToInt32(result["prodID"].ToString());
+                            실적Item.prodName = result["prodName"].ToString();
+                            실적Item.pplanCount = Convert.ToInt32(result["pplanCount"].ToString());
+                            실적Item.pworkCount = Convert.ToInt32(result["pworkCount"].ToString());
+                            실적Item.perrCount = Convert.ToInt32(result["perrCount"].ToString());
+                            실적Item.sDatetime = result["sDatetime"].ToString();
+                            실적Item.eDatetime = result["eDatetime"].ToString();
+                            실적Item.workingTimeValue = Convert.ToInt32(result["workingTime"].ToString());
+                            실적Item.workingTime = String.Format("{0}분", result["workingTime"].ToString());
+                            실적Item.machineName = result["mercName"].ToString();
+                            실적Item.errMemo = result["workerName"].ToString();
+                            실적Item.pMemo = result["pMemo"].ToString();
+                            Double pCnt = 1.0;
+                            Double.TryParse(result["pCnt"].ToString(), out pCnt);
+                            실적Item.pCnt = pCnt;
+                            실적Item.workM2 = Convert.ToDouble(result["workM2"].ToString());
+
+                            실적List.Add(실적Item);
+                        }
+                        p1.Text = workList.Sum(x => x.pplanCount).ToString("N0"); //계획량 (매수)
+                        p2.Text = workList.Sum(x => x.pplanCount / x.pCnt).ToString("N0"); //계획통 (통수)
+
+                        if (실적List.Count() >= 0)
+                        {
+                            p3.Text = 실적List.Sum((x) => x.pworkCount).ToString("N0"); //생산량 (매수)
+                            p4.Text = 실적List.Sum((x) => x.pworkCount / x.pCnt).ToString("N0"); //생산통 (통수)
+                            p5.Text = 실적List.Sum((x) => x.workM2).ToString("N0"); //생산면적
+                            p6.Text = 실적List.Sum((x) => x.perrCount).ToString("N0"); //불량수 (매수)
+                            p7.Text = 실적List.Sum((x) => x.perrCount / x.pCnt).ToString("N0"); //불량통 (통수)
+                            p8.Text = 실적List.Sum((x) => x.workingTimeValue).ToString("D0") + "분"; //생산시간 
+                            if (SettingJsonManager.sumView) // 집계표기 사용시
+                            {
+                                t8.Text = "생산시간";
+                                t8.Margin = new Thickness(15, 10, 100, 40);
+                                p8.Margin = new Thickness(0, 40, 15, 5);
+                                p8.Text = convertMinutesToHoursAndMinutes(실적List.Sum((x) => x.workingTimeValue)); //생산 시:분 
+                            }
+                            else
+                            {
+                                t8.Margin = new Thickness(15, 20, 100, 20);
+                                p8.Margin = new Thickness(0, 0, 15, 0);
+                            }
+                            if (실적List.Sum((x) => x.pworkCount) == 0) //진행율
+                            {
+                                p9.Text = "0%";
+                            }
+                            else
+                            {
+                                Double 진척률 = (실적List.Sum((x) => x.pworkCount) / workList.Sum(x => x.pplanCount)) * 100.0;
+                                p9.Text = 진척률.ToString("N2") + "%";
+                            }
+                        }
+                    }
+                    LogManager.Info("실적현황 조회 완료", MethodBase.GetCurrentMethod().DeclaringType);
+                }
+                else
+                {
+                    LogManager.Error("실적현황 조회 오류", MethodBase.GetCurrentMethod().DeclaringType);
+                }
             }
         }
         // 시간(분)값을 시:분으로 변경하여 표기함
@@ -2303,9 +2356,9 @@ namespace PopProject.UserControl_
                             //결과값이 있는지에 따른 정보 관리.
                                 foreach (JObject result in Data_Jarry)
                                 {
-                                    _ = new InputModel();
-                                    //해당 설비의 계획리스트에서 pplanKey일치
-                                    if (workItem.pplanKey.ToString().Equals(result["pplanKey"].ToString()))
+                                _ = new InputModel();
+                                //해당 설비의 계획리스트에서 pplanKey일치
+                                if (workItem.pplanKey.ToString().Equals(result["pplanKey"].ToString()))
                                     {
                                         //현재POP 설정된 설비명과 일치
                                         if (result["mercName"].ToString().Equals(SettingJsonManager.mercName))
@@ -2630,6 +2683,7 @@ namespace PopProject.UserControl_
                             collectionView.SortDescriptions.Add(sort10);//통합업체명 순
 
                             collectionView.SortDescriptions.Add(sort4); //생산차수
+                            collectionView.SortDescriptions.Add(sort2); //계획키
                         }
                         else
                         {
@@ -2649,8 +2703,11 @@ namespace PopProject.UserControl_
                 {
                     Console.WriteLine("정렬후 "
                         + " 시작" + lists[i].sDatetime 
-                        + " sort3:" + lists[i].urgency + " sort1:" + lists[i].pplanNo + " sort2:" + lists[i].pplanKey
-                        + " sort4:" + lists[i].pAccount + " 상태" + lists[i].pState
+                        + " sort3:" + lists[i].urgency 
+                        + " sort1:" + lists[i].pplanNo 
+                        + " sort9:" + lists[i].orderLast 
+                        + " sort10:" + lists[i].ServerIndex 
+                        + " sort4:" + lists[i].pAccount + " sort8" + lists[i].pState
                         + " 거래처 /품명 :" + lists[i].customSName + lists[i].prodName);
                     workList1[i] = lists[i];
                 }

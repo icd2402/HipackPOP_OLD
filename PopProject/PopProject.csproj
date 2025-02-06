@@ -32,7 +32,7 @@
     <MinimumRequiredVersion>1.0.1.459</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>469</ApplicationRevision>
+    <ApplicationRevision>470</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -451,8 +451,14 @@
       <DependentUpon>UserSetting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Detail\Wharehouse_LocationModel.cs" />
+    <Compile Include="Util\Clsuc_Cover.xaml.cs">
+      <DependentUpon>Clsuc_Cover.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Util\ClsUc_완제품명세서_Control4add.xaml.cs">
       <DependentUpon>ClsUc_완제품명세서_Control4add.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ClsUc_완제품명세서_Control내포.xaml.cs">
+      <DependentUpon>ClsUc_완제품명세서_Control내포.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\CountManager.cs" />
     <Compile Include="Util\DateTimeManager.cs" />
@@ -675,6 +681,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\ReportStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Time_pick\Time_pick.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -712,6 +722,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControl_\UserSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Util\Clsuc_Cover.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -786,6 +800,10 @@
     <Page Include="Util\ClsUc_완제품명세서_Control4.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Util\ClsUc_완제품명세서_Control내포.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Util\PrintWindow.xaml">
       <SubType>Designer</SubType>

@@ -154,6 +154,7 @@ namespace PopProject.MessageBox
 
                 if (SignCorpinfo_Base_JArray != null && SignCorpinfo_Base_JArray.ToArray().Length > 0)
                 {
+                    Clsuc_Cover 명세서_Cover = new Clsuc_Cover();//공통으로 사용하기위한 사용자페이지
                     ClsUc_명세서_Report 명세서양식_Uc = new ClsUc_명세서_Report();
                     ClsUc_명세서_Report2 명세서양식_Uc2 = new ClsUc_명세서_Report2();
                     ClsUc_명세서_Report3 명세서양식_Uc3 = new ClsUc_명세서_Report3();
@@ -169,7 +170,7 @@ namespace PopProject.MessageBox
                     ClsUc_완제품명세서_Control6구룡 완제품명세서_구룡 = new ClsUc_완제품명세서_Control6구룡();
                     ClsUc_완제품명세서_Control7구룡실수요자 완제품명세서_구룡실수요자 = new ClsUc_완제품명세서_Control7구룡실수요자();
                     ClsUc_완제품명세서_Control8대세 완제품명세서_대세 = new ClsUc_완제품명세서_Control8대세();
-
+                    
                     ClsUc_완제품명세서_Control1.ProductReport pr1 = new ClsUc_완제품명세서_Control1.ProductReport();
                     ClsUc_완제품명세서_Control2.ProductReport pr2 = new ClsUc_완제품명세서_Control2.ProductReport();
                     ClsUc_완제품명세서_Control3.ProductReport pr3 = new ClsUc_완제품명세서_Control3.ProductReport();
@@ -177,6 +178,9 @@ namespace PopProject.MessageBox
                     ClsUc_완제품명세서_Control6구룡.ProductReport pr6 = new ClsUc_완제품명세서_Control6구룡.ProductReport();
                     ClsUc_완제품명세서_Control7구룡실수요자.ProductReport pr7 = new ClsUc_완제품명세서_Control7구룡실수요자.ProductReport();
                     ClsUc_완제품명세서_Control8대세.ProductReport pr8 = new ClsUc_완제품명세서_Control8대세.ProductReport();
+
+                    ClsUc_완제품명세서_Control내포 완제품명세서_내포 = new ClsUc_완제품명세서_Control내포();
+                    ClsUc_완제품명세서_Control내포.ProductReport 제품명세서_Model = new ClsUc_완제품명세서_Control내포.ProductReport();
 
                     JToken result = SignCorpinfo_Base_JArray.First;
 
@@ -568,7 +572,30 @@ namespace PopProject.MessageBox
                         명세서양식_uc8대세.ItemPanel.Children.Add(완제품명세서_대세);
                         Set_FixedPage.Children.Add(명세서양식_uc8대세 as UIElement);
                     }
-                    else //(선호),유창,오주,두성,혜성,구룡 제외
+                    else if (SettingJsonManager.corp_name.Equals("내포수출포장") || SettingJsonManager.corp_name.Equals("내포수출포장테스트"))
+                    {
+                        string s_Date = result["orderDate"].ToString();      //수주일
+                        string p_Date = result["pworkDate"].ToString();      //생산일
+                        string e_Date = result["orderLast"].ToString();      //납기일
+                        제품명세서_Model.orderDate = s_Date.Substring(0, 4) + s_Date.Substring(5, 2) + s_Date.Substring(8, 2);
+                        제품명세서_Model.orderKey = 제품명세서_Model.orderDate + "-" + result["orderKey"].ToString();      //수주키
+                        제품명세서_Model.pworkDate = p_Date.Substring(0, 4) + "/" + p_Date.Substring(5, 2) + "/" + p_Date.Substring(8, 2);
+                        제품명세서_Model.corpName = result["customSName"].ToString();      //상호
+                        제품명세서_Model.prodName = result["prodName"].ToString();      //제품명
+                        제품명세서_Model.pSize = result["pSize"].ToString();      //규격
+                        제품명세서_Model.resultCount = Convert.ToInt32(result["resultCount"]).ToString("N0"); //생산수량
+                        제품명세서_Model.orderLast = e_Date.Substring(0, 4) + "/" + e_Date.Substring(5, 2) + "/" + e_Date.Substring(8, 2);
+                        제품명세서_Model.deliverMemo = result["deliverMemo"].ToString();      //비고
+                        완제품명세서_내포.ViewModel = 제품명세서_Model;
+                        완제품명세서_내포.Set_Context();
+
+                        Cls_Variable.Dbl_ReportPageTop = 256;
+                        명세서_Cover.ReContent(Cls_Variable.Dbl_ReportPageTop);
+                        명세서_Cover.ItemPanel.Children.Add(완제품명세서_내포);
+                        Set_FixedPage.Children.Add(명세서_Cover as UIElement);
+
+                }
+                else //(선호),유창,오주,두성,혜성,구룡 제외
                     {
                         pr1.customSName = result["customSName"].ToString();      //거래처명
                         pr1.prodName = result["prodName"].ToString();            //품명
@@ -683,8 +710,9 @@ namespace PopProject.MessageBox
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex )
             {
+                Console.WriteLine(ex.Message);
             }
         }
 

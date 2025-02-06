@@ -105,6 +105,8 @@ namespace PopProject.MerList
             {
                 MessageBox_Dialog msg = new MessageBox_Dialog("PopSearchMerc 조회 오류 !!");
                 _ = msg.ShowDialog();
+                Close();
+
             }
         }
 
