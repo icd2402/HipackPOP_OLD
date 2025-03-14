@@ -103,6 +103,12 @@
     <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.4.3\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\netstandard2.0\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.HashCode.1.1.1\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=4.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.2.1\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -144,6 +150,9 @@
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\portable-net45+win8+wp8+wpa81\System.Numerics.Vectors.dll</HintPath>
     </Reference>
     <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
@@ -226,6 +235,11 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Connected Services\ServiceReference_kmbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_kumsungbox\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -375,6 +389,7 @@
     <Compile Include="Input\Win_Update.xaml.cs">
       <DependentUpon>Win_Update.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interface\Cls_금성포장공업.cs" />
     <Compile Include="KeyBoard\Win_KeyBoard3.xaml.cs">
       <DependentUpon>Win_KeyBoard3.xaml</DependentUpon>
     </Compile>
@@ -978,6 +993,22 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ServiceReference_kmbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_kumsungbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_kumsungbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_kumsungbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_kumsungbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_kumsungbox\PopProject.ServiceReference_kumsungbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_kumsungbox\Service_CRUD.wsdl" />
     <None Include="Connected Services\ServiceReference_mirae\Access_MiddleWare_CRUD.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1277,6 +1308,7 @@
     <WCFMetadataStorage Include="Connected Services\ServiceReference_jobox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_khbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_kmbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_kumsungbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_mirae\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_hnbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_ksbox\" />
@@ -1672,6 +1704,13 @@
     <None Include="Connected Services\ServiceReference_opbox\configuration91.svcinfo" />
     <None Include="Connected Services\ServiceReference_opbox\configuration.svcinfo" />
     <None Include="Connected Services\ServiceReference_opbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\ServiceReference_kumsungbox\Access_MiddleWare_CRUD.disco" />
+    <None Include="Connected Services\ServiceReference_kumsungbox\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceReference_kumsungbox\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceReference_kumsungbox\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

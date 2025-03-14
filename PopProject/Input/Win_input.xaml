@@ -63,6 +63,7 @@
         <TextBlock Grid.Row="1" Text="카 운 트"  FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="61" Canvas.Top="304" FontFamily="/font/#KoPubDotum Medium"/>
         <TextBlock Grid.Row="1" Text="불량수량"  FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="61" Canvas.Top="370" FontFamily="/font/#KoPubDotum Medium"/>
         <TextBlock Grid.Row="1" Text="생산수량"  FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="61" Canvas.Top="439" FontFamily="/font/#KoPubDotum Medium"/>
+        <TextBlock x:Name="tbPLUM2" Grid.Row="1" Foreground="Red"  Text="생산 체크 중..."  FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="61" Canvas.Top="410" FontFamily="/font/#KoPubDotum Medium"/>
 
         <TextBlock Text="|" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="170" Canvas.Top="219"/>
         <TextBlock Text="|" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="170" Canvas.Top="257"/>
@@ -129,7 +130,7 @@
             </ComboBox>-->
 
         </Border>
-        <Image Grid.Row="2" Height="50" Width="80" Source="/img/plus_01.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Canvas.Left="361" Canvas.Top="667" MouseLeftButtonDown="result_badCount_minus"></Image>
+        <Image Grid.Row="2" Height="50" Width="80" Source="/img/plus_01.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Canvas.Left="361" Canvas.Top="667" MouseLeftButtonDown="Result_badCount_minus"></Image>
         <Image Grid.Row="2" Height="50" Width="80" Source="/img/plus_02.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Canvas.Left="441" Canvas.Top="667" MouseLeftButtonDown="Result_badCount_plus"></Image>
 
         <Border x:Name="error_check_border" Visibility="Collapsed" BorderBrush="#abbfd9" Background="white" BorderThickness="2" Width="280" Height="450" Grid.Row="2" Canvas.Left="153" Canvas.Top="282">

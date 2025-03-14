@@ -221,7 +221,13 @@ namespace PopProject.UserControl_
                     UpdateWorkPlanNResult(); // 계획/결과 조회
 
                     Timer_1s();         // 1초 - 시계, 바코드, 종료시간 체크
-                    Timer_60s();        // 60초(1분) - POP 켜짐 신호 전송
+
+                    if (!SettingJsonManager.serverIndex.Equals("kmsbox")
+                        || !SettingJsonManager.corp_name.Equals("npbox")
+                        )
+                    {
+                        Timer_60s();        // 60초(1분) - POP 켜짐 신호 전송
+                    }
                     Timer_300s();       // 300초(5분) - 계획/결과 갱신, 아두이노 연결 확인, 카운팅 값 전송
                 }
                 else
@@ -719,9 +725,13 @@ namespace PopProject.UserControl_
                 Cls_Variable.SharedValue = true ;
                 //현재 설비명 before에 담기
                 string before = string.IsNullOrWhiteSpace(SettingJsonManager.mercName) ? "" : SettingJsonManager.mercName;
-                MercList mercList = new MercList(); //리스트 가져오기
-                _ = mercList.ShowDialog(); //설비 리스트 팝업
-                tbMercName.Text = SettingJsonManager.mercName;
+                if (!before.Equals(""))
+                {
+                    MercList mercList = new MercList(); //리스트 가져오기
+                    _ = mercList.ShowDialog(); //설비 리스트 팝업
+                    tbMercName.Text = SettingJsonManager.mercName;
+
+                }
 
                 if (before.Equals(SettingJsonManager.mercName) == false) //설비명이 변경되면
                 {

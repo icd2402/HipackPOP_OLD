@@ -87,8 +87,8 @@ namespace PopProject.Util
         public static bool noticePopup { get; set; }
         public static string lockPassword { get; set; }
         public static bool companyIntegration { get; set; }
-        public static bool sumView { get; set; }
-
+        public static bool sumView { get; set; } //집계 표시 여부
+        public static string PLUMPATH { get; set; } // 경로설정 정보 : 금성포장인쇄기 공유폴더 경로설정.
 
         // JSON 파일 경로
         public static string filePath { get; set; }
@@ -97,7 +97,7 @@ namespace PopProject.Util
         static SettingJsonManager()
         {
             filePath = @"C:\ICD\POP\settings.json";
-            MoveSettingsFIle();
+            MoveSettingsFIle(@"C:\ICD\settings.json", filePath , 0);
         }
 
         // Settings.json 파일 존재 여부 확인
@@ -271,6 +271,9 @@ namespace PopProject.Util
                 // sumView 없는 경우 false
                 sumView = jObject.ContainsKey("sumView") ? bool.Parse(jObject["sumView"].ToString()) : false;
 
+                // PLUM경로 없는 경우 ""...금성포장인쇄기 공유폴더 경로설정.
+                PLUMPATH = jObject.ContainsKey("PLUMPATH") ? jObject["PLUMPATH"].ToString() : "";
+
                 LogManager.Info("json → 셋팅정보(Class) Load 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
             catch (Exception ex)
@@ -373,8 +376,9 @@ namespace PopProject.Util
                                 {"noticePopup", noticePopup.ToString()},
                                 {"lockPassword", string.IsNullOrEmpty(lockPassword) == false ? lockPassword : ""},
                                 {"companyIntegration", companyIntegration.ToString()},
-                                {"sumView", sumView.ToString()}
-                            };
+                                {"sumView", sumView.ToString()},
+                                {"PLUMPATH", PLUMPATH.ToString()}
+            };
 
                 //인증코드 파일 작성
                 string json = Newtonsoft.Json.JsonConvert.SerializeObject(settings);
@@ -392,34 +396,42 @@ namespace PopProject.Util
             return true;
         }
 
-        public static void MoveSettingsFIle()
+        public static void MoveSettingsFIle(string oldFilePath, string newFilePath, int x_type)
         {
-            // settings.json 파일을 C:\ICD\ 에서 C:\ICD\POP\ 로 이동하기 위함
-            string oldFilePath = @"C:\ICD\settings.json";
-
-            // C:\ICD\POP\ 에 settings.json 파일 있으면 정지
-            if (File.Exists(filePath) == true)
+            switch (x_type)
             {
-                return;
-            }
+                case 1: //파일 카피
+                    if (File.Exists(oldFilePath) == true)
+                    {
+                        File.Copy(oldFilePath, newFilePath, true );
+                    }
+                    return;
+                default:
+                    // C:\ICD\POP\ 에 settings.json 파일 있으면 정지
+                    if (File.Exists(newFilePath) == true)
+                    {
+                        return;
+                    }
 
-            // C:\ICD\POP\ 에 settings.json 파일 없고, C:\ICD\ 에 settings.json 파일 있는 경우
-            if (File.Exists(oldFilePath) == true)
-            {
-                string loadedSettings = File.ReadAllText(oldFilePath);
+                    // C:\ICD\POP\ 에 settings.json 파일 없고, C:\ICD\ 에 settings.json 파일 있는 경우
+                    if (File.Exists(oldFilePath) == true)
+                    {
+                        string loadedSettings = File.ReadAllText(oldFilePath);
 
-                JObject jObject = JObject.Parse(loadedSettings);
+                        JObject jObject = JObject.Parse(loadedSettings);
 
-                // 
-                if (jObject.ContainsKey("login_id") && jObject.ContainsKey("login_password"))
-                {
-                    File.Copy(oldFilePath, filePath);
-                    LogManager.Info(oldFilePath + " 파일을 복사합니다.\n복사위치: " + filePath, MethodBase.GetCurrentMethod().DeclaringType);
-                }
-                else if (jObject.ContainsKey("authentication"))
-                {
-                    LogManager.Error(oldFilePath + " 파일이 Hi-Pack 용 파일 입니다. 파일을 복사하지 않았습니다.", MethodBase.GetCurrentMethod().DeclaringType);
-                }
+                        // 
+                        if (jObject.ContainsKey("login_id") && jObject.ContainsKey("login_password"))
+                        {
+                            File.Copy(oldFilePath, newFilePath);
+                            LogManager.Info(oldFilePath + " 파일을 복사합니다.\n복사위치: " + newFilePath, MethodBase.GetCurrentMethod().DeclaringType);
+                        }
+                        else if (jObject.ContainsKey("authentication"))
+                        {
+                            LogManager.Error(oldFilePath + " 파일이 Hi-Pack 용 파일 입니다. 파일을 복사하지 않았습니다.", MethodBase.GetCurrentMethod().DeclaringType);
+                        }
+                    }
+                    return;
             }
 
         }

@@ -79,6 +79,19 @@ namespace PopProject.Detail
                 onPropertyChanged("PalletType");
             }
         }
+        private string _prodID;
+        public string prodID
+        {
+            get
+            {
+                return _prodID;
+            }
+            set
+            {
+                _prodID = value;
+                onPropertyChanged("prodID");
+            }
+        }
 
         private string _LoadType;
         public string LoadType

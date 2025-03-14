@@ -132,6 +132,12 @@ namespace PopProject.Util
         public static ServiceReference_opbox.Access_Model op_Access_Model;
         public static ServiceReference_opbox.Return_Model op_Return_Model;
 
+        //금성
+        public static ServiceReference_kumsungbox.Service_CRUDClient kms_Service;
+        public static ServiceReference_kumsungbox.DBHandle_Model kms_DB_Handle_Model;
+        public static ServiceReference_kumsungbox.Access_Model kms_Access_Model;
+        public static ServiceReference_kumsungbox.Return_Model kms_Return_Model;
+
         //로컬
         public static ServiceReference_jobox.Service_CRUDClient local_Service;
         public static ServiceReference_jobox.DBHandle_Model local_DB_Handle_Model;
@@ -153,6 +159,22 @@ namespace PopProject.Util
 
             switch (serverIndex)
             {
+
+                //금성
+                case "kmsbox":
+                    kms_Service = new ServiceReference_kumsungbox.Service_CRUDClient();
+                    kms_Access_Model = new ServiceReference_kumsungbox.Access_Model();
+                    kms_Return_Model = new ServiceReference_kumsungbox.Return_Model();
+                    kms_DB_Handle_Model = new ServiceReference_kumsungbox.DBHandle_Model
+                    {
+                        접속정보 = 접속정보,
+                        BroadCasting = 0,
+                        BroadCastingName = string.Empty,
+                        inputPkey = "0",
+                        inputContent = string.Empty,
+                        inputProcessContent = string.Empty
+                    };
+                    break;
 
                 //원팩
                 case "opbox":
@@ -528,6 +550,22 @@ namespace PopProject.Util
             {
                 switch (serverIndex)
                 {
+                    //금성포장공업
+                    case "kmsbox":
+                        kms_Access_Model.SP명 = SP명;
+                        kms_Access_Model.파라미터 = 파라미터;
+                        kms_Access_Model.값 = 값;
+                        kms_DB_Handle_Model.프로시저 = new ServiceReference_kumsungbox.Access_Model[1] { kms_Access_Model };
+                        kms_DB_Handle_Model.BroadCasting = 0;
+                        kms_Return_Model = 갱신 == 1 ? kms_Service.갱신(kms_DB_Handle_Model, 갱신) : kms_Service.조회(kms_DB_Handle_Model);
+
+                        returnModel.결과 = kms_Return_Model.결과;
+                        returnModel.리턴값 = kms_Return_Model.Retrun값;
+
+                        //Console.WriteLine(SP명 + " 리턴결과 : " + kh_Return_Model.결과);
+                        //Console.WriteLine(SP명 + " 리턴값 : " + kh_Return_Model.Retrun값);
+                        break;
+
                     //원팩
                     case "opbox":
                         op_Access_Model.SP명 = SP명;
@@ -884,7 +922,24 @@ namespace PopProject.Util
             ReturnModel returnModel = new ReturnModel();
             switch (serverIndex)
             {
-                //내포
+                //금성포장공업
+                case "kmsbox":
+                    kms_Access_Model.SP명 = SP명;
+                    kms_Access_Model.파라미터 = 파라미터;
+                    kms_Access_Model.값 = 값;
+
+                    kms_DB_Handle_Model.프로시저 = new ServiceReference_kumsungbox.Access_Model[1] { kms_Access_Model };
+                    kms_DB_Handle_Model.BroadCasting = 1;
+                    kms_DB_Handle_Model.BroadCastingName = "생산입력완료";
+                    kms_DB_Handle_Model.inputPkey = "14201";
+                    kms_DB_Handle_Model.inputContent = parameter;
+                    kms_Return_Model = 갱신 == 1 ? kms_Service.갱신(kms_DB_Handle_Model, 갱신) : kms_Service.조회(kms_DB_Handle_Model);
+
+                    returnModel.결과 = kms_Return_Model.결과;
+                    returnModel.리턴값 = kms_Return_Model.Retrun값;
+                    break;
+
+                //원팩
                 case "opbox":
                     op_Access_Model.SP명 = SP명;
                     op_Access_Model.파라미터 = 파라미터;

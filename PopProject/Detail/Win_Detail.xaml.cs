@@ -1598,7 +1598,7 @@ namespace PopProject.Detail
                             picCount.Visibility = Visibility.Collapsed;
                         }
                     }
-                    else if (SettingJsonManager.corp_name.Equals("내포수출포장") || SettingJsonManager.corp_name.Equals("내포수출포장테스트"))
+                    else if (SettingJsonManager.corp_name.Equals("내포수출포장") || SettingJsonManager.corp_name.Equals("내포수출포장테스트") || SettingJsonManager.corp_name.Equals("금성포장"))
                     {
                         //이미지 있을때
                         if (uriPathOB.Count > 0)

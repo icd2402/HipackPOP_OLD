@@ -54,6 +54,7 @@ namespace PopProject.Util
                 {"금화", "http://khbox.iptime.org:18888/pop"},
                 {"내포수출포장", "http://106.249.249.82:18888/pop"},
                 {"원팩", "http://hnbox.iptime.org:18888/pop"},
+                {"금성포장공업", "http://106.249.249.82:18888/pop"},
                 //{"오주포장", "http://ojbox.iptime.org:18888/pop"},
                 {"미래포장", "http://miraebox.float-zone.com:18888/pop"},
 
@@ -75,6 +76,7 @@ namespace PopProject.Util
                 {"구룡산업제2공장테스트", "http://grbox.iptime.org:18888/pop"},
                 {"금화테스트", "http://khbox.iptime.org:18888/pop"},
                 {"내포수출포장테스트", "http://106.249.249.82:18888/pop"},
+                {"금성포장공업테스트", "http://106.249.249.82:18888/pop"},
                 //{"오주포장테스트", "http://ojbox.iptime.org:18888/pop"},
                 {"미래포장테스트", "http://miraebox.float-zone.com:18888/pop"},
 
@@ -111,7 +113,8 @@ namespace PopProject.Util
             {
                 try
                 {
-                    if (!mercName.Equals("")) {
+
+                    if (!mercName.Equals("") && !v.Equals("") ) {
                         SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
 
                     }
