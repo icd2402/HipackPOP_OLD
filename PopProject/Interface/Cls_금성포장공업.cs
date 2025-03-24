@@ -13,6 +13,8 @@ namespace PopProject.Interface
 
         public static string GetSheetModeResult(string sheetMode)
         {
+            sheetMode = sheetMode.Replace(" ", "");
+            sheetMode = sheetMode.Replace("골", "");
             switch (sheetMode)
             {
                 case "A":

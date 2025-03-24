@@ -34,6 +34,13 @@ namespace PopProject
                 Directory.CreateDirectory(folderPath);
             }
         }
+        // 설비인라인의 경우, 실패에 따른 재 작업카운터
+        private static int _g_checkValue;
+        public static int g_checkValue
+        {
+            get { return _g_checkValue; }
+            set { _g_checkValue = value; }
+        }
 
         // 폴더열기
         public static string OpenFolderDialog()

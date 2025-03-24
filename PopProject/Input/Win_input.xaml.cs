@@ -26,6 +26,7 @@ using System.IO;
 using PopProject.Interface;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.Timers;
 
 namespace PopProject.Input
 {
@@ -68,7 +69,8 @@ namespace PopProject.Input
 
 
         private DateTime selectedDate = new DateTime();
-        private DispatcherTimer timer;
+        private DispatcherTimer timer_1s;
+        //private static Timer timer_1s;
 
 
         public Win_input(MainModel mainModel, ObservableCollection<MainModel> workList, bool check) //check= 메인화면에서 들어오면 false, 디테일 화면에서 들어오면 true
@@ -189,13 +191,17 @@ namespace PopProject.Input
         #region : 결과조회 1초단위로 검색
         private void Timer_1s()
         {
-            timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(1)
-            };
+            //timer_1s = new Timer(1000); // 1초 간격 (1000 밀리초)
+            //timer_1s.Elapsed += Timer_1s_Tick;
+            //timer_1s.AutoReset = true; // 반복 실행
+            //timer_1s.Enabled = true; // 타이머 시작
             tbPLUM2.Text = "생산 체크 중...";
-            timer.Tick += new EventHandler(Timer_1s_Tick);
-            timer.Start();
+            tbPLUM2.Visibility = Visibility.Visible; // 체킹 표시
+
+            timer_1s = new DispatcherTimer();
+            timer_1s.Interval = TimeSpan.FromSeconds(1);
+            timer_1s.Tick += Timer_1s_Tick;
+            timer_1s.Start();
         }
 
         private void Timer_1s_Tick(object sender, EventArgs e)
@@ -207,7 +213,6 @@ namespace PopProject.Input
             {
                 Cls_Variable.EnsureDirectoryExists(DEST_DIR);
 
-                tbPLUM2.Visibility = Visibility.Visible; // 체킹 표시
 
                 resultfile = Path.Combine(DEST_DIR, "PLUM2.csv");
 
@@ -1771,8 +1776,6 @@ namespace PopProject.Input
                         fontVisible = Visibility.Collapsed
                     };
 
-                    DateTime parsedDate;
-
                     ob.Add(startItem);
                     foreach (JObject result in Data_JArray)
                     {
@@ -2037,7 +2040,8 @@ namespace PopProject.Input
                         }
                         // 체킹 표시
                         tbPLUM2.Visibility = Visibility.Collapsed; // 체킹 표시
-                        timer.Stop();//타이머 중지
+                        timer_1s.Stop();//타이머 중지
+                        //timer_1s.Dispose();
 
                         inputModel.perrCount = 0;
                         inputModel.count = 0;
@@ -2210,6 +2214,7 @@ namespace PopProject.Input
                         {
                             if (mainModel.subOb[i].presultCount < 1)
                             {
+                                Cls_Variable.g_checkValue = 0;//실패가 아닐경우, 초기화값 처리.
                                 PopInlineStart(mainModel.subOb[i]);
                             }
                         }
@@ -2226,6 +2231,7 @@ namespace PopProject.Input
                         {
                             if (mainModel.subOb[i].presultCount < 1)
                             {
+                                Cls_Variable.g_checkValue = 0;//실패가 아닐경우, 초기화값 처리.
                                 PopInlineStart(mainModel.subOb[i]);
                             }
                         }
@@ -2242,6 +2248,7 @@ namespace PopProject.Input
                         {
                             if (mainModel.subOb[i].presultCount < 1)
                             {
+                                Cls_Variable.g_checkValue = 0;//실패가 아닐경우, 초기화값 처리.
                                 PopInlineStart(mainModel.subOb[i + 1]);
                             }
                         }
@@ -2298,9 +2305,9 @@ namespace PopProject.Input
                 LogManager.Error("PopResultEnd 저장실패 !!" + returnData.결과, MethodBase.GetCurrentMethod().DeclaringType);
 
             }
+            LogManager.Error("returnData 결과: " + returnData.결과, MethodBase.GetCurrentMethod().DeclaringType);
 
             return returnData.결과;
-            LogManager.Error("returnData 결과: " + returnData.결과, MethodBase.GetCurrentMethod().DeclaringType);
         }
 
         //생산시작
@@ -2546,7 +2553,10 @@ namespace PopProject.Input
         //인라인설비 시작
         private int PopInlineStart(SubModel subOb)
         {
-            _ = new LogData("생산시작(인라인)");
+            if (Cls_Variable.g_checkValue < 1)
+            {
+                _ = new LogData("생산시작(인라인)");
+            }
             LogManager.Info("PopResultStart실행 (" + subOb.ProcessTypeName + " 완제품 처리 시작)", MethodBase.GetCurrentMethod().DeclaringType);
 
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
@@ -2588,6 +2598,7 @@ namespace PopProject.Input
                 SettingJsonManager.SaveJsonFile();
 
                 PopInlineEnd(subOb, int.Parse(returnData.리턴값));
+                Cls_Variable.g_checkValue = 0;//실패가 아닐경우, 초기화값 처리.
 
                 switch (metrialitem)
                 {
@@ -2639,11 +2650,21 @@ namespace PopProject.Input
                 }
 
             }
+            else if(returnData.결과 == 9)
+            {
+                if (Cls_Variable.g_checkValue < 1)
+                {
+                    LogManager.Error("PopResultStart 입력 실패", MethodBase.GetCurrentMethod().DeclaringType);
+                    Cls_Variable.g_checkValue = 1;
+                    PopInlineStart(subOb);//실패시, 결과처리를 한번 더 가지도록 함.
+                }
+            }
             else
             {
+                LogManager.Error("PopResultStart 입력 실패", MethodBase.GetCurrentMethod().DeclaringType);
                 MessageBox_Dialog msg = new MessageBox_Dialog("저장실패");
                 msg.ShowDialog();
-                LogManager.Error("불량리스트 조회 실패", MethodBase.GetCurrentMethod().DeclaringType);
+
             }
             return returnData.결과;
 
@@ -2651,10 +2672,12 @@ namespace PopProject.Input
 
         private void PopInlineEnd(SubModel subOb, int pWorkkey)
         {
-            _ = new LogData("생산종료(인라인)");
+            if (Cls_Variable.g_checkValue < 1)
+            {
+                _ = new LogData("생산종료(인라인)");
+            }
+
             LogManager.Info("PopInlineEnd실행 (" + subOb.ProcessTypeName + " 완제품 처리 중)", MethodBase.GetCurrentMethod().DeclaringType);
-
-
             string 전체공정 = "0";
             if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
             {

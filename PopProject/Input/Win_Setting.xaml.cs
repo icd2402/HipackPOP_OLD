@@ -1497,7 +1497,7 @@ namespace PopProject.Input
                 processInfo.UseShellExecute = false;
                 Process process = Process.Start(processInfo);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
             }
 

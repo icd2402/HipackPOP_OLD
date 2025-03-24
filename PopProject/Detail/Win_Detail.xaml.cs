@@ -160,9 +160,6 @@ namespace PopProject.Detail
 
                     LogManager.Info("CNS사용 체크 후 바코드로 상세화면 팝업 성공" + SettingJsonManager.mercName + "/" + this.mainModel.prodID, MethodBase.GetCurrentMethod().DeclaringType);
 
-                    //DB에 데이터 있는거 확인용 변수
-                    bool DB_DataOK = false; 
-
                     //DB 조회
                     ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
                     ReturnModel returnDataCheck = ServiceModel.GetData(
@@ -195,14 +192,12 @@ namespace PopProject.Detail
                         if (ProdID != "" && pock * jang != 0)
                         {
                             LogManager.Info("CNS DB데이터 전송", MethodBase.GetCurrentMethod().DeclaringType);
-                            DB_DataOK = true;
                             CNS_DB_Send(); //DB 데이터 전송
                         }
                         //DB에 데이터가 없을경우
                         else
                         {
                             LogManager.Info("CNS 신규데이터 전송", MethodBase.GetCurrentMethod().DeclaringType);
-                            DB_DataOK = false;
                             CNS_defaultData_Send(); //신규 데이터 전송
                         }
                     }
@@ -1709,7 +1704,7 @@ namespace PopProject.Detail
                     // pic.Source에 할당
                     pic.Source = bitmap;
 
-                }catch (Exception ex)
+                }catch (Exception )
                 {
                     
                     MessageBox_Dialog msg = new MessageBox_Dialog("인쇄사양이 올바르지 않습니다.");
@@ -3045,8 +3040,6 @@ namespace PopProject.Detail
 
                     LogManager.Info("CNS사용 체크 후 바코드로 상세화면 팝업 성공" + SettingJsonManager.mercName + "/" + this.mainModel.prodID, MethodBase.GetCurrentMethod().DeclaringType);
 
-                    //DB에 데이터 있는거 확인용 변수
-                    bool DB_DataOK = false;
 
                     //DB 조회
                     ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
@@ -3077,13 +3070,11 @@ namespace PopProject.Detail
                         //DB에 데이터가 있을경우
                         if (ProdID != "" && pock * jang != 0)
                         {
-                            DB_DataOK = true;
                             CNS_DB_Send(); //DB 데이터 전송
                         }
                         //DB에 데이터가 없을경우
                         else
                         {
-                            DB_DataOK = false;
                             CNS_defaultData_Send(); //신규 데이터 전송
                         }
                     }
