@@ -466,8 +466,10 @@ namespace PopProject.Input
                         }
                     };
 
-                    var plumData = new Cls_금성포장공업.PlanData
+                    var plumData = new List<Cls_금성포장공업.PlanData>
                     {
+                        new Cls_금성포장공업.PlanData
+                        {
                         SerialNo = inputModel.pplanKey.ToString(),
                         ProgramNo = Detailitem.prodID.ToString(),
                         SheetMode = Cls_금성포장공업.GetSheetModeResult(mainModel.paperGor),
@@ -482,8 +484,8 @@ namespace PopProject.Input
                         BindingCount = "",
                         ReferenceSize = "",
                         PlannedCount = inputModel.pplanCount.ToString(),
-                        CustomerName = inputModel.customSName.ToString(),
-                        ProductName = inputModel.prodName.ToString(),
+                        CustomerName = Cls_Variable.TruncateStringToBytes(inputModel.customSName.ToString(),30),
+                        ProductName = Cls_Variable.TruncateStringToBytes(inputModel.prodName.ToString(),40),
                         RegisteredDataUsage = "1",
                         Removal = "1",
                         Blank = "",
@@ -506,12 +508,15 @@ namespace PopProject.Input
                         ExtraBlank57 = "",
                         RGB_Blank = new List<string> { "", "", "" },
                         End_Blank = ""
+                        }
                     };
 
-                    // CSV 파일 생성 및 데이터 기록
-                    var csvContent = plumData.ToString();
-                    csvContent = plumData.ToString();
-                    File.WriteAllText(filePath, csvContent);
+                    Cls_금성포장공업.SaveCsvFile(filePath, plumData);
+
+                    //// CSV 파일 생성 및 데이터 기록
+                    //var csvContent = plumData.ToString();
+                    //csvContent = plumData.ToString();
+                    //File.WriteAllText(filePath, csvContent, Encoding.UTF8);
 
                     Console.WriteLine("PLUM1.csv 파일이 생성되었습니다.");
 
@@ -532,6 +537,8 @@ namespace PopProject.Input
 
             }
         }
+
+
         #endregion
 
         // 재공품 수량 표기
