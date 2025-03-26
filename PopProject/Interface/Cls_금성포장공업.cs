@@ -110,63 +110,63 @@ namespace PopProject.Interface
             {
                 var sb = new StringBuilder();
                 sb.Append(SerialNo.PadLeft(16, '0')).Append(",");
-                sb.Append(ProgramNo.PadLeft(16, ' ')).Append(",");
-                sb.Append(SheetMode.PadLeft(2, ' ')).Append(",");
-                sb.Append(CalculationMode.PadLeft(2, ' ')).Append(",");
-                sb.Append(SashMode.PadLeft(1, ' ')).Append(",");
-                sb.Append(FaceMode.PadLeft(1, ' ')).Append(",");
-                sb.Append(ReferencePosition.PadLeft(1, ' ')).Append(",");
-                sb.Append(MovableDieCutPressure.PadLeft(1, ' ')).Append(",");
-                sb.Append(FixedDieCutPressure.PadLeft(1, ' ')).Append(",");
-                sb.Append(LCut.PadLeft(1, ' ')).Append(",");
-                sb.Append(BasicPass.PadLeft(1, ' ')).Append(",");
-                sb.Append(BindingCount.PadLeft(2, ' ')).Append(",");
-                sb.Append(ReferenceSize.PadLeft(6, ' ')).Append(",");
-                sb.Append(PlannedCount.PadLeft(6, ' ')).Append(",");
-                sb.Append(CustomerName.PadRight(30, ' ')).Append(",");
-                sb.Append(ProductName.PadRight(40, ' ')).Append(",");
+                sb.Append(ProgramNo).Append(",");
+                sb.Append(SheetMode).Append(",");
+                sb.Append(CalculationMode).Append(",");
+                sb.Append(SashMode).Append(",");
+                sb.Append(FaceMode).Append(",");
+                sb.Append(ReferencePosition).Append(",");
+                sb.Append(MovableDieCutPressure).Append(",");
+                sb.Append(FixedDieCutPressure).Append(",");
+                sb.Append(LCut).Append(",");
+                sb.Append(BasicPass).Append(",");
+                sb.Append(BindingCount).Append(",");
+                sb.Append(ReferenceSize).Append(",");
+                sb.Append(PlannedCount).Append(",");
+                sb.Append(CustomerName).Append(",");
+                sb.Append(ProductName).Append(",");
                 sb.Append(RegisteredDataUsage.PadLeft(1, '0')).Append(",");
                 sb.Append(Removal.PadLeft(1, '1')).Append(",");
                 sb.Append(Blank.PadLeft(0, ' ')).Append(",");
 
                 foreach (var dimension in DimensionUsed)
                 {
-                    sb.Append(dimension.PadLeft(6, ' ')).Append(",");
+                    sb.Append(dimension).Append(",");
                 }
 
                 foreach (var dimension in DimensionNotUsed)
                 {
-                    sb.Append(dimension.PadLeft(6, ' ')).Append(",");
+                    sb.Append(dimension).Append(",");
                 }
 
                 foreach (var dimension in PrintPresence)
                 {
-                    sb.Append(dimension.PadLeft(1, ' ')).Append(",");
+                    sb.Append(dimension).Append(",");
                 }
 
                 foreach (var dimension in PrintColor)
                 {
-                    sb.Append(dimension.PadRight(10, ' ')).Append(",");
+                    sb.Append(dimension).Append(",");
                 }
 
-                sb.Append(ExtraBlank46.PadLeft(5, ' ')).Append(",");
-                sb.Append(ExtraBlank47.PadLeft(1, ' ')).Append(",");
-                sb.Append(ExtraBlank48.PadLeft(6, ' ')).Append(",");
-                sb.Append(ExtraBlank49.PadLeft(6, ' ')).Append(",");
-                sb.Append(ExtraBlank50.PadLeft(1, ' ')).Append(",");
-                sb.Append(ExtraBlank51.PadLeft(6, ' ')).Append(",");
-                sb.Append(ExtraBlank52.PadLeft(6, ' ')).Append(",");
-                sb.Append(ExtraBlank53.PadLeft(1, ' ')).Append(",");
-                sb.Append(ExtraBlank54.PadLeft(6, ' ')).Append(",");
-                sb.Append(ExtraBlank55.PadLeft(6, ' ')).Append(",");
-                sb.Append(ExtraBlank56.PadLeft(1, ' ')).Append(",");
-                sb.Append(ExtraBlank57.PadLeft(1, ' ')).Append(",");
+                sb.Append(ExtraBlank46).Append(",");
+                sb.Append(ExtraBlank47).Append(",");
+                sb.Append(ExtraBlank48).Append(",");
+                sb.Append(ExtraBlank49).Append(",");
+                sb.Append(ExtraBlank50).Append(",");
+                sb.Append(ExtraBlank51).Append(",");
+                sb.Append(ExtraBlank52).Append(",");
+                sb.Append(ExtraBlank53).Append(",");
+                sb.Append(ExtraBlank54).Append(",");
+                sb.Append(ExtraBlank55).Append(",");
+                sb.Append(ExtraBlank56).Append(",");
+                sb.Append(ExtraBlank57).Append(",");
 
                 foreach (var dimension in RGB_Blank)
                 {
-                    sb.Append(dimension.PadLeft(9, ' ')).Append(",");
+                    sb.Append(dimension).Append(",");
                 }
-                sb.Append(End_Blank.PadLeft(9, ' '));
+                sb.Append(End_Blank);
 
                 return sb.ToString();
             }
