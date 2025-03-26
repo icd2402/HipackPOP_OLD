@@ -10,18 +10,6 @@ namespace PopProject.Interface
 {
     class Cls_금성포장공업
     {
-        public static void SaveCsvFile(string filePath, List<Cls_금성포장공업.PlanData> data)
-        {
-            using (var writer = new StreamWriter(filePath, false, Encoding.UTF8))
-            {
-                foreach (var row in data)
-                {
-                    string line = string.Join(",", row);
-                    byte[] byteArray = Encoding.UTF8.GetBytes(line);
-                    writer.WriteLine(Encoding.UTF8.GetString(byteArray));
-                }
-            }
-        }
 
         public static string GetSheetModeResult(string sheetMode)
         {
@@ -135,8 +123,8 @@ namespace PopProject.Interface
                 sb.Append(BindingCount.PadLeft(2, ' ')).Append(",");
                 sb.Append(ReferenceSize.PadLeft(6, ' ')).Append(",");
                 sb.Append(PlannedCount.PadLeft(6, ' ')).Append(",");
-                sb.Append(PadRightByte(CustomerName, 30).PadRight(30, ' ')).Append(",");
-                sb.Append(PadRightByte(ProductName, 40).PadRight(40, ' ')).Append(",");
+                sb.Append(CustomerName.PadRight(30, ' ')).Append(",");
+                sb.Append(ProductName.PadRight(40, ' ')).Append(",");
                 sb.Append(RegisteredDataUsage.PadLeft(1, '0')).Append(",");
                 sb.Append(Removal.PadLeft(1, '1')).Append(",");
                 sb.Append(Blank.PadLeft(0, ' ')).Append(",");
@@ -182,24 +170,8 @@ namespace PopProject.Interface
 
                 return sb.ToString();
             }
-
-            public static string PadRightByte(string input, int totalBytes)
-            {
-                Encoding encoding = Encoding.UTF8;
-                input = $"\"{input}\"";
-                byte[] bytes = encoding.GetBytes(input);
-
-                if (bytes.Length >= totalBytes)
-                {
-                    return input;
-                }
-
-                int paddingBytes = totalBytes - bytes.Length;
-                string padding = new string(' ', paddingBytes / encoding.GetByteCount(" "));
-                return input + padding;
-            }
-
         }
+
         public static List<ResultData> ReadCsvFile(string csvFilePath)
         {
             using (StreamReader reader = new StreamReader(csvFilePath))

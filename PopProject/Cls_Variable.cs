@@ -42,48 +42,6 @@ namespace PopProject
             set { _g_checkValue = value; }
         }
 
-        //글자를 byte 단위로 적용처리를 가지도록 함.
-        public static string TruncateStringToBytes(string input, int byteLimit)
-        {
-            if (string.IsNullOrEmpty(input))
-            {
-                return input;
-            }
-
-            Encoding encoding = Encoding.UTF8;
-            byte[] bytes = encoding.GetBytes(input);
-
-            if (bytes.Length <= byteLimit)
-            {
-                return input;
-            }
-
-            // 바이트 배열을 잘라내기
-            byte[] truncatedBytes = new byte[byteLimit];
-            Array.Copy(bytes, truncatedBytes, byteLimit);
-
-            // 잘린 바이트 배열을 문자열로 변환
-            string truncatedString = encoding.GetString(truncatedBytes);
-
-            // 잘린 문자열이 유효한지 확인하고, 유효하지 않으면 마지막 바이트를 제거
-            while (encoding.GetByteCount(truncatedString) > byteLimit)
-            {
-                truncatedString = truncatedString.Substring(0, truncatedString.Length - 1);
-            }
-
-            return truncatedString;
-        }
-        public static byte[] StringToByteArray(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-            {
-                return new byte[0];
-            }
-
-            Encoding encoding = Encoding.UTF8;
-            return encoding.GetBytes(input);
-        }
-
         // 폴더열기
         public static string OpenFolderDialog()
         {
