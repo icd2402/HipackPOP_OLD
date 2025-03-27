@@ -83,7 +83,7 @@ namespace PopProject.Input
                 { "ojbox", "1" }, //오주
                 { "miraebox", "2" }, //미래
                 { "hnbox", "3" }, //하나
-                { "ksbox", "4" }, //광성
+                { "ksbox", "4" }, //광성수출포장
                 { "shbox", "5" }, //선호
                 { "ycbox", "6" }, //유창
                 { "kmbox", "7" }, //광무
@@ -101,7 +101,11 @@ namespace PopProject.Input
                 { "gybox", "19" }, //구룡
                 { "hssbox", "20" }, //혜성(울산)
                 { "sungjibox", "21" }, //성지
-                { "khbox", "22" } //금화
+                { "khbox", "22" }, //금화
+                { "opbox", "23" }, //원팩
+                { "ksboxs", "24" }, //광성포장산업
+                { "npbox", "25" }, //내포수출포장
+                { "kmsbox", "26" } //금성포장공업
             };
 
             // 서버 인덱스를 매핑된 값으로 설정

@@ -10,6 +10,27 @@ namespace PopProject.Interface
 {
     class Cls_금성포장공업
     {
+        public static void SaveCsvFile(string filePath, List<Cls_금성포장공업.PlanData> data)
+        {
+            try
+            {
+                using (var writer = new StreamWriter(filePath, false, Encoding.UTF8))
+                {
+                    // 데이터 작성
+                    foreach (var row in data)
+                    {
+                        // 필요한 속성만 선택하여 CSV 형식으로 작성
+                        string line = string.Join(",", row);
+                        writer.WriteLine(line);
+                    }
+                }
+                Console.WriteLine("CSV 파일이 성공적으로 생성되었습니다.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"파일 저장 중 오류 발생: {ex.Message}");
+            }
+        }
 
         public static string GetSheetModeResult(string sheetMode)
         {
@@ -34,23 +55,6 @@ namespace PopProject.Interface
                 case "BB":
                     return "15";
                 // 필요한 경우 다른 SheetMode 값에 대한 처리를 추가합니다.
-                default:
-                    return " ";
-            }
-        }
-
-        public static string GetCalculationModeResult(string boxType, string boxSize, string pCnt, string boxScore)
-        {
-            switch (boxType)
-            {
-                case "A-1":
-                    switch (pCnt)
-                    { 
-                        case "0.5":
-                            return "2";
-                        default:
-                            return "1";
-                    }
                 default:
                     return " ";
             }
@@ -123,8 +127,8 @@ namespace PopProject.Interface
                 sb.Append(BindingCount).Append(",");
                 sb.Append(ReferenceSize).Append(",");
                 sb.Append(PlannedCount).Append(",");
-                sb.Append(CustomerName).Append(",");
-                sb.Append(ProductName).Append(",");
+                sb.Append(PadMark(CustomerName)).Append(",");
+                sb.Append(PadMark(ProductName)).Append(",");
                 sb.Append(RegisteredDataUsage.PadLeft(1, '0')).Append(",");
                 sb.Append(Removal.PadLeft(1, '1')).Append(",");
                 sb.Append(Blank.PadLeft(0, ' ')).Append(",");
@@ -170,6 +174,11 @@ namespace PopProject.Interface
 
                 return sb.ToString();
             }
+        }
+        public static string PadMark(string input)
+        {
+            input = $"\"{input}\"";
+                return input;
         }
 
         public static List<ResultData> ReadCsvFile(string csvFilePath)

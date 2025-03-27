@@ -352,8 +352,9 @@ namespace PopProject.Util
                     };
                     break;
 
-                    //누리
+                    //누리,유램
                 case "nrbox":
+                case "erbox":
                     nr_Service = new ServiceReference_nrbox.Service_CRUDClient();
                     nr_Access_Model = new ServiceReference_nrbox.Access_Model();
                     nr_Return_Model = new ServiceReference_nrbox.Return_Model();
@@ -742,8 +743,9 @@ namespace PopProject.Util
                         //Console.WriteLine(SP명 + " 리턴값 : " + jo_Return_Model.Retrun값);
                         break;
 
-                        //누리
+                        //누리,유램
                     case "nrbox":
+                    case "erbox":
                         nr_Access_Model.SP명 = SP명;
                         nr_Access_Model.파라미터 = 파라미터;
                         nr_Access_Model.값 = 값;

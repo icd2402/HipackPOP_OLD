@@ -370,8 +370,8 @@ namespace PopProject.Input
                     {
                         //원단 재단 사이즈로 적용토록 함.
                         DimensionValue = "0"; // 2점
-                        Dimension1 = Detailitem.mL.ToString();//재단 장
-                        Dimension2 = Detailitem.mW.ToString();//재단 폭
+                        Dimension1 = int.Parse(Detailitem.mL.ToString()).ToString();//재단 장
+                        Dimension2 = int.Parse(Detailitem.mW.ToString()).ToString();//재단 폭
 
                     }
                     else if (mainModel.boxType.Contains("A") && (!Score1.Equals("0") && !Score2.Equals("0") && !Score2.Equals("0")))
@@ -396,11 +396,11 @@ namespace PopProject.Input
                                 }
 
                             }
-                            Dimension1 = boxSizeL.ToString();//박스 장
-                            Dimension2 = boxSizeW.ToString();//박스 폭
-                            Dimension3 = Score1.ToString();  //박스 날
-                            Dimension4 = boxSizeH.ToString();//박스 고
-                            Dimension5 = Detailitem.mW.ToString();//재단 폭
+                            Dimension1 = int.Parse(boxSizeL).ToString();//박스 장
+                            Dimension2 = int.Parse(boxSizeW).ToString();//박스 폭
+                            Dimension3 = int.Parse(Score1).ToString();  //박스 날
+                            Dimension4 = int.Parse(boxSizeH).ToString();//박스 고
+                            Dimension5 = int.Parse(Detailitem.mW.ToString()).ToString();//재단 폭
                             Dimension6 = (int.Parse(boxMM)).ToString();//박스 장+폭 + 미미 
                         };
                     }
@@ -423,23 +423,23 @@ namespace PopProject.Input
                         }
                         DimensionValue = "5"; // A식 변형 : 표준
                         Dimension1 = (int.Parse(boxSizeL) + int.Parse(boxSizeW)).ToString();//박스 장+폭 
-                        Dimension2 = boxSizeW.ToString();//박스 폭 
+                        Dimension2 = int.Parse(boxSizeW).ToString();//박스 폭 
                         Dimension3 = "0"; // 트윔
-                        Dimension4 = boxSizeL.ToString();//박스 장 
+                        Dimension4 = int.Parse(boxSizeL).ToString();//박스 장 
                         Dimension5 = (int.Parse(boxSizeL) + int.Parse(boxSizeW)).ToString();//박스 장+폭
-                        Dimension6 = boxSizeH.ToString();//박스 고 
-                        Dimension7 = Score1.ToString();  //박스 날
+                        Dimension6 = int.Parse(boxSizeH).ToString();//박스 고 
+                        Dimension7 = int.Parse(Score1).ToString();  //박스 날
                         Dimension8 = (int.Parse(boxSizeL) + int.Parse(boxSizeW) + int.Parse(boxMM)).ToString();//박스 장+폭 + 미미 
                         Dimension9 = (int.Parse(boxSizeL) + int.Parse(boxSizeW)).ToString();//박스 장+폭
-                        Dimension10 = Detailitem.mW.ToString();//재단 폭
+                        Dimension10 = int.Parse(Detailitem.mW.ToString()).ToString();//재단 폭
                     }
                     else if (mainModel.boxType.Equals("C식"))
                     {   //C 형태 제품의 경우
                         DimensionValue = "4"; // C식 
-                        Dimension1 = Detailitem.mL.ToString();//재단 장
-                        Dimension2 = Detailitem.mW.ToString();//재단 폭
-                        Dimension3 = Score1.ToString();  //박스 날
-                        Dimension4 = Score2.ToString();  //박스 날 
+                        Dimension1 = int.Parse(Detailitem.mL.ToString()).ToString();//재단 장
+                        Dimension2 = int.Parse(Detailitem.mW.ToString()).ToString();//재단 폭
+                        Dimension3 = int.Parse(Score1).ToString();  //박스 날
+                        Dimension4 = int.Parse(Score2).ToString();  //박스 날 
                     };
 
                     //string filePath = @"C:\ICD\POP\DATA\PLUM1.csv";
@@ -466,8 +466,10 @@ namespace PopProject.Input
                         }
                     };
 
-                    var plumData = new Cls_금성포장공업.PlanData
+                    var plumData = new List<Cls_금성포장공업.PlanData>
                     {
+                        new Cls_금성포장공업.PlanData
+                        {
                         SerialNo = inputModel.pplanKey.ToString(),
                         ProgramNo = Detailitem.prodID.ToString(),
                         SheetMode = Cls_금성포장공업.GetSheetModeResult(mainModel.paperGor),
@@ -506,12 +508,16 @@ namespace PopProject.Input
                         ExtraBlank57 = "",
                         RGB_Blank = new List<string> { "", "", "" },
                         End_Blank = ""
+                        }
                     };
 
                     // CSV 파일 생성 및 데이터 기록
-                    var csvContent = plumData.ToString();
-                    csvContent = plumData.ToString();
-                    File.WriteAllText(filePath, csvContent);
+                    Cls_금성포장공업.SaveCsvFile(filePath, plumData);
+
+                    //// CSV 파일 생성 및 데이터 기록
+                    //var csvContent = plumData.ToString();
+                    //csvContent = plumData.ToString();
+                    //File.WriteAllText(filePath, csvContent);
 
                     Console.WriteLine("PLUM1.csv 파일이 생성되었습니다.");
 
@@ -2040,8 +2046,13 @@ namespace PopProject.Input
                         }
                         // 체킹 표시
                         tbPLUM2.Visibility = Visibility.Collapsed; // 체킹 표시
-                        timer_1s.Stop();//타이머 중지
-                        //timer_1s.Dispose();
+                                                                   //생산결과여부 체크를 위해 타이머 진행.
+                        if (SettingJsonManager.serverIndex.Equals("kmsbox") && SettingJsonManager.mercName.Contains("우메다니") &&
+                        !SettingJsonManager.PLUMPATH.Equals("") && inputModel.pplanKey.Equals(Main.production.pplanKey))
+                        {
+                            timer_1s.Stop();//타이머 중지
+                            //timer_1s.Dispose();
+                        }
 
                         inputModel.perrCount = 0;
                         inputModel.count = 0;
