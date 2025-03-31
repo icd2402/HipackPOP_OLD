@@ -233,6 +233,7 @@ namespace PopProject.Input
                             dateTime = DateTime.ParseExact(record.eDatetime, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
                             inputModel.eDatetime = dateTime.ToString("yyyy-MM-dd HH:mm:ss");     //종료시간
                             tbPLUM2.Text = "작업 완료!";
+                            timer_1s.Stop();
                         }
                         Console.WriteLine($"SerialNo: {record.SerialNo}" +
                             $", ProgramNo: {record.ProgramNo}" +
@@ -2048,7 +2049,7 @@ namespace PopProject.Input
                         tbPLUM2.Visibility = Visibility.Collapsed; // 체킹 표시
                                                                    //생산결과여부 체크를 위해 타이머 진행.
                         if (SettingJsonManager.serverIndex.Equals("kmsbox") && SettingJsonManager.mercName.Contains("우메다니") &&
-                        !SettingJsonManager.PLUMPATH.Equals("") && inputModel.pplanKey.Equals(Main.production.pplanKey))
+                        !SettingJsonManager.PLUMPATH.Equals("") )
                         {
                             timer_1s.Stop();//타이머 중지
                             //timer_1s.Dispose();

@@ -14,7 +14,7 @@ namespace PopProject.Interface
         {
             try
             {
-                using (var writer = new StreamWriter(filePath, false, Encoding.UTF8))
+                using (var writer = new StreamWriter(filePath, false, Encoding.Default))
                 {
                     // 데이터 작성
                     foreach (var row in data)
@@ -189,17 +189,20 @@ namespace PopProject.Interface
                 while (!reader.EndOfStream)
                 {
                     string line = reader.ReadLine();  // 한 줄씩 읽기
-                    string[] values = line.Split(',');  // 콤마(,)로 분리
-                    var record = new ResultData
+                    if (!line.Equals(""))
                     {
-                        SerialNo = values[0],
-                        ProgramNo = values[1],
-                        pworkCount = values[2],
-                        sDatetime = values[3],
-                        eDatetime = values[4]
+                        string[] values = line.Split(',');  // 콤마(,)로 분리
+                        var record = new ResultData
+                        {
+                            SerialNo = values[0],
+                            ProgramNo = values[1],
+                            pworkCount = values[2],
+                            sDatetime = values[3],
+                            eDatetime = values[4]
+                        };
+                        records.Add(record);
+                        Console.WriteLine(string.Join(" | ", values)); // 데이터 출력
                     };
-                    records.Add(record);
-                    Console.WriteLine(string.Join(" | ", values)); // 데이터 출력
                 }
                 return records;
 
