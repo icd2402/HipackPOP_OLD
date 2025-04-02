@@ -135,10 +135,13 @@ namespace PopProject.Input
 
             tbPLUM2.Visibility = Visibility.Collapsed; // 체킹 표시
             if (Main.production != null)
-            { 
+            {
+                string DEST_DIR = "";
+                DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? DEST_DIR : "";
+
                 //생산결과여부 체크를 위해 타이머 진행.
                 if ( SettingJsonManager.serverIndex.Equals("kmsbox") && SettingJsonManager.mercName.Contains("우메다니") && 
-                !SettingJsonManager.PLUMPATH.Equals("") && inputModel.pplanKey.Equals(Main.production.pplanKey))
+                !DEST_DIR.Equals("") && inputModel.pplanKey.Equals(Main.production.pplanKey))
                 {
                     Timer_1s();         // 1초 - 시계, 바코드, 종료시간 체크
                 }
@@ -206,13 +209,13 @@ namespace PopProject.Input
 
         private void Timer_1s_Tick(object sender, EventArgs e)
         {
-            string DEST_DIR = SettingJsonManager.PLUMPATH;
             string resultfile = "";
+            string DEST_DIR = "";
+                DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? DEST_DIR : ""; 
 
             if (!DEST_DIR.Equals(""))
             {
                 Cls_Variable.EnsureDirectoryExists(DEST_DIR);
-
 
                 resultfile = Path.Combine(DEST_DIR, "PLUM2.csv");
 
@@ -248,8 +251,9 @@ namespace PopProject.Input
 
         private void PLUM2_DeleteFile()
         {
-            string DEST_DIR = SettingJsonManager.PLUMPATH;
             string resultfile = "";
+            string DEST_DIR = "";
+            DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? DEST_DIR : "";
 
             if (!DEST_DIR.Equals(""))
             {
@@ -449,7 +453,8 @@ namespace PopProject.Input
                     Cls_Variable.EnsureDirectoryExists(folderPath);
 
                     string destPath = "";
-                    string DEST_DIR = SettingJsonManager.PLUMPATH;
+                    string DEST_DIR = "";
+                        DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? DEST_DIR : "";
                     if (!DEST_DIR.Equals(""))
                     {
                         Cls_Variable.EnsureDirectoryExists(DEST_DIR);
@@ -459,7 +464,7 @@ namespace PopProject.Input
                     {
                         // 파일 열기
                         SettingJsonManager.PLUMPATH = Cls_Variable.OpenFolderDialog();
-                        DEST_DIR = SettingJsonManager.PLUMPATH;
+                        DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? DEST_DIR : "";
                         if (DEST_DIR.Equals(""))
                         {
                             MessageBox_Dialog msg = new MessageBox_Dialog(" 공유폴더 지정 후 다시 시작을 해주시기 바랍니다.!!");
@@ -2047,9 +2052,12 @@ namespace PopProject.Input
                         }
                         // 체킹 표시
                         tbPLUM2.Visibility = Visibility.Collapsed; // 체킹 표시
-                                                                   //생산결과여부 체크를 위해 타이머 진행.
+                        //생산결과여부 체크를 위해 타이머 진행.
+                        string DEST_DIR = "";
+                        DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? DEST_DIR : "";
+
                         if (SettingJsonManager.serverIndex.Equals("kmsbox") && SettingJsonManager.mercName.Contains("우메다니") &&
-                        !SettingJsonManager.PLUMPATH.Equals("") )
+                        !DEST_DIR.Equals("") )
                         {
                             timer_1s.Stop();//타이머 중지
                             //timer_1s.Dispose();

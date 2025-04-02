@@ -377,9 +377,9 @@ namespace PopProject.Util
                                 {"lockPassword", string.IsNullOrEmpty(lockPassword) == false ? lockPassword : ""},
                                 {"companyIntegration", companyIntegration.ToString()},
                                 {"sumView", sumView.ToString()},
-                                {"PLUMPATH", PLUMPATH.ToString()}
+                                {"PLUMPATH", string.IsNullOrEmpty(PLUMPATH) == false ? PLUMPATH : ""}
             };
-
+                
                 //인증코드 파일 작성
                 string json = Newtonsoft.Json.JsonConvert.SerializeObject(settings);
 

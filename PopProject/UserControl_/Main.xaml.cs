@@ -725,14 +725,28 @@ namespace PopProject.UserControl_
                 Cls_Variable.SharedValue = true ;
                 //현재 설비명 before에 담기
                 string before = string.IsNullOrWhiteSpace(SettingJsonManager.mercName) ? "" : SettingJsonManager.mercName;
-                if (!before.Equals(""))
-                {
+                //if (before.Equals(""))
+                //{
                     MercList mercList = new MercList(); //리스트 가져오기
                     _ = mercList.ShowDialog(); //설비 리스트 팝업
                     tbMercName.Text = SettingJsonManager.mercName;
 
+                //}
+                // 상단 바 계획 글자 옵션
+                if (SettingJsonManager.CountType != 0) //통수일때 
+                {
+                    work.Text = "박스수";
+                    work.FontSize = 16;
+                    box.Visibility = Visibility.Visible;
+                    Canvas.SetTop(work, 1);
+                    Canvas.SetTop(box, 20);
                 }
-
+                else //매수 일떄
+                {
+                    work.Text = "계획수";
+                    box.Visibility = Visibility.Collapsed;
+                    Canvas.SetTop(work, 10);
+                }
                 if (before.Equals(SettingJsonManager.mercName) == false) //설비명이 변경되면
                 {
                     //관리자 계정이 아니고 전 설비가 선택되어 있었던 경우만 실행 (혼선 방지)
@@ -750,28 +764,12 @@ namespace PopProject.UserControl_
                 else //설비명 변경 안했으면
                 {
                     //관리자 계정이 아닐때만 현황판으로 켜짐 신호 보냄 (혼선 방지)
-                    if (!SettingJsonManager.manager.Equals("1"))
+                    if (!SettingJsonManager.manager.Equals("1") && !SettingJsonManager.mercName.Equals(""))
                     {
                         CountManager.SendMsg(SettingJsonManager.mercName, "A"); //기존 설비명, 켜짐신호
                     }
                 }
-
-                // 상단 바 계획 글자 옵션
-                if (SettingJsonManager.CountType != 0) //통수일때 
-                {
-                    work.Text = "박스수";
-                    work.FontSize = 16;
-                    box.Visibility = Visibility.Visible;
-                    Canvas.SetTop(work, 1);
-                    Canvas.SetTop(box, 20);
-                }
-                else //매수 일떄
-                {
-                    work.Text = "계획수";
-                    box.Visibility = Visibility.Collapsed;
-                    Canvas.SetTop(work, 10);
-                }
-
+                if (!SettingJsonManager.mercName.Equals(""))
                     UpdateWorkPlanNResult(); // 계획/결과 조회
             }
         }
@@ -3756,6 +3754,7 @@ namespace PopProject.UserControl_
                 }
             }
         }
+
     }
 
     public class WindowHelper
