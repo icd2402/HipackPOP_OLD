@@ -1114,6 +1114,7 @@ namespace PopProject.Util
 
                     //누리
                 case "nrbox":
+                case "erbox":
                     nr_Access_Model.SP명 = SP명;
                     nr_Access_Model.파라미터 = 파라미터;
                     nr_Access_Model.값 = 값;
