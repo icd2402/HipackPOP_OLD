@@ -454,7 +454,8 @@ namespace PopProject.Input
 
                     string destPath = "";
                     string DEST_DIR = "";
-                        DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? DEST_DIR : "";
+                        DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? SettingJsonManager.PLUMPATH : "";
+                    //DEST_DIR = SettingJsonManager.PLUMPATH;
                     if (!DEST_DIR.Equals(""))
                     {
                         Cls_Variable.EnsureDirectoryExists(DEST_DIR);
@@ -2054,7 +2055,7 @@ namespace PopProject.Input
                         tbPLUM2.Visibility = Visibility.Collapsed; // 체킹 표시
                         //생산결과여부 체크를 위해 타이머 진행.
                         string DEST_DIR = "";
-                        DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? DEST_DIR : "";
+                        DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? SettingJsonManager.PLUMPATH : "";
 
                         if (SettingJsonManager.serverIndex.Equals("kmsbox") && SettingJsonManager.mercName.Contains("우메다니") &&
                         !DEST_DIR.Equals("") )
