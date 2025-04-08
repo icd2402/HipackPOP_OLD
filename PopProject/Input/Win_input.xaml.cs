@@ -137,7 +137,7 @@ namespace PopProject.Input
             if (Main.production != null)
             {
                 string DEST_DIR = "";
-                DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? DEST_DIR : "";
+                DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? SettingJsonManager.PLUMPATH : "";
 
                 //생산결과여부 체크를 위해 타이머 진행.
                 if ( SettingJsonManager.serverIndex.Equals("kmsbox") && SettingJsonManager.mercName.Contains("우메다니") && 
@@ -211,7 +211,7 @@ namespace PopProject.Input
         {
             string resultfile = "";
             string DEST_DIR = "";
-                DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? DEST_DIR : ""; 
+                DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? SettingJsonManager.PLUMPATH : ""; 
 
             if (!DEST_DIR.Equals(""))
             {
@@ -253,7 +253,7 @@ namespace PopProject.Input
         {
             string resultfile = "";
             string DEST_DIR = "";
-            DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? DEST_DIR : "";
+            DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? SettingJsonManager.PLUMPATH : "";
 
             if (!DEST_DIR.Equals(""))
             {
@@ -465,7 +465,7 @@ namespace PopProject.Input
                     {
                         // 파일 열기
                         SettingJsonManager.PLUMPATH = Cls_Variable.OpenFolderDialog();
-                        DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? DEST_DIR : "";
+                        DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? SettingJsonManager.PLUMPATH : "";
                         if (DEST_DIR.Equals(""))
                         {
                             MessageBox_Dialog msg = new MessageBox_Dialog(" 공유폴더 지정 후 다시 시작을 해주시기 바랍니다.!!");
