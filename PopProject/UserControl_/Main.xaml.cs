@@ -45,11 +45,17 @@ namespace PopProject.UserControl_
     public partial class Main : UserControl
     {
         int wdIGCOunt = 0;
+#pragma warning disable CS0414 // 'Main.arduconnCount' 필드가 할당되었지만 사용되지 않았습니다.
         int arduconnCount = 0;
+#pragma warning restore CS0414 // 'Main.arduconnCount' 필드가 할당되었지만 사용되지 않았습니다.
         private bool sortChecked = true;
         private DispatcherTimer timer;
+#pragma warning disable CS0169 // 'Main.timer5' 필드가 사용되지 않았습니다.
         private DispatcherTimer timer5;
+#pragma warning restore CS0169 // 'Main.timer5' 필드가 사용되지 않았습니다.
+#pragma warning disable CS0169 // 'Main.timer6' 필드가 사용되지 않았습니다.
         private DispatcherTimer timer6;
+#pragma warning restore CS0169 // 'Main.timer6' 필드가 사용되지 않았습니다.
         public static SerialPort arduSerial = new SerialPort();
         public static SerialPort arduSerial1 = new SerialPort();
         public static Win_input win_Input;
@@ -61,27 +67,47 @@ namespace PopProject.UserControl_
         public ObservableCollection<MainModel> MachineCheck;
         public static Consumer consumer_;
         public static MainModel production = null;
+#pragma warning disable CS0414 // 'Main.minuite' 필드가 할당되었지만 사용되지 않았습니다.
         private int minuite = 0;
+#pragma warning restore CS0414 // 'Main.minuite' 필드가 할당되었지만 사용되지 않았습니다.
+#pragma warning disable CS0414 // 'Main.minuite1' 필드가 할당되었지만 사용되지 않았습니다.
         private int minuite1 = 0;
+#pragma warning restore CS0414 // 'Main.minuite1' 필드가 할당되었지만 사용되지 않았습니다.
         public static int str;
         private Point scrollMousePoint = new Point();
         private double hOff = 1;
         private double vOff = 1;
         public static bool passCheck = true; //넘기기
+#pragma warning disable CS0414 // 'Main.CheckDateValue' 필드가 할당되었지만 사용되지 않았습니다.
         private bool CheckDateValue = true;
+#pragma warning restore CS0414 // 'Main.CheckDateValue' 필드가 할당되었지만 사용되지 않았습니다.
+#pragma warning disable CS0414 // 'Main.DateCheck' 필드가 할당되었지만 사용되지 않았습니다.
         private bool DateCheck = false;
+#pragma warning restore CS0414 // 'Main.DateCheck' 필드가 할당되었지만 사용되지 않았습니다.
         private bool CNS_Barcode_Send = false; //true이면 바코드 읽으면 CNS로 데이터 전송
         private bool oderLast_Sort = false;
+#pragma warning disable CS0414 // 'Main.SignalR_Tick' 필드가 할당되었지만 사용되지 않았습니다.
         bool SignalR_Tick = false;
+#pragma warning restore CS0414 // 'Main.SignalR_Tick' 필드가 할당되었지만 사용되지 않았습니다.
+#pragma warning disable CS0414 // 'Main.SignalR_State' 필드가 할당되었지만 사용되지 않았습니다.
         private string SignalR_State = ""; //시그널R 상태
+#pragma warning restore CS0414 // 'Main.SignalR_State' 필드가 할당되었지만 사용되지 않았습니다.
+#pragma warning disable CS0169 // 'Main.Url' 필드가 사용되지 않았습니다.
         string Url; //서비스 주소
+#pragma warning restore CS0169 // 'Main.Url' 필드가 사용되지 않았습니다.
+#pragma warning disable CS0169 // 'Main.LastConunt' 필드가 사용되지 않았습니다.
         private double LastConunt;
+#pragma warning restore CS0169 // 'Main.LastConunt' 필드가 사용되지 않았습니다.
+#pragma warning disable CS0414 // 'Main.popWorkList' 필드가 할당되었지만 사용되지 않았습니다.
         string popWorkList = ""; //생산계획리스트 SP명
+#pragma warning restore CS0414 // 'Main.popWorkList' 필드가 할당되었지만 사용되지 않았습니다.
         public static string jsonString = "";
         private Canvas previousClickedCanvas = null;
         //private DateTimeManager dateTimeManager;
         private bool isTextVisible = false; //날짜 변경버튼 
+#pragma warning disable CS0414 // 'Main.plusDate' 필드가 할당되었지만 사용되지 않았습니다.
         private string plusDate = "";
+#pragma warning restore CS0414 // 'Main.plusDate' 필드가 할당되었지만 사용되지 않았습니다.
         private SearchList searchListWindow;
         bool tempLock = false;
         bool settingPopupCheck = false;

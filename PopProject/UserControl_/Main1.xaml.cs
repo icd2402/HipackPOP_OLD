@@ -53,7 +53,9 @@ namespace PopProject.UserControl_
         public static Consumer consumer_;
         public static DSConsumer dSConsumer;
         public static MainModel production = null;
+#pragma warning disable CS0414 // 'Main1.minuite' 필드가 할당되었지만 사용되지 않았습니다.
         private int minuite = 0;
+#pragma warning restore CS0414 // 'Main1.minuite' 필드가 할당되었지만 사용되지 않았습니다.
         public static int str;
         private Point scrollMousePoint = new Point();
         private double hOff = 1;
@@ -66,7 +68,9 @@ namespace PopProject.UserControl_
         private bool isTextVisible = false; //날짜 변경버튼 
         private bool oderLast_Sort = false;
         private bool sortChecked = true;
+#pragma warning disable CS0414 // 'Main1.plusDate' 필드가 할당되었지만 사용되지 않았습니다.
         private string plusDate = "";
+#pragma warning restore CS0414 // 'Main1.plusDate' 필드가 할당되었지만 사용되지 않았습니다.
 
         public Main1()
         {

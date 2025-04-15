@@ -46,8 +46,12 @@ namespace PopProject.Detail
         private bool consumcheck;
         private ConsumerModel consumerModel;
         private bool v;
+#pragma warning disable CS0169 // 'Win_Detail.Barcod' 필드가 사용되지 않았습니다.
         private bool Barcod;
+#pragma warning restore CS0169 // 'Win_Detail.Barcod' 필드가 사용되지 않았습니다.
+#pragma warning disable CS0169 // 'Win_Detail.win_KeyBoard' 필드가 사용되지 않았습니다.
         private Win_KeyBoard win_KeyBoard;
+#pragma warning restore CS0169 // 'Win_Detail.win_KeyBoard' 필드가 사용되지 않았습니다.
 
         private string 거래처;
         private string 품명;
@@ -66,10 +70,16 @@ namespace PopProject.Detail
         private bool CNS_Send = false;
 
         private int 작업지시;
+#pragma warning disable CS0414 // 'Win_Detail.consumer' 필드가 할당되었지만 사용되지 않았습니다.
         private bool consumer = false;
+#pragma warning restore CS0414 // 'Win_Detail.consumer' 필드가 할당되었지만 사용되지 않았습니다.
         private bool MemoLock = true;
+#pragma warning disable CS0414 // 'Win_Detail.PopUpPosition_M' 필드가 할당되었지만 사용되지 않았습니다.
         private bool PopUpPosition_M = false; //
+#pragma warning restore CS0414 // 'Win_Detail.PopUpPosition_M' 필드가 할당되었지만 사용되지 않았습니다.
+#pragma warning disable CS0414 // 'Win_Detail.PopUpPosition_S' 필드가 할당되었지만 사용되지 않았습니다.
         private bool PopUpPosition_S = false; //
+#pragma warning restore CS0414 // 'Win_Detail.PopUpPosition_S' 필드가 할당되었지만 사용되지 않았습니다.
 
         //private DateTimeManager dateTimeManager;
 

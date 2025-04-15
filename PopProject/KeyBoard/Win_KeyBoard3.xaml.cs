@@ -13,7 +13,9 @@ namespace PopProject.KeyBoard
 
     public partial class Win_KeyBoard3 : Window
     {
+#pragma warning disable CS0169 // 'Win_KeyBoard3.pCnt' 필드가 사용되지 않았습니다.
         private float pCnt;
+#pragma warning restore CS0169 // 'Win_KeyBoard3.pCnt' 필드가 사용되지 않았습니다.
         private string ProdID = "";
 
         public Win_KeyBoard3(string prodID)

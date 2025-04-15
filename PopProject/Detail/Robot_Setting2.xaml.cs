@@ -82,14 +82,18 @@ namespace PopProject.Detail
                     }
                 }
             }
+#pragma warning disable CS0168 // 'e' 변수가 선언되었지만 사용되지 않았습니다.
             catch (Exception e)
+#pragma warning restore CS0168 // 'e' 변수가 선언되었지만 사용되지 않았습니다.
             {
             }
         }
 
         private void DataRead()//통신 오픈 / 읽기
         {
+#pragma warning disable CS0168 // 'msg' 변수가 선언되었지만 사용되지 않았습니다.
             MessageBox_Dialog msg;
+#pragma warning restore CS0168 // 'msg' 변수가 선언되었지만 사용되지 않았습니다.
             int StationNumber = int.Parse(SettingJsonManager.robotPort);
             try
             {
@@ -226,7 +230,9 @@ namespace PopProject.Detail
 
             if (returnData.결과 == 1)
             {
+#pragma warning disable CS0219 // 'mercName' 할당되었지만 사용되지 않았습니다.
                 string mercName = "";
+#pragma warning restore CS0219 // 'mercName' 할당되었지만 사용되지 않았습니다.
                 string BOX_W = "";
                 string BOX_H = "";
                 string BOX_D = "";
@@ -335,7 +341,9 @@ namespace PopProject.Detail
             if (sender.GetType().Name.Equals("Grid"))
             {
                 Grid context = (Grid)sender;
+#pragma warning disable CS0168 // 'dialog' 변수가 선언되었지만 사용되지 않았습니다.
                 MessageBox_Dialog dialog;
+#pragma warning restore CS0168 // 'dialog' 변수가 선언되었지만 사용되지 않았습니다.
                 switch (context.Name)
                 {
                     case "box1":

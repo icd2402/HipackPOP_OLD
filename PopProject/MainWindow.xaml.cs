@@ -23,7 +23,9 @@ namespace PopProject
         private Mutex mutex = null;
         public static string userID = "0";
         public static string userName = "0";
+#pragma warning disable CS0169 // 'MainWindow.Url' 필드가 사용되지 않았습니다.
         string Url; //서비스 주소
+#pragma warning restore CS0169 // 'MainWindow.Url' 필드가 사용되지 않았습니다.
 
         public MainWindow()
         {

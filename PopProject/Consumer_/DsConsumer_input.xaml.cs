@@ -39,10 +39,16 @@ namespace PopProject.Consumer_
         private bool checkChangeButton = false;
         public Win_KeyBoard win_KeyBoard;
         private DispatcherTimer timer;
+#pragma warning disable CS0169 // 'DsConsumer_input.pworkkey' 필드가 사용되지 않았습니다.
         int pworkkey;
+#pragma warning restore CS0169 // 'DsConsumer_input.pworkkey' 필드가 사용되지 않았습니다.
+#pragma warning disable CS0169 // 'DsConsumer_input.workmemberkey' 필드가 사용되지 않았습니다.
         int workmemberkey, second =0;
+#pragma warning restore CS0169 // 'DsConsumer_input.workmemberkey' 필드가 사용되지 않았습니다.
         private bool startPBLock = false;
+#pragma warning disable CS0414 // 'DsConsumer_input.selectedDate' 필드가 할당되었지만 사용되지 않았습니다.
         private DateTime selectedDate = new DateTime();
+#pragma warning restore CS0414 // 'DsConsumer_input.selectedDate' 필드가 할당되었지만 사용되지 않았습니다.
     
         public DsConsumer_input(ConsumerModel consumerModel, MainModel mainModel)
         {
@@ -454,7 +460,9 @@ namespace PopProject.Consumer_
                                     }
                                 }
                             }
+#pragma warning disable CS0168 // 'ardu' 변수가 선언되었지만 사용되지 않았습니다.
                             catch (Exception ardu)
+#pragma warning restore CS0168 // 'ardu' 변수가 선언되었지만 사용되지 않았습니다.
                             {
                                 MessageBox_Dialog msg = new MessageBox_Dialog("아두이노 연결 오류!!");
                             }

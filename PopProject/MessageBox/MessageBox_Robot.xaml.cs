@@ -19,7 +19,9 @@ namespace PopProject.MessageBox
     /// </summary>
     public partial class MessageBox_Robot : Window
     {
+#pragma warning disable CS0169 // 'MessageBox_Robot.Message' 필드가 사용되지 않았습니다.
         private String Message;
+#pragma warning restore CS0169 // 'MessageBox_Robot.Message' 필드가 사용되지 않았습니다.
 
 
         public MessageBox_Robot()

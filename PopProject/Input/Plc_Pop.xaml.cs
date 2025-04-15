@@ -27,7 +27,9 @@ namespace PopProject.Input
     /// </summary>
     public partial class Plc_Pop : Window
     {
+#pragma warning disable CS0169 // 'Plc_Pop.psize' 필드가 사용되지 않았습니다.
         string[] psize; //규격 배열
+#pragma warning restore CS0169 // 'Plc_Pop.psize' 필드가 사용되지 않았습니다.
         MainModel mainModel;
         public InputModel inputModel;
         Socket mainSock;
@@ -546,7 +548,9 @@ namespace PopProject.Input
                 float D3913    = 0; //
                 float D3914    = 0; //
                 float D3915    = 0; //
+#pragma warning disable CS0219 // 'spare1' 할당되었지만 사용되지 않았습니다.
                 float spare1   = 0;
+#pragma warning restore CS0219 // 'spare1' 할당되었지만 사용되지 않았습니다.
                 float recipe1  = 0;
                 float recipe2  = 0;
                 float recipe3  = 0;
@@ -877,7 +881,9 @@ namespace PopProject.Input
                         }
                     }
                 }
+#pragma warning disable CS0168 // 'e' 변수가 선언되었지만 사용되지 않았습니다.
                 catch (Exception e)
+#pragma warning restore CS0168 // 'e' 변수가 선언되었지만 사용되지 않았습니다.
                 {
                     mainSock.Close();
                 }
@@ -916,19 +922,31 @@ namespace PopProject.Input
                         {
                             case 0: //작업모델 번호
                                 dummyData = ValueConvert(data, false); break;
+#pragma warning disable CS0162 // 접근할 수 없는 코드가 있습니다.
                                 int boxType = Convert.ToInt32(dummyData);
+#pragma warning restore CS0162 // 접근할 수 없는 코드가 있습니다.
                                 switch (boxType)
                                 {
                                     case 1://1합
+#pragma warning disable CS0162 // 접근할 수 없는 코드가 있습니다.
                                         combo.SelectedIndex = 0; break;
+#pragma warning restore CS0162 // 접근할 수 없는 코드가 있습니다.
                                     case 3://2합
+#pragma warning disable CS0162 // 접근할 수 없는 코드가 있습니다.
                                         combo.SelectedIndex = 1; break;
+#pragma warning restore CS0162 // 접근할 수 없는 코드가 있습니다.
                                     case 5://인쇄물
+#pragma warning disable CS0162 // 접근할 수 없는 코드가 있습니다.
                                         combo.SelectedIndex = 2; break;
+#pragma warning restore CS0162 // 접근할 수 없는 코드가 있습니다.
                                     case 6://H형
+#pragma warning disable CS0162 // 접근할 수 없는 코드가 있습니다.
                                         combo.SelectedIndex = 3; break;
+#pragma warning restore CS0162 // 접근할 수 없는 코드가 있습니다.
                                     case 7://H-Cover형
+#pragma warning disable CS0162 // 접근할 수 없는 코드가 있습니다.
                                         combo.SelectedIndex = 4; break;
+#pragma warning restore CS0162 // 접근할 수 없는 코드가 있습니다.
                                 }
 
                             case 1: //작업지시 매수
@@ -1008,7 +1026,9 @@ namespace PopProject.Input
                                     tb14.Text = ValueConvert(data, true); 
                                 }
                                 break;
+#pragma warning disable CS0162 // 접근할 수 없는 코드가 있습니다.
                                 tb15.Text = ValueConvert(data, true); break;
+#pragma warning restore CS0162 // 접근할 수 없는 코드가 있습니다.
 
                             case 28: //                          
                                 tb15.Text = ValueConvert(data, true); break;

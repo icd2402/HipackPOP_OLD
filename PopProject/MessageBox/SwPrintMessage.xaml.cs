@@ -36,16 +36,26 @@ namespace PopProject.MessageBox
         ClsUc_완제품명세서_Control4add.ProductReport pr12 = new ClsUc_완제품명세서_Control4add.ProductReport();
         ClsUc_완제품명세서_Control4add 완제품명세서_Uc12 = new ClsUc_완제품명세서_Control4add();
         ClsUc_명세서_Report2 명세서양식_Uc12 = new ClsUc_명세서_Report2();
+#pragma warning disable CS0169 // 'SwPrintMessage.Set_FixedPage2' 필드가 사용되지 않았습니다.
         FixedPage Set_FixedPage2;
+#pragma warning restore CS0169 // 'SwPrintMessage.Set_FixedPage2' 필드가 사용되지 않았습니다.
+#pragma warning disable CS0169 // 'SwPrintMessage.FixedDocument2' 필드가 사용되지 않았습니다.
         FixedDocument FixedDocument2;
+#pragma warning restore CS0169 // 'SwPrintMessage.FixedDocument2' 필드가 사용되지 않았습니다.
 
         MainModel mainModel;
         DetailModel detailitem;
         PrintWindow reportWindow;
 
+#pragma warning disable CS0649 // 'SwPrintMessage.metrialBJKey' 필드에는 할당되지 않으므로 항상 0 기본값을 사용합니다.
         private readonly int metrialBJKey;
+#pragma warning restore CS0649 // 'SwPrintMessage.metrialBJKey' 필드에는 할당되지 않으므로 항상 0 기본값을 사용합니다.
+#pragma warning disable CS0649 // 'SwPrintMessage.scmServerIndex' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
         private readonly string scmServerIndex;
+#pragma warning restore CS0649 // 'SwPrintMessage.scmServerIndex' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
+#pragma warning disable CS0649 // 'SwPrintMessage.scmDBName' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
         private readonly string scmDBName;
+#pragma warning restore CS0649 // 'SwPrintMessage.scmDBName' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
         private bool igVisible = false;
 
         public SwPrintMessage(MainModel main, DetailModel detailitem)

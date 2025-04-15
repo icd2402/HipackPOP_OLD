@@ -25,7 +25,9 @@ namespace PopProject.Input
         private Point scrollMousePoint1 = new Point();
         private double hOff1 = 1;
         private double vOff1 = 1;
+#pragma warning disable CS0414 // 'Win_Setting.testLock' 필드가 할당되었지만 사용되지 않았습니다.
         private bool testLock = false;
+#pragma warning restore CS0414 // 'Win_Setting.testLock' 필드가 할당되었지만 사용되지 않았습니다.
 
         public Win_Setting()
         {

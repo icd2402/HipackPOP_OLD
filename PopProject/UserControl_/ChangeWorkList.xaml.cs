@@ -25,7 +25,9 @@ namespace PopProject.UserControl_
         private double hOff = 1;
         private double vOff = 1;
 
+#pragma warning disable CS0414 // 'ChangeWorkList.selectedDate' 필드가 할당되었지만 사용되지 않았습니다.
         private DateTime selectedDate = new DateTime();
+#pragma warning restore CS0414 // 'ChangeWorkList.selectedDate' 필드가 할당되었지만 사용되지 않았습니다.
 
         public ChangeWorkList(ObservableCollection<MainModel> list)
         {

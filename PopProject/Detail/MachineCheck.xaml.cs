@@ -22,13 +22,19 @@ namespace PopProject.Detail
     /// </summary>
     public partial class MachineCheck : Window
     {
+#pragma warning disable CS0414 // 'MachineCheck.구분Check' 필드가 할당되었지만 사용되지 않았습니다.
         private bool 구분Check = true;
+#pragma warning restore CS0414 // 'MachineCheck.구분Check' 필드가 할당되었지만 사용되지 않았습니다.
+#pragma warning disable CS0414 // 'MachineCheck.점검명Check' 필드가 할당되었지만 사용되지 않았습니다.
         private bool 점검명Check = true;
+#pragma warning restore CS0414 // 'MachineCheck.점검명Check' 필드가 할당되었지만 사용되지 않았습니다.
         private bool 점검중 = false;
         string 점검내용 = "";
         string s구분 = "";
         string s점검명 = "";
+#pragma warning disable CS0414 // 'MachineCheck.s시간' 필드가 할당되었지만 사용되지 않았습니다.
         string s시간 = "";
+#pragma warning restore CS0414 // 'MachineCheck.s시간' 필드가 할당되었지만 사용되지 않았습니다.
         string ServerIndex = ""; //업체 인덱스
         string DBName = ""; //접속정보(DB명)
 

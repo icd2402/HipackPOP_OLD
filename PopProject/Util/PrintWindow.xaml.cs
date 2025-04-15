@@ -18,20 +18,28 @@ namespace Monitor.Util
     public partial class PrintWindow : Window
     {
         private ArrayList TempArray;
+#pragma warning disable CS0649 // 'PrintWindow.Type' 필드에는 할당되지 않으므로 항상 0 기본값을 사용합니다.
         private int Type;
+#pragma warning restore CS0649 // 'PrintWindow.Type' 필드에는 할당되지 않으므로 항상 0 기본값을 사용합니다.
         public int 가로세로;
         private bool 확대Type;
         public string 리포트Type;
 
+#pragma warning disable CS0649 // 'PrintWindow.수주서Type' 필드에는 할당되지 않으므로 항상 0 기본값을 사용합니다.
         private int 수주서Type;
+#pragma warning restore CS0649 // 'PrintWindow.수주서Type' 필드에는 할당되지 않으므로 항상 0 기본값을 사용합니다.
 
         public MainViewModel ViewModel = new MainViewModel();
 
         // 출력 다이알로그 정의
         public PrintDialog Prt_Dialog;
         // 출력 페이지 정의 
+#pragma warning disable CS0649 // 'PrintWindow.가로FixedDocument' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
         private FixedDocument 가로FixedDocument;
+#pragma warning restore CS0649 // 'PrintWindow.가로FixedDocument' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
+#pragma warning disable CS0649 // 'PrintWindow.세로FixedDocument' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
         private FixedDocument 세로FixedDocument;
+#pragma warning restore CS0649 // 'PrintWindow.세로FixedDocument' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
 
         // 스레드 정지 값 
         private int Invock_Value = 100;

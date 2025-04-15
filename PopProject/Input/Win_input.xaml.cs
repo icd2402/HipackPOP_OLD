@@ -57,18 +57,26 @@ namespace PopProject.Input
         
         private double hOff1 = 1;
         private double vOff1 = 1;
+#pragma warning disable CS0169 // 'Win_input.result' 필드가 사용되지 않았습니다.
         private int result;
+#pragma warning restore CS0169 // 'Win_input.result' 필드가 사용되지 않았습니다.
         private bool ErrorCheck = true;
         private bool MultiErrorCheck = true;
         private bool CNS_Send = false;
+#pragma warning disable CS0169 // 'Win_input.Url' 필드가 사용되지 않았습니다.
         string Url; //서비스 주소
+#pragma warning restore CS0169 // 'Win_input.Url' 필드가 사용되지 않았습니다.
 
         private bool success = false; //CNS 통신연결 확인
         private bool startPBLock = false;
+#pragma warning disable CS0414 // 'Win_input.inLineDone' 필드가 할당되었지만 사용되지 않았습니다.
         private int inLineDone = 0;
+#pragma warning restore CS0414 // 'Win_input.inLineDone' 필드가 할당되었지만 사용되지 않았습니다.
 
 
+#pragma warning disable CS0414 // 'Win_input.selectedDate' 필드가 할당되었지만 사용되지 않았습니다.
         private DateTime selectedDate = new DateTime();
+#pragma warning restore CS0414 // 'Win_input.selectedDate' 필드가 할당되었지만 사용되지 않았습니다.
         private DispatcherTimer timer_1s;
         //private static Timer timer_1s;
 

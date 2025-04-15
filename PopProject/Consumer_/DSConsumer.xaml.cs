@@ -38,15 +38,29 @@ namespace PopProject.Consumer_
         public static ConsumerModel product;
         private float sumPworkCount = 0;
         int todayTotalCount = 0;
+#pragma warning disable CS0414 // 'DSConsumer.beforeCountCheck' 필드가 할당되었지만 사용되지 않았습니다.
         bool beforeCountCheck = true;
+#pragma warning restore CS0414 // 'DSConsumer.beforeCountCheck' 필드가 할당되었지만 사용되지 않았습니다.
         string imgpath = "";
+#pragma warning disable CS0414 // 'DSConsumer.checkProcessing' 필드가 할당되었지만 사용되지 않았습니다.
         private bool checkProcessing = false; //작업 진행건이 있는지 확인
+#pragma warning restore CS0414 // 'DSConsumer.checkProcessing' 필드가 할당되었지만 사용되지 않았습니다.
+#pragma warning disable CS0169 // 'DSConsumer.timer' 필드가 사용되지 않았습니다.
         private DispatcherTimer timer;
+#pragma warning restore CS0169 // 'DSConsumer.timer' 필드가 사용되지 않았습니다.
+#pragma warning disable CS0414 // 'DSConsumer.second' 필드가 할당되었지만 사용되지 않았습니다.
         private int second = 0;
+#pragma warning restore CS0414 // 'DSConsumer.second' 필드가 할당되었지만 사용되지 않았습니다.
+#pragma warning disable CS0414 // 'DSConsumer.totalCount' 필드가 할당되었지만 사용되지 않았습니다.
         int totalCount = 0;
+#pragma warning restore CS0414 // 'DSConsumer.totalCount' 필드가 할당되었지만 사용되지 않았습니다.
+#pragma warning disable CS0414 // 'DSConsumer.totalErrorCount' 필드가 할당되었지만 사용되지 않았습니다.
         int totalErrorCount = 0;
+#pragma warning restore CS0414 // 'DSConsumer.totalErrorCount' 필드가 할당되었지만 사용되지 않았습니다.
         string arrChkAED = "";
+#pragma warning disable CS0414 // 'DSConsumer.이월체크' 필드가 할당되었지만 사용되지 않았습니다.
         bool 이월체크 = false;
+#pragma warning restore CS0414 // 'DSConsumer.이월체크' 필드가 할당되었지만 사용되지 않았습니다.
         bool checkbefore = true;
         bool CarryForwardButtonState = false;
        
@@ -80,7 +94,9 @@ namespace PopProject.Consumer_
             }
             else
             {
+#pragma warning disable CS0162 // 접근할 수 없는 코드가 있습니다.
                 sv.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+#pragma warning restore CS0162 // 접근할 수 없는 코드가 있습니다.
                 sv.PreviewMouseLeftButtonDown += ScrollViewer_PreviewMouseLeftButtonDown;
                 sv.PreviewMouseLeftButtonUp += Sv_PreviewMouseLeftButtonUp;
                 sv.PreviewMouseMove += Sv_PreviewMouseMove;

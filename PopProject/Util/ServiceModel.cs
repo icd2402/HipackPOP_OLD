@@ -139,10 +139,18 @@ namespace PopProject.Util
         public static ServiceReference_kumsungbox.Return_Model kms_Return_Model;
 
         //로컬
+#pragma warning disable CS0649 // 'ServiceModel.local_Service' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
         public static ServiceReference_jobox.Service_CRUDClient local_Service;
+#pragma warning restore CS0649 // 'ServiceModel.local_Service' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
+#pragma warning disable CS0649 // 'ServiceModel.local_DB_Handle_Model' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
         public static ServiceReference_jobox.DBHandle_Model local_DB_Handle_Model;
+#pragma warning restore CS0649 // 'ServiceModel.local_DB_Handle_Model' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
+#pragma warning disable CS0649 // 'ServiceModel.local_Access_Model' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
         public static ServiceReference_jobox.Access_Model local_Access_Model;
+#pragma warning restore CS0649 // 'ServiceModel.local_Access_Model' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
+#pragma warning disable CS0649 // 'ServiceModel.local_Return_Model' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
         public static ServiceReference_jobox.Return_Model local_Return_Model;
+#pragma warning restore CS0649 // 'ServiceModel.local_Return_Model' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.
 
         public static void ServiceModelClean(string serverIndex, string dbName = "")
         {
