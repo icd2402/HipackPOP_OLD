@@ -80,6 +80,8 @@ namespace PopProject.Input
         private DispatcherTimer timer_1s;
         //private static Timer timer_1s;
 
+        string ProgramNo = "";
+
 
         public Win_input(MainModel mainModel, ObservableCollection<MainModel> workList, bool check) //check= 메인화면에서 들어오면 false, 디테일 화면에서 들어오면 true
         {
@@ -234,18 +236,45 @@ namespace PopProject.Input
                     // 데이터 출력
                     foreach (var record in records)
                     {
-                        if (inputModel.pplanKey.Equals(int.Parse(record.SerialNo)))
+                        if (!record.SerialNo.Equals("") && !record.SerialNo.Equals(inputModel.pplanKey))
                         {
                             // 문자열을 DateTime 객체로 변환
                             DateTime dateTime;
                             tbResult.Text = int.Parse(record.pworkCount).ToString();
                             dateTime = DateTime.ParseExact(record.sDatetime, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
-                                    inputModel.sDatetime = dateTime.ToString("yyyy-MM-dd HH:mm:ss");     //시작시간
+                            inputModel.sDatetime = dateTime.ToString("yyyy-MM-dd HH:mm:ss");     //시작시간
                             dateTime = DateTime.ParseExact(record.eDatetime, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
                             inputModel.eDatetime = dateTime.ToString("yyyy-MM-dd HH:mm:ss");     //종료시간
                             tbPLUM2.Text = "작업 완료!";
                             timer_1s.Stop();
+                        }else if (record.SerialNo.Equals(""))
+                        {
+                            
+                            if (!ProgramNo.Equals("") && ProgramNo.Equals(record.ProgramNo))
+                            {
+                                // 문자열을 DateTime 객체로 변환
+                                DateTime dateTime;
+                                tbResult.Text = int.Parse(record.pworkCount).ToString();
+                                dateTime = DateTime.ParseExact(record.sDatetime, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+                                inputModel.sDatetime = dateTime.ToString("yyyy-MM-dd HH:mm:ss");     //시작시간
+                                dateTime = DateTime.ParseExact(record.eDatetime, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+                                inputModel.eDatetime = dateTime.ToString("yyyy-MM-dd HH:mm:ss");     //종료시간
+                                tbPLUM2.Text = "작업 완료!";
+                                timer_1s.Stop();
+                            }
                         }
+                        //if (inputModel.pplanKey.Equals(int.Parse(record.SerialNo)))
+                        //{
+                        //    // 문자열을 DateTime 객체로 변환
+                        //    DateTime dateTime;
+                        //    tbResult.Text = int.Parse(record.pworkCount).ToString();
+                        //    dateTime = DateTime.ParseExact(record.sDatetime, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+                        //            inputModel.sDatetime = dateTime.ToString("yyyy-MM-dd HH:mm:ss");     //시작시간
+                        //    dateTime = DateTime.ParseExact(record.eDatetime, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+                        //    inputModel.eDatetime = dateTime.ToString("yyyy-MM-dd HH:mm:ss");     //종료시간
+                        //    tbPLUM2.Text = "작업 완료!";
+                        //    timer_1s.Stop();
+                        //}
                         Console.WriteLine($"SerialNo: {record.SerialNo}" +
                             $", ProgramNo: {record.ProgramNo}" +
                             $", pworkCount: {record.pworkCount}" +
@@ -276,7 +305,7 @@ namespace PopProject.Input
                     // 데이터 출력
                     foreach (var record in records)
                     {
-                        if (inputModel.pplanKey.Equals(int.Parse(record.SerialNo)))
+                        if (!record.SerialNo.Equals("") && record.SerialNo.Equals(inputModel.pplanKey))
                         {
                             Cls_Variable.DeleteFile(resultfile);//파일삭제
                         }
@@ -357,6 +386,7 @@ namespace PopProject.Input
                             };
                         }
                     }
+                    ProgramNo = Detailitem.prodID.ToString();
                     string[] parts = Detailitem.WDScore.Split('*');
                     string[] boxsize = mainModel.pSize.Split('*');
                     string Score1 = parts.Length > 0 ? parts[0] : "0";
@@ -2068,7 +2098,15 @@ namespace PopProject.Input
                         if (SettingJsonManager.serverIndex.Equals("kmsbox") && SettingJsonManager.mercName.Contains("우메다니") &&
                         !DEST_DIR.Equals("") )
                         {
-                            timer_1s.Stop();//타이머 중지
+                            try
+                            {
+                                timer_1s.Stop();//타이머 중지
+
+                            }
+                            catch
+                            {
+                                Console.WriteLine("타임 중지 오류");
+                            }
                             //timer_1s.Dispose();
                         }
 

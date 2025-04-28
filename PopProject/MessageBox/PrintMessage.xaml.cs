@@ -492,7 +492,10 @@ namespace PopProject.MessageBox
                             }
                            
                             pr6.pplanCount = int.Parse(mainModel.pplanCount.ToString());//계획량
-                            pr6.resultCount = result["resultCount"].ToString();    //총수량
+                            
+                            //pr6.resultCount = result["resultCount"].ToString();    //총수량
+                            pr6.resultCount = Convert.ToInt32(mainModel.orderCount).ToString("N0"); //총수량은 변경이 되지 않도록 고정(수주량)으로 변경요청.2025.04. 우재광팀장.
+
                             if (Convert.ToInt32(mainModel.sumPworkCount) > 0)
                             {
                                 pr6.resultCount = mainModel.sumPworkCount == 0 ? "" : Convert.ToInt32(mainModel.sumPworkCount).ToString("N0");
