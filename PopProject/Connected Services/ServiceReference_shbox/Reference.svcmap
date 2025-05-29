@@ -19,15 +19,15 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://shbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://shbox1.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Access_MiddleWare_CRUD.xsd" MetadataType="Schema" ID="a6f4ec3d-fd9f-4cb1-b9fa-bb64a5672a90" SourceId="1" SourceUrl="http://shbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd3" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD1.xsd" MetadataType="Schema" ID="bf33f8bb-741e-4ba2-b6c9-664d15ef5255" SourceId="1" SourceUrl="http://shbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd1" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD2.xsd" MetadataType="Schema" ID="733b255d-42a6-48a0-bcd6-4f96e5385ed8" SourceId="1" SourceUrl="http://shbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd2" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD3.xsd" MetadataType="Schema" ID="88dc6c99-ffc1-4246-821b-bcb605f597df" SourceId="1" SourceUrl="http://shbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd0" />
-    <MetadataFile FileName="Service_CRUD.wsdl" MetadataType="Wsdl" ID="5f58dd99-8f45-41a7-a34d-7cebb9a1eae9" SourceId="1" SourceUrl="http://shbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?wsdl" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD.disco" MetadataType="Disco" ID="d3ade30f-c13e-4f83-8a6a-bc64aabc8021" SourceId="1" SourceUrl="http://shbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?disco" />
+    <MetadataFile FileName="Service_CRUD1.wsdl" MetadataType="Wsdl" ID="d7dd3c63-0a59-4ce5-8804-4a58b102d5dd" SourceId="1" SourceUrl="http://shbox1.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?wsdl" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD4.xsd" MetadataType="Schema" ID="70518309-8777-46a5-8167-3ffbcb244682" SourceId="1" SourceUrl="http://shbox1.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd1" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD41.xsd" MetadataType="Schema" ID="b28b3a8d-ee66-4580-8414-2bdc9a023e01" SourceId="1" SourceUrl="http://shbox1.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd0" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD42.xsd" MetadataType="Schema" ID="7f188916-a5a0-460e-8383-3140200f5c1b" SourceId="1" SourceUrl="http://shbox1.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd3" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD43.xsd" MetadataType="Schema" ID="8497da3d-3be1-4274-91a7-c47aed93fd46" SourceId="1" SourceUrl="http://shbox1.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd2" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD1.disco" MetadataType="Disco" ID="b54cc734-f9bb-4851-9795-83bebf228cc9" SourceId="1" SourceUrl="http://shbox1.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?disco" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

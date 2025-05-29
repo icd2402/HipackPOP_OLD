@@ -32,7 +32,7 @@
     <MinimumRequiredVersion>1.0.1.459</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>478</ApplicationRevision>
+    <ApplicationRevision>483</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -1137,22 +1137,22 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ServiceReference_real_ojbox\Service_CRUD.wsdl" />
-    <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD.xsd">
+    <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD4.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD1.xsd">
+    <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD41.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD2.xsd">
+    <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD42.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD3.xsd">
+    <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD43.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\ServiceReference_shbox\PopProject.ServiceReference_shbox.Return_Model.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\ServiceReference_shbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_shbox\Service_CRUD1.wsdl" />
     <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD4.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1385,9 +1385,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\setting.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD.disco" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\ServiceReference_shbox\configuration91.svcinfo" />
@@ -1714,6 +1711,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Connected Services\ServiceReference_kumsungbox\Access_MiddleWare_CRUD1.disco" />
+    <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD1.disco" />
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

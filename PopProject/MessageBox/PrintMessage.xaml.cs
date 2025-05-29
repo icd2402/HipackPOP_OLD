@@ -257,7 +257,7 @@ namespace PopProject.MessageBox
                     //유창포장
                     if (SettingJsonManager.corp_name.Equals("유창포장") || SettingJsonManager.corp_name.Equals("유창포장테스트"))
                     {
-                        pr2.corpName = SettingJsonManager.accountCheck ? "" : mainModel.corpName; //거래처 상호
+                        pr2.corpName      = SettingJsonManager.accountCheck ? "" : mainModel.corpName; //거래처 상호
                         pr2.MycustomSName = SettingJsonManager.productionCheck ? "" : SettingJsonManager.corp_name; //생산처
                         pr2.customSName = result["customSName"].ToString();      //거래처명
                         pr2.prodName = result["prodName"].ToString();            //품명
@@ -591,7 +591,11 @@ namespace PopProject.MessageBox
                         제품명세서_Model.deliverMemo = result["deliverMemo"].ToString();      //비고
                         완제품명세서_내포.ViewModel = 제품명세서_Model;
                         완제품명세서_내포.Set_Context();
-
+                        //총수량 표현 미체크
+                        if (!SettingJsonManager.count_check)
+                        {
+                            제품명세서_Model.resultCount = "";
+                        }
                         Cls_Variable.Dbl_ReportPageTop = 256;
                         명세서_Cover.ReContent(Cls_Variable.Dbl_ReportPageTop);
                         명세서_Cover.ItemPanel.Children.Add(완제품명세서_내포);
@@ -600,8 +604,9 @@ namespace PopProject.MessageBox
                 }
                 else //(선호),유창,오주,두성,혜성,구룡 제외
                     {
-                        pr1.customSName = result["customSName"].ToString();      //거래처명
-                        pr1.prodName = result["prodName"].ToString();            //품명
+
+                        pr1.customSName = SettingJsonManager.accountCheck ? "" : result["customSName"].ToString();      //거래처명
+                        pr1.prodName    = result["prodName"].ToString();            //품명
                         pr1.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
                         pr1.pSize = result["pSize"].ToString();                  //규격
                         

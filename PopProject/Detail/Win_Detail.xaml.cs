@@ -1536,7 +1536,7 @@ namespace PopProject.Detail
                     ObservableCollection<string> ob = new ObservableCollection<string>();
                     foreach (JObject result in Data_JArray)
                     {
-                        string uri = SettingJsonManager.url + SettingJsonManager.corp_id + "/" + result["photoName"].ToString();
+                        string uri = SettingJsonManager.url + mainModel.DBName + "/" + result["photoName"].ToString();
                         string imageName = result["photoName"].ToString();
 
                         //ftp용 uri, 파일명 저장

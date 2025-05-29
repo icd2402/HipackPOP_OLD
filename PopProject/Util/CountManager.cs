@@ -63,7 +63,7 @@ namespace PopProject.Util
 
                 {"하나포장테스트", "http://hnbox.iptime.org:18888/pop"},
                 {"광성수출포장테스트", "http://ksbox.iptime.org:18888/pop"},
-                {"선호칼라팩테스트", "http://shbox.iptime.org:18888/pop"},
+                {"선호칼라팩테스트", "http://shbox1.iptime.org:18888/pop"},
                 {"유창포장테스트", "http://211.253.37.232:18888/pop"},
                 {"광무포장테스트", "http://kmbox.iptime.org:18888/pop"},
                 {"대양포장테스트", "http://dybox.iptime.org:18888/pop"},

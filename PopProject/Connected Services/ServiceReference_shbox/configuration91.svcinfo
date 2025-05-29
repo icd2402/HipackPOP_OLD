@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="xNrI498bhtnetSyjaZihKtDfxnuaTdT8yUO+vI1h3f0=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="XQo4JVB+Rg9np50cqjnY8sD4mkfwmvS70z6ntQOl6QI=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_IService_CRUD3">
       <properties>
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="BasicHttpBinding_IService_CRUD3" contract="ServiceReference_shbox.IService_CRUD" bindingType="basicHttpBinding" address="http://shbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" bindingConfiguration="BasicHttpBinding_IService_CRUD3">
+    <endpoint name="BasicHttpBinding_IService_CRUD3" contract="ServiceReference_shbox.IService_CRUD" bindingType="basicHttpBinding" address="http://shbox1.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" bindingConfiguration="BasicHttpBinding_IService_CRUD3">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://shbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc</serializedValue>
+          <serializedValue>http://shbox1.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />
