@@ -126,6 +126,12 @@ namespace PopProject.Util
         public static ServiceReference_npbox.Access_Model np_Access_Model;
         public static ServiceReference_npbox.Return_Model np_Return_Model;
 
+        //승산팩
+        public static ServiceReference_ssngsanpackbox.Service_CRUDClient ssp_Service;
+        public static ServiceReference_ssngsanpackbox.DBHandle_Model ssp_DB_Handle_Model;
+        public static ServiceReference_ssngsanpackbox.Access_Model ssp_Access_Model;
+        public static ServiceReference_ssngsanpackbox.Return_Model ssp_Return_Model;
+
         //원팩
         public static ServiceReference_opbox.Service_CRUDClient op_Service;
         public static ServiceReference_opbox.DBHandle_Model op_DB_Handle_Model;
@@ -167,6 +173,22 @@ namespace PopProject.Util
 
             switch (serverIndex)
             {
+
+                //승산
+                case "sspbox":
+                    ssp_Service = new ServiceReference_ssngsanpackbox.Service_CRUDClient();
+                    ssp_Access_Model = new ServiceReference_ssngsanpackbox.Access_Model();
+                    ssp_Return_Model = new ServiceReference_ssngsanpackbox.Return_Model();
+                    ssp_DB_Handle_Model = new ServiceReference_ssngsanpackbox.DBHandle_Model
+                    {
+                        접속정보 = 접속정보,
+                        BroadCasting = 0,
+                        BroadCastingName = string.Empty,
+                        inputPkey = "0",
+                        inputContent = string.Empty,
+                        inputProcessContent = string.Empty
+                    };
+                    break;
 
                 //금성
                 case "kmsbox":
@@ -215,6 +237,7 @@ namespace PopProject.Util
                         inputProcessContent = string.Empty
                     };
                     break;
+
 
                 //금화
                 case "khbox":
@@ -559,6 +582,20 @@ namespace PopProject.Util
             {
                 switch (serverIndex)
                 {
+                    //승산팩
+                    case "sspbox":
+                        ssp_Access_Model.SP명 = SP명;
+                        ssp_Access_Model.파라미터 = 파라미터;
+                        ssp_Access_Model.값 = 값;
+                        ssp_DB_Handle_Model.프로시저 = new ServiceReference_ssngsanpackbox.Access_Model[1] { ssp_Access_Model };
+                        ssp_DB_Handle_Model.BroadCasting = 0;
+                        ssp_Return_Model = 갱신 == 1 ? ssp_Service.갱신(ssp_DB_Handle_Model, 갱신) : ssp_Service.조회(ssp_DB_Handle_Model);
+
+                        returnModel.결과 = ssp_Return_Model.결과;
+                        returnModel.리턴값 = ssp_Return_Model.Retrun값;
+
+                        break;
+
                     //금성포장공업
                     case "kmsbox":
                         kms_Access_Model.SP명 = SP명;
@@ -606,6 +643,7 @@ namespace PopProject.Util
                         //Console.WriteLine(SP명 + " 리턴결과 : " + kh_Return_Model.결과);
                         //Console.WriteLine(SP명 + " 리턴값 : " + kh_Return_Model.Retrun값);
                         break;
+
 
                     //금화
                     case "khbox":
@@ -932,6 +970,23 @@ namespace PopProject.Util
             ReturnModel returnModel = new ReturnModel();
             switch (serverIndex)
             {
+                //승산팩
+                case "sspbox":
+                    ssp_Access_Model.SP명 = SP명;
+                    ssp_Access_Model.파라미터 = 파라미터;
+                    ssp_Access_Model.값 = 값;
+
+                    ssp_DB_Handle_Model.프로시저 = new ServiceReference_ssngsanpackbox.Access_Model[1] { ssp_Access_Model };
+                    ssp_DB_Handle_Model.BroadCasting = 1;
+                    ssp_DB_Handle_Model.BroadCastingName = "생산입력완료";
+                    ssp_DB_Handle_Model.inputPkey = "14201";
+                    ssp_DB_Handle_Model.inputContent = parameter;
+                    ssp_Return_Model = 갱신 == 1 ? ssp_Service.갱신(ssp_DB_Handle_Model, 갱신) : ssp_Service.조회(ssp_DB_Handle_Model);
+
+                    returnModel.결과 = ssp_Return_Model.결과;
+                    returnModel.리턴값 = ssp_Return_Model.Retrun값;
+                    break;
+
                 //금성포장공업
                 case "kmsbox":
                     kms_Access_Model.SP명 = SP명;
@@ -982,6 +1037,7 @@ namespace PopProject.Util
                     returnModel.결과 = np_Return_Model.결과;
                     returnModel.리턴값 = np_Return_Model.Retrun값;
                     break;
+
 
                 //금화
                 case "khbox":

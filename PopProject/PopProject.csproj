@@ -294,6 +294,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\ServiceReference_ssngsanpackbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\ServiceReference_swbox\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1169,6 +1174,22 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ServiceReference_sjbox\Service_CRUD1.wsdl" />
+    <None Include="Connected Services\ServiceReference_ssngsanpackbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ssngsanpackbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ssngsanpackbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ssngsanpackbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_ssngsanpackbox\PopProject.ServiceReference_ssngsanpackbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_ssngsanpackbox\Service_CRUD.wsdl" />
     <None Include="Connected Services\ServiceReference_swbox\Access_MiddleWare_CRUD.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1319,6 +1340,7 @@
     <WCFMetadataStorage Include="Connected Services\ServiceReference_real_ojbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_shbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_sjbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_ssngsanpackbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_swbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_wrbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_ycbox\" />
@@ -1712,6 +1734,13 @@
     </None>
     <None Include="Connected Services\ServiceReference_kumsungbox\Access_MiddleWare_CRUD1.disco" />
     <None Include="Connected Services\ServiceReference_shbox\Access_MiddleWare_CRUD1.disco" />
+    <None Include="Connected Services\ServiceReference_ssngsanpackbox\Access_MiddleWare_CRUD.disco" />
+    <None Include="Connected Services\ServiceReference_ssngsanpackbox\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceReference_ssngsanpackbox\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceReference_ssngsanpackbox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
