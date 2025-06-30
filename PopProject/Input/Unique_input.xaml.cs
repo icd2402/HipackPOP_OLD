@@ -71,13 +71,20 @@ namespace PopProject.Input
             //{
             //    _ = Process.Start(path32);
             //}
-
-            var path64 = System.IO.Path.Combine(System.IO.Directory.GetDirectories(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "winsxs"), "amd64_microsoft-windows-osk_*")[0], "osk.exe");
-            var path32 = @"C:\windows\system32\osk.exe";
-            var path = (Environment.Is64BitOperatingSystem) ? path64 : path32;
-            if (System.IO.File.Exists(path))
+            try
             {
-                System.Diagnostics.Process.Start(path);
+                var path64 = System.IO.Path.Combine(System.IO.Directory.GetDirectories(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "winsxs"), "amd64_microsoft-windows-osk_*")[0], "osk.exe");
+                var path32 = @"C:\windows\system32\osk.exe";
+                var path = (Environment.Is64BitOperatingSystem) ? path64 : path32;
+                if (System.IO.File.Exists(path))
+                {
+                    System.Diagnostics.Process.Start(path);
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
             }
         }
 
