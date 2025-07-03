@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="+0eKx9ja5iv6e0kXliCLKj3tE8Se5WqSt+CWrz6IP8o=">
+<SavedWcfConfigurationInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="9.1" CheckSum="zlbN+Q2/1cSkbWTFu0SY3K2Je+6jWAgSLPS/UpmQA08=">
   <bindingConfigurations>
-    <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_IService_CRUD14">
+    <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_IService_CRUD24">
       <properties>
         <property path="/name" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>BasicHttpBinding_IService_CRUD14</serializedValue>
+          <serializedValue>BasicHttpBinding_IService_CRUD24</serializedValue>
         </property>
         <property path="/closeTimeout" isComplexType="false" isExplicitlyDefined="true" clrType="System.TimeSpan, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />
@@ -112,7 +112,7 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="BasicHttpBinding_IService_CRUD14" contract="ServiceReference_dubox.IService_CRUD" bindingType="basicHttpBinding" address="http://dubox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" bindingConfiguration="BasicHttpBinding_IService_CRUD14">
+    <endpoint name="BasicHttpBinding_IService_CRUD24" contract="ServiceReference_dubox.IService_CRUD" bindingType="basicHttpBinding" address="http://dubox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" bindingConfiguration="BasicHttpBinding_IService_CRUD24">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>http://dubox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc</serializedValue>
@@ -124,7 +124,7 @@
           <serializedValue>basicHttpBinding</serializedValue>
         </property>
         <property path="/bindingConfiguration" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>BasicHttpBinding_IService_CRUD14</serializedValue>
+          <serializedValue>BasicHttpBinding_IService_CRUD24</serializedValue>
         </property>
         <property path="/contract" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>ServiceReference_dubox.IService_CRUD</serializedValue>
@@ -187,7 +187,7 @@
           <serializedValue>False</serializedValue>
         </property>
         <property path="/name" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>BasicHttpBinding_IService_CRUD14</serializedValue>
+          <serializedValue>BasicHttpBinding_IService_CRUD24</serializedValue>
         </property>
         <property path="/kind" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

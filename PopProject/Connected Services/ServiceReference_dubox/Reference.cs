@@ -158,11 +158,11 @@ namespace PopProject.ServiceReference_dubox {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Access_Model", Namespace="http://schemas.datacontract.org/2004/07/MiddleWareService.Models")]
     [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(string[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(object[]))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PopProject.ServiceReference_dubox.DBHandle_Model))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PopProject.ServiceReference_dubox.Access_Model[]))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PopProject.ServiceReference_dubox.Return_Model))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(string[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(object[]))]
     public partial class Access_Model : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]

@@ -482,8 +482,10 @@
     </Compile>
     <Compile Include="Util\CountManager.cs" />
     <Compile Include="Util\DateTimeManager.cs" />
+    <Compile Include="Util\IServiceModel.cs" />
     <Compile Include="Util\LogManager.cs" />
     <Compile Include="Util\ServiceAddressManager.cs" />
+    <Compile Include="Util\ServiceFactory.cs" />
     <Compile Include="Util\SettingJsonManger.cs" />
     <Compile Include="Util\LocalDBManager.cs" />
     <Compile Include="Util\ClsUc_명세서_Report8대세.xaml.cs">
@@ -871,22 +873,22 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ServiceReference_dsbox\Service_CRUD.wsdl" />
-    <None Include="Connected Services\ServiceReference_dubox\Access_MiddleWare_CRUD.xsd">
+    <None Include="Connected Services\ServiceReference_dubox\Access_MiddleWare_CRUD4.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_dubox\Access_MiddleWare_CRUD1.xsd">
+    <None Include="Connected Services\ServiceReference_dubox\Access_MiddleWare_CRUD41.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_dubox\Access_MiddleWare_CRUD2.xsd">
+    <None Include="Connected Services\ServiceReference_dubox\Access_MiddleWare_CRUD42.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_dubox\Access_MiddleWare_CRUD3.xsd">
+    <None Include="Connected Services\ServiceReference_dubox\Access_MiddleWare_CRUD43.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\ServiceReference_dubox\PopProject.ServiceReference_dubox.Return_Model.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\ServiceReference_dubox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_dubox\Service_CRUD1.wsdl" />
     <None Include="Connected Services\ServiceReference_dybox\Access_MiddleWare_CRUD4.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1605,21 +1607,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\ServiceReference_dubox\Access_MiddleWare_CRUD.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\ServiceReference_dubox\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\ServiceReference_dubox\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\ServiceReference_dubox\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Connected Services\ServiceReference_dsbox\Access_MiddleWare_CRUD.disco" />
   </ItemGroup>
   <ItemGroup>
@@ -1742,6 +1729,13 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Connected Services\ServiceReference_dubox\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceReference_dubox\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceReference_dubox\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\ServiceReference_dubox\Access_MiddleWare_CRUD1.disco" />
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
