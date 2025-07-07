@@ -32,7 +32,7 @@ namespace PopProject.Util
             { "khbox", "http://khbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //금화 22
 
             { "opbox", "http://hnbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //원팩 23
-            { "kmsbox", "http://kumsungbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },//금성 24
+            { "kmsbox", "http://kmsbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },   //금성 24
             { "npbox", "http://npbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //내포 25
             { "sspbox", "http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //승산 27
             { "chsbox", "http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //참스 28
