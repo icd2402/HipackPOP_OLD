@@ -48,19 +48,19 @@ namespace PopProject.Consumer_
                 onPropertyChanged("presultCount");
             }
         }
-  
-        
+
+
 
         private float _sumPworkCount;
         public float sumPworkCount
         {
             get
             {
-                
+
                 return _sumPworkCount;
-            
+
             }
-            
+
             set
             {
                 _sumPworkCount = value;
@@ -73,9 +73,9 @@ namespace PopProject.Consumer_
         {
             get
             {
-                    
+
                 return _errorModelOb;
-            
+
             }
             set
             {
@@ -159,7 +159,7 @@ namespace PopProject.Consumer_
         {
             get
             {
-                
+
                 return _UpUserID;
             }
             set
@@ -182,7 +182,7 @@ namespace PopProject.Consumer_
                 _UpUserName = value;
                 onPropertyChanged("UpUserName");
             }
-            
+
         }
 
         private String _UpDatetime;
@@ -376,7 +376,7 @@ namespace PopProject.Consumer_
                 }
                 else
                 {
-                    if(eDatetime.Equals("") || eDatetime.Equals("0"))
+                    if (eDatetime.Equals("") || eDatetime.Equals("0"))
                     {
                         imgSource = "/img/bn_01.png";
                     }
@@ -385,7 +385,7 @@ namespace PopProject.Consumer_
                         imgSource = "/img/bn_03.png";
                     }
                 }
-              
+
                 onPropertyChanged("eDatetime");
             }
 
@@ -444,7 +444,7 @@ namespace PopProject.Consumer_
                 return _Memo;
             }
             set
-            {   
+            {
                 _Memo = value;
                 onPropertyChanged("Memo");
             }

@@ -11,11 +11,11 @@ namespace PopProject.Util
     {
         public ProductReport ViewModel = new ProductReport();
         String printItem = SettingJsonManager.printItem;
-        
+
         public ClsUc_완제품명세서_Control3()
         {
             InitializeComponent();
-            
+
         }
 
 
@@ -36,12 +36,12 @@ namespace PopProject.Util
 
             private string _customSName;
             public string customSName
-            {   
+            {
                 get
                 {
-                            
+
                     return _customSName;
-                           
+
                 }
                 set
                 {
@@ -49,7 +49,7 @@ namespace PopProject.Util
                     onPropertyChanged("customSName");
                 }
             }
-            
+
             private string _corpName;
             public string corpName
             {
@@ -64,9 +64,9 @@ namespace PopProject.Util
                     onPropertyChanged("corpName");
                 }
             }
-            
+
             private string _prodName;
-            
+
             public string prodName
             {
 
@@ -74,7 +74,7 @@ namespace PopProject.Util
                 {
                     return _prodName;
                 }
-                
+
                 set
                 {
                     _prodName = value;
@@ -89,7 +89,7 @@ namespace PopProject.Util
                     onPropertyChanged("prodName");
 
                 }
-                
+
             }
             private int _fontSize;
             public int fontSize
@@ -156,7 +156,7 @@ namespace PopProject.Util
                 }
                 set
                 {
-                    _pworkDate = value.Replace("-","/");
+                    _pworkDate = value.Replace("-", "/");
                     onPropertyChanged("pworkDate");
                 }
             }
@@ -174,7 +174,7 @@ namespace PopProject.Util
                     onPropertyChanged("resultCount");
                 }
             }
-            
+
             private string _PalletType;
             public string PalletType
             {
@@ -201,7 +201,7 @@ namespace PopProject.Util
 
                 set
                 {
-                    _pGol = value.Replace("골","");
+                    _pGol = value.Replace("골", "");
                     onPropertyChanged("pGol");
                 }
             }
@@ -225,12 +225,12 @@ namespace PopProject.Util
             private string _MycustomSName;
             public string MycustomSName
             {
-                
+
                 get
                 {
                     return _MycustomSName;
                 }
-                    
+
                 set
                 {
                     _MycustomSName = value;

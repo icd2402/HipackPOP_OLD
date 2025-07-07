@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using PopProject.MessageBox;
 using PopProject.Util;
 using System;
 using System.Collections.Generic;
@@ -40,7 +39,7 @@ namespace PopProject.UserControl_
 
             switch (jo_result)
             {
-               
+
 
                 case "1":
                     _ = new LogData("로그인");
@@ -48,7 +47,7 @@ namespace PopProject.UserControl_
                     JArray jarr = JArray.Parse(jo_data);
                     Console.WriteLine("jo_data : " + jo_data);
                     List<UserModel> userlist = new List<UserModel>();
-                    for(int i = 0; i < jarr.Count; i++)
+                    for (int i = 0; i < jarr.Count; i++)
                     {
                         UserModel user = new UserModel();
                         user.login_id = jarr[i]["login_id"].ToString(); //아이디

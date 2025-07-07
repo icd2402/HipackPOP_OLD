@@ -1,9 +1,8 @@
-﻿using System;
+﻿using PopProject.Util;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using PopProject.input;
-using PopProject.Util;
 
 namespace PopProject.KeyBoard
 {
@@ -120,7 +119,7 @@ namespace PopProject.KeyBoard
                         //    txtbox.Text = txtbox.Text.Remove(0, 1);
                         //    txtbox.Text = "-" + txtbox.Text;
                         //}
-                        
+
                         break;
 
                     case "key_13": //지우기

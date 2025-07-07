@@ -1,19 +1,10 @@
 ﻿using Newtonsoft.Json.Linq;
-using PopProject.input;
 using PopProject.MessageBox;
-using PopProject.UserControl_;
 using PopProject.Util;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace PopProject.Detail
 {
@@ -86,7 +77,7 @@ namespace PopProject.Detail
             //string ServerIndex = ""; //업체 인덱스
             //string DBName = ""; //접속정보(DB명)
 
-            
+
             string columnName = "";
             int Opt_Num = 0;
 
@@ -125,7 +116,7 @@ namespace PopProject.Detail
 
                     foreach (JObject result in Data_Jarry)
                     {
-                        string inspectName = (result[columnName] != null) ? result[columnName].ToString() : "";  
+                        string inspectName = (result[columnName] != null) ? result[columnName].ToString() : "";
                         점검명combo.Items.Add(inspectName);
                     }
                 }
@@ -168,7 +159,7 @@ namespace PopProject.Detail
             string inspectCode = string.Empty;
 
             Button clickedButton = sender as Button;
-            
+
             if (clickedButton != null && clickedButton.Content is string content)
             {
                 if (content == "시   작") // 버튼의 Content가 "시작"인 경우
@@ -305,7 +296,7 @@ namespace PopProject.Detail
                         _ = msg.ShowDialog();
                     }
                 }
-                else if(content == "종   료")
+                else if (content == "종   료")
                 {
                     종료();
 

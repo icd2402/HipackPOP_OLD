@@ -3,12 +3,8 @@ using PopProject.KeyBoard;
 using PopProject.MessageBox;
 using PopProject.Util;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Sockets;
 using System.Reflection;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -107,7 +103,7 @@ namespace PopProject.Detail
                 Read_Timer.Elapsed += Read_Timer_Tick;
 
                 //미쯔비시 통신 오픈 요청
-                if (ActUtlType.Open().Equals(0)) 
+                if (ActUtlType.Open().Equals(0))
                 {
                     PLC_Connection = true;
                     Read_Timer.Start();
@@ -132,7 +128,7 @@ namespace PopProject.Detail
         }
 
         //실시간 로봇데이터 수신
-        public void Read_Timer_Tick(object sender, System.Timers.ElapsedEventArgs e) 
+        public void Read_Timer_Tick(object sender, System.Timers.ElapsedEventArgs e)
         {
             //통신 연결되면
             if (PLC_Connection)
@@ -488,7 +484,7 @@ namespace PopProject.Detail
                 msg.ShowDialog();
             }
         }
-        
+
         //전송전 범위값 재확인
         private bool dataCheck()
         {
@@ -510,7 +506,7 @@ namespace PopProject.Detail
         }
 
         //데이터 값 키인(클릭)
-        private void Input_data(object sender, MouseButtonEventArgs e) 
+        private void Input_data(object sender, MouseButtonEventArgs e)
         {
             if (sender.GetType().Name.Equals("TextBox"))
             {
@@ -590,14 +586,14 @@ namespace PopProject.Detail
         }
 
         //DB 저장 (로봇데이터)
-        private void Save_robotdata1(object sender, RoutedEventArgs e) 
+        private void Save_robotdata1(object sender, RoutedEventArgs e)
         {
             MessageBox_Dialog msg;
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
             ReturnModel returnData = ServiceModel.GetData(
                SettingJsonManager.serverIndex,
                "[spAEDIFrobotdata_info]",
-               new string[] { "@prodID", "@mercName", "@BOX_W", "@BOX_H", "@BOX_D", "@BOX_DADAN", "@BOX_DANSU", "@BOX_PAT", "@PALLET_W", "@PALLET_H", "@PALLET_D", "@StartDT", "EndDT"},
+               new string[] { "@prodID", "@mercName", "@BOX_W", "@BOX_H", "@BOX_D", "@BOX_DADAN", "@BOX_DANSU", "@BOX_PAT", "@PALLET_W", "@PALLET_H", "@PALLET_D", "@StartDT", "EndDT" },
                new object[] {
                 prodID,
                 SettingJsonManager.mercName,
@@ -627,7 +623,7 @@ namespace PopProject.Detail
         }
 
         //DB 저장 (전송예정 데이터)
-        private void Save_robotdata2(object sender, RoutedEventArgs e) 
+        private void Save_robotdata2(object sender, RoutedEventArgs e)
         {
             MessageBox_Dialog msg;
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
@@ -691,7 +687,7 @@ namespace PopProject.Detail
         {
             try
             {
-                State3.BorderBrush = Brushes.Red; 
+                State3.BorderBrush = Brushes.Red;
 
                 if (PLC_Connection)
                 {
@@ -725,7 +721,7 @@ namespace PopProject.Detail
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
         }
-        
+
         private void kk_Click(object sender, RoutedEventArgs e)
         {
 

@@ -2,14 +2,10 @@
 using PopProject.UserControl_;
 using PopProject.Util;
 using System;
-using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Configuration;
 
 namespace PopProject
 {
@@ -62,7 +58,7 @@ namespace PopProject
                 if (mutex.WaitOne(0, false))
                 {
                     LogManager.Info("POP 프로그램 중복체크 완료", MethodBase.GetCurrentMethod().DeclaringType);
-                    
+
                     // 로긴 확인 및 MainCP Load
                     MainCP.Content = new Login();
 
@@ -91,7 +87,7 @@ namespace PopProject
                 e.Handled = true;
                 if (e.ChangedButton == MouseButton.Left)
                 {
-                    if (Cls_Variable.SharedValue==false)
+                    if (Cls_Variable.SharedValue == false)
                     {
                         DragMove();
                     }

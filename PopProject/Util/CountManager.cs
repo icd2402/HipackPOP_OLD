@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.AspNet.SignalR.Client;
-using PopProject.Util;
 
 namespace PopProject.Util
 {
@@ -33,7 +29,7 @@ namespace PopProject.Util
                 LogManager.Error("업체정보가 없습니다.", MethodBase.GetCurrentMethod().DeclaringType);
                 return;
             }
-            
+
             // workCnt 사용 업체 리스트
             Dictionary<string, string> dicCorpsUsingWorkCnt = new Dictionary<string, string>()
             {
@@ -120,7 +116,8 @@ namespace PopProject.Util
                 try
                 {
 
-                    if (!mercName.Equals("") && !v.Equals("") ) {
+                    if (!mercName.Equals("") && !v.Equals(""))
+                    {
                         SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
 
                     }
@@ -149,15 +146,15 @@ namespace PopProject.Util
 
         //저장 : DDNS 호스트이름.포트번호/pop/gathering/업체코드/설비명/값
         //EX) 대세물산: http://dsbox.iptime.org:18888/pop/gathering/합지기/1234
-        
+
         //전체 요청 : DDNS 호스트이름.포트번호/pop/monitoring/업체 코드
         //EX) 대세물산: http://dsbox.iptime.org:18888/pop/monitoring/C91950615
         //반환값>> {"투매치1호기":"A","후렉소인쇄기":"A","합지기":"897","원매치":"B","베가":"A","톰슨1호기":"A","톰슨2호기":"A","제함기":"B"}
-        
+
         //특정 설비 요청 : DDNS 호스트이름.포트번호/pop/monitoring/업체 코드/설비명
         //EX) 대세물산: http://dsbox.iptime.org:18888/pop/monitoring/C91950615/합지기
         //반환값>> C91950615,베가,1234
-        
+
         //특정 설비 삭제 : DDNS 호스트이름.포트번호/pop/remove/업체코드/설비명
         //EX) 대세물산: http://dsbox.iptime.org:18888/pop/monitoring/C91950615/합지기
         //반환값>> OK
@@ -176,7 +173,7 @@ namespace PopProject.Util
                     LogManager.Error("서비스로 데이터 전송 실패", MethodBase.GetCurrentMethod().DeclaringType);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 LogManager.Error("CountManager.SendMsg 전송 실패 : " + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
@@ -199,13 +196,13 @@ namespace PopProject.Util
                 else
                 {
                     LogManager.Error("서비스로 데이터 전송 실패2", MethodBase.GetCurrentMethod().DeclaringType);
-                    return null; 
+                    return null;
                 }
             }
             catch (Exception e)
             {
                 LogManager.Error("CountManager.SendMsg 전송 실패2 : " + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
-                return null; 
+                return null;
             }
         }
     }

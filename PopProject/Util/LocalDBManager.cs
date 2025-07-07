@@ -1,6 +1,4 @@
-﻿using System;
-using System.Data;
-using System.Windows.Forms;
+﻿using System.Data;
 using System.Data.SqlClient;
 
 namespace PopProject.Util
@@ -24,18 +22,18 @@ namespace PopProject.Util
                 SqlCommand cmd = new SqlCommand("[dbo].[Add_RawData]", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlParameter iDbCode    = new SqlParameter("@DBCode", SqlDbType.VarChar);
-                SqlParameter iMercName  = new SqlParameter("@MercName", SqlDbType.NVarChar);
-                SqlParameter iMsg       = new SqlParameter("@Msg", SqlDbType.NVarChar);
-                SqlParameter iOrderKey  = new SqlParameter("@OrderKey", SqlDbType.Int);
-                SqlParameter iProdID    = new SqlParameter("@ProdID", SqlDbType.Int);
+                SqlParameter iDbCode = new SqlParameter("@DBCode", SqlDbType.VarChar);
+                SqlParameter iMercName = new SqlParameter("@MercName", SqlDbType.NVarChar);
+                SqlParameter iMsg = new SqlParameter("@Msg", SqlDbType.NVarChar);
+                SqlParameter iOrderKey = new SqlParameter("@OrderKey", SqlDbType.Int);
+                SqlParameter iProdID = new SqlParameter("@ProdID", SqlDbType.Int);
 
                 iDbCode.Value = dbCode;
                 iMercName.Value = mercName;
                 iMsg.Value = msg;
                 iOrderKey.Value = orderKey;
                 iProdID.Value = prodID;
-                
+
                 cmd.Parameters.Add(iDbCode);
                 cmd.Parameters.Add(iMercName);
                 cmd.Parameters.Add(iMsg);

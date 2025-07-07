@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Linq;
 using PopProject.Consumer_;
 using PopProject.Detail;
-using PopProject.Input;
 using PopProject.KeyBoard;
 using PopProject.UserControl_;
 using PopProject.Util;
@@ -47,10 +46,10 @@ namespace PopProject.MessageBox
             }
 
             //파렛트당 적재수량 사용
-            if (SettingJsonManager.corp_name.Equals("오주포장") || 
-                SettingJsonManager.corp_name.Equals("대세물산") || 
+            if (SettingJsonManager.corp_name.Equals("오주포장") ||
+                SettingJsonManager.corp_name.Equals("대세물산") ||
                 SettingJsonManager.corp_name.Equals("구룡산업제2공장") ||
-                SettingJsonManager.corp_name.Equals("대양포장")) 
+                SettingJsonManager.corp_name.Equals("대양포장"))
             {
                 //팔레트당 적재수량 표기 
                 pallet.Visibility = Visibility.Visible;
@@ -64,7 +63,7 @@ namespace PopProject.MessageBox
 
         }
 
-        public PrintMessage(MainModel main, DetailModel detailitem, ConsumerModel consumerModel,bool consumCheck) 
+        public PrintMessage(MainModel main, DetailModel detailitem, ConsumerModel consumerModel, bool consumCheck)
         {
             InitializeComponent();
             this.consumCheck = consumCheck;
@@ -170,7 +169,7 @@ namespace PopProject.MessageBox
                     ClsUc_완제품명세서_Control6구룡 완제품명세서_구룡 = new ClsUc_완제품명세서_Control6구룡();
                     ClsUc_완제품명세서_Control7구룡실수요자 완제품명세서_구룡실수요자 = new ClsUc_완제품명세서_Control7구룡실수요자();
                     ClsUc_완제품명세서_Control8대세 완제품명세서_대세 = new ClsUc_완제품명세서_Control8대세();
-                    
+
                     ClsUc_완제품명세서_Control1.ProductReport pr1 = new ClsUc_완제품명세서_Control1.ProductReport();
                     ClsUc_완제품명세서_Control2.ProductReport pr2 = new ClsUc_완제품명세서_Control2.ProductReport();
                     ClsUc_완제품명세서_Control3.ProductReport pr3 = new ClsUc_완제품명세서_Control3.ProductReport();
@@ -230,9 +229,9 @@ namespace PopProject.MessageBox
                         pr1.MycustomSName = SettingJsonManager.productionCheck ? "" : SettingJsonManager.corp_name.Equals("대양포장") ? "    " : SettingJsonManager.corp_name;
                     }
 
-                    
 
-                    
+
+
 
 
                     FixedDocument FixedDocument = new FixedDocument();
@@ -257,7 +256,7 @@ namespace PopProject.MessageBox
                     //유창포장
                     if (SettingJsonManager.corp_name.Equals("유창포장") || SettingJsonManager.corp_name.Equals("유창포장테스트"))
                     {
-                        pr2.corpName      = SettingJsonManager.accountCheck ? "" : mainModel.corpName; //거래처 상호
+                        pr2.corpName = SettingJsonManager.accountCheck ? "" : mainModel.corpName; //거래처 상호
                         pr2.MycustomSName = SettingJsonManager.productionCheck ? "" : SettingJsonManager.corp_name; //생산처
                         pr2.customSName = result["customSName"].ToString();      //거래처명
                         pr2.prodName = result["prodName"].ToString();            //품명
@@ -316,7 +315,7 @@ namespace PopProject.MessageBox
                         //pr3.pworkDate = Convert.ToDateTime(result["pworkDate"]).ToString("yyyy/MM/dd"); //작업일자
                         pr3.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); //작성일자
                         pr3.pStockKey = result["pStockKey"].ToString();        //재고키
-                  
+
                         int keyLenth = 0;                     //재고키 변수
                         keyLenth = 10 - pr3.pStockKey.Length; // 10 - 재고키 길이
 
@@ -344,7 +343,7 @@ namespace PopProject.MessageBox
                     }
 
                     //두성포장, 혜성수출포장
-                    else if(SettingJsonManager.corp_name.Equals("두성포장") || SettingJsonManager.corp_name.Equals("두성포장테스트") || SettingJsonManager.corp_name.Contains("혜성"))
+                    else if (SettingJsonManager.corp_name.Equals("두성포장") || SettingJsonManager.corp_name.Equals("두성포장테스트") || SettingJsonManager.corp_name.Contains("혜성"))
                     {
 
                         pr5.corpName = SettingJsonManager.accountCheck ? "" : mainModel.corpName; //거래처 상호
@@ -352,7 +351,7 @@ namespace PopProject.MessageBox
                         pr5.prodName = result["prodName"].ToString();            //품명
                         pr5.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
                         pr5.pSize = result["pSize"].ToString();                  //규격
-                        
+
                         string memo = "";
                         memo = getMemo(SettingJsonManager.printItem);   //프린트 출력정보  
 
@@ -412,7 +411,7 @@ namespace PopProject.MessageBox
                             pr7.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
                             pr7.orderLast1 = pr6.orderLast.ToString("yyyy.MM.dd");   //납기일
                             pr7.pSize = result["pSize"].ToString();                  //규격
-                            
+
                             string memo = "";
                             memo = getMemo(SettingJsonManager.printItem);   //프린트 출력정보
                             pr7.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
@@ -425,7 +424,7 @@ namespace PopProject.MessageBox
                             pr7.loadCount = "";                                    //파렛트당 적재수량
                             if (box_count.Text.ToString().Length > 0)
                             {
-                                pr7.loadCount = box_count.Text; 
+                                pr7.loadCount = box_count.Text;
                             }
 
                             pr7.pStockKey = result["pStockKey"].ToString();        //재고키
@@ -464,35 +463,35 @@ namespace PopProject.MessageBox
                             pr6.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
                             pr6.orderLast1 = pr6.orderLast.ToString("yyyy.MM.dd");   //납기일
                             pr6.pSize = result["pSize"].ToString();                  //규격
-                           
+
                             Console.WriteLine("비고란 정보 : " + SettingJsonManager.printItem);
-                            string memo = "";                                        
+                            string memo = "";
                             memo = getMemo(SettingJsonManager.printItem);   //프린트 출력정보
                             pr6.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
-                           
+
                             pr6.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); //작성일자
                             pr6.pStockKey = result["pStockKey"].ToString();        //재고키
                             pr6.loadCount = "";                                    //파렛트당 적재수량
                             pr6.LocationName = detailitem.LocationName;            //적재위치
                             pr6.loadHeight = detailitem.LoadHeight;                //적재단수
-                           
+
                             pr6.loadType = detailitem.LoadType;                    //적재방법
                             if (box_count.Text.ToString().Length > 0)
                             {
                                 pr6.loadCount = box_count.Text;
                             }
-                           
-                           
+
+
                             int keyLenth = 0;                                      //재고키
-                            keyLenth = 10 - pr6.pStockKey.Length;   
-                           
+                            keyLenth = 10 - pr6.pStockKey.Length;
+
                             for (var index = 1; index <= keyLenth; index++)
                             {
                                 pr6.pStockKey = "0" + pr6.pStockKey;
                             }
-                           
+
                             pr6.pplanCount = int.Parse(mainModel.pplanCount.ToString());//계획량
-                            
+
                             //pr6.resultCount = result["resultCount"].ToString();    //총수량
                             pr6.resultCount = Convert.ToInt32(mainModel.orderCount).ToString("N0"); //총수량은 변경이 되지 않도록 고정(수주량)으로 변경요청.2025.04. 우재광팀장.
 
@@ -505,7 +504,7 @@ namespace PopProject.MessageBox
                             {
                                 pr6.resultCount = "";
                             }
-                           
+
                             완제품명세서_구룡.ViewModel = pr6;
                             완제품명세서_구룡.Set_BarCode(mainModel.orderKey.ToString());
                             Grid.SetRow(완제품명세서_구룡, 1);
@@ -601,38 +600,38 @@ namespace PopProject.MessageBox
                         명세서_Cover.ItemPanel.Children.Add(완제품명세서_내포);
                         Set_FixedPage.Children.Add(명세서_Cover as UIElement);
 
-                }
-                else //(선호),유창,오주,두성,혜성,구룡 제외
+                    }
+                    else //(선호),유창,오주,두성,혜성,구룡 제외
                     {
 
                         pr1.customSName = SettingJsonManager.accountCheck ? "" : result["customSName"].ToString();      //거래처명
-                        pr1.prodName    = result["prodName"].ToString();            //품명
+                        pr1.prodName = result["prodName"].ToString();            //품명
                         pr1.orderLast = Convert.ToDateTime(result["orderLast"]); //납기일
                         pr1.pSize = result["pSize"].ToString();                  //규격
-                        
-                        string memo = ""; 
+
+                        string memo = "";
                         //광무
                         if (SettingJsonManager.corp_name.Equals("광무포장"))
                         {
                             memo = detailitem.SpecialMemo + Environment.NewLine;
-                            memo+= getMemo(SettingJsonManager.printItem);
+                            memo += getMemo(SettingJsonManager.printItem);
                         }
                         else //그외 EX)성주,우리, 신우 등등
                         {
                             memo = getMemo(SettingJsonManager.printItem);
                         }
                         pr1.pMemo = result["pMemo"].ToString() + (string.IsNullOrEmpty(result["pMemo"].ToString()) ? memo : Environment.NewLine + memo);
-                        
+
                         pr1.pworkDate = DateTime.Today.ToString("yyyy/MM/dd"); //작성일자
                         pr1.loadCount = "";                                    //파레트당 적재수량
                         if (box_count.Text.ToString().Length > 0)
                         {
                             pr1.loadCount = string.Format("{0:N0}", double.Parse(box_count.Text));
                         }
-                       
-                        
+
+
                         pr1.pStockKey = result["pStockKey"].ToString();        //재고키
-                        int keyLenth = 0; 
+                        int keyLenth = 0;
                         keyLenth = 10 - pr1.pStockKey.Length;
 
                         for (var index = 1; index <= keyLenth; index++)
@@ -718,13 +717,13 @@ namespace PopProject.MessageBox
                     }
                 }
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
         }
 
-        private void 오주프린터(string customSName, string prodName, string orderLast, string pSize,string pMemo, string pworkDate, string pStockKey)
+        private void 오주프린터(string customSName, string prodName, string orderLast, string pSize, string pMemo, string pworkDate, string pStockKey)
         {
             ClsUc_완제품명세서_Control3 완제품명세서_Uc3 = new ClsUc_완제품명세서_Control3();
             ClsUc_명세서_Report3 명세서양식_Uc3 = new ClsUc_명세서_Report3();
@@ -855,7 +854,7 @@ namespace PopProject.MessageBox
                         case "9": //목형No
                             memo += string.IsNullOrEmpty(detailitem.PushingNo) ? "" : detailitem.PushingNo + " / "; ;
                             break;
-                        
+
                     }
                 }
                 else
@@ -934,7 +933,8 @@ namespace PopProject.MessageBox
             else //미체크
             {
                 TextBox context = (TextBox)sender;
-                win_KeyBoard = new Win_KeyBoard(context) {
+                win_KeyBoard = new Win_KeyBoard(context)
+                {
                     WindowStartupLocation = WindowStartupLocation.Manual,
                     Left = 650
                 };

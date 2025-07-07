@@ -1,16 +1,15 @@
 ﻿using PopProject.Detail;
-using PopProject.Util;
+using PopProject.MessageBox;
 using PopProject.UserControl_;
+using PopProject.Util;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using PopProject.MessageBox;
 
 namespace PopProject.Input
 {
@@ -44,7 +43,7 @@ namespace PopProject.Input
             worklist = workList;
             _ = textbox_search.Focus();
         }
-        
+
         //검색 텍스트 입력
         private void SearchChanged_Text(object sender, TextChangedEventArgs e)
         {
@@ -99,7 +98,7 @@ namespace PopProject.Input
                 {
                     Canvas canvas = (Canvas)sender;
                     MainModel context = (MainModel)canvas.DataContext;
-                    index =  worklist.IndexOf(context);
+                    index = worklist.IndexOf(context);
                     SettingJsonManager.index = index;
                     SettingJsonManager.SaveJsonFile();
 
@@ -213,7 +212,7 @@ namespace PopProject.Input
         private void KeyBoardCall()
         {
 
-            string oskPath="";
+            string oskPath = "";
             try
             {
                 // 32비트 응용 프로그램에서 32비트 버전의 osk.exe 실행
@@ -226,12 +225,13 @@ namespace PopProject.Input
                 }
                 else
                 {
-                    MessageBox_Dialog messageBox = new MessageBox_Dialog("오류 " + oskPath + " 없음." );
+                    MessageBox_Dialog messageBox = new MessageBox_Dialog("오류 " + oskPath + " 없음.");
                     _ = messageBox.ShowDialog();
                 }
 
             }
-            catch (Exception ex)            {
+            catch (Exception ex)
+            {
                 Console.WriteLine("오류 발생: " + oskPath + " " + ex.Message);
                 MessageBox_Dialog messageBox = new MessageBox_Dialog("오류 " + oskPath + " " + ex.Message);
                 _ = messageBox.ShowDialog();

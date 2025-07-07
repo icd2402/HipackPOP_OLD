@@ -1,9 +1,4 @@
-﻿using PopProject.Consumer_;
-using System;
-using System.Collections.ObjectModel;
-using System.Windows;
-
-namespace PopProject.input
+﻿namespace PopProject.input
 {
     class Resipe_Model : ViewModelBase
 

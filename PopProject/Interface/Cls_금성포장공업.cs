@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PopProject.Interface
 {
@@ -178,7 +175,7 @@ namespace PopProject.Interface
         public static string PadMark(string input)
         {
             input = $"\"{input}\"";
-                return input;
+            return input;
         }
 
         public static List<ResultData> ReadCsvFile(string csvFilePath)
@@ -202,7 +199,8 @@ namespace PopProject.Interface
                         };
                         records.Add(record);
                         Console.WriteLine(string.Join(" | ", values)); // 데이터 출력
-                    };
+                    }
+                    ;
                 }
                 return records;
 

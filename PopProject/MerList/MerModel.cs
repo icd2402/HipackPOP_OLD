@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PopProject.MerList
 {
     class MerModel : ViewModelBase
     {
         private String _mercName;
-        public String mercName {
+        public String mercName
+        {
             get
             {
                 return _mercName;
@@ -47,7 +44,8 @@ namespace PopProject.MerList
             }
         }
         private String _ProcessType;
-        public String ProcessType {
+        public String ProcessType
+        {
             get
             {
                 return _ProcessType;
@@ -60,6 +58,6 @@ namespace PopProject.MerList
 
         }
 
-      
+
     }
 }

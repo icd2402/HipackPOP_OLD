@@ -2,8 +2,6 @@
 using PopProject.MessageBox;
 using PopProject.Util;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net.Json;
 using System.Net.NetworkInformation;
 using System.Reflection;
@@ -29,7 +27,7 @@ namespace PopProject.UserControl_
             //  세팅 정보 존재 Check
             bool fileExit = SettingJsonManager.CheckJsonFile();
             LogManager.Info("JsonSettings 파일 존재 유무 확인: " + fileExit.ToString(), MethodBase.GetCurrentMethod().DeclaringType);
-            
+
             // 세팅 정보 있으면
             if (fileExit)
             {
@@ -208,7 +206,7 @@ namespace PopProject.UserControl_
                                 {
                                      new JsonStringValue("login_time", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss")),
                                      new JsonStringValue("login_id", SettingJsonManager.login_id)
-                                     
+
                                 };
                             Console.WriteLine("json : " + json.ToString());
                             httpClient_Util = new HttpClient_util("login_time_update");
@@ -223,7 +221,7 @@ namespace PopProject.UserControl_
                             //SettingJsonManager.login_password = "";
                             //SettingJsonManager.corp_name = "";
                             //SettingJsonManager.corp_id = "";
-                            
+
                             dialog = new MessageBox_Dialog("패스워드를 확인해 주세요");
                             _ = dialog.ShowDialog();
                         }

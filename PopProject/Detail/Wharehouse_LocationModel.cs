@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PopProject.Detail
+﻿namespace PopProject.Detail
 {
-    public class Wharehouse_LocationModel :ViewModelBase
+    public class Wharehouse_LocationModel : ViewModelBase
     {
         private string _LocationName = "";
         public string LocationName
@@ -32,7 +26,7 @@ namespace PopProject.Detail
             }
         }
 
-        private int _LocationType ;
+        private int _LocationType;
         public int LocationType
         {
 
@@ -44,7 +38,7 @@ namespace PopProject.Detail
             }
         }
 
-        private int _IsSelectedStyle=0;
+        private int _IsSelectedStyle = 0;
         public int IsSelectedStyle
         {
 

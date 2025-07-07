@@ -332,7 +332,7 @@ namespace PopProject.UserControl_
         private String _icback1;
         public String icback1
         {
-            
+
             get
             {
                 return _icback1;
@@ -344,7 +344,7 @@ namespace PopProject.UserControl_
                 onPropertyChanged("icback1");
             }
         }
-        
+
         private String _pStateSColor;
         public String pStateSColor
         {
@@ -448,7 +448,7 @@ namespace PopProject.UserControl_
         }
 
 
-        private String _icback="White";
+        private String _icback = "White";
         public String icback
         {
             get
@@ -484,17 +484,18 @@ namespace PopProject.UserControl_
             {
                 return _bMember;
             }
-            
+
             set
             {
                 _bMember = value;
                 onPropertyChanged("bMember");
             }
-                
+
         }
 
         private float _pCnt;
-        public float pCnt {
+        public float pCnt
+        {
             get
             {
                 return _pCnt;
@@ -507,7 +508,8 @@ namespace PopProject.UserControl_
         }
         private String _urgency;
 
-        public String urgency {
+        public String urgency
+        {
             get
             {
                 return _urgency;
@@ -521,7 +523,8 @@ namespace PopProject.UserControl_
 
         private double _pplanNo;
 
-        public double pplanNo {
+        public double pplanNo
+        {
             get
             {
                 return _pplanNo;
@@ -533,7 +536,8 @@ namespace PopProject.UserControl_
             }
         }
         private int _perrorCount;
-        public int perrorCount {
+        public int perrorCount
+        {
             get
             {
                 return _perrorCount;
@@ -546,7 +550,8 @@ namespace PopProject.UserControl_
         }
 
         private String _mercName;
-        public String mercName {
+        public String mercName
+        {
             get
             {
                 return _mercName;
@@ -558,7 +563,8 @@ namespace PopProject.UserControl_
         }
 
         private String _prodID;
-        public String prodID {
+        public String prodID
+        {
             get
             {
                 return _prodID;
@@ -570,7 +576,8 @@ namespace PopProject.UserControl_
             }
         }
         private int _pplanKey;
-        public int pplanKey {
+        public int pplanKey
+        {
             get
             {
                 return _pplanKey;
@@ -610,7 +617,8 @@ namespace PopProject.UserControl_
         }
 
         private String _WDBJCount;
-        public String WDBJCount {
+        public String WDBJCount
+        {
             get
             {
                 return _WDBJCount;
@@ -623,7 +631,8 @@ namespace PopProject.UserControl_
         }
 
         private String _WDIGCount;
-        public String WDIGCount {
+        public String WDIGCount
+        {
             get
             {
                 return _WDIGCount;
@@ -633,7 +642,7 @@ namespace PopProject.UserControl_
                 _WDIGCount = value;
                 onPropertyChanged("WDIGCount");
             }
-        
+
         }
         private String _WDIGCount1;
         public String WDIGCount1
@@ -651,7 +660,8 @@ namespace PopProject.UserControl_
         }
 
         private String _orderKey;
-        public String orderKey {
+        public String orderKey
+        {
             get
             {
                 return _orderKey;
@@ -676,7 +686,7 @@ namespace PopProject.UserControl_
                 onPropertyChanged("ProcessTypeName");
             }
         }
-            
+
         private String _givSC = "";
         public String givSC
         {
@@ -764,7 +774,8 @@ namespace PopProject.UserControl_
         }
         private int _ProcessType;
 
-        public int ProcessType {
+        public int ProcessType
+        {
             get
             {
                 return _ProcessType;
@@ -777,7 +788,8 @@ namespace PopProject.UserControl_
         }
 
         private String _pplanDate;
-        public String pplanDate {
+        public String pplanDate
+        {
             get
             {
                 return _pplanDate;
@@ -801,10 +813,11 @@ namespace PopProject.UserControl_
                 onPropertyChanged("orderDate");
             }
         }
-        
+
 
         private string _customSName;
-        public string customSName {
+        public string customSName
+        {
             get
             {
                 return _customSName;
@@ -816,7 +829,8 @@ namespace PopProject.UserControl_
             }
         }
         private string _prodName;
-        public string prodName {
+        public string prodName
+        {
             get
             {
                 return _prodName;
@@ -857,7 +871,8 @@ namespace PopProject.UserControl_
         }
 
         private String _paperGor;
-        public String paperGor {
+        public String paperGor
+        {
             get
             {
                 return _paperGor;
@@ -882,7 +897,8 @@ namespace PopProject.UserControl_
             }
         }
         private String _aL;
-        public String aL {
+        public String aL
+        {
             get
             {
                 return _aL;
@@ -894,8 +910,9 @@ namespace PopProject.UserControl_
             }
         }
         private String _aW;
-        public String aW {
-            
+        public String aW
+        {
+
             get
             {
                 return _aW;
@@ -923,7 +940,8 @@ namespace PopProject.UserControl_
         }
 
         private String _aLaW;
-        public String aLaW {
+        public String aLaW
+        {
             get
             {
                 return _aLaW;
@@ -950,7 +968,8 @@ namespace PopProject.UserControl_
         }
 
         private String _ColorType;
-        public String ColorType {
+        public String ColorType
+        {
             get
             {
                 return _ColorType;
@@ -963,7 +982,8 @@ namespace PopProject.UserControl_
         }
 
         private String _PrintNo;
-        public String PrintNo {
+        public String PrintNo
+        {
             get
             {
                 return _PrintNo;
@@ -1035,7 +1055,8 @@ namespace PopProject.UserControl_
         }
 
         private float _presultCount;
-        public float presultCount {
+        public float presultCount
+        {
             get
             {
                 return _presultCount;
@@ -1043,7 +1064,7 @@ namespace PopProject.UserControl_
             set
             {
                 _presultCount = value;
-                if(this.inputModel != null)
+                if (this.inputModel != null)
                 {
                     this.inputModel.count = value;
                 }
@@ -1051,7 +1072,7 @@ namespace PopProject.UserControl_
             }
         }
 
-        
+
 
         private String _pplanMemo;
         public String pplanMemo
@@ -1110,7 +1131,8 @@ namespace PopProject.UserControl_
             }
         }
         private int _orderWorkNo;
-        public int orderWorkNo {
+        public int orderWorkNo
+        {
             get
             {
                 return _orderWorkNo;
@@ -1123,7 +1145,8 @@ namespace PopProject.UserControl_
         }
 
         private List<SubModel> _subOb;
-        public List<SubModel> subOb {
+        public List<SubModel> subOb
+        {
             get
             {
                 return _subOb;
@@ -1133,11 +1156,12 @@ namespace PopProject.UserControl_
                 _subOb = value;
                 onPropertyChanged("subOb");
             }
-        
+
         }
 
-        private String _sDatetime="";
-        public String sDatetime {
+        private String _sDatetime = "";
+        public String sDatetime
+        {
 
             get
             {
@@ -1153,8 +1177,9 @@ namespace PopProject.UserControl_
 
 
 
-        private String _eDatetime=""; 
-        public String eDatetime {
+        private String _eDatetime = "";
+        public String eDatetime
+        {
             get
             {
                 return _eDatetime;
@@ -1175,7 +1200,7 @@ namespace PopProject.UserControl_
                     else
                     {
                         imagePath = "/img/bn_03.png";
-                        
+
                     }
                 }
                 onPropertyChanged("eDateTime");
@@ -1183,7 +1208,8 @@ namespace PopProject.UserControl_
         }
 
         private String _imagePath;
-        public String imagePath {
+        public String imagePath
+        {
             get
             {
                 return _imagePath;
@@ -1195,7 +1221,8 @@ namespace PopProject.UserControl_
             }
         }
         private int _orderCount;
-        public int orderCount {
+        public int orderCount
+        {
             get
             {
                 return _orderCount;
@@ -1221,7 +1248,8 @@ namespace PopProject.UserControl_
         }
 
         private string _orderLast;
-        public string orderLast {
+        public string orderLast
+        {
             get
             {
                 return _orderLast;
@@ -1234,7 +1262,8 @@ namespace PopProject.UserControl_
         }
 
         private ObservableCollection<InputModel> _resultList;
-        public ObservableCollection<InputModel> resultList {
+        public ObservableCollection<InputModel> resultList
+        {
             get
             {
                 return _resultList;
@@ -1249,8 +1278,10 @@ namespace PopProject.UserControl_
 
 
         private float _sumPworkCount;
-        public float sumPworkCount {
-            get { 
+        public float sumPworkCount
+        {
+            get
+            {
                 return _sumPworkCount;
             }
             set
@@ -1322,7 +1353,8 @@ namespace PopProject.UserControl_
         }
 
         private Visibility _newProd;
-        public Visibility newProd {
+        public Visibility newProd
+        {
             get
             {
                 return _newProd;
@@ -1335,7 +1367,8 @@ namespace PopProject.UserControl_
         }
 
         private InputModel _inputModel;
-        public InputModel inputModel {
+        public InputModel inputModel
+        {
             get
             {
                 return _inputModel;
@@ -1349,10 +1382,11 @@ namespace PopProject.UserControl_
         public object MainScrollViewer { get; internal set; }
     }
 
-    public class SubModel :ViewModelBase
+    public class SubModel : ViewModelBase
     {
         private string _ProcessTypeName;
-        public String ProcessTypeName {
+        public String ProcessTypeName
+        {
             get
             {
                 return _ProcessTypeName;
@@ -1389,7 +1423,7 @@ namespace PopProject.UserControl_
                 onPropertyChanged("orderKey");
             }
         }
-      
+
         private int _pplanKey;
         public int pplanKey
         {
@@ -1404,10 +1438,11 @@ namespace PopProject.UserControl_
             }
         }
 
-       
+
 
         private System.Windows.Media.Brush _stateColor;
-        public System.Windows.Media.Brush stateColor {
+        public System.Windows.Media.Brush stateColor
+        {
             get
             {
                 return _stateColor;
@@ -1420,7 +1455,8 @@ namespace PopProject.UserControl_
         }
 
         private System.Windows.Media.Brush _stateFontColor;
-        public System.Windows.Media.Brush stateFontColor {
+        public System.Windows.Media.Brush stateFontColor
+        {
             get
             {
                 return _stateFontColor;
@@ -1433,7 +1469,8 @@ namespace PopProject.UserControl_
         }
 
         private int _processType;
-        public int processType {
+        public int processType
+        {
             get
             {
                 return _processType;
@@ -1445,7 +1482,8 @@ namespace PopProject.UserControl_
         }
 
         private int _presultCount;
-        public int presultCount {
+        public int presultCount
+        {
             get
             {
                 return _presultCount;
@@ -1457,7 +1495,7 @@ namespace PopProject.UserControl_
             }
         }
 
-       
+
     }
 
     public class 실적Model : ViewModelBase
@@ -1897,6 +1935,6 @@ namespace PopProject.UserControl_
             }
         }
 
-       
+
     }
 }

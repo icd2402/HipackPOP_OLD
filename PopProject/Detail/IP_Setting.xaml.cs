@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using PopProject.Util;
+using System.Windows;
 using System.Windows.Input;
-using PopProject.Util;
 
 namespace PopProject.Detail
 {

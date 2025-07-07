@@ -15,35 +15,35 @@ namespace PopProject.Util
 
         public ClsUc_완제품명세서_Control()
         {
-            
+
             InitializeComponent();
             barcodeImage.Visibility = System.Windows.Visibility.Hidden;
-            
+
         }
 
         public void Set_BarCode()
         {
-                
+
             this.DataContext = ViewModel;
             if (Convert.ToInt32(ViewModel.pStockKey) > 0)
             {
 
                 barcodeImage.Visibility = System.Windows.Visibility.Visible;
-               // BarCode barcodeFont = new BarCode();
-               // barcodeFont.SymbologyType = SymbologyType.Code128c;
-              //  barcodeFont.X = 3;
-               // barcodeFont.BarCodeWidth = 450;
-              //  barcodeFont.BarCodeHeight = 150;
-              //  barcodeFont.CodeText = ViewModel.pStockKey;
-              //  System.IO.Stream stream = new System.IO.MemoryStream();
-              //  barcodeFont.drawBarcode(stream);
-                
+                // BarCode barcodeFont = new BarCode();
+                // barcodeFont.SymbologyType = SymbologyType.Code128c;
+                //  barcodeFont.X = 3;
+                // barcodeFont.BarCodeWidth = 450;
+                //  barcodeFont.BarCodeHeight = 150;
+                //  barcodeFont.CodeText = ViewModel.pStockKey;
+                //  System.IO.Stream stream = new System.IO.MemoryStream();
+                //  barcodeFont.drawBarcode(stream);
+
                 var imageSource = new BitmapImage();
                 imageSource.BeginInit();
                 //imageSource.StreamSource = stream;
                 imageSource.EndInit();
                 barcodeImage.Source = imageSource;
-                 
+
             }
         }
 
@@ -57,7 +57,7 @@ namespace PopProject.Util
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
             }
-               
+
             private string _customSName;
 
             public string customSName
@@ -178,7 +178,7 @@ namespace PopProject.Util
             private string _MycustomSName;
             public string MycustomSName
             {
-                
+
                 get
                 {
                     return _MycustomSName;

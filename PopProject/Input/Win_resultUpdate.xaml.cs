@@ -89,7 +89,7 @@ namespace PopProject.Input
             {
                 if (SettingJsonManager.mercName.Contains("인라인"))
                 {
-                   전체공정 = "1";
+                    전체공정 = "1";
 
                 }
                 else
@@ -105,8 +105,8 @@ namespace PopProject.Input
             if (consumerCheck)
             {
                 arrChkAED = pworkCount.Text.ToString().Equals("0") ? "3" : "2";
-                
-                if(SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
+
+                if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
                 {
                     workCount = (int.Parse(pworkCount.Text) * inputModel.pCnt).ToString();
                 }
@@ -206,7 +206,7 @@ namespace PopProject.Input
         {
 
             TextBox context = (TextBox)sender;
-            Win_KeyBoard win_KeyBoard = new Win_KeyBoard(context, inputModel,inputModel)
+            Win_KeyBoard win_KeyBoard = new Win_KeyBoard(context, inputModel, inputModel)
             {
                 WindowStartupLocation = WindowStartupLocation.Manual,
                 Left = 300

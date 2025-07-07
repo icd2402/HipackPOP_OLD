@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
-using log4net;
-using Newtonsoft.Json.Linq;
+﻿using log4net;
+using System;
 
 namespace PopProject.Util
 {
@@ -113,7 +106,7 @@ namespace PopProject.Util
             rollingAppender.Layout = layout;
 
             hierarchy.Root.AddAppender(rollingAppender);
-            
+
             // Activate 시 폴더/파일 없으면 자동으로 생성
             rollingAppender.ActivateOptions();
 

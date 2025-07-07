@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="Service_CRUD" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://kumsungbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://kumsungbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://kumsungbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MiddleWareService.Models" />
+      <xsd:import schemaLocation="http://kumsungbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IService_CRUD_조회_InputMessage">
+    <wsdl:part name="parameters" element="tns:조회" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_조회_OutputMessage">
+    <wsdl:part name="parameters" element="tns:조회Response" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_갱신_InputMessage">
+    <wsdl:part name="parameters" element="tns:갱신" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_갱신_OutputMessage">
+    <wsdl:part name="parameters" element="tns:갱신Response" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_MobileDeviceCheck_InputMessage">
+    <wsdl:part name="parameters" element="tns:MobileDeviceCheck" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_MobileDeviceCheck_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MobileDeviceCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_Mobile조회_InputMessage">
+    <wsdl:part name="parameters" element="tns:Mobile조회" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_Mobile조회_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Mobile조회Response" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_Mobile조회2_InputMessage">
+    <wsdl:part name="parameters" element="tns:Mobile조회2" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_Mobile조회2_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Mobile조회2Response" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_Mobile갱신_InputMessage">
+    <wsdl:part name="parameters" element="tns:Mobile갱신" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_Mobile갱신_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Mobile갱신Response" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_Mobile차량위치_InputMessage">
+    <wsdl:part name="parameters" element="tns:Mobile차량위치" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_Mobile차량위치_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Mobile차량위치Response" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_Android용차납품확인_InputMessage">
+    <wsdl:part name="parameters" element="tns:Android용차납품확인" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_Android용차납품확인_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Android용차납품확인Response" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_Android용차납품_InputMessage">
+    <wsdl:part name="parameters" element="tns:Android용차납품" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_Android용차납품_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Android용차납품Response" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_메일수신_InputMessage">
+    <wsdl:part name="parameters" element="tns:메일수신" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_메일수신_OutputMessage">
+    <wsdl:part name="parameters" element="tns:메일수신Response" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_카카오톡전송_InputMessage">
+    <wsdl:part name="parameters" element="tns:카카오톡전송" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_카카오톡전송_OutputMessage">
+    <wsdl:part name="parameters" element="tns:카카오톡전송Response" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_카카오톡전송_NotButton_InputMessage">
+    <wsdl:part name="parameters" element="tns:카카오톡전송_NotButton" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_카카오톡전송_NotButton_OutputMessage">
+    <wsdl:part name="parameters" element="tns:카카오톡전송_NotButtonResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_Print갱신_InputMessage">
+    <wsdl:part name="parameters" element="tns:Print갱신" />
+  </wsdl:message>
+  <wsdl:message name="IService_CRUD_Print갱신_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Print갱신Response" />
+  </wsdl:message>
+  <wsdl:portType name="IService_CRUD">
+    <wsdl:operation name="조회">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService_CRUD/조회" message="tns:IService_CRUD_조회_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService_CRUD/조회Response" message="tns:IService_CRUD_조회_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="갱신">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService_CRUD/갱신" message="tns:IService_CRUD_갱신_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService_CRUD/갱신Response" message="tns:IService_CRUD_갱신_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MobileDeviceCheck">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService_CRUD/MobileDeviceCheck" message="tns:IService_CRUD_MobileDeviceCheck_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService_CRUD/MobileDeviceCheckResponse" message="tns:IService_CRUD_MobileDeviceCheck_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Mobile조회">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService_CRUD/Mobile조회" message="tns:IService_CRUD_Mobile조회_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService_CRUD/Mobile조회Response" message="tns:IService_CRUD_Mobile조회_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Mobile조회2">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService_CRUD/Mobile조회2" message="tns:IService_CRUD_Mobile조회2_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService_CRUD/Mobile조회2Response" message="tns:IService_CRUD_Mobile조회2_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Mobile갱신">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService_CRUD/Mobile갱신" message="tns:IService_CRUD_Mobile갱신_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService_CRUD/Mobile갱신Response" message="tns:IService_CRUD_Mobile갱신_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Mobile차량위치">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService_CRUD/Mobile차량위치" message="tns:IService_CRUD_Mobile차량위치_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService_CRUD/Mobile차량위치Response" message="tns:IService_CRUD_Mobile차량위치_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Android용차납품확인">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService_CRUD/Android용차납품확인" message="tns:IService_CRUD_Android용차납품확인_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService_CRUD/Android용차납품확인Response" message="tns:IService_CRUD_Android용차납품확인_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Android용차납품">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService_CRUD/Android용차납품" message="tns:IService_CRUD_Android용차납품_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService_CRUD/Android용차납품Response" message="tns:IService_CRUD_Android용차납품_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="메일수신">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService_CRUD/메일수신" message="tns:IService_CRUD_메일수신_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService_CRUD/메일수신Response" message="tns:IService_CRUD_메일수신_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="카카오톡전송">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService_CRUD/카카오톡전송" message="tns:IService_CRUD_카카오톡전송_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService_CRUD/카카오톡전송Response" message="tns:IService_CRUD_카카오톡전송_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="카카오톡전송_NotButton">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService_CRUD/카카오톡전송_NotButton" message="tns:IService_CRUD_카카오톡전송_NotButton_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService_CRUD/카카오톡전송_NotButtonResponse" message="tns:IService_CRUD_카카오톡전송_NotButton_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Print갱신">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService_CRUD/Print갱신" message="tns:IService_CRUD_Print갱신_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService_CRUD/Print갱신Response" message="tns:IService_CRUD_Print갱신_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IService_CRUD" type="tns:IService_CRUD">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="조회">
+      <soap:operation soapAction="http://tempuri.org/IService_CRUD/조회" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="갱신">
+      <soap:operation soapAction="http://tempuri.org/IService_CRUD/갱신" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MobileDeviceCheck">
+      <soap:operation soapAction="http://tempuri.org/IService_CRUD/MobileDeviceCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Mobile조회">
+      <soap:operation soapAction="http://tempuri.org/IService_CRUD/Mobile조회" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Mobile조회2">
+      <soap:operation soapAction="http://tempuri.org/IService_CRUD/Mobile조회2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Mobile갱신">
+      <soap:operation soapAction="http://tempuri.org/IService_CRUD/Mobile갱신" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Mobile차량위치">
+      <soap:operation soapAction="http://tempuri.org/IService_CRUD/Mobile차량위치" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Android용차납품확인">
+      <soap:operation soapAction="http://tempuri.org/IService_CRUD/Android용차납품확인" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Android용차납품">
+      <soap:operation soapAction="http://tempuri.org/IService_CRUD/Android용차납품" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="메일수신">
+      <soap:operation soapAction="http://tempuri.org/IService_CRUD/메일수신" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="카카오톡전송">
+      <soap:operation soapAction="http://tempuri.org/IService_CRUD/카카오톡전송" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="카카오톡전송_NotButton">
+      <soap:operation soapAction="http://tempuri.org/IService_CRUD/카카오톡전송_NotButton" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Print갱신">
+      <soap:operation soapAction="http://tempuri.org/IService_CRUD/Print갱신" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service_CRUD">
+    <wsdl:port name="BasicHttpBinding_IService_CRUD" binding="tns:BasicHttpBinding_IService_CRUD">
+      <soap:address location="http://kumsungbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

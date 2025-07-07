@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PopProject.Detail
 {
-   public class DetailModel : ViewModelBase
+    public class DetailModel : ViewModelBase
     {
         //WDScore WDSize DesignNO handChk HandPosition PackCount PackType LoadHeight LoadType PalletType PalletSize   LocationName
 
-        private string _LocationName="";
+        private string _LocationName = "";
         public string LocationName
         {
             get
@@ -178,7 +174,8 @@ namespace PopProject.Detail
         }
 
         private string _metrialName;
-        public string metrialName {
+        public string metrialName
+        {
             get
             {
                 return _metrialName;
@@ -191,7 +188,8 @@ namespace PopProject.Detail
         }
 
         private int _metType;
-        public int metType {
+        public int metType
+        {
             get
             {
                 return _metType;
@@ -204,7 +202,8 @@ namespace PopProject.Detail
             }
         }
         private int _mL;
-        public int mL {
+        public int mL
+        {
             get
             {
                 return _mL;
@@ -216,7 +215,8 @@ namespace PopProject.Detail
             }
         }
         private int _mW;
-        public int mW {
+        public int mW
+        {
             get
             {
                 return _mW;
@@ -229,7 +229,8 @@ namespace PopProject.Detail
         }
 
         private int _orderKey;
-        public int orderKey {
+        public int orderKey
+        {
             get
             {
                 return _orderKey;
@@ -258,7 +259,8 @@ namespace PopProject.Detail
         }
 
         private string _PrintNo;
-        public string PrintNo {
+        public string PrintNo
+        {
             get
             {
                 return _PrintNo;
@@ -270,7 +272,8 @@ namespace PopProject.Detail
             }
         }
         private string _Printposition;
-        public string Printposition {
+        public string Printposition
+        {
             get
             {
                 return _Printposition;
@@ -283,7 +286,8 @@ namespace PopProject.Detail
         }
 
         private string _ColorType;
-        public string ColorType {
+        public string ColorType
+        {
             get
             {
                 return _ColorType;
@@ -295,7 +299,8 @@ namespace PopProject.Detail
             }
         }
         private string _CoatingType;
-        public string CoatingType {
+        public string CoatingType
+        {
             get
             {
                 return _CoatingType;
@@ -307,7 +312,8 @@ namespace PopProject.Detail
             }
         }
         private string _PushingNo;
-        public string PushingNo {
+        public string PushingNo
+        {
             get
             {
                 return _PushingNo;
@@ -320,7 +326,8 @@ namespace PopProject.Detail
         }
 
         private string _Pushingposition;
-        public string Pushingposition {
+        public string Pushingposition
+        {
             get
             {
                 return _Pushingposition;
@@ -334,7 +341,8 @@ namespace PopProject.Detail
         }
 
         private string _ConnetingType;
-        public string ConnetingType {
+        public string ConnetingType
+        {
             get
             {
                 return _ConnetingType;
@@ -346,7 +354,8 @@ namespace PopProject.Detail
             }
         }
         private int _PackCount;
-        public int PackCount {
+        public int PackCount
+        {
             get
             {
                 return _PackCount;
@@ -359,13 +368,14 @@ namespace PopProject.Detail
         }
         private string _PackType;
 
-        public string PackType {
+        public string PackType
+        {
 
             get
             {
                 return _PackType;
             }
-            
+
             set
             {
                 _PackType = value;
@@ -373,7 +383,8 @@ namespace PopProject.Detail
             }
         }
         private string _loadposition;
-        public string loadposition {
+        public string loadposition
+        {
             get
             {
                 return _loadposition;
@@ -384,11 +395,12 @@ namespace PopProject.Detail
                 _loadposition = value;
                 onPropertyChanged("loadposition");
             }
-        
+
         }
 
         private string _filmNo;
-        public string filmNo {
+        public string filmNo
+        {
             get
             {
                 return _filmNo;
@@ -400,7 +412,8 @@ namespace PopProject.Detail
             }
         }
         private string _handChk;
-        public string handChk {
+        public string handChk
+        {
             get
             {
                 return _handChk;
@@ -413,7 +426,8 @@ namespace PopProject.Detail
         }
 
         private string _jobMemo;
-        public string jobMemo {
+        public string jobMemo
+        {
             get
             {
                 return _jobMemo;
@@ -426,7 +440,8 @@ namespace PopProject.Detail
         }
 
         private string _SpecialMemo;
-        public string SpecialMemo {
+        public string SpecialMemo
+        {
             get
             {
                 return _SpecialMemo;
@@ -436,11 +451,11 @@ namespace PopProject.Detail
                 _SpecialMemo = value;
                 onPropertyChanged("SpecialMemo");
             }
-        
+
         }
     }
 
-    public class IgSmModel: ViewModelBase
+    public class IgSmModel : ViewModelBase
     {
         private float _metBJCount;
         public float metBJCount
@@ -527,7 +542,8 @@ namespace PopProject.Detail
         }
 
         private DateTime _metDate;
-        public DateTime metDate {
+        public DateTime metDate
+        {
             get
             {
                 return _metDate;
@@ -540,7 +556,8 @@ namespace PopProject.Detail
         }
 
         private int _metType;
-        public int metType {
+        public int metType
+        {
             get
             {
                 return _metType;
@@ -567,7 +584,8 @@ namespace PopProject.Detail
 
 
         private float _metCount;
-        public float metCount {
+        public float metCount
+        {
             get
             {
                 return _metCount;
@@ -669,13 +687,14 @@ namespace PopProject.Detail
         }
 
         private string _customSName;
-        public string customSName {
+        public string customSName
+        {
 
             get
             {
                 return _customSName;
             }
-            
+
             set
             {
                 _customSName = value;
@@ -684,7 +703,8 @@ namespace PopProject.Detail
         }
 
         private string _metrialName;
-        public string metrialName {
+        public string metrialName
+        {
             get
             {
                 return _metrialName;
@@ -697,7 +717,8 @@ namespace PopProject.Detail
             }
         }
         private System.Windows.Media.Brush _fontColor;
-        public System.Windows.Media.Brush fontColor {
+        public System.Windows.Media.Brush fontColor
+        {
             get
             {
                 return _fontColor;
@@ -711,7 +732,8 @@ namespace PopProject.Detail
         }
 
         private int _wdjs;
-        public int wdjs {
+        public int wdjs
+        {
 
             get
             {

@@ -6,16 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PopProject.Detail
 {
@@ -38,7 +31,7 @@ namespace PopProject.Detail
 
             LocationName.Text = locationName;
             Get_DataInformation();
-            
+
         }
 
         private void Get_DataInformation()
@@ -61,7 +54,7 @@ namespace PopProject.Detail
                 WhareHouselist = new ObservableCollection<WhareHouseModel>();
                 if (Data_Jarry != null)
                 {
-                    foreach(JObject item in Data_Jarry)
+                    foreach (JObject item in Data_Jarry)
                     {
                         model = new WhareHouseModel
                         {
@@ -91,13 +84,13 @@ namespace PopProject.Detail
                    0
                    );
 
-                if(returnData.결과 == 1)
+                if (returnData.결과 == 1)
                 {
                     Data_Jarry = JArray.Parse(returnData.리턴값);
                     wharehouse_LocationsList = new ObservableCollection<Wharehouse_LocationModel>();
-                    if(Data_Jarry != null)
+                    if (Data_Jarry != null)
                     {
-                        foreach(JObject item in Data_Jarry)
+                        foreach (JObject item in Data_Jarry)
                         {
                             Wharehouse_LocationModel lmodel = new Wharehouse_LocationModel()
                             {
@@ -107,7 +100,7 @@ namespace PopProject.Detail
                                 prodName = item["prodName"].ToString(),
                                 JGCount = item["JGCount"].ToString(),
                                 LocationName = item["LocationName"].ToString()
-                               
+
 
                             };
                             wharehouse_LocationsList.Add(lmodel);
@@ -117,13 +110,14 @@ namespace PopProject.Detail
 
                     }
 
-                    foreach(WhareHouseModel tempItem in WhareHouselist)
+                    foreach (WhareHouseModel tempItem in WhareHouselist)
                     {
-                        for(int i = int.Parse(tempItem.StartNo); i<= int.Parse(tempItem.EndNo); i++){
-                           List<Wharehouse_LocationModel> temp2Item = wharehouse_LocationsList.Where(x => x.LocationName.Equals(String.Format("{0}-{1}", tempItem.TypeName, i))).ToList();
+                        for (int i = int.Parse(tempItem.StartNo); i <= int.Parse(tempItem.EndNo); i++)
+                        {
+                            List<Wharehouse_LocationModel> temp2Item = wharehouse_LocationsList.Where(x => x.LocationName.Equals(String.Format("{0}-{1}", tempItem.TypeName, i))).ToList();
 
                             Wharehouse_LocationModel setedItem;
-                            if(temp2Item.Count == 0)
+                            if (temp2Item.Count == 0)
                             {
                                 setedItem = new Wharehouse_LocationModel
                                 {
@@ -182,7 +176,7 @@ namespace PopProject.Detail
 
         private void 구역Border_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-           
+
 
         }
 
@@ -193,9 +187,9 @@ namespace PopProject.Detail
             {
                 Wharehouse_LocationModel model = (Wharehouse_LocationModel)bd.DataContext;
 
-                if(model.LocationType == 0)
+                if (model.LocationType == 0)
                 {
-                    WharehouseMessage whmsg = new WharehouseMessage(mainModel,model);
+                    WharehouseMessage whmsg = new WharehouseMessage(mainModel, model);
                     whmsg.ShowDialog();
                 }
                 else
@@ -210,7 +204,7 @@ namespace PopProject.Detail
 
         private void Tooltip_Visible(Wharehouse_LocationModel model)
         {
-            if(model.LocationType == 1)
+            if (model.LocationType == 1)
             {
                 model.IsSelectedStyle = 1;
             }

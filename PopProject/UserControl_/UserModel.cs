@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PopProject.UserControl_
+﻿namespace PopProject.UserControl_
 {
     class UserModel : ViewModelBase
     {
@@ -144,7 +138,7 @@ namespace PopProject.UserControl_
                 onPropertyChanged("corp_num");
             }
         }
-        
+
 
         private string _user_name = "";
         public string user_name

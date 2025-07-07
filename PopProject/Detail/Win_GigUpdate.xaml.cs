@@ -1,23 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PopProject.KeyBoard;
+using PopProject.MessageBox;
+using PopProject.Util;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
-using PopProject.input;
-using PopProject.KeyBoard;
-using PopProject.Util;
-using PopProject.Detail;
-using PopProject.MessageBox;
-using PopProject.UserControl_;
 
 namespace PopProject.Detail
 {

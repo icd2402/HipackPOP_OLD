@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Documents;
 
 namespace PopProject.Util
 {
@@ -12,8 +11,8 @@ namespace PopProject.Util
         public static object returnModel;
         public static object dbHandleModel;
 
-        public static object service        ;
-        public static object returnModelObj ;
+        public static object service;
+        public static object returnModelObj;
 
         //로컬
 #pragma warning disable CS0649 // 'ServiceModel.local_Service' 필드에는 할당되지 않으므로 항상 null 기본값을 사용합니다.

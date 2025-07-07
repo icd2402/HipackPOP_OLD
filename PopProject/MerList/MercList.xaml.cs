@@ -1,14 +1,12 @@
-﻿using PopProject.Util;
+﻿using Newtonsoft.Json.Linq;
+using PopProject.MessageBox;
+using PopProject.UserControl_;
+using PopProject.Util;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Newtonsoft.Json.Linq;
-using PopProject.MessageBox;
-using System.Collections.ObjectModel;
-using PopProject.UserControl_;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Input;
 
 namespace PopProject.MerList
 {
@@ -32,8 +30,8 @@ namespace PopProject.MerList
             ReturnModel returnData = ServiceModel.GetData(
                 SettingJsonManager.serverIndex,
                 "[PopSearchMerc]",
-                new string [] {},
-                new object [] {},
+                new string[] { },
+                new object[] { },
                 0
                 );
             if (returnData.결과 == 1)

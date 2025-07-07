@@ -1,29 +1,17 @@
-﻿using Microsoft.AspNet.SignalR.Client;
-using Newtonsoft.Json.Linq;
-using PopProject.Detail;
-using PopProject.input;
-using PopProject.KeyBoard;
-using PopProject.MessageBox;
-using PopProject.UserControl_;
+﻿using Newtonsoft.Json.Linq;
 using PopProject.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Globalization;
-using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
 
 namespace PopProject.Input
@@ -109,7 +97,7 @@ namespace PopProject.Input
             };
 
             // 서버 인덱스를 매핑된 값으로 설정
-            ServerIndex = serverIndexMap.ContainsKey(SettingJsonManager.serverIndex)? serverIndexMap[SettingJsonManager.serverIndex] : "0"; // 기본값 설정, 필요에 따라 변경
+            ServerIndex = serverIndexMap.ContainsKey(SettingJsonManager.serverIndex) ? serverIndexMap[SettingJsonManager.serverIndex] : "0"; // 기본값 설정, 필요에 따라 변경
         }
 
 

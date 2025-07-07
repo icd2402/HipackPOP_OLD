@@ -7,21 +7,12 @@ using PopProject.MessageBox;
 using PopProject.UserControl_;
 using PopProject.Util;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace PopProject.Consumer_
@@ -43,13 +34,13 @@ namespace PopProject.Consumer_
         int pworkkey;
 #pragma warning restore CS0169 // 'DsConsumer_input.pworkkey' 필드가 사용되지 않았습니다.
 #pragma warning disable CS0169 // 'DsConsumer_input.workmemberkey' 필드가 사용되지 않았습니다.
-        int workmemberkey, second =0;
+        int workmemberkey, second = 0;
 #pragma warning restore CS0169 // 'DsConsumer_input.workmemberkey' 필드가 사용되지 않았습니다.
         private bool startPBLock = false;
 #pragma warning disable CS0414 // 'DsConsumer_input.selectedDate' 필드가 할당되었지만 사용되지 않았습니다.
         private DateTime selectedDate = new DateTime();
 #pragma warning restore CS0414 // 'DsConsumer_input.selectedDate' 필드가 할당되었지만 사용되지 않았습니다.
-    
+
         public DsConsumer_input(ConsumerModel consumerModel, MainModel mainModel)
         {
             InitializeComponent();
@@ -162,7 +153,7 @@ namespace PopProject.Consumer_
             second++;
 
             //10초마다 실행
-            if(second == 10)
+            if (second == 10)
             {
                 mainModel.inputModel = inputModel;
 
@@ -174,7 +165,7 @@ namespace PopProject.Consumer_
                 {
                     Main.production = mainModel;
                 }
-                
+
                 second = 0;
             }
 
@@ -400,7 +391,7 @@ namespace PopProject.Consumer_
                         }
                     }
 
-                    
+
                 }
                 // 종료 버튼 클릭
                 else if (inputModel.imagePath.Equals("/img/bn_06.png"))
@@ -565,7 +556,7 @@ namespace PopProject.Consumer_
                 CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
                 Canvas.SetTop(box, 490);
                 Canvas.SetTop(box1, 570);
-               
+
                 count = int.Parse(tbResult.Text.ToString()); //생산수량 담기
 
                 //생산수량 있으면 이월버튼 활성화
@@ -682,7 +673,7 @@ namespace PopProject.Consumer_
                 inputModel.pworkKey = int.Parse(result[0]);
                 inputModel.workMemberKey = int.Parse(result[1]);
 
-                mainModel.sDatetime = (DateTime.Now.ToString("yyyy-MM-dd") == DateTimeManager.GetSelectedDateStr()) ?     
+                mainModel.sDatetime = (DateTime.Now.ToString("yyyy-MM-dd") == DateTimeManager.GetSelectedDateStr()) ?
                                        DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTimeManager.GetSelectedStr();// 실수요자 전일 작업량 수정시 삭제건 해결을 위한 수정: DateTime.Now -> selectedDate
 
                 Main.production = mainModel;
@@ -724,7 +715,7 @@ namespace PopProject.Consumer_
               new string[] { "@pworkDate", "@orderKey", "@pplanKey", "@ProcessType", "@mercName", "@UpUserID", "@UpUserName", "@workerName",
                              "@workerID", "@SCMKey", "@pworkKey", "@vendorID", "@membID" },
               new object[] {
-                  DateTimeManager.GetSelectedDateStr(),      
+                  DateTimeManager.GetSelectedDateStr(),
                   consumerModel.orderKey,
                   inputModel.pplanKey,
                   SettingJsonManager.processType,
@@ -948,7 +939,7 @@ namespace PopProject.Consumer_
                             inputModel.pMemo = tempItem.Memo;
                             inputModel.sDatetime = tempItem.sDatetime;
                             inputModel.eDatetime = tempItem.eDatetime;
-                        }   
+                        }
                         else //생산중이 아니면
                         {
                             inputModel.imagePath = "/img/bn_05.png"; //시작버튼
@@ -1031,9 +1022,9 @@ namespace PopProject.Consumer_
             Close();
             string special = "";
 
-            
 
-            Win_Detail win_Detail = new Win_Detail(mainModel, special,consumerModel, SettingJsonManager.detail_check, true);
+
+            Win_Detail win_Detail = new Win_Detail(mainModel, special, consumerModel, SettingJsonManager.detail_check, true);
             win_Detail.ShowDialog();
         }
 
@@ -1129,7 +1120,7 @@ namespace PopProject.Consumer_
             }
 
 
-            
+
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using PopProject.Consumer_;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Collections.Generic;
 using System.Data;
 
 namespace PopProject.input
@@ -19,7 +15,7 @@ namespace PopProject.input
         {
             dicDatas.Clear();
 
-            for(int i= 0; i < columns.Count; i++)
+            for (int i = 0; i < columns.Count; i++)
             {
                 dicDatas.Add(columns[i].ToString(), _dtDatas.Rows[0][i].ToString());
             }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.AspNet.SignalR.Client;
+using Newtonsoft.Json.Linq;
 using PopProject.Consumer_;
 using PopProject.Detail;
 using PopProject.input;
@@ -7,15 +8,19 @@ using PopProject.MerList;
 using PopProject.MessageBox;
 using PopProject.Util;
 using System;
-using System.Data;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.IO.Ports;
+using System.Linq;
+using System.Net.NetworkInformation;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,18 +28,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Net.Http;
-using System.Net.NetworkInformation;
 using System.Windows.Threading;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Microsoft.AspNet.SignalR.Client;
-using Newtonsoft.Json;
-using WpfAnimatedGif;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
-using static PopProject.Input.SearchList;
 
 namespace PopProject.UserControl_
 {
@@ -144,7 +138,7 @@ namespace PopProject.UserControl_
                     lock_img.Visibility = Visibility.Visible;
                     merc_lock.Text = "LOCK";
                 }
-                
+
                 Properties.Settings.Default.PopUpPosition_S = false;
 
                 //SignalR 연결
@@ -165,8 +159,8 @@ namespace PopProject.UserControl_
                 }
 
                 //날짜 변경 버튼 활성화
-                if (!SettingJsonManager.checkMerc && (SettingJsonManager.corp_name.Equals("대세물산") || 
-                    SettingJsonManager.corp_name.Equals("유창포장") || 
+                if (!SettingJsonManager.checkMerc && (SettingJsonManager.corp_name.Equals("대세물산") ||
+                    SettingJsonManager.corp_name.Equals("유창포장") ||
                     SettingJsonManager.corp_name.Equals("광성수출포장") ||
                     SettingJsonManager.corp_name.Contains("테스트") ||
                     Environment.MachineName.Equals("PRG-PJH-DESK")))
@@ -222,13 +216,13 @@ namespace PopProject.UserControl_
                     mcBt.Visibility = Visibility.Visible;
                 }
                 //신우,우리,누리
-                if (SettingJsonManager.corp_name.Equals("신우수출포장") 
-                    || SettingJsonManager.corp_name.Equals("신우포장테스트") 
-                    || SettingJsonManager.corp_name.Equals("우리포장산업") 
-                    || SettingJsonManager.corp_name.Equals("우리포장산업테스트") 
-                    || SettingJsonManager.corp_name.Equals("누리팩") 
+                if (SettingJsonManager.corp_name.Equals("신우수출포장")
+                    || SettingJsonManager.corp_name.Equals("신우포장테스트")
+                    || SettingJsonManager.corp_name.Equals("우리포장산업")
+                    || SettingJsonManager.corp_name.Equals("우리포장산업테스트")
+                    || SettingJsonManager.corp_name.Equals("누리팩")
                     || SettingJsonManager.corp_name.Equals("누리팩테스트")
-                    || SettingJsonManager.sumView 
+                    || SettingJsonManager.sumView
                     )
                 {
                     ss.Visibility = Visibility.Visible; //집계창 표시
@@ -241,7 +235,7 @@ namespace PopProject.UserControl_
 
                 //인터넷 연결 확인
                 bool connected = NetworkInterface.GetIsNetworkAvailable();
-                
+
                 if (connected)
                 {
                     UpdateWorkPlanNResult(); // 계획/결과 조회
@@ -434,7 +428,7 @@ namespace PopProject.UserControl_
             }
         }
         #endregion
-        
+
         private void UpdateWorkPlanNResult()
         {
             SelectWorkList();
@@ -541,7 +535,7 @@ namespace PopProject.UserControl_
                     LogManager.Info("아두이노 연결 성공", MethodBase.GetCurrentMethod().DeclaringType);
                 }
                 //통신 연결 끊겨있으면
-                else if(!arduSerial.IsOpen)
+                else if (!arduSerial.IsOpen)
                 {
                     LogManager.Info("시리얼 끊겼으면 재시도", MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -581,7 +575,7 @@ namespace PopProject.UserControl_
                 arduSerial.DiscardOutBuffer(); //송신 버퍼 삭제
                 arduSerial.Close(); // 시리얼 포트 닫기
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 LogManager.Error("아두이노 재연결 오류 : " + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
@@ -700,7 +694,7 @@ namespace PopProject.UserControl_
 
                                 CountManager.SendMsg(SettingJsonManager.mercName, production.presultCount.ToString()); //현황판으로 카운터 전송
                                 Console.WriteLine("현황판으로 카운터(통수) 전송 값(Main) : " + SettingJsonManager.mercName + ", " + production.presultCount.ToString()); //실시간 값 확인용
-                                
+
                                 if (SettingJsonManager.corp_name.Equals("광성수출포장") && SettingJsonManager.dbUse)
                                 {
                                     //RawData 저장(업체코드,설비명,데이터,오더키,수주키,제품ID)
@@ -712,7 +706,7 @@ namespace PopProject.UserControl_
                 }
                 else
                 {
-                    Console.WriteLine("production == null"); 
+                    Console.WriteLine("production == null");
                 }
             }
             catch (Exception ex)
@@ -748,14 +742,14 @@ namespace PopProject.UserControl_
             // UNLOCK 일때
             if (SettingJsonManager.checkMerc == false)
             {
-                Cls_Variable.SharedValue = true ;
+                Cls_Variable.SharedValue = true;
                 //현재 설비명 before에 담기
                 string before = string.IsNullOrWhiteSpace(SettingJsonManager.mercName) ? "" : SettingJsonManager.mercName;
                 //if (before.Equals(""))
                 //{
-                    MercList mercList = new MercList(); //리스트 가져오기
-                    _ = mercList.ShowDialog(); //설비 리스트 팝업
-                    tbMercName.Text = SettingJsonManager.mercName;
+                MercList mercList = new MercList(); //리스트 가져오기
+                _ = mercList.ShowDialog(); //설비 리스트 팝업
+                tbMercName.Text = SettingJsonManager.mercName;
 
                 //}
                 // 상단 바 계획 글자 옵션
@@ -809,7 +803,7 @@ namespace PopProject.UserControl_
 
             // 하나포장,원팩 생산계획 리스트 합하여 보여주기위해 만들었으며, 테스트까지 완료함
             if (SettingJsonManager.companyIntegration
-                && (SettingJsonManager.corp_name.Equals("하나포장")|| SettingJsonManager.corp_name.Equals("하나포장테스트")))
+                && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
             {
                 if (SettingJsonManager.corp_name.Equals("하나포장테스트"))
                 {
@@ -827,7 +821,7 @@ namespace PopProject.UserControl_
             {
                 serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
             }
-            
+
             // workList와 workList1을 초기화
             workList = new ObservableCollection<MainModel>(); // 메인 화면
             workList1 = new ObservableCollection<MainModel>(); // 순서변경 화면
@@ -1068,7 +1062,7 @@ namespace PopProject.UserControl_
                                 listitem.Canvas = "43"; //높이 조절
                                 listitem.prodName = result["prodName"].ToString(); //품명
                             }
-                            
+
                             listitem.pplanKey = int.Parse(result["pplanKey"].ToString()); //계획키
                             listitem.orderKey = result["orderKey"].ToString(); //수주키
                             listitem.ProcessType = int.Parse(result["ProcessType"].ToString()); //공정IC
@@ -1213,7 +1207,7 @@ namespace PopProject.UserControl_
                             listitem.DBName = DBName;
 
                             //오주, 대양
-                            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") || 
+                            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") ||
                                 SettingJsonManager.corp_name.Equals("대양포장") || SettingJsonManager.corp_name.Equals("대양포장테스트"))
                             {
                                 listitem.pStateVisi = Visibility.Visible;
@@ -2345,7 +2339,7 @@ namespace PopProject.UserControl_
             Dictionary<string, string> serverIndices2 = new Dictionary<string, string>();
 
 
-            if (SettingJsonManager.companyIntegration&&(SettingJsonManager.corp_name.Equals("하나포장")|| SettingJsonManager.corp_name.Equals("하나포장테스트")))
+            if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
             {
                 if (SettingJsonManager.corp_name.Equals("하나포장테스트"))
                 {
@@ -2362,7 +2356,7 @@ namespace PopProject.UserControl_
                 serverIndices2.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
             }
 
-            
+
 
 
             foreach (var server in serverIndices2)
@@ -2388,79 +2382,79 @@ namespace PopProject.UserControl_
                         foreach (MainModel workItem in workList)
                         {
                             //결과값이 있는지에 따른 정보 관리.
-                                foreach (JObject result in Data_Jarry)
-                                {
+                            foreach (JObject result in Data_Jarry)
+                            {
                                 _ = new InputModel();
                                 //해당 설비의 계획리스트에서 pplanKey일치
                                 if (workItem.pplanKey.ToString().Equals(result["pplanKey"].ToString()))
+                                {
+                                    //현재POP 설정된 설비명과 일치
+                                    if (result["mercName"].ToString().Equals(SettingJsonManager.mercName))
                                     {
-                                        //현재POP 설정된 설비명과 일치
-                                        if (result["mercName"].ToString().Equals(SettingJsonManager.mercName))
+                                        workItem.presultCount = float.Parse(result["pworkCount"].ToString());   //생산결과 수량
+                                        workItem.sumPworkCount += float.Parse(result["pworkCount"].ToString()); //생산결과 총 수량
+                                        workItem.sDatetime = result["sDatetime"].ToString(); //시작시간
+
+                                        if (!result["perrorCount"].ToString().Equals("")) //불량수량
                                         {
-                                            workItem.presultCount = float.Parse(result["pworkCount"].ToString());   //생산결과 수량
-                                            workItem.sumPworkCount += float.Parse(result["pworkCount"].ToString()); //생산결과 총 수량
-                                            workItem.sDatetime = result["sDatetime"].ToString(); //시작시간
+                                            workItem.perrorCount += int.Parse(result["perrorCount"].ToString());
+                                        }
 
-                                            if (!result["perrorCount"].ToString().Equals("")) //불량수량
-                                            {
-                                                workItem.perrorCount += int.Parse(result["perrorCount"].ToString());
-                                            }
+                                        workItem.imagePath = "/img/bn_01.png"; //작업중 버튼
 
-                                            workItem.imagePath = "/img/bn_01.png"; //작업중 버튼
-
-                                            //완료시간 있으면
-                                            if (!result["eDatetime"].ToString().Equals(""))
+                                        //완료시간 있으면
+                                        if (!result["eDatetime"].ToString().Equals(""))
+                                        {
+                                            workItem.eDatetime = result["eDatetime"].ToString();
+                                            workItem.imagePath = "/img/bn_03.png"; //작업완료 버튼
+                                        }
+                                        else//완료시간 없으면
+                                        {
+                                            //생산중이면
+                                            if (production != null)
                                             {
-                                                workItem.eDatetime = result["eDatetime"].ToString();
-                                                workItem.imagePath = "/img/bn_03.png"; //작업완료 버튼
-                                            }
-                                            else//완료시간 없으면
-                                            {
-                                                //생산중이면
-                                                if (production != null)
-                                                {
-                                                    if (!production.pplanKey.ToString().Equals(workItem.pplanKey.ToString()))
-                                                    {
-                                                        production = workItem;
-                                                    }
-                                                    else
-                                                    {
-                                                        float tempSum = production.sumPworkCount;
-                                                        float tempPresult = production.presultCount;
-                                                        production = workItem;
-                                                        production.sumPworkCount = tempSum;
-                                                        production.presultCount = tempPresult;
-                                                    }
-                                                }
-                                                //생산중이 아니면
-                                                else
+                                                if (!production.pplanKey.ToString().Equals(workItem.pplanKey.ToString()))
                                                 {
                                                     production = workItem;
+                                                }
+                                                else
+                                                {
+                                                    float tempSum = production.sumPworkCount;
+                                                    float tempPresult = production.presultCount;
+                                                    production = workItem;
+                                                    production.sumPworkCount = tempSum;
+                                                    production.presultCount = tempPresult;
+                                                }
+                                            }
+                                            //생산중이 아니면
+                                            else
+                                            {
+                                                production = workItem;
 
-                                                    //카운터 집계용 로컬DB
-                                                    if (SettingJsonManager.dbUse)
+                                                //카운터 집계용 로컬DB
+                                                if (SettingJsonManager.dbUse)
+                                                {
+                                                    DataTable temp = new LocalDBManager().GetRawData("Last");
+
+                                                    // 설비명 동일 && 제품 orderKey 동일 && 메세지 타입은 N
+                                                    if (temp.Rows[0]["MercName"].ToString().Equals(SettingJsonManager.mercName)
+                                                        && temp.Rows[0]["OrderKey"].ToString().Equals(production.orderKey)
+                                                        && temp.Rows[0]["MsgType"].ToString().Equals("N"))
                                                     {
-                                                        DataTable temp = new LocalDBManager().GetRawData("Last");
-
-                                                        // 설비명 동일 && 제품 orderKey 동일 && 메세지 타입은 N
-                                                        if (temp.Rows[0]["MercName"].ToString().Equals(SettingJsonManager.mercName)
-                                                            && temp.Rows[0]["OrderKey"].ToString().Equals(production.orderKey)
-                                                            && temp.Rows[0]["MsgType"].ToString().Equals("N"))
-                                                        {
-                                                            production.sumPworkCount = Convert.ToInt32(temp.Rows[0]["Msg"]) + production.sumPworkCount;
-                                                            production.presultCount = Convert.ToInt32(temp.Rows[0]["Msg"]);
-                                                            // 계속해서 아두이노로 들어오는 카운터 값에 + 방법 연구 필요
-                                                        }
+                                                        production.sumPworkCount = Convert.ToInt32(temp.Rows[0]["Msg"]) + production.sumPworkCount;
+                                                        production.presultCount = Convert.ToInt32(temp.Rows[0]["Msg"]);
+                                                        // 계속해서 아두이노로 들어오는 카운터 값에 + 방법 연구 필요
                                                     }
                                                 }
                                             }
-                                    }
-                                    else
-                                        {
-                                            tempOb.Add(workItem);
                                         }
                                     }
+                                    else
+                                    {
+                                        tempOb.Add(workItem);
+                                    }
                                 }
+                            }
 
                         }
 
@@ -2534,7 +2528,8 @@ namespace PopProject.UserControl_
                 pplanKeyArray += item.FirstOrDefault().pplanKey;
             }
 
-            if (!pplanKeyArray.Equals("")){
+            if (!pplanKeyArray.Equals(""))
+            {
 
                 ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
                 ReturnModel returnData = ServiceModel.GetData(
@@ -2627,23 +2622,23 @@ namespace PopProject.UserControl_
                 SortDescription sort7 = new SortDescription("orderDate", ListSortDirection.Ascending);//수주일자
                 SortDescription sort8 = new SortDescription("pState", ListSortDirection.Descending);  //상태
                 SortDescription sort9 = new SortDescription("orderLast", ListSortDirection.Ascending);  //납품일자
-                    bool sortCheck = SettingJsonManager.RadioChecked;
+                bool sortCheck = SettingJsonManager.RadioChecked;
 
                 ICollectionView collectionView = CollectionViewSource.GetDefaultView(workList);
                 for (int i = 0; i < workList.Count; i++)
                 {
                     Console.WriteLine("정렬전 "
-                        //+ " No" + workList[i].pplanNo + " key" + workList[i].pplanKey
-                        //+ " 긴급" + workList[i].urgency + " 차수" + workList[i].pAccount
-                        //+ workList[i].customSName  + workList[i].prodName
-                        //+ " 시작" + workList[i].sDatetime + " 상태" + workList[i].pState);
+                    //+ " No" + workList[i].pplanNo + " key" + workList[i].pplanKey
+                    //+ " 긴급" + workList[i].urgency + " 차수" + workList[i].pAccount
+                    //+ workList[i].customSName  + workList[i].prodName
+                    //+ " 시작" + workList[i].sDatetime + " 상태" + workList[i].pState);
                     + " 시작" + workList[i].sDatetime
                     + " sort3:" + workList[i].urgency + " sort1:" + workList[i].pplanNo + " sort2:" + workList[i].pplanKey
                     + " sort4:" + workList[i].pAccount + " 상태" + workList[i].pState
                     + " 거래처 /품명 :" + workList[i].customSName + workList[i].prodName);
-            }
+                }
 
-            collectionView.Filter = null;
+                collectionView.Filter = null;
                 collectionView.SortDescriptions.Clear();
 
                 //하단정렬
@@ -2687,7 +2682,7 @@ namespace PopProject.UserControl_
                 else//상단정렬
                 {
 
-                    sort = new SortDescription("sDatetime", ListSortDirection.Ascending );
+                    sort = new SortDescription("sDatetime", ListSortDirection.Ascending);
                     collectionView.SortDescriptions.Add(sort);
                     //                    collectionView.SortDescriptions.Add(sort);  //시작시간
                     collectionView.SortDescriptions.Add(sort8); //상태
@@ -2705,7 +2700,7 @@ namespace PopProject.UserControl_
                     {
                         MainModel model = new MainModel();
                         //하나포장, 통합관리 설정값이 true일 경우
-                        if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장")|| SettingJsonManager.corp_name.Equals("하나포장테스트")))
+                        if (SettingJsonManager.companyIntegration && (SettingJsonManager.corp_name.Equals("하나포장") || SettingJsonManager.corp_name.Equals("하나포장테스트")))
                         {
                             SortDescription sort11 = new SortDescription("sDatetime", ListSortDirection.Descending);  // 시작시간
                             collectionView.SortDescriptions.Add(sort11);
@@ -2736,11 +2731,11 @@ namespace PopProject.UserControl_
                 for (int i = 0; i < lists.Count; i++)
                 {
                     Console.WriteLine("정렬후 "
-                        + " 시작" + lists[i].sDatetime 
-                        + " sort3:" + lists[i].urgency 
-                        + " sort1:" + lists[i].pplanNo 
-                        + " sort9:" + lists[i].orderLast 
-                        + " sort10:" + lists[i].ServerIndex 
+                        + " 시작" + lists[i].sDatetime
+                        + " sort3:" + lists[i].urgency
+                        + " sort1:" + lists[i].pplanNo
+                        + " sort9:" + lists[i].orderLast
+                        + " sort10:" + lists[i].ServerIndex
                         + " sort4:" + lists[i].pAccount + " sort8" + lists[i].pState
                         + " 거래처 /품명 :" + lists[i].customSName + lists[i].prodName);
                     workList1[i] = lists[i];
@@ -2805,7 +2800,7 @@ namespace PopProject.UserControl_
 
             // 부모 요소가 형식 T와 일치하는지 확인합니다.
             T parent = parentObject as T;
-            
+
             // 부모 요소가 형식 T와 일치하는 경우 해당 부모 요소를 반환합니다.
             if (parent != null)
             {
@@ -2834,7 +2829,7 @@ namespace PopProject.UserControl_
                     }
                     return;
                 }
-               
+
                 bool carryForwardButton = true; //이월 버튼 상태
                 if (sender.GetType().Name.Equals("Image"))
                 {
@@ -2860,7 +2855,7 @@ namespace PopProject.UserControl_
                                 {
                                     arduSerial.Write("A");//아두이노 카운터 리셋
                                 }
-                                
+
                                 PopResultStart(model); //시작 SP 실행
                             }
                         }
@@ -2918,7 +2913,7 @@ namespace PopProject.UserControl_
                             SettingJsonManager.corp_name.Equals("금화") ||
                             SettingJsonManager.corp_name.Equals("금화테스트"))
                         {
-                                        UpdateWorkPlanNResult(); // 계획/결과 조회
+                            UpdateWorkPlanNResult(); // 계획/결과 조회
                             LogManager.Info("대세,구룡 인풋창 닫은 후 계획, 결과건 갱신 완료", MethodBase.GetCurrentMethod().DeclaringType);
                         }
 
@@ -2932,7 +2927,7 @@ namespace PopProject.UserControl_
                         //계획건수 20개 미만일때
                         if (workList.Count < 20)
                         {
-                                        UpdateWorkPlanNResult(); // 계획/결과 조회
+                            UpdateWorkPlanNResult(); // 계획/결과 조회
                         }
                     }
                     win_Input = null;
@@ -2954,7 +2949,7 @@ namespace PopProject.UserControl_
                     SettingJsonManager.SerialName = "";
                 }
                 LogManager.Error("상태버튼 클릭 오류 : " + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
-                Console.WriteLine(e1.Message);                e.Handled = false;
+                Console.WriteLine(e1.Message); e.Handled = false;
                 can.Visibility = Visibility.Collapsed;
             }
 
@@ -3009,7 +3004,7 @@ namespace PopProject.UserControl_
 
                 model.sDatetime = DateTimeManager.GetSelectedStr(); //yyyy-MM-dd HH:mm:ss
                 CountManager.SendMsg(SettingJsonManager.mercName, "S");
-                
+
                 SettingJsonManager.pworkkey = returnData.리턴값;
                 SettingJsonManager.count = 0;
                 SettingJsonManager.saveDate = "";
@@ -3262,8 +3257,9 @@ namespace PopProject.UserControl_
             CNS_Barcode_Send = false;
             string code = "";
 
-            Application.Current.Dispatcher.Invoke(() => {
-                code = tbBarcode.Text; 
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                code = tbBarcode.Text;
             });
             _ = int.TryParse(code, out int pCode); //바코드 값  정수로 변환
             Console.WriteLine("pCode: " + code);
@@ -3339,7 +3335,7 @@ namespace PopProject.UserControl_
                     }
                     catch (Exception ex)
                     {
-                    Console.WriteLine("예외");
+                        Console.WriteLine("예외");
                         string exception = ex.Message;
                     }
 
@@ -3407,7 +3403,7 @@ namespace PopProject.UserControl_
                     SettingJsonManager.checkMerc = false;
                     LogManager.Info("Lock => UnLock", MethodBase.GetCurrentMethod().DeclaringType);
                 }
-                else if(auth.PasswordCorrect == 2)//비밀번호 미일치
+                else if (auth.PasswordCorrect == 2)//비밀번호 미일치
                 {
                     MessageBox_Dialog box = new MessageBox_Dialog("비밀번호가 일치하지 않습니다. \n\n비밀번호 분실 시 국제전산에 문의해주세요.");
                     _ = box.ShowDialog();
@@ -3467,7 +3463,7 @@ namespace PopProject.UserControl_
 
             if (SettingJsonManager.searchCheck)
             {
-                            UpdateWorkPlanNResult(); // 계획/결과 조회
+                UpdateWorkPlanNResult(); // 계획/결과 조회
             }
 
             SettingJsonManager.searchCheck = false;
@@ -3640,7 +3636,7 @@ namespace PopProject.UserControl_
                 collectionView.Refresh();
                 oderLast_Sort = false; //수주일자 정렬
             }
-            else 
+            else
             {
                 //거래처 ㄱㄴㄷ 정렬 (클릭시 이벤트)
                 if (sortChecked)
@@ -3662,7 +3658,7 @@ namespace PopProject.UserControl_
         {
             DateTimeManager.SetPreviousDate();
 
-                        UpdateWorkPlanNResult(); // 계획/결과 조회
+            UpdateWorkPlanNResult(); // 계획/결과 조회
         }
 
         //날짜 앞으로 이동
@@ -3670,7 +3666,7 @@ namespace PopProject.UserControl_
         {
             DateTimeManager.SetNextDate();
 
-                        UpdateWorkPlanNResult(); // 계획/결과 조회
+            UpdateWorkPlanNResult(); // 계획/결과 조회
         }
 
         //설비점검 클릭
@@ -3689,7 +3685,7 @@ namespace PopProject.UserControl_
                 MessageBox_Dialog dialog = new MessageBox_Dialog("SignalR 서버에 재연결 합니다.");
                 dialog.ShowDialog();
                 LogManager.Info("SignalR 재연결 요청", MethodBase.GetCurrentMethod().DeclaringType);
-                
+
                 SignalRAdministrator conn = new SignalRAdministrator();
                 conn.Setconnection(false);
                 conn.Setconnection(true);

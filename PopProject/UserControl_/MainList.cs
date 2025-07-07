@@ -9,7 +9,7 @@ namespace PopProject.UserControl_
     class MainList : ViewModelBase
     {
 
-        
+
 
         private String _ConsumWorkKey = "";
         public String ConsumWorkKey
@@ -403,29 +403,29 @@ namespace PopProject.UserControl_
                 onPropertyChanged("scbjcountColor");
             }
         }
-       
-        
-
-       
-
-        
-
-        
-
-       
-
-
-        
-
-        
-
-        
 
 
 
-        
 
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private String _pStateSColor;
         public String pStateSColor
@@ -544,7 +544,7 @@ namespace PopProject.UserControl_
 
             }
         }
-        
+
         //실수요자
         private Boolean _bMember;
         public Boolean bMember
@@ -576,10 +576,10 @@ namespace PopProject.UserControl_
             }
         }
 
-        
 
 
-        
+
+
 
         //불량
         private int _perrorCount;
@@ -959,7 +959,7 @@ namespace PopProject.UserControl_
             }
         }
 
-       
+
         private String _SCmetrialName;
         public String SCmetrialName
         {
@@ -973,7 +973,7 @@ namespace PopProject.UserControl_
                 onPropertyChanged("SCmetrialName");
             }
         }
-        
+
         //마닐라 규격
         private String _mLmW;
         public String mLmW
@@ -1149,7 +1149,7 @@ namespace PopProject.UserControl_
                 onPropertyChanged("imagePath");
             }
         }
-        
+
 
         //inpuModel 결과리스트
         private ObservableCollection<InputModel> _resultList;

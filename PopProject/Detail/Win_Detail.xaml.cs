@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using PopProject.Consumer_;
+using PopProject.input;
 using PopProject.Input;
+using PopProject.KeyBoard;
 using PopProject.MessageBox;
 using PopProject.UserControl_;
 using PopProject.Util;
@@ -8,18 +10,16 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Net;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
-using System.Text.RegularExpressions;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using PopProject.KeyBoard;
-using PopProject.input;
 using System.Windows.Threading;
 
 namespace PopProject.Detail
@@ -39,7 +39,7 @@ namespace PopProject.Detail
         public DetailModel Detailitem;
         private readonly ObservableCollection<MainModel> workList;
         private readonly bool monitorcheck = false;
-        private  bool Barcode_Enter = false;
+        private bool Barcode_Enter = false;
         public Socket mainSock;
         private string special;
         private bool detail_check;
@@ -87,7 +87,7 @@ namespace PopProject.Detail
         public Win_Detail(MainModel mainModel, string special, ObservableCollection<MainModel> workList, bool v, bool Barcod) //메인모델, 참고사항, 계획건, 듀얼모니터사용, 바코드 유무
         {
             InitializeComponent();
-            
+
             this.mainModel = mainModel;
             this.workList = workList;
             monitorcheck = v;
@@ -111,7 +111,7 @@ namespace PopProject.Detail
             }
             else
             {
-                LogManager.Info("일반 Detail창 팝업(" + mainModel.customSName + "/" + mainModel.prodName +")", MethodBase.GetCurrentMethod().DeclaringType);
+                LogManager.Info("일반 Detail창 팝업(" + mainModel.customSName + "/" + mainModel.prodName + ")", MethodBase.GetCurrentMethod().DeclaringType);
             }
 
             _ = new LogData("상세내역창 조회");
@@ -144,7 +144,7 @@ namespace PopProject.Detail
             }
 
             //오주포장 PLC사용 체크되었으면 바코드 리드시 CNS로 자동 전송
-            if (SettingJsonManager.corp_name.Equals("오주포장") && Barcode_Enter || 
+            if (SettingJsonManager.corp_name.Equals("오주포장") && Barcode_Enter ||
                 SettingJsonManager.corp_name.Equals("오주포장테스트") && Barcode_Enter)
             {
                 //바코드로 디테일창 팝업시 동작
@@ -331,7 +331,7 @@ namespace PopProject.Detail
         // 시계, 바코드, 종료시간 체크
         private void Timer_1s_Tick(object sender, EventArgs e)
         {
-            
+
         }
 
         public Win_Detail(MainModel mainModel, string special, bool detail_check)
@@ -384,7 +384,7 @@ namespace PopProject.Detail
             R_Value.Visibility = SettingJsonManager.corp_name.Equals("금화") ? Visibility.Visible : Visibility.Collapsed;
             robot.Visibility = SettingJsonManager.robotchecked ? Visibility.Visible : Visibility.Collapsed;
             consumcheck = v;
-            
+
             DetailSearch(); //세부정보 조회 (왼쪽화면)
 
             MetrialIG(); //원단입고,발주 같이조회 (자재상태창)
@@ -575,7 +575,7 @@ namespace PopProject.Detail
                 {
                     Console.WriteLine(e.Message);
                 }
-                
+
 
                 try
                 {
@@ -772,7 +772,7 @@ namespace PopProject.Detail
 
                 string s앞날개 = "";
                 string s뒷날개 = "";
-                
+
                 스코아pSize = mainModel.SCBJCount.Split('*');
                 if (스코아pSize.Length == 3)
                 {
@@ -785,7 +785,7 @@ namespace PopProject.Detail
                     s앞날개 = 규격pSize[0] == null ? "" : 스코아pSize[0].Trim();
                     s뒷날개 = 규격pSize[2] == null ? "" : 스코아pSize[2].Trim();
                 }
-                
+
                 앞날개 = int.Parse(s앞날개.ToString()) * 10;
                 뒷날개 = int.Parse(s뒷날개.ToString()) * 10;
 
@@ -854,7 +854,7 @@ namespace PopProject.Detail
 
                 Console.WriteLine("CNS 신규 데이터 전송값 => " + "ProdID:" + ProdID + ", 거래처:" + 거래처 + ", 품명:" + 품명 + ", 장:" + 장 + ", 폭:" + 폭 + ", 고:" + 고 + ", 갭:" + 갭 + ", 미미:" + 미미);
                 LogManager.Info("CNS 신규 데이터 전송값 => " + "ProdID:" + ProdID + ", 거래처:" + 거래처 + ", 품명:" + 품명 + ", 장:" + 장 + ", 폭:" + 폭 + ", 고:" + 고 + ", 갭:" + 갭 + ", 미미:" + 미미, MethodBase.GetCurrentMethod().DeclaringType);
-                
+
                 ConnectSocket(); //CNS 통신연결
                 Ls_Fenet wd = new Ls_Fenet();
                 List<int> items = new List<int>();
@@ -923,7 +923,7 @@ namespace PopProject.Detail
 
                 //데이터 쓰기
                 mainSock.Send(bDts);
-                
+
                 LogManager.Info("CNS 신규 데이터 전송 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
             catch (Exception)
@@ -1365,10 +1365,10 @@ namespace PopProject.Detail
                     LogManager.Info("DB에 저장된 로봇 데이터 없음", MethodBase.GetCurrentMethod().DeclaringType);
 
                     Main.robot_Setting = new Robot_Setting(mainModel.prodID, mainModel.customSName, mainModel.prodName);
-                    Main.robot_Setting.ShowDialog(); 
+                    Main.robot_Setting.ShowDialog();
                     Main.robot_Setting = null;
                 }
-                
+
             }
             else
             {
@@ -1637,7 +1637,7 @@ namespace PopProject.Detail
                         {
                             tbNoCount.Visibility = Visibility.Collapsed;
                             tbPicCount.Visibility = Visibility.Visible;
-                            picCount.Visibility = Visibility.Visible; 
+                            picCount.Visibility = Visibility.Visible;
                             tbPicCount.Text = "1/" + uriPathOB.Count;
 
                             BitmapImage bitmap = new BitmapImage();
@@ -1674,7 +1674,7 @@ namespace PopProject.Detail
             string ftpUrl = uri;
             string ID = id;
             string Password = pwd;
-            string localFilePath = "C:\\Downloads\\"+ name; // C드라이버 Downloads파일에 이미지파일 저장
+            string localFilePath = "C:\\Downloads\\" + name; // C드라이버 Downloads파일에 이미지파일 저장
 
             try
             {
@@ -1714,9 +1714,10 @@ namespace PopProject.Detail
                     // pic.Source에 할당
                     pic.Source = bitmap;
 
-                }catch (Exception )
+                }
+                catch (Exception)
                 {
-                    
+
                     MessageBox_Dialog msg = new MessageBox_Dialog("인쇄사양이 올바르지 않습니다.");
                     _ = msg.ShowDialog();
 
@@ -1728,7 +1729,7 @@ namespace PopProject.Detail
                 LogManager.Error("ftpConnection 에러\n" + ex.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
-        
+
         //원단입고 내역, 원단발주 내역
         private void MetrialIG()
         {
@@ -1884,7 +1885,7 @@ namespace PopProject.Detail
 
                         listitem.GigText = listitem.SubscriptionBJCount == 0 ? "가입고" : listitem.SubscriptionBJCount.ToString();  //가입고 버튼 텍스트
                         listitem.BtVisibility = "Visible";             //가입고 버튼 표시
-                        
+
                         listitem.metCount *= listitem.wdjs;            //발주 수량에 절수 곱함
                         listitem.SubscriptionBJCount *= listitem.wdjs; //가입고 수량에 절수 곱함
                         listitem.fontColor = Brushes.ForestGreen;
@@ -1957,7 +1958,7 @@ namespace PopProject.Detail
                         }
 
                         ob.Add(listitem);
-                        
+
                         tbWdCount.Text = wdCount + "";
                         tbScCount.Text = scCount + "";
                     }
@@ -2066,9 +2067,9 @@ namespace PopProject.Detail
         }
 
         //세부정보 조회 (왼쪽화면)
-        private void DetailSearch() 
+        private void DetailSearch()
         {
-            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName );
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData = ServiceModel.GetData(
                 mainModel.ServerIndex,
                 "[PopWorkDetail]",
@@ -2434,12 +2435,12 @@ namespace PopProject.Detail
 
                         //작업지시
                         tb작업지시.Text = Detailitem.jobMemo;
-                        
+
                         //특별지시
                         tb특별지시.Text = Detailitem.SpecialMemo;
 
                         //자재구분
-                        if ( Detailitem.metType == 1) // 0:원단, 1:마닐라 2:외주, 3:부자재, 4:기타
+                        if (Detailitem.metType == 1) // 0:원단, 1:마닐라 2:외주, 3:부자재, 4:기타
                         {
                             if (SettingJsonManager.corp_name.Equals("누리팩"))
                             {
@@ -2476,7 +2477,7 @@ namespace PopProject.Detail
                             WDScore.Text = Detailitem.WDScore.Replace("*", " * ");
                             WDSize.Text = Detailitem.WDSize.Replace("*", " * ");
 
-                            
+
                         }
 
                         if (count == 0)
@@ -2506,7 +2507,7 @@ namespace PopProject.Detail
                 Barcode_Enter = false;
                 Close();
             }
-            catch(Exception e1)
+            catch (Exception e1)
             {
                 LogManager.Error("상세창 닫기 에러\n" + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
                 LogManager.Error("상세창 닫기 에러\n" + e1.StackTrace, MethodBase.GetCurrentMethod().DeclaringType);
@@ -2549,7 +2550,7 @@ namespace PopProject.Detail
         {
             LogManager.Info("제품명세서 발행 클릭", MethodBase.GetCurrentMethod().DeclaringType);
 
-            if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") 
+            if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업")
                 || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("지온"))
             {
                 SwPrintMessage swPrintMessage = new SwPrintMessage(mainModel, Detailitem);
@@ -2559,7 +2560,7 @@ namespace PopProject.Detail
             {
                 if (consumcheck)
                 {
-                    PrintMessage printMessage = new PrintMessage(mainModel, Detailitem,consumerModel,true);
+                    PrintMessage printMessage = new PrintMessage(mainModel, Detailitem, consumerModel, true);
                     _ = printMessage.ShowDialog();
                 }
                 else
@@ -2620,7 +2621,7 @@ namespace PopProject.Detail
                         Main.win_Input = input;
                         _ = input.ShowDialog();
 
-                        
+
                         Main.win_Input = null;
                         if (SettingJsonManager.presultcount != 0)
                         {
@@ -2758,7 +2759,7 @@ namespace PopProject.Detail
             }
             else
             {
-                 
+
             }
         }
 
@@ -2784,7 +2785,7 @@ namespace PopProject.Detail
                 Main.robot_Setting.ShowDialog();
                 Main.robot_Setting = null;
             }
-            else if(SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
+            else if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
             {
                 Main.robot_Setting2 = new Robot_Setting2(mainModel.prodID, mainModel.customSName, mainModel.prodName);
                 Main.robot_Setting2.ShowDialog();
@@ -2797,7 +2798,7 @@ namespace PopProject.Detail
         {
             LogManager.Info("Detail화면 박스적재창고 클릭", MethodBase.GetCurrentMethod().DeclaringType);
 
-            Wharehouse_info wharehouse = new Wharehouse_info(mainModel,Detailitem.LocationName);
+            Wharehouse_info wharehouse = new Wharehouse_info(mainModel, Detailitem.LocationName);
             wharehouse.ShowDialog();
             DetailSearch();
         }
@@ -2902,12 +2903,12 @@ namespace PopProject.Detail
         //금화 인쇄기 레지스타 조회
         private void rValueSearch()
         {
-           ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
+            ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);
             ReturnModel returnData = ServiceModel.GetData(
                mainModel.ServerIndex,
                "[rRegistaSearch]",
                new string[] { "prodID" },
-               new object[] { this.mainModel.prodID }, 
+               new object[] { this.mainModel.prodID },
                0
              );
 
@@ -2971,7 +2972,7 @@ namespace PopProject.Detail
         private DispatcherTimer timer;
 
         //데이터 수신 요청
-        private void CNSDataRead() 
+        private void CNSDataRead()
         {
             if (SettingJsonManager.Plc) //PLC 사용 체크일때
             {

@@ -19,14 +19,14 @@ namespace PopProject.MessageBox
             message_content.Text = Message;
         }
 
-        public MessageBox_Dialog(String Message,int flag)
+        public MessageBox_Dialog(String Message, int flag)
         {
 
             InitializeComponent();
             this.Message = Message;
             message_content.Text = Message;
             this.flag = flag;
-        
+
         }
 
         private void Close_messagebox(object sender, MouseEventArgs e)
@@ -42,7 +42,7 @@ namespace PopProject.MessageBox
                 case 0:
                     Window.GetWindow(this).Close();
                     break;
-                    
+
                 case 1:
                     System.Diagnostics.Process.Start("explorer.exe", "http://packcom.net/Setup/POP_NEW/publish.htm");
                     Window.GetWindow(this).Close();

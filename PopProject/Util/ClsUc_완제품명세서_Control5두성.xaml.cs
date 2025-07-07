@@ -14,7 +14,7 @@ namespace PopProject.Util
         public ClsUc_완제품명세서_Control5두성()
         {
             InitializeComponent();
-         
+
         }
 
         public void Set_BarCode()
@@ -100,7 +100,7 @@ namespace PopProject.Util
                     _corpName = value;
                     onPropertyChanged("corpName");
                 }
-            
+
             }
 
             private string _prodName;
@@ -186,9 +186,9 @@ namespace PopProject.Util
                     onPropertyChanged("resultCount");
                 }
             }
-            
 
-         private string _loadCount;
+
+            private string _loadCount;
             public string loadCount
             {
                 get
@@ -218,7 +218,7 @@ namespace PopProject.Util
             private string _MycustomSName;
             public string MycustomSName
             {
-                
+
                 get
                 {
                     return _MycustomSName;

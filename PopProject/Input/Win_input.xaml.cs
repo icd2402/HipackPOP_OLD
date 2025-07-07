@@ -1,32 +1,26 @@
-﻿using Microsoft.AspNet.SignalR.Client;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using PopProject.Detail;
 using PopProject.input;
+using PopProject.Interface;
 using PopProject.KeyBoard;
 using PopProject.MessageBox;
 using PopProject.UserControl_;
 using PopProject.Util;
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.IO;
-using PopProject.Interface;
-using System.Text.RegularExpressions;
-using System.Text;
-using System.Timers;
 
 namespace PopProject.Input
 {
@@ -54,7 +48,7 @@ namespace PopProject.Input
         private Win_KeyBoard win_KeyBoard;
         private double hOff = 1;
         private double vOff = 1;
-        
+
         private double hOff1 = 1;
         private double vOff1 = 1;
 #pragma warning disable CS0169 // 'Win_input.result' 필드가 사용되지 않았습니다.
@@ -86,7 +80,7 @@ namespace PopProject.Input
         public Win_input(MainModel mainModel, ObservableCollection<MainModel> workList, bool check) //check= 메인화면에서 들어오면 false, 디테일 화면에서 들어오면 true
         {
             InitializeComponent();
-        
+
             this.workList = workList;
             inputModel = new InputModel();
             inputModel.ServerIndex = mainModel.ServerIndex;
@@ -150,7 +144,7 @@ namespace PopProject.Input
                 DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? SettingJsonManager.PLUMPATH : "";
 
                 //생산결과여부 체크를 위해 타이머 진행.
-                if ( SettingJsonManager.serverIndex.Equals("kmsbox") && SettingJsonManager.mercName.Contains("우메다니") && 
+                if (SettingJsonManager.serverIndex.Equals("kmsbox") && SettingJsonManager.mercName.Contains("우메다니") &&
                 !DEST_DIR.Equals("") && inputModel.pplanKey.Equals(Main.production.pplanKey))
                 {
                     Timer_1s();         // 1초 - 시계, 바코드, 종료시간 체크
@@ -173,10 +167,10 @@ namespace PopProject.Input
                 plc_Search.Visibility = Visibility.Collapsed;
             }
 
-            Console.WriteLine("품명: "     + inputModel.prodName + ", " +
+            Console.WriteLine("품명: " + inputModel.prodName + ", " +
                               "orderkey: " + inputModel.orderKey + ", " +
                               "pplanKey: " + inputModel.pplanKey + ", " +
-                              "prodID: "   + inputModel.prodID + ", " 
+                              "prodID: " + inputModel.prodID + ", "
                               );
         }
         // 바코드 체크.
@@ -221,7 +215,7 @@ namespace PopProject.Input
         {
             string resultfile = "";
             string DEST_DIR = "";
-                DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? SettingJsonManager.PLUMPATH : ""; 
+            DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? SettingJsonManager.PLUMPATH : "";
 
             if (!DEST_DIR.Equals(""))
             {
@@ -247,9 +241,10 @@ namespace PopProject.Input
                             inputModel.eDatetime = dateTime.ToString("yyyy-MM-dd HH:mm:ss");     //종료시간
                             tbPLUM2.Text = "작업 완료!";
                             timer_1s.Stop();
-                        }else if (record.SerialNo.Equals(""))
+                        }
+                        else if (record.SerialNo.Equals(""))
                         {
-                            
+
                             if (!ProgramNo.Equals("") && ProgramNo.Equals(record.ProgramNo))
                             {
                                 // 문자열을 DateTime 객체로 변환
@@ -283,7 +278,8 @@ namespace PopProject.Input
                     }
                 }
 
-            };
+            }
+            ;
         }
 
         private void PLUM2_DeleteFile()
@@ -311,7 +307,8 @@ namespace PopProject.Input
                         }
                     }
                 }
-            };
+            }
+            ;
         }
 
         #endregion
@@ -445,7 +442,8 @@ namespace PopProject.Input
                             Dimension4 = int.Parse(boxSizeH).ToString();//박스 고
                             Dimension5 = int.Parse(Detailitem.mW.ToString()).ToString();//재단 폭
                             Dimension6 = (int.Parse(boxMM)).ToString();//박스 장+폭 + 미미 
-                        };
+                        }
+                        ;
                     }
                     else if (mainModel.boxType.Contains("A") && (!Score1.Equals(Score2) && !Score2.Equals("0") && !Score2.Equals("0")))
                     {   //스코아 정보가 다를 경우
@@ -483,7 +481,8 @@ namespace PopProject.Input
                         Dimension2 = int.Parse(Detailitem.mW.ToString()).ToString();//재단 폭
                         Dimension3 = int.Parse(Score1).ToString();  //박스 날
                         Dimension4 = int.Parse(Score2).ToString();  //박스 날 
-                    };
+                    }
+                    ;
 
                     //string filePath = @"C:\ICD\POP\DATA\PLUM1.csv";
                     string folderPath = @"C:\ICD\POP\DATA";
@@ -492,7 +491,7 @@ namespace PopProject.Input
 
                     string destPath = "";
                     string DEST_DIR = "";
-                        DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? SettingJsonManager.PLUMPATH : "";
+                    DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? SettingJsonManager.PLUMPATH : "";
                     //DEST_DIR = SettingJsonManager.PLUMPATH;
                     if (!DEST_DIR.Equals(""))
                     {
@@ -509,7 +508,8 @@ namespace PopProject.Input
                             MessageBox_Dialog msg = new MessageBox_Dialog(" 공유폴더 지정 후 다시 시작을 해주시기 바랍니다.!!");
                             msg.ShowDialog();
                         }
-                    };
+                    }
+                    ;
 
                     var plumData = new List<Cls_금성포장공업.PlanData>
                     {
@@ -1692,7 +1692,7 @@ namespace PopProject.Input
                             listitem.ProcessType = int.Parse(result["ProcessType"].ToString());  //공정구분
                             listitem.perrCount = float.Parse(result["perrCount"].ToString());    //불량수량
                             listitem.pMemo = result["pMemo"].ToString();                         //비고
-                            listitem.errorModelOb = PopErrorListSearch(listitem);               
+                            listitem.errorModelOb = PopErrorListSearch(listitem);
 
                             //완료시간 없으면
                             if (!listitem.eDatetime.Equals(""))
@@ -2096,7 +2096,7 @@ namespace PopProject.Input
                         DEST_DIR = string.IsNullOrEmpty(SettingJsonManager.PLUMPATH) == false ? SettingJsonManager.PLUMPATH : "";
 
                         if (SettingJsonManager.serverIndex.Equals("kmsbox") && SettingJsonManager.mercName.Contains("우메다니") &&
-                        !DEST_DIR.Equals("") )
+                        !DEST_DIR.Equals(""))
                         {
                             try
                             {
@@ -2593,7 +2593,7 @@ namespace PopProject.Input
                     errorModel context = (errorModel)border.DataContext;
                     //Console.WriteLine("메모" + context.memo);
 
-                    if (!context.memo.Equals("작업시작") && !context.memo.Equals("작업완료")) 
+                    if (!context.memo.Equals("작업시작") && !context.memo.Equals("작업완료"))
                     {
                         can.Visibility = Visibility.Visible;
                         Win_Update win_Update = new Win_Update(context, errorOb);
@@ -2717,7 +2717,7 @@ namespace PopProject.Input
                 }
 
             }
-            else if(returnData.결과 == 9)
+            else if (returnData.결과 == 9)
             {
                 if (Cls_Variable.g_checkValue < 1)
                 {
@@ -2819,7 +2819,7 @@ namespace PopProject.Input
         //닫기 버튼 클릭
         private void Win_input_exit(object sender, MouseButtonEventArgs e)
         {
-            LogManager.Info("인풋창 닫기: " +  mainModel.corpName + "/" + mainModel.prodName, MethodBase.GetCurrentMethod().DeclaringType);
+            LogManager.Info("인풋창 닫기: " + mainModel.corpName + "/" + mainModel.prodName, MethodBase.GetCurrentMethod().DeclaringType);
             Close();
         }
 
@@ -2935,7 +2935,7 @@ namespace PopProject.Input
                     inputModel.workerId = "";
                     inputModel.workerName = "";
                     bool_return = false;
-                 
+
                     return bool_return;
                 }
             }
@@ -3024,7 +3024,7 @@ namespace PopProject.Input
                 // 결과값 있을때만
                 if ((mainModel.presultCount > 0 || count > 0) && inputModel.sumPlanCount > 0)
                 {
-                    LogManager.Info("이월 버튼 클릭(" + mainModel.customSName +"/"+ mainModel.prodName + ")", MethodBase.GetCurrentMethod().DeclaringType);
+                    LogManager.Info("이월 버튼 클릭(" + mainModel.customSName + "/" + mainModel.prodName + ")", MethodBase.GetCurrentMethod().DeclaringType);
                     spAdd410processinfo_workplan();
                 }
                 else
@@ -3043,7 +3043,7 @@ namespace PopProject.Input
                 mainModel.ServerIndex,
                 "[spAdd410processinfo_workplan]",
                 new string[] { "@오더Key", "@계획Key" },
-                new object[] {  inputModel.orderKey, inputModel.pplanKey },
+                new object[] { inputModel.orderKey, inputModel.pplanKey },
                 1
                 );
 

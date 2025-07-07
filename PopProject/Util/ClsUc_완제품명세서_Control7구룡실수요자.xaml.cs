@@ -1,10 +1,8 @@
-﻿using System;
+﻿using KeepDynamic.Barcode.Generator;
+using System;
 using System.ComponentModel;
 using System.Windows.Controls;
-using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using KeepDynamic.Barcode.Generator;
 
 namespace PopProject.Util
 {
@@ -20,7 +18,7 @@ namespace PopProject.Util
             InitializeComponent();
             dock2.Visibility = System.Windows.Visibility.Collapsed;
             dock1.Visibility = System.Windows.Visibility.Visible;
-            
+
         }
 
         public void Set_BarCode(string id)
@@ -194,7 +192,7 @@ namespace PopProject.Util
                     _corpName = value;
                     onPropertyChanged("corpName");
                 }
-            
+
             }
 
             private string _prodName;
@@ -295,9 +293,9 @@ namespace PopProject.Util
                     onPropertyChanged("resultCount");
                 }
             }
-            
 
-         private string _loadCount;
+
+            private string _loadCount;
             public string loadCount
             {
                 get
@@ -327,7 +325,7 @@ namespace PopProject.Util
             private string _MycustomSName;
             public string MycustomSName
             {
-                
+
                 get
                 {
                     return _MycustomSName;

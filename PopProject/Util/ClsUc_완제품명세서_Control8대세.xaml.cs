@@ -1,10 +1,8 @@
-﻿using System;
+﻿using KeepDynamic.Barcode.Generator;
+using System;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using KeepDynamic.Barcode.Generator;
 
 namespace PopProject.Util
 {
@@ -86,7 +84,7 @@ namespace PopProject.Util
                     onPropertyChanged("customSName");
                 }
             }
-            
+
             private string _corpName;
             public string corpName
             {
@@ -100,9 +98,9 @@ namespace PopProject.Util
                     _corpName = value;
                     onPropertyChanged("corpName");
                 }
-            
+
             }
-            
+
             private string _prodName;
             public string prodName
             {
@@ -186,9 +184,9 @@ namespace PopProject.Util
                     onPropertyChanged("resultCount");
                 }
             }
-            
 
-         private string _loadCount;
+
+            private string _loadCount;
             public string loadCount
             {
                 get
@@ -218,7 +216,7 @@ namespace PopProject.Util
             private string _MycustomSName;
             public string MycustomSName
             {
-                
+
                 get
                 {
                     return _MycustomSName;

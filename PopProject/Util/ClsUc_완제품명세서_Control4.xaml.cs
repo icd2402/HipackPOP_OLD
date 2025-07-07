@@ -11,11 +11,11 @@ namespace PopProject.Util
     {
         public ProductReport ViewModel = new ProductReport();
         String printItem = SettingJsonManager.printItem;
-        
+
         public ClsUc_완제품명세서_Control4()
         {
             InitializeComponent();
-            
+
         }
 
 
@@ -57,12 +57,12 @@ namespace PopProject.Util
             }
             private string _customSName;
             public string customSName
-            {   
+            {
                 get
                 {
-                            
+
                     return _customSName;
-                           
+
                 }
 
                 set
@@ -86,9 +86,9 @@ namespace PopProject.Util
                     onPropertyChanged("corpName");
                 }
             }
-            
+
             private string _prodName;
-            
+
             public string prodName
             {
 
@@ -96,14 +96,14 @@ namespace PopProject.Util
                 {
                     return _prodName;
                 }
-                
+
                 set
                 {
                     _prodName = value;
                     onPropertyChanged("prodName");
                 }
             }
-                 
+
             private DateTime _orderLast;
             public DateTime orderLast
             {
@@ -155,7 +155,7 @@ namespace PopProject.Util
                 }
                 set
                 {
-                    _pworkDate = value.Replace("-","/");
+                    _pworkDate = value.Replace("-", "/");
                     onPropertyChanged("pworkDate");
                 }
             }
@@ -184,7 +184,7 @@ namespace PopProject.Util
 
                 set
                 {
-                    _pGol = value.Replace("골","");
+                    _pGol = value.Replace("골", "");
                     onPropertyChanged("pGol");
                 }
             }
@@ -208,12 +208,12 @@ namespace PopProject.Util
             private string _MycustomSName;
             public string MycustomSName
             {
-                
+
                 get
                 {
                     return _MycustomSName;
                 }
-                    
+
                 set
                 {
                     _MycustomSName = value;

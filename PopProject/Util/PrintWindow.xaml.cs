@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using PopProject.Util;
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.IO;
+using System.Printing;
+using System.Reflection;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using System.ComponentModel;
-using Microsoft.Win32;
-using System.IO;
-using System.Threading;
-using System.Printing;
-using System.Collections;
-using System.Reflection;
-using PopProject.Util;
 
 namespace Monitor.Util
 {
@@ -131,13 +131,13 @@ namespace Monitor.Util
                                     // End If
                                     // 프린트 출력
                                     Prt_Dialog.PrintDocument(Set_DocumentPaginator, "Report");
-                                    
+
                                     RaisePrintDataSaveEvent();
 
                                     PrintSendEvent?.Invoke(수주서Type);
                                 }
                             }
-                            catch (Exception )
+                            catch (Exception)
                             {
 
                             }
@@ -175,18 +175,18 @@ namespace Monitor.Util
                         {
                             if (확대Type == false)
                             {
-                                
+
                                 확대Type = true;
                                 PrintViewer.Zoom = 150;
-                            
+
                             }
 
                             else
                             {
-                            
+
                                 확대Type = false;
                                 PrintViewer.FitToHeight();
-                            
+
                             }
 
                             break;
@@ -224,7 +224,7 @@ namespace Monitor.Util
                                     }
                                 }
                             }
-                            catch (Exception )
+                            catch (Exception)
                             {
                             }
 

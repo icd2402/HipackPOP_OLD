@@ -29,14 +29,14 @@ namespace PopProject.MessageBox
             state = State;
         }
 
-        public MessageBox_Dialog2(String Message,int flag)
+        public MessageBox_Dialog2(String Message, int flag)
         {
 
             InitializeComponent();
             this.Message = Message;
             message_content.Text = Message;
             this.flag = flag;
-        
+
         }
 
         private void Close_messagebox(object sender, MouseEventArgs e)
@@ -52,7 +52,7 @@ namespace PopProject.MessageBox
                 case 0:
                     Window.GetWindow(this).Close();
                     break;
-                    
+
                 case 1:
                     System.Diagnostics.Process.Start("explorer.exe", "http://packcom.net/Setup/POP_NEW/publish.htm");
                     Window.GetWindow(this).Close();
@@ -133,9 +133,9 @@ namespace PopProject.MessageBox
                 CountManager.SendMsg(SettingJsonManager.mercName, "E"); //현황판으로 생산종료 송신
                 CountManager.SendMsg(SettingJsonManager.mercName, "0"); //
 
-                
 
-                
+
+
 
                 SettingJsonManager.consumersumcount = 0;
                 SettingJsonManager.count = 0;

@@ -1,12 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.IO;
 using System.Reflection;
-using System.Windows.Forms;
-using Newtonsoft.Json.Linq;
-using PopProject.UserControl_;
 
 namespace PopProject.Util
 {
@@ -97,7 +93,7 @@ namespace PopProject.Util
         static SettingJsonManager()
         {
             filePath = @"C:\ICD\POP\settings.json";
-            MoveSettingsFIle(@"C:\ICD\settings.json", filePath , 0);
+            MoveSettingsFIle(@"C:\ICD\settings.json", filePath, 0);
         }
 
         // Settings.json 파일 존재 여부 확인
@@ -379,13 +375,13 @@ namespace PopProject.Util
                                 {"sumView", sumView.ToString()},
                                 {"PLUMPATH", string.IsNullOrEmpty(PLUMPATH) == false ? PLUMPATH : ""}
             };
-                
+
                 //인증코드 파일 작성
                 string json = Newtonsoft.Json.JsonConvert.SerializeObject(settings);
 
                 //인증코드 파일이 있는지 확인 후 해당 파일을 숨김 처리 (숨김 이후 수정되지 않음)
                 File.WriteAllText(filePath, json);
-                 
+
                 //LogManager.Info("셋팅정보(Class) → json Save 완료", MethodBase.GetCurrentMethod().DeclaringType);
             }
             catch (Exception ex)
@@ -403,7 +399,7 @@ namespace PopProject.Util
                 case 1: //파일 카피
                     if (File.Exists(oldFilePath) == true)
                     {
-                        File.Copy(oldFilePath, newFilePath, true );
+                        File.Copy(oldFilePath, newFilePath, true);
                     }
                     return;
                 default:

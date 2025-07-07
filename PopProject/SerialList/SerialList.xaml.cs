@@ -1,6 +1,6 @@
-﻿using System;
+﻿using PopProject.Util;
+using System;
 using System.Windows;
-using PopProject.Util;
 
 namespace PopProject.SerialList
 {
@@ -20,7 +20,7 @@ namespace PopProject.SerialList
         {
             if (cb.SelectedItem != null)
             {
-                
+
                 SettingJsonManager.SerialName = cb.SelectedItem.ToString();
                 SettingJsonManager.SaveJsonFile();
 

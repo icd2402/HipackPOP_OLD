@@ -25,7 +25,7 @@ namespace PopProject.Detail
         private float sumPworkCount = 0;
         private float sumPerrCount = 0;
         private double percent = 0.0;
-        ObservableCollection<InputModel> ob ;
+        ObservableCollection<InputModel> ob;
         public Win_WorkList(MainModel mainModel)
         {
             InitializeComponent();
@@ -58,7 +58,7 @@ namespace PopProject.Detail
 
                     foreach (JObject result in Data_JArray)
                     {
-                        if(int.Parse(result["ProcessType"].ToString()) == SettingJsonManager.processType)
+                        if (int.Parse(result["ProcessType"].ToString()) == SettingJsonManager.processType)
                         {
                             InputModel listitem = new InputModel();
                             listitem.pworkDate = DateTime.Parse(result["pworkDate"].ToString());
@@ -93,7 +93,7 @@ namespace PopProject.Detail
 
                             if (listitem.errorModelOb != null)
                             {
-                                foreach(errorModel item in listitem.errorModelOb)
+                                foreach (errorModel item in listitem.errorModelOb)
                                 {
                                     listitem.perrCount += item.perrCount;
                                 }
@@ -106,7 +106,7 @@ namespace PopProject.Detail
 
                     tbTotalWCount.Text = sumPworkCount.ToString();
                     tbTotalPCount.Text = sumPerrCount.ToString();
-                    
+
                     if (sumPerrCount > 0)
                     {
                         percent = sumPerrCount / (sumPworkCount + sumPerrCount) * 100;
@@ -117,7 +117,7 @@ namespace PopProject.Detail
                     {
                         tbPercent.Text = "0%";
                     }
-                    
+
                     ic.ItemsSource = ob;
                     sortList();
                 }

@@ -1,9 +1,8 @@
-﻿using System;
+﻿using PopProject.input;
+using PopProject.Util;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using PopProject.input;
-using PopProject.Util;
 
 namespace PopProject.KeyBoard2
 {

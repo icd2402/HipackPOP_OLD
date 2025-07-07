@@ -1,17 +1,17 @@
 ﻿using Newtonsoft.Json.Linq;
 using PopProject.input;
+using PopProject.Input;
+using PopProject.KeyBoard;
 using PopProject.MessageBox;
 using PopProject.UserControl_;
 using PopProject.Util;
 using System;
 using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using PopProject.KeyBoard;
-using PopProject.Input;
-using System.Reflection;
 
 namespace PopProject.Consumer_
 {
@@ -23,7 +23,7 @@ namespace PopProject.Consumer_
     {
         private readonly string metrialitem = SettingJsonManager.meterialinfo; //작업정보 설정값 저장
 
-        private readonly ConsumerModel consumerModel; 
+        private readonly ConsumerModel consumerModel;
         private readonly MainModel mainModel;
         public readonly InputModel inputModel;
         public Win_KeyBoard win_KeyBoard;
@@ -62,7 +62,7 @@ namespace PopProject.Consumer_
             this.metrialitem = metrialitem;
         }
 
-        
+
         private void ConvertModel()
         {
             inputModel.pCnt = mainModel.pCnt;
@@ -163,7 +163,7 @@ namespace PopProject.Consumer_
                             errorModel item2 = new errorModel
                             {
                                 workMemberKey = result["workMemberKey"].ToString(),
-                                 memo = "작업완료",
+                                memo = "작업완료",
                                 perrCount = listitem.pWorkCount,
                                 updateTime = DateTime.Parse(listitem.eDatetime),
                                 fontColor = Brushes.Red
@@ -192,7 +192,7 @@ namespace PopProject.Consumer_
                     {
 
                         ConsumerModel tempItem = ob[ob.Count - 1];
-                       
+
                         if (tempItem.sDatetime.ToString().Length > 3 && tempItem.eDatetime.ToString().Length <= 1)
                         {
                             inputModel.imagePath = "/img/bn_06.png";
@@ -367,7 +367,7 @@ namespace PopProject.Consumer_
                     else if (context.memo.Equals("작업완료"))
                     {
                         can.Visibility = Visibility.Visible; //화면 회색처리
-                        Win_resultUpdate win_resultUpdate = new Win_resultUpdate(context, inputModel,true);
+                        Win_resultUpdate win_resultUpdate = new Win_resultUpdate(context, inputModel, true);
                         _ = win_resultUpdate.ShowDialog(); //결과값 변경 창 팝업
                         PopResultSearchMember(); //실수요자 결과 조회
                         can.Visibility = Visibility.Collapsed; //화면 회색처리 해제
@@ -414,7 +414,7 @@ namespace PopProject.Consumer_
         {
             //Console.WriteLine("Main.production.orderKey : " + Main.production.orderKey);
             Console.WriteLine("Consumer.orderkey : " + consumerModel.orderKey);
-            
+
             if (inputModel.imagePath.Equals("/img/bn_05.png")) //시작버튼 확성화
             {
                 if (CheckConsumerWork())
@@ -566,8 +566,8 @@ namespace PopProject.Consumer_
             return returnData.결과;
         }
 
-        
-        
+
+
         private void PopResultStartMember()
         {
             ServiceModel.ServiceModelClean(SettingJsonManager.serverIndex);
@@ -631,7 +631,7 @@ namespace PopProject.Consumer_
                             _ = msg.ShowDialog();
                         }
                         break;
-                    
+
                     default:
                         Main.production = mainModel;
                         try
@@ -824,7 +824,7 @@ namespace PopProject.Consumer_
                 TextBox context = (TextBox)sender;
                 if (context.Name.Equals("tbResult"))
                 {
-                    win_KeyBoard = new Win_KeyBoard(context, context.DataContext,inputModel)
+                    win_KeyBoard = new Win_KeyBoard(context, context.DataContext, inputModel)
                     {
                         WindowStartupLocation = WindowStartupLocation.Manual,
                         Left = 300
@@ -836,7 +836,7 @@ namespace PopProject.Consumer_
                 else
                 {
                     InputModel inputmodel = (InputModel)context.DataContext;
-                    win_KeyBoard = new Win_KeyBoard(context, inputmodel.errorModel,inputmodel);
+                    win_KeyBoard = new Win_KeyBoard(context, inputmodel.errorModel, inputmodel);
                     _ = win_KeyBoard.ShowDialog();
                     win_KeyBoard = null;
                 }

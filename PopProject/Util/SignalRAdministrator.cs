@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNet.SignalR.Client;
-using PopProject.MessageBox;
 using System;
-using System.Windows;
-using System.IO;
 using System.Reflection;
 
 
 namespace PopProject.Util
 {
-    class SignalRAdministrator 
+    class SignalRAdministrator
     {
         public static HubConnection 연결;
         public static IHubProxy 허브;

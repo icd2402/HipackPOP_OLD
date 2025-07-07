@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace PopProject.input
 {
-   public class InputModel: ViewModelBase
+    public class InputModel : ViewModelBase
     {
         private String _ServerIndex;
         public String ServerIndex
@@ -50,8 +50,10 @@ namespace PopProject.input
         }
 
         private float _pCnt;
-        public float pCnt {
-            get {
+        public float pCnt
+        {
+            get
+            {
                 return _pCnt;
             }
 
@@ -63,30 +65,34 @@ namespace PopProject.input
             }
         }
         private float _perrCount;
-        public float perrCount {
+        public float perrCount
+        {
 
 
             get
             {
-                return _perrCount; 
+                return _perrCount;
             }
 
             set
             {
                 _perrCount = value;
                 onPropertyChanged("perrCount");
-            } 
-        
+            }
+
         }
 
         private string _prodID;
-        public string prodID { 
-            get { 
-                return _prodID; 
-            } 
-            set {
-                _prodID = value; 
-            } 
+        public string prodID
+        {
+            get
+            {
+                return _prodID;
+            }
+            set
+            {
+                _prodID = value;
+            }
         }
 
         private float _consumer_count;
@@ -103,18 +109,22 @@ namespace PopProject.input
                 consumer_pworkCount = consumer_count - perrCount;
                 _consumer_count = value;
                 onPropertyChanged("consumer_count");
-                    
+
             }
         }
 
         private float _count;
-        public float count {
-            get {
+        public float count
+        {
+            get
+            {
                 return _count;
             }
-            set {
-                if(count == 0) { 
-                     pworkCount = pworkCount - perrCount;
+            set
+            {
+                if (count == 0)
+                {
+                    pworkCount = pworkCount - perrCount;
                 }
                 else
                 {
@@ -141,12 +151,14 @@ namespace PopProject.input
                 onPropertyChanged("consumer_pworkCount");
             }
         }
-        
+
         private float _pworkCount;
-        
-        public float pworkCount {
-            
-            get {
+
+        public float pworkCount
+        {
+
+            get
+            {
                 return _pworkCount;
             }
 
@@ -154,11 +166,12 @@ namespace PopProject.input
             {
                 _pworkCount = value;
                 onPropertyChanged("pworkCount");
-            } 
+            }
         }
 
         private int _pworkKey;
-        public int pworkKey {
+        public int pworkKey
+        {
 
             get
             {
@@ -187,9 +200,11 @@ namespace PopProject.input
 
 
         private DateTime _pworkDate;
-        public DateTime pworkDate {
-            
-            get {
+        public DateTime pworkDate
+        {
+
+            get
+            {
                 return _pworkDate;
             }
 
@@ -203,7 +218,8 @@ namespace PopProject.input
         }
 
         private string _orderKey;
-        public string orderKey {
+        public string orderKey
+        {
             get
             {
                 return _orderKey;
@@ -217,8 +233,9 @@ namespace PopProject.input
         }
 
         private int _pplanKey;
-        public int pplanKey {
-            get 
+        public int pplanKey
+        {
+            get
             {
                 return _pplanKey;
             }
@@ -229,10 +246,11 @@ namespace PopProject.input
             }
         }
         private int _pplanNo;
-        public int pplanNo { 
-            get 
-            { 
-                return _pplanNo; 
+        public int pplanNo
+        {
+            get
+            {
+                return _pplanNo;
             }
             set
             {
@@ -245,7 +263,7 @@ namespace PopProject.input
         private int _ProcessType;
         public int ProcessType
         {
-            get 
+            get
             {
                 return _ProcessType;
             }
@@ -259,7 +277,8 @@ namespace PopProject.input
         }
 
         private string _pMemo;
-        public string pMemo {
+        public string pMemo
+        {
             get
             {
                 return _pMemo;
@@ -273,8 +292,9 @@ namespace PopProject.input
 
         }
 
-        private string _sDatetime="";
-        public string sDatetime {
+        private string _sDatetime = "";
+        public string sDatetime
+        {
             get
             {
                 return _sDatetime;
@@ -287,7 +307,8 @@ namespace PopProject.input
         }
 
         private string _eDatetime = "";
-        public string eDatetime {
+        public string eDatetime
+        {
             get
             {
                 return _eDatetime;
@@ -300,7 +321,8 @@ namespace PopProject.input
         }
 
         private string _customSName;
-        public string customSName {
+        public string customSName
+        {
             get
             {
                 return _customSName;
@@ -314,9 +336,10 @@ namespace PopProject.input
         }
 
         private string _prodName;
-        public string prodName {
+        public string prodName
+        {
             get
-            {   
+            {
                 return _prodName;
             }
             set
@@ -327,7 +350,8 @@ namespace PopProject.input
         }
 
         private string _pSize;
-        public string pSize {
+        public string pSize
+        {
             get
             {
                 return _pSize;
@@ -340,7 +364,8 @@ namespace PopProject.input
         }
 
         private int _orderCount;
-        public int orderCount {
+        public int orderCount
+        {
             get
             {
                 return _orderCount;
@@ -353,7 +378,8 @@ namespace PopProject.input
         }
 
         private string _orderLast;
-        public string orderLast {
+        public string orderLast
+        {
             get
             {
                 return _orderLast;
@@ -366,15 +392,16 @@ namespace PopProject.input
         }
 
         private int _orderWorkNo;
-        public int orderWorkNo {
-            
+        public int orderWorkNo
+        {
+
             get
             {
                 return _orderWorkNo;
             }
 
             set
-            
+
             {
                 _orderWorkNo = value;
                 onPropertyChanged("orderWorkNo");
@@ -382,7 +409,8 @@ namespace PopProject.input
 
         }
         private float _pplanCount;
-        public float pplanCount {
+        public float pplanCount
+        {
             get
             {
                 return _pplanCount;
@@ -397,7 +425,8 @@ namespace PopProject.input
         }
 
         private string _imagePath;
-        public string imagePath {
+        public string imagePath
+        {
             get
             {
                 return _imagePath;
@@ -410,7 +439,8 @@ namespace PopProject.input
             }
         }
         private float _sumPlanCount;
-        public float sumPlanCount {
+        public float sumPlanCount
+        {
             get
             {
                 return _sumPlanCount;
@@ -421,11 +451,12 @@ namespace PopProject.input
                 _sumPlanCount = value;
                 onPropertyChanged("sumPlanCount");
             }
-                
+
         }
 
         private float _sumPworkCount;
-        public float sumPworkCount {
+        public float sumPworkCount
+        {
             get
             {
                 return _sumPworkCount;
@@ -438,7 +469,8 @@ namespace PopProject.input
         }
 
         private string _workerName;
-        public string workerName {
+        public string workerName
+        {
             get
             {
                 return _workerName;
@@ -448,11 +480,12 @@ namespace PopProject.input
                 _workerName = value;
                 onPropertyChanged("workerName");
             }
-        
-        } 
+
+        }
 
         private string _SCMKey;
-        public string SCMKey {
+        public string SCMKey
+        {
 
             get
             {
@@ -463,11 +496,12 @@ namespace PopProject.input
                 _SCMKey = value;
                 onPropertyChanged("SCMKey");
             }
-        
+
         }
-        
+
         private string _workerId;
-        public string workerId {
+        public string workerId
+        {
             get
             {
                 return _workerId;
@@ -477,12 +511,13 @@ namespace PopProject.input
                 _workerId = value;
                 onPropertyChanged("workerId");
             }
-        } 
-       
-        
-        
+        }
+
+
+
         private errorModel _errorModel;
-        public errorModel errorModel {
+        public errorModel errorModel
+        {
             get
             {
                 return _errorModel;
@@ -492,11 +527,12 @@ namespace PopProject.input
                 _errorModel = value;
                 onPropertyChanged("errorModel");
             }
-        
+
         }
 
         private Visibility _newProd;
-        public Visibility newProd {
+        public Visibility newProd
+        {
             get
             {
                 return _newProd;
@@ -509,7 +545,8 @@ namespace PopProject.input
         }
 
         private Visibility _pCntVisible;
-        public Visibility pCntVisible {
+        public Visibility pCntVisible
+        {
             get
             {
                 return _pCntVisible;
@@ -522,7 +559,8 @@ namespace PopProject.input
         }
 
         private ObservableCollection<errorModel> _errorModelOb;
-        public ObservableCollection<errorModel> errorModelOb {
+        public ObservableCollection<errorModel> errorModelOb
+        {
             get
             {
                 return _errorModelOb;
@@ -532,10 +570,10 @@ namespace PopProject.input
                 _errorModelOb = value;
                 onPropertyChanged("errorModelOb");
             }
-        
+
         }
     }
-    public class errorModel :ViewModelBase
+    public class errorModel : ViewModelBase
     {
 
         private string _workMemberKey;
@@ -568,7 +606,8 @@ namespace PopProject.input
 
         private string _perrKey;
 
-        public string perrKey {
+        public string perrKey
+        {
             get
             {
                 return _perrKey;
@@ -577,11 +616,12 @@ namespace PopProject.input
             {
                 _perrKey = value;
             }
-        
+
         }
         private string _memo;
 
-        public string memo {
+        public string memo
+        {
             get
             {
                 return _memo;
@@ -594,7 +634,8 @@ namespace PopProject.input
         }
 
         private float _perrCount;
-        public float perrCount {
+        public float perrCount
+        {
             get
             {
                 return _perrCount;
@@ -607,7 +648,8 @@ namespace PopProject.input
         }
 
         private DateTime _updateTime;
-        public DateTime updateTime {
+        public DateTime updateTime
+        {
 
             get
             {
@@ -621,7 +663,8 @@ namespace PopProject.input
         }
 
         private System.Windows.Media.Brush _fontColor;
-        public System.Windows.Media.Brush fontColor {
+        public System.Windows.Media.Brush fontColor
+        {
             get
             {
                 return _fontColor;
@@ -632,11 +675,12 @@ namespace PopProject.input
                 onPropertyChanged("fontColor");
 
             }
-        
+
         }
 
         private Visibility _fontVisible;
-        public Visibility fontVisible {
+        public Visibility fontVisible
+        {
             get
             {
                 return _fontVisible;
@@ -649,7 +693,8 @@ namespace PopProject.input
         }
 
         private InputModel _InputModel;
-        public InputModel InputModel {
+        public InputModel InputModel
+        {
             get
             {
                 return _InputModel;
@@ -658,7 +703,7 @@ namespace PopProject.input
             {
                 _InputModel = value;
             }
-        
+
         }
         private ConsumerModel _ConsumerModel;
         public ConsumerModel ConsumerModel

@@ -7,26 +7,26 @@ using PopProject.MerList;
 using PopProject.MessageBox;
 using PopProject.Util;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO.Ports;
+using System.Linq;
+using System.Net.NetworkInformation;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Net.NetworkInformation;
 using System.Windows.Threading;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Text;
-using System.Data;
 
 namespace PopProject.UserControl_
 {
@@ -118,7 +118,7 @@ namespace PopProject.UserControl_
 
             if (SettingJsonManager.scrollvarCheck)
             {
-                
+
                 sv.PreviewMouseLeftButtonDown -= ScrollViewer_PreviewMouseLeftButtonDown;
                 sv.PreviewMouseLeftButtonUp -= Sv_PreviewMouseLeftButtonUp;
                 sv.PreviewMouseMove -= Sv_PreviewMouseMove;
@@ -157,7 +157,7 @@ namespace PopProject.UserControl_
             }
 
         }
-        
+
         private void Timer_1s()
         {
             timer = new DispatcherTimer
@@ -523,7 +523,7 @@ namespace PopProject.UserControl_
 
         //현황판으로 카운터 전송
 
-       
+
 
         //자동 로그인 해제
         private void Serial_click(object sender, RoutedEventArgs e)
@@ -623,7 +623,7 @@ namespace PopProject.UserControl_
             }
             else
             {
-                    serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
+                serverIndices.Add(SettingJsonManager.serverIndex, SettingJsonManager.corp_id);
             }
 
             // workList와 workList1을 초기화
@@ -901,7 +901,7 @@ namespace PopProject.UserControl_
                             listitem.PackCount = result["PackCount"].ToString(); //포장매수
                             listitem.pplanCount = int.Parse(result["pplanCount"].ToString()); //계획량
 
-                           
+
 
                             //신우,우리,누리,혜성,성주
                             if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("우리포장산업") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("혜성수출포장") || SettingJsonManager.corp_name.Equals("신우포장테스트") || SettingJsonManager.corp_name.Equals("성주포장"))
@@ -1845,7 +1845,7 @@ namespace PopProject.UserControl_
                     Console.WriteLine("생산계획 조회 오류");
                 }
 
-                
+
             }
         }
 
@@ -2691,7 +2691,8 @@ namespace PopProject.UserControl_
             CNS_Barcode_Send = false;
             string code = "";
 
-            Application.Current.Dispatcher.Invoke(() => {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
                 code = tbBarcode.Text;
             });
             _ = int.TryParse(code, out int pCode); //바코드 값  정수로 변환
@@ -3027,7 +3028,7 @@ namespace PopProject.UserControl_
             SelectWorkList();
             ResultSearchDate();
         }
-        
+
 
         private void Pop_noty(object sender, MouseButtonEventArgs e)
         {

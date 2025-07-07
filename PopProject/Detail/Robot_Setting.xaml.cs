@@ -4,7 +4,6 @@ using PopProject.MessageBox;
 using PopProject.Util;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
@@ -29,7 +28,7 @@ namespace PopProject.Detail
         Boolean startFlag = false;
         string prodID;
         string[] arry;
-        DispatcherTimer timer= null;
+        DispatcherTimer timer = null;
         public Robot_Setting(String prodID, string customsName, string prodName)
         {
             try
@@ -50,7 +49,7 @@ namespace PopProject.Detail
                 timer.Tick += new EventHandler(Timer_Tick);
                 timer.Start();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 LogManager.Error("로봇 설정 에러\n" + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
                 LogManager.Error("로봇 설정 에러\n" + e.StackTrace, MethodBase.GetCurrentMethod().DeclaringType);
@@ -127,7 +126,7 @@ namespace PopProject.Detail
                 {
                     int port = int.Parse(SettingJsonManager.robotPort);
                     IAsyncResult result = mainSock.BeginConnect(SettingJsonManager.robotIP, port, null, null);
-                   // IAsyncResult result = mainSock.BeginConnect("192.168.7.7", port, null, null);
+                    // IAsyncResult result = mainSock.BeginConnect("192.168.7.7", port, null, null);
                     success = result.AsyncWaitHandle.WaitOne(2000, true);
 
                     if (success)
@@ -502,7 +501,7 @@ namespace PopProject.Detail
         }
 
         // 패턴 데이터 수신
-        public static void DataReceivedP(IAsyncResult ar) 
+        public static void DataReceivedP(IAsyncResult ar)
         {
             // BeginReceive에서 추가적으로 넘어온 데이터를 AsyncObject 형식으로 변환한다.
             AsyncObject obj = (AsyncObject)ar.AsyncState;
@@ -634,13 +633,13 @@ namespace PopProject.Detail
         {
             try
             {
-                if(timer!=null)
-                timer.Stop();
+                if (timer != null)
+                    timer.Stop();
             }
-            catch(Exception e1)
+            catch (Exception e1)
             {
                 LogManager.Error("로봇 종료 에러\n" + e1.Message, MethodBase.GetCurrentMethod().DeclaringType);
-                
+
             }
             Close();
         }
@@ -878,12 +877,12 @@ namespace PopProject.Detail
             int value9 = int.Parse(WriteData9.Text.ToString());
             check = value1 >= 350 && value1 <= 1400 &&
                     value2 >= 250 && value2 <= 1200 &&
-                    value3 >= 50  && value3 <= 350  &&
-                    value4 >= 1   && value4 <= 2    &&
-                    value5 >= 1   && value5 <= 25   &&
+                    value3 >= 50 && value3 <= 350 &&
+                    value4 >= 1 && value4 <= 2 &&
+                    value5 >= 1 && value5 <= 25 &&
                     value7 >= 700 && value7 <= 1200 &&
                     value8 >= 700 && value8 <= 1500 &&
-                    value9 >= 90  && value9 <= 150  &&
+                    value9 >= 90 && value9 <= 150 &&
                     value3 * value5 < 2200;
 
             return check;
@@ -1283,9 +1282,9 @@ namespace PopProject.Detail
         private void robot_closed(object sender, EventArgs e)
         {
             if (timer != null) { timer.Stop(); }
-               
 
-           
+
+
         }
     }
 }

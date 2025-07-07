@@ -490,7 +490,7 @@ namespace PopProject.Consumer_
                             {
                                 Main1.arduSerial.Write("B"); //아두이노 현재카운터 요청
                             }
-                            catch(Exception)
+                            catch (Exception)
                             {
                             }
                         }
@@ -500,11 +500,11 @@ namespace PopProject.Consumer_
                         //생산중일때
                         if (Main.production != null)
                         {
-                            try 
-                            { 
+                            try
+                            {
                                 Main.arduSerial.Write("B"); //아두이노 현재카운터 요청
                             }
-                            catch(Exception)
+                            catch (Exception)
                             {
                             }
                         }

@@ -37,14 +37,14 @@ namespace PopProject.Input
 
             if (SettingJsonManager.corp_name.Equals("구룡산업제2공장") || SettingJsonManager.corp_name.Equals("구룡산업제2공장 테스트"))
             {
-                _cb1.Content = "접합 방법";   _cb2.Content = "코팅";
-                _cb3.Content = "밴딩 매수";   _cb4.Content = "적재 방법";
+                _cb1.Content = "접합 방법"; _cb2.Content = "코팅";
+                _cb3.Content = "밴딩 매수"; _cb4.Content = "적재 방법";
                 _cb5.Content = "적재 단수"; _cb6.Content = "파렛트 종류";
-                _cb7.Content = "손잡이 종류";   _cb8.Content = "밴딩 방법";
-                _cb9.Content = "목형 NO";        _cb10.Content = "";
-                _cb11.Content = "";           _cb12.Content = "";
-                _cb13.Content = "";           _cb14.Content = "";
-                _cb15.Content = ""; 
+                _cb7.Content = "손잡이 종류"; _cb8.Content = "밴딩 방법";
+                _cb9.Content = "목형 NO"; _cb10.Content = "";
+                _cb11.Content = ""; _cb12.Content = "";
+                _cb13.Content = ""; _cb14.Content = "";
+                _cb15.Content = "";
 
                 _cb10.Visibility = Visibility.Collapsed;
                 _cb11.Visibility = Visibility.Collapsed;
@@ -95,17 +95,17 @@ namespace PopProject.Input
             account_check.IsChecked = SettingJsonManager.accountCheck; //거래처 표현
             production_check.IsChecked = SettingJsonManager.productionCheck; //생산처 표현
 
-            
+
 
             //시리얼 포트
             string[] port = SerialPort.GetPortNames();
-            
+
             //포트넘버
-            cb_1.ItemsSource = port; 
-            cb_12.ItemsSource = port; 
+            cb_1.ItemsSource = port;
+            cb_12.ItemsSource = port;
             cb_1.Text = SettingJsonManager.SerialName;
-            cb_12.Text = SettingJsonManager.SerialName1; 
-            
+            cb_12.Text = SettingJsonManager.SerialName1;
+
             //통신속도
             int[] baudrate = new int[1] { 9600 }; //통신속도
             cb_2.ItemsSource = baudrate;
@@ -159,7 +159,7 @@ namespace PopProject.Input
                         case "9": //목형 NO
                             _cb9.IsChecked = true;
                             break;
-                        
+
                         default:
                             break;
                     }
@@ -217,8 +217,8 @@ namespace PopProject.Input
                             break;
                     }
                 }
-                
-                
+
+
             }
 
             //마닐라,원단정보 배열
@@ -315,7 +315,7 @@ namespace PopProject.Input
             Close();
         }
 
-         // 기본설정1 [작업 정보] 설정 체크 수량
+        // 기본설정1 [작업 정보] 설정 체크 수량
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
 
@@ -490,7 +490,7 @@ namespace PopProject.Input
                         case "목형 NO":
                             setting = 9;
                             break;
-                       
+
                         default:
                             break;
                     }
@@ -566,7 +566,7 @@ namespace PopProject.Input
             return settindValue;
         }
 
-       
+
 
         // 기본설정1 작업정보 설정 체크 해제
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -711,7 +711,7 @@ namespace PopProject.Input
                 case "4":
                     str = "0.4초";
                     break;
-                case "5": 
+                case "5":
                     str = "0.5초";
                     break;
                 case "9":
@@ -733,7 +733,7 @@ namespace PopProject.Input
             {
                 SettingJsonManager.SerialName = cb_1.SelectedItem.ToString();
             }
-            
+
             //게더링 COM넘버 두번째꺼
             if (cb_12.SelectedItem != null)
             {
@@ -915,9 +915,9 @@ namespace PopProject.Input
                         }
 
                         //공통
-                        for(int i = 0; i < ob.Count; i++)
+                        for (int i = 0; i < ob.Count; i++)
                         {
-                            for(int j = 0; j < errorlist.Count; j++)
+                            for (int j = 0; j < errorlist.Count; j++)
                             {
                                 if (ob[i].Memo.Equals(errorlist[j]))
                                 {
@@ -1036,16 +1036,16 @@ namespace PopProject.Input
         //공통 불량사유 체크박스
         private void Checked_checkbox(object sender, MouseButtonEventArgs e)
         {
-            if((sender as CheckBox).IsChecked == true) //체크해제 
+            if ((sender as CheckBox).IsChecked == true) //체크해제 
             {
                 string errorValue = "";
                 string[] error = SettingJsonManager.error.Split(',');
                 List<string> errorlist = new List<string>();
-                for(int i = 0; i < error.Length; i++)
+                for (int i = 0; i < error.Length; i++)
                 {
                     errorlist.Add(error[i]);
-                        
-                    if(error[i].Equals((sender as CheckBox).Content))
+
+                    if (error[i].Equals((sender as CheckBox).Content))
                     {
                         errorlist.Remove(errorlist[i]);
                     }
@@ -1087,7 +1087,7 @@ namespace PopProject.Input
                 Console.WriteLine("체크 :" + SettingJsonManager.error);
                 LogManager.Info("공통 불량사유 체크 : " + SettingJsonManager.error, MethodBase.GetCurrentMethod().DeclaringType);
             }
-            
+
         }
 
         //설비 불량사유 체크박스
@@ -1105,7 +1105,7 @@ namespace PopProject.Input
                     if (error[i].Equals((sender as CheckBox).Content))
                     {
                         errorlist.Remove(errorlist[i]);
-                       
+
                     }
                     else
                     {
@@ -1151,7 +1151,7 @@ namespace PopProject.Input
         //로봇사용 
         private void robotChecked(object sender, RoutedEventArgs e)
         {
-            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") || 
+            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") ||
                 SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
             {
                 SettingJsonManager.robotchecked = robotcheck.IsChecked.Value;
@@ -1166,8 +1166,8 @@ namespace PopProject.Input
         //PLC사용
         private void PlcCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") || 
-                SettingJsonManager.corp_name.Equals("대양포장") || SettingJsonManager.corp_name.Equals("대양포장테스트") || 
+            if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트") ||
+                SettingJsonManager.corp_name.Equals("대양포장") || SettingJsonManager.corp_name.Equals("대양포장테스트") ||
                 SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
             {
                 SettingJsonManager.Plc = plc.IsChecked.Value;
@@ -1275,7 +1275,7 @@ namespace PopProject.Input
             ReturnModel returnData = ServiceModel.GetData(
                 SettingJsonManager.serverIndex,
                 "[Pop_sel_settingValue]",
-                new string[] { "@설비명"},
+                new string[] { "@설비명" },
                 new object[] {
                     SettingJsonManager.mercName,
                 },
@@ -1284,7 +1284,7 @@ namespace PopProject.Input
             if (returnData.결과 == 1)
             {
                 JArray Data_Jarry = JArray.Parse(returnData.리턴값);
-                foreach(JObject result in Data_Jarry)
+                foreach (JObject result in Data_Jarry)
                 {
                     SettingJsonManager.settingitem = result["작업정보"].ToString();
                     SettingJsonManager.boxCheck = bool.Parse(result["상자수사용"].ToString());
@@ -1303,7 +1303,7 @@ namespace PopProject.Input
             }
         }
 
-        
+
 
         private void 구룡제품명세서저장()
         {
@@ -1499,11 +1499,11 @@ namespace PopProject.Input
                 processInfo.UseShellExecute = false;
                 Process process = Process.Start(processInfo);
             }
-            catch (Exception )
+            catch (Exception)
             {
             }
 
-           
+
 
 
 

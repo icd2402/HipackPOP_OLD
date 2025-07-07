@@ -41,7 +41,7 @@ namespace PopProject.UserControl_
                 list[i].WDIGCount1 = list[i].WDIGCount;
                 if (list[i].givWD.Equals("2"))
                 {
-                    list[i].WDIGCount1 =  string.Format("{0:n0}", list[i].WDBJCount);
+                    list[i].WDIGCount1 = string.Format("{0:n0}", list[i].WDBJCount);
                 }
                 string[] setting = SettingJsonManager.settingitem.Split(new string[] { "|" }, StringSplitOptions.None);
                 for (int j = 0; j < setting.Length; j++)
@@ -110,17 +110,17 @@ namespace PopProject.UserControl_
                     }
                     else if (j == 1)
                     {
-                        if(item!=null)
+                        if (item != null)
                             list[i].item6 = item.Replace("\r\n", "");
                     }
                     else if (j == 2)
                     {
-                        if(item != null)
+                        if (item != null)
                             list[i].item7 = item.Replace("\r\n", "");
                     }
                     else if (j == 3)
                     {
-                        if(item != null)
+                        if (item != null)
                             list[i].item8 = item.Replace("\r\n", "");
                     }
                 }

@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using PopProject.Detail;
 using PopProject.input;
 using PopProject.KeyBoard;
 using PopProject.KeyBoard2;
@@ -12,13 +10,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
-using System.Data;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace PopProject.Input
 {
@@ -218,7 +213,7 @@ namespace PopProject.Input
                     장_.Text = "장";
                     폭_.Text = "폭";
                     고_.Text = "고";
-                    d3909_.Text = "갭"; 
+                    d3909_.Text = "갭";
                     d3910_.Text = "앞날개";
                     d3911_.Text = "미미(F1)";
                     d3912_.Text = "컷팅(F2)";
@@ -226,22 +221,22 @@ namespace PopProject.Input
                     d3914_.Text = "";
                     d3915_.Text = "";
 
-                    tb1_.Text  = "A 위치";
-                    tb2_.Text  = "B 위치";
-                    tb3_.Text  = "C 위치";
-                    tb4_.Text  = "D 위치";
-                    tb5_.Text  = "E 위치";
-                    tb6_.Text  = "F1 위치";
-                    tb7_.Text  = "F2 위치";
-                    tb8_.Text  = "G 위치";
-                    tb9_.Text  = "O 위치";
+                    tb1_.Text = "A 위치";
+                    tb2_.Text = "B 위치";
+                    tb3_.Text = "C 위치";
+                    tb4_.Text = "D 위치";
+                    tb5_.Text = "E 위치";
+                    tb6_.Text = "F1 위치";
+                    tb7_.Text = "F2 위치";
+                    tb8_.Text = "G 위치";
+                    tb9_.Text = "O 위치";
                     tb10_.Text = "P1 위치";
                     tb11_.Text = "P2 위치";
                     tb12_.Text = "P3 위치";
                     tb13_.Text = "P4 위치";
                     tb14_.Text = "Spare";
                     tb15_.Text = "Spare";
-                    
+
                     tb16_.Text = "Spare";
                     tb17_.Text = "D레지스타";
                     tb18_.Text = "1도 프레스 롤";
@@ -273,7 +268,7 @@ namespace PopProject.Input
                     tb43_.Text = "Spare";
                     tb44_.Text = "보조괘선 갭(진입)";
                     tb45_.Text = "본괘선 갭   (중간)";
-                    
+
                     tb46_.Text = "괘선 연결롤 갭(배출)";
                     tb47_.Text = "중간연결 갭 (중간)";
                     tb48_.Text = "Spare";
@@ -465,12 +460,12 @@ namespace PopProject.Input
             ip.Text = SettingJsonManager.ip + " / " + SettingJsonManager.port; //IP
             거래처.Text = mainModel.customSName; //거래처
             품명.Text = mainModel.prodName; //품명
-            //psize = mainModel.pSize.Split('*'); //규격
-            //작업지시.Text = SettingJsonManager.setCount.ToString();
-            //장.Text = psize[0] == null ? "" : psize[0].Trim();
-            //폭.Text = psize[1] == null ? "" : psize[1].Trim();
-            //고.Text = psize[2] == null ? "" : psize[2].Trim();
-          
+                                          //psize = mainModel.pSize.Split('*'); //규격
+                                          //작업지시.Text = SettingJsonManager.setCount.ToString();
+                                          //장.Text = psize[0] == null ? "" : psize[0].Trim();
+                                          //폭.Text = psize[1] == null ? "" : psize[1].Trim();
+                                          //고.Text = psize[2] == null ? "" : psize[2].Trim();
+
             //d3910.Text = SettingJsonManager.mimi.ToString(); 
             //switch (mainModel.paperGor.Replace("골", "").Trim())
             //{
@@ -541,25 +536,25 @@ namespace PopProject.Input
                 int pock = 0;
                 int jang = 0;
                 int go = 0;
-                float D3909    = 0; //갭
-                float D3910    = 0; //앞날개
-                float D3911    = 0; //미미
-                float D3912    = 0; //뒷날개
-                float D3913    = 0; //
-                float D3914    = 0; //
-                float D3915    = 0; //
+                float D3909 = 0; //갭
+                float D3910 = 0; //앞날개
+                float D3911 = 0; //미미
+                float D3912 = 0; //뒷날개
+                float D3913 = 0; //
+                float D3914 = 0; //
+                float D3915 = 0; //
 #pragma warning disable CS0219 // 'spare1' 할당되었지만 사용되지 않았습니다.
-                float spare1   = 0;
+                float spare1 = 0;
 #pragma warning restore CS0219 // 'spare1' 할당되었지만 사용되지 않았습니다.
-                float recipe1  = 0;
-                float recipe2  = 0;
-                float recipe3  = 0;
-                float recipe4  = 0;
-                float recipe5  = 0;
-                float recipe6  = 0;
-                float recipe7  = 0;
-                float recipe8  = 0;
-                float recipe9  = 0;
+                float recipe1 = 0;
+                float recipe2 = 0;
+                float recipe3 = 0;
+                float recipe4 = 0;
+                float recipe5 = 0;
+                float recipe6 = 0;
+                float recipe7 = 0;
+                float recipe8 = 0;
+                float recipe9 = 0;
                 float recipe10 = 0;
                 float recipe11 = 0;
                 float recipe12 = 0;
@@ -640,15 +635,15 @@ namespace PopProject.Input
                     D3914 = Convert.ToSingle(result["SaveState"]);//D3914
                     D3915 = Convert.ToSingle(result["Spare1"]);//D3915
 
-                    recipe1  = Convert.ToSingle(result["Recipe1"]);//D3916
-                    recipe2  = Convert.ToSingle(result["Recipe2"]);//D3917
-                    recipe3  = Convert.ToSingle(result["Recipe3"]);//D3918
-                    recipe4  = Convert.ToSingle(result["Recipe4"]);//D3919
-                    recipe5  = Convert.ToSingle(result["Recipe5"]);//D3920
-                    recipe6  = Convert.ToSingle(result["Recipe6"]);//D3921
-                    recipe7  = Convert.ToSingle(result["Recipe7"]);//D3922
-                    recipe8  = Convert.ToSingle(result["Recipe8"]);//D3923
-                    recipe9  = Convert.ToSingle(result["Recipe9"]);//D3924
+                    recipe1 = Convert.ToSingle(result["Recipe1"]);//D3916
+                    recipe2 = Convert.ToSingle(result["Recipe2"]);//D3917
+                    recipe3 = Convert.ToSingle(result["Recipe3"]);//D3918
+                    recipe4 = Convert.ToSingle(result["Recipe4"]);//D3919
+                    recipe5 = Convert.ToSingle(result["Recipe5"]);//D3920
+                    recipe6 = Convert.ToSingle(result["Recipe6"]);//D3921
+                    recipe7 = Convert.ToSingle(result["Recipe7"]);//D3922
+                    recipe8 = Convert.ToSingle(result["Recipe8"]);//D3923
+                    recipe9 = Convert.ToSingle(result["Recipe9"]);//D3924
                     recipe10 = Convert.ToSingle(result["Recipe10"]);//D3925
                     recipe11 = Convert.ToSingle(result["Recipe11"]);//D3926
                     recipe12 = Convert.ToSingle(result["Recipe12"]);//D3927
@@ -731,15 +726,15 @@ namespace PopProject.Input
 
                 //#:1000단위 콤마  ("#,0.0")
 
-                tb1.Text  = recipe1.ToString(); //D3916
-                tb2.Text  = recipe2.ToString(); //D3917
-                tb3.Text  = recipe3.ToString(); //D3918
-                tb4.Text  = recipe4.ToString(); //D3919
-                tb5.Text  = recipe5.ToString(); //D3920
-                tb6.Text  = recipe6.ToString(); //D3921
-                tb7.Text  = recipe7.ToString(); //D3922
-                tb8.Text  = recipe8.ToString(); //D3923
-                tb9.Text  = recipe9.ToString(); //D3924
+                tb1.Text = recipe1.ToString(); //D3916
+                tb2.Text = recipe2.ToString(); //D3917
+                tb3.Text = recipe3.ToString(); //D3918
+                tb4.Text = recipe4.ToString(); //D3919
+                tb5.Text = recipe5.ToString(); //D3920
+                tb6.Text = recipe6.ToString(); //D3921
+                tb7.Text = recipe7.ToString(); //D3922
+                tb8.Text = recipe8.ToString(); //D3923
+                tb9.Text = recipe9.ToString(); //D3924
                 tb10.Text = recipe10.ToString();//D3925
                 tb11.Text = recipe11.ToString();//D3926
                 tb12.Text = recipe12.ToString();//D3927
@@ -827,7 +822,7 @@ namespace PopProject.Input
                 Ls_Fenet wd = new Ls_Fenet(); //헤더
 
                 byte[] bDts = wd.Word_continuous_Read("%DB7804", 74); //연속읽기 D3902 ~ D3975 (74개)
-                
+
                 //송신한 데이터 값 보는용도
                 string Send_Data = string.Empty;
                 for (int i = 0; i < bDts.Length; i++)
@@ -891,7 +886,7 @@ namespace PopProject.Input
         }
 
         // 데이터 수신
-        public void DataReceived(IAsyncResult ar) 
+        public void DataReceived(IAsyncResult ar)
         {
             try
             {
@@ -955,14 +950,14 @@ namespace PopProject.Input
                                 d3904.Text = ValueConvert(data, false); break;
                             case 3: //박스타입
                                 int boxtype = Convert.ToInt32(ValueConvert(data, false));
-                                if (boxtype == 1) {combo.SelectedIndex = 0;}
-                                else if (boxtype == 3) {combo.SelectedIndex = 1;}
-                                else if (boxtype == 5) {combo.SelectedIndex = 2;}
-                                else if (boxtype == 6) {combo.SelectedIndex = 3;}
-                                else if (boxtype == 7) {combo.SelectedIndex = 4;}
+                                if (boxtype == 1) { combo.SelectedIndex = 0; }
+                                else if (boxtype == 3) { combo.SelectedIndex = 1; }
+                                else if (boxtype == 5) { combo.SelectedIndex = 2; }
+                                else if (boxtype == 6) { combo.SelectedIndex = 3; }
+                                else if (boxtype == 7) { combo.SelectedIndex = 4; }
                                 break;
                             case 4:  //폭
-                                폭.Text = ValueConvert(data, false); break; 
+                                폭.Text = ValueConvert(data, false); break;
                             case 5:  //장                            
                                 장.Text = ValueConvert(data, false); break;
                             case 6:  //고                            
@@ -976,13 +971,13 @@ namespace PopProject.Input
                             case 10: //2호기: 컷팅
                                 d3912.Text = ValueConvert(data, false); break;
                             case 11: //뒷날개
-                                if (SettingJsonManager.mercName.Equals("후렉소1호기")|| SettingJsonManager.mercName.Equals("인라인2호기"))
+                                if (SettingJsonManager.mercName.Equals("후렉소1호기") || SettingJsonManager.mercName.Equals("인라인2호기"))
                                 {
                                     d3913.Text = dummyData;
                                 }
                                 else
                                 {
-                                    d3913.Text = ValueConvert(data, true); 
+                                    d3913.Text = ValueConvert(data, true);
                                 }
                                 break;
                             case 12: //
@@ -1016,14 +1011,14 @@ namespace PopProject.Input
                             case 26: //P4                             
                                 tb13.Text = ValueConvert(data, true); break;
                             case 27: //
-                                if (SettingJsonManager.mercName.Equals("후렉소1호기")|| SettingJsonManager.mercName.Equals("인라인2호기"))
+                                if (SettingJsonManager.mercName.Equals("후렉소1호기") || SettingJsonManager.mercName.Equals("인라인2호기"))
                                 {
                                     d3913.Text = ValueConvert(data, true);
-                                    tb14.Text = ValueConvert(data, true); 
+                                    tb14.Text = ValueConvert(data, true);
                                 }
                                 else
                                 {
-                                    tb14.Text = ValueConvert(data, true); 
+                                    tb14.Text = ValueConvert(data, true);
                                 }
                                 break;
 #pragma warning disable CS0162 // 접근할 수 없는 코드가 있습니다.
@@ -1169,7 +1164,7 @@ namespace PopProject.Input
             Border clickedBorder = (Border)sender;
             clickedBorder.Background = Brushes.Gray;
 
-            MessageBoxResult result = System.Windows.MessageBox.Show(" 신규 생산시 기본정보만 전송됩니다.\n ※장,폭,고,갭,미미 외 세팅값은 0으로 처리됩니다." , "CNS 데이터 저장", MessageBoxButton.YesNo);
+            MessageBoxResult result = System.Windows.MessageBox.Show(" 신규 생산시 기본정보만 전송됩니다.\n ※장,폭,고,갭,미미 외 세팅값은 0으로 처리됩니다.", "CNS 데이터 저장", MessageBoxButton.YesNo);
 
             clickedBorder.Background = Brushes.White;
 
@@ -1229,7 +1224,7 @@ namespace PopProject.Input
 
                     int WriteCount = items.Count() * 2;
                     byte[] bDts = wd.continuous_Write("%DB7600", WriteCount, items);
-                   
+
                     //송신한 데이터 값 보는용도
                     string Send_Data = string.Empty;
                     for (int i = 0; i < bDts.Length; i++)
@@ -1385,7 +1380,7 @@ namespace PopProject.Input
                     TextChangeName.Text = "명칭";
                     break;
             }
-         
+
             textChange(TextChangeState);
             Console.WriteLine(TextChangeState);
         }

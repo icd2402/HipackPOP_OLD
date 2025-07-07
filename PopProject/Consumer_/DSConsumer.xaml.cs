@@ -3,23 +3,13 @@ using PopProject.MessageBox;
 using PopProject.UserControl_;
 using PopProject.Util;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace PopProject.Consumer_
@@ -63,8 +53,8 @@ namespace PopProject.Consumer_
 #pragma warning restore CS0414 // 'DSConsumer.이월체크' 필드가 할당되었지만 사용되지 않았습니다.
         bool checkbefore = true;
         bool CarryForwardButtonState = false;
-       
-        public DSConsumer(MainModel mainModel,bool carryForwardButtonState) //이월버튼 사용 유무
+
+        public DSConsumer(MainModel mainModel, bool carryForwardButtonState) //이월버튼 사용 유무
         {
             InitializeComponent();
             this.mainModel = mainModel;
@@ -171,7 +161,7 @@ namespace PopProject.Consumer_
                         {
                             consumerList.Add(listitem);
                         }
-                        
+
                         Console.WriteLine("실수요자명 : " + listitem.membName + ", pworkKey : " + listitem.pworkKey + ", pplanKey : " + listitem.pplanKey);
                     }
 
@@ -211,7 +201,7 @@ namespace PopProject.Consumer_
                         }
                     }
                     Console.WriteLine("DSConsumerList.Count : " + consumerList.Count);
-                    
+
                     //실수요자 리스트가 있으면
                     if (consumerList.Count > 0)
                     {
@@ -262,7 +252,7 @@ namespace PopProject.Consumer_
 
         }
 
-        
+
 
         //인라인 설비 DB저장
         //private int PopInlineStart(SubModel subOb)
@@ -289,7 +279,7 @@ namespace PopProject.Consumer_
 
         //    if (returnData.결과 == 1)
         //    {
-                
+
         //        //리턴값 저장,확인
         //        Console.WriteLine("pworkKey리턴값" + returnData.리턴값);
         //        SettingJsonManager.pworkkey = returnData.리턴값;
@@ -457,7 +447,7 @@ namespace PopProject.Consumer_
             }
 
             SettingJsonManager.pplanKey = 0;
-            SettingJsonManager.pworkkey = ""; 
+            SettingJsonManager.pworkkey = "";
             SettingJsonManager.SaveJsonFile();
             return returnData.결과;
         }
@@ -487,7 +477,7 @@ namespace PopProject.Consumer_
                 {
                     count += (int)Math.Ceiling(float.Parse(consumerList[i].pWorkCount.ToString()));
                 }
-                
+
             }
             Console.WriteLine("총 생산수량" + count);
             return count;
@@ -516,8 +506,8 @@ namespace PopProject.Consumer_
                 Image img = (Image)sender;
                 ConsumerModel consumerModel = (ConsumerModel)img.DataContext;
                 product = consumerModel;
-                
-                
+
+
                 //대기 버튼
                 if (consumerModel.imgSource.Equals("/img/bn_02.png"))
                 {

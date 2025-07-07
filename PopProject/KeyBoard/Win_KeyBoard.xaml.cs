@@ -1,10 +1,9 @@
-﻿using System;
+﻿using PopProject.input;
+using PopProject.Util;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using PopProject.input;
-using PopProject.Util;
 
 namespace PopProject.KeyBoard
 {
@@ -32,7 +31,7 @@ namespace PopProject.KeyBoard
             this.txtbox.Text = 0 + "";
             option1.Text = "";
         }
-        public Win_KeyBoard(TextBox txtbox, object context,InputModel inputmodel)
+        public Win_KeyBoard(TextBox txtbox, object context, InputModel inputmodel)
         {
 
             InitializeComponent();

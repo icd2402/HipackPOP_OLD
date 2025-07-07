@@ -1,10 +1,5 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows;
+﻿using System.ComponentModel;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using KeepDynamic.Barcode.Generator;
 
 namespace PopProject.Util
 {

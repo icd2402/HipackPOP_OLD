@@ -51,7 +51,7 @@ namespace PopProject.Util
 
             private string _customSName;
             public string customSName
-            {   
+            {
                 get
                 {
 
@@ -82,7 +82,7 @@ namespace PopProject.Util
             }
 
             private string _prodName;
-            
+
             public string prodName
             {
 
@@ -90,7 +90,7 @@ namespace PopProject.Util
                 {
                     return _prodName;
                 }
-                
+
                 set
                 {
                     _prodName = value;
@@ -186,12 +186,12 @@ namespace PopProject.Util
             private string _MycustomSName;
             public string MycustomSName
             {
-                
+
                 get
                 {
                     return _MycustomSName;
                 }
-                    
+
                 set
                 {
                     _MycustomSName = value;

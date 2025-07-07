@@ -65,7 +65,7 @@ namespace PopProject.MessageBox
             this.detailitem = detailitem;
             total_count.Text = mainModel.pplanCount.ToString(); //총수량
             box_Count.Text = mainModel.pplanCount.ToString(); //적재수량
-            
+
             //거래처 공백 체크
             if (SettingJsonManager.accountCheck)
             {
@@ -80,9 +80,9 @@ namespace PopProject.MessageBox
 
             if (SettingJsonManager.corp_name.Equals("우리포장산업"))
             {
-                account_check.Margin = new Thickness(20,10,0,0);
-                production_check.Margin = new Thickness(0,10,0,0);
-                IG_check.Margin = new Thickness(-20,10,0,0);
+                account_check.Margin = new Thickness(20, 10, 0, 0);
+                production_check.Margin = new Thickness(0, 10, 0, 0);
+                IG_check.Margin = new Thickness(-20, 10, 0, 0);
             }
 
             //부착수 콤보박스
@@ -112,7 +112,7 @@ namespace PopProject.MessageBox
             combo.SelectedIndex = 0;
         }
 
-     
+
         //적재수량 클릭
         private void Pallet_count(object sender, MouseButtonEventArgs e)
         {
@@ -131,7 +131,7 @@ namespace PopProject.MessageBox
                 float copyCount = box_Count.Text.ToString().Equals("0")
                     ? selectedItem
                     : (float)Math.Ceiling(float.Parse(total_count.Text.ToString()) / float.Parse(box_Count.Text.ToString())) * selectedItem;
-                
+
                 //출력매수 
                 setCopyCount(copyCount);
             }
@@ -205,7 +205,7 @@ namespace PopProject.MessageBox
                 if (SignCorpinfo_Base_JArray != null && SignCorpinfo_Base_JArray.ToArray().Length > 0)
                 {
                     JToken result = SignCorpinfo_Base_JArray.First;
-                   
+
 
                     pr1.corpName = (bool)account_check.IsChecked ? "" : mainModel.corpName;
                     pr1.MycustomSName = (bool)production_check.IsChecked ? "" : SettingJsonManager.corp_name.Equals("대양포장") ? "    " : SettingJsonManager.corp_name;
@@ -345,7 +345,7 @@ namespace PopProject.MessageBox
                     }
                     pr1.corpName = (bool)account_check.IsChecked ? "" : mainModel.corpName;
                     pr1.MycustomSName = (bool)production_check.IsChecked ? "" : SettingJsonManager.corp_name.Equals("대양포장") ? "    " : SettingJsonManager.corp_name;
-                   
+
                     if (igVisible)
                     {
                         pr1.corpName = SettingJsonManager.corp_name;
@@ -390,7 +390,7 @@ namespace PopProject.MessageBox
                 Grid.SetRow(완제품명세서_Uc1, 0);
                 명세서양식_Uc.ItemPanel.Children.Add(완제품명세서_Uc1);
                 Set_FixedPage.Children.Add(명세서양식_Uc as UIElement);
-                                              
+
 
                 PageContent Set_PageContent = new PageContent();
                 // 픽셀 페이지 페이지 콘텐츠 객체 자식 형태로 저장
@@ -588,7 +588,7 @@ namespace PopProject.MessageBox
             // 페이지 높이 사이즈 
             Set_FixedPage1.Height = Dbl_HeightReportPageHeightSize;
             pr1.loadCount = remainder.ToString();
-            
+
             if (SettingJsonManager.corp_name.Equals("신우수출포장"))
             {
                 switch (mainModel.corpName.Trim())
@@ -716,7 +716,7 @@ namespace PopProject.MessageBox
             igVisible = true;
             Console.WriteLine("tttt");
         }
-        
+
         //입고처,입고일 표현 미체크(우리포장 요청)
         private void IG_check_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -725,7 +725,7 @@ namespace PopProject.MessageBox
 
         }
 
-        private void metrialinfo_IG_search ()
+        private void metrialinfo_IG_search()
         {
 
         }

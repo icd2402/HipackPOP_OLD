@@ -58,7 +58,7 @@ namespace PopProject.Util
                     onPropertyChanged("customSName");
                 }
             }
-            
+
             private string _corpName;
             public string corpName
             {
@@ -72,7 +72,7 @@ namespace PopProject.Util
                     _corpName = value;
                     onPropertyChanged("corpName");
                 }
-            
+
             }
 
             private string _prodName;
@@ -158,9 +158,9 @@ namespace PopProject.Util
                     onPropertyChanged("resultCount");
                 }
             }
-            
 
-         private string _loadCount;
+
+            private string _loadCount;
             public string loadCount
             {
                 get
@@ -190,7 +190,7 @@ namespace PopProject.Util
             private string _MycustomSName;
             public string MycustomSName
             {
-                
+
                 get
                 {
                     return _MycustomSName;
