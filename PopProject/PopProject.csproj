@@ -345,6 +345,12 @@
     <Compile Include="Detail\Robot_Setting2.xaml.cs">
       <DependentUpon>Robot_Setting2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Detail\Robot_Setting3.xaml.cs">
+      <DependentUpon>Robot_Setting3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Detail\Robot_Setting4.xaml.cs">
+      <DependentUpon>Robot_Setting4.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Detail\WhareHouseModel.cs" />
     <Compile Include="Detail\Wharehouse_info.xaml.cs">
       <DependentUpon>Wharehouse_info.xaml</DependentUpon>
@@ -584,6 +590,14 @@
     <Page Include="Detail\Robot_Setting2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Detail\Robot_Setting3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Detail\Robot_Setting4.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Detail\Wharehouse_info.xaml">
       <SubType>Designer</SubType>
