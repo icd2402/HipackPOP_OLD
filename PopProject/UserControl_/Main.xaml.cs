@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -278,10 +279,10 @@ namespace PopProject.UserControl_
             timer.Tick += new EventHandler(Timer_1s_Tick);
             timer.Start();
         }
-
         // 시계, 바코드, 종료시간 체크
         private void Timer_1s_Tick(object sender, EventArgs e)
         {
+            speed_Count();
             //공지사항 팝업
             if (settingPopupCheck == false && !SettingJsonManager.noticePopup && tempLock == false)
             {
@@ -601,7 +602,64 @@ namespace PopProject.UserControl_
                 }
             }
         }
+        //속도값에 대한 체크
+        private void speed_Count()
+        {
+            string s_년월일 = DateTimeManager.GetNowDateStr().Replace("-", "").Replace(" ", "").Replace(":", "");
+            string folderPath = @"C:\ICD\POP\DATA";
+            string filePath = Path.Combine(folderPath, "Count");
+            Cls_Variable.EnsureDirectoryExists(folderPath);
 
+            string destPath = "";
+            string DEST_DIR = "";
+            DEST_DIR = string.IsNullOrEmpty(filePath) == false ? filePath : "";
+            if (!DEST_DIR.Equals(""))
+            {
+                Cls_Variable.EnsureDirectoryExists(DEST_DIR);
+                destPath = Path.Combine(DEST_DIR, "count" + s_년월일 + ".txt");
+                if (File.Exists(destPath))
+                {
+                    var lines = File.ReadAllLines(destPath);
+                    var data = new List<(DateTime time, int count)>();
+
+                    foreach (var line in lines)
+                    {
+                        var parts = line.Split(',');
+                        if (parts.Length == 2)
+                        {
+                            var time = DateTime.Parse(parts[0].Trim());
+                            var count = int.Parse(parts[1].Trim());
+                            data.Add((time, count));
+                        }
+                    }
+
+                    // 구간별 속도 계산 (개/초, 개/분)
+                    for (int i = 1; i < data.Count; i++)
+                    {
+                        var timeDiff = (data[i].time - data[i - 1].time).TotalSeconds;
+                        var countDiff = data[i].count - data[i - 1].count;
+                        var speedPerSec = countDiff / timeDiff; // 초당 처리량
+                        var speedPerMin = speedPerSec * 60;     // 분당 처리량 (rpm)
+                        Console.WriteLine($"{data[i].time}: {speedPerSec:F2}개/초, {speedPerMin:F2}개/분(rpm)");
+                    }
+
+                    // 전체 평균 속도 (개/초, 개/분)
+                    if (data.Count > 1)
+                    {
+                        var totalTime = (data.Last().time - data.First().time).TotalSeconds;
+                        var totalCount = data.Last().count - data.First().count;
+                        var avgSpeedPerSec = totalCount / totalTime;
+                        var avgSpeedPerMin = avgSpeedPerSec * 60;
+                        Console.WriteLine($"평균 속도: {avgSpeedPerSec:F2}개/초, {avgSpeedPerMin:F2}개/분(rpm)");
+                    }
+                }
+            }
+
+        }
+        private DateTime? _firstTime = null;
+        private int? _firstCount = null;
+        private DateTime? _prevTime = null;
+        private int? _prevCount = null;
         //아두이노 카운터값 수신 -> 카운터값 가공 -> 현황판으로 전송
         public void ArduReReceive(object sender, SerialDataReceivedEventArgs e)
         {
@@ -610,10 +668,61 @@ namespace PopProject.UserControl_
             {
                 str = Math.Abs(int.Parse(arduSerial.ReadLine().Trim())); //아두이노 카운터값 공백 제거 후 절댓값으로 변경
                 Console.WriteLine("아두이노 값(Main) : " + str); //실시간 값 확인용
-
                 //생산중일때(생산정보 있을때)
                 if (production != null)
                 {
+                    if (str > 0)
+                    {
+                        string s_년월일 = DateTimeManager.GetNowDateStr().Replace("-", "").Replace(" ", "").Replace(":", "");
+                        string folderPath = @"C:\ICD\POP\DATA";
+                        string filePath = Path.Combine(folderPath, "Count");
+                        Cls_Variable.EnsureDirectoryExists(folderPath);
+
+                        string destPath = "";
+                        string DEST_DIR = "";
+                        DEST_DIR = string.IsNullOrEmpty(filePath) == false ? filePath : "";
+                        //DEST_DIR = filePath;
+                        if (!DEST_DIR.Equals(""))
+                        {
+                            Cls_Variable.EnsureDirectoryExists(DEST_DIR);
+                            destPath = Path.Combine(DEST_DIR, "count" + s_년월일 + ".txt");
+                            string now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                            int currCount = str;
+
+                            // 최초 기록 시점 저장
+                            if (_firstTime == null || _firstCount == null)
+                            {
+                                _firstTime = DateTime.Now;
+                                _firstCount = currCount;
+                            }
+
+                            // 구간별 rpm 계산
+                            double rpm = 0;
+                            if (_prevTime != null && _prevCount != null)
+                            {
+                                var timeDiff = (DateTime.Now - _prevTime.Value).TotalSeconds;
+                                var countDiff = currCount - _prevCount.Value;
+                                if (timeDiff > 0)
+                                    rpm = (countDiff / timeDiff) * 60.0;
+                            }
+
+                            // 누적 평균 rpm 계산
+                            double avgRpm = 0;
+                            var totalTime = (DateTime.Now - _firstTime.Value).TotalSeconds;
+                            var totalCount = currCount - _firstCount.Value;
+                            if (totalTime > 0)
+                                avgRpm = (totalCount / totalTime) * 60.0;
+
+                            // 로그 포맷: 시간, 카운트, rpm, 평균rpm
+                            string log = $"{now} , {currCount} , {rpm:F2} rpm , {avgRpm:F2} avg_rpm{Environment.NewLine}";
+                            File.AppendAllText(destPath, log, Encoding.UTF8);
+
+                            // 이전 값 갱신
+                            _prevTime = DateTime.Now;
+                            _prevCount = currCount;
+                        }
+                        ;
+                    }
                     Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                     {
                         //생산정보값이 정상일때

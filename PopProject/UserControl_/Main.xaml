@@ -261,7 +261,6 @@
                        Text="%" FontSize="20" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0"/>
         </Grid>
 
-
     </Grid>
 
 </UserControl>
