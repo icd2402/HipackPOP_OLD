@@ -60,16 +60,5 @@ namespace PopProject.Util
             _serviceAddresses[(serverKey, typeKey)] = address;
         }
 
-
-        //public static string GetAddress(string serverKey)
-        //{
-        //    return _serviceAddresses.TryGetValue((serverKey, typeKey), out var address) ? address : null;
-        //}
-
-        //// 값 설정하기
-        //public static void SetAddress(string key1, string key2, string address)
-        //{
-        //    _serviceAddresses[(key1, key2)] = address;
-        //}
     }
 }

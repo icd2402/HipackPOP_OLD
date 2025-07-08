@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -278,10 +279,10 @@ namespace PopProject.UserControl_
             timer.Tick += new EventHandler(Timer_1s_Tick);
             timer.Start();
         }
-
         // 시계, 바코드, 종료시간 체크
         private void Timer_1s_Tick(object sender, EventArgs e)
         {
+            speed_Count();
             //공지사항 팝업
             if (settingPopupCheck == false && !SettingJsonManager.noticePopup && tempLock == false)
             {
@@ -601,6 +602,60 @@ namespace PopProject.UserControl_
                 }
             }
         }
+        //속도값에 대한 체크
+        private void speed_Count()
+        {
+            string s_년월일 = DateTimeManager.GetNowDateStr().Replace("-", "").Replace(" ", "").Replace(":", "");
+            string folderPath = @"C:\ICD\POP\DATA";
+            string filePath = Path.Combine(folderPath, "Count");
+            Cls_Variable.EnsureDirectoryExists(folderPath);
+
+            string destPath = "";
+            string DEST_DIR = "";
+            DEST_DIR = string.IsNullOrEmpty(filePath) == false ? filePath : "";
+            if (!DEST_DIR.Equals(""))
+            {
+                Cls_Variable.EnsureDirectoryExists(DEST_DIR);
+                destPath = Path.Combine(DEST_DIR, "count" + s_년월일 + ".txt");
+                if (File.Exists(destPath))
+                {
+                    var lines = File.ReadAllLines(destPath);
+                    var data = new List<(DateTime time, int count)>();
+
+                    foreach (var line in lines)
+                    {
+                        var parts = line.Split(',');
+                        if (parts.Length == 2)
+                        {
+                            var time = DateTime.Parse(parts[0].Trim());
+                            var count = int.Parse(parts[1].Trim());
+                            data.Add((time, count));
+                        }
+                    }
+
+                    // 구간별 속도 계산 (개/초, 개/분)
+                    for (int i = 1; i < data.Count; i++)
+                    {
+                        var timeDiff = (data[i].time - data[i - 1].time).TotalSeconds;
+                        var countDiff = data[i].count - data[i - 1].count;
+                        var speedPerSec = countDiff / timeDiff; // 초당 처리량
+                        var speedPerMin = speedPerSec * 60;     // 분당 처리량 (rpm)
+                        Console.WriteLine($"{data[i].time}: {speedPerSec:F2}개/초, {speedPerMin:F2}개/분(rpm)");
+                    }
+
+                    // 전체 평균 속도 (개/초, 개/분)
+                    if (data.Count > 1)
+                    {
+                        var totalTime = (data.Last().time - data.First().time).TotalSeconds;
+                        var totalCount = data.Last().count - data.First().count;
+                        var avgSpeedPerSec = totalCount / totalTime;
+                        var avgSpeedPerMin = avgSpeedPerSec * 60;
+                        Console.WriteLine($"평균 속도: {avgSpeedPerSec:F2}개/초, {avgSpeedPerMin:F2}개/분(rpm)");
+                    }
+                }
+            }
+
+        }
 
         //아두이노 카운터값 수신 -> 카운터값 가공 -> 현황판으로 전송
         public void ArduReReceive(object sender, SerialDataReceivedEventArgs e)
@@ -610,10 +665,33 @@ namespace PopProject.UserControl_
             {
                 str = Math.Abs(int.Parse(arduSerial.ReadLine().Trim())); //아두이노 카운터값 공백 제거 후 절댓값으로 변경
                 Console.WriteLine("아두이노 값(Main) : " + str); //실시간 값 확인용
-
                 //생산중일때(생산정보 있을때)
                 if (production != null)
                 {
+                    if (str > 0)
+                    {
+                        string s_년월일 = DateTimeManager.GetNowDateStr().Replace("-", "").Replace(" ", "").Replace(":", "");
+                        string folderPath = @"C:\ICD\POP\DATA";
+                        string filePath = Path.Combine(folderPath, "Count");
+                        Cls_Variable.EnsureDirectoryExists(folderPath);
+
+                        string destPath = "";
+                        string DEST_DIR = "";
+                        DEST_DIR = string.IsNullOrEmpty(filePath) == false ? filePath : "";
+                        //DEST_DIR = filePath;
+                        if (!DEST_DIR.Equals(""))
+                        {
+                            Cls_Variable.EnsureDirectoryExists(DEST_DIR);
+                            destPath = Path.Combine(DEST_DIR, "count" + s_년월일 + ".txt");
+                            // 현재 시간과 str 값 준비
+                            string now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            string log = $"{now} , {str}{Environment.NewLine}";
+
+                            // 파일이 없으면 생성, 있으면 누적 기록
+                            File.AppendAllText(destPath, log, Encoding.UTF8);
+                        }
+                        ;
+                    }
                     Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                     {
                         //생산정보값이 정상일때
