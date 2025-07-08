@@ -656,7 +656,10 @@ namespace PopProject.UserControl_
             }
 
         }
-
+        private DateTime? _firstTime = null;
+        private int? _firstCount = null;
+        private DateTime? _prevTime = null;
+        private int? _prevCount = null;
         //아두이노 카운터값 수신 -> 카운터값 가공 -> 현황판으로 전송
         public void ArduReReceive(object sender, SerialDataReceivedEventArgs e)
         {
@@ -683,12 +686,40 @@ namespace PopProject.UserControl_
                         {
                             Cls_Variable.EnsureDirectoryExists(DEST_DIR);
                             destPath = Path.Combine(DEST_DIR, "count" + s_년월일 + ".txt");
-                            // 현재 시간과 str 값 준비
-                            string now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                            string log = $"{now} , {str}{Environment.NewLine}";
+                            string now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                            int currCount = str;
 
-                            // 파일이 없으면 생성, 있으면 누적 기록
+                            // 최초 기록 시점 저장
+                            if (_firstTime == null || _firstCount == null)
+                            {
+                                _firstTime = DateTime.Now;
+                                _firstCount = currCount;
+                            }
+
+                            // 구간별 rpm 계산
+                            double rpm = 0;
+                            if (_prevTime != null && _prevCount != null)
+                            {
+                                var timeDiff = (DateTime.Now - _prevTime.Value).TotalSeconds;
+                                var countDiff = currCount - _prevCount.Value;
+                                if (timeDiff > 0)
+                                    rpm = (countDiff / timeDiff) * 60.0;
+                            }
+
+                            // 누적 평균 rpm 계산
+                            double avgRpm = 0;
+                            var totalTime = (DateTime.Now - _firstTime.Value).TotalSeconds;
+                            var totalCount = currCount - _firstCount.Value;
+                            if (totalTime > 0)
+                                avgRpm = (totalCount / totalTime) * 60.0;
+
+                            // 로그 포맷: 시간, 카운트, rpm, 평균rpm
+                            string log = $"{now} , {currCount} , {rpm:F2} rpm , {avgRpm:F2} avg_rpm{Environment.NewLine}";
                             File.AppendAllText(destPath, log, Encoding.UTF8);
+
+                            // 이전 값 갱신
+                            _prevTime = DateTime.Now;
+                            _prevCount = currCount;
                         }
                         ;
                     }
