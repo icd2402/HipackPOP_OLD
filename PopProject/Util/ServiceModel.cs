@@ -40,7 +40,7 @@ namespace PopProject.Util
             {
                 접속정보[0] = dbName;
             }
-
+            serverIndex = serverIndex.Equals("cwbox") ? "wrbox" : serverIndex;
             //서비스 클라이언트 생성
             serviceClient = ServiceFactory.CreateServiceClient(serverIndex);
             accessModel = ServiceFactory.CreateAccessModel(serverIndex);

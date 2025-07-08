@@ -504,6 +504,7 @@
     <Compile Include="Util\DateTimeManager.cs" />
     <Compile Include="Util\IServiceModel.cs" />
     <Compile Include="Util\LogManager.cs" />
+    <Compile Include="Util\PLC_LS_Manager.cs" />
     <Compile Include="Util\ServiceAddressManager.cs" />
     <Compile Include="Util\ServiceFactory.cs" />
     <Compile Include="Util\SettingJsonManger.cs" />
