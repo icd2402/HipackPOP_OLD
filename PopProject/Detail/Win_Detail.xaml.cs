@@ -2787,9 +2787,18 @@ namespace PopProject.Detail
             }
             else if (SettingJsonManager.corp_name.Equals("대세물산") || SettingJsonManager.corp_name.Equals("대세물산테스트"))
             {
-                Main.robot_Setting2 = new Robot_Setting2(mainModel.prodID, mainModel.customSName, mainModel.prodName);
-                Main.robot_Setting2.ShowDialog();
-                Main.robot_Setting2 = null;
+                if (mainModel.mercName.Substring(0,2).ToString().Equals("톰슨"))
+                {
+                    Main.robot_Setting4 = new Robot_Setting4(mainModel);
+                    Main.robot_Setting4.ShowDialog();
+                    Main.robot_Setting4 = null;
+                }
+                else
+                {
+                    Main.robot_Setting2 = new Robot_Setting2(mainModel.prodID, mainModel.customSName, mainModel.prodName);
+                    Main.robot_Setting2.ShowDialog();
+                    Main.robot_Setting2 = null;
+                }
             }
         }
 

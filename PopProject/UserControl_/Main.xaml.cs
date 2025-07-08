@@ -56,6 +56,8 @@ namespace PopProject.UserControl_
         public static DSConsumer dSConsumer;
         public static Robot_Setting robot_Setting = null;
         public static Robot_Setting2 robot_Setting2 = null;
+        public static Robot_Setting3 robot_Setting3 = null;
+        public static Robot_Setting4 robot_Setting4 = null;
         public ObservableCollection<MainModel> workList;
         public ObservableCollection<MainModel> workList1;
         public ObservableCollection<MainModel> MachineCheck;

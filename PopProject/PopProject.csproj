@@ -174,6 +174,15 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="VagabondK.Protocols.Abstractions, Version=1.1.21.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VagabondK.Protocols.Abstractions.1.1.21\lib\net461\VagabondK.Protocols.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="VagabondK.Protocols.Channels, Version=1.1.21.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VagabondK.Protocols.Channels.1.1.21\lib\net461\VagabondK.Protocols.Channels.dll</HintPath>
+    </Reference>
+    <Reference Include="VagabondK.Protocols.LSElectric, Version=1.1.21.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VagabondK.Protocols.LSElectric.1.1.21\lib\net461\VagabondK.Protocols.LSElectric.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
