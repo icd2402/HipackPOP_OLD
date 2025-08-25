@@ -1771,7 +1771,7 @@ namespace PopProject.Detail
                             scmDBName = "3ED73331";
                             break;
                         case "유램":
-                            scmServerIndex = "erboxtest";
+                            scmServerIndex = "erbox";
                             scmDBName = "1461E3757";
                             break;
                         case "지온":

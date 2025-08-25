@@ -32,7 +32,7 @@ namespace PopProject.ServiceReference_mirae {
         private string inputContentField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int inputPkeyField;
+        private string inputPkeyField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string inputProcessContentField;
@@ -92,13 +92,13 @@ namespace PopProject.ServiceReference_mirae {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int inputPkey {
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        public string inputPkey {
             get {
                 return this.inputPkeyField;
             }
             set {
-                if ((this.inputPkeyField.Equals(value) != true)) {
+                if ((object.ReferenceEquals(this.inputPkeyField, value) != true)) {
                     this.inputPkeyField = value;
                     this.RaisePropertyChanged("inputPkey");
                 }
