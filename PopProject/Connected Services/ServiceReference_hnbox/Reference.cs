@@ -158,11 +158,11 @@ namespace PopProject.ServiceReference_hnbox {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Access_Model", Namespace="http://schemas.datacontract.org/2004/07/MiddleWareService.Models")]
     [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(string[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(object[]))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PopProject.ServiceReference_hnbox.DBHandle_Model))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PopProject.ServiceReference_hnbox.Access_Model[]))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PopProject.ServiceReference_hnbox.Return_Model))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(string[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(object[]))]
     public partial class Access_Model : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="J8Wt/ajsTadRG+qiIfMVL1dSV8rcthRLdWRD6Flhf1U=">
+<SavedWcfConfigurationInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="9.1" CheckSum="lE8pu3oOW0x9eK4eVRuyE2pRtkyf2VR4OGZgEK23NKM=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_IService_CRUD20">
       <properties>
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="BasicHttpBinding_IService_CRUD20" contract="ServiceReference_npbox.IService_CRUD" bindingType="basicHttpBinding" address="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" bindingConfiguration="BasicHttpBinding_IService_CRUD20">
+    <endpoint name="BasicHttpBinding_IService_CRUD20" contract="ServiceReference_npbox.IService_CRUD" bindingType="basicHttpBinding" address="http://183.107.68.4:8088/WAS/Access_MiddleWare_CRUD.svc" bindingConfiguration="BasicHttpBinding_IService_CRUD20">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc</serializedValue>
+          <serializedValue>http://183.107.68.4:8088/WAS/Access_MiddleWare_CRUD.svc</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

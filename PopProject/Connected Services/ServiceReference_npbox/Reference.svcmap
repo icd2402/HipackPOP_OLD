@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="6cc3cdb9-925a-458c-b219-7b4811c044e9" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="6cc3cdb9-925a-458c-b219-7b4811c044e9" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,15 +19,15 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://183.107.68.4:8088/WAS/Access_MiddleWare_CRUD.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Access_MiddleWare_CRUD.xsd" MetadataType="Schema" ID="3b81c021-d600-4d77-86a2-7485ec10d2b9" SourceId="1" SourceUrl="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd3" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD.disco" MetadataType="Disco" ID="d4d19765-808c-4bf9-8240-de23f6275f04" SourceId="1" SourceUrl="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?disco" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD1.xsd" MetadataType="Schema" ID="ece8413f-b3e8-422e-bda0-962bd6b21a33" SourceId="1" SourceUrl="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd0" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD2.xsd" MetadataType="Schema" ID="207beb89-9765-4fad-9bec-a8a7f0c132d4" SourceId="1" SourceUrl="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd2" />
-    <MetadataFile FileName="Service_CRUD.wsdl" MetadataType="Wsdl" ID="7cdd2068-e202-423b-b0b7-02990187f01a" SourceId="1" SourceUrl="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?wsdl" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD3.xsd" MetadataType="Schema" ID="3994c770-cf7c-4b5e-9e5a-870a6a1ba98b" SourceId="1" SourceUrl="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd1" />
+    <MetadataFile FileName="Service_CRUD1.wsdl" MetadataType="Wsdl" ID="74552a5a-fdcb-4e6e-b763-1be29a1c26f7" SourceId="1" SourceUrl="http://183.107.68.4:8088/WAS/Access_MiddleWare_CRUD.svc?wsdl" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD4.xsd" MetadataType="Schema" ID="6c147434-b655-423d-97dd-0c64ffd422d6" SourceId="1" SourceUrl="http://183.107.68.4:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd3" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD1.disco" MetadataType="Disco" ID="862b1fee-e732-4a1c-af04-5deb46f394b5" SourceId="1" SourceUrl="http://183.107.68.4:8088/WAS/Access_MiddleWare_CRUD.svc?disco" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD41.xsd" MetadataType="Schema" ID="32ddb716-6f27-46c9-a52c-6453bca48be2" SourceId="1" SourceUrl="http://183.107.68.4:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd1" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD42.xsd" MetadataType="Schema" ID="b4be408a-659e-4b39-b531-67ee16922c52" SourceId="1" SourceUrl="http://183.107.68.4:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd2" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD43.xsd" MetadataType="Schema" ID="0a3acad1-ccac-49e6-bec7-897f2142f3d7" SourceId="1" SourceUrl="http://183.107.68.4:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
