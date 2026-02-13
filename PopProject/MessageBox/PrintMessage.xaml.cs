@@ -302,7 +302,7 @@ namespace PopProject.MessageBox
                     else if (SettingJsonManager.corp_name.Equals("오주포장") || SettingJsonManager.corp_name.Equals("오주포장테스트"))
                     {
 
-                        pr3.corpName = SettingJsonManager.accountCheck ? "" : mainModel.corpName; //거래처 상호
+                        pr3.corpName = SettingJsonManager.accountCheck ? "" : result["customSName"].ToString(); //거래처 상호
                         pr3.MycustomSName = SettingJsonManager.productionCheck ? "" : SettingJsonManager.corp_name; //생산처
                         pr3.customSName = result["customSName"].ToString();           //거래처명
                         pr3.prodName = result["prodName"].ToString();                 //품명
