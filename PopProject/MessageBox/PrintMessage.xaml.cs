@@ -746,7 +746,7 @@ namespace PopProject.MessageBox
             // 페이지 높이 사이즈 
             Set_FixedPage.Height = Dbl_HeightReportPageHeightSize;
 
-            pr3.corpName = mainModel.corpName;
+            pr3.corpName = customSName; //mainModel.corpName;
             pr3.MycustomSName = SettingJsonManager.productionCheck ? "" : SettingJsonManager.corp_name;
             pr3.customSName = customSName;
             pr3.prodName = prodName;
