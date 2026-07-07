@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://miraebox.float-zone.com/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MiddleWareService.Models" />
-  <xs:import schemaLocation="http://miraebox.float-zone.com/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MiddleWareService.Models" />
+  <xs:import schemaLocation="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:element name="조회">
     <xs:complexType>
       <xs:sequence>
@@ -149,6 +149,63 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="Android용차납품Result" nillable="true" type="xs:string" />
       </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="메일수신">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="회원ID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="메일내용" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="수신메일" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="메일수신Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="메일수신Result" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="카카오톡전송">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UserID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="APIKey" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SenderKey" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="TempleteID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="TempleteName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SenderPhoneNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ReceiverPhoneNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ReceiverName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SendMassage" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SendImageLink" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="카카오톡전송Response">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="카카오톡전송_NotButton">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UserID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="APIKey" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SenderKey" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="TempleteID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="TempleteName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SenderPhoneNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ReceiverPhoneNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ReceiverName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SendMassage" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="카카오톡전송_NotButtonResponse">
+    <xs:complexType>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
   <xs:element name="Print갱신">

@@ -27,7 +27,9 @@
                 </ComboBox>
             </Border>
             <Border BorderBrush="#abbfd9" BorderThickness="2" Width="190" Height="50" Canvas.Left="147" Canvas.Top="176" >
-                <TextBox BorderBrush="{x:Null}" Text="{Binding perrCount, UpdateSourceTrigger=PropertyChanged}" Margin="1,0,-1,0" FontSize="22" TextAlignment="Center" VerticalContentAlignment="Center" MouseLeftButtonDown="TextBox_MouseLeftButtonDown" Focusable="False" />
+                <TextBox x:Name="tbError" BorderBrush="{x:Null}" Text="{Binding perrCount, UpdateSourceTrigger=PropertyChanged}" 
+                         Margin="1,0,-1,0" FontSize="22" TextAlignment="Center" VerticalContentAlignment="Center" 
+                         MouseLeftButtonDown="TextBox_MouseLeftButtonDown" Focusable="False" />
             </Border>
         </Canvas>
     </Border>

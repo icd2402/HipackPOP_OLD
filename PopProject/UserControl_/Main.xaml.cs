@@ -954,7 +954,7 @@ namespace PopProject.UserControl_
                 // 현재 서버에서 데이터 조회
                 ReturnModel returnData = ServiceModel.GetData(
                     ServerIndex,
-                    "[PopWorkList]",
+                    "[PopWorkList_Test]",
                     new string[] { "@pplanDate" },
                     new string[] { DateTimeManager.GetSelectedDateStr() }, // 날짜 변경용
                     0
@@ -1041,6 +1041,8 @@ namespace PopProject.UserControl_
                                     listitem.left = 250;
                                     break;
 
+                                case "누리팩":
+                                case "누리팩테스트":
                                 case "신우수출포장":
                                 case "신우포장테스트":
                                     run수주일자.Text = "[수주일자]";

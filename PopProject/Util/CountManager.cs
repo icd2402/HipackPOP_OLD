@@ -56,7 +56,7 @@ namespace PopProject.Util
                 {"원팩", "http://hnbox.iptime.org:18888/pop"},
                 {"금성포장공업", "http://kumsungbox.iptime.org:18888/pop"},
                 //{"오주포장", "http://ojbox.iptime.org:18888/pop"},
-                {"미래포장", "http://miraebox.float-zone.com:18888/pop"},
+                {"미래포장", "http://newpackcombox.iptime.org:18888/pop"},
 
                 {"하나포장테스트", "http://hnbox.iptime.org:18888/pop"},
                 {"광성수출포장테스트", "http://ksbox.iptime.org:18888/pop"},
@@ -80,7 +80,7 @@ namespace PopProject.Util
                 {"승산팩테스트",       "http://106.249.249.82:18888/pop"},
                 {"금성포장공업테스트", "http://kumsungbox.iptime.org:18888/pop"},
                 //{"오주포장테스트", "http://ojbox.iptime.org:18888/pop"},
-                {"미래포장테스트", "http://miraebox.float-zone.com:18888/pop"},
+                {"미래포장테스트", "http://newpackcombox.iptime.org:18888/pop"},
 
                 {"국제포장테스트", "http://localhost:18888/pop"},
             };

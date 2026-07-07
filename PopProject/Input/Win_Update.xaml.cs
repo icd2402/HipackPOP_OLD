@@ -1,5 +1,6 @@
 ﻿
 using PopProject.input;
+using PopProject.KeyBoard;
 using PopProject.MessageBox;
 using PopProject.Util;
 using System;
@@ -17,6 +18,9 @@ namespace PopProject.Input
     {
         // private errorModel errorModel;
         private readonly float beforePerrorCount = 0;
+        private readonly float pCnt = 0;
+        private Win_KeyBoard win_KeyBoard;
+        public InputModel inputModel;
 
         public Win_Update(errorModel errorModel, ObservableCollection<string> errorOb)
         {
@@ -128,6 +132,33 @@ namespace PopProject.Input
 
         private void TextBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (sender.GetType().Name.Equals("TextBox")) //텍스트박스 클릭
+            {
+                TextBox context = (TextBox)sender;
+
+                //결과 카운터 텍스트 클릭
+                //설정에서 키인사용 체크시
+                if (SettingJsonManager.keyinCheck)
+                {
+                    tbError.Focusable = true;
+                    _ = tbError.Focus();
+                    _ = tbError.Dispatcher.BeginInvoke(new Action(() => { tbError.SelectAll(); }));
+                }
+                //미체크
+                else
+                {
+                    inputModel = new InputModel();
+                    inputModel.pCnt = pCnt;
+                    win_KeyBoard = new Win_KeyBoard(context, context.DataContext, inputModel)
+                    {
+
+                        Left = SystemParameters.WorkArea.Width - Width,
+                        Top = (SystemParameters.WorkArea.Height / 2) - Top
+                    };
+                    _ = win_KeyBoard.ShowDialog();
+                    win_KeyBoard = null;
+                }
+            }
         }
     }
 }

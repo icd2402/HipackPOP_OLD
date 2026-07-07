@@ -92,7 +92,7 @@ namespace PopProject.ServiceReference_mirae {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string inputPkey {
             get {
                 return this.inputPkeyField;
@@ -158,11 +158,11 @@ namespace PopProject.ServiceReference_mirae {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Access_Model", Namespace="http://schemas.datacontract.org/2004/07/MiddleWareService.Models")]
     [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(string[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(object[]))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PopProject.ServiceReference_mirae.DBHandle_Model))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PopProject.ServiceReference_mirae.Access_Model[]))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PopProject.ServiceReference_mirae.Return_Model))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(string[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(object[]))]
     public partial class Access_Model : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
@@ -355,6 +355,24 @@ namespace PopProject.ServiceReference_mirae {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService_CRUD/Android용차납품", ReplyAction="http://tempuri.org/IService_CRUD/Android용차납품Response")]
         System.Threading.Tasks.Task<string> Android용차납품Async(string value1, string value2, string value3);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService_CRUD/메일수신", ReplyAction="http://tempuri.org/IService_CRUD/메일수신Response")]
+        string 메일수신(string 회원ID, string 메일내용, string 수신메일);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService_CRUD/메일수신", ReplyAction="http://tempuri.org/IService_CRUD/메일수신Response")]
+        System.Threading.Tasks.Task<string> 메일수신Async(string 회원ID, string 메일내용, string 수신메일);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService_CRUD/카카오톡전송", ReplyAction="http://tempuri.org/IService_CRUD/카카오톡전송Response")]
+        void 카카오톡전송(string UserID, string APIKey, string SenderKey, string TempleteID, string TempleteName, string SenderPhoneNumber, string ReceiverPhoneNumber, string ReceiverName, string SendMassage, string SendImageLink);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService_CRUD/카카오톡전송", ReplyAction="http://tempuri.org/IService_CRUD/카카오톡전송Response")]
+        System.Threading.Tasks.Task 카카오톡전송Async(string UserID, string APIKey, string SenderKey, string TempleteID, string TempleteName, string SenderPhoneNumber, string ReceiverPhoneNumber, string ReceiverName, string SendMassage, string SendImageLink);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService_CRUD/카카오톡전송_NotButton", ReplyAction="http://tempuri.org/IService_CRUD/카카오톡전송_NotButtonResponse")]
+        void 카카오톡전송_NotButton(string UserID, string APIKey, string SenderKey, string TempleteID, string TempleteName, string SenderPhoneNumber, string ReceiverPhoneNumber, string ReceiverName, string SendMassage);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService_CRUD/카카오톡전송_NotButton", ReplyAction="http://tempuri.org/IService_CRUD/카카오톡전송_NotButtonResponse")]
+        System.Threading.Tasks.Task 카카오톡전송_NotButtonAsync(string UserID, string APIKey, string SenderKey, string TempleteID, string TempleteName, string SenderPhoneNumber, string ReceiverPhoneNumber, string ReceiverName, string SendMassage);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService_CRUD/Print갱신", ReplyAction="http://tempuri.org/IService_CRUD/Print갱신Response")]
         void Print갱신(string[] 접속정보, string 제목, string Type, string DeviceName, string PageRange, string PrintPageCount, string PrintCopyCount, string ProcessState);
         
@@ -459,6 +477,30 @@ namespace PopProject.ServiceReference_mirae {
         
         public System.Threading.Tasks.Task<string> Android용차납품Async(string value1, string value2, string value3) {
             return base.Channel.Android용차납품Async(value1, value2, value3);
+        }
+        
+        public string 메일수신(string 회원ID, string 메일내용, string 수신메일) {
+            return base.Channel.메일수신(회원ID, 메일내용, 수신메일);
+        }
+        
+        public System.Threading.Tasks.Task<string> 메일수신Async(string 회원ID, string 메일내용, string 수신메일) {
+            return base.Channel.메일수신Async(회원ID, 메일내용, 수신메일);
+        }
+        
+        public void 카카오톡전송(string UserID, string APIKey, string SenderKey, string TempleteID, string TempleteName, string SenderPhoneNumber, string ReceiverPhoneNumber, string ReceiverName, string SendMassage, string SendImageLink) {
+            base.Channel.카카오톡전송(UserID, APIKey, SenderKey, TempleteID, TempleteName, SenderPhoneNumber, ReceiverPhoneNumber, ReceiverName, SendMassage, SendImageLink);
+        }
+        
+        public System.Threading.Tasks.Task 카카오톡전송Async(string UserID, string APIKey, string SenderKey, string TempleteID, string TempleteName, string SenderPhoneNumber, string ReceiverPhoneNumber, string ReceiverName, string SendMassage, string SendImageLink) {
+            return base.Channel.카카오톡전송Async(UserID, APIKey, SenderKey, TempleteID, TempleteName, SenderPhoneNumber, ReceiverPhoneNumber, ReceiverName, SendMassage, SendImageLink);
+        }
+        
+        public void 카카오톡전송_NotButton(string UserID, string APIKey, string SenderKey, string TempleteID, string TempleteName, string SenderPhoneNumber, string ReceiverPhoneNumber, string ReceiverName, string SendMassage) {
+            base.Channel.카카오톡전송_NotButton(UserID, APIKey, SenderKey, TempleteID, TempleteName, SenderPhoneNumber, ReceiverPhoneNumber, ReceiverName, SendMassage);
+        }
+        
+        public System.Threading.Tasks.Task 카카오톡전송_NotButtonAsync(string UserID, string APIKey, string SenderKey, string TempleteID, string TempleteName, string SenderPhoneNumber, string ReceiverPhoneNumber, string ReceiverName, string SendMassage) {
+            return base.Channel.카카오톡전송_NotButtonAsync(UserID, APIKey, SenderKey, TempleteID, TempleteName, SenderPhoneNumber, ReceiverPhoneNumber, ReceiverName, SendMassage);
         }
         
         public void Print갱신(string[] 접속정보, string 제목, string Type, string DeviceName, string PageRange, string PrintPageCount, string PrintCopyCount, string ProcessState) {

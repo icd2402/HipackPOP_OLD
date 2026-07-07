@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/MiddleWareService.Models" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/MiddleWareService.Models" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://miraebox.float-zone.com/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:complexType name="DBHandle_Model">
     <xs:sequence>
       <xs:element minOccurs="0" name="BroadCasting" type="xs:int" />
       <xs:element minOccurs="0" name="BroadCastingName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="inputContent" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="inputPkey" type="xs:string" />
+      <xs:element minOccurs="0" name="inputPkey" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="inputProcessContent" nillable="true" type="xs:string" />
       <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="접속정보" nillable="true" type="q1:ArrayOfstring" />
       <xs:element minOccurs="0" name="프로시저" nillable="true" type="tns:ArrayOfAccess_Model" />

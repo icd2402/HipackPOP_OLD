@@ -8,7 +8,7 @@ namespace PopProject.Util
         private static readonly Dictionary<(string, string), string> _serviceAddresses = new Dictionary<(string, string), string>
         {
             {( "ojbox", "ojbox"), "http://ojbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" }, //오주 1
-            {( "miraebox", "mirae"), "http://miraebox.float-zone.com/WAS/Access_MiddleWare_CRUD.svc" },   //미래 2
+            {( "miraebox", "mirae"), "http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },   //미래 2
             {( "hnbox", "hnbox"), "http://hnbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //하나 3
             {( "ksbox", "ksbox"), "http://ksbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //광성 4
             {( "shbox", "shbox"), "http://shbox1.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //선호 5
@@ -30,14 +30,14 @@ namespace PopProject.Util
             {( "hsbox1","hsbox"), "http://hsbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //혜성(주)20 로그인시 계정
             {( "hssbox","hsbox"), "http://hsbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //혜성(주)20 서비스추출 계정
             
-            {( "sgbox","sgbox"), "http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //성지 21
+            {( "sgbox","sgbox"), "http://sjbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //성지 21
             {( "khbox","khbox"), "http://khbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //금화 22
              
             {( "opbox" ,"opbox" ), "http://hnbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //원팩 23
             {( "kmsbox","kmsbox"), "http://kumsungbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },   //금성 24
-            {( "npbox" ,"npbox"), "http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //내포 25
-            {( "sspbox","ssngsanpackbox"), "http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //승산 27
-            {( "chsbox","chsbox"), "http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //참스 28
+            {( "npbox" ,"npbox"), "http://183.107.68.4:8088/WAS/Access_MiddleWare_CRUD.svc" },     //내포 25
+            {( "sspbox","ssngsanpackbox"), "http://ssbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //승산 27
+            {( "chsbox","chsbox"), "http://chams001.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //참스 28
             // 필요에 따라 추가
         };
 

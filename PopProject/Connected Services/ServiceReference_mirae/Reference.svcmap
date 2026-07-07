@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f599ef86-542f-4461-96f0-78440510e31b" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="f599ef86-542f-4461-96f0-78440510e31b" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,15 +19,15 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://miraebox.float-zone.com/WAS/Access_MiddleWare_CRUD.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Access_MiddleWare_CRUD.xsd" MetadataType="Schema" ID="065c849a-a142-4d51-bb50-e09983801970" SourceId="1" SourceUrl="http://miraebox.float-zone.com/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd2" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD1.xsd" MetadataType="Schema" ID="ba894545-1f23-481e-af86-58c04f61e7d2" SourceId="1" SourceUrl="http://miraebox.float-zone.com/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd3" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD2.xsd" MetadataType="Schema" ID="554dc96a-2cbf-4649-85ae-2089a412ec08" SourceId="1" SourceUrl="http://miraebox.float-zone.com/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd0" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD3.xsd" MetadataType="Schema" ID="dced79c6-609e-4325-936d-3c2c599c5a7e" SourceId="1" SourceUrl="http://miraebox.float-zone.com/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd1" />
-    <MetadataFile FileName="Service_CRUD.wsdl" MetadataType="Wsdl" ID="70ba32b8-e7bd-4ef0-bb71-3b3269e4f2ae" SourceId="1" SourceUrl="http://miraebox.float-zone.com/WAS/Access_MiddleWare_CRUD.svc?wsdl" />
-    <MetadataFile FileName="Access_MiddleWare_CRUD.disco" MetadataType="Disco" ID="db71eaa8-bbef-4bb7-80bc-62352cd63f42" SourceId="1" SourceUrl="http://miraebox.float-zone.com/WAS/Access_MiddleWare_CRUD.svc?disco" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD4.xsd" MetadataType="Schema" ID="6e4a879a-eaee-4547-89be-51819a27a339" SourceId="1" SourceUrl="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd0" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD41.xsd" MetadataType="Schema" ID="e673b47f-8802-4387-8e13-15f04462ee1e" SourceId="1" SourceUrl="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd3" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD1.disco" MetadataType="Disco" ID="638f1bc7-3d72-4f7c-8a45-339ffe57ea60" SourceId="1" SourceUrl="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?disco" />
+    <MetadataFile FileName="Service_CRUD1.wsdl" MetadataType="Wsdl" ID="e38611b9-3d78-4dcb-9cf8-41ee4f33a955" SourceId="1" SourceUrl="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?wsdl" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD42.xsd" MetadataType="Schema" ID="aeb64233-574c-490f-907a-f35e9bb4d05f" SourceId="1" SourceUrl="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd2" />
+    <MetadataFile FileName="Access_MiddleWare_CRUD43.xsd" MetadataType="Schema" ID="5a574388-9715-4dfd-9213-4feb7c120f55" SourceId="1" SourceUrl="http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc?xsd=xsd1" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
