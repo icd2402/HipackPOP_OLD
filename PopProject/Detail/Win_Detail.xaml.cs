@@ -1527,6 +1527,8 @@ namespace PopProject.Detail
             new object[] { mainModel.prodID },
             0
             );
+            picMemo.Text = "";
+            string imageMemo = "";
 
             if (returnData.결과 == 1)
             {
@@ -1538,7 +1540,15 @@ namespace PopProject.Detail
                     {
                         string uri = SettingJsonManager.url + mainModel.DBName + "/" + result["photoName"].ToString();
                         string imageName = result["photoName"].ToString();
-
+                        if (imageMemo.Equals(""))
+                        {
+                            imageMemo = result["photoMemo"].ToString();
+                        }
+                        else
+                        {
+                            imageMemo = imageMemo + "\r\n" + result["photoMemo"].ToString();
+                        }
+                        picMemo.Text = "메모 : " + imageMemo;
                         //ftp용 uri, 파일명 저장
                         ftpUri = uri;
                         ImagName = result["photoName"].ToString();
@@ -2168,6 +2178,10 @@ namespace PopProject.Detail
                         //메모
                         //우리6사는 메모 사용 안함 (박소연대리? 요청)
                         if (SettingJsonManager.corp_name.Equals("신우수출포장") || SettingJsonManager.corp_name.Equals("누리팩") || SettingJsonManager.corp_name.Equals("우리포장") || SettingJsonManager.corp_name.Equals("유램"))
+                        {
+                            tb공정별.Text = tb공정별.Text.ToString();
+                        }
+                        else if (SettingJsonManager.corp_name.Contains("대양포장"))
                         {
                             tb공정별.Text = tb공정별.Text.ToString();
                         }

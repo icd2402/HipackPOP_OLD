@@ -11,8 +11,9 @@
             <Image x:Name="jonggu" Width="287" Height="183" Canvas.Left="266" Canvas.Top="350"></Image>
             <Image Source="/img/back_03.png" Canvas.Left="-2" Canvas.Top="-1" Width="560" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
             <TextBlock Text="|" FontSize="24" Foreground="White" Canvas.Top="11" Canvas.Left="14"></TextBlock>
-            <TextBlock Text="공정" FontSize="24" Foreground="White" Canvas.Top="18" Canvas.Left="25" FontFamily="/font/#KoPubDotum Bold"></TextBlock>
-            <TextBlock Text="세부정보" FontSize="24" Foreground="White" Canvas.Top="18" Canvas.Left="79" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown ="hiddenBt"></TextBlock>
+            <!--<TextBlock Text="공정" FontSize="24" Foreground="White" Canvas.Top="18" Canvas.Left="25" FontFamily="/font/#KoPubDotum Bold"></TextBlock>-->
+            <TextBlock Text="세부정보" FontSize="24" Foreground="White" Canvas.Top="18" Canvas.Left="25" FontFamily="/font/#KoPubDotum Bold" MouseLeftButtonDown ="hiddenBt"></TextBlock>
+            <Image x:Name="image_close" Height="50" Source="/img/out_02.png" Canvas.Left="120" Canvas.Top="4" MouseDown="Detail_close"/>
             <Border BorderBrush="Black" Height="890" Canvas.Left="557" BorderThickness="0,0,1,0"/>
             <TextBox x:Name="tbBarcode" Text="00000000000" Background="Black" HorizontalAlignment="Left" Width="80" Height="12" Visibility="Visible" Opacity="0.2" KeyDown="tbBarcode_KeyDown"  Canvas.Left="19" Canvas.Top="48"/>
 
@@ -52,7 +53,7 @@
             </Border>-->
 
 
-            <Image Source="/img/title_02.png" Canvas.Left="557" Canvas.Top="529"/>
+            <Image Source="/img/title_02.png" Canvas.Left="557" Canvas.Top="568" Height="230"/>
             <Image Source="/img/back_06.png" Canvas.Left="558" Canvas.Top="798"  Stretch="Fill" Width="670" Height="90"/>
             <Image Source="/img/bn_04.png" Canvas.Left="1065" Canvas.Top="802" MouseDown="Detail_close"/>
             <!--<Image Source="/img/Dot.png" Canvas.Left="1" Canvas.Top="369" Width="556" Visibility=""/>-->
@@ -74,6 +75,8 @@
 
             <Image Source="/img/Dot.png" Canvas.Top="529" Width="616" Height="4" Stretch="Fill" Canvas.Left="609"/>
             <Image x:Name="pic" Width="632" Height="484" Canvas.Left="577" Canvas.Top="17" MouseDown="Image_Detail"  Stretch="Fill"></Image>
+            <TextBlock x:Name="picMemo" Text="..." Foreground="red" Canvas.Left="610" Canvas.Top="535" FontSize="16" FontFamily="/font/#KoPubDotum Medium"></TextBlock>
+
             <TextBlock x:Name="tbNoCount" Text="인쇄사양이 없습니다." Canvas.Left="826" Canvas.Top="239" FontSize="20" FontFamily="/font/#KoPubDotum Medium" Visibility="Collapsed"></TextBlock>
             <Image x:Name="picCount" Source="/img/b_03.png" Canvas.Left="1117" Canvas.Top="482" MouseLeftButtonDown="Image_next"/>
             <TextBlock x:Name="tbPicCount" Text="1/3" Foreground="White" FontSize="20" Canvas.Left="1139" Canvas.Top="485"  MouseLeftButtonDown="Image_next"/>
@@ -318,9 +321,9 @@
             </ScrollViewer>
 
             <!--가입고 버튼 없는 창-->
-            <ScrollViewer x:Name="sv2" Width="595" Height="225" Canvas.Left="618" Canvas.Top="540" VerticalScrollBarVisibility="Hidden" PreviewMouseLeftButtonDown="Sv_PreviewMouseLeftButtonDown" 
+            <ScrollViewer x:Name="sv2" Width="610" Height="195" Canvas.Left="600" Canvas.Top="570" VerticalScrollBarVisibility="Hidden" PreviewMouseLeftButtonDown="Sv_PreviewMouseLeftButtonDown" 
                       PreviewMouseLeftButtonUp="Sv_PreviewMouseLeftButtonUp" PreviewMouseMove="Sv_PreviewMouseMove">
-                <ItemsControl x:Name="ic2" Width="595" Height="225" Canvas.Left="618" Canvas.Top="540" >
+                <ItemsControl x:Name="ic2" Width="610" Height="195" Canvas.Left="600" Canvas.Top="570" >
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"></StackPanel>
