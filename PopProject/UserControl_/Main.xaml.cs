@@ -1161,19 +1161,15 @@ namespace PopProject.UserControl_
                                 }
                             }
 
-                            //품명 길이가 넘어갈 경우 두줄 표현 (오주 요청)
+                            //품명: 전체 품명은 아래에서 대입, XAML에서 자동 줄바꿈(최대 2줄) 표기. 길이에 따라 높이(Top)만 조절 (오주 요청)
                             string prodNames = result["prodName"].ToString();
-                            if (prodNames.Length > 32)
+                            if (prodNames.Length > 18) //한 줄(폭 300px, 16pt)에 안 들어가면 2줄 위치
                             {
-                                listitem.prodName = prodNames.Substring(0, 32); //첫번째 줄
-                                listitem.prodName2 = prodNames.Substring(32); //두번째 줄
-                                listitem.Canvas = "35"; //높이 조절
+                                listitem.Canvas = "35"; //2줄 위치(높이 조절)
                             }
-                            //안넘어 가면 한줄 표현 (기본)
                             else
                             {
-                                listitem.Canvas = "43"; //높이 조절
-                                listitem.prodName = result["prodName"].ToString(); //품명
+                                listitem.Canvas = "43"; //1줄 위치(높이 조절)
                             }
 
                             listitem.pplanKey = int.Parse(result["pplanKey"].ToString()); //계획키

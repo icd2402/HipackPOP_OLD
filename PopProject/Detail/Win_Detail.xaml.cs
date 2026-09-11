@@ -9,6 +9,7 @@ using PopProject.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -95,7 +96,7 @@ namespace PopProject.Detail
             customSname.Text = mainModel.customSName;
             boxType.Text = "형  태 : " + mainModel.boxType;
             pplanCount.Text = "계획량 : " + mainModel.pplanCount.ToString("N0");
-            prodName.Text = mainModel.prodName;
+            FitProdName(mainModel.prodName);         // 품명 1줄/2줄 자동 배치(형태·공정과 겹침 방지)
             subOb.ItemsSource = mainModel.subOb;
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
@@ -347,7 +348,7 @@ namespace PopProject.Detail
             pplanCount.Text = "계획량 : " + mainModel.pplanCount.ToString("N0");
             tb파렛트적재높이.Text = this.mainModel.PalletHeight;
             tb파렛트적재매수.Text = this.mainModel.PalletCount;
-            prodName.Text = mainModel.prodName;
+            FitProdName(mainModel.prodName);         // 품명 1줄/2줄 자동 배치(형태·공정과 겹침 방지)
             subOb.ItemsSource = mainModel.subOb;
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
@@ -376,7 +377,7 @@ namespace PopProject.Detail
             pplanCount.Text = "계획량 : " + mainModel.pplanCount.ToString("N0");
             tb파렛트적재높이.Text = this.mainModel.PalletHeight;
             tb파렛트적재매수.Text = this.mainModel.PalletCount;
-            prodName.Text = mainModel.prodName;
+            FitProdName(mainModel.prodName);         // 품명 1줄/2줄 자동 배치(형태·공정과 겹침 방지)
             subOb.ItemsSource = mainModel.subOb;
             tb공정별.Text = special.Replace("|", "\n");
             pSize.Text = mainModel.pSize;
@@ -2077,6 +2078,44 @@ namespace PopProject.Detail
         }
 
         //세부정보 조회 (왼쪽화면)
+        // 품명 표시 최적화: 32자 이하=1줄(폭 525 초과 시 폰트 축소), 32자 초과=2줄(형태 180·공정 192 위 높이 44 내에서 폰트 축소 → 겹침 방지)
+        private void FitProdName(string name)
+        {
+            name = name ?? "";
+            prodName.Text = name;
+
+            Typeface typeface = new Typeface(prodName.FontFamily, prodName.FontStyle, prodName.FontWeight, prodName.FontStretch);
+            const double boxW = 525;   // 좌측 패널 폭(세로 분리선 557 이전)
+
+            if (name.Length > 32)      // 한글 32자 초과 → 2줄
+            {
+                prodName.TextWrapping = TextWrapping.Wrap;
+                prodName.MaxHeight = 44;   // 2줄 상한 (Top 135 + 44 = 179 < 형태 180)
+                double fs = 38;
+                while (fs > 10)
+                {
+                    FormattedText ft = new FormattedText(name, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                        typeface, fs, Brushes.White, 1.0) { MaxTextWidth = boxW };
+                    if (ft.Height <= 44) break;   // 폭 525로 줄바꿈했을 때 2줄(높이 44) 이내면 확정
+                    fs -= 1;
+                }
+                prodName.FontSize = fs;
+            }
+            else                        // 32자 이하 → 1줄 (폭 525 초과 시 축소)
+            {
+                prodName.TextWrapping = TextWrapping.NoWrap;
+                double fs = 38;
+                while (fs > 10)
+                {
+                    FormattedText ft = new FormattedText(name, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                        typeface, fs, Brushes.White, 1.0);
+                    if (ft.WidthIncludingTrailingWhitespace <= boxW) break;
+                    fs -= 1;
+                }
+                prodName.FontSize = fs;
+            }
+        }
+
         private void DetailSearch()
         {
             ServiceModel.ServiceModelClean(mainModel.ServerIndex, mainModel.DBName);

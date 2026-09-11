@@ -32,7 +32,7 @@
     <MinimumRequiredVersion>1.0.1.459</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>491</ApplicationRevision>
+    <ApplicationRevision>492</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -212,6 +212,11 @@
     </ApplicationDefinition>
     <Compile Include="AsyncObject.cs" />
     <Compile Include="Cls_Variable.cs" />
+    <Compile Include="Connected Services\ServiceReference_dongju\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\ServiceReference_dsbox\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -895,6 +900,22 @@
     <Resource Include="font\KOPUBDOTUMBOLD.TTF" />
     <Resource Include="font\KOPUBDOTUMLIGHT.TTF" />
     <Resource Include="font\KOPUBDOTUMMEDIUM.TTF" />
+    <None Include="Connected Services\ServiceReference_dongju\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dongju\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dongju\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dongju\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_dongju\PopProject.ServiceReference_dongju.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_dongju\Service_CRUD.wsdl" />
     <None Include="Connected Services\ServiceReference_dsbox\Access_MiddleWare_CRUD.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1377,6 +1398,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_dongju\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_dsbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_dubox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_dybox\" />
@@ -1796,6 +1818,13 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Connected Services\ServiceReference_mirae\Access_MiddleWare_CRUD1.disco" />
+    <None Include="Connected Services\ServiceReference_dongju\Access_MiddleWare_CRUD.disco" />
+    <None Include="Connected Services\ServiceReference_dongju\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceReference_dongju\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceReference_dongju\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

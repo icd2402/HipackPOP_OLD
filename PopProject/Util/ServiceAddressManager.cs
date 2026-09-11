@@ -38,6 +38,11 @@ namespace PopProject.Util
             {( "npbox" ,"npbox"), "http://183.107.68.4:8088/WAS/Access_MiddleWare_CRUD.svc" },     //내포 25
             {( "sspbox","ssngsanpackbox"), "http://ssbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //승산 27
             {( "chsbox","chsbox"), "http://chams001.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //참스 28
+
+            {( "djbox","dongju"), "http://djbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //동주 29
+            {( "djboxtest","dongju"), "http://djbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //동주 29
+            {( "dypbox", "dongyang"), "http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //동양포장 30
+            {( "dypboxtest", "dongyang"), "http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //동양포장 30
             // 필요에 따라 추가
         };
 

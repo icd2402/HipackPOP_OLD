@@ -25,7 +25,8 @@
             <TextBlock Name="customSname" Text="{Binding customSName}" FontSize="22" Foreground="White" Canvas.Left="116" Canvas.Top="84" FontFamily="/font/#KoPubDotum Medium"/>
             <TextBlock Name="pplanCount"  FontSize="22" Foreground="White" Canvas.Left="406" Canvas.Top="84" FontFamily="/font/#KoPubDotum Medium"/>
 
-            <TextBlock Name="prodName"  Text="{Binding prodName}" FontSize="38" Foreground="White" Canvas.Left="27" Canvas.Top="135" FontFamily="/font/#KoPubDotum Bold"/>
+            <!-- 품명: 32자 이하=1줄(폭 525 초과 시 축소) / 32자 초과=2줄(형태·공정 위 높이 44 내 축소). 배치는 코드비하인드 FitProdName -->
+            <TextBlock Name="prodName" Text="{Binding prodName}" FontSize="38" Foreground="White" Canvas.Left="27" Canvas.Top="135" Width="525" TextTrimming="CharacterEllipsis" FontFamily="/font/#KoPubDotum Bold"/>
             <TextBlock Name="boxType" Text="{Binding boxType }" FontSize="22" Foreground="White" Canvas.Left="406" Canvas.Top="180"/>
             <Image Source="/img/b_06.png" Canvas.Left="430" Canvas.Top="2" MouseDown="Detail_List"/>
 

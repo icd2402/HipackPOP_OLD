@@ -118,7 +118,7 @@ namespace PopProject.Util
 
                     if (!mercName.Equals("") && !v.Equals(""))
                     {
-                        SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
+                        //SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
 
                     }
                 }
