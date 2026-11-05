@@ -20,6 +20,19 @@ namespace PopProject.Util
         private static string jsonString;
 #pragma warning restore CS0169 // 'CountManager.jsonString' 필드가 사용되지 않았습니다.
 
+        private static bool UseOperationState()
+        {
+            // MES 도입업체에 대한 설비 가동유무 반환으로 적용
+            return SettingJsonManager.serverIndex.Equals("npbox") ||
+                   SettingJsonManager.serverIndex.Equals("ksbox") ||
+                   SettingJsonManager.serverIndex.Equals("sspbox") ||
+                   SettingJsonManager.serverIndex.Equals("chsbox") ||
+                   SettingJsonManager.serverIndex.Equals("djbox") ||
+                   SettingJsonManager.serverIndex.Equals("khbox") ||
+                   SettingJsonManager.serverIndex.Equals("nrbox");
+        }
+
+
         static CountManager()
         {
             lockWorkCnt = new object();
@@ -34,10 +47,14 @@ namespace PopProject.Util
             // workCnt 사용 업체 리스트
             Dictionary<string, string> dicCorpsUsingWorkCnt = new Dictionary<string, string>()
             {
-                {"하나포장", "http://hnbox.iptime.org:18888/pop"},
+                {"하나포장", "http://newpackcombox.iptime.org:18888/pop"},
+                {"하나포장테스트", "http://newpackcombox.iptime.org:18888/pop"},
                 {"광성수출포장", "http://ksbox.iptime.org:18888/pop"},
+                {"광성수출포장테스트", "http://ksbox.iptime.org:18888/pop"},
                 {"선호칼라팩", "http://shbox.iptime.org:18888/pop"},
+                {"선호칼라팩테스트", "http://shbox1.iptime.org:18888/pop"},
                 {"유창포장", "http://211.253.37.232:18888/pop"},
+                {"유창포장테스트", "http://211.253.37.232:18888/pop"},
                 {"광무포장", "http://kmbox.iptime.org:18888/pop"},
                 {"대양포장", "http://dybox.iptime.org:18888/pop"},
                 {"신우수출포장", "http://swbox.iptime.org:18888/pop"},
@@ -64,24 +81,52 @@ namespace PopProject.Util
                 {"선호칼라팩테스트", "http://shbox1.iptime.org:18888/pop"},
                 {"유창포장테스트", "http://211.253.37.232:18888/pop"},
                 {"광무포장테스트", "http://kmbox.iptime.org:18888/pop"},
+                {"대양포장",       "http://dybox.iptime.org:18888/pop"},
                 {"대양포장테스트", "http://dybox.iptime.org:18888/pop"},
+                {"신우수출포장",       "http://swbox.iptime.org:18888/pop"},
                 {"신우수출포장테스트", "http://swbox.iptime.org:18888/pop"},
+                {"누리팩",       "http://erboxtest.iptime.org:18888/pop"},
                 {"누리팩테스트", "http://erboxtest.iptime.org:18888/pop"},
+                {"유램",         "http://erboxtest.iptime.org:18888/pop"},
                 {"유램테스트",   "http://erboxtest.iptime.org:18888/pop"},
+                {"우리포장산업",   "http://wrbox.iptime.org:18888/pop"},
                 {"우리포장테스트", "http://wrbox.iptime.org:18888/pop"},
+                {"혜성수출포장",       "http://hsbox.iptime.org:18888/pop"},
                 {"혜성수출포장테스트", "http://hsbox.iptime.org:18888/pop"},
+                {"㈜혜성수출포장", "http://hssbox.iptime.org:18888/pop"},
                 {"㈜혜성수출포장테스트", "http://hssbox.iptime.org:18888/pop"},
+                {"성주포장",       "http://weberp.packcom.kr:18888/pop"},
                 {"성주포장테스트", "http://weberp.packcom.kr:18888/pop"},
+                {"지온",       "http://jobox.iptime.org:18888/pop"},
                 {"지온테스트", "http://jobox.iptime.org:18888/pop"},
+                {"두성포장",       "http://dubox.iptime.org:18888/pop"},
                 {"두성포장테스트", "http://dubox.iptime.org:18888/pop"},
+                {"대세물산",       "http://dsbox.iptime.org:18888/pop"},
                 {"대세물산테스트", "http://dsbox.iptime.org:18888/pop"},
+                {"구룡산업제2공장",       "http://grbox.iptime.org:18888/pop"},
                 {"구룡산업제2공장테스트", "http://grbox.iptime.org:18888/pop"},
+                {"금화",       "http://khbox.iptime.org:18888/pop"},
                 {"금화테스트", "http://khbox.iptime.org:18888/pop"},
-                {"내포수출포장테스트", "http://106.249.249.82:18888/pop"},
-                {"승산팩테스트",       "http://106.249.249.82:18888/pop"},
-                {"금성포장공업테스트", "http://kumsungbox.iptime.org:18888/pop"},
+                {"원팩",       "http://newpackcombox.iptime.org:18888/pop"},
+                //{"오주포장", "http://ojbox.iptime.org:18888/pop"},
                 //{"오주포장테스트", "http://ojbox.iptime.org:18888/pop"},
                 {"미래포장테스트", "http://newpackcombox.iptime.org:18888/pop"},
+                {"미래포장", "http://miraebox.float-zone.com:18888/pop"},
+                {"미래포장테스트", "http://miraebox.float-zone.com:18888/pop"},
+
+                {"금성포장공업",       "http://kumsungbox.iptime.org:18888/pop"},
+                {"금성포장공업테스트", "http://kumsungbox.iptime.org:18888/pop"},
+                {"내포수출포장",       "http://npbox.iptime.org:18888/pop"},
+                {"내포수출포장테스트", "http://npbox.iptime.org:18888/pop"},
+                {"승산팩",             "http://ssbox.iptime.org:18888/pop"},
+                {"승산팩테스트",       "http://ssbox.iptime.org:18888/pop"},
+                {"참스",               "http://chsbox.iptime.org:18888/pop"},
+                {"참스테스트",         "http://chsbox.iptime.org:18888/pop"},
+                {"동주산업",           "http://djbox.iptime.org:18888/pop"},
+                {"동주산업테스트",     "http://djbox.iptime.org:18888/pop"},
+
+                {"성지포장산업",       "http://sgbox.iptime.org:18888/pop"},
+                {"성지포장산업테스트", "http://sgbox.iptime.org:18888/pop"},
 
                 {"국제포장테스트", "http://localhost:18888/pop"},
             };
@@ -105,29 +150,33 @@ namespace PopProject.Util
         {
             if (useWorkCnt)
             {
-                // Thread 동기화용 락(세마포어)
                 lock (lockWorkCnt)
                 {
                     Console.WriteLine(v);
+
+                    // 1. 기존 gathering은 항상 전송 (모니터링용)
                     _ = PopService(mercName, v);
+
+                    // 2. operationState는 추가로 전송 (설비 상태용)
+                    if (UseOperationState() && IsProductionStatus(v))
+                    {
+                        _ = SendOperationState(mercName, ConvertToMachineStatus(v));
+                    }
                 }
             }
             else
             {
+                // SignalR 방식 유지
                 try
                 {
-
                     if (!mercName.Equals("") && !v.Equals(""))
                     {
                         //SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
 
+                        SignalRAdministrator.허브.Invoke("invokeCount", ServiceModel.접속정보[0], mercName, v);
                     }
                 }
-
-                catch
-                {
-
-                }
+                catch { }
             }
         }
 
@@ -192,6 +241,46 @@ namespace PopProject.Util
         //EX) 대세물산: http://dsbox.iptime.org:18888/pop/monitoring/C91950615/합지기
         //반환값>> OK
 
+        private static bool IsProductionStatus(string value)
+        {
+            return value == "S" || value == "E";
+        }
+
+        // 설비 상태로 변환
+        private static string ConvertToMachineStatus(string status)
+        {
+            switch (status)
+            {
+                case "S": return "가동중";    // 생산시작 → 가동중
+                case "E": return "정지";      // 생산종료 → 정지
+                default: return null;
+            }
+        }
+
+        // operationState 전송
+        static async Task SendOperationState(string mercName, string status)
+        {
+            if (string.IsNullOrEmpty(status)) return;
+
+            try
+            {
+                string urlWithParameters = $"{url}/operationState/{SettingJsonManager.corp_id}/{mercName}/{status}";
+                HttpResponseMessage response = await workCntClient.GetAsync(urlWithParameters);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    LogManager.Error($"operationState 전송 실패: {status}", MethodBase.GetCurrentMethod().DeclaringType);
+                }
+                else
+                {
+                    LogManager.Info($"operationState 전송: {mercName} - {status}", MethodBase.GetCurrentMethod().DeclaringType);
+                }
+            }
+            catch (Exception e)
+            {
+                LogManager.Error($"operationState 전송 오류: {e.Message}", MethodBase.GetCurrentMethod().DeclaringType);
+            }
+        }
         static async Task PopService(string mercName, string data)
         {
             try

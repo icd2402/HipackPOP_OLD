@@ -10,6 +10,8 @@ namespace PopProject.Util
             {( "ojbox", "ojbox"), "http://ojbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" }, //오주 1
             {( "miraebox", "mirae"), "http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },   //미래 2
             {( "hnbox", "hnbox"), "http://hnbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //하나 3
+            {( "miraebox", "mirae"), "http://miraebox.float-zone.com/WAS/Access_MiddleWare_CRUD.svc" },   //미래 2
+            {( "hnbox", "hnbox"), "http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //하나 3
             {( "ksbox", "ksbox"), "http://ksbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //광성 4
             {( "shbox", "shbox"), "http://shbox1.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //선호 5
             {( "ycbox", "ycbox"), "http://211.253.37.232:8088/WAS/Access_MiddleWare_CRUD.svc" },       //유창 6
@@ -33,7 +35,7 @@ namespace PopProject.Util
             {( "sgbox","sgbox"), "http://sjbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //성지 21
             {( "khbox","khbox"), "http://khbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //금화 22
              
-            {( "opbox" ,"opbox" ), "http://hnbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //원팩 23
+            {( "opbox" ,"opbox" ), "http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //원팩 23
             {( "kmsbox","kmsbox"), "http://kumsungbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },   //금성 24
             {( "npbox" ,"npbox"), "http://183.107.68.4:8088/WAS/Access_MiddleWare_CRUD.svc" },     //내포 25
             {( "sspbox","ssngsanpackbox"), "http://ssbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //승산 27
@@ -43,6 +45,9 @@ namespace PopProject.Util
             {( "djboxtest","dongju"), "http://djbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //동주 29
             {( "dypbox", "dongyang"), "http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //동양포장 30
             {( "dypboxtest", "dongyang"), "http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },     //동양포장 30
+            {( "npbox" ,"npbox"), "http://183.107.68.4:8088/WAS/Access_MiddleWare_CRUD.svc" },     //내포 25
+            {( "sspbox","ssngsanpackbox"), "http://ssbox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //승산 27
+            {( "chsbox","chsbox"), "http://newpackcombox.iptime.org:8088/WAS/Access_MiddleWare_CRUD.svc" },    //참스 28
             // 필요에 따라 추가
         };
 

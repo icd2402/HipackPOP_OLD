@@ -18,7 +18,7 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>ftp://packcom.net:61028/Setup/POP_OLD/</PublishUrl>
+    <PublishUrl>ftp://packcom.net:61028/Setup/POP470/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -28,11 +28,12 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://www.packcom.net/Setup/POP_OLD/</InstallUrl>
+    <InstallUrl>http://www.packcom.net/Setup/POP470/</InstallUrl>
     <MinimumRequiredVersion>1.0.1.459</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <ApplicationRevision>496</ApplicationRevision>
+    <ApplicationRevision>491</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -323,6 +324,11 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Connected Services\ServiceReference_ssngsanpackbox\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference_sspbox\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -980,6 +986,19 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ServiceReference_grbox1\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_hnbox\Access_MiddleWare_CRUD4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hnbox\Access_MiddleWare_CRUD41.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hnbox\Access_MiddleWare_CRUD42.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hnbox\Access_MiddleWare_CRUD43.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_hnbox\Service_CRUD1.wsdl" />
     <None Include="Connected Services\ServiceReference_hsbox\Access_MiddleWare_CRUD.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1107,22 +1126,10 @@
     <None Include="Connected Services\ServiceReference_mirae\PopProject.ServiceReference_mirae.Return_Model.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\ServiceReference_hnbox\Access_MiddleWare_CRUD.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ServiceReference_hnbox\Access_MiddleWare_CRUD1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ServiceReference_hnbox\Access_MiddleWare_CRUD2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ServiceReference_hnbox\Access_MiddleWare_CRUD3.xsd">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Connected Services\ServiceReference_mirae\Service_CRUD.wsdl" />
     <None Include="Connected Services\ServiceReference_hnbox\PopProject.ServiceReference_hnbox.Return_Model.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\ServiceReference_hnbox\Service_CRUD.wsdl" />
     <None Include="Connected Services\ServiceReference_ksbox\Access_MiddleWare_CRUD.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1139,23 +1146,22 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ServiceReference_ksbox\Service_CRUD.wsdl" />
-    <None Include="Connected Services\ServiceReference_mirae\Service_CRUD1.wsdl" />
-    <None Include="Connected Services\ServiceReference_npbox\Access_MiddleWare_CRUD.xsd">
+    <None Include="Connected Services\ServiceReference_npbox\Access_MiddleWare_CRUD4.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_npbox\Access_MiddleWare_CRUD1.xsd">
+    <None Include="Connected Services\ServiceReference_npbox\Access_MiddleWare_CRUD41.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_npbox\Access_MiddleWare_CRUD2.xsd">
+    <None Include="Connected Services\ServiceReference_npbox\Access_MiddleWare_CRUD42.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference_npbox\Access_MiddleWare_CRUD3.xsd">
+    <None Include="Connected Services\ServiceReference_npbox\Access_MiddleWare_CRUD43.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\ServiceReference_npbox\PopProject.ServiceReference_npbox.Return_Model.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\ServiceReference_npbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_npbox\Service_CRUD1.wsdl" />
     <None Include="Connected Services\ServiceReference_nrbox\Access_MiddleWare_CRUD4.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1268,6 +1274,22 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ServiceReference_ssngsanpackbox\Service_CRUD.wsdl" />
+    <None Include="Connected Services\ServiceReference_sspbox\Access_MiddleWare_CRUD.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_sspbox\Access_MiddleWare_CRUD1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_sspbox\Access_MiddleWare_CRUD2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_sspbox\Access_MiddleWare_CRUD3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference_sspbox\PopProject.ServiceReference_sspbox.Return_Model.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference_sspbox\Service_CRUD.wsdl" />
     <None Include="Connected Services\ServiceReference_swbox\Access_MiddleWare_CRUD.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1421,6 +1443,7 @@
     <WCFMetadataStorage Include="Connected Services\ServiceReference_shbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_sjbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_ssngsanpackbox\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference_sspbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_swbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_wrbox\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference_ycbox\" />
@@ -1466,9 +1489,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\ServiceReference_hnbox\Access_MiddleWare_CRUD.disco" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\ServiceReference_hnbox\configuration91.svcinfo" />
@@ -1774,7 +1794,6 @@
     <Resource Include="img\b_08.png" />
     <Resource Include="img\b_09.png" />
     <None Include="Connected Services\ServiceReference_sjbox\Access_MiddleWare_CRUD1.disco" />
-    <None Include="Connected Services\ServiceReference_npbox\Access_MiddleWare_CRUD.disco" />
     <None Include="Connected Services\ServiceReference_npbox\configuration91.svcinfo" />
     <None Include="Connected Services\ServiceReference_npbox\configuration.svcinfo" />
     <None Include="Connected Services\ServiceReference_npbox\Reference.svcmap">
@@ -1817,14 +1836,15 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Connected Services\ServiceReference_mirae\Access_MiddleWare_CRUD1.disco" />
-    <None Include="Connected Services\ServiceReference_dongju\Access_MiddleWare_CRUD.disco" />
-    <None Include="Connected Services\ServiceReference_dongju\configuration91.svcinfo" />
-    <None Include="Connected Services\ServiceReference_dongju\configuration.svcinfo" />
-    <None Include="Connected Services\ServiceReference_dongju\Reference.svcmap">
+    <None Include="Connected Services\ServiceReference_sspbox\Access_MiddleWare_CRUD.disco" />
+    <None Include="Connected Services\ServiceReference_sspbox\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceReference_sspbox\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceReference_sspbox\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Connected Services\ServiceReference_npbox\Access_MiddleWare_CRUD1.disco" />
+    <None Include="Connected Services\ServiceReference_hnbox\Access_MiddleWare_CRUD1.disco" />
     <Content Include="System.Net.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
