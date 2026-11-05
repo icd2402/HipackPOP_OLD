@@ -2825,7 +2825,9 @@ namespace PopProject.Detail
             clickedBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D353D"));
 
             Main.passCheck = false;
-            CountManager.SendMsg(SettingJsonManager.mercName, mainModel.orderKey.ToString() + "^@"); //넘기기 (설비명, 오더키+^@)
+            // 넘기기 전용 SignalR 송신 (설비명, 오더키 → "오더키^@"). 전송 완료/실패 로그는 CountManager.SendPass 에서 실제 결과로 기록
+            // (SendMsg 는 오주포장에서 송신하지 않으므로 사용 안 함)
+            CountManager.SendPass(SettingJsonManager.mercName, mainModel.orderKey.ToString());
             Console.WriteLine("넘기기 정보 : " + SettingJsonManager.mercName + mainModel.orderKey.ToString() + "^@");
         }
 

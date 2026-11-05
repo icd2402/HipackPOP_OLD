@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.SignalR.Client;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Reflection;
@@ -127,6 +128,38 @@ namespace PopProject.Util
                 {
 
                 }
+            }
+        }
+
+        // 넘기기 전용 송신 (오주포장, 2026-11-04)
+        //  - 2026-09-11(fe15727) 카운트 SignalR 송신 제거 이후, workCnt 미사용 업체(오주포장)는 SendMsg 가 아무것도 보내지 않아 넘기기가 전달되지 않았음
+        //  - 카운트/상태 신호(A·S·E·수량)는 제거 상태 그대로 두고, 넘기기(오더키^@)만 SignalR(invokeCount)로 송신 → 수신측 Main.recive("returnCount")
+        //  - 회사 인자는 수신 그룹(JoinCompany)과 같은 corp_id 사용 (접속정보[0]은 DB명으로 바뀔 수 있음)
+        //  - 전송 결과(완료/실패)는 SignalR 호출이 끝난 뒤 기록
+        public static void SendPass(string mercName, string orderKey)
+        {
+            string data = orderKey + "^@";
+            try
+            {
+                HubConnection conn = SignalRAdministrator.연결;
+                IHubProxy hub = SignalRAdministrator.허브;
+                if (conn == null || hub == null || conn.State != ConnectionState.Connected)
+                {
+                    LogManager.Error("넘기기 전송 실패 (SignalR 미연결, 상태:" + (conn == null ? "없음" : conn.State.ToString()) + " / 설비:" + mercName + " / 오더키:" + orderKey + ")", MethodBase.GetCurrentMethod().DeclaringType);
+                    return;
+                }
+
+                hub.Invoke("invokeCount", SettingJsonManager.corp_id, mercName, data).ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
+                        LogManager.Error("넘기기 전송 실패 (설비:" + mercName + " / 오더키:" + orderKey + ") : " + t.Exception?.GetBaseException().Message, typeof(CountManager));
+                    else
+                        LogManager.Info("넘기기 전송 완료 (설비:" + mercName + " / 오더키:" + orderKey + " / 데이터:" + data + ")", typeof(CountManager));
+                });
+            }
+            catch (Exception e)
+            {
+                LogManager.Error("넘기기 전송 실패 (설비:" + mercName + " / 오더키:" + orderKey + ") : " + e.Message, MethodBase.GetCurrentMethod().DeclaringType);
             }
         }
 

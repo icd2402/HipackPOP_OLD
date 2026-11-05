@@ -75,6 +75,11 @@ namespace PopProject.UserControl_
         private double hOff = 1;
         private double vOff = 1;
         public static bool passCheck = true; //넘기기
+        // 넘기기 중복 수신 방지 : 같은 오더키 상세창이 떠 있거나, 같은 오더키를 짧은 시간 안에 다시 받으면 무시 (송신측 연속 클릭 대비)
+        private string lastPassKey = "";
+        private DateTime lastPassTime = DateTime.MinValue;
+        private string passOpenKey = "";
+        private const int PassDuplicateSeconds = 5;
 #pragma warning disable CS0414 // 'Main.CheckDateValue' 필드가 할당되었지만 사용되지 않았습니다.
         private bool CheckDateValue = true;
 #pragma warning restore CS0414 // 'Main.CheckDateValue' 필드가 할당되었지만 사용되지 않았습니다.
@@ -463,14 +468,34 @@ namespace PopProject.UserControl_
                                 string[] Split_arg2 = arg2.Split('^');
                                 if (Split_arg2.Length > 1 && Split_arg2[1].Equals("@"))
                                 {
+                                    // 실제 넘기기(데이터=오더키^@)일 때만 기록. (A=켜짐·S=시작·E=종료·숫자=카운트 등 같은 허브 신호는 제외)
+                                    LogManager.Info("넘기기 수신 (설비:" + arg1 + " / 오더키:" + Split_arg2[0] + ")", MethodBase.GetCurrentMethod().DeclaringType);
+
+                                    // 중복 수신 무시 : 같은 오더키 상세창이 이미 떠 있거나, 같은 오더키를 5초 안에 다시 받은 경우
+                                    string passKey = Split_arg2[0];
+                                    if (passKey == passOpenKey || (passKey == lastPassKey && (DateTime.Now - lastPassTime).TotalSeconds < PassDuplicateSeconds))
+                                    {
+                                        LogManager.Info("넘기기 수신 - 중복 수신 무시 (설비:" + arg1 + " / 오더키:" + passKey + ")", MethodBase.GetCurrentMethod().DeclaringType);
+                                        return;
+                                    }
+                                    lastPassKey = passKey;
+                                    lastPassTime = DateTime.Now;
+
+                                    bool orderFound = false;
                                     for (int i = 0; i < workList.Count; i++)
                                     {
                                         if (workList[i].orderKey.ToString().Equals(Split_arg2[0]))
                                         {
                                             model = workList[i];
                                             special += workList[i].ProcessTypeName + " 참고 사항 : " + workList[i].ProcessMemo + "|";
+                                            orderFound = true;
                                             break;
                                         }
+                                    }
+
+                                    if (!orderFound)
+                                    {
+                                        LogManager.Info("넘기기 수신 - 계획목록에 해당 오더키 없음 (설비:" + arg1 + " / 오더키:" + Split_arg2[0] + ")", MethodBase.GetCurrentMethod().DeclaringType);
                                     }
 
                                     //넘기기 데이터로 디테일창 팝업
@@ -480,7 +505,17 @@ namespace PopProject.UserControl_
                                         {
                                             can.Visibility = Visibility.Visible; //화면 어둡게 처리
                                             Win_Detail win_detail = new Win_Detail(model, special, workList, SettingJsonManager.detail_check, false); //모델,참고사항,workList,듀얼모니터,바코드
-                                            win_detail.ShowDialog();
+                                            LogManager.Info("넘기기 수신 - 상세창 팝업 완료 (설비:" + arg1 + " / 오더키:" + Split_arg2[0] + ")", MethodBase.GetCurrentMethod().DeclaringType);
+                                            string prevOpenKey = passOpenKey;
+                                            passOpenKey = passKey;   // 상세창이 떠 있는 동안 같은 오더키 재수신 무시
+                                            try
+                                            {
+                                                win_detail.ShowDialog();
+                                            }
+                                            finally
+                                            {
+                                                passOpenKey = prevOpenKey;
+                                            }
 
                                             win_Input = null;
                                             win_detail = null;
@@ -503,6 +538,10 @@ namespace PopProject.UserControl_
                                         {
                                         }
                                         can.Visibility = Visibility.Collapsed;
+                                    }
+                                    else
+                                    {
+                                        LogManager.Info("넘기기 수신 - 상세창 이미 열려있어 팝업 생략 (설비:" + arg1 + " / 오더키:" + Split_arg2[0] + ")", MethodBase.GetCurrentMethod().DeclaringType);
                                     }
                                 }
                             }
@@ -954,7 +993,7 @@ namespace PopProject.UserControl_
                 // 현재 서버에서 데이터 조회
                 ReturnModel returnData = ServiceModel.GetData(
                     ServerIndex,
-                    "[PopWorkList_Test]",
+                    "[PopWorkList]",
                     new string[] { "@pplanDate" },
                     new string[] { DateTimeManager.GetSelectedDateStr() }, // 날짜 변경용
                     0
@@ -1171,8 +1210,11 @@ namespace PopProject.UserControl_
                             {
                                 listitem.Canvas = "43"; //1줄 위치(높이 조절)
                             }
-
                             listitem.pplanKey = int.Parse(result["pplanKey"].ToString()); //계획키
+                            if (listitem.pplanKey.Equals(380315))
+                            {
+                                Console.WriteLine("380315 : " + result["prodName"].ToString());
+                            }
                             listitem.orderKey = result["orderKey"].ToString(); //수주키
                             listitem.ProcessType = int.Parse(result["ProcessType"].ToString()); //공정IC
                             listitem.pplanDate = "[" + result["pplanDate"].ToString().Replace("-", "/").Substring(2, 8) + "]"; //계획일자
